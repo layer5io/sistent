@@ -1,6 +1,16 @@
 # Sistent Design System
 The Sistent Design System from Layer5 provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences.
 
+
+### Packages
+- Design System components in React.js
+- npm package: `@layer5/sistent-components`
+
+
+### Brand
+- Layer5 Brand Guide ([PDF](https://layer5.io/brand/brand-guide.pdf))
+- [Logos](https://layer5.io/company/brand)
+
 <div>&nbsp;</div>
 
 ## Join the Layer5 community!
