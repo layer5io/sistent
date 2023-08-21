@@ -16,3 +16,8 @@
 
 # IDEs
 .vscode/*
+
+node_modules
+
+build/**
+dist/**
