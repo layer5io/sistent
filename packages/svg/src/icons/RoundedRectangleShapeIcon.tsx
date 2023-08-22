@@ -10,7 +10,7 @@ export const RoundedRectangleShapeIcon: FC<IconProps> = ({ width, height, ...pro
             viewBox="0 0 40 40"
             {...props}
         >
-            <rect width="40" height="40" rx="9" {...props} />
+            <rect width="40" height="40" rx="9" />
         </svg>
     )
 }

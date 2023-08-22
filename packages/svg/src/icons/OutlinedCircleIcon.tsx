@@ -1,9 +1,9 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { IconProps } from "./types";
 
 export const OutlinedCircleIcon: FC<IconProps> = ({ width, height, stroke = "currentColor", strokeWidth = "2", ...props }) => {
     return (
-        <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+        <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" {...props}>
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"
@@ -11,7 +11,6 @@ export const OutlinedCircleIcon: FC<IconProps> = ({ width, height, stroke = "cur
                 fill="none"
                 stroke={stroke}
                 strokeWidth={strokeWidth}
-                {...props}
             />
         </svg>
     );
