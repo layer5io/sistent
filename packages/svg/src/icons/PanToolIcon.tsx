@@ -1,19 +1,15 @@
 import { FC } from "react";
 import { IconProps } from "./types";
 
-export const PanToolIcon: FC<IconProps> = ({
-    width,
-    height,
-    fill
-}) => {
+export const PanToolIcon: FC<IconProps> = ({ width, height, ...props }) => {
     return (
         <svg
-            xmlns="http://www.w3.org/2000/svg"
-            enableBackground="new 0 0 24 24"
-            height={height}
-            viewBox="0 0 24 24"
             width={width}
-            fill={fill}
+            height={height}
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            enableBackground="new 0 0 24 24"
+            {...props}
         >
             <g>
                 <rect fill="none" height="24" width="24" />

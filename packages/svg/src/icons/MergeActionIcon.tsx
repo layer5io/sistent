@@ -1,11 +1,9 @@
 import { FC } from "react";
 import { IconProps } from "./types";
 
-export const MergeActionIcon: FC<IconProps> = ({
-    style
-}) => {
+export const MergeActionIcon: FC<IconProps> = ({ width, height, ...props }) => {
     return (
-        <svg width="340" height="278" viewBox="0 0 340 278" fill="none" xmlns="http://www.w3.org/2000/svg" style={style}>
+        <svg width="340" height="278" viewBox="0 0 340 278" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
             <g filter="url(#filter0_d_7826_30152)">
                 <rect x="8" y="152" width="118" height="118" rx="20" fill="white" />
             </g>

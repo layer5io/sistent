@@ -1,19 +1,13 @@
 import { FC } from "react"
 import { IconProps } from "./types"
 
-export const DeployIcon: FC<IconProps> = ({
-    width,
-    height,
-    fill,
-    ...props
-}) => {
+export const DeployIcon: FC<IconProps> = ({ width, height, ...props }) => {
     return (
         <svg
             width={width}
             height={height}
-            fill={fill}
-            viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
             {...props}
         >
             <path d="M0 0h24v24H0z" fill="none" />

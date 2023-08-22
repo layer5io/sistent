@@ -1,17 +1,13 @@
 import { FC } from "react";
 import { IconProps } from "./types";
 
-export const ModifiedApplicationFileIcon: FC<IconProps> = ({ 
-    width, 
-    height, 
-    fill 
-}) => (
+export const ModifiedApplicationFileIcon: FC<IconProps> = ({ width, height, ...props }) => (
     <svg
         width={width}
         height={height}
-        viewBox="0 0 76 82"
-        fill={fill}
         xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 76 82"
+        {...props}
     >
         <g clipPath="url(#clip0_8624_30273)">
             <path d="M30.3341 35.3818C24.2675 33.7126 17.5869 46.1341 10.9014 58.5584C4.21593 70.9826 -2.46469 83.4041 -8.53516 81.7339" stroke="#BF9000" strokeWidth="2" strokeLinejoin="round" />

@@ -1,11 +1,9 @@
 import { FC } from "react";
 import { IconProps } from "./types";
 
-export const RectangleShape: FC<IconProps> = ({
-    color
-}) => {
+export const RectangleShape: FC<IconProps> = ({ width, height, ...props }) => {
     return (
-        <path d="M40 0H0V40H40V0Z" fill={color} />
+        <path d="M40 0H0V40H40V0Z" {...props} />
     )
 }
 

@@ -1,17 +1,13 @@
 import { FC } from "react";
 import { IconProps } from "./types";
 
-export const PodIcon: FC<IconProps> = ({
-    width,
-    height,
-    fill
-}) => (
+export const PodIcon: FC<IconProps> = ({ width, height, ...props }) => (
     <svg
         width={width}
         height={height}
-        viewBox="0 0 124 124"
-        fill={fill}
         xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 124 124"
+        {...props}
     >
         <rect
             x="2.5"

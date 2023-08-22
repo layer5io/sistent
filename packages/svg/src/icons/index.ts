@@ -22,7 +22,7 @@ export { default as RectangleShape } from "./RectangleShape";
 export { default as RedoIcon } from "./RedoIcon";
 export { default as ResetIcon } from "./ResetIcon";
 export { default as RoundedRectangleShapeIcon } from "./RoundedRectangleShapeIcon";
-export { default as RoundedTriangleShapeIcon } from "./RoundTriangleShapeIcon";
+export { default as RoundedTriangleShapeIcon } from "./RoundedTriangleShapeIcon";
 export { default as SaveAsIcon } from "./SaveAsIcon";
 export { default as SettingsIcon } from "./SettingsIcon";
 export { default as ScreenshotIcon } from "./ScreenshotIcon";
