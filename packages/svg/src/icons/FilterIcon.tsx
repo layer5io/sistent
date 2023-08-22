@@ -20,7 +20,7 @@ export const FilterIcon: FC<IconProps> = ({ width, height, ...props }) => {
                 />
             </g>
             <defs>
-                <clipPath id="clip0">
+                <clipPath>
                     <rect width="100" height="100" fill="white" />
                 </clipPath>
             </defs>
