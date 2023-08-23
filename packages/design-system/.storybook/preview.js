@@ -1,3 +1,7 @@
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { lightTheme, darkTheme } from "../src/stories/themes/app";
+import { withThemeFromJSXProvider } from "@storybook/addon-styling";
+
 /** @type { import('@storybook/react').Preview } */
 const preview = {
   parameters: {
@@ -12,3 +16,15 @@ const preview = {
 };
 
 export default preview;
+
+export const decorators = [
+  withThemeFromJSXProvider({
+    themes: {
+      light: lightTheme,
+      dark: darkTheme
+    },
+    defaultTheme: "light",
+    Provider: ThemeProvider,
+    GlobalStyles: CssBaseline
+  }),
+];
