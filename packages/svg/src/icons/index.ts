@@ -1,5 +1,9 @@
 export { default as ApplicationIcon } from "./ApplicationIcon";
 export { default as Bus } from "./Bus";
+export { default as AddIcon } from "./AddIcon";
+export { default as AddIconCircleBorder } from "./AddIconCircleBorder";
+export { default as BellIcon } from "./BellIcon";
+export { default as ChatIcon } from "./ChatIcon";
 export * from "./OutlinedCircleIcon";
 export * from "./FilledCircleIcon";
 export { default as CloneIcon } from "./CloneIcon";
