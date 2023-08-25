@@ -1,7 +1,6 @@
-export { default as ApplicationIcon } from "./ApplicationIcon";
-export { default as Bus } from "./Bus";
-export * from "./OutlinedCircleIcon";
-export * from "./FilledCircleIcon";
+export * from "./Application"
+export * from "./Bus"
+export * from "./Circle"
 export { default as CloneIcon } from "./CloneIcon";
 export { default as CloudSavedIcon } from "./CloudSavedIcon";
 export { default as CloudSavingIcon } from "./CloudSavingIcon";
