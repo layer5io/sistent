@@ -17,6 +17,7 @@
   "scripts": {
     "format": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "changeset": "changeset",
-    "version-packages": "changeset version"
+    "version-packages": "changeset version",
+    "release": "changeset publish"
   }
 }
