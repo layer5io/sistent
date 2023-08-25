@@ -10,7 +10,7 @@ The Sistent Design System from Layer5 provides the open source building blocks t
 ### Brand
 
 - Layer5 Brand Guide ([PDF](https://layer5.io/brand/brand-guide.pdf))
-- [Logos](https://layer5.io/company/brand)
+- [Layer5 Logos](https://layer5.io/company/brand) (more assets available in shared Community drive).
 
 <div>&nbsp;</div>
 
