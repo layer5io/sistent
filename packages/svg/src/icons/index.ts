@@ -1,7 +1,6 @@
-export { default as ApplicationIcon } from "./ApplicationIcon";
-export { default as Bus } from "./Bus";
-export { default as OutlinedCircleIcon } from "./OutlinedCircleIcon";
-export { default as FilledCircleIcon } from "./FilledCircleIcon";
+export * from "./Application"
+export * from "./Bus"
+export * from "./Circle"
 export { default as CloneIcon } from "./CloneIcon";
 export { default as CloudSavedIcon } from "./CloudSavedIcon";
 export { default as CloudSavingIcon } from "./CloudSavingIcon";
@@ -31,6 +30,7 @@ export { default as PatternIcon } from "./PatternIcon";
 // export { default as PodIcon } from "./PodIcon";
 // export { default as RectangleShape } from "./RectangleShape";
 export { default as RedoIcon } from "./RedoIcon";
+export { default as RemoveDoneIcon } from "./RemoveDoneIcon";
 export { default as ResetIcon } from "./ResetIcon";
 export { default as Ring } from "./Ring";
 export { default as RoundedRectangleShapeIcon } from "./RoundedRectangleShapeIcon";
