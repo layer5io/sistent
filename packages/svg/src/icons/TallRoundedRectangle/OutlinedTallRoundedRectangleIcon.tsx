@@ -1,11 +1,19 @@
 import React, { FC } from 'react';
-import { IconProps } from './types';
+import { IconProps } from '../types';
+import {
+  DEFAULT_WIDTH,
+  DEFAULT_HEIGHT,
+  DEFAULT_STROKE,
+  DEFAULT_STROKE_WIDTH,
+  DEFAULT_FILL_NONE
+} from '../../constants/constants';
 
 export const OutlinedTallRoundedRectangleIcon: FC<IconProps> = ({
-  width,
-  height,
-  stroke = 'currentColor',
-  strokeWidth = '2',
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
+  stroke = DEFAULT_STROKE,
+  strokeWidth = DEFAULT_STROKE_WIDTH,
+  fill = DEFAULT_FILL_NONE,
   ...props
 }) => {
   return (
@@ -22,7 +30,7 @@ export const OutlinedTallRoundedRectangleIcon: FC<IconProps> = ({
         x="2"
         y="2"
         rx="5"
-        fill="none"
+        fill={fill}
         stroke={stroke}
         strokeWidth={strokeWidth}
       />
@@ -30,4 +38,4 @@ export const OutlinedTallRoundedRectangleIcon: FC<IconProps> = ({
   );
 };
 
-export default { Outlined: OutlinedTallRoundedRectangleIcon };
+export default OutlinedTallRoundedRectangleIcon;

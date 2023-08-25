@@ -5,7 +5,8 @@
   "repository": "git@github.com:layer5io/sistent.git",
   "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "example"
   ],
   "packageManager": "yarn@1.22.1",
   "dependencies": {
