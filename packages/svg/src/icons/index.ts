@@ -1,6 +1,13 @@
 export * from "./Application"
 export * from "./Bus"
 export * from "./Circle"
+export { default as AddIcon } from "./AddIcon";
+export { default as AddIconCircleBorder } from "./AddIconCircleBorder";
+export { default as BellIcon } from "./BellIcon";
+export { default as ChatIcon } from "./ChatIcon";
+export { default as ConfigurationIcon } from "./ConfigurationIcon";
+export { default as CredentialIcon } from "./CredentialIcon";
+export { default as DashboardIcon } from "./DashboardIcon";
 export { default as CloneIcon } from "./CloneIcon";
 export { default as CloudSavedIcon } from "./CloudSavedIcon";
 export { default as CloudSavingIcon } from "./CloudSavingIcon";
