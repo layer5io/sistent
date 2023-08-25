@@ -1,1 +1,1 @@
-export { default as BusIcon } from "./BusIcon"
+export { default as BusIcon } from './BusIcon';

@@ -7,9 +7,9 @@ describe('CircleIcon', () => {
   });
 
   it('applies width and height', () => {
-    const { getByTestId } = render(<CircleIcon width={24} height={24} />)
-    const svgElement = getByTestId('circle-icon-svg')
+    const { getByTestId } = render(<CircleIcon width={24} height={24} />);
+    const svgElement = getByTestId('circle-icon-svg');
     expect(svgElement.getAttribute('width')).toBe('24');
     expect(svgElement.getAttribute('height')).toBe('24');
-  })
+  });
 });
