@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "packageManager": "yarn@1.22.1",
-    "dependencies": {
+  "dependencies": {
     "@changesets/cli": "^2.26.2"
   },
   "devDependencies": {
@@ -18,5 +18,5 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "changeset": "changeset",
     "version-packages": "changeset version"
-  },
+  }
 }
