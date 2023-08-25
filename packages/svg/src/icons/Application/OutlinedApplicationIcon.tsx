@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import { IconProps } from '../types';
 import {
-  DEFAULT_WIDTH,
-  DEFAULT_HEIGHT,
   DEFAULT_FILL_NONE,
-  DEFAULT_STROKE
+  DEFAULT_HEIGHT,
+  DEFAULT_STROKE,
+  DEFAULT_WIDTH
 } from '../../constants/constants';
+import { IconProps } from '../types';
 
 export const OutlinedApplicationIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,

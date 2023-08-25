@@ -1,7 +1,7 @@
 export { AppBar } from './appbar';
 export { Avatar } from './avatar';
-export { BaseButton } from './button';
 export { Box } from './box';
+export { BaseButton } from './button';
 export { Chip } from './chip';
 export { Dialog } from './dialog';
 export { DialogActions } from './dialogactions';

@@ -1,6 +1,6 @@
 import { FC } from 'react';
+import { DEFAULT_FILL, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
-import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FILL } from '../../constants/constants';
 
 export const CircleIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,

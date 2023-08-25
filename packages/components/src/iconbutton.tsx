@@ -1,4 +1,4 @@
-import { IconButton as MuiIconButton, IconButtonProps } from '@mui/material';
+import { IconButtonProps, IconButton as MuiIconButton } from '@mui/material';
 import React from 'react';
 
 export function IconButton(props: IconButtonProps) {
