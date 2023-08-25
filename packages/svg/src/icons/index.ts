@@ -24,6 +24,7 @@ export { default as PatternIcon } from "./PatternIcon";
 // export { default as PodIcon } from "./PodIcon";
 // export { default as RectangleShape } from "./RectangleShape";
 export { default as RedoIcon } from "./RedoIcon";
+export { default as RemoveDoneIcon } from "./RemoveDoneIcon";
 export { default as ResetIcon } from "./ResetIcon";
 export { default as Ring } from "./Ring";
 export { default as RoundedRectangleShapeIcon } from "./RoundedRectangleShapeIcon";
