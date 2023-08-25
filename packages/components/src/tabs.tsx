@@ -1,8 +1,6 @@
-import { Tabs as MuiTabs, TabsProps } from "@mui/material";
-import React from "react";
+import { Tabs as MuiTabs, TabsProps } from '@mui/material';
+import React from 'react';
 
-export function Tabs(props: TabsProps){
-    return (
-        <MuiTabs {...props} />
-    )
+export function Tabs(props: TabsProps) {
+  return <MuiTabs {...props} />;
 }

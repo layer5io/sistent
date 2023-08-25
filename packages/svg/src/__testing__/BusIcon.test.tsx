@@ -7,9 +7,9 @@ describe('BusIcon', () => {
   });
 
   it('applies width and height', () => {
-    const { getByTestId } = render(<BusIcon width={24} height={24} />)
-    const svgElement = getByTestId('bus-icon-svg')
+    const { getByTestId } = render(<BusIcon width={24} height={24} />);
+    const svgElement = getByTestId('bus-icon-svg');
     expect(svgElement.getAttribute('width')).toBe('24');
     expect(svgElement.getAttribute('height')).toBe('24');
-  })
+  });
 });

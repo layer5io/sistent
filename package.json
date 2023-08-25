@@ -7,12 +7,16 @@
   "workspaces": [
     "packages/*"
   ],
+  "packageManager": "yarn@1.22.1",
+    "dependencies": {
+    "@changesets/cli": "^2.26.2"
+  },
+  "devDependencies": {
+    "prettier": "^3.0.2"
+  },
   "scripts": {
+    "format": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc"
     "changeset": "changeset",
     "version-packages": "changeset version"
   },
-  "packageManager": "yarn@1.22.1",
-  "dependencies": {
-    "@changesets/cli": "^2.26.2"
-  }
 }
