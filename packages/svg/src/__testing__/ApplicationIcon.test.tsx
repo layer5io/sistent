@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import ApplicationIcon from './ApplicationIcon';
+import { ApplicationIcon } from '../icons';
 
 describe('ApplicationIcon', () => {
   it('renders without errors', () => {
