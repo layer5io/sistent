@@ -1,0 +1,12 @@
+area/ci:
+  - ".github/**/*"
+area/docs:
+  - "site/**/*"
+area/site:
+  - "site/**/*"  
+component/components:
+  - "packages/components/**/*"
+component/icons:
+  - "packages/svg/**/*"
+framework/storyboard:
+  - "packages/design-system/**/*"
