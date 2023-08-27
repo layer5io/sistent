@@ -12,6 +12,7 @@
     "@changesets/cli": "^2.26.2"
   },
   "devDependencies": {
+    "eslint": "^8.48.0",
     "husky": "^8.0.3",
     "prettier": "^3.0.2",
     "prettier-plugin-organize-imports": "^3.2.3"
@@ -26,5 +27,10 @@
     "postinstall": "husky install",
     "prepack": "pinst --disable",
     "postpack": "pinst --enable"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix"
+    ]
   }
 }
