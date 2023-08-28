@@ -1,0 +1,27 @@
+{
+    "name": "@layer5/sistent-hooks",
+    "version": "0.0.0",
+    "description": "Reusable React Components",
+    "main": "dist/index.umd.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsup src/index.ts --format esm,cjs --dts --external react",
+        "dev": "tsup src/index.ts --format esm,cjs --watch --dts --external react"
+    },
+    "dependencies": {
+        "@reduxjs/toolkit": "^1.9.5",
+        "@types/cytoscape": "^3.19.10",
+        "@types/react": "^18.2.21",
+        "cytoscape": "^3.26.0",
+        "react": "^18.2.0",
+        "react-redux": "^8.1.2",
+        "redux": "^4.2.1",
+        "rxjs": "^7.8.1",
+        "tsup": "^7.2.0",
+        "typescript": "^5.2.2"
+    }
+}
