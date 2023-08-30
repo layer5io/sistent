@@ -8,17 +8,12 @@
     "packages/*"
   ],
   "packageManager": "yarn@1.22.1",
-  "dependencies": {
-    "@changesets/cli": "^2.26.2"
-  },
+  "dependencies": {},
   "devDependencies": {
     "prettier": "^3.0.2"
   },
   "scripts": {
     "build-all": "yarn workspaces run build",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
-    "changeset": "changeset",
-    "version-packages": "changeset version",
-    "release": "yarn run build-all && changeset publish"
+    "format": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc"
   }
 }
