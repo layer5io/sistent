@@ -4,5 +4,8 @@ intall:
 build: install
 	yarn run build-all
 
-format:
-	yarn run format
+format-check:
+	yarn run format:check
+
+format-fix:
+	yarn run format:write
