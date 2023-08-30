@@ -1,15 +1,18 @@
-name: Release
+name: Publish NPM Package
 
 on:
-  push:
-    branches:
-      - master
+  release:
+    types: [published]    
+  workflow_dispatch:
+    inputs:
+      release-type:
+        required: true
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 jobs:
-  release:
-    name: Release
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -20,20 +23,30 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install Dependencies
-        run: yarn
+      - name: Install deps and build
+        run: |
+          yarn
+          yarn build-all
 
-      - name: Create Release Pull Request or Publish to npm
-        id: changesets
-        uses: changesets/action@v1
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 18.x
+        uses: actions/setup-node@v3
         with:
-          # This expects you to have a script called release which does a build for your packages and calls changeset publish
-          publish: yarn release
+          node-version: 18
+          registry-url: "https://registry.npmjs.org"
+          scope: "@layer5"
+
+      - name: Publish to npm
+        run: yarn publish --release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      #- name: Send a Slack notification if a publish happens
-        #if: steps.changesets.outputs.published == 'true'
-        # You can do something when a publish happens.
-        #run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
