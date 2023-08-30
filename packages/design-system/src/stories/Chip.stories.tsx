@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Chip, Stack } from '@layer5/sistent-components/src';
 
 export default {
@@ -72,7 +74,10 @@ export function ClickableAndDeletableChips() {
 export function ClickableLinkChips() {
   return (
     <Stack direction="row" spacing={1}>
+      {/* href isn't a valid prop for chips, it's not defined in the docs either */}
+      {/* @ts-ignore */}
       <Chip label="Clickable Link" component="a" href="#basic-chip" clickable />
+      {/* @ts-ignore */}
       <Chip label="Clickable Link" component="a" href="#basic-chip" variant="outlined" clickable />
     </Stack>
   );

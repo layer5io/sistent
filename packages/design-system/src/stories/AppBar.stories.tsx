@@ -1,4 +1,5 @@
 import { AppBar, Box, IconButton, Toolbar, Typography } from '@layer5/sistent-components/src';
+import React from 'react';
 
 export default {
   title: 'Example/AppBar',
