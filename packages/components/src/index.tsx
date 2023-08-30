@@ -25,3 +25,7 @@ export { TextField } from './textfield';
 export { Switch } from './switch';
 export { Select } from './select';
 export { ButtonGroup } from './buttongroup';
+export { Accordion } from './accordion';
+export { AccordionActions } from './accordionactions';
+export { AccordionDetails } from './accordiondetails';
+export { AccordionSummary } from './accordionsummary';
