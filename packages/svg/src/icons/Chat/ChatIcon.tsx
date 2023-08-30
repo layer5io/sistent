@@ -1,7 +1,12 @@
 import { FC } from 'react';
-import { IconProps } from './types';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
+import { IconProps } from '../types';
 
-export const ChatIcon: FC<IconProps> = ({ width, height, color, ...props }) => {
+export const ChatIcon: FC<IconProps> = ({
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
+  ...props
+}) => {
   return (
     <svg
       width={width}

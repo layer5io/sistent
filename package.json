@@ -8,17 +8,25 @@
     "packages/*"
   ],
   "packageManager": "yarn@1.22.1",
-  "dependencies": {
-    "@changesets/cli": "^2.26.2"
-  },
   "devDependencies": {
-    "prettier": "^3.0.2"
+    "eslint": "^8.48.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.2",
+    "prettier-plugin-organize-imports": "^3.2.3"
   },
   "scripts": {
     "build-all": "yarn workspaces run build",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
-    "changeset": "changeset",
-    "version-packages": "changeset version",
-    "release": "yarn run build-all && changeset publish"
+    "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
+    "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
+    "postinstall": "husky install",
+    "prepack": "pinst --disable",
+    "postpack": "pinst --enable"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,md}": [
+      "eslint --fix",
+      "yarn format:write"
+    ]
   }
 }

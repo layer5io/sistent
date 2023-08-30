@@ -33,7 +33,6 @@ export const Tab = ({ textColor, disabled, ...rest }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>

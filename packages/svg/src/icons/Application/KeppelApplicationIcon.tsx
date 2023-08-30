@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import { IconProps } from '../types';
 import {
-  DEFAULT_WIDTH,
+  CARIBBEAN_GREEN_FILL,
   DEFAULT_HEIGHT,
-  KEPPEL_GREEN_FILL,
-  CARIBBEAN_GREEN_FILL
+  DEFAULT_WIDTH,
+  KEPPEL_GREEN_FILL
 } from '../../constants/constants';
+import { IconProps } from '../types';
 
 type KeppelApplicationIconProps = {
   primaryFill: string;

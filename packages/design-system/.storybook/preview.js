@@ -1,18 +1,18 @@
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { lightTheme, darkTheme } from "../src/stories/themes/app";
-import { withThemeFromJSXProvider } from "@storybook/addon-styling";
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { lightTheme, darkTheme } from '../src/stories/themes/app';
+import { withThemeFromJSXProvider } from '@storybook/addon-styling';
 
 /** @type { import('@storybook/react').Preview } */
 const preview = {
   parameters: {
-    actions: { argTypesRegex: "^on[A-Z].*" },
+    actions: { argTypesRegex: '^on[A-Z].*' },
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/,
-      },
-    },
-  },
+        date: /Date$/
+      }
+    }
+  }
 };
 
 export default preview;
@@ -23,8 +23,8 @@ export const decorators = [
       light: lightTheme,
       dark: darkTheme
     },
-    defaultTheme: "light",
+    defaultTheme: 'light',
     Provider: ThemeProvider,
     GlobalStyles: CssBaseline
-  }),
+  })
 ];
