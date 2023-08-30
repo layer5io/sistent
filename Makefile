@@ -1,4 +1,4 @@
-intall:
+setup:
 	yarn install
 
 build: install
