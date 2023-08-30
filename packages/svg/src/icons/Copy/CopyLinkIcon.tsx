@@ -1,7 +1,12 @@
 import { FC } from 'react';
-import { IconProps } from './types';
+import { IconProps } from '../types';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
-export const CopyLinkIcon: FC<IconProps> = ({ width, height, ...props }) => {
+export const CopyLinkIcon: FC<IconProps> = ({
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
+  ...props
+}) => {
   return (
     <svg
       width={width}
