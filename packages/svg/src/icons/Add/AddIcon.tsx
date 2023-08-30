@@ -1,6 +1,6 @@
 import { FC } from 'react';
+import { DEFAULT_FILL_NONE, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
-import { DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_FILL_NONE } from '../../constants/constants';
 
 export const AddIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,

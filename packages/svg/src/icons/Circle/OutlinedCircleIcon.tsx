@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { IconProps } from '../types';
 import {
   DEFAULT_FILL_NONE,
   DEFAULT_HEIGHT,
@@ -7,6 +6,7 @@ import {
   DEFAULT_STROKE_WIDTH,
   DEFAULT_WIDTH
 } from '../../constants/constants';
+import { IconProps } from '../types';
 
 export const OutlinedCircleIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,

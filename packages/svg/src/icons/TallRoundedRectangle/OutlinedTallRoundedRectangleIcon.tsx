@@ -1,12 +1,12 @@
-import React, { FC } from 'react';
-import { IconProps } from '../types';
+import { FC } from 'react';
 import {
-  DEFAULT_WIDTH,
+  DEFAULT_FILL_NONE,
   DEFAULT_HEIGHT,
   DEFAULT_STROKE,
   DEFAULT_STROKE_WIDTH,
-  DEFAULT_FILL_NONE
+  DEFAULT_WIDTH
 } from '../../constants/constants';
+import { IconProps } from '../types';
 
 export const OutlinedTallRoundedRectangleIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,

@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { IconProps } from '../types';
 import { DEFAULT_FILL, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
+import { IconProps } from '../types';
 
 export const TallRoundedRectangleIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,
