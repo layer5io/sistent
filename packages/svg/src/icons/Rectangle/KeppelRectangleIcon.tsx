@@ -1,6 +1,6 @@
 import { FC } from 'react';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH, KEPPEL_GREEN_FILL } from '../../constants/constants';
 import { IconProps } from '../types';
-import { DEFAULT_WIDTH, DEFAULT_HEIGHT, KEPPEL_GREEN_FILL } from '../../constants/constants';
 
 type KeppelRectangleIconProps = {
   primaryFill: string;

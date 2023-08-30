@@ -1,17 +1,12 @@
-<<<<<<< HEAD:packages/svg/src/icons/OutlinedTallRoundedRectangleIcon.tsx
 import { FC } from 'react';
-import { IconProps } from './types';
-=======
-import React, { FC } from 'react';
-import { IconProps } from '../types';
 import {
-  DEFAULT_WIDTH,
+  DEFAULT_FILL_NONE,
   DEFAULT_HEIGHT,
   DEFAULT_STROKE,
   DEFAULT_STROKE_WIDTH,
-  DEFAULT_FILL_NONE
+  DEFAULT_WIDTH
 } from '../../constants/constants';
->>>>>>> 99f4cb67de640d1c9c8a255700cb217be0a9ee25:packages/svg/src/icons/TallRoundedRectangle/OutlinedTallRoundedRectangleIcon.tsx
+import { IconProps } from '../types';
 
 export const OutlinedTallRoundedRectangleIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,

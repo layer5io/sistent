@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import { IconProps } from '../types';
 import {
-  DEFAULT_WIDTH,
+  DEFAULT_FILL_NONE,
   DEFAULT_HEIGHT,
-  DEFAULT_STROKE_WIDTH,
   DEFAULT_STROKE,
-  DEFAULT_FILL_NONE
+  DEFAULT_STROKE_WIDTH,
+  DEFAULT_WIDTH
 } from '../../constants/constants';
+import { IconProps } from '../types';
 
 export const OutlinedRectangleIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,
