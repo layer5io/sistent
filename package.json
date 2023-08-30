@@ -8,9 +8,6 @@
     "packages/*"
   ],
   "packageManager": "yarn@1.22.1",
-  "dependencies": {
-    "@changesets/cli": "^2.26.2"
-  },
   "devDependencies": {
     "eslint": "^8.48.0",
     "husky": "^8.0.3",
@@ -22,9 +19,6 @@
     "build-all": "yarn workspaces run build",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
-    "changeset": "changeset",
-    "version-packages": "changeset version",
-    "release": "yarn run build-all && changeset publish",
     "postinstall": "husky install",
     "prepack": "pinst --disable",
     "postpack": "pinst --enable"
