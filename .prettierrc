@@ -4,6 +4,5 @@
   "printWidth": 100,
   "singleQuote": true,
   "trailingComma": "none",
-  "jsxBracketSameLine": true,
   "plugins": ["prettier-plugin-organize-imports"]
 }
