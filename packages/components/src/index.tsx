@@ -32,3 +32,5 @@ export { AccordionSummary } from './accordionsummary';
 export { AvatarGroup } from './avatargroup';
 export { Badge } from './badge';
 export { Backdrop } from './backdrop';
+export { CardContent } from './cardcontent';
+export { CardActions } from './cardactions';
