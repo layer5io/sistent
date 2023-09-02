@@ -1,7 +1,7 @@
-import { createTheme } from '@mui/material';
+import { PaletteMode, createTheme } from '@mui/material';
 import { blueGrey } from '@mui/material/colors';
 
-const createCustomTheme = (paletteType) => {
+const createCustomTheme = (paletteType: PaletteMode) => {
   const commonPalette = {
     primary: {
       main: blueGrey[500],
@@ -22,14 +22,14 @@ const createCustomTheme = (paletteType) => {
   const palette =
     paletteType === 'dark'
       ? {
-          mode: 'dark',
+          mode: 'dark' as const,
           ...commonPalette,
           secondary: {
             ...commonPalette.secondary
           }
         }
       : {
-          mode: 'light',
+          mode: 'light' as const,
           ...commonPalette,
           secondary: {
             ...commonPalette.secondary
@@ -73,6 +73,7 @@ const createCustomTheme = (paletteType) => {
     //
   };
 
+  // @ts-expect-error
   theme.overrides = {
     ...overrides,
     MuiCssBaseline: {
