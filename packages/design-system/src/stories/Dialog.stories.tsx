@@ -10,9 +10,9 @@ import {
   AppBar,
   Toolbar,
   IconButton
-} from '@layer5/sistent-components/src';
+} from '@layer5/sistent-components';
 import React from 'react';
-import { AddIconCircleBordered } from '@layer5/sistent-svg/src';
+import { AddIconCircleBordered } from '@layer5/sistent-svg';
 
 export default {
   title: 'Example/Dialog',

@@ -1,4 +1,4 @@
-import { BaseButton, ButtonGroup, Stack, Paper } from '@layer5/sistent-components/src';
+import { BaseButton, ButtonGroup, Stack, Paper } from '@layer5/sistent-components';
 import React from 'react';
 
 export default {

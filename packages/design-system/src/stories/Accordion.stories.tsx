@@ -3,9 +3,9 @@ import {
   AccordionDetails,
   AccordionSummary,
   Typography
-} from '@layer5/sistent-components/src';
+} from '@layer5/sistent-components';
 import React from 'react';
-import { AddIcon } from '@layer5/sistent-svg/src'; //can anyone suggest a diff icon here?
+import { AddIcon } from '@layer5/sistent-svg'; //can anyone suggest a diff icon here?
 
 export default {
   title: 'Example/Accordion',

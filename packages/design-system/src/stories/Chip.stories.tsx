@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Chip, Stack } from '@layer5/sistent-components/src';
+import { Chip, Stack } from '@layer5/sistent-components';
 
 export default {
   title: 'Example/Chip',

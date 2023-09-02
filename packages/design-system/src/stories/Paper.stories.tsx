@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Paper as MuiPaper } from '@layer5/sistent-components/src';
+import { Box, Paper as MuiPaper } from '@layer5/sistent-components';
 
 export default {
   title: 'Example/Paper',

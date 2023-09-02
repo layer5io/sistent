@@ -1,4 +1,4 @@
-import { Select, Box, MenuItem } from '@layer5/sistent-components/src';
+import { Select, Box, MenuItem } from '@layer5/sistent-components';
 import React from 'react';
 
 export default {

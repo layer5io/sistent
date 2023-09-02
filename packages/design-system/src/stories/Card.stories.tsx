@@ -5,7 +5,7 @@ import {
   Box,
   CardActions,
   CardContent
-} from '@layer5/sistent-components/src';
+} from '@layer5/sistent-components';
 import React from 'react';
 
 export default {

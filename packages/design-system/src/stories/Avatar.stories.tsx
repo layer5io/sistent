@@ -1,4 +1,4 @@
-import { Avatar, Stack, AvatarGroup, Badge } from '@layer5/sistent-components/src';
+import { Avatar, Stack, AvatarGroup, Badge } from '@layer5/sistent-components';
 import React from 'react';
 import { AddIcon } from '@layer5/sistent-svg/src'; //can anyone suggest a diff icon here?
 

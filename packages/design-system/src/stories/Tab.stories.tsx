@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
-import { Box, Stack, Tab as MuiTab, Tabs, Typography } from '@layer5/sistent-components/src';
+import { Box, Stack, Tab as MuiTab, Tabs, Typography } from '@layer5/sistent-components';
 
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
+interface TabPanelProps {
+  children?: React.ReactNode;
+  value: number;
+  index: number;
+}
+
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index } = props;
 
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}>
+      aria-labelledby={`simple-tab-${index}`}>
       {value === index && (
         <Box sx={{ p: 3 }}>
           <Typography>{children}</Typography>
@@ -20,17 +25,24 @@ function TabPanel(props) {
   );
 }
 
-function a11yProps(index) {
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`
   };
 }
 
-export const Tab = ({ textColor, disabled, ...rest }) => {
+interface TabProps {
+  textColor?: 'inherit' | 'secondary' | 'primary';
+  disabled?: boolean;
+  indicatorColor?: 'secondary' | 'primary';
+  orientation?: 'horizontal' | 'vertical';
+}
+
+export const Tab: React.FC<TabProps> = ({ textColor, disabled, ...rest }) => {
   const [value, setValue] = useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (_event: React.SyntheticEvent<Element, Event>, newValue: number) => {
     setValue(newValue);
   };
   return (

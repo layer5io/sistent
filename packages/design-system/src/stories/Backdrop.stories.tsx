@@ -1,4 +1,4 @@
-import { Backdrop, BaseButton } from '@layer5/sistent-components/src';
+import { Backdrop, BaseButton } from '@layer5/sistent-components';
 import React from 'react';
 
 export default {

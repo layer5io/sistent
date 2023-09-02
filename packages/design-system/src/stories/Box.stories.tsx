@@ -1,4 +1,4 @@
-import { Box } from '@layer5/sistent-components/src';
+import { Box } from '@layer5/sistent-components';
 import React from 'react';
 
 export default {
