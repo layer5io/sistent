@@ -1,6 +1,6 @@
-import { RadioGroup as MuiRadioGroup, RadioGroupProps } from '@mui/material';
+import { RadioGroup as MuiRadioGroup, type RadioGroupProps } from '@mui/material';
 import React from 'react';
 
-export function RadioGroup(props: RadioGroupProps) {
+export function RadioGroup(props: RadioGroupProps): JSX.Element {
   return <MuiRadioGroup {...props} />;
 }

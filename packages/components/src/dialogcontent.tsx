@@ -1,6 +1,6 @@
-import { DialogContentProps, DialogContent as MuiDialogContent } from '@mui/material';
+import { DialogContent as MuiDialogContent, type DialogContentProps } from '@mui/material';
 import React from 'react';
 
-export function DialogContent(props: DialogContentProps) {
+export function DialogContent(props: DialogContentProps): JSX.Element {
   return <MuiDialogContent {...props} />;
 }

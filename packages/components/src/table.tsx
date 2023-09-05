@@ -1,6 +1,6 @@
-import { Table as MuiTable, TableProps } from '@mui/material';
+import { Table as MuiTable, type TableProps } from '@mui/material';
 import React from 'react';
 
-export const Table = (props: TableProps) => {
+export const Table = (props: TableProps): JSX.Element => {
   return <MuiTable {...props} />;
 };

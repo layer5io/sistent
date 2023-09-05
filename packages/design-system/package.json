@@ -5,7 +5,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@layer5/sistent-components": "0.1.0",
+    "@layer5/sistent-components": "*",
+    "@layer5/sistent-svg": "*",
     "@mui/material": "^5.14.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

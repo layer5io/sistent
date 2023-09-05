@@ -1,6 +1,6 @@
-import { ButtonGroupProps, ButtonGroup as MuiButtonGroup } from '@mui/material';
+import { ButtonGroup as MuiButtonGroup, type ButtonGroupProps } from '@mui/material';
 import React from 'react';
 
-export const ButtonGroup = (props: ButtonGroupProps) => {
+export const ButtonGroup = (props: ButtonGroupProps): JSX.Element => {
   return <MuiButtonGroup {...props} />;
 };

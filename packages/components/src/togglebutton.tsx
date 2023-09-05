@@ -1,6 +1,6 @@
-import { ToggleButton as MuiToggleButton, ToggleButtonProps } from '@mui/material';
+import { ToggleButton as MuiToggleButton, type ToggleButtonProps } from '@mui/material';
 import React from 'react';
 
-export function ToggleButton(props: ToggleButtonProps) {
+export function ToggleButton(props: ToggleButtonProps): JSX.Element {
   return <MuiToggleButton {...props} />;
 }

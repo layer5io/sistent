@@ -1,6 +1,6 @@
-import { Slide as MuiSlide, SlideProps } from '@mui/material';
+import { Slide as MuiSlide, type SlideProps } from '@mui/material';
 import React from 'react';
 
-export function Slide(props: SlideProps) {
+export function Slide(props: SlideProps): JSX.Element {
   return <MuiSlide {...props} />;
 }

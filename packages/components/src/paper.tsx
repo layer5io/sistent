@@ -1,6 +1,6 @@
-import { Paper as MuiPaper, PaperProps } from '@mui/material';
+import { Paper as MuiPaper, type PaperProps } from '@mui/material';
 import React from 'react';
 
-export function Paper(props: PaperProps) {
+export function Paper(props: PaperProps): JSX.Element {
   return <MuiPaper {...props}>{props.children}</MuiPaper>;
 }
