@@ -1,17 +1,14 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH, KEPPEL_GREEN_FILL } from '../../constants/constants';
-import { IconProps } from '../types';
+import { type IconProps } from '../types';
 
 type KeppelTallRoundedRectangleIconProps = {
   primaryFill: string;
 } & IconProps;
 
-export const KeppelTallRoundedRectangleIcon: FC<KeppelTallRoundedRectangleIconProps> = ({
-  width = DEFAULT_WIDTH,
-  height = DEFAULT_HEIGHT,
-  primaryFill = KEPPEL_GREEN_FILL,
-  ...props
-}) => {
+export const KeppelTallRoundedRectangleIcon: FC<KeppelTallRoundedRectangleIconProps> = (
+  { width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, primaryFill = KEPPEL_GREEN_FILL, ...props }
+) => {
   return (
     <svg
       width={width}

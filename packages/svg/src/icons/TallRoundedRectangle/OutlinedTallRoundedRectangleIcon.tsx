@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { type FC } from 'react';
 import {
   DEFAULT_FILL_NONE,
   DEFAULT_HEIGHT,
@@ -6,16 +6,18 @@ import {
   DEFAULT_STROKE_WIDTH,
   DEFAULT_WIDTH
 } from '../../constants/constants';
-import { IconProps } from '../types';
+import { type IconProps } from '../types';
 
-export const OutlinedTallRoundedRectangleIcon: FC<IconProps> = ({
-  width = DEFAULT_WIDTH,
-  height = DEFAULT_HEIGHT,
-  stroke = DEFAULT_STROKE,
-  strokeWidth = DEFAULT_STROKE_WIDTH,
-  fill = DEFAULT_FILL_NONE,
-  ...props
-}) => {
+export const OutlinedTallRoundedRectangleIcon: FC<IconProps> = (
+  {
+    width = DEFAULT_WIDTH,
+    height = DEFAULT_HEIGHT,
+    stroke = DEFAULT_STROKE,
+    strokeWidth = DEFAULT_STROKE_WIDTH,
+    fill = DEFAULT_FILL_NONE,
+    ...props
+  }
+) => {
   return (
     <svg
       width={width}

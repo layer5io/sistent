@@ -1,12 +1,9 @@
-import { FC } from 'react';
-import { IconProps } from './types';
+import { type FC } from 'react';
+import { type IconProps } from './types';
 
-export const FilledCircleIcon: FC<IconProps> = ({
-  width,
-  height,
-  fill = 'currentColor',
-  ...props
-}) => {
+export const FilledCircleIcon: FC<IconProps> = (
+  { width, height, fill = 'currentColor', ...props }
+) => {
   return (
     <svg width={width} height={height} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
       <path
