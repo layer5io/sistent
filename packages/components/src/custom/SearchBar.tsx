@@ -3,7 +3,7 @@ import { Box } from '../box';
 import { InputAdornment } from '../inputadornment';
 import { TextField } from '../textfield';
 
-interface MesherySearchBarProps {
+interface SearchBarProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   value: string;
   width?: string;
@@ -11,9 +11,14 @@ interface MesherySearchBarProps {
   endAdornment?: ReactNode;
 }
 
-const MesherySearchBar: FC<MesherySearchBarProps> = (
-  { onChange, value, width, label, endAdornment, ...props }
-) => {
+const SearchBar: FC<SearchBarProps> = ({
+  onChange,
+  value,
+  width,
+  label,
+  endAdornment,
+  ...props
+}) => {
   return (
     <Fragment>
       <Box
@@ -44,4 +49,4 @@ const MesherySearchBar: FC<MesherySearchBarProps> = (
   );
 };
 
-export default MesherySearchBar;
+export default SearchBar;
