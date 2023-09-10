@@ -11,9 +11,14 @@ interface SearchBarProps {
   endAdornment?: ReactNode;
 }
 
-const SearchBar: FC<SearchBarProps> = (
-  { onChange, value, width, label, endAdornment, ...props }
-) => {
+const SearchBar: FC<SearchBarProps> = ({
+  onChange,
+  value,
+  width,
+  label,
+  endAdornment,
+  ...props
+}) => {
   return (
     <Fragment>
       <Box
