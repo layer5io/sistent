@@ -1,6 +1,10 @@
-import { Button as MuiButton, type ButtonProps } from '@mui/material';
+import { Button as MuiButton, type ButtonProps as MuiButtonProps } from '@mui/material';
 import React from 'react';
 
-export function Button(props: ButtonProps) {
-  return <MuiButton {...props} />;
+export interface ButtonProps extends MuiButtonProps {
+  label?: string;
+}
+
+export function Button({ label, ...props }: ButtonProps) {
+  return <MuiButton {...props}>{label}</MuiButton>;
 }
