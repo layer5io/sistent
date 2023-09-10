@@ -1,7 +1,7 @@
 import React, { Fragment, type ChangeEvent, type FC, type ReactNode } from 'react';
-import { Box } from '../box';
-import { InputAdornment } from '../inputadornment';
-import { TextField } from '../textfield';
+import {} from '../';
+import { Box } from '../base/Box';
+import { InputAdornment, TextField } from '../base/Input';
 
 interface SearchBarProps {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;

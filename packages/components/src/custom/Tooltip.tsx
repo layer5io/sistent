@@ -1,6 +1,6 @@
 import { type TooltipProps as MuiTooltipProps } from '@mui/material';
 import React, { type FC, type MouseEvent, type ReactElement } from 'react';
-import { Tooltip } from '../tooltip';
+import { Tooltip } from '../base/Tooltip';
 
 type TooltipProps = {
   title: string;
