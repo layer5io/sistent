@@ -9,6 +9,9 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:prettier/recommended'
   ],
+  parserOptions: {
+    project: ['./tsconfig.json']
+  },
   overrides: [
     {
       env: {
