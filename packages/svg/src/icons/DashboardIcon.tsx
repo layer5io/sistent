@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { IconProps } from './types';
 
-export const DashboardIcon: FC<IconProps> = ({ width, height, color, ...props }) => {
+export const DashboardIcon: FC<IconProps> = ({ width, height, ...props }) => {
   return (
     <svg
       width={width}

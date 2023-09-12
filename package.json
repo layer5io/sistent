@@ -1,32 +1,32 @@
 {
   "name": "sistent",
   "version": "0.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:layer5io/sistent.git",
   "private": true,
+  "repository": "git@github.com:layer5io/sistent.git",
   "workspaces": [
+    "apps/*",
     "packages/*"
   ],
-  "packageManager": "yarn@1.22.1",
-  "devDependencies": {
-    "eslint": "^8.48.0",
-    "husky": "^8.0.3",
-    "lint-staged": "^14.0.1",
-    "prettier": "^3.0.2",
-    "prettier-plugin-organize-imports": "^3.2.3"
-  },
   "scripts": {
-    "build-all": "yarn workspaces run build",
+    "build-all": "yarn workspaces foreach run build",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "postinstall": "husky install",
-    "prepack": "pinst --disable",
-    "postpack": "pinst --enable"
+    "lint": "eslint ."
   },
   "lint-staged": {
     "*.{ts,tsx,md}": [
       "eslint --fix",
       "yarn format:write"
     ]
-  }
+  },
+  "devDependencies": {
+    "eslint": "^8.49.0",
+    "husky": "^8.0.0",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "typescript": "^5.2.2"
+  },
+  "packageManager": "yarn@3.6.3"
 }

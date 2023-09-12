@@ -1,0 +1,54 @@
+name: Build and Publish W=SVG Package
+
+on:
+  release:
+    types: [published]    
+  workflow_dispatch:
+    inputs:
+      release-type:
+        required: true
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install deps and build
+        working-directory: packages/svg
+        run: |
+          yarn
+          yarn build
+
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: "https://registry.npmjs.org"
+          scope: "@layer5"
+
+      - name: Publish SVG to npm
+        working-directory: packages/svg
+        run: yarn publish --release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
