@@ -2154,7 +2154,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@layer5/sistent-svg@workspace:packages/svg":
+"@layer5/sistent-svg@workspace:^, @layer5/sistent-svg@workspace:packages/svg":
   version: 0.0.0-use.local
   resolution: "@layer5/sistent-svg@workspace:packages/svg"
   dependencies:
@@ -6697,6 +6697,7 @@ __metadata:
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
     "@layer5/sistent-components": "workspace:^"
+    "@layer5/sistent-svg": "workspace:^"
     "@mui/material": ^5.14.8
     "@storybook/addon-essentials": ^7.4.1
     "@storybook/addon-interactions": ^7.4.1
