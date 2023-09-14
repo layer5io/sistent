@@ -16,6 +16,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@layer5/sistent-components": "workspace:^",
+    "@layer5/sistent-svg": "workspace:^",
     "@mui/material": "^5.14.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
