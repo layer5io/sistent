@@ -15,12 +15,10 @@
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.8",
-    "react-dom": "^18.2.0"
+    "@layer5/sistent-svg": "workspace:^"
   },
   "devDependencies": {
+    "@mui/material": "^5.14.10",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
@@ -33,7 +31,11 @@
     "vite-plugin-dts": "^3.5.3"
   },
   "peerDependencies": {
-    "react": "*"
+    "@emotion/react": "*",
+    "@emotion/styled": "*",
+    "@mui/material": "*",
+    "react": "*",
+    "react-dom": "*"
   },
   "peerDependenciesMeta": {
     "@emotion/react": {
@@ -46,6 +48,9 @@
       "optional": true
     },
     "react": {
+      "optional": true
+    },
+    "react-dom": {
       "optional": true
     }
   },

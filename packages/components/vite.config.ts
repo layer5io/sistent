@@ -10,7 +10,12 @@ const external = [
     ...(packageJson.devDependencies || {}),
     ...(packageJson.peerDependencies || {})
   }),
-  'react/jsx-runtime'
+  'react',
+  'react-dom',
+  'react/jsx-runtime',
+  '@emotion/react',
+  '@emotion/styled',
+  '@mui/material'
 ];
 
 // https://vitejs.dev/config/
