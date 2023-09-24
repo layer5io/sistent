@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Reusable React Components",
   "main": "dist/index.umd.js",
   "module": "dist/index.mjs",
@@ -15,7 +15,7 @@
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@layer5/sistent-svg": "workspace:^"
+    "@layer5/sistent-svg": "0.6.6"
   },
   "devDependencies": {
     "@mui/material": "^5.14.10",
