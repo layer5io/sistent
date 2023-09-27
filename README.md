@@ -4,11 +4,12 @@ The Sistent Design System from Layer5 provides the open source building blocks t
 
 ### Packages
 
-- Design System components in React.js
-- npm package:
+Design System components in React, usually built with Vite.
 
-* `@layer5/sistent-components`
-* `@layer5/sistent-svg`
+List of npm packages:
+
+- `@layer5/sistent-components`
+- `@layer5/sistent-svg`
 
 ### Brand
 
