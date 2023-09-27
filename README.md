@@ -16,6 +16,10 @@ List of npm packages:
 - Layer5 Brand Guide ([PDF](https://layer5.io/brand/brand-guide.pdf))
 - [Layer5 Logos](https://layer5.io/company/brand) (more assets available in shared Community drive).
 
+## Packages
+
+- Design System components in React.js
+
 ### How to get started
 
 Use `corepack enable` to go ahead and install yarn.

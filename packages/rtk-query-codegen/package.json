@@ -1,0 +1,20 @@
+{
+  "name": "@layer5/rtk-query-codegen",
+  "version": "0.0.1",
+  "description": "Codegen to create rtk-query api from openapi schema",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "rtk-query-codegen": "./app.js"
+  },
+  "author": "",
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.6",
+    "@rtk-query/codegen-openapi": "^1.0.0",
+    "commander": "^11.0.0",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "ts-node": "^10.9.1"
+  }
+}

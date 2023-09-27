@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": false,
+    "strict": false,
+    "noImplicitAny": false, // Disable implicit 'any' types
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "declaration": false,
+    "sourceMap": false,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "emitDeclarationOnly": false,
+    "allowJs": true,
+    "outDir": "./dist"
+  },
+  "files": ["api.ts"]
+}
