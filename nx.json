@@ -1,0 +1,93 @@
+{
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": [
+          "build-storybook",
+          "dev",
+          "lint",
+          "lint:fix",
+          "preview",
+          "storybook",
+          "build",
+          "api-generate",
+          "coverage",
+          "test"
+        ]
+      }
+    }
+  },
+  "targetDefaults": {
+    "build-storybook": {
+      "dependsOn": [
+        "^build-storybook"
+      ],
+      "outputs": [
+        "{projectRoot}/storybook-static"
+      ]
+    },
+    "dev": {
+      "dependsOn": [
+        "^dev"
+      ]
+    },
+    "init-msw": {
+      "dependsOn": [
+        "^init-msw"
+      ],
+      "outputs": [
+        "{projectRoot}/public"
+      ]
+    },
+    "lint": {
+      "dependsOn": [
+        "^lint"
+      ]
+    },
+    "lint:fix": {
+      "dependsOn": [
+        "^lint:fix"
+      ]
+    },
+    "preview": {
+      "dependsOn": [
+        "^preview"
+      ]
+    },
+    "storybook": {
+      "dependsOn": [
+        "^storybook"
+      ]
+    },
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/storybook-static"
+      ]
+    },
+    "api-generate": {
+      "dependsOn": [
+        "^api-generate"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
+    },
+    "coverage": {
+      "dependsOn": [
+        "^coverage"
+      ],
+      "outputs": [
+        "{projectRoot}/coverage"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "^test"
+      ]
+    }
+  }
+}

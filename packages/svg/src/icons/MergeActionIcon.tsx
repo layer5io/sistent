@@ -1,13 +1,25 @@
 import { FC } from 'react';
+import { DEFAULT_FILL_NONE } from '../constants/constants';
 import { IconProps } from './types';
 
-export const MergeActionIcon: FC<IconProps> = ({ width, height, ...props }) => {
+type MergeActionIconProps = {
+  width?: string;
+  height: string;
+  fill?: string;
+} & IconProps;
+
+export const MergeActionIcon: FC<MergeActionIconProps> = ({
+  width = 340,
+  height = 278,
+  fill = DEFAULT_FILL_NONE,
+  ...props
+}) => {
   return (
     <svg
-      width="340"
-      height="278"
+      width={width}
+      height={height}
       viewBox="0 0 340 278"
-      fill="none"
+      fill={fill}
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >

@@ -9,19 +9,24 @@ Empty states are essential components used to occupy spaces when no content has 
 The BlankSlate component comprises various elements that work together to inform the user about a feature and guide them on how to proceed. Here are the key elements of the BlankSlate component and how to customize them:
 
 1. **Graphic**
+
    - Graphics should be purposefully placed to convey the intention of the content, whether it's to bring delight, preview an interface element, or represent the feature's goal.
    - Different graphics may hold different meanings and appeal to users, which is why the BlankSlate component offers multiple variations.
 
 2. **Primary Text**
+
    - Use primary text to explain the purpose of the empty state, making users comfortable to engage with the content or start a feature flow. It should be welcoming, human, and clearly convey the feature's intention.
 
 3. **Secondary Text**
+
    - This optional text provides more detailed information about the feature. It should be concise and non-redundant, allowing users to understand the general purpose and benefits of the feature.
 
 4. **Primary Action**
+
    - Encourage the use of one primary action button that leads to a feature or component creation flow. The button copy should be brief yet descriptive. Consider adding an Octicon for further specification if needed.
 
 5. **Secondary Action**
+
    - A secondary action is optional and usually represented by a text link below the primary action button. It guides users to additional content related to the feature, such as "Learn more about X" or "Check out the guide on X."
 
 6. **Border**
@@ -61,22 +66,22 @@ All empty state solutions should include usage analytics for continuous improvem
 
 - **Description:** Serves as a placeholder when no content exists on a page, providing a call to action for content creation.
 - **Specifications:**
-   - Appears when no content exists within a configured feature.
-   - Contains a method for creating content.
-   - Hides unnecessary UI elements unless lazy loading populates content or there's hidden but accessible content on the page (e.g., archived content).
+  - Appears when no content exists within a configured feature.
+  - Contains a method for creating content.
+  - Hides unnecessary UI elements unless lazy loading populates content or there's hidden but accessible content on the page (e.g., archived content).
 - **Content Examples:**
-   - "Monitor vulnerabilities in your project"
-   - "Get started with monitoring"
+  - "Monitor vulnerabilities in your project"
+  - "Get started with monitoring"
 
 ### Configuration Required Empty State
 
 - **Description:** Placeholder for features requiring configuration before content creation is possible.
 - **Specifications:**
-   - Contains a primary action for configuring the feature.
-   - Contains a secondary action to invite a member to configure the feature.
+  - Contains a primary action for configuring the feature.
+  - Contains a secondary action to invite a member to configure the feature.
 - **Content Examples:**
-   - "Configuration required: Monitor vulnerabilities in your project"
-   - "Configuration required: Get started with monitoring"
+  - "Configuration required: Monitor vulnerabilities in your project"
+  - "Configuration required: Get started with monitoring"
 
 ### Higher Tier Feature Empty State
 
@@ -87,22 +92,23 @@ All empty state solutions should include usage analytics for continuous improvem
 
 - **Description:** Placeholder when no search results are found after a search or filtering.
 - **Specifications:**
-   - Appears when no results are found after a search or filter.
-   - Describes that a search or filter returned no results.
-   - Does not contain a call to action.
+  - Appears when no results are found after a search or filter.
+  - Describes that a search or filter returned no results.
+  - Does not contain a call to action.
 - **Content Examples:**
-   - Filter Component:
-     - Title: "No results found"
-     - Text: "Edit your search filter and try again"
-   - Search Component:
-     - Title: "No results found"
-     - Text: "Edit your search and try again"
+  - Filter Component:
+    - Title: "No results found"
+    - Text: "Edit your search filter and try again"
+  - Search Component:
+    - Title: "No results found"
+    - Text: "Edit your search and try again"
 
 ## Fallback Solution
 
 If unable to meet the three primary goals of an empty state, a fallback solution may be used. The fallback should still contribute to achieving one of the goals and should include a way to track conversion.
 
 **Example Fallback Solution:**
+
 - `regions-empty-state--default`
 
 ---
@@ -111,4 +117,4 @@ If unable to meet the three primary goals of an empty state, a fallback solution
 
 ---
 
-*Note: This combined specification integrates the information from both provided design system specifications regarding empty state patterns under the [Sistent](https://design.layer5.io) UX Design System.*
+_Note: This combined specification integrates the information from both provided design system specifications regarding empty state patterns under the [Sistent](https://design.layer5.io) UX Design System._

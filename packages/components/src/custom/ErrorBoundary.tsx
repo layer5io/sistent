@@ -1,31 +1,44 @@
-import React from 'react';
 import { Button } from '@mui/material';
-import { type FC } from 'react';
+import React, { type FC } from 'react';
 import {
-  ErrorBoundary as ReactErrorBoundary,
+  ErrorBoundaryProps,
   FallbackProps,
-  ErrorBoundaryProps
+  ErrorBoundary as ReactErrorBoundary
 } from 'react-error-boundary';
 
 const Fallback: React.ComponentType<FallbackProps> = ({ error, resetErrorBoundary }) => {
-  return (
-    <div role="alert">
-      <h2>Uh-oh!😔 Please pardon the mesh.</h2>
-      <div
-        style={{
-          backgroundColor: '#1E2117',
-          color: '#FFFFFF',
-          padding: '.85rem',
-          borderRadius: '.2rem',
-          marginBlock: '.5rem'
-        }}>
-        <code>{error.message}</code>
+  if (error instanceof Error) {
+    // Check if error is an instance of Error
+    return (
+      <div role="alert">
+        <h2>Uh-oh!😔 Please pardon the mesh.</h2>
+        <div
+          style={{
+            backgroundColor: '#1E2117',
+            color: '#FFFFFF',
+            padding: '.85rem',
+            borderRadius: '.2rem',
+            marginBlock: '.5rem'
+          }}
+        >
+          <code>{error.message}</code>
+        </div>
+        <Button color="primary" variant="contained" onClick={resetErrorBoundary}>
+          Try again
+        </Button>
       </div>
-      <Button color="primary" variant="contained" onClick={resetErrorBoundary}>
-        Try again
-      </Button>
-    </div>
-  );
+    );
+  } else {
+    // Handle the case where error is not an instance of Error
+    return (
+      <div role="alert">
+        <h2>Uh-oh!😔 An unknown error occurred.</h2>
+        <Button color="primary" variant="contained" onClick={resetErrorBoundary}>
+          Try again
+        </Button>
+      </div>
+    );
+  }
 };
 
 const reportError = (error: Error, info: React.ErrorInfo) => {
@@ -35,10 +48,7 @@ const reportError = (error: Error, info: React.ErrorInfo) => {
 
 export const ErrorBoundary: FC<ErrorBoundaryProps> = ({ children, ...props }) => {
   return (
-    <ReactErrorBoundary
-      FallbackComponent={Fallback as unknown as any}
-      onError={reportError}
-      {...props}>
+    <ReactErrorBoundary FallbackComponent={Fallback} onError={reportError} {...props}>
       {children}
     </ReactErrorBoundary>
   );
@@ -49,7 +59,7 @@ export const withErrorBoundary = (
   errorHandlingProps: ErrorBoundaryProps | null
 ) => {
   const WrappedWithErrorBoundary = (props: any) => (
-    <ErrorBoundary {...((errorHandlingProps ? errorHandlingProps : {}) as any)}>
+    <ErrorBoundary {...(errorHandlingProps ? errorHandlingProps : {})}>
       <Component {...props} />
     </ErrorBoundary>
   );

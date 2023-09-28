@@ -1,5 +1,5 @@
 ### Sistent Maintainer
 
-| Name                | GitHub                 | Affiliation |
-| ------------------- | ---------------------- | ----------- |
-| Antonette Caldwell  | nebula-aac             | Acquia      |
+| Name               | GitHub     | Affiliation |
+| ------------------ | ---------- | ----------- |
+| Antonette Caldwell | nebula-aac | Aquia       |

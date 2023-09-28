@@ -2,7 +2,16 @@
 
 The Sistent Design System from Layer5 provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences.
 
-## Brand
+### Packages
+
+Design System components in React, usually built with Vite.
+
+List of npm packages:
+
+- `@layer5/sistent-components`
+- `@layer5/sistent-svg`
+
+### Brand
 
 - Layer5 Brand Guide ([PDF](https://layer5.io/brand/brand-guide.pdf))
 - [Layer5 Logos](https://layer5.io/company/brand) (more assets available in shared Community drive).
@@ -13,17 +22,10 @@ The Sistent Design System from Layer5 provides the open source building blocks t
 
 ### How to get started
 
-1. Install `yarn@1.22.19`
-2. Use `yarn` to install dependencies
+Use `corepack enable` to go ahead and install yarn.
 
-### NPM Packages
-  - `@layer5/sistent-components`
-  - `@layer5/sistent-svg`
-
-### Redux Toolkit Query
-
-- [Readme](packages/rtk-query-codegen/README.md)
-
+1. Install `yarn@3.6.3`
+2. Use `yarn` to install dependencies from the root of this project.
 
 <div>&nbsp;</div>
 
