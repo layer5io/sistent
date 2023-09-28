@@ -8,6 +8,7 @@
     "packages/*"
   ],
   "scripts": {
+    "clean": "lerna clean -y",
     "build-all": "lerna run build",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
