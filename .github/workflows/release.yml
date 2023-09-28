@@ -2,7 +2,10 @@ name: Publish NPM Package
 
 on:
   release:
-    types: [published]    
+    types: [closed]
+    branches:
+      - 'v-*'
+      - master
   workflow_dispatch:
     inputs:
       release-type:
