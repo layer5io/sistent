@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Reusable React Components",
   "main": "dist/index.umd.js",
   "module": "dist/index.mjs",
@@ -9,28 +9,65 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build && tsc",
+    "build": "tsc && vite build",
+    "dev": "vite",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix",
-    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
-  },
-  "devDependencies": {
-    "@types/react": "^18.2.20",
-    "@typescript-eslint/eslint-plugin": "^6.4.1",
-    "eslint": "^8.47.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.0",
-    "prettier": "^3.0.2",
-    "typescript": "^5.1.6",
-    "vite": "^4.4.9"
+    "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.5",
-    "react": "^18.2.0"
+    "@layer5/sistent-svg": "0.6.6"
+  },
+  "devDependencies": {
+    "@mui/material": "^5.14.10",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react-swc": "^3.3.2",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react": "^7.33.2",
+    "react-error-boundary": "^4.0.11",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "vite-plugin-dts": "^3.5.3",
+    "vite-tsconfig-paths": "^4.2.1"
+  },
+  "peerDependencies": {
+    "@emotion/react": "*",
+    "@emotion/styled": "*",
+    "@mui/material": "*",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "peerDependenciesMeta": {
+    "@emotion/react": {
+      "optional": true
+    },
+    "@emotion/styled": {
+      "optional": true
+    },
+    "@mui/material": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "exports": {
+      ".": {
+        "node": "./dist/index.js",
+        "require": "./dist/index.js",
+        "import": "./dist/index.js",
+        "default": "./dist/index.js"
+      }
+    },
+    "main": "dist/index.cjs",
+    "module": "dist/index.js",
+    "types": "./dist/index.d.ts"
   }
 }

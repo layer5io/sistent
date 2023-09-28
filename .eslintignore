@@ -1,0 +1,7 @@
+jest.config.js
+vite.config.ts
+.eslintrc.cjs
+node_modules
+dist
+storybook-static
+*.md

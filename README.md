@@ -4,13 +4,28 @@ The Sistent Design System from Layer5 provides the open source building blocks t
 
 ### Packages
 
-- Design System components in React.js
-- npm package: `@layer5/sistent-components`
+Design System components in React, usually built with Vite.
+
+List of npm packages:
+
+- `@layer5/sistent-components`
+- `@layer5/sistent-svg`
 
 ### Brand
 
 - Layer5 Brand Guide ([PDF](https://layer5.io/brand/brand-guide.pdf))
 - [Layer5 Logos](https://layer5.io/company/brand) (more assets available in shared Community drive).
+
+## Packages
+
+- Design System components in React.js
+
+### How to get started
+
+Use `corepack enable` to go ahead and install yarn.
+
+1. Install `yarn@3.6.3`
+2. Use `yarn` to install dependencies from the root of this project.
 
 <div>&nbsp;</div>
 

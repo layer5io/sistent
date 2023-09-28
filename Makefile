@@ -1,24 +1,11 @@
-check:
-	golangci-lint run
+setup:
+	yarn install
 
-check-clean-cache:
-	golangci-lint cache clean
+build: install
+	yarn run build-all
 
-protoc-setup:
-	wget -P meshes https://raw.githubusercontent.com/layer5io/meshery/master/meshes/meshops.proto
+format-check:
+	yarn run format:check
 
-proto:
-	protoc -I meshes/ meshes/meshops.proto --go_out=plugins=grpc:./meshes/
-
-
-
-
-
-site:
-	$(jekyll) serve --drafts --livereload
-
-build:
-	$(jekyll) build --drafts
-
-docker:
-	docker run --name site -d --rm -p 4000:4000 -v `pwd`:"/srv/jekyll" jekyll/jekyll:4.0.0 bash -c "bundle install; jekyll serve --drafts --livereload"
+format-fix:
+	yarn run format:write

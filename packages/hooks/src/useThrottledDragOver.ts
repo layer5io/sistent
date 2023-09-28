@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { fromEvent, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, fromEvent } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
 
 export const useThrottledDragOver = (
