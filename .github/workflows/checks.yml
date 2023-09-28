@@ -21,3 +21,7 @@ jobs:
         - name: Setup and install deps
           run: |
             yarn install
+
+        - name: Prettier check
+          run: |
+            yarn format:check
