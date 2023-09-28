@@ -2221,11 +2221,12 @@ __metadata:
   dependencies:
     "@reduxjs/toolkit": ^1.9.6
     "@rtk-query/codegen-openapi": ^1.0.0
+    "@types/node": ^20.7.1
     commander: ^11.0.0
-    prettier-plugin-organize-imports: ^3.2.3
     ts-node: ^10.9.1
+    typescript: ^5.2.2
   bin:
-    rtk-query-codegen: ./app.js
+    rtk-query-codegen: ./dist/index.js
   languageName: unknown
   linkType: soft
 
@@ -5245,6 +5246,13 @@ __metadata:
   version: 16.18.46
   resolution: "@types/node@npm:16.18.46"
   checksum: 1aed3fe9693f2098b8dac8c76c809c1925a456da00dd6f06c1ccb55c62ccfbbe7ec43ccfd12001f9cb4ff84e138292ae53456435dfecd5c4bb1324394c3e09c7
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.7.1":
+  version: 20.7.1
+  resolution: "@types/node@npm:20.7.1"
+  checksum: 3140bd6c9130f1ed73a78ce7a1765ee43e155c1eea50eea45e18faeb31d11d97a84fffdc5e3a97582101d2f57d2652a50f510ede6c702780267bad74c822d56c
   languageName: node
   linkType: hard
 
