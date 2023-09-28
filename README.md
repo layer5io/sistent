@@ -1,15 +1,31 @@
 # Sistent Design System
+
 The Sistent Design System from Layer5 provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences.
 
-
 ### Packages
-- Design System components in React.js
-- npm package: `@layer5/sistent-components`
 
+Design System components in React, usually built with Vite.
+
+List of npm packages:
+
+- `@layer5/sistent-components`
+- `@layer5/sistent-svg`
 
 ### Brand
+
 - Layer5 Brand Guide ([PDF](https://layer5.io/brand/brand-guide.pdf))
-- [Logos](https://layer5.io/company/brand)
+- [Layer5 Logos](https://layer5.io/company/brand) (more assets available in shared Community drive).
+
+## Packages
+
+- Design System components in React.js
+
+### How to get started
+
+Use `corepack enable` to go ahead and install yarn.
+
+1. Install `yarn@3.6.3`
+2. Use `yarn` to install dependencies from the root of this project.
 
 <div>&nbsp;</div>
 
@@ -27,6 +43,7 @@ Become a <b>Meshtee</b> today!</p>
 
 Find out more on the <a href="https://layer5.io/community">Layer5 community</a>. <br />
 <br /><br /><br /><br />
+
 </p>
 
 <div>&nbsp;</div>
@@ -39,7 +56,6 @@ Find out more on the <a href="https://layer5.io/community">Layer5 community</a>.
   <img alt="Shows an illustrated light mode meshery logo in light color mode and a dark mode meshery logo dark color mode." src=".github/readme/images//slack-128.png" width="110px" align="right" style="margin-left:10px;padding-top:13px;">
 </picture>
 </a>
-
 
 <a href="https://meshery.io/community"><img alt="Layer5 Community" src=".github/readme/images//community.svg" style="margin-right:8px;padding-top:5px;" width="140px" align="left" /></a>
 
