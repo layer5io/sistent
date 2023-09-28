@@ -49,7 +49,11 @@ jobs:
           node-version: 18
           registry-url: "https://registry.npmjs.org"
           scope: "@layer5"
-
+          
+      - name: Install deps and build
+        run: |
+          yarn
+          
       - name: Publish to npm
         run: |
             git config user.name "${{ github.actor }}"
