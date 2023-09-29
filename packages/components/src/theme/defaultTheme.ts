@@ -6,7 +6,7 @@ export const DEFAULT_THEME: SistentThemeBase = {
   colorScheme: 'light',
   white: '#FFF',
   black: '#000',
-  primaryColor: 'green',
+  primaryColor: '#00B39F',
   fontFamily: undefined,
   lineHeight: undefined,
   primaryShade: 0,
