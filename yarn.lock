@@ -2198,6 +2198,7 @@ __metadata:
   dependencies:
     "@layer5/sistent-svg": 0.6.6
     "@mui/material": ^5.14.10
+    "@types/ramda": ^0.29.3
     "@types/react": ^18.2.15
     "@types/react-dom": ^18.2.7
     "@typescript-eslint/eslint-plugin": ^6.0.0
@@ -2205,6 +2206,8 @@ __metadata:
     "@vitejs/plugin-react-swc": ^3.3.2
     eslint: ^8.45.0
     eslint-plugin-react: ^7.33.2
+    io-ts: ^2.2.20
+    ramda: ^0.29.0
     react-error-boundary: ^4.0.11
     typescript: ^5.0.2
     vite: ^4.4.5
@@ -2350,25 +2353,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@microsoft/api-extractor-model@npm:7.28.1":
-  version: 7.28.1
-  resolution: "@microsoft/api-extractor-model@npm:7.28.1"
+"@microsoft/api-extractor-model@npm:7.28.2":
+  version: 7.28.2
+  resolution: "@microsoft/api-extractor-model@npm:7.28.2"
   dependencies:
     "@microsoft/tsdoc": 0.14.2
     "@microsoft/tsdoc-config": ~0.16.1
-    "@rushstack/node-core-library": 3.60.1
-  checksum: 65e675c20213e48654f0b08290da1ae8feccfaa0fe89e8a6283346828065d4a6f0326453b18b9d5b39ba6b725308d18c74758939b8dbd07399cf766a447ec84d
+    "@rushstack/node-core-library": 3.61.0
+  checksum: 0eb1cb511414813eeb890778af7dc57e5adcd078ba040a91a736a63964b306a1d31f8b97a76286884432a7884808960a16160d49720c46e23472124f035b9023
   languageName: node
   linkType: hard
 
 "@microsoft/api-extractor@npm:^7.36.4":
-  version: 7.37.1
-  resolution: "@microsoft/api-extractor@npm:7.37.1"
+  version: 7.37.2
+  resolution: "@microsoft/api-extractor@npm:7.37.2"
   dependencies:
-    "@microsoft/api-extractor-model": 7.28.1
+    "@microsoft/api-extractor-model": 7.28.2
     "@microsoft/tsdoc": 0.14.2
     "@microsoft/tsdoc-config": ~0.16.1
-    "@rushstack/node-core-library": 3.60.1
+    "@rushstack/node-core-library": 3.61.0
     "@rushstack/rig-package": 0.5.1
     "@rushstack/ts-command-line": 4.16.1
     colors: ~1.2.1
@@ -2379,7 +2382,7 @@ __metadata:
     typescript: ~5.0.4
   bin:
     api-extractor: bin/api-extractor
-  checksum: fb1b0760af6bd25d7cce756b0ada308e80437beff7d2037cb49f43b7d011694fb77f69ec5985eed05e103f312f8d819e0a53393470185f0e09b61819f8f0e3db
+  checksum: 0981f80246653ae6e245a302683deec7d61718ff75d686f871c4ecd31df5b97de7e37a089576c55f6e944ed410216de1c00d2dc98b24ccd8a872471a4e1d0b43
   languageName: node
   linkType: hard
 
@@ -3618,9 +3621,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rushstack/node-core-library@npm:3.60.1":
-  version: 3.60.1
-  resolution: "@rushstack/node-core-library@npm:3.60.1"
+"@rushstack/node-core-library@npm:3.61.0":
+  version: 3.61.0
+  resolution: "@rushstack/node-core-library@npm:3.61.0"
   dependencies:
     colors: ~1.2.1
     fs-extra: ~7.0.1
@@ -3634,7 +3637,7 @@ __metadata:
   peerDependenciesMeta:
     "@types/node":
       optional: true
-  checksum: 1e18d74cea169c240fb8e68ec06c42060f16d927178ffac705cce796e7d5c27efb4d4b20c162f62947a7fc92b49100acb1fd6caa223918c0c92b3e349a00f7d5
+  checksum: a6f790cd521ca5b0b10ee918d8352c7dd7a0b2457aaf6a4f37d8f7bedee680d7d0126476f5ee5147952e08b11dea37926acb45f7432cd16c828690d3b9bfd34b
   languageName: node
   linkType: hard
 
@@ -5296,6 +5299,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/ramda@npm:^0.29.3":
+  version: 0.29.5
+  resolution: "@types/ramda@npm:0.29.5"
+  dependencies:
+    types-ramda: ^0.29.4
+  checksum: 01aa02655f712b5a1411a2399f94a77d8651da0cea95f753a3482ba00af558f54928b692cbb5629cd231aca461b5b9eeddeaeb46f25f4f224d1bba5e4334a7e7
+  languageName: node
+  linkType: hard
+
 "@types/range-parser@npm:*":
   version: 1.2.5
   resolution: "@types/range-parser@npm:1.2.5"
@@ -6516,16 +6528,16 @@ __metadata:
   linkType: hard
 
 "browserslist@npm:^4.21.10, browserslist@npm:^4.21.9":
-  version: 4.22.0
-  resolution: "browserslist@npm:4.22.0"
+  version: 4.22.1
+  resolution: "browserslist@npm:4.22.1"
   dependencies:
-    caniuse-lite: ^1.0.30001539
-    electron-to-chromium: ^1.4.530
+    caniuse-lite: ^1.0.30001541
+    electron-to-chromium: ^1.4.535
     node-releases: ^2.0.13
     update-browserslist-db: ^1.0.13
   bin:
     browserslist: cli.js
-  checksum: 14fc119bbfb85b65e2ee4a82205fabf9327520d010c4c586f1176ceaf9136cfdb391397045a4eafaa9defe52b6dbdf875916714695826c69091a936d5838f9ec
+  checksum: 7e6b10c53f7dd5d83fd2b95b00518889096382539fed6403829d447e05df4744088de46a571071afb447046abc3c66ad06fbc790e70234ec2517452e32ffd862
   languageName: node
   linkType: hard
 
@@ -6683,7 +6695,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001539":
+"caniuse-lite@npm:^1.0.30001541":
   version: 1.0.30001541
   resolution: "caniuse-lite@npm:1.0.30001541"
   checksum: 972f6c223cf4ea2c6821b817b419249285006bbf67ebe415fe58097cf07551e3bae898586736d92f7c40b9f0ac28638dbf760631c23742b780affd0254f44d17
@@ -7745,10 +7757,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-to-chromium@npm:^1.4.530":
-  version: 1.4.535
-  resolution: "electron-to-chromium@npm:1.4.535"
-  checksum: 31659d1b89efb5c2066ae250d4c8cd6afbcd2b5354bb5453559d9021e1f6c427c5f821904b764473d8eaef75b38bd8accc5eef36c6f698db99496a02cb77fc16
+"electron-to-chromium@npm:^1.4.535":
+  version: 1.4.536
+  resolution: "electron-to-chromium@npm:1.4.536"
+  checksum: 3c1f04f9b7526964a8c0d256eb223231a678b6a76411a547a3cf59aac32b773212e4e6497fa5534c77ee95d7fd634ffa9f18c1eeb72d229d6423eea4b81663e0
   languageName: node
   linkType: hard
 
@@ -8738,9 +8750,9 @@ __metadata:
   linkType: hard
 
 "flow-parser@npm:0.*":
-  version: 0.217.0
-  resolution: "flow-parser@npm:0.217.0"
-  checksum: 086d7ef5e7ae448bbb666e3a30e73d7424627fcca6c1000fb497b84bc7e13608fac2c82399b5a056317b67e2d3741e53fbb3b0510a368f743fd21333c1c7914d
+  version: 0.217.1
+  resolution: "flow-parser@npm:0.217.1"
+  checksum: 968756576ae9862395807c3736cf6faad5db829a092b30d46d84f2605a8e43d31436693dea4caf6cffa2e5227e38ccdbfae2a1cea0d3c1f350106d2ae629d33e
   languageName: node
   linkType: hard
 
@@ -9743,6 +9755,15 @@ __metadata:
   dependencies:
     loose-envify: ^1.0.0
   checksum: cc3182d793aad82a8d1f0af697b462939cb46066ec48bbf1707c150ad5fad6406137e91a262022c269702e01621f35ef60269f6c0d7fd178487959809acdfb14
+  languageName: node
+  linkType: hard
+
+"io-ts@npm:^2.2.20":
+  version: 2.2.20
+  resolution: "io-ts@npm:2.2.20"
+  peerDependencies:
+    fp-ts: ^2.5.0
+  checksum: 72517bf72ab1ad61b81960cb37f46e7a9f6dc84235b7d9b62f346ca84120dd89134b652fc3a0b9751129331084fd3e059349561bb96587d91ba7b40985fe7aac
   languageName: node
   linkType: hard
 
@@ -12809,13 +12830,13 @@ __metadata:
   linkType: hard
 
 "postcss@npm:^8.2.14, postcss@npm:^8.4.21, postcss@npm:^8.4.27":
-  version: 8.4.30
-  resolution: "postcss@npm:8.4.30"
+  version: 8.4.31
+  resolution: "postcss@npm:8.4.31"
   dependencies:
     nanoid: ^3.3.6
     picocolors: ^1.0.0
     source-map-js: ^1.0.2
-  checksum: 6c810c10c9bd3e03ca016e0b6b6756261e640aba1a9a7b1200b55502bc34b9165e38f590aef3493afc2f30ab55cdfcd43fd0f8408d69a77318ddbcf2a8ad164b
+  checksum: 1d8611341b073143ad90486fcdfeab49edd243377b1f51834dc4f6d028e82ce5190e4f11bb2633276864503654fb7cab28e67abdc0fbf9d1f88cad4a0ff0beea
   languageName: node
   linkType: hard
 
@@ -13077,7 +13098,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ramda@npm:0.29.0":
+"ramda@npm:0.29.0, ramda@npm:^0.29.0":
   version: 0.29.0
   resolution: "ramda@npm:0.29.0"
   checksum: 9ab26c06eb7545cbb7eebcf75526d6ee2fcaae19e338f165b2bf32772121e7b28192d6664d1ba222ff76188ba26ab307342d66e805dbb02c860560adc4d5dd57
@@ -14971,6 +14992,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ts-toolbelt@npm:^9.6.0":
+  version: 9.6.0
+  resolution: "ts-toolbelt@npm:9.6.0"
+  checksum: 9f35fd95d895a5d32ea9fd2e532a695b0bae6cbff6832b77292efa188a0ed1ed6e54f63f74a8920390f3d909a7a3adb20a144686372a8e78b420246a9bd3d58a
+  languageName: node
+  linkType: hard
+
 "tsconfck@npm:^2.1.0":
   version: 2.1.2
   resolution: "tsconfck@npm:2.1.2"
@@ -15172,6 +15200,15 @@ __metadata:
   version: 0.0.6
   resolution: "typedarray@npm:0.0.6"
   checksum: 33b39f3d0e8463985eeaeeacc3cb2e28bc3dfaf2a5ed219628c0b629d5d7b810b0eb2165f9f607c34871d5daa92ba1dc69f49051cf7d578b4cbd26c340b9d1b1
+  languageName: node
+  linkType: hard
+
+"types-ramda@npm:^0.29.4":
+  version: 0.29.4
+  resolution: "types-ramda@npm:0.29.4"
+  dependencies:
+    ts-toolbelt: ^9.6.0
+  checksum: 08a872e71555fe6a3f1fd9381989a573d493f2156d9689f3bb72278db73c848122d67a9efff1867ce97b3dfbb2fdadaa3864daaee014ab19cf9bbfe2c171ed52
   languageName: node
   linkType: hard
 
