@@ -2196,6 +2196,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@layer5/sistent-components@workspace:packages/components"
   dependencies:
+    "@emotion/react": ^11.11.1
     "@layer5/sistent-svg": 0.6.6
     "@mui/material": ^5.14.10
     "@types/ramda": ^0.29.3

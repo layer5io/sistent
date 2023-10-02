@@ -5,10 +5,10 @@ import { DEFAULT_THEME } from './defaultTheme';
 import { SistentTheme, SistentThemeOverride } from './types/SistentTheme';
 import { mergeThemeWithFn } from './utils/mergeTheme';
 
-type SistentProviderContextType = {
+interface SistentProviderContextType {
   theme: SistentTheme;
   emotionCache?: EmotionCache;
-};
+}
 
 const SistentProviderContext = createContext<SistentProviderContextType>({
   theme: DEFAULT_THEME
@@ -34,12 +34,12 @@ export function useSistentEmotionCache() {
   return useContext(SistentProviderContext)?.emotionCache;
 }
 
-export type SistentProviderProps = {
+export interface SistentProviderProps {
   theme?: SistentThemeOverride;
   emotionCache?: EmotionCache;
   children: ReactNode;
   inherit?: boolean;
-};
+}
 
 export function SistentProvider({
   theme,

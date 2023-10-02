@@ -12,7 +12,7 @@ const SISTENT_SIZES = {
   xl: null
 };
 
-type ThemeComponent = {};
+interface ThemeComponent {}
 
 export type SistentThemeOther = Record<string, any>;
 export type SistentThemeComponents = Record<string, ThemeComponent>;
@@ -44,7 +44,7 @@ const HeadingsType = t.type({
   })
 });
 
-const ShadeType = t.keyof({
+export const ShadeType = t.keyof({
   '0': null,
   '1': null,
   '2': null,
