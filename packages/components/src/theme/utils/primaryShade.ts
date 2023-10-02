@@ -1,4 +1,4 @@
-import { ShadeType, SistentTheme, SistentThemeBase } from '../types/SistentTheme';
+import { SistentTheme } from '../types/SistentTheme';
 
 /*
 export function primaryShade(theme: SistentThemeBase): (colorScheme?: 'light' | 'dark') => typeof ShadeType {
@@ -13,4 +13,4 @@ export function primaryShade(theme: SistentThemeBase): (colorScheme?: 'light' | 
 }
 */
 
-export function primaryShade(theme: SistentTheme, colorScheme: SistentThemeColors)
+export function primaryShade(theme: SistentTheme, colorScheme: SistentThemeColors);
