@@ -1,9 +1,7 @@
 import { IconButton, TextField, Tooltip } from '@layer5/sistent-components';
 import React, { useRef, useState } from 'react';
-import {
-  default as CloseIcon,
-  default as SearchIcon
-} from '../../../../svg/src/icons/Search/searchIcon';
+import CloseIcon from '../../../../svg/src/icons/Close/closeIcon';
+import SearchIcon from '../../../../svg/src/icons/Search/searchIcon';
 
 interface SearchBarProps {
   onSearch: (searchText: string) => void;
@@ -97,7 +95,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder, onClear, expanded, s
             }}
             disableRipple
           >
-            <SearchIcon />
+            <SearchIcon fill="#00D3A9" />
           </IconButton>
         </Tooltip>
       )}
