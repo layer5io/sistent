@@ -35,7 +35,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
     steps:
       - name: Checkout Repo
@@ -60,12 +60,12 @@ jobs:
             git config user.email "${{ github.actor}}@users.noreply.github.com"
 
             if [ ${{ github.base_ref }} = development ]; then
-            npx lerna version --no-private --conventional-commits --conventional-prerelease --preid beta --yes
+            HUSKY=0 npx lerna version --no-private --conventional-commits --conventional-prerelease --preid beta --yes
             else
-            npx lerna version --no-private --conventional-commits --yes
+            HUSKY=0 npx lerna version --no-private --conventional-commits --yes
             fi
             
-            npx lerna publish from-git --yes
+            HUSKY=0 npx lerna publish from-git --yes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

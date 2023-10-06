@@ -14,10 +14,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix"
   },
-  "dependencies": {
-    "@layer5/sistent-svg": "0.6.6"
-  },
   "devDependencies": {
+    "@layer5/sistent-svg": "workspace:^",
     "@mui/icons-material": "^5.14.12",
     "@mui/material": "^5.14.10",
     "@types/react": "^18.2.15",
