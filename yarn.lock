@@ -2393,7 +2393,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@layer5/sistent-components@workspace:packages/components"
   dependencies:
-    "@layer5/sistent-svg": 0.6.6
+    "@layer5/sistent-svg": "workspace:^"
     "@mui/material": ^5.14.10
     "@types/react": ^18.2.15
     "@types/react-dom": ^18.2.7
@@ -2427,7 +2427,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@layer5/sistent-svg@0.6.6, @layer5/sistent-svg@workspace:^, @layer5/sistent-svg@workspace:packages/svg":
+"@layer5/sistent-svg@workspace:^, @layer5/sistent-svg@workspace:packages/svg":
   version: 0.0.0-use.local
   resolution: "@layer5/sistent-svg@workspace:packages/svg"
   dependencies:
