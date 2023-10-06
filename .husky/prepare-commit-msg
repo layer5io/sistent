@@ -1,4 +1,6 @@
 #!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+. "$(dirname "$0")/_/husky.sh"
 
-exec < /dev/tty && cz --hook || true
+if [ "$2" != "message" ];then 
+    exec < /dev/tty && cz --hook "$1" "$2" "$3" || true
+fi
