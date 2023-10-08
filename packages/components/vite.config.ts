@@ -36,7 +36,8 @@ export default defineConfig({
           react: 'React',
           '@mui/material': 'material',
           'react/jsx-runtime': 'jsxRuntime',
-          'react-error-boundary': 'reactErrorBoundary'
+          'react-error-boundary': 'reactErrorBoundary',
+          'mui-datatables': 'muiDatatables'
         }
       }
     }
