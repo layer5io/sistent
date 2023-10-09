@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 
 /**
+ * Returns the width and height of the window.
  *
- * @returns {object} { width, height }
+ * @returns {WindowDimensions} { width, height }
  */
-function getWindowDimensions(): object {
+function getWindowDimensions(): WindowDimensions {
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
@@ -13,10 +14,11 @@ function getWindowDimensions(): object {
 }
 
 /**
+ * Custom hook for getting window dimensions.
  *
- * @returns {object} { width, height }
+ * @returns {WindowDimensions} { width, height }
  */
-export function useWindowDimensions(): object {
+export function useWindowDimensions(): WindowDimensions {
   const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
 
   useEffect(() => {
@@ -43,4 +45,12 @@ export function useWindowDimensions(): object {
   }, []);
 
   return windowDimensions;
+}
+
+/**
+ * Represents the width and height of the window.
+ */
+interface WindowDimensions {
+  width: number;
+  height: number;
 }
