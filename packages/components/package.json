@@ -15,6 +15,8 @@
     "lint:fix": "eslint --fix"
   },
   "devDependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@layer5/sistent-svg": "workspace:^",
     "@mui/icons-material": "^5.14.12",
     "@mui/material": "^5.14.10",
@@ -27,6 +29,8 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.33.2",
     "mui-datatables": "^4.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.11",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
@@ -37,6 +41,7 @@
     "@emotion/react": "*",
     "@emotion/styled": "*",
     "@mui/material": "*",
+    "@types/mui-datables": "*",
     "mui-datables": "*",
     "react": "*",
     "react-dom": "*"
@@ -49,6 +54,9 @@
       "optional": true
     },
     "@mui/material": {
+      "optional": true
+    },
+    "@types/mui-datables": {
       "optional": true
     },
     "mui-datables": {

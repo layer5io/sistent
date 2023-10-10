@@ -16,12 +16,26 @@ const external = [
   'react/jsx-runtime',
   '@emotion/react',
   '@emotion/styled',
-  '@mui/material'
+  '@mui/material',
+  '@mui/styled-engine-sc',
+  'mui-datatables',
+  '@types/mui-datatables'
 ];
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), dts(), tsconfigPaths()],
+  plugins: [react({
+    jsxRuntime: 'classic'
+  }), dts(), tsconfigPaths()],
+  optimizeDeps: {
+    include: [
+      '@emotion/react',
+      'react/jsx-runtime'
+    ],
+  },
+  resolve: {
+    dedupe: ['@emotion/react'],
+  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.tsx'),
