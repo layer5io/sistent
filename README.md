@@ -2,6 +2,7 @@
 
 The Sistent Design System from Layer5 provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences.
 
+
 ### Packages
 
 Design System components in React, usually built with Vite.
@@ -20,6 +21,13 @@ List of npm packages:
 
 - Design System components in React.js
 
+### Prerequisites
+
+Before you begin, ensure you have the following installed on your system:
+
+- Node.js 
+- Yarn
+
 ### How to get started
 
 Use `corepack enable` to go ahead and install yarn.
@@ -28,6 +36,34 @@ Use `corepack enable` to go ahead and install yarn.
 2. Use `yarn` to install dependencies from the root of this project.
 
 <div>&nbsp;</div>
+
+
+### Installation
+
+To set up the project, run the following command to install dependencies:
+
+```
+setup:
+	yarn install
+```
+To build the project, you can use the following command:
+```
+build: install
+	yarn run build-all
+```
+
+To check if your code meets the formatting standards, you can run:
+```
+format-check:
+	yarn run format:check
+```
+
+To automatically fix formatting issues, you can run
+```
+format-fix:
+	yarn run format:write
+```
+
 
 ## Join the Layer5 community!
 

@@ -6,6 +6,7 @@ export * from './base/Button';
 export * from './base/Card';
 export * from './base/Checkbox';
 export * from './base/Chip';
+export * from './base/DataTable';
 export * from './base/Dialog';
 export * from './base/Divider';
 export * from './base/Drawer';
