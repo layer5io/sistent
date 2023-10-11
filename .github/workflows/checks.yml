@@ -25,3 +25,7 @@ jobs:
         - name: Prettier check
           run: |
             yarn format:check
+    
+        - name: Build
+          run: |
+            yarn run build-all
