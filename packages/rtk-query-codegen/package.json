@@ -1,6 +1,6 @@
 {
   "name": "@layer5/rtk-query-codegen",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Codegen to create rtk-query api from openapi schema",
   "license": "ISC",
   "author": "",
