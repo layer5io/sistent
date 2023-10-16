@@ -36,7 +36,7 @@
     "@emotion/react": "*",
     "@emotion/styled": "*",
     "@mui/material": "*",
-    "mui-datables": "*",
+    "mui-datatables": "*",
     "react": "*",
     "react-dom": "*"
   },
@@ -50,7 +50,7 @@
     "@mui/material": {
       "optional": true
     },
-    "mui-datables": {
+    "mui-datatables": {
       "optional": true
     },
     "react": {
