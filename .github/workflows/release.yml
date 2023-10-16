@@ -65,7 +65,7 @@ jobs:
             HUSKY=0 npx lerna version --no-private --conventional-commits --yes
             fi
             
-            HUSKY=0 npx lerna publish from-git --yes
+            HUSKY=0 npx lerna publish from-git --no-private --yes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
