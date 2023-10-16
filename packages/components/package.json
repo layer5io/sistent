@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Reusable React Components",
   "main": "dist/index.umd.js",
   "module": "dist/index.mjs",
@@ -10,7 +10,6 @@
   ],
   "scripts": {
     "build": "tsc && vite build",
-    "dev": "vite",
     "lint": "eslint .",
     "lint:fix": "eslint --fix"
   },
@@ -42,7 +41,7 @@
     "@emotion/styled": "*",
     "@mui/material": "*",
     "@types/mui-datables": "*",
-    "mui-datables": "*",
+    "mui-datatables": "*",
     "react": "*",
     "react-dom": "*"
   },
@@ -54,9 +53,6 @@
       "optional": true
     },
     "@mui/material": {
-      "optional": true
-    },
-    "@types/mui-datables": {
       "optional": true
     },
     "mui-datables": {

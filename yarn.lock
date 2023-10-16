@@ -2429,7 +2429,7 @@ __metadata:
     "@emotion/styled": "*"
     "@mui/material": "*"
     "@types/mui-datables": "*"
-    mui-datables: "*"
+    mui-datatables: "*"
     react: "*"
     react-dom: "*"
   peerDependenciesMeta:
@@ -2438,8 +2438,6 @@ __metadata:
     "@emotion/styled":
       optional: true
     "@mui/material":
-      optional: true
-    "@types/mui-datables":
       optional: true
     mui-datables:
       optional: true
