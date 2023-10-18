@@ -26,4 +26,5 @@ export * from './base/ToggleButton';
 export * from './base/Toolbar';
 export * from './base/Tooltip';
 export * from './base/Typography';
+export * from './colors';
 export * from './custom';
