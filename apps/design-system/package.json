@@ -15,13 +15,13 @@
   "dependencies": {
     "@layer5/sistent-components": "workspace:^",
     "@layer5/sistent-svg": "workspace:^",
-    "@mui/material": "^5.14.8",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "latest",
+    "react-dom": "latest"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.14",
     "@storybook/addon-essentials": "^7.4.3",
     "@storybook/addon-interactions": "^7.4.3",
     "@storybook/addon-links": "^7.4.3",
@@ -31,8 +31,8 @@
     "@storybook/react": "^7.4.3",
     "@storybook/react-vite": "^7.4.3",
     "@storybook/testing-library": "^0.2.1",
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "@vitejs/plugin-react-swc": "^3.3.2",
