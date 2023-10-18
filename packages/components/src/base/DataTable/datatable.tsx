@@ -1,5 +1,5 @@
-import { MUIDataTable, type MUIDataTableProps } from 'mui-datatables';
+import { MUIDataTable as MuiDataTable, type MUIDataTableProps } from 'mui-datatables';
 
-export const DataTable = (props: MUIDataTableProps) => {
-  return <MUIDataTable {...props} />;
+export const MUIDataTable = (props: MUIDataTableProps) => {
+  return <MuiDataTable {...props} />;
 };
