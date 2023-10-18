@@ -2,43 +2,41 @@
   "name": "@layer5/sistent-components",
   "version": "0.6.0",
   "description": "Reusable React Components",
-  "main": "dist/index.umd.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "main": "dist/index.js",
+  "module": "./dist/index.mjs",
+  "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "tsup",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "typecheck": "tsc"
   },
   "devDependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@layer5/sistent-svg": "workspace:^",
-    "@mui/icons-material": "^5.14.12",
-    "@mui/material": "^5.14.10",
-    "@types/mui-datatables": "^4.3.6",
-    "@types/react": "^18.2.15",
-    "@types/react-dom": "^18.2.7",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "@vitejs/plugin-react-swc": "^3.3.2",
-    "eslint": "^8.45.0",
-    "eslint-plugin-react": "^7.33.2",
+    "@mui/icons-material": "^5.14.14",
+    "@mui/material": "^5.14.14",
+    "@types/mui-datatables": "^4.3.7",
+    "@types/react": "^18.2.29",
+    "@types/react-dom": "^18.2.13",
+    "eslint": "^8.51.0",
     "mui-datatables": "^4.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.11",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vite-plugin-dts": "^3.5.3",
-    "vite-tsconfig-paths": "^4.2.1"
-  },
-  "peerDependencies": {
-    "@emotion/react": "*",
-    "@emotion/styled": "*",
-    "@mui/material": "*",
-    "mui-datatables": "*",
-    "react": "*",
-    "react-dom": "*"
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2"
   },
   "peerDependenciesMeta": {
     "@emotion/react": {
@@ -50,6 +48,9 @@
     "@mui/material": {
       "optional": true
     },
+    "@types/mui-datatables": {
+      "optional": true
+    },
     "mui-datatables": {
       "optional": true
     },
@@ -58,20 +59,12 @@
     },
     "react-dom": {
       "optional": true
+    },
+    "react-error-boundary": {
+      "optional": true
     }
   },
   "publishConfig": {
-    "access": "public",
-    "exports": {
-      ".": {
-        "node": "./dist/index.js",
-        "require": "./dist/index.js",
-        "import": "./dist/index.js",
-        "default": "./dist/index.js"
-      }
-    },
-    "main": "dist/index.cjs",
-    "module": "dist/index.js",
-    "types": "./dist/index.d.ts"
+    "access": "public"
   }
 }

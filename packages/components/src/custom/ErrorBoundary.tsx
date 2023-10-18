@@ -1,10 +1,10 @@
-import { Button } from '@mui/material';
 import React, { type FC } from 'react';
 import {
   ErrorBoundaryProps,
   FallbackProps,
   ErrorBoundary as ReactErrorBoundary
 } from 'react-error-boundary';
+import { Button } from '../base/Button';
 
 const Fallback: React.ComponentType<FallbackProps> = ({ error, resetErrorBoundary }) => {
   if (error instanceof Error) {
@@ -48,7 +48,24 @@ const reportError = (error: Error, info: React.ErrorInfo) => {
 
 export const ErrorBoundary: FC<ErrorBoundaryProps> = ({ children, ...props }) => {
   return (
-    <ReactErrorBoundary FallbackComponent={Fallback} onError={reportError} {...props}>
+    <ReactErrorBoundary
+      FallbackComponent={Fallback}
+      onError={reportError}
+      fallbackRender={({ error, resetErrorBoundary }: FallbackProps) => {
+        // Define your custom error handling UI here
+        // You can use the 'error' and 'resetErrorBoundary' props to customize the UI.
+        return (
+          <div role="alert">
+            <h2>Custom Error Message</h2>
+            <p>Something went wrong. Please try again.</p>
+            <Button color="primary" variant="contained" onClick={resetErrorBoundary}>
+              Try again
+            </Button>
+          </div>
+        );
+      }}
+      {...props}
+    >
       {children}
     </ReactErrorBoundary>
   );
