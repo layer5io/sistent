@@ -22,7 +22,7 @@ For example use `bg-default` for the background of the page and `fg-default` for
 <img
   width="960"
   alt="Same component shown in light mode and dark mode color palettes"
-  src="https://user-images.githubusercontent.com/813754/187436947-875dbf46-1b26-42da-b96f-e7cbe315f0eb.png"
+  src="./stepper.png"
 />
 
 ### Color design variables are grouped based on their purpose:
