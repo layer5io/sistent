@@ -5,7 +5,9 @@
   "repository": "git@github.com:layer5io/sistent.git",
   "workspaces": [
     "apps/*",
-    "packages/*"
+    "packages/components",
+    "packages/svg",
+    "packages/rtk-query-codegen"
   ],
   "scripts": {
     "clean": "lerna clean -y",
