@@ -27,7 +27,7 @@ For example use `bg-default` for the background of the page and `fg-default` for
 
 ### Color design variables are grouped based on their purpose:
 
-- **Presentational:** To represent a color. For example, the color steps in the Sistent scale are named by color and lightness, such as `scale.blue.5`. These design tokens don't support color modes.
+- **Presentational:** To represent a color. For example, the color steps in the Sistent scale are named by color and lightness, such as `core.keppel.5`. These design tokens don't support color modes.
 - **Functional:** To convey a meaning or a state. For example, from a functional perspective the color green is used to reinforce positive messaging. In a functional system, green design variables are named with the suffix `.success`.
 - **Component:** To represent a specific use case. For example, `button.bg` references from the system to be used as the background of a button component.
 
