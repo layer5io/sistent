@@ -66,6 +66,11 @@ format-fix:
 	yarn run format:write
 ```
 
+> [!NOTE]
+> Avoid using `type any` in your code. Always specify explicit types to ensure type safety and maintainability.
+
+<br/>
+
 ## Join the Layer5 community!
 
 <a name="contributing"></a><a name="community"></a>
