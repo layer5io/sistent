@@ -31,8 +31,10 @@ const routes = (
     <>
     <Router>
     <Navbar/>
-    <main>{routes}</main>
-    <Sidebar/>
+    <div className="flex gap-8">
+      <Sidebar/>
+      <main>{routes}</main>
+    </div>
     <Footer/>
     </Router>
     </>
@@ -41,4 +43,4 @@ const routes = (
 
 export default IndexPage
 
-export const Head = () => <title>Home Page</title>
+export const Head = () => <title>Layer5 Design System</title>
