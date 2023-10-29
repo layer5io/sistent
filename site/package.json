@@ -1,9 +1,9 @@
 {
-  "name": "site",
+  "name": "sistent",
   "version": "1.0.0",
   "private": true,
-  "description": "site",
-  "author": "coder12git",
+  "description": "Layer5 Design System",
+  "author": "Layer5 Authors",
   "keywords": [
     "gatsby"
   ],
