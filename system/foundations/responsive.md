@@ -29,9 +29,7 @@ Providing support at these smaller sizes enable people with low vision to use La
 
 To understand how to break down a page to work on smaller viewports, check out [Responsive foundations](/foundations/layout) and [Responsive behavior](/foundations/layout) sections in the [Layout](/foundations/layout) page.
 
-
 TODO: Capture SVG requirements and practices from Meshery.
-
 
 - **Minimum viewport width**: 375px
 - **Minimum viewport height**: 300px
