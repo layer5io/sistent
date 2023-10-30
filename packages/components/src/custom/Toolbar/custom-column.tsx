@@ -1,15 +1,12 @@
-import {
-  Checkbox,
-  ClickAwayListener,
-  FormControlLabel,
-  IconButton,
-  Paper,
-  Popper,
-  Tooltip
-} from '@layer5/sistent-components';
-
 import React, { useState } from 'react';
 import ColumnIcon from '../../../../svg/src/icons/Column/columnIcon';
+import { IconButton } from '../../base/Button';
+import { Checkbox } from '../../base/Checkbox';
+import { ClickAwayListener } from '../../base/ClickAwayListener';
+import { FormControlLabel } from '../../base/Form';
+import { Paper } from '../../base/Paper';
+import { Popper } from '../../base/Popper';
+import { Tooltip } from '../../base/Tooltip';
 
 interface CustomColumnVisibilityControlProps {
   columns: Column[];
@@ -74,15 +71,21 @@ const CustomColumnVisibilityControl: React.FC<CustomColumnVisibilityControlProps
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
         placement="bottom-end"
-        modifiers={{
-          flip: {
-            enabled: false
+        modifiers={[
+          {
+            name: 'flip',
+            options: {
+              enabled: false
+            }
           },
-          preventOverflow: {
-            enabled: true,
-            boundariesElement: 'scrollParent'
+          {
+            name: 'preventOverflow',
+            options: {
+              enabled: true,
+              boundariesElement: 'scrollParent'
+            }
           }
-        }}
+        ]}
         transition
       >
         <ClickAwayListener onClickAway={handleClose}>

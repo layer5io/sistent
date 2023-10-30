@@ -1,5 +1,5 @@
 import React from 'react';
-import Tooltip from '../../../base/Tooltip';
+import { Tooltip } from '../../../base/Tooltip';
 
 interface ConditionalTooltipProps {
   value: string;

@@ -11,6 +11,7 @@ export * from './base/DataTable';
 export * from './base/Dialog';
 export * from './base/Divider';
 export * from './base/Drawer';
+export * from './base/Form';
 export * from './base/Input';
 export * from './base/List';
 export * from './base/Menu';

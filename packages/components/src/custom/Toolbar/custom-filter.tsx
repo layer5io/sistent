@@ -1,16 +1,14 @@
-import {
-  Button,
-  ClickAwayListener,
-  IconButton,
-  MenuItem,
-  Paper,
-  Popper,
-  Select,
-  Tooltip
-} from '@layer5/sistent-components';
+import { FilterIcon } from '@layer5/sistent-svg';
 import InputLabel from '@mui/material/InputLabel';
+import { SelectChangeEvent } from '@mui/material/Select';
 import React, { useState } from 'react';
-import FilterIcon from '../../../../svg/src/icons/Filter/FilterIcon';
+import { Button, IconButton } from '../../base/Button';
+import { ClickAwayListener } from '../../base/ClickAwayListener';
+import { MenuItem } from '../../base/Menu';
+import { Paper } from '../../base/Paper';
+import { Popper } from '../../base/Popper';
+import { Select } from '../../base/Select';
+import { Tooltip } from '../../base/Tooltip';
 
 interface FilterColumn {
   name: string;
@@ -84,15 +82,21 @@ const UniversalFilter: React.FC<UniversalFilterProps> = ({
         open={open}
         anchorEl={anchorEl}
         placement="bottom-end"
-        modifiers={{
-          flip: {
-            enabled: false
+        modifiers={[
+          {
+            name: 'flip',
+            options: {
+              enabled: false
+            }
           },
-          preventOverflow: {
-            enabled: true,
-            boundariesElement: 'scrollParent'
+          {
+            name: 'preventOverflow',
+            options: {
+              enabled: true,
+              boundariesElement: 'scrollParent'
+            }
           }
-        }}
+        ]}
         transition
       >
         <ClickAwayListener
@@ -119,8 +123,8 @@ const UniversalFilter: React.FC<UniversalFilterProps> = ({
                     defaultValue="All"
                     key={filterColumn}
                     value={selectedFilters[filterColumn]}
-                    onChange={(e: React.ChangeEvent<{ value: string }>) =>
-                      handleFilterChange(e, filterColumn)
+                    onChange={(e: SelectChangeEvent<unknown>) =>
+                      handleFilterChange(e as React.ChangeEvent<{ value: string }>, filterColumn)
                     }
                     style={{
                       width: '15rem',
