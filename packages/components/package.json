@@ -3,7 +3,7 @@
   "version": "0.6.0",
   "description": "Reusable React Components",
   "main": "dist/index.js",
-  "module": "dist/index.mjs",
+  "module": "dist/index.js",
   "types": "dist/components/index.d.ts",
   "files": [
     "dist"
@@ -73,8 +73,8 @@
         "default": "./dist/index.js"
       }
     },
-    "main": "dist/index.js",
-    "module": "dist/index.mjs",
+    "main": "dist/index.mjs",
+    "module": "dist/index.js",
     "types": "./dist/components/index.d.ts"
   }
 }
