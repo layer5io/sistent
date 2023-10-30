@@ -6,11 +6,9 @@
    ```
 2. Install dependencies
    ```
-   npm install
+   make setup
    ```
 3. To start the development server run
    ```
-   npm run develop
+   make site
    ```
-
-   
