@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.6.0...@layer5/sistent-components@0.8.0) (2023-10-31)
+
+### Bug Fixes
+
+- **components:** export toolbar ([#186](https://github.com/layer5io/sistent/issues/186)) ([74c8330](https://github.com/layer5io/sistent/commit/74c83301fc9a40d7a0c36a076fb8a91c7e6ad2cc))
+- correct sx properties for select and popper ([dbd37ee](https://github.com/layer5io/sistent/commit/dbd37ee4a41905f26979022cb6b21e454e2f294f))
+
+### Features
+
+- **customcolumn:** add column visibility ([11cd979](https://github.com/layer5io/sistent/commit/11cd9794f8de9ad5fa1a3075074cf22cc1865fbf))
+- **filter:** add custom filter ([0c02847](https://github.com/layer5io/sistent/commit/0c0284794a9f46e1a45efe2a034e7201244d1505))
+- incorporate changes to ErrorBoundary ([fcbbe77](https://github.com/layer5io/sistent/commit/fcbbe77e906e31720611e0e7dfcb1fe99bcbcb7f))
+- **search-bar:** add custom search bar component ([088e92c](https://github.com/layer5io/sistent/commit/088e92c79eaf84da04de876dada98d198ad55f99))
+- **search-bar:** fix issues ([8c0c50b](https://github.com/layer5io/sistent/commit/8c0c50bec00a4da818e8521296d17a9b0e32ddb4))
+- **tooltip:** conditional tooltip ([9db1729](https://github.com/layer5io/sistent/commit/9db172934bb2437b150f8dffaca6311643d95be2))
+
 # [0.7.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.6.0...@layer5/sistent-components@0.7.0) (2023-10-30)
 
 ### Bug Fixes
