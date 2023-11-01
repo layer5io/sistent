@@ -3,8 +3,8 @@
  */
 module.exports = {
   siteMetadata: {
-    title: `site`,
-    siteUrl: `https://www.yourdomain.tld`
+    title: `Sistent Design System | Layer5`,
+    siteUrl: `https://design.layer5.io`
   },
   plugins: ["gatsby-plugin-postcss"]
 };
