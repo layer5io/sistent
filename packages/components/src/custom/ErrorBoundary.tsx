@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import React, { type FC } from 'react';
+import React, { ErrorInfo, ReactNode, type ComponentType, type FC } from 'react';
 import {
   ErrorBoundaryProps,
   FallbackProps,
@@ -41,7 +41,7 @@ const Fallback: React.ComponentType<FallbackProps> = ({ error, resetErrorBoundar
   }
 };
 
-const reportError = (error: Error, info: React.ErrorInfo) => {
+const reportError = (error: Error, info: ErrorInfo) => {
   // This is where you'd send the error to Sentry,etc
   console.log('Error Caught Inside Boundary --reportError', error, 'Info', info);
 };
@@ -55,10 +55,10 @@ export const ErrorBoundary: FC<ErrorBoundaryProps> = ({ children, ...props }) =>
 };
 //
 export const withErrorBoundary = <P extends object>(
-  Component: React.ComponentType<P>,
+  Component: ComponentType<P>,
   errorHandlingProps: ErrorBoundaryProps | null
 ) => {
-  const WrappedWithErrorBoundary: React.FC<P> = (props: P) => (
+  const WrappedWithErrorBoundary = (props: P) => (
     <ErrorBoundary {...(errorHandlingProps ? errorHandlingProps : {})}>
       <Component {...props} />
     </ErrorBoundary>
@@ -68,7 +68,7 @@ export const withErrorBoundary = <P extends object>(
 };
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export const withSuppressedErrorBoundary = <P extends object>(

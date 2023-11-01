@@ -29,3 +29,7 @@ dist/**
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+packages/design-system/dist/**
+lerna-debug.log
+pub.sh
