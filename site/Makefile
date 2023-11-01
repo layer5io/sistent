@@ -31,4 +31,4 @@ build:
 clean: 
 	gatsby clean && make site
 
-.PHONY: setup build site clean site-fast
+.PHONY: setup build site clean
