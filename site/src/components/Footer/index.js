@@ -46,7 +46,7 @@ const Footer = () => {
                         </div>
                         <div className="w-[200px] flex-col justify-start items-start gap-1 inline-flex">
                             <div className="self-stretch justify-center items-center gap-1 inline-flex">
-                                <div className="grow shrink basis-0 text-gray-950 text-base font-normal font-['Open Sans'] leading-7 tracking-tight">Any questions? Email us at community@layer5.io or open an issue on GitHub.</div>
+                                <div className="grow shrink basis-0 text-gray-950 text-base font-normal font-['Open Sans'] leading-7 tracking-tight">Any questions? Ask on <a href="https://discuss.layer5.io">https://discuss.layer5.io</a> or open an issue on GitHub.</div>
                             </div>
                         </div>
                     </div>

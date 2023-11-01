@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
-import ChevronLightUp from '../../assets/images/Chevron-light-up.png';
-import Chevron from '../../assets/images/Chevron-light.png';
+import ChevronLightUp from '../../assets/images/Chevron-light-up.svg';
+import Chevron from '../../assets/images/Chevron-light.svg';
 import Dropdown from '../Dropdown';
 
 const Sidebar = () => {

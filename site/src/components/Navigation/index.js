@@ -1,6 +1,6 @@
 import React from "react";
-import Search from '../../assets/images/Search.png';
-import Weather from '../../assets/images/Weather.png';
+import Search from '../../assets/images/Search.svg';
+import Weather from '../../assets/images/Weather.svg';
 
 const Navbar = ()=>{
    return (
