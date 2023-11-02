@@ -63,6 +63,7 @@ jobs:
             HUSKY=0 npx lerna version --no-private --conventional-commits --conventional-prerelease --preid beta --yes
             else
             HUSKY=0 npx lerna version --no-private --conventional-commits --yes
+            git tag -a ${{ github.ref }} -m "Release ${{ github.ref }}"
             fi
             
             HUSKY=0 npx lerna publish from-git --no-private --yes
