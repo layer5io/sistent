@@ -23,6 +23,7 @@
   "devDependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@layer5/sistent-svg": "workspace:^",
     "@mui/icons-material": "^5.14.12",
     "@mui/material": "^5.14.16",
     "@types/mui-datatables": "^4.3.6",
@@ -44,12 +45,11 @@
   "peerDependencies": {
     "@emotion/react": "*",
     "@emotion/styled": "*",
-    "@layer5/sistent-svg": "0.11.1-beta.0",
     "@mui/material": "*",
     "@types/mui-datatables": "*",
     "mui-datatables": "*",
-    "react": "*",
-    "react-dom": "*",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
     "react-error-boundary": "*"
   },
   "peerDependenciesMeta": {
@@ -57,9 +57,6 @@
       "optional": true
     },
     "@emotion/styled": {
-      "optional": true
-    },
-    "@layer5/sistent-svg": {
       "optional": true
     },
     "@mui/material": {
@@ -71,9 +68,6 @@
     "react": {
       "optional": true
     }
-  },
-  "optionalDependencies": {
-    "@layer5/sistent-svg": "0.11.1-beta.0"
   },
   "publishConfig": {
     "access": "public"
