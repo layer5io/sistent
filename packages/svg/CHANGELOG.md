@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.1-beta.1](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.11.1-beta.0...@layer5/sistent-svg@0.11.1-beta.1) (2023-11-02)
+
+### Bug Fixes
+
+- **svg:** fixed package.json fields ([#216](https://github.com/layer5io/sistent/issues/216)) ([bbd305f](https://github.com/layer5io/sistent/commit/bbd305febc5ed44f9dbf3ae296d73aa84da10d88))
+
 ## [0.11.1-beta.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.11.0...@layer5/sistent-svg@0.11.1-beta.0) (2023-11-02)
 
 ### Bug Fixes
