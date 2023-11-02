@@ -3,7 +3,13 @@
   "version": "0.8.1-beta.1",
   "description": "Reusable React Components",
   "type": "module",
-  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
+  "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -70,16 +76,6 @@
     "@layer5/sistent-svg": "0.11.1-beta.0"
   },
   "publishConfig": {
-    "access": "public",
-    "exports": {
-      ".": {
-        "import": "./dist/index.es.js",
-        "require": "./dist/index.cjs.js",
-        "default": "./dist/index.js"
-      }
-    },
-    "main": "./dist/index.cjs.js",
-    "module": "./dist/index.es.js",
-    "types": "./dist/index.d.ts"
+    "access": "public"
   }
 }
