@@ -20,10 +20,12 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix"
   },
+  "dependencies": {
+    "@layer5/sistent-svg": "workspace:^"
+  },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@layer5/sistent-svg": "workspace:^",
     "@mui/icons-material": "^5.14.12",
     "@mui/material": "^5.14.16",
     "@types/mui-datatables": "^4.3.6",
