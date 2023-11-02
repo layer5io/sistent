@@ -16,7 +16,6 @@
   "devDependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@layer5/sistent-svg": "workspace:^",
     "@mui/icons-material": "^5.14.12",
     "@mui/material": "^5.14.10",
     "@types/mui-datatables": "^4.3.6",
@@ -39,6 +38,7 @@
   "peerDependencies": {
     "@emotion/react": "*",
     "@emotion/styled": "*",
+    "@layer5/sistent-svg": "workspace:^",
     "@mui/material": "*",
     "@types/mui-datatables": "*",
     "mui-datatables": "*",
@@ -51,6 +51,9 @@
       "optional": true
     },
     "@emotion/styled": {
+      "optional": true
+    },
+    "@layer5/sistent-svg": {
       "optional": true
     },
     "@mui/material": {
@@ -76,5 +79,8 @@
     "main": "dist/index.mjs",
     "module": "dist/index.js",
     "types": "./dist/components/index.d.ts"
+  },
+  "optionalDependencies": {
+    "@layer5/sistent-svg": "workspace:^"
   }
 }

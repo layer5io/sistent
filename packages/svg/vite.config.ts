@@ -1,8 +1,8 @@
-import react from '@vitejs/plugin-react-swc';
-import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import packageJson from './package.json';
+
+const env = process.env.NODE_ENV;
 
 const external = [
   ...Object.keys({
@@ -12,23 +12,35 @@ const external = [
   'react/jsx-runtime'
 ];
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), dts()],
+  plugins: [dts()],
   build: {
-    lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
-      name: 'svg',
-      fileName: 'index',
-      formats: ['es', 'cjs', 'umd']
-    },
     rollupOptions: {
-      external,
-      output: {
-        globals: {
-          'react/jsx-runtime': 'jsxRuntime'
+      input: 'src/index.ts',
+      output: [
+        {
+          dir: 'dist',
+          format: 'es',
+          entryFileNames: 'index.es.js',
+          exports: 'auto'
+        },
+        {
+          dir: 'dist',
+          format: 'cjs',
+          entryFileNames: 'index.cjs.js',
+          exports: 'auto'
         }
-      }
-    }
+      ],
+      external,
+      treeshake: env === 'production'
+    },
+    minify: env === 'production'
+  },
+  optimizeDeps: {
+    include: ['react']
+  },
+  server: {
+    open: true,
+    hmr: env === 'development'
   }
 });

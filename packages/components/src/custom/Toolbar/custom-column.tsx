@@ -1,5 +1,5 @@
+import { ColumnIcon } from '@layer5/sistent-svg';
 import React, { useState } from 'react';
-import ColumnIcon from '../../../../svg/src/icons/Column/columnIcon';
 import { IconButton } from '../../base/Button';
 import { Checkbox } from '../../base/Checkbox';
 import { ClickAwayListener } from '../../base/ClickAwayListener';
