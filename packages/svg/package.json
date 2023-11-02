@@ -3,7 +3,14 @@
   "version": "0.11.1-beta.0",
   "description": "SVG Icons library",
   "type": "module",
-  "main": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -32,25 +39,15 @@
     "vite-plugin-dts": "^3.5.3"
   },
   "publishConfig": {
-    "access": "public",
-    "exports": {
-      ".": {
-        "import": "./dist/index.es.js",
-        "require": "./dist/index.cjs.js",
-        "default": "./dist/index.js"
-      }
-    },
-    "main": "./dist/index.cjs.js",
-    "module": "./dist/index.es.js",
-    "types": "./dist/index.d.ts"
+    "access": "public"
   },
   "optionalDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "peerDependencies": {
-    "react": "*",
-    "react-dom": "*"
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "peerDependenciesMeta": {
     "react": {
