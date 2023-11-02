@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1-beta.3](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.2...@layer5/sistent-components@0.8.1-beta.3) (2023-11-02)
+
+### Bug Fixes
+
+- **components:** support react 17 and 18 ([#211](https://github.com/layer5io/sistent/issues/211)) ([db071a1](https://github.com/layer5io/sistent/commit/db071a127d053e6da1467ef4c19f3efeb122e6a3))
+
 ## [0.8.1-beta.2](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.1...@layer5/sistent-components@0.8.1-beta.2) (2023-11-02)
 
 ### Bug Fixes
