@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1-beta.2](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.1...@layer5/sistent-components@0.8.1-beta.2) (2023-11-02)
+
+### Bug Fixes
+
+- export mui datatables ([#209](https://github.com/layer5io/sistent/issues/209)) ([0ee51b2](https://github.com/layer5io/sistent/commit/0ee51b21fbd5a99eb923910a7fa337b1bb3129e5))
+
 ## [0.8.1-beta.1](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.0...@layer5/sistent-components@0.8.1-beta.1) (2023-11-02)
 
 ### Bug Fixes
