@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent-svg",
-  "version": "0.11.0",
+  "version": "0.11.1-beta.0",
   "description": "SVG Icons library",
   "type": "module",
   "main": "./dist/index.js",

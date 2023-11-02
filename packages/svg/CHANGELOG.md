@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.1-beta.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.11.0...@layer5/sistent-svg@0.11.1-beta.0) (2023-11-02)
+
+### Bug Fixes
+
+- **components:** refactor ColumnIcon ([#200](https://github.com/layer5io/sistent/issues/200)) ([f1cbfbe](https://github.com/layer5io/sistent/commit/f1cbfbe82709f31de5aa6717816163d7a5c1e78a))
+- **components:** refactored vite config in components ([#204](https://github.com/layer5io/sistent/issues/204)) ([ee88dae](https://github.com/layer5io/sistent/commit/ee88dae5c6c897b6d47570f0ca44d3c2e4542293))
+- **svg:** redo svg pkg vite config ([#202](https://github.com/layer5io/sistent/issues/202)) ([d3ac6bb](https://github.com/layer5io/sistent/commit/d3ac6bb4904b57b4b539f1335f74b65ffef3555a))
+
 # 0.11.0 (2023-10-31)
 
 ### Bug Fixes
