@@ -15,6 +15,11 @@ const external = [
 export default defineConfig({
   plugins: [dts()],
   build: {
+    lib: {
+      entry: 'src/index.ts',
+      name: 'svg',
+      fileName: 'index'
+    },
     rollupOptions: {
       input: 'src/index.ts',
       output: [
