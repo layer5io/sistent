@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1-beta.1](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.0...@layer5/sistent-components@0.8.1-beta.1) (2023-11-02)
+
+### Bug Fixes
+
+- **components:** hardcode svg package version ([#207](https://github.com/layer5io/sistent/issues/207)) ([11bf98b](https://github.com/layer5io/sistent/commit/11bf98bb135a1378545ee5617bfbebfa81ffcd93))
+
 ## [0.8.1-beta.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.0...@layer5/sistent-components@0.8.1-beta.0) (2023-11-02)
 
 ### Bug Fixes
