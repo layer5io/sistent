@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1-beta.4](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.3...@layer5/sistent-components@0.8.1-beta.4) (2023-11-02)
+
+### Bug Fixes
+
+- **components:** move svg package to dep ([#213](https://github.com/layer5io/sistent/issues/213)) ([ecacb63](https://github.com/layer5io/sistent/commit/ecacb63bb65af29e650629bf0cb84f472ae6866d))
+
 ## [0.8.1-beta.3](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.2...@layer5/sistent-components@0.8.1-beta.3) (2023-11-02)
 
 ### Bug Fixes
