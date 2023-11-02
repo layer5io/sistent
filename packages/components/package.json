@@ -21,7 +21,7 @@
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@layer5/sistent-svg": "workspace:^"
+    "@layer5/sistent-svg": "0.11.1-beta.0"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
