@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.8.1-beta.4",
+  "version": "0.8.1-beta.5",
   "description": "Reusable React Components",
   "type": "module",
   "exports": {
