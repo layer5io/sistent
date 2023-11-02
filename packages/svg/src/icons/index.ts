@@ -7,6 +7,7 @@ export * from './Circle';
 export * from './Clone';
 export * from './Close';
 export * from './Cloud';
+export * from './Column';
 export * from './Component';
 export * from './Configuration';
 export * from './Copy';
