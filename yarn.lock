@@ -2436,16 +2436,22 @@ __metadata:
   peerDependencies:
     "@emotion/react": "*"
     "@emotion/styled": "*"
+    "@layer5/sistent-svg": "workspace:^"
     "@mui/material": "*"
     "@types/mui-datatables": "*"
     mui-datatables: "*"
     react: "*"
     react-dom: "*"
     react-error-boundary: "*"
+  dependenciesMeta:
+    "@layer5/sistent-svg":
+      optional: true
   peerDependenciesMeta:
     "@emotion/react":
       optional: true
     "@emotion/styled":
+      optional: true
+    "@layer5/sistent-svg":
       optional: true
     "@mui/material":
       optional: true
@@ -2466,18 +2472,28 @@ __metadata:
     "@types/react-dom": ^18.2.7
     "@typescript-eslint/eslint-plugin": ^6.0.0
     "@typescript-eslint/parser": ^6.0.0
-    "@vitejs/plugin-react-swc": ^3.3.2
     eslint: ^8.45.0
     eslint-plugin-react: ^7.33.2
     eslint-plugin-react-hooks: ^4.6.0
     eslint-plugin-react-refresh: ^0.4.3
     react: ^18.2.0
+    react-dom: ^18.2.0
     typescript: ^5.0.2
     vite: ^4.4.5
     vite-plugin-dts: ^3.5.3
   peerDependencies:
     react: "*"
     react-dom: "*"
+  dependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  peerDependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
   languageName: unknown
   linkType: soft
 
