@@ -10,7 +10,7 @@ export {
   StyledDialogContent,
   StyledDialogTitle
 } from './Dialog';
-// export { ErrorBoundary, withErrorBoundary, withSuppressedErrorBoundary } from './ErrorBoundary';
+// import { ErrorBoundary, withErrorBoundary, withSuppressedErrorBoundary } from './ErrorBoundary';
 export { StyledSearchBar } from './SearchBar';
 
 export { CustomColumnVisibilityControl, SearchBar, StyledTooltip, UniversalFilter };

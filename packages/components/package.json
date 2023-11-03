@@ -37,7 +37,6 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.33.2",
     "mui-datatables": "^4.3.0",
-    "react-error-boundary": "^4.0.11",
     "tsconfig": "workspace:^",
     "tsup": "^7.2.0",
     "typescript": "^5.0.2"
@@ -49,8 +48,7 @@
     "@types/mui-datatables": "*",
     "mui-datatables": "*",
     "react": ">=17",
-    "react-dom": ">=17",
-    "react-error-boundary": "*"
+    "react-dom": ">=17"
   },
   "peerDependenciesMeta": {
     "@emotion/react": {

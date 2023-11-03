@@ -32,3 +32,4 @@ export * from './custom/Toolbar';
 export * from './custom/Toolbar/index';
 export * from './custom/Tooltip';
 export * from './custom/index';
+// export * from './custom/ErrorBoundary';
