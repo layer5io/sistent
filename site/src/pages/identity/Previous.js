@@ -11,7 +11,7 @@ const Previous = ({content, parent, child, subchild})=>{
         <div className="w-[214px] text-gray-950 text-base font-normal font-openSans leading-7">Previous</div>
     </div>
     <div className="self-stretch pr-2 justify-start items-start gap-1 inline-flex">
-        <div className="grow shrink basis-0 text-gray-950 text-2xl font-medium font-['Qanelas Soft'] leading-loose">{content}</div>
+        <div className="grow shrink basis-0 text-gray-950 text-2xl font-medium font-qanelas leading-loose">{content}</div>
     </div>
    </div>
    </Link>

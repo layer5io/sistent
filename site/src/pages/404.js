@@ -29,21 +29,13 @@ const NotFoundPage = () => {
       <h1 style={headingStyles}>Page not found</h1>
       <p style={paragraphStyles}>
         Sorry 😔, we couldn’t find what you were looking for.
-        <br />
-        {process.env.NODE_ENV === "development" ? (
-          <>
-            <br />
-            Try creating a page in <code style={codeStyles}>src/pages/</code>.
-            <br />
-          </>
-        ) : null}
-        <br />
-        <Link to="/">Go home</Link>.
       </p>
+      <p>Any questions? Ask on <a href='https://discuss.layer5.io' className="rounded border-2 border-gray-500">Layer5 Discussion Forum</a> or open an issue on <a href='https://github.com/layer5io/sistent'>GitHub</a>.</p>
+      <Link to="/">Go home</Link>.
     </main>
   )
 }
 
 export default NotFoundPage
 
-export const Head = () => <title>Not found</title>
+export const Head = () => <title>What a mesh!</title>

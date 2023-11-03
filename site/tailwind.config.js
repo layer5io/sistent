@@ -8,6 +8,8 @@ module.exports = {
     extend: {},
     fontFamily: {
       'openSans': ['Open Sans', 'sans-serif'],
+      'qanelas':['Qanelas Soft Bold', 'sans-serif'],
+      'qanelas-medium':['Qanelas Soft Medium', 'sans-serif']
     }
   },
   plugins: [],

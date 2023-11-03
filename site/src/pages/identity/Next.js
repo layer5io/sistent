@@ -11,7 +11,7 @@ const Next = ({content, parent, child, subchild})=>{
         <div className="w-6 h-6 relative top-left -rotate-90"><img src={nextIcon} alt='next'/></div>
     </div>
     <div className="self-stretch pr-2 justify-start items-start gap-1 inline-flex">
-        <div className="grow shrink basis-0 text-right text-gray-950 text-2xl font-medium font-['Qanelas Soft'] leading-loose">{content}</div>
+        <div className="grow shrink basis-0 text-right text-gray-950 text-2xl font-medium font-qanelas leading-loose">{content}</div>
     </div>
 </div>
 </Link>

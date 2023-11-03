@@ -8,7 +8,7 @@ const Navbar = ()=>{
     <div className=" w-[1440px] h-[100px] px-10 py-6 bg-[#FDFDFD] justify-between items-center inline-flex">
     <div className="h-12 justify-center items-center gap-4 flex">
         <div className="w-12 h-12 relative rounded-lg border border-[#647176]" />
-        <div className="grow shrink basis-0"><span className="text-[#000D12] text-2xl font-bold font-['Qanelas Soft'] leading-loose">Sistent </span><span className="text-[#000D12] text-2xl font-medium font-['Qanelas Soft'] leading-loose">Design System</span></div>
+        <div className="grow shrink basis-0"><span className="text-[#000D12] text-2xl font-bold font-qanelas leading-loose">Sistent </span><span className="text-[#000D12] text-2xl font-medium font-qanelas-medium leading-loose">Design System</span></div>
     </div>
     <div className="justify-start items-center gap-8 flex">
         <div className="justify-start items-start gap-8 flex">

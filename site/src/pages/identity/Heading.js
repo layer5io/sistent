@@ -2,7 +2,7 @@ import React from 'react';
 
 const Heading = (props)=> {
     return (
-        <div className="self-stretch text-gray-950 text-[52px] font-bold font-['Qanelas Soft'] leading-[64px]">{props.title}</div>
+        <div className="self-stretch text-gray-950 text-[52px] font-bold font-qanelas leading-[64px]">{props.title}</div>
     )
 }
 
