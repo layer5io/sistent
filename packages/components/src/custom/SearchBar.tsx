@@ -1,25 +1,25 @@
-import { Fragment, type ChangeEvent, type FC, type ReactNode } from 'react';
+import React from 'react';
 import { Box } from '../base/Box';
 import { InputAdornment, TextField } from '../base/Input';
 
 interface SearchBarProps {
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   value?: string;
   width?: string;
   label: string;
-  endAdornment?: ReactNode;
+  endAdornment?: React.ReactNode;
 }
 
-const MesherySearchBar: FC<SearchBarProps> = ({
+function MesherySearchBar({
   onChange,
   value,
   width,
   label,
   endAdornment,
   ...props
-}) => {
+}: SearchBarProps): JSX.Element {
   return (
-    <Fragment>
+    <React.Fragment>
       <Box
         component="form"
         sx={{
@@ -44,8 +44,8 @@ const MesherySearchBar: FC<SearchBarProps> = ({
           }}
         />
       </Box>
-    </Fragment>
+    </React.Fragment>
   );
-};
+}
 
 export { MesherySearchBar as StyledSearchBar };

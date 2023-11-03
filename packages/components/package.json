@@ -5,18 +5,19 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs.js"
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
     }
   },
-  "main": "./dist/index.cjs.js",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc && NODE_ENV=production vite build",
+    "build": "NODE_ENV=production tsup",
+    "dev": "NODE_ENV=development tsup",
     "lint": "eslint .",
     "lint:fix": "eslint --fix"
   },
@@ -36,13 +37,10 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.33.2",
     "mui-datatables": "^4.3.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.11",
-    "typescript": "^5.0.2",
-    "vite": "^4.5.0",
-    "vite-plugin-dts": "^3.5.3",
-    "vite-tsconfig-paths": "^4.2.1"
+    "tsconfig": "workspace:^",
+    "tsup": "^7.2.0",
+    "typescript": "^5.0.2"
   },
   "peerDependencies": {
     "@emotion/react": "*",
@@ -50,8 +48,8 @@
     "@mui/material": "*",
     "@types/mui-datatables": "*",
     "mui-datatables": "*",
-    "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0",
+    "react": ">=17",
+    "react-dom": ">=17",
     "react-error-boundary": "*"
   },
   "peerDependenciesMeta": {
@@ -69,7 +67,14 @@
     },
     "react": {
       "optional": true
+    },
+    "react-dom": {
+      "optional": true
     }
+  },
+  "optionalDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "publishConfig": {
     "access": "public"

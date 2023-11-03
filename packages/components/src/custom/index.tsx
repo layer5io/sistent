@@ -1,4 +1,4 @@
-import CustomColumVisiblityControl from './Toolbar/custom-column';
+import CustomColumnVisibilityControl from './Toolbar/custom-column';
 import UniversalFilter from './Toolbar/custom-filter';
 import SearchBar from './Toolbar/custom-search';
 import { StyledTooltip } from './Tooltip';
@@ -10,7 +10,7 @@ export {
   StyledDialogContent,
   StyledDialogTitle
 } from './Dialog';
-export { ErrorBoundary, withErrorBoundary, withSuppressedErrorBoundary } from './ErrorBoundary';
+// export { ErrorBoundary, withErrorBoundary, withSuppressedErrorBoundary } from './ErrorBoundary';
 export { StyledSearchBar } from './SearchBar';
 
-export { CustomColumVisiblityControl, SearchBar, StyledTooltip, UniversalFilter };
+export { CustomColumnVisibilityControl, SearchBar, StyledTooltip, UniversalFilter };

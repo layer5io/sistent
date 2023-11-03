@@ -1,5 +1,5 @@
 import { ColumnIcon } from '@layer5/sistent-svg';
-import React, { useState } from 'react';
+import React from 'react';
 import { IconButton } from '../../base/Button';
 import { Checkbox } from '../../base/Checkbox';
 import { ClickAwayListener } from '../../base/ClickAwayListener';
@@ -22,13 +22,13 @@ interface Column {
   label: string;
 }
 
-const CustomColumnVisibilityControl: React.FC<CustomColumnVisibilityControlProps> = ({
+function CustomColumnVisibilityControl({
   columns,
   customToolsProps,
   style
-}) => {
-  const [open, setOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+}: CustomColumnVisibilityControlProps): JSX.Element {
+  const [open, setOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -117,6 +117,6 @@ const CustomColumnVisibilityControl: React.FC<CustomColumnVisibilityControlProps
       </Popper>
     </div>
   );
-};
+}
 
 export default CustomColumnVisibilityControl;

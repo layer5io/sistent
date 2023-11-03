@@ -1,7 +1,7 @@
 import { FilterIcon } from '@layer5/sistent-svg';
 import InputLabel from '@mui/material/InputLabel';
 import { SelectChangeEvent } from '@mui/material/Select';
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, IconButton } from '../../base/Button';
 import { ClickAwayListener } from '../../base/ClickAwayListener';
 import { MenuItem } from '../../base/Menu';
@@ -23,15 +23,15 @@ interface UniversalFilterProps {
   showAllOption?: boolean;
 }
 
-const UniversalFilter: React.FC<UniversalFilterProps> = ({
+function UniversalFilter({
   filters,
   selectedFilters,
   setSelectedFilters,
   handleApplyFilter,
   showAllOption = true
-}) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [open, setOpen] = useState(false);
+}: UniversalFilterProps): JSX.Element {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [open, setOpen] = React.useState(false);
 
   const handleFilterChange = (event: React.ChangeEvent<{ value: string }>, columnName: string) => {
     const value = event.target.value;
@@ -154,6 +154,5 @@ const UniversalFilter: React.FC<UniversalFilterProps> = ({
       </Popper>
     </div>
   );
-};
-
+}
 export default UniversalFilter;

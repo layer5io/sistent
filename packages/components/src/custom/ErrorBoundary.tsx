@@ -1,12 +1,11 @@
-import { Button } from '@mui/material';
-import React, { ErrorInfo, ReactNode, type ComponentType, type FC } from 'react';
 import {
   ErrorBoundaryProps,
   FallbackProps,
   ErrorBoundary as ReactErrorBoundary
 } from 'react-error-boundary';
+import { Button } from '../base/Button';
 
-const Fallback: React.ComponentType<FallbackProps> = ({ error, resetErrorBoundary }) => {
+const Fallback: React.FC<FallbackProps> = ({ error, resetErrorBoundary }) => {
   if (error instanceof Error) {
     // Check if error is an instance of Error
     return (
@@ -41,21 +40,22 @@ const Fallback: React.ComponentType<FallbackProps> = ({ error, resetErrorBoundar
   }
 };
 
-const reportError = (error: Error, info: ErrorInfo) => {
+const reportError = (error: Error, info: React.ErrorInfo) => {
   // This is where you'd send the error to Sentry,etc
   console.log('Error Caught Inside Boundary --reportError', error, 'Info', info);
 };
 
-export const ErrorBoundary: FC<ErrorBoundaryProps> = ({ children, ...props }) => {
+export const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children, ...props }) => {
   return (
     <ReactErrorBoundary FallbackComponent={Fallback} onError={reportError} {...props}>
       {children}
     </ReactErrorBoundary>
   );
 };
+
 //
 export const withErrorBoundary = <P extends object>(
-  Component: ComponentType<P>,
+  Component: React.ComponentType<P>,
   errorHandlingProps: ErrorBoundaryProps | null
 ) => {
   const WrappedWithErrorBoundary = (props: P) => (
@@ -68,7 +68,7 @@ export const withErrorBoundary = <P extends object>(
 };
 
 interface Props {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export const withSuppressedErrorBoundary = <P extends object>(

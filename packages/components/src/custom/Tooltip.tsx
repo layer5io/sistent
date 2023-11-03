@@ -1,25 +1,25 @@
 import { type TooltipProps as MuiTooltipProps } from '@mui/material';
-import { type FC, type MouseEvent, type ReactNode } from 'react';
+import React from 'react';
 import { Tooltip } from '../base/Tooltip';
 
 type TooltipProps = {
   title: string;
-  onClick?: (event: MouseEvent<HTMLElement>) => void;
-  children: ReactNode;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
+  children: React.ReactNode;
 } & Omit<MuiTooltipProps, 'title' | 'onClick'>;
 
-export const MesheryTooltip: FC<TooltipProps> = ({
+function MesheryTooltip({
   title,
   onClick,
   placement,
   children,
   ...props
-}) => {
+}: TooltipProps): JSX.Element {
   return (
     <Tooltip title={title} placement={placement} onClick={onClick} arrow {...props}>
       {children}
     </Tooltip>
   );
-};
+}
 
 export { MesheryTooltip as StyledTooltip };

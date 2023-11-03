@@ -1,15 +1,19 @@
-import { FC, ReactNode } from 'react';
 import { DialogActions, DialogContent, DialogContentText } from '../base/Dialog';
 import { StyledDialog, StyledDialogTitle } from './Dialog';
 
 interface MesheryChartDialogProps {
   open: boolean;
-  content: ReactNode;
+  content: React.ReactNode;
   title: string;
-  actions?: ReactNode;
+  actions?: React.ReactNode;
 }
 
-const MesheryChartDialog: FC<MesheryChartDialogProps> = ({ open, content, title, actions }) => {
+function MesheryChartDialog({
+  open,
+  content,
+  title,
+  actions
+}: MesheryChartDialogProps): JSX.Element {
   return (
     <StyledDialog fullWidth maxWidth="md" open={open}>
       <StyledDialogTitle>{title}</StyledDialogTitle>
@@ -19,6 +23,6 @@ const MesheryChartDialog: FC<MesheryChartDialogProps> = ({ open, content, title,
       <DialogActions>{actions}</DialogActions>
     </StyledDialog>
   );
-};
+}
 
 export { MesheryChartDialog as StyledChartDialog };

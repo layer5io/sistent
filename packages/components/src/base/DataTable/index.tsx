@@ -1,1 +1,3 @@
-export * from 'mui-datatables';
+import * as DataTable from 'mui-datatables';
+
+export { DataTable };

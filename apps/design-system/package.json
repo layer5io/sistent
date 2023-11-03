@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "preview": "vite preview",
-    "storybook": "BROWSER=none storybook dev -p 6006"
+    "storybook": "storybook dev -p 6006"
   },
   "dependencies": {
     "@layer5/sistent-components": "workspace:^",

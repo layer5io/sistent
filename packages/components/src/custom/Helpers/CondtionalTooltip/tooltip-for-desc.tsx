@@ -1,4 +1,3 @@
-import React from 'react';
 import { Tooltip } from '../../../base/Tooltip';
 
 interface ConditionalTooltipProps {
@@ -7,13 +6,29 @@ interface ConditionalTooltipProps {
   // You can add more prop types here as needed
 }
 
-export const ConditionalTooltip: React.FC<ConditionalTooltipProps> = ({
+function ConditionalTooltip({
   value,
   maxLength,
   ...restProps
-}) => {
-  return value.length > maxLength ? (
-    <Tooltip title={value} arrow placement="top">
+}: ConditionalTooltipProps): JSX.Element {
+  if (value.length > maxLength) {
+    return (
+      <Tooltip title={value} arrow placement="top">
+        <div
+          style={{
+            maxWidth: '15rem',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+          }}
+          {...restProps}
+        >
+          {`${value.slice(0, maxLength)}...`}
+        </div>
+      </Tooltip>
+    );
+  } else {
+    return (
       <div
         style={{
           maxWidth: '15rem',
@@ -23,22 +38,10 @@ export const ConditionalTooltip: React.FC<ConditionalTooltipProps> = ({
         }}
         {...restProps}
       >
-        {`${value.slice(0, maxLength)}...`}
+        {value}
       </div>
-    </Tooltip>
-  ) : (
-    <div
-      style={{
-        maxWidth: '15rem',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap'
-      }}
-      {...restProps}
-    >
-      {value}
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default ConditionalTooltip;

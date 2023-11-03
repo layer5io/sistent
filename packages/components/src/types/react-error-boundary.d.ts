@@ -2,10 +2,8 @@ import { ErrorBoundaryPropsWithComponent, FallbackRender } from 'react-error-bou
 
 // Define the custom error boundary component
 declare module 'react-error-boundary' {
-  import { ReactNode } from 'react';
-
   export interface ErrorBoundaryProps {
-    children: ReactNode;
+    children: React.ReactNode;
     FallbackComponent?: React.ComponentType<FallbackProps>;
     onError?: (error: Error, info: React.ErrorInfo) => void;
   }
