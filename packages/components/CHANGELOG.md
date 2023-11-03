@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1-beta.8](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.7...@layer5/sistent-components@0.8.1-beta.8) (2023-11-03)
+
+### Bug Fixes
+
+- remove react-error-boundary package ([6ea9422](https://github.com/layer5io/sistent/commit/6ea9422a8125b67d1241dd6a1c323f8830a509a3))
+
 ## [0.8.1-beta.7](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.6...@layer5/sistent-components@0.8.1-beta.7) (2023-11-03)
 
 ### Bug Fixes
