@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <div className='ml-[280px]'>
+        <div className='ml-[17.5rem] pt-[5rem]'>
             <hr className='border-gray-200 border-solid' />
             <div className="w-[1160px] h-[400px] pl-10 pr-20 justify-between items-start inline-flex">
                 <div className="h-[236px] pt-10 justify-between items-start flex gap-32">

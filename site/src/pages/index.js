@@ -20,7 +20,9 @@ const routes = (
   <Routes>
     <Route path="/" element={<Home/>} exact/>
     <Route path="/identity/color" element={<Color/>} exact/>
+    <Route path="/identity/color/:id" element={<Color/>} exact/>
     <Route path="/identity/typography" element={<Typography/>} exact/>
+    <Route path="/identity/typography/:id" element={<Typography/>} exact/>
     <Route path="/identity/spacing" element={<Spacing/>} exact/>
     <Route path="/identity/layouts" element={<PageLayout/>} exact/>
     <Route path="/identity/elevation" element={<Elevation/>} exact/>
