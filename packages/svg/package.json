@@ -5,21 +5,21 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs.js",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
   },
-  "main": "./dist/index.cjs.js",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc && NODE_ENV=production vite build",
+    "build": "NODE_ENV=production tsup",
+    "dev": "NODE_ENV=development tsup",
     "coverage": "jest --coverage",
-    "dev": "NODE_ENV=development vite",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "test": "jest"
   },
@@ -34,9 +34,9 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "typescript": "^5.0.2",
-    "vite": "^4.5.0",
-    "vite-plugin-dts": "^3.5.3"
+    "tsconfig": "workspace:^",
+    "tsup": "^7.2.0",
+    "typescript": "^5.0.2"
   },
   "publishConfig": {
     "access": "public"
