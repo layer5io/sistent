@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1-beta.9](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.8...@layer5/sistent-components@0.8.1-beta.9) (2023-11-04)
+
+### Bug Fixes
+
+- redo const to function ([056f675](https://github.com/layer5io/sistent/commit/056f675fdbd4c964ab07f4ce06b266d7dab53112))
+
 ## [0.8.1-beta.8](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.7...@layer5/sistent-components@0.8.1-beta.8) (2023-11-03)
 
 ### Bug Fixes
