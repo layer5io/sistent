@@ -1,0 +1,28 @@
+name: Build and Deploy Site
+on:
+  push:
+    branches: [ master ]
+    paths:
+      - '!**'
+      - 'site/**'
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+
+      - name: Install and Build 🔧 
+        run: |
+          cd site
+          npm install
+          npm run build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          branch: master # The branch the action should deploy to.
+          folder: public # The folder the action should deploy.
+          clean: true
