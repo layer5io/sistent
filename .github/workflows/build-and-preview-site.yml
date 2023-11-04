@@ -20,8 +20,8 @@ jobs:
       - name: Install and Build 🔧 
         run: |
           cd site
-        npm install
-        npm run noIndex
+          npm install
+          npm run noIndex
       - name: Zip Site
         run: bash site/script.sh
       - name: Upload files
