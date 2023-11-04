@@ -2,15 +2,8 @@
   "name": "@layer5/sistent-components",
   "version": "0.8.1-beta.8",
   "description": "Reusable React Components",
-  "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js"
-    }
-  },
   "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"

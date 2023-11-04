@@ -1,3 +1,5 @@
+/*
+import React from 'react';
 import { ErrorBoundaryPropsWithComponent, FallbackRender } from 'react-error-boundary';
 
 // Define the custom error boundary component
@@ -33,3 +35,4 @@ declare module 'react-error-boundary' {
 declare module 'react-error-boundary' {
   export function withSuppressedErrorBoundary<T>(Component: React.ComponentType<T>): React.FC<T>;
 }
+*/

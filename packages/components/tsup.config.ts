@@ -10,7 +10,7 @@ export default defineConfig({
   clean: true,
   dts: true,
   format: ['esm', 'cjs'],
-  external: ['react', 'react/jsx-runtime', '@mui/material', '@emotion/react', '@emotion/styled'],
+  external: ['react'],
   splitting: true,
   minify: env === 'production',
   skipNodeModulesBundle: true,

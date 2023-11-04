@@ -1,6 +1,6 @@
 import React from 'react';
-import { Box } from '../base/Box';
-import { InputAdornment, TextField } from '../base/Input';
+import { Box } from '../../base/Box';
+import { InputAdornment, TextField } from '../../base/Input';
 
 interface SearchBarProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -10,7 +10,7 @@ interface SearchBarProps {
   endAdornment?: React.ReactNode;
 }
 
-function MesherySearchBar({
+function StyledSearchBar({
   onChange,
   value,
   width,
@@ -48,4 +48,4 @@ function MesherySearchBar({
   );
 }
 
-export { MesherySearchBar as StyledSearchBar };
+export default StyledSearchBar;

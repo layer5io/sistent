@@ -7,7 +7,6 @@ export * from './base/Card';
 export * from './base/Checkbox';
 export * from './base/Chip';
 export * from './base/ClickAwayListener';
-export * from './base/DataTable';
 export * from './base/Dialog';
 export * from './base/Divider';
 export * from './base/Drawer';

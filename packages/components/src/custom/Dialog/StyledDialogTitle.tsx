@@ -1,3 +1,4 @@
+import React from 'react';
 import { DialogTitle } from '../../base/Dialog';
 import { Typography } from '../../base/Typography';
 
@@ -5,7 +6,7 @@ interface DialogTitleProps {
   children: React.ReactNode;
 }
 
-function MesheryDialogTitle({ children, ...props }: DialogTitleProps): JSX.Element {
+function StyledDialogTitle({ children, ...props }: DialogTitleProps): JSX.Element {
   return (
     <DialogTitle
       sx={{
@@ -31,4 +32,4 @@ function MesheryDialogTitle({ children, ...props }: DialogTitleProps): JSX.Eleme
   );
 }
 
-export { MesheryDialogTitle as StyledDialogTitle };
+export default StyledDialogTitle;

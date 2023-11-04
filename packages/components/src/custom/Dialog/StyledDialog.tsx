@@ -1,13 +1,19 @@
-import { type DialogProps as MuiDialogProps } from '@mui/material';
+import { type DialogProps } from '@mui/material';
 import { Dialog, DialogTitle } from '../../base/Dialog';
 
-type DialogProps = {
+type StyledDialogProps = {
   open: boolean;
   fullScreen?: boolean;
   title?: string;
-} & Omit<MuiDialogProps, 'fullScreen'>;
+} & Omit<DialogProps, 'fullScreen'>;
 
-function MesheryDialog({ open, onClose, children, title, ...props }: DialogProps): JSX.Element {
+function StyledDialog({
+  open,
+  onClose,
+  children,
+  title,
+  ...props
+}: StyledDialogProps): JSX.Element {
   return (
     <Dialog
       sx={{
@@ -26,4 +32,4 @@ function MesheryDialog({ open, onClose, children, title, ...props }: DialogProps
   );
 }
 
-export { MesheryDialog as StyledDialog };
+export default StyledDialog;

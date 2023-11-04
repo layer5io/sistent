@@ -9,7 +9,8 @@
       "declarationMap": true,
       "emitDeclarationOnly": true,
       "typeRoots": ["./src/types"],
-      "types": ["react-error-boundary"]
+      "types": ["react-error-boundary"],
+      "lib": ["ES2016", "DOM"]
     },
     "include": ["."],
     "exclude": ["dist", "build", "node_modules", "**/*.d.ts", "tsup.config.ts"]
