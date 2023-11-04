@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.8.1-beta.9",
+  "version": "0.8.1-beta.10",
   "description": "Reusable React Components",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -15,7 +15,7 @@
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@layer5/sistent-svg": "^0.11.1-beta.2"
+    "@layer5/sistent-svg": "^0.11.1-beta.3"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",

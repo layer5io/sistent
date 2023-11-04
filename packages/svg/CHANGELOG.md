@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.1-beta.3](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.11.1-beta.2...@layer5/sistent-svg@0.11.1-beta.3) (2023-11-04)
+
+### Bug Fixes
+
+- **svg:** remove type module ([2f56f21](https://github.com/layer5io/sistent/commit/2f56f219b5ac62b72de2a5bbac622cd1d36b8274))
+
 ## [0.11.1-beta.2](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.11.1-beta.1...@layer5/sistent-svg@0.11.1-beta.2) (2023-11-03)
 
 ### Bug Fixes
