@@ -14,6 +14,8 @@ import Typography from "./identity/typography";
 import Elevation from "./identity/elevation";
 import Spacing from "./identity/spacing";
 import PageLayout from "./identity/page-layouts";
+import ThemeToggle from "../components/Theme";
+import '../styles/global.css';
 
 const IndexPage = () => {
 const routes = (
@@ -30,16 +32,16 @@ const routes = (
   </Routes>
 )
   return (
-    <>
+    <div>
     <Router>
     <Navbar/>
-    <div className="flex gap-8">
+    <div className='flex gap-8'>
       <Sidebar/>
       <main>{routes}</main>
     </div>
     <Footer/>
     </Router>
-    </>
+    </div>
   )
 }
 

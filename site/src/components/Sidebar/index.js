@@ -28,7 +28,7 @@ const Sidebar = () => {
   }
     return (
         <div className='pt-8 pr-4'>
-        <div className="w-[280px] h-[800px] pr-1 pt-2 border-r border-gray-200 justify-start items-start gap-1 inline-flex">
+        <div className="w-[280px] h-[800px] pr-1 pt-2 border-r border-border-default justify-start items-start gap-1 inline-flex">
             <div className="flex-col justify-start items-start gap-1 inline-flex">
                 <div className="w-[264px] rounded-lg justify-center items-center gap-1 inline-flex">
                     {  drop1? 
@@ -173,8 +173,8 @@ const Sidebar = () => {
                 </div>
             </div>
             <div className="opacity-0 w-2 h-[800px] relative">
-                <div className="w-1 h-[800px] left-[2px] top-0 absolute bg-gray-500 rounded-lg" />
-                <div className="w-2 h-[396px] left-0 top-0 absolute bg-gray-200 rounded-lg" />
+                <div className="w-1 h-[800px] left-[2px] top-0 absolute bg-border-strong rounded-lg" />
+                <div className="w-2 h-[396px] left-0 top-0 absolute bg-border-default rounded-lg">Hello</div>
             </div>
         </div> 
         </div>

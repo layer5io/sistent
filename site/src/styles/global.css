@@ -5,6 +5,31 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global.css */
+:root {
+    --border-strong: #647176;
+    --border-default: #EAEDEE;
+    --background-default: #FDFDFD;
+    --text-brand: #007763;
+    --background-brand-default: #007763;
+    --text-default: #000D12;
+    --search-default: #15272F;
+}
+  
+  /* Define dark mode styles */
+.dark {
+    --border-strong: #8D9FA7;
+    --border-default: #15272F;
+    --background-default: #000D12;
+    --text-brand: #00B39F;
+    --background-brand-default: #00B39F;
+    --text-default: #FDFDFD;
+    --search-default: #E7EFF3;
+} 
+  
+body {
+    background-color: var(--background-default);
+}
 @font-face {
     font-family: "Qanelas Soft Black";
     src: url('../assets/fonts/qanelas-soft/QanelasSoftBlack.otf') format('opentype');
