@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import Search from '../../assets/images/Search.svg';
 import SearchDark from "../../assets/images/SearchDark.svg";
 import ThemeContext from "../Theme";
@@ -6,9 +6,9 @@ import Weather from '../../assets/images/Weather.svg';
 import WeatherDark from '../../assets/images/WeatherDark.svg';
 
 const Navbar = () => {
+    const theme = useContext(ThemeContext)
+
     return (
-        <ThemeContext.Consumer>
-            {theme => (
                 <>
     <div className=" w-[1440px] h-[100px] px-10 py-6 bg-background-default justify-between items-center inline-flex">
     <div className="h-12 justify-center items-center gap-4 flex">
@@ -37,8 +37,6 @@ const Navbar = () => {
 </div>
 <hr className="border-border-default border-solid"/>
 </>
-            )}
-        </ThemeContext.Consumer>
     )
 };
 

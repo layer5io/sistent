@@ -21,9 +21,9 @@ function ThemeProvider({ children }) {
 
   useEffect(() => {
     // Getting dark mode value from localStorage!
-    const lsDark = JSON.parse(localStorage.getItem("dark"));
-    if (lsDark) {
-      setDark(lsDark);
+    const isDark = JSON.parse(localStorage.getItem("dark"));
+    if (isDark) {
+      setDark(isDark);
     } else if (supportsDarkMode()) {
       setDark(true);
     }

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useContext} from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -18,6 +18,7 @@ import '../styles/global.css';
 import ThemeContext from "../components/Theme";
 
 const IndexPage = () => {
+  const theme = useContext(ThemeContext);
   const routes = (
     <Routes>
       <Route path="/" element={<Home />} exact />
@@ -33,8 +34,6 @@ const IndexPage = () => {
   );
 
   return (
-    <ThemeContext.Consumer>
-      {theme => (
         <div className={`${theme.dark? 'dark' : 'light'} bg-background-default`} >
         <Router>
           <Navbar />
@@ -45,8 +44,6 @@ const IndexPage = () => {
           <Footer />
         </Router>
         </div>
-      )}
-    </ThemeContext.Consumer>
   );
 }
 
