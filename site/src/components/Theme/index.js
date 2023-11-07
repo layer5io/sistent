@@ -1,52 +1,45 @@
-import React from "react"
+import React, { useState, useEffect } from "react";
 
 const defaultState = {
   dark: false,
   toggleDark: () => {},
-}
+};
 
-const ThemeContext = React.createContext(defaultState)
+const ThemeContext = React.createContext(defaultState);
 
 const supportsDarkMode = () =>
-  window.matchMedia("(prefers-color-scheme: dark)").matches === true
+  window.matchMedia("(prefers-color-scheme: dark)").matches === true;
 
-class ThemeProvider extends React.Component {
-  state = {
-    dark: false,
-  }
+function ThemeProvider({ children }) {
+  const [dark, setDark] = useState(false);
 
-  toggleDark = () => {
-    let dark = !this.state.dark
-    localStorage.setItem("dark", JSON.stringify(dark))
-    this.setState({ dark })
-  }
+  const toggleDark = () => {
+    const newDark = !dark;
+    localStorage.setItem("dark", JSON.stringify(newDark));
+    setDark(newDark);
+  };
 
-  componentDidMount() {
+  useEffect(() => {
     // Getting dark mode value from localStorage!
-    const lsDark = JSON.parse(localStorage.getItem("dark"))
+    const lsDark = JSON.parse(localStorage.getItem("dark"));
     if (lsDark) {
-      this.setState({ dark: lsDark })
+      setDark(lsDark);
     } else if (supportsDarkMode()) {
-      this.setState({ dark: true })
+      setDark(true);
     }
-  }
+  }, []);
 
-  render() {
-    const { children } = this.props
-    const { dark } = this.state
-    return (
-      <ThemeContext.Provider
-        value={{
-          dark,
-          toggleDark: this.toggleDark,
-        }}
-      >
-        {children}
-      </ThemeContext.Provider>
-    )
-  }
+  return (
+    <ThemeContext.Provider
+      value={{
+        dark,
+        toggleDark,
+      }}
+    >
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
-export default ThemeContext
-
-export { ThemeProvider }
+export default ThemeContext;
+export { ThemeProvider };
