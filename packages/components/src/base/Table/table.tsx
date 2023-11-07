@@ -1,5 +1,5 @@
 import { Table as MuiTable, type TableProps } from '@mui/material';
 
-export const Table = (props: TableProps) => {
+export function Table(props: TableProps): JSX.Element {
   return <MuiTable {...props} />;
-};
+}

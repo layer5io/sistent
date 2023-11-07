@@ -1,43 +1,47 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.3.0",
+  "version": "0.8.1-beta.10",
   "description": "Reusable React Components",
-  "main": "dist/index.umd.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc && vite build",
-    "dev": "vite",
+    "build": "NODE_ENV=production tsup",
+    "dev": "NODE_ENV=development tsup",
     "lint": "eslint .",
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@layer5/sistent-svg": "0.6.6"
+    "@layer5/sistent-svg": "^0.11.1-beta.3"
   },
   "devDependencies": {
-    "@mui/material": "^5.14.10",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.12",
+    "@mui/material": "^5.14.16",
+    "@types/mui-datatables": "^4.3.6",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
-    "@vitejs/plugin-react-swc": "^3.3.2",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.33.2",
-    "react-error-boundary": "^4.0.11",
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5",
-    "vite-plugin-dts": "^3.5.3",
-    "vite-tsconfig-paths": "^4.2.1"
+    "mui-datatables": "^4.3.0",
+    "tsconfig": "workspace:^",
+    "tsup": "^7.2.0",
+    "typescript": "^5.0.2"
   },
   "peerDependencies": {
     "@emotion/react": "*",
     "@emotion/styled": "*",
     "@mui/material": "*",
-    "react": "*",
-    "react-dom": "*"
+    "@types/mui-datatables": "*",
+    "mui-datatables": "*",
+    "react": ">=17",
+    "react-dom": ">=17"
   },
   "peerDependenciesMeta": {
     "@emotion/react": {
@@ -49,6 +53,9 @@
     "@mui/material": {
       "optional": true
     },
+    "mui-datatables": {
+      "optional": true
+    },
     "react": {
       "optional": true
     },
@@ -56,18 +63,11 @@
       "optional": true
     }
   },
+  "optionalDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },
   "publishConfig": {
-    "access": "public",
-    "exports": {
-      ".": {
-        "node": "./dist/index.js",
-        "require": "./dist/index.js",
-        "import": "./dist/index.js",
-        "default": "./dist/index.js"
-      }
-    },
-    "main": "dist/index.cjs",
-    "module": "dist/index.js",
-    "types": "./dist/index.d.ts"
+    "access": "public"
   }
 }

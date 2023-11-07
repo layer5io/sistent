@@ -1,4 +1,4 @@
 # Ignore artifacts:
-dist
-coverage
-
+**/dist/**
+**/coverage/**
+**/.cache/**

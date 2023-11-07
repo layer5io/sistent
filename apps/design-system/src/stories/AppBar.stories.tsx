@@ -12,9 +12,9 @@ const meta = {
 } satisfies Meta<typeof AppBar>;
 
 export default meta;
-// type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>;
 
-export function Primary() {
+export function Primary(): Story {
   return (
     <AppBar position="fixed" color="primary">
       <Toolbar>
