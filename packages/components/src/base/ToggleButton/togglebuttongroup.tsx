@@ -3,6 +3,6 @@ import {
   type ToggleButtonGroupProps
 } from '@mui/material';
 
-export function ToggleButtonGroup(props: ToggleButtonGroupProps) {
+export function ToggleButtonGroup(props: ToggleButtonGroupProps): JSX.Element {
   return <MuiToggleButtonGroup {...props} />;
 }

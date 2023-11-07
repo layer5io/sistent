@@ -1,5 +1,5 @@
 import { CloseIcon, SearchIcon } from '@layer5/sistent-svg';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { IconButton } from '../../base/Button';
 import { TextField } from '../../base/Input';
 import { Tooltip } from '../../base/Tooltip';
@@ -13,9 +13,9 @@ interface SearchBarProps {
   setExpanded: (expanded: boolean) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ placeholder, onClear, expanded, setExpanded }) => {
-  const [searchText, setSearchText] = useState('');
-  const searchRef = useRef<HTMLInputElement | null>(null);
+function SearchBar({ placeholder, onClear, expanded, setExpanded }: SearchBarProps): JSX.Element {
+  const [searchText, setSearchText] = React.useState('');
+  const searchRef = React.useRef<HTMLInputElement | null>(null);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchText(event.target.value);
@@ -42,13 +42,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder, onClear, expanded, s
       }, 300);
     }
   };
-
-  //Todo: Need a width utility function
-  //  const width = window.innerWidth;
-  //   let searchWidth = "200px";
-  //   if (width <= 360) {
-  //     searchWidth = "100px";
-  //   }
 
   return (
     <div>
@@ -102,6 +95,6 @@ const SearchBar: React.FC<SearchBarProps> = ({ placeholder, onClear, expanded, s
       )}
     </div>
   );
-};
+}
 
 export default SearchBar;

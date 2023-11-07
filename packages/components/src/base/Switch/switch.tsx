@@ -1,5 +1,5 @@
 import { Switch as MuiSwitch, type SwitchProps } from '@mui/material';
 
-export const Switch = (props: SwitchProps) => {
+export function Switch(props: SwitchProps): JSX.Element {
   return <MuiSwitch {...props} />;
-};
+}

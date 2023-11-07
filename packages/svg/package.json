@@ -1,17 +1,9 @@
 {
   "name": "@layer5/sistent-svg",
-  "version": "0.11.1-beta.1",
+  "version": "0.11.1-beta.3",
   "description": "SVG Icons library",
-  "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
   "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
@@ -46,8 +38,8 @@
     "react-dom": "^17.0.0 || ^18.0.0"
   },
   "peerDependencies": {
-    "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0"
+    "react": ">=17",
+    "react-dom": ">=17"
   },
   "peerDependenciesMeta": {
     "react": {

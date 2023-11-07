@@ -3,6 +3,6 @@ import {
   type DialogContentTextProps
 } from '@mui/material';
 
-export function DialogContentText(props: DialogContentTextProps) {
+export function DialogContentText(props: DialogContentTextProps): JSX.Element {
   return <MuiDialogContentText {...props} />;
 }

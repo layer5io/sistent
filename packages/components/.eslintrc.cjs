@@ -9,10 +9,10 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
+    project: ['./tsconfig.json'],
     tsconfigRootDir: __dirname,
    },
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', 'tsup.config.ts'],
   parser: '@typescript-eslint/parser',
   plugins: ['react'],
   rules: {

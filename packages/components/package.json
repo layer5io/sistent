@@ -1,27 +1,21 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.8.1-beta.6",
+  "version": "0.8.1-beta.10",
   "description": "Reusable React Components",
-  "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.cjs.js"
-    }
-  },
-  "main": "./dist/index.cjs.js",
-  "module": "./dist/index.es.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc && NODE_ENV=production vite build",
+    "build": "NODE_ENV=production tsup",
+    "dev": "NODE_ENV=development tsup",
     "lint": "eslint .",
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@layer5/sistent-svg": "^0.11.1-beta.1"
+    "@layer5/sistent-svg": "^0.11.1-beta.3"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
@@ -36,13 +30,9 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.33.2",
     "mui-datatables": "^4.3.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-error-boundary": "^4.0.11",
-    "typescript": "^5.0.2",
-    "vite": "^4.5.0",
-    "vite-plugin-dts": "^3.5.3",
-    "vite-tsconfig-paths": "^4.2.1"
+    "tsconfig": "workspace:^",
+    "tsup": "^7.2.0",
+    "typescript": "^5.0.2"
   },
   "peerDependencies": {
     "@emotion/react": "*",
@@ -50,9 +40,8 @@
     "@mui/material": "*",
     "@types/mui-datatables": "*",
     "mui-datatables": "*",
-    "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0",
-    "react-error-boundary": "*"
+    "react": ">=17",
+    "react-dom": ">=17"
   },
   "peerDependenciesMeta": {
     "@emotion/react": {
@@ -69,7 +58,14 @@
     },
     "react": {
       "optional": true
+    },
+    "react-dom": {
+      "optional": true
     }
+  },
+  "optionalDependencies": {
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
   },
   "publishConfig": {
     "access": "public"

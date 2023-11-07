@@ -1,12 +1,13 @@
-import { Button } from '@mui/material';
-import React, { ErrorInfo, ReactNode, type ComponentType, type FC } from 'react';
+/*
 import {
   ErrorBoundaryProps,
   FallbackProps,
   ErrorBoundary as ReactErrorBoundary
 } from 'react-error-boundary';
+import { Button } from '../../base/Button';
+import React from 'react';
 
-const Fallback: React.ComponentType<FallbackProps> = ({ error, resetErrorBoundary }) => {
+function Fallback({ error, resetErrorBoundary }: FallbackProps): JSX.Element {
   if (error instanceof Error) {
     // Check if error is an instance of Error
     return (
@@ -39,46 +40,49 @@ const Fallback: React.ComponentType<FallbackProps> = ({ error, resetErrorBoundar
       </div>
     );
   }
-};
+}
 
-const reportError = (error: Error, info: ErrorInfo) => {
-  // This is where you'd send the error to Sentry,etc
+function reportError(error: Error, info: React.ErrorInfo): void {
+  // This is where you'd send the error to Sentry, etc.
   console.log('Error Caught Inside Boundary --reportError', error, 'Info', info);
-};
+}
 
-export const ErrorBoundary: FC<ErrorBoundaryProps> = ({ children, ...props }) => {
+function ErrorBoundary({ children, ...props }: ErrorBoundaryProps): JSX.Element {
   return (
     <ReactErrorBoundary FallbackComponent={Fallback} onError={reportError} {...props}>
       {children}
     </ReactErrorBoundary>
   );
-};
-//
-export const withErrorBoundary = <P extends object>(
-  Component: ComponentType<P>,
+}
+
+function withErrorBoundary<P extends object>(
+  Component: React.ComponentType<P>,
   errorHandlingProps: ErrorBoundaryProps | null
-) => {
-  const WrappedWithErrorBoundary = (props: P) => (
+): JSX.Element {
+  const WrappedWithErrorBoundary = (props: P): JSX.Element => (
     <ErrorBoundary {...(errorHandlingProps ? errorHandlingProps : {})}>
       <Component {...props} />
     </ErrorBoundary>
   );
 
   return WrappedWithErrorBoundary;
-};
-
-interface Props {
-  children: ReactNode;
 }
 
-export const withSuppressedErrorBoundary = <P extends object>(
+interface Props {
+  children: React.ReactNode;
+}
+
+function withSuppressedErrorBoundary<P extends object>(
   Component: React.ComponentType<P>
-) => {
-  const WrappedWithErrorBoundary: React.FC<P & Props> = (props: P & Props) => (
+): JSX.Element {
+  const WrappedWithErrorBoundary = (props: P & Props): JSX.Element => (
     <ErrorBoundary FallbackComponent={() => null}>
       <Component {...props} />
     </ErrorBoundary>
   );
 
   return WrappedWithErrorBoundary;
-};
+}
+
+export { ErrorBoundary, withErrorBoundary, withSuppressedErrorBoundary };
+*/

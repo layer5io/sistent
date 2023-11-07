@@ -1,5 +1,5 @@
 import { List as MuiList, type ListProps } from '@mui/material';
 
-export const List = (props: ListProps) => {
+export function List(props: ListProps): JSX.Element {
   return <MuiList {...props} />;
-};
+}
