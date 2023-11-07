@@ -30,6 +30,6 @@ dist/**
 !.yarn/sdks
 !.yarn/versions
 
-packages/design-system/dist/**
+**/storybook-static/**
 lerna-debug.log
 pub.sh
