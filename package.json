@@ -8,6 +8,7 @@
     "packages/*"
   ],
   "scripts": {
+    "commit:sign": "git cz -S",
     "clean": "lerna clean -y",
     "build-all": "lerna run build",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
@@ -37,7 +38,7 @@
   "packageManager": "yarn@3.6.3",
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+      "path": "cz-conventional-changelog"
     }
   }
 }
