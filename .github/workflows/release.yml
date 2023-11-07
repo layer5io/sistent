@@ -56,18 +56,16 @@ jobs:
           
       - name: Publish to npm
         run: |
-              - run: npm publish --verbose
+            git config user.name "${{ github.actor }}"
+            git config user.email "${{ github.actor}}@users.noreply.github.com"
 
-            # git config user.name "${{ github.actor }}"
-            # git config user.email "${{ github.actor}}@users.noreply.github.com"
-
-            # if [ ${{ github.base_ref }} = development ]; then
-            # HUSKY=0 npx lerna version --no-private --conventional-commits --conventional-prerelease --preid beta --yes
-            # else
-            # HUSKY=0 npx lerna version --no-private --conventional-commits --yes
-            # fi
+            if [ ${{ github.base_ref }} = development ]; then
+            HUSKY=0 npx lerna version --no-private --conventional-commits --conventional-prerelease --preid beta --yes
+            else
+            HUSKY=0 npx lerna version --no-private --conventional-commits --yes
+            fi
             
-            # HUSKY=0 npx lerna publish from-git --yes
+            HUSKY=0 npx lerna publish from-git --no-private --yes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

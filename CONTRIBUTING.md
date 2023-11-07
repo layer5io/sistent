@@ -72,6 +72,19 @@ Please contribute! Layer5 documentation uses Jekyll and GitHub Pages to host doc
    `git push origin <my-changes>`
 1. Open a pull request (in your web browser) against the repo.
 
+### Commit Message Format
+
+We follow the [Conventional Commits](https://www.conventionalcommits.org/) standard for our commit messages. Each commit should have a type, an optional scope, and a descriptive message. Examples of commit types include "feat," "fix," "docs," and more.
+
+Here's a basic commit message format:
+
+For example:
+
+- `feat(auth): add user authentication feature`
+- `fix(ui): resolve styling issue in the header`
+
+Please ensure that your commits adhere to this format to maintain a clear and organized commit history.
+
 #### Tests
 
 Users can now test their code on their local machine against the CI checks implemented using `make run-tests`.

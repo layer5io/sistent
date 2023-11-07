@@ -1,34 +1,46 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.6.0",
+  "version": "0.8.1-beta.6",
   "description": "Reusable React Components",
-  "main": "dist/index.umd.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.cjs.js"
+    }
+  },
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsc && vite build",
+    "build": "tsc && NODE_ENV=production vite build",
     "lint": "eslint .",
     "lint:fix": "eslint --fix"
   },
+  "dependencies": {
+    "@layer5/sistent-svg": "^0.11.1-beta.1"
+  },
   "devDependencies": {
-    "@layer5/sistent-svg": "workspace:^",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.14.12",
-    "@mui/material": "^5.14.10",
+    "@mui/material": "^5.14.16",
     "@types/mui-datatables": "^4.3.6",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
-    "@vitejs/plugin-react-swc": "^3.3.2",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.33.2",
     "mui-datatables": "^4.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.11",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5",
+    "vite": "^4.5.0",
     "vite-plugin-dts": "^3.5.3",
     "vite-tsconfig-paths": "^4.2.1"
   },
@@ -36,9 +48,11 @@
     "@emotion/react": "*",
     "@emotion/styled": "*",
     "@mui/material": "*",
+    "@types/mui-datatables": "*",
     "mui-datatables": "*",
-    "react": "*",
-    "react-dom": "*"
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0",
+    "react-error-boundary": "*"
   },
   "peerDependenciesMeta": {
     "@emotion/react": {
@@ -55,23 +69,9 @@
     },
     "react": {
       "optional": true
-    },
-    "react-dom": {
-      "optional": true
     }
   },
   "publishConfig": {
-    "access": "public",
-    "exports": {
-      ".": {
-        "node": "./dist/index.js",
-        "require": "./dist/index.js",
-        "import": "./dist/index.js",
-        "default": "./dist/index.js"
-      }
-    },
-    "main": "dist/index.cjs",
-    "module": "dist/index.js",
-    "types": "./dist/index.d.ts"
+    "access": "public"
   }
 }

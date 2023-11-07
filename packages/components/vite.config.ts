@@ -1,9 +1,9 @@
-import react from '@vitejs/plugin-react-swc';
-import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import packageJson from './package.json';
+
+const env = process.env.NODE_ENV;
 
 const external = [
   ...Object.keys({
@@ -16,30 +16,51 @@ const external = [
   'react/jsx-runtime',
   '@emotion/react',
   '@emotion/styled',
-  '@mui/material'
+  '@mui/material',
+  '@layer5/sistent-svg'
 ];
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), dts(), tsconfigPaths()],
+  plugins: [dts(), tsconfigPaths()],
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.tsx'),
-      name: 'components',
-      fileName: 'index',
-      formats: ['es', 'cjs', 'umd']
+      entry: 'src/index.tsx',
+      name: 'component',
+      fileName: 'index'
     },
     rollupOptions: {
-      external,
-      output: {
-        globals: {
-          react: 'React',
-          '@mui/material': 'material',
-          'react/jsx-runtime': 'jsxRuntime',
-          'react-error-boundary': 'reactErrorBoundary',
-          'mui-datatables': 'muiDatatables'
+      input: 'src/index.tsx',
+      output: [
+        {
+          dir: 'dist',
+          format: 'es',
+          entryFileNames: 'index.es.js',
+          exports: 'auto'
+        },
+        {
+          dir: 'dist',
+          format: 'cjs',
+          entryFileNames: 'index.cjs.js',
+          exports: 'auto'
         }
+      ],
+      external,
+      treeshake: env === 'production',
+      onwarn(warning, warn) {
+        if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
+          return;
+        }
+        warn(warning);
       }
-    }
+    },
+    minify: env === 'production'
+  },
+  optimizeDeps: {
+    include: ['react']
+  },
+  server: {
+    open: true,
+    hmr: env === 'development'
   }
 });
