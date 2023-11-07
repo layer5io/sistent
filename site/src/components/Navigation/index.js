@@ -1,11 +1,15 @@
 import React from "react";
 import Search from '../../assets/images/Search.svg';
 import SearchDark from "../../assets/images/SearchDark.svg";
-import ThemeToggle from "../Theme";
+import ThemeContext from "../Theme";
+import Weather from '../../assets/images/Weather.svg';
+import WeatherDark from '../../assets/images/WeatherDark.svg';
 
-const Navbar = ()=>{
-   return (
-    <>
+const Navbar = () => {
+    return (
+        <ThemeContext.Consumer>
+            {theme => (
+                <>
     <div className=" w-[1440px] h-[100px] px-10 py-6 bg-background-default justify-between items-center inline-flex">
     <div className="h-12 justify-center items-center gap-4 flex">
         <div className="w-12 h-12 relative rounded-lg border border-border-strong" />
@@ -24,16 +28,18 @@ const Navbar = ()=>{
             </div>
         </div>
         <div className="justify-end items-center gap-8 flex">
-            <div className="w-6 h-6 relative"><img src={localStorage.getItem('theme')==='dark'? SearchDark : Search}/></div>
+            <div className="w-6 h-6 relative"><img src={theme.dark? SearchDark : Search }/></div>
             <div className="w-6 h-6 justify-center items-center flex">
-                <div className="w-6 h-6 relative flex-col justify-start items-start flex"><ThemeToggle/></div>
+                <div className="w-6 h-6 relative flex-col justify-start items-start flex"><img src={theme.dark? WeatherDark : Weather } onClick={theme.toggleDark}/></div>
             </div>
         </div>
     </div>
 </div>
 <hr className="border-border-default border-solid"/>
 </>
-   )
+            )}
+        </ThemeContext.Consumer>
+    )
 };
 
 export default Navbar;

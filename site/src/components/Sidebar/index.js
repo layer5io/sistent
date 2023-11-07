@@ -33,141 +33,141 @@ const Sidebar = () => {
                 <div className="w-[264px] rounded-lg justify-center items-center gap-1 inline-flex">
                     {  drop1? 
                         <div className="w-[264px] flex-col justify-start items-start inline-flex">
-                            <div className="hover:bg-gray-200 hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-white justify-center items-center gap-1 flex">
-                        <div className="grow shrink basis-0 text-gray-950 text-base font-normal font-openSans leading-7 tracking-tight">About Sistent</div>
+                            <div className="hover:bg-border-default hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-background-default justify-center items-center gap-1 flex">
+                        <div className="grow shrink basis-0 text-text-default text-base font-normal font-openSans leading-7 tracking-tight">About Sistent</div>
                         <div className="w-6 h-6 relative"><img src={drop1?ChevronLightUp:Chevron} alt="/" onClick={toggleChevron1}/></div>
                     </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Introduction</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Introduction</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Principles</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Principles</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Contribution</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Contribution</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Support</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Support</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Case Studies</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Case Studies</div>
                         </div>
                     </div> :
-                    <div className="hover:bg-gray-200 hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-white justify-center items-center gap-1 flex">
-                        <div className="grow shrink basis-0 text-gray-950 text-base font-normal font-openSans leading-7 tracking-tight">About Sistent</div>
+                    <div className="hover:bg-border-default hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-background-default justify-center items-center gap-1 flex">
+                        <div className="grow shrink basis-0 text-text-default text-base font-normal font-openSans leading-7 tracking-tight">About Sistent</div>
                         <div className="w-6 h-6 relative"><img src={drop1?ChevronLightUp:Chevron} alt="/" onClick={toggleChevron1}/></div>
                     </div>}
                 </div>
-                <div className="w-[264px] bg-white rounded-lg justify-center items-center gap-1 inline-flex">
+                <div className="w-[264px] bg-background-default rounded-lg justify-center items-center gap-1 inline-flex">
                     { drop2?
                      <div className="w-[264px] flex-col justify-start items-start inline-flex">
-                        <div className="hover:bg-gray-200 hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 justify-center items-center gap-36 flex">
-                        <div className="grow shrink basis-0 text-gray-950 text-base font-normal font-openSans leading-7 tracking-tight">Identity</div>
+                        <div className="hover:bg-border-default hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 justify-center items-center gap-36 flex">
+                        <div className="grow shrink basis-0 text-text-default text-base font-normal font-openSans leading-7 tracking-tight">Identity</div>
                         <div className="w-6 h-6 relative"><img src={drop2?ChevronLightUp:Chevron} alt="/" onClick={toggleChevron2}/></div>
                     </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <Link to="/identity/color" className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Color</Link>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <Link to="/identity/color" className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Color</Link>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <Link to="/identity/typography" className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Typography</Link>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <Link to="/identity/typography" className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Typography</Link>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <Link to='/identity/spacing' className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Spacing</Link>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <Link to='/identity/spacing' className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Spacing</Link>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <Link to='/identity/layouts' className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Page Layouts</Link>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <Link to='/identity/layouts' className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Page Layouts</Link>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <Link to='/identity/elevation' className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Elevation</Link>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <Link to='/identity/elevation' className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Elevation</Link>
                         </div>
                     </div> :
                     
-                    <div className="hover:bg-gray-200 hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 justify-center items-center gap-1 flex">
-                        <div className="grow shrink basis-0 text-gray-950 text-base font-normal font-openSans leading-7 tracking-tight">Identity</div>
+                    <div className="hover:bg-border-default hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 justify-center items-center gap-1 flex">
+                        <div className="grow shrink basis-0 text-text-default text-base font-normal font-openSans leading-7 tracking-tight">Identity</div>
                         <div className="w-6 h-6 relative"><img src={drop2?ChevronLightUp:Chevron} alt="/" onClick={toggleChevron2}/></div>
                     </div>}
                 </div>
                 <div className="w-[264px] rounded-lg justify-center items-center gap-1 inline-flex">
                     {drop3?
                      <div className="w-[264px] flex-col justify-start items-start inline-flex">
-                        <div className="hover:bg-gray-200 hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-white justify-center items-center gap-1 flex">
-                        <div className="grow shrink basis-0 text-gray-950 text-base font-normal font-openSans leading-7 tracking-tight">Components</div>
+                        <div className="hover:bg-border-default hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-background-default justify-center items-center gap-1 flex">
+                        <div className="grow shrink basis-0 text-text-default text-base font-normal font-openSans leading-7 tracking-tight">Components</div>
                         <div className="w-6 h-6 relative"><img src={drop3?ChevronLightUp:Chevron} alt="/" onClick={toggleChevron3}/></div>
                     </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
                     </div> :
-                    <div className="hover:bg-gray-200 hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-white justify-center items-center gap-1 flex">
-                        <div className="grow shrink basis-0 text-gray-950 text-base font-normal font-openSans leading-7 tracking-tight">Components</div>
+                    <div className="hover:bg-border-default hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-background-default justify-center items-center gap-1 flex">
+                        <div className="grow shrink basis-0 text-text-default text-base font-normal font-openSans leading-7 tracking-tight">Components</div>
                         <div className="w-6 h-6 relative"><img src={drop3?ChevronLightUp:Chevron} alt="/" onClick={toggleChevron3}/></div>
                     </div>}
                 </div>
                 <div className="w-[264px] rounded-lg justify-center items-center gap-1 inline-flex">
                     {drop4?
                      <div className="w-[264px] flex-col justify-start items-start inline-flex">
-                        <div className="hover:bg-gray-200 hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-white justify-center items-center gap-1 flex">
-                        <div className="grow shrink basis-0 text-gray-950 text-base font-normal font-openSans leading-7 tracking-tight">Patterns & Templates</div>
+                        <div className="hover:bg-border-default hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-background-default justify-center items-center gap-1 flex">
+                        <div className="grow shrink basis-0 text-text-default text-base font-normal font-openSans leading-7 tracking-tight">Patterns & Templates</div>
                         <div className="w-6 h-6 relative"><img src={drop4?ChevronLightUp:Chevron} alt="/" onClick={toggleChevron4}/></div>
                     </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
                     </div> :
-                    <div className="hover:bg-gray-200 hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-white justify-center items-center gap-1 flex">
-                        <div className="grow shrink basis-0 text-gray-950 text-base font-normal font-openSans leading-7 tracking-tight">Patterns & Templates</div>
+                    <div className="hover:bg-border-default hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-background-default justify-center items-center gap-1 flex">
+                        <div className="grow shrink basis-0 text-text-default text-base font-normal font-openSans leading-7 tracking-tight">Patterns & Templates</div>
                         <div className="w-6 h-6 relative"><img src={drop4?ChevronLightUp:Chevron} alt="/" onClick={toggleChevron4}/></div>
                     </div>}
                 </div>
                 <div className="w-[264px] rounded-lg justify-center items-center gap-1 inline-flex">
                     {drop5?
                      <div className="w-[264px] flex-col justify-start items-start inline-flex">
-                        <div className="hover:bg-gray-200 hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-white justify-center items-center gap-1 flex">
-                        <div className="grow shrink basis-0 text-gray-950 text-base font-normal font-openSans leading-7 tracking-tight">Visualization & Illustration</div>
+                        <div className="hover:bg-border-default hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-background-default justify-center items-center gap-1 flex">
+                        <div className="grow shrink basis-0 text-text-default text-base font-normal font-openSans leading-7 tracking-tight">Visualization & Illustration</div>
                         <div className="w-6 h-6 relative"><img src={drop5?ChevronLightUp:Chevron} alt="/" onClick={toggleChevron5}/></div>
                     </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
-                        <div className="hover:bg-gray-200 hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
-                            <div className="grow shrink basis-0 text-gray-700 text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
+                        <div className="hover:bg-border-default hover:rounded-lg self-stretch pl-10 py-2 justify-center items-center gap-1 inline-flex">
+                            <div className="grow shrink basis-0 text-text-secondary text-base font-normal font-openSans leading-7 tracking-tight">Option 1</div>
                         </div>
                     </div> :
-                    <div className="hover:bg-gray-200 hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-white justify-center items-center gap-1 flex">
-                        <div className="grow shrink basis-0 text-gray-950 text-base font-normal font-openSans leading-7 tracking-tight">Visualization & Illustration</div>
+                    <div className="hover:bg-border-default hover:rounded-lg grow shrink basis-0 h-14 pl-6 pr-4 py-2 bg-background-default justify-center items-center gap-1 flex">
+                        <div className="grow shrink basis-0 text-text-default text-base font-normal font-openSans leading-7 tracking-tight">Visualization & Illustration</div>
                         <div className="w-6 h-6 relative"><img src={drop5?ChevronLightUp:Chevron} alt="/" onClick={toggleChevron5}/></div>
                     </div>}
                 </div>
