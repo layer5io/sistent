@@ -14,7 +14,10 @@ module.exports = {
         'text-brand': 'var(--text-brand)',
         'background-brand-default': 'var(--background-brand-default)',
         'text-default': 'var(--text-default)',
-        'search-default': 'var(--search-default)'
+        'search-default': 'var(--search-default)',
+        'text-secondary': 'var(--text-secondary)',
+        'border-brand': 'var(--border-brand)',
+        'background-brand-tertiary': 'var(--background-brand-tertiary)',
       },
     },
     fontFamily: {

@@ -1,33 +1,45 @@
-import React from "react"
-import { ThemeToggler } from "gatsby-plugin-dark-mode"
-import Weather from '../../assets/images/Weather.svg';
-import Search from '../../assets/images/Search.svg';
-// import SearchDark from "../../assets/images/Search-dark.svg";
+import React, { useState, useEffect } from "react";
 
-export default function ThemeToggle() {
-     return (
-       <ThemeToggler>
-        {({ theme, toggleTheme }) => (
-          <img
-          src={theme === 'dark' ? Search : Weather }
-          alt="Toggle Theme"
-          onClick={() => toggleTheme(theme === 'dark' ? 'light' : 'dark')}
-        />         
-         
-         )}
-        </ThemeToggler>
-     )
+const defaultState = {
+  dark: false,
+  toggleDark: () => {},
+};
+
+const ThemeContext = React.createContext(defaultState);
+
+const supportsDarkMode = () =>
+  window.matchMedia("(prefers-color-scheme: dark)").matches === true;
+
+function ThemeProvider({ children }) {
+  const [dark, setDark] = useState(false);
+
+  const toggleDark = () => {
+    const newDark = !dark;
+    localStorage.setItem("dark", JSON.stringify(newDark));
+    setDark(newDark);
+  };
+
+  useEffect(() => {
+    // Getting dark mode value from localStorage!
+    const isDark = JSON.parse(localStorage.getItem("dark"));
+    if (isDark) {
+      setDark(isDark);
+    } else if (supportsDarkMode()) {
+      setDark(true);
+    }
+  }, []);
+
+  return (
+    <ThemeContext.Provider
+      value={{
+        dark,
+        toggleDark,
+      }}
+    >
+      {children}
+    </ThemeContext.Provider>
+  );
 }
 
-// export function SearchToggle(){
-//   return (
-//     <ThemeToggler>
-//         {({ theme}) => (
-//           <img
-//           src={theme === 'dark' ? SearchDark : Search }
-//           alt="Toggle Search"
-//         />    
-//         )}
-//         </ThemeToggler>
-//   )
-// }
+export default ThemeContext;
+export { ThemeProvider };

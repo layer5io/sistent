@@ -6,14 +6,17 @@
 @tailwind utilities;
 
 /* Global.css */
-:root {
+.light {
     --border-strong: #647176;
     --border-default: #EAEDEE;
     --background-default: #FDFDFD;
-    --text-brand: #007763;
-    --background-brand-default: #007763;
+    --text-brand: #51636B;
+    --background-brand-default: #51636B;
     --text-default: #000D12;
     --search-default: #15272F;
+    --text-secondary: #3C494E;
+    --border-brand: #007763;
+    --background-brand-tertiary: #DAF2EB;
 }
   
   /* Define dark mode styles */
@@ -25,11 +28,11 @@
     --background-brand-default: #00B39F;
     --text-default: #FDFDFD;
     --search-default: #E7EFF3;
+    --text-secondary: #EAEDEE;
+    --border-brand: #8D9FA7;
+    --background-brand-tertiary: #00403F;
 } 
   
-body {
-    background-color: var(--background-default);
-}
 @font-face {
     font-family: "Qanelas Soft Black";
     src: url('../assets/fonts/qanelas-soft/QanelasSoftBlack.otf') format('opentype');
