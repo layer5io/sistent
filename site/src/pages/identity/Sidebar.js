@@ -6,11 +6,11 @@ const Sidebar = (props)=>{
     <div className="text-center text-gray-950 text-xs font-bold font-qanelas leading-normal">On this Page</div>
     <div className="self-stretch h-[9.5rem] flex-col justify-start items-start gap-2 flex">
         {props.items && props.items.map((item)=>{
-        return (<>
+        return (<div key={item.title}>
          <div className="self-stretch justify-start items-center gap-1 inline-flex">
          <div className="grow shrink basis-0 text-gray-950 text-sm font-normal font-openSans leading-normal">{item.title}</div>
      </div>
-     </>)
+     </div>)
         })}
     </div>
 </div>

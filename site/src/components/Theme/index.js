@@ -7,8 +7,8 @@ const defaultState = {
 
 const ThemeContext = React.createContext(defaultState);
 
-const supportsDarkMode = () =>
-  window.matchMedia("(prefers-color-scheme: dark)").matches === true;
+// const supportsDarkMode = () =>
+//   window.matchMedia("(prefers-color-scheme: dark)").matches === true;
 
 function ThemeProvider({ children }) {
   const [dark, setDark] = useState(false);
@@ -24,8 +24,6 @@ function ThemeProvider({ children }) {
     const isDark = JSON.parse(localStorage.getItem("dark"));
     if (isDark) {
       setDark(isDark);
-    } else if (supportsDarkMode()) {
-      setDark(true);
     }
   }, []);
 
