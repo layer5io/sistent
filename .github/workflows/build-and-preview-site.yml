@@ -21,7 +21,7 @@ jobs:
         run: |
           cd site
           npm install
-          npm run noIndex
+          npm run build
       - name: Zip Site
         run: bash site/script.sh
       - name: Upload files
