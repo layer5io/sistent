@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0-beta.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.10...@layer5/sistent-components@0.9.0-beta.0) (2023-11-08)
+
+### Features
+
+- **components:** create InputLabel component ([77d51f1](https://github.com/layer5io/sistent/commit/77d51f1a6c9e8a6e99ea2dda15f76356e28f81d4)), closes [#254](https://github.com/layer5io/sistent/issues/254)
+
 ## [0.8.1-beta.10](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.9...@layer5/sistent-components@0.8.1-beta.10) (2023-11-04)
 
 **Note:** Version bump only for package @layer5/sistent-components

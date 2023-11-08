@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.1-beta.4](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.11.1-beta.3...@layer5/sistent-svg@0.11.1-beta.4) (2023-11-08)
+
+**Note:** Version bump only for package @layer5/sistent-svg
+
 ## [0.11.1-beta.3](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.11.1-beta.2...@layer5/sistent-svg@0.11.1-beta.3) (2023-11-04)
 
 ### Bug Fixes

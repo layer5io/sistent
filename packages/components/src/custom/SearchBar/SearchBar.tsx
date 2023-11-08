@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '../../base/Box';
-import { InputAdornment, TextField } from '../../base/Input';
+import { InputAdornment } from '../../base/Input';
+import { TextField } from '../../base/TextField';
 
 interface SearchBarProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
