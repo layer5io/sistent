@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.8.1-beta.10",
+  "version": "0.8.1-beta.11",
   "description": "Reusable React Components",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
