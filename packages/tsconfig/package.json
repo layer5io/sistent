@@ -1,0 +1,7 @@
+{
+  "name": "tsconfig",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "packageManager": "yarn@3.6.3"
+}

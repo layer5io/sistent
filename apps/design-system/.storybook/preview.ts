@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { withThemeFromJSXProvider } from '@storybook/addon-styling';
+import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 import type { Preview } from '@storybook/react';
 import { darkTheme, lightTheme } from '../src/stories/themes/app';
 
@@ -9,7 +9,7 @@ const preview: Preview = {
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/
+        date: /Date$/i
       }
     }
   }

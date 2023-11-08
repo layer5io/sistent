@@ -1,0 +1,134 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global.css */
+.light {
+    --border-strong: #647176;
+    --border-default: #EAEDEE;
+    --background-default: #FDFDFD;
+    --text-brand: #51636B;
+    --background-brand-default: #51636B;
+    --text-default: #000D12;
+    --search-default: #15272F;
+    --text-secondary: #3C494E;
+    --border-brand: #007763;
+    --background-brand-tertiary: #DAF2EB;
+}
+  
+  /* Define dark mode styles */
+.dark {
+    --border-strong: #8D9FA7;
+    --border-default: #15272F;
+    --background-default: #000D12;
+    --text-brand: #00B39F;
+    --background-brand-default: #00B39F;
+    --text-default: #FDFDFD;
+    --search-default: #E7EFF3;
+    --text-secondary: #EAEDEE;
+    --border-brand: #8D9FA7;
+    --background-brand-tertiary: #00403F;
+} 
+  
+@font-face {
+    font-family: "Qanelas Soft Black";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftBlack.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft Black Italic";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftBlackItalic.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft Heavy";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftHeavy.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft Heavy Italic";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftHeavyItalic.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft ExtraBold";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftExtraBold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft ExtraBold Italic";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftExtraBoldItalic.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft Bold";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftBold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft Bold Italic";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftBoldItalic.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftSemiBold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft SemiBold Italic";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftSemiBoldItalic.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft Medium";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftMedium.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft Medium Italic";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftMediumItalic.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftRegular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft Regular Italic";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftRegularItalic.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft Light";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftLight.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft Light Italic";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftLightItalic.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft UltraLight";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftUltraLight.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft UltraLight Italic";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftUltraLightItalic.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft Thin";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftThin.otf') format('opentype');
+}
+
+@font-face {
+    font-family: "Qanelas Soft Thin Italic";
+    src: url('../assets/fonts/qanelas-soft/QanelasSoftThinItalic.otf') format('opentype');
+}

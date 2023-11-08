@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 /**
  * Returns the width and height of the window.
  *
@@ -19,9 +17,9 @@ function getWindowDimensions(): WindowDimensions {
  * @returns {WindowDimensions} { width, height }
  */
 export function useWindowDimensions(): WindowDimensions {
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
 
-  useEffect(() => {
+  React.useEffect(() => {
     let resizeTimeout: number;
 
     function handleResize() {

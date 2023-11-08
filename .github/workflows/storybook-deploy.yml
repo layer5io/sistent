@@ -30,6 +30,7 @@ jobs:
       - name: Build Storybook
         run: |
           cd apps/design-system
+          yarn install
           yarn build-storybook
 
       - name: Deploy Storybook
