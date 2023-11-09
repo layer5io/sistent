@@ -6,6 +6,11 @@ import SearchBar from './Toolbar/custom-search';
 import { StyledTooltip } from './Tooltip';
 
 export { StyledChartDialog } from './ChartDialog';
+export {
+  default as ResponsiveDataTable,
+  type Column,
+  type ResponsiveDataTableProps
+} from './ResponsiveDataTable';
 export { StyledSearchBar } from './SearchBar';
 export {
   CustomColumnVisibilityControl,
