@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.2-beta.0...@layer5/sistent-components@0.10.0) (2023-11-09)
+
+### Bug Fixes
+
+- **bug:** more changes ([5e6d02c](https://github.com/layer5io/sistent/commit/5e6d02c63e51912f1e3c2f4e6a53938b005d9d3c))
+- **table:** add logic ([cbfa239](https://github.com/layer5io/sistent/commit/cbfa23907f13dd19d425f3f69ed50293ee3f48d7))
+- **table:** fix few more things ([55c31b0](https://github.com/layer5io/sistent/commit/55c31b0938be1ed00004331045136ab79a47ccd6))
+
 ## [0.9.2-beta.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.1-beta.2...@layer5/sistent-components@0.9.2-beta.0) (2023-11-09)
 
 **Note:** Version bump only for package @layer5/sistent-components
