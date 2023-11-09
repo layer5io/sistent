@@ -3,6 +3,70 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.2-beta.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.1-beta.2...@layer5/sistent-components@0.9.2-beta.0) (2023-11-09)
+
+**Note:** Version bump only for package @layer5/sistent-components
+
+## [0.9.1-beta.2](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.1-beta.1...@layer5/sistent-components@0.9.1-beta.2) (2023-11-09)
+
+**Note:** Version bump only for package @layer5/sistent-components
+
+## [0.9.1-beta.1](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.8...@layer5/sistent-components@0.9.1-beta.1) (2023-11-09)
+
+### Bug Fixes
+
+- **import:** import of inputlabel ([7e7fa3a](https://github.com/layer5io/sistent/commit/7e7fa3a6b7ec3482a003671b473929ecedb92227))
+
+# [0.9.0-beta.8](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.1...@layer5/sistent-components@0.9.0-beta.8) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** change to export function ([bfcbe25](https://github.com/layer5io/sistent/commit/bfcbe257160cd12e3cb859441a0d73241b4c8335))
+- **components:** correct exports again ([1ca52b7](https://github.com/layer5io/sistent/commit/1ca52b71aad7e1753daf4af726d9f6950087ce32))
+- **components:** fix data table exports ([dbb474b](https://github.com/layer5io/sistent/commit/dbb474b70dd70da3d83656219cebd7fea0e9c2f7))
+- **components:** moved exports to src/index.tsx ([2916da5](https://github.com/layer5io/sistent/commit/2916da599d02abf9a67a975ae1922809c55da452))
+- **components:** remove custom-table.tsx ([765d194](https://github.com/layer5io/sistent/commit/765d194b8aadbde019b93b106dfd2ed088fbca3a))
+- **components:** remove duplicated grid.tsx ([ee5b275](https://github.com/layer5io/sistent/commit/ee5b275f0ef58c2cd23b85b2560ca550877d9ea9))
+- **components:** turn off splitting during build ([3b5319b](https://github.com/layer5io/sistent/commit/3b5319b0774cecd5eabf9613aad5058f0809fec2))
+- move ResponsiveDataTable to custom ([f2f5ecc](https://github.com/layer5io/sistent/commit/f2f5eccf1b529da197141ca009f03112f778a6cd))
+
+# [0.9.0-beta.7](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.6...@layer5/sistent-components@0.9.0-beta.7) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** turn off splitting during build ([47ed274](https://github.com/layer5io/sistent/commit/47ed274e704617d784ad7fb4a6037048e56f1572))
+
+# [0.9.0-beta.6](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.5...@layer5/sistent-components@0.9.0-beta.6) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** moved exports to src/index.tsx ([a3ada47](https://github.com/layer5io/sistent/commit/a3ada47f513f23ff135b6f21559c39d6aa44afb1))
+
+# [0.9.0-beta.5](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.4...@layer5/sistent-components@0.9.0-beta.5) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** change to export function ([1348bce](https://github.com/layer5io/sistent/commit/1348bce85ff379543757f0ea38758f1c7bcc87b9))
+
+# [0.9.0-beta.4](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.3...@layer5/sistent-components@0.9.0-beta.4) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** remove custom-table.tsx ([8a25608](https://github.com/layer5io/sistent/commit/8a2560852ff23030f4389e28e061ea6fe6a61aeb))
+
+# [0.9.0-beta.3](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.2...@layer5/sistent-components@0.9.0-beta.3) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** correct exports again ([aa5d4a0](https://github.com/layer5io/sistent/commit/aa5d4a06e5086ff7ab90a1b8461fda23da86101a))
+- **components:** remove duplicated grid.tsx ([0c1952f](https://github.com/layer5io/sistent/commit/0c1952f1b0bb64e8ad08b35e96d67299b699d5c0))
+
+# [0.9.0-beta.2](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.1...@layer5/sistent-components@0.9.0-beta.2) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** fix data table exports ([6e80b75](https://github.com/layer5io/sistent/commit/6e80b753bb31be88c98abad1c3f28b8a607ea016))
+
 ## [0.9.1-beta.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.1...@layer5/sistent-components@0.9.1-beta.0) (2023-11-09)
 
 ### Bug Fixes

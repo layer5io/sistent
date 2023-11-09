@@ -10,7 +10,9 @@
       "emitDeclarationOnly": true,
       "typeRoots": ["./src/types"],
       "types": ["react-error-boundary"],
-      "lib": ["ES2016", "DOM"]
+      "lib": ["es2020", "DOM"],
+      "target": "es2020",
+      "module": "esnext"
     },
     "include": ["."],
     "exclude": ["dist", "build", "node_modules", "**/*.d.ts", "tsup.config.ts"]

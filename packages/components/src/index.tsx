@@ -30,10 +30,10 @@ export * from './base/ToggleButton';
 export * from './base/Toolbar';
 export * from './base/Tooltip';
 export * from './base/Typography';
-export * from './custom/Dialog';
-export * from './custom/Toolbar';
-export * from './custom/Toolbar/index';
-export * from './custom/Tooltip';
-export * from './custom/index';
-// export * from './custom/ErrorBoundary';
 export * from './colors';
+export * from './custom';
+export {
+  default as ResponsiveDataTable,
+  type Column,
+  type ResponsiveDataTableProps
+} from './custom/ResponsiveDataTable';
