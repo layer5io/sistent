@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0-beta.4](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.3...@layer5/sistent-components@0.9.0-beta.4) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** remove custom-table.tsx ([8a25608](https://github.com/layer5io/sistent/commit/8a2560852ff23030f4389e28e061ea6fe6a61aeb))
+
 # [0.9.0-beta.3](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.2...@layer5/sistent-components@0.9.0-beta.3) (2023-11-09)
 
 ### Bug Fixes
