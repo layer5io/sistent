@@ -31,7 +31,6 @@ export * from './base/Toolbar';
 export * from './base/Tooltip';
 export * from './base/Typography';
 export * from './custom/Dialog';
-export * from './custom/ResponsiveDataTable';
 export * from './custom/Toolbar';
 export * from './custom/Toolbar/index';
 export * from './custom/Tooltip';
