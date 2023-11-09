@@ -29,13 +29,11 @@ const ResponsiveDataTable = ({
   data,
   columns,
   options = {},
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  colViews,
+  tableCols,
+  updateCols,
+  columnVisibility,
   ...props
 }: ResponsiveDataTableProps): JSX.Element => {
-  const [tableCols, updateCols] = React.useState<Column[]>(columns);
-  const [columnVisibility, ,] = React.useState<Record<string, boolean>>({});
-
   const formatDate = (date: Date): string => {
     const dateOptions: Intl.DateTimeFormatOptions = {
       weekday: 'short',
@@ -54,16 +52,20 @@ const ResponsiveDataTable = ({
         case 'add': {
           const colToAdd = columns.find((obj) => obj.name === column);
           if (colToAdd) {
-            colToAdd.options!.display = true;
-            updateCols([...columns]);
+            if (colToAdd.options) {
+              colToAdd.options.display = true;
+              updateCols && updateCols([...columns]);
+            }
           }
           break;
         }
         case 'remove': {
           const colToRemove = columns.find((obj) => obj.name === column);
           if (colToRemove) {
-            colToRemove.options!.display = false;
-            updateCols([...columns]);
+            if (colToRemove.options) {
+              colToRemove.options.display = false;
+              updateCols && updateCols([...columns]);
+            }
           }
           break;
         }
@@ -78,7 +80,7 @@ const ResponsiveDataTable = ({
         if (!col.options) {
           col.options = {};
         }
-        col.options.display = columnVisibility[col.name];
+        col.options.display = columnVisibility && columnVisibility[col.name];
 
         if (
           ['updated_at', 'created_at', 'deleted_at', 'last_login_time', 'joined_at'].includes(
@@ -106,7 +108,7 @@ const ResponsiveDataTable = ({
         }
       }
     });
-    updateCols([...columns]);
+    updateCols && updateCols([...columns]);
   }, [columnVisibility]);
 
   const components = {
@@ -115,7 +117,7 @@ const ResponsiveDataTable = ({
 
   return (
     <MUIDataTable
-      columns={tableCols || []}
+      columns={tableCols ?? []}
       data={data || []}
       title={undefined}
       components={components}
