@@ -1,0 +1,1 @@
+export { ResponsiveDataTable } from './ResponsiveDataTable';
