@@ -16,3 +16,5 @@ export {
   StyledTooltip,
   UniversalFilter
 };
+
+export * from './ResponsiveDataTable';
