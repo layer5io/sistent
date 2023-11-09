@@ -32,3 +32,8 @@ export * from './base/Tooltip';
 export * from './base/Typography';
 export * from './colors';
 export * from './custom';
+export {
+  default as ResponsiveDataTable,
+  type Column,
+  type ResponsiveDataTableProps
+} from './custom/ResponsiveDataTable';

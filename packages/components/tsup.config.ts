@@ -9,11 +9,9 @@ export default defineConfig({
   bundle: env === 'production',
   clean: true,
   dts: true,
-  format: ['esm', 'cjs'],
-  external: ['react', 'mui-datatables'],
-  splitting: false,
+  format: ['cjs', 'esm'],
+  external: ['react'],
   minify: env === 'production',
-  skipNodeModulesBundle: true,
   watch: env === 'development',
   sourcemap: env === 'development',
   tsconfig: path.resolve(__dirname, './tsconfig.json')
