@@ -22,12 +22,15 @@ export interface ResponsiveDataTableProps {
   updateCols?: ((columns: Column[]) => void) | undefined;
   columnVisibility: Record<string, boolean> | undefined;
   theme?: object;
+  colViews?: Record<string, boolean> | undefined;
 }
 
 const ResponsiveDataTable = ({
   data,
   columns,
   options = {},
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  colViews,
   ...props
 }: ResponsiveDataTableProps): JSX.Element => {
   const [tableCols, updateCols] = React.useState<Column[]>(columns);
@@ -112,7 +115,7 @@ const ResponsiveDataTable = ({
 
   return (
     <MUIDataTable
-      columns={columns || []}
+      columns={tableCols || []}
       data={data || []}
       title={undefined}
       components={components}
