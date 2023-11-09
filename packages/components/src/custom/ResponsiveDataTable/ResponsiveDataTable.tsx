@@ -24,7 +24,7 @@ interface ResponsiveDataTableProps {
   theme?: object;
 }
 
-function ResponsiveDataTable({
+export function ResponsiveDataTable({
   data,
   columns,
   options = {},
@@ -120,5 +120,3 @@ function ResponsiveDataTable({
     />
   );
 }
-
-export default ResponsiveDataTable;
