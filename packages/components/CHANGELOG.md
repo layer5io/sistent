@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0-beta.2](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.1...@layer5/sistent-components@0.9.0-beta.2) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** fix data table exports ([6e80b75](https://github.com/layer5io/sistent/commit/6e80b753bb31be88c98abad1c3f28b8a607ea016))
+
 # [0.9.0-beta.1](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.0...@layer5/sistent-components@0.9.0-beta.1) (2023-11-08)
 
 ### Features
