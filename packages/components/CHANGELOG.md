@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0-beta.8](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.1...@layer5/sistent-components@0.9.0-beta.8) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** change to export function ([bfcbe25](https://github.com/layer5io/sistent/commit/bfcbe257160cd12e3cb859441a0d73241b4c8335))
+- **components:** correct exports again ([1ca52b7](https://github.com/layer5io/sistent/commit/1ca52b71aad7e1753daf4af726d9f6950087ce32))
+- **components:** fix data table exports ([dbb474b](https://github.com/layer5io/sistent/commit/dbb474b70dd70da3d83656219cebd7fea0e9c2f7))
+- **components:** moved exports to src/index.tsx ([2916da5](https://github.com/layer5io/sistent/commit/2916da599d02abf9a67a975ae1922809c55da452))
+- **components:** remove custom-table.tsx ([765d194](https://github.com/layer5io/sistent/commit/765d194b8aadbde019b93b106dfd2ed088fbca3a))
+- **components:** remove duplicated grid.tsx ([ee5b275](https://github.com/layer5io/sistent/commit/ee5b275f0ef58c2cd23b85b2560ca550877d9ea9))
+- **components:** turn off splitting during build ([3b5319b](https://github.com/layer5io/sistent/commit/3b5319b0774cecd5eabf9613aad5058f0809fec2))
+- move ResponsiveDataTable to custom ([f2f5ecc](https://github.com/layer5io/sistent/commit/f2f5eccf1b529da197141ca009f03112f778a6cd))
+
 # [0.9.0-beta.7](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.6...@layer5/sistent-components@0.9.0-beta.7) (2023-11-09)
 
 ### Bug Fixes
