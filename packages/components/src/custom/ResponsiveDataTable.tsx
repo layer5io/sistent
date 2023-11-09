@@ -120,8 +120,6 @@ const ResponsiveDataTable = ({
       title={undefined}
       components={components}
       options={updatedOptions}
-      tableCols={tableCols}
-      updateCols={updateCols}
       {...props}
     />
   );
