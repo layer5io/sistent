@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.1-beta.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.1...@layer5/sistent-components@0.9.1-beta.0) (2023-11-09)
+
+### Bug Fixes
+
+- **import:** import of inputlabel ([7e7fa3a](https://github.com/layer5io/sistent/commit/7e7fa3a6b7ec3482a003671b473929ecedb92227))
+
 # [0.9.0-beta.1](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.0...@layer5/sistent-components@0.9.0-beta.1) (2023-11-08)
 
 ### Features
