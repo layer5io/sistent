@@ -1,1 +1,3 @@
-export { ResponsiveDataTable } from './ResponsiveDataTable';
+import { ResponsiveDataTable } from './ResponsiveDataTable';
+
+export { ResponsiveDataTable };
