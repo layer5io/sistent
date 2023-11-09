@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0-beta.6](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.5...@layer5/sistent-components@0.9.0-beta.6) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** moved exports to src/index.tsx ([a3ada47](https://github.com/layer5io/sistent/commit/a3ada47f513f23ff135b6f21559c39d6aa44afb1))
+
 # [0.9.0-beta.5](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.4...@layer5/sistent-components@0.9.0-beta.5) (2023-11-09)
 
 ### Bug Fixes
