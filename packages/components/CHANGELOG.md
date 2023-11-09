@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0-beta.7](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.6...@layer5/sistent-components@0.9.0-beta.7) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** turn off splitting during build ([47ed274](https://github.com/layer5io/sistent/commit/47ed274e704617d784ad7fb4a6037048e56f1572))
+
 # [0.9.0-beta.6](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.5...@layer5/sistent-components@0.9.0-beta.6) (2023-11-09)
 
 ### Bug Fixes
