@@ -5,6 +5,7 @@
   "repository": "git@github.com:layer5io/sistent.git",
   "workspaces": [
     "!apps/design-system",
+    "!apps/next-12",
     "packages/*"
   ],
   "scripts": {
