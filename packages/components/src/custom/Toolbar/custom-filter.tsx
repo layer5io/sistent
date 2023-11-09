@@ -1,9 +1,9 @@
 import { FilterIcon } from '@layer5/sistent-svg';
-import InputLabel from '@mui/material/InputLabel';
 import { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
 import { Button, IconButton } from '../../base/Button';
 import { ClickAwayListener } from '../../base/ClickAwayListener';
+import { InputLabel } from '../../base/InputLabel';
 import { MenuItem } from '../../base/Menu';
 import { Paper } from '../../base/Paper';
 import { Popper } from '../../base/Popper';
