@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0-beta.3](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.2...@layer5/sistent-components@0.9.0-beta.3) (2023-11-09)
+
+### Bug Fixes
+
+- **components:** correct exports again ([aa5d4a0](https://github.com/layer5io/sistent/commit/aa5d4a06e5086ff7ab90a1b8461fda23da86101a))
+- **components:** remove duplicated grid.tsx ([0c1952f](https://github.com/layer5io/sistent/commit/0c1952f1b0bb64e8ad08b35e96d67299b699d5c0))
+
 # [0.9.0-beta.2](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.1...@layer5/sistent-components@0.9.0-beta.2) (2023-11-09)
 
 ### Bug Fixes
