@@ -1,5 +1,5 @@
 import MUIDataTable from 'mui-datatables';
-import { useEffect, useState } from 'react';
+import React from 'react';
 
 interface Column {
   name: string;
@@ -30,8 +30,8 @@ export function ResponsiveDataTable({
   options = {},
   ...props
 }: ResponsiveDataTableProps): JSX.Element {
-  const [tableCols, updateCols] = useState(columns);
-  const [columnVisibility, ,] = useState<Record<string, boolean>>({});
+  const [tableCols, updateCols] = React.useState(columns);
+  const [columnVisibility, ,] = React.useState<Record<string, boolean>>({});
 
   const formatDate = (date: Date): string => {
     const dateOptions: Intl.DateTimeFormatOptions = {
@@ -68,7 +68,7 @@ export function ResponsiveDataTable({
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     columns?.forEach((col) => {
       if (!col.options) {
         col.options = {};
