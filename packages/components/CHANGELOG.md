@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0-beta.1](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.0-beta.0...@layer5/sistent-components@0.9.0-beta.1) (2023-11-08)
+
+### Features
+
+- **colors:** new dictionary of colors ([a9e52fd](https://github.com/layer5io/sistent/commit/a9e52fdfea9f9ff927289776658552f1c967ca65))
+- **components:** create grid, pagination and container ([85cca9b](https://github.com/layer5io/sistent/commit/85cca9bd27e9010dbb72bfa3167e19bcfe8960be))
+
 # [0.9.0-beta.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.8.1-beta.10...@layer5/sistent-components@0.9.0-beta.0) (2023-11-08)
 
 ### Features

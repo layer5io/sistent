@@ -898,7 +898,7 @@ __metadata:
   dependencies:
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
-    "@layer5/sistent-svg": ^0.11.1-beta.4
+    "@layer5/sistent-svg": ^0.11.1-beta.5
     "@mui/icons-material": ^5.14.12
     "@mui/material": ^5.14.16
     "@types/mui-datatables": ^4.3.6
@@ -943,7 +943,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@layer5/sistent-svg@^0.11.1-beta.4, @layer5/sistent-svg@workspace:packages/svg":
+"@layer5/sistent-svg@^0.11.1-beta.5, @layer5/sistent-svg@workspace:packages/svg":
   version: 0.0.0-use.local
   resolution: "@layer5/sistent-svg@workspace:packages/svg"
   dependencies:
