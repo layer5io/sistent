@@ -1,6 +1,6 @@
 import { CloseIcon, SearchIcon } from '@layer5/sistent-svg';
 import React from 'react';
-import { IconButton } from '../../base/Button';
+import { IconButton } from '../../base/IconButton';
 import { TextField } from '../../base/TextField';
 import { Tooltip } from '../../base/Tooltip';
 
