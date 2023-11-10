@@ -35,17 +35,17 @@ export function useOverlayedComponent(): NodeCollection | null {
   return overlayedComponent;
 }
 
-type Overlayed = {
+interface Overlayed {
   x1: number;
   x2: number;
   y1: number;
   y2: number;
-};
+}
 
-type OverlayedPosition = {
+interface OverlayedPosition {
   x: number;
   y: number;
-};
+}
 
 export function getMousePostitionRelativeToElement(
   e: MouseEvent,
