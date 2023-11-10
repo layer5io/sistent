@@ -1,15 +1,15 @@
 import { ColumnIcon } from '@layer5/sistent-svg';
 import React from 'react';
-import { Checkbox } from '../../base/Checkbox';
-import { ClickAwayListener } from '../../base/ClickAwayListener';
-import { FormControlLabel } from '../../base/Form';
-import { IconButton } from '../../base/IconButton';
-import { Paper } from '../../base/Paper';
-import { Popper } from '../../base/Popper';
-import { Tooltip } from '../../base/Tooltip';
+import { Checkbox } from '../base/Checkbox';
+import { ClickAwayListener } from '../base/ClickAwayListener';
+import { FormControlLabel } from '../base/Form';
+import { IconButton } from '../base/IconButton';
+import { Paper } from '../base/Paper';
+import { Popper } from '../base/Popper';
+import { Tooltip } from '../base/Tooltip';
 
-interface CustomColumnVisibilityControlProps {
-  columns: Column[];
+export interface CustomColumnVisibilityControlProps {
+  columns: CustomColumn[];
   customToolsProps: {
     columnVisibility: Record<string, boolean>;
     setColumnVisibility: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
@@ -17,7 +17,7 @@ interface CustomColumnVisibilityControlProps {
   style?: React.CSSProperties;
 }
 
-interface Column {
+export interface CustomColumn {
   name: string;
   label: string;
 }
