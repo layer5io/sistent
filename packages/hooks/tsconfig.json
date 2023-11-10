@@ -1,27 +1,13 @@
 {
+    "extends": "tsconfig/react-library.json",
     "compilerOptions": {
-      "target": "es5",
-      "lib": [
-        "dom",
-        "dom.iterable",
-        "esnext"
-      ],
-      "allowJs": true,
-      "skipLibCheck": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "strict": true,
-      "forceConsistentCasingInFileNames": true,
-      "noFallthroughCasesInSwitch": true,
-      "module": "esnext",
-      "moduleResolution": "node",
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      "noEmit": true,
-      "jsx": "react-jsx"
+      "declarationMap": true,
+      "emitDeclarationOnly": true,
+      "lib": ["es2020", "DOM"],
+      "target": "es2020",
+      "module": "esnext"
     },
-    "include": [
-      "src/**/*"
-    ]
+    "include": ["."],
+    "exclude": ["dist", "build", "node_modules", "**/*.d.ts", "tsup.config.ts"]
   }
   
