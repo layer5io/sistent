@@ -1,22 +1,22 @@
 import { FilterIcon } from '@layer5/sistent-svg';
 import { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
-import { Button } from '../../base/Button';
-import { ClickAwayListener } from '../../base/ClickAwayListener';
-import { IconButton } from '../../base/IconButton';
-import { InputLabel } from '../../base/InputLabel';
-import { MenuItem } from '../../base/Menu';
-import { Paper } from '../../base/Paper';
-import { Popper } from '../../base/Popper';
-import { Select } from '../../base/Select';
-import { Tooltip } from '../../base/Tooltip';
+import { Button } from '../base/Button';
+import { ClickAwayListener } from '../base/ClickAwayListener';
+import { IconButton } from '../base/IconButton';
+import { InputLabel } from '../base/InputLabel';
+import { MenuItem } from '../base/Menu';
+import { Paper } from '../base/Paper';
+import { Popper } from '../base/Popper';
+import { Select } from '../base/Select';
+import { Tooltip } from '../base/Tooltip';
 
-interface FilterColumn {
+export interface FilterColumn {
   name: string;
   options: { label: string; value: string }[];
 }
 
-interface UniversalFilterProps {
+export interface UniversalFilterProps {
   filters: Record<string, FilterColumn>;
   selectedFilters: Record<string, string>;
   setSelectedFilters: React.Dispatch<React.SetStateAction<Record<string, string>>>;

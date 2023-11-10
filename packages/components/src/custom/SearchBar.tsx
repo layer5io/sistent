@@ -1,8 +1,8 @@
 import { CloseIcon, SearchIcon } from '@layer5/sistent-svg';
 import React from 'react';
-import { IconButton } from '../../base/IconButton';
-import { TextField } from '../../base/TextField';
-import { Tooltip } from '../../base/Tooltip';
+import { IconButton } from '../base/IconButton';
+import { TextField } from '../base/TextField';
+import { Tooltip } from '../base/Tooltip';
 
 interface SearchBarProps {
   onSearch: (searchText: string) => void;

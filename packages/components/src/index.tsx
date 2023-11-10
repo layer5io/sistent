@@ -43,7 +43,17 @@ export * from './base/Typography';
 export * from './colors';
 export * from './custom';
 export {
+  default as CustomColumnVisibilityControl,
+  type CustomColumn,
+  type CustomColumnVisibilityControlProps
+} from './custom/CustomColumnVisibilityControl';
+export {
   default as ResponsiveDataTable,
   type Column,
   type ResponsiveDataTableProps
 } from './custom/ResponsiveDataTable';
+export {
+  default as UniversalFilter,
+  type FilterColumn,
+  type UniversalFilterProps
+} from './custom/UniversalFilter';
