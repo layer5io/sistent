@@ -33,6 +33,7 @@ export * from './base/Table';
 export * from './base/Tabs';
 export * from './base/TextField';
 export * from './base/ToggleButton';
+export * from './base/ToggleButtonGroup';
 export * from './base/Toolbar';
 export * from './base/Tooltip';
 export * from './base/Typography';
