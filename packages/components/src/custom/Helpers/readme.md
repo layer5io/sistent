@@ -30,6 +30,31 @@ To use these helper components in your project, follow these steps:
 
 2. Import the required helper component into your code:
 
-   ```javascript
-   import { useWindowDimensions } from './helpers';
-   ```
+- **Example**: Importing the `useWindowDimensions` hook from the `Dimension` helper component:
+
+  ```javascript
+  import { useWindowDimensions } from '@layer5/sistent-components';
+  const DimensionExample = () => {
+  const { width, height } = useWindowDimensions();
+
+  return (
+   <div>
+    <p>Window width: {width}</p>
+    <p>Window height: {height}</p>
+   </div>
+  );
+  ```
+
+  - **Example**: Importing the `useNotificationHandler` hook from the `Notification` helper component:
+
+  ```javascript
+  import useNotificationHandler from '@layer5/sistent-components';
+  const NotificationHandlerExample = () => {
+  const notify = useNotificationHandler();
+
+  return (
+   <button onClick={() => notify('Hello world!', { variant: 'success' })}>
+    Click me
+   </button>
+  );
+  ```
