@@ -4,10 +4,11 @@
   "private": true,
   "repository": "git@github.com:layer5io/sistent.git",
   "workspaces": [
-    "apps/*",
+    "!apps/design-system",
     "packages/*"
   ],
   "scripts": {
+    "commit:sign": "git cz -S",
     "clean": "lerna clean -y",
     "build-all": "lerna run build",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
@@ -22,13 +23,22 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.2",
+    "@commitlint/config-conventional": "^17.7.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.49.0",
     "husky": "^8.0.0",
     "lerna": "^7.3.0",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
     "prettier-plugin-organize-imports": "^3.2.3",
+    "tsconfig": "workspace:^",
     "typescript": "^5.2.2"
   },
-  "packageManager": "yarn@3.6.3"
+  "packageManager": "yarn@3.6.3",
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
 }

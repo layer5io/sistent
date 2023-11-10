@@ -1,26 +1,20 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "typeRoots": ["./src/types"],
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-  },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
-}
+    "extends": "tsconfig/react-library.json",
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "base": ["src/base/*"],
+        "custom": ["src/custom/*"]
+      },
+      "declarationMap": true,
+      "emitDeclarationOnly": true,
+      "typeRoots": ["./src/types"],
+      "types": ["react-error-boundary"],
+      "lib": ["es2020", "DOM"],
+      "target": "es2020",
+      "module": "esnext"
+    },
+    "include": ["."],
+    "exclude": ["dist", "build", "node_modules", "**/*.d.ts", "tsup.config.ts"]
+  }
+  

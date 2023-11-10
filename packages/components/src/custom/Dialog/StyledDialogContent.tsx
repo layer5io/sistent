@@ -1,12 +1,12 @@
-import { FC, ReactNode } from 'react';
+import React from 'react';
 import { DialogContent } from '../../base/Dialog';
 
 interface DialogContentProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
-const MesheryDialogContent: FC<DialogContentProps> = ({ children, ...props }) => {
+function StyledDialogContent({ children, ...props }: DialogContentProps): JSX.Element {
   return <DialogContent {...props}>{children}</DialogContent>;
-};
+}
 
-export { MesheryDialogContent as StyledDialogContent };
+export default StyledDialogContent;

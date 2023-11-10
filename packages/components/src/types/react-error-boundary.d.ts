@@ -1,11 +1,11 @@
+/*
+import React from 'react';
 import { ErrorBoundaryPropsWithComponent, FallbackRender } from 'react-error-boundary';
 
 // Define the custom error boundary component
 declare module 'react-error-boundary' {
-  import { ReactNode } from 'react';
-
   export interface ErrorBoundaryProps {
-    children: ReactNode;
+    children: React.ReactNode;
     FallbackComponent?: React.ComponentType<FallbackProps>;
     onError?: (error: Error, info: React.ErrorInfo) => void;
   }
@@ -35,3 +35,4 @@ declare module 'react-error-boundary' {
 declare module 'react-error-boundary' {
   export function withSuppressedErrorBoundary<T>(Component: React.ComponentType<T>): React.FC<T>;
 }
+*/
