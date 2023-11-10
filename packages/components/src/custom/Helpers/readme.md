@@ -16,6 +16,12 @@ This directory contains a collection of utility and helper components that you c
    - **Usage**: Provides the `useWindowDimensions` hook, which allows you to get the current window dimensions and react to changes in window size.
    - **Returns**: An object containing the current window dimensions and a boolean value indicating whether the window is currently in landscape mode.
 
+2. **Notification Hook**: A custom React hook for displaying notifications using notistack.
+
+   - **File**: `Notification`
+   - **Usage**: Provides the `useNotificationHandler` hook, which allows you to display notifications.
+   - **Returns**: An object containing the notification state and a function for updating the notification state.
+
 ## How to Use
 
 To use these helper components in your project, follow these steps:
