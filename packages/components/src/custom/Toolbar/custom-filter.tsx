@@ -1,6 +1,6 @@
-import { FilterIcon } from '@layer5/sistent-svg';
 import { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
+import { FilterIcon } from '../../../../svg/src/icons/Filter';
 import { Button, IconButton } from '../../base/Button';
 import { ClickAwayListener } from '../../base/ClickAwayListener';
 import { InputLabel } from '../../base/InputLabel';
