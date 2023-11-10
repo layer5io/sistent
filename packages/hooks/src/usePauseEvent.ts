@@ -1,7 +1,7 @@
-import { useCallback } from 'react';
+import React from 'react';
 
 export function usePauseEvent(): (e: Event) => boolean {
-  const pauseEvent = useCallback((e: Event) => {
+  const pauseEvent = React.useCallback((e: Event) => {
     if (e.stopPropagation) e.stopPropagation();
     if (e.preventDefault) e.preventDefault();
     (e as any).cancelBubble = true;

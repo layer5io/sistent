@@ -1,15 +1,15 @@
-import { RefObject, useEffect, useState } from 'react';
+import React from 'react';
 
 import { useCytoscapeContext } from './context/CytoscapeProvider';
 
 export function useDraggable(
-  dragReference: RefObject<HTMLElement | null>,
-  componentReference: RefObject<HTMLElement | null>
+  dragReference: React.RefObject<HTMLElement | null>,
+  componentReference: React.RefObject<HTMLElement | null>
 ) {
   const context = useCytoscapeContext();
-  const [{ dx, dy }, setOffset] = useState({ dx: 0, dy: 0 });
+  const [{ dx, dy }, setOffset] = React.useState({ dx: 0, dy: 0 });
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (!dragReference.current || !componentReference.current || !context) {
       throw new Error(`An error occurred while trying to drag.`);
     }
@@ -44,7 +44,7 @@ export function useDraggable(
     };
   }, [dx, dy, dragReference, componentReference, context]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (componentReference.current) {
       componentReference.current.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
     }

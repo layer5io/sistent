@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 import { Observable, Subscription, fromEvent } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
 
@@ -6,9 +6,9 @@ export const useThrottledDragOver = (
   element: HTMLElement,
   callback: (event: Event) => void
 ): Subscription | undefined => {
-  const subscriptionRef = useRef<Subscription>();
+  const subscriptionRef = React.useRef<Subscription>();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const dragOver$: Observable<Event> = fromEvent(element, 'dragover').pipe(
       throttleTime(100, undefined, { leading: true, trailing: true })
     );

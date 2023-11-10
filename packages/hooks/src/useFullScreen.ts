@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 
 import { useCytoscapeContext } from './context/CytoscapeProvider';
 
@@ -17,24 +17,26 @@ export function useFullScreen(container?: HTMLElement | null): {
   isFullScreen: boolean;
 } {
   const context = useCytoscapeContext();
-  const [isFullScreen, setFullScreen] = useState<boolean>(false);
-  const [element, setElement] = useState<HTMLElement>(container ? container : context.container);
+  const [isFullScreen, setFullScreen] = React.useState<boolean>(false);
+  const [element, setElement] = React.useState<HTMLElement>(
+    container ? container : context.container
+  );
 
   // const toggleState = () => setFullScreen((v) => !v)
-  const toggleState = useCallback(() => {
+  const toggleState = React.useCallback(() => {
     setFullScreen((prevState) => !prevState);
   }, [setFullScreen]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     document.addEventListener('fullscreenchange', toggleState);
     return () => document.removeEventListener('fullscreenchange', toggleState);
   }, [toggleState]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setElement(container || context.container);
   }, [container, context.container]);
 
-  const toggle = useCallback(() => {
+  const toggle = React.useCallback(() => {
     toggleFullScreen(element);
   }, [element]);
 

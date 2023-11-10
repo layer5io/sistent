@@ -1,13 +1,13 @@
 import cytoscape, { NodeCollection } from 'cytoscape';
-import { useEffect, useState } from 'react';
+import React from 'react';
 
 import { useCytoscapeContext } from './context/CytoscapeProvider';
 
 export function useOverlayedComponent(): NodeCollection | null {
   const context = useCytoscapeContext();
-  const [overlayedComponent, setOverlayedComponent] = useState<NodeCollection | null>(null);
+  const [overlayedComponent, setOverlayedComponent] = React.useState<NodeCollection | null>(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const position = getMousePostitionRelativeToCyCanvas(e);
       const component = getOverlayedComponent(context.cytoscape, position);

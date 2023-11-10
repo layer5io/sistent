@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
+import React from 'react';
 
 export function useDebounced<T extends (...args: any[]) => void>(func: T, timeout = 500) {
-  const timerRef = useRef<number>();
+  const timerRef = React.useRef<number>();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const cleanup = () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);

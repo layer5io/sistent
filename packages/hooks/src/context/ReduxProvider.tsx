@@ -1,18 +1,18 @@
-import { ReactNode, createContext, useContext } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
 
 type ReduxProviderProps = {
-  children: ReactNode;
+  children: React.ReactNode;
 };
 
-const ReduxContext = createContext({});
+const ReduxContext = React.createContext({});
 
 export function useRedux() {
-  return useContext(ReduxContext);
+  return React.useContext(ReduxContext);
 }
 
-export function ReduxProvider({ children }: ReduxProviderProps) {
+export function ReduxProvider({ children }: ReduxProviderProps): JSX.Element {
   return (
     <Provider store={store}>
       <ReduxContext.Provider value={store}>{children}</ReduxContext.Provider>
