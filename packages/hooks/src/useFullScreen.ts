@@ -4,7 +4,9 @@ import { useCytoscapeContext } from './context/CytoscapeProvider';
 
 function toggleFullScreen(dom: HTMLElement) {
   if (document.fullscreenElement !== dom) {
-    dom.requestFullscreen;
+    dom.requestFullscreen().catch((err) => {
+      console.error('Error attempting to enable full screen:', err);
+    });
   } else {
     if (document.exitFullscreen) {
       document.exitFullscreen();
@@ -28,12 +30,14 @@ export function useFullScreen(container?: HTMLElement | null): {
   }, [setFullScreen]);
 
   React.useEffect(() => {
-    document.addEventListener('fullscreenchange', toggleState);
-    return () => document.removeEventListener('fullscreenchange', toggleState);
+    const handleFullscreenChange = () => toggleState();
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, [toggleState]);
 
   React.useEffect(() => {
-    setElement(container || context.container);
+    setElement(container ?? context.container);
   }, [container, context.container]);
 
   const toggle = React.useCallback(() => {
