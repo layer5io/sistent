@@ -1,4 +1,7 @@
 export * from './base/Accordion';
+export * from './base/AccordionActions';
+export * from './base/AccordionDetails';
+export * from './base/AccordionSummary';
 export * from './base/AppBar';
 export * from './base/Avatar';
 export * from './base/Box';
