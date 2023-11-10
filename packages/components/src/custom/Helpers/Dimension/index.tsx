@@ -1,1 +1,3 @@
-export { useWindowDimensions } from './windowSize';
+import { useWindowDimensions } from './windowSize';
+
+export { useWindowDimensions };
