@@ -1,5 +1,7 @@
 // import { ErrorBoundary, withErrorBoundary, withSuppressedErrorBoundary } from './ErrorBoundary';
 import { StyledDialog, StyledDialogActions, StyledDialogContent } from './Dialog';
+import { useWindowDimensions } from './Helpers/Dimension';
+import { useNotificationHandler } from './Helpers/Notification';
 import CustomColumnVisibilityControl from './Toolbar/custom-column';
 import UniversalFilter from './Toolbar/custom-filter';
 import SearchBar from './Toolbar/custom-search';
@@ -14,5 +16,7 @@ export {
   StyledDialogActions,
   StyledDialogContent,
   StyledTooltip,
-  UniversalFilter
+  UniversalFilter,
+  useNotificationHandler,
+  useWindowDimensions
 };

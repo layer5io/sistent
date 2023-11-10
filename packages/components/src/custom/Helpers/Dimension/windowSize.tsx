@@ -1,3 +1,5 @@
+import React from 'react';
+
 /**
  * Returns the width and height of the window.
  *
