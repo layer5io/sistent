@@ -1,0 +1,1 @@
+export { CardMedia } from './CardMedia';
