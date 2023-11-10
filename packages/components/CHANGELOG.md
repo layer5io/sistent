@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.10.0...@layer5/sistent-components@0.11.0) (2023-11-10)
+
+### Bug Fixes
+
+- **check:** check ci ([06bbc68](https://github.com/layer5io/sistent/commit/06bbc68d4a808a8eb14221fc1a2909d77f72250b))
+- **import:** react import ([c8a18f0](https://github.com/layer5io/sistent/commit/c8a18f0f5606b8cb1f4e05ed574b49b2d97f39e0))
+
+### Features
+
+- **add:** usage example ([1b664da](https://github.com/layer5io/sistent/commit/1b664da5e00d6aad43371da5140f4397bf6bc558))
+- **hook:** notification handler hook ([cd3c208](https://github.com/layer5io/sistent/commit/cd3c2081d8798669c3dec2cdfa2267fa1814da3a))
+
 # [0.10.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.9.2-beta.0...@layer5/sistent-components@0.10.0) (2023-11-09)
 
 ### Bug Fixes

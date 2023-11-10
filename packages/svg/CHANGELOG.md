@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.12.0...@layer5/sistent-svg@0.13.0) (2023-11-10)
+
+### Code Refactoring
+
+- **svg:** remove esm support ([790d604](https://github.com/layer5io/sistent/commit/790d6043631658b63f47d88db1587329421448c4)), closes [#289](https://github.com/layer5io/sistent/issues/289)
+
+### BREAKING CHANGES
+
+- **svg:** Removed ESM support, only use CommonJS
+
 # [0.12.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.11.2-beta.1...@layer5/sistent-svg@0.12.0) (2023-11-09)
 
 **Note:** Version bump only for package @layer5/sistent-svg
