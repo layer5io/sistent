@@ -1,2 +1,1 @@
-export { ToggleButton } from './togglebutton';
-export { ToggleButtonGroup } from './togglebuttongroup';
+export { ToggleButton } from './ToggleButton';
