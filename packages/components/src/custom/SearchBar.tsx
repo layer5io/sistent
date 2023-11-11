@@ -72,7 +72,7 @@ function SearchBar({ placeholder, onClear, expanded, setExpanded }: SearchBarPro
             }}
             disableRipple
           >
-            <CloseIcon fill="#00D3A9" />
+            <CloseIcon fill="#3c494f" />
           </IconButton>
         </Tooltip>
       ) : (
@@ -89,7 +89,7 @@ function SearchBar({ placeholder, onClear, expanded, setExpanded }: SearchBarPro
             }}
             disableRipple
           >
-            <SearchIcon fill="#00D3A9" />
+            <SearchIcon fill="#3c494f" />
           </IconButton>
         </Tooltip>
       )}

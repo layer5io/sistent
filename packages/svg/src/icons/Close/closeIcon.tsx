@@ -1,11 +1,17 @@
-import { FC } from 'react';
-import { IconProps } from '../types';
+import React from 'react';
+import { CARIBBEAN_GREEN_FILL, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 
-export const CloseIcon: FC<IconProps> = ({ width, height, ...props }) => {
+const CloseIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
+  fill = CARIBBEAN_GREEN_FILL,
+  ...props
+}) => {
   return (
     <svg
       width={width}
       height={height}
+      fill={fill}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       {...props}
