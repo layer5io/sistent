@@ -52,6 +52,7 @@ export {
   type Column,
   type ResponsiveDataTableProps
 } from './custom/ResponsiveDataTable';
+export { default as SearchBar, type SearchBarProps } from './custom/SearchBar';
 export {
   default as UniversalFilter,
   type FilterColumn,
