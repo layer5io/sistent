@@ -1,7 +1,7 @@
-import React, { SVGProps } from 'react';
+import React from 'react';
 import { CARIBBEAN_GREEN_FILL, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 
-const CloseIcon: React.FC<SVGProps<SVGSVGElement>> = ({
+const CloseIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
   fill = CARIBBEAN_GREEN_FILL,
