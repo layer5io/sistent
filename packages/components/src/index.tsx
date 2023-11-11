@@ -31,6 +31,8 @@ export * from './base/Input';
 export * from './base/InputLabel';
 export * from './base/List';
 export * from './base/Menu';
+export * from './base/MenuItem';
+export * from './base/MenuList';
 export * from './base/Paper';
 export * from './base/Radio';
 export * from './base/Select';
