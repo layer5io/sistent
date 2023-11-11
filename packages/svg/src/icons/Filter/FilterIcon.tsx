@@ -1,19 +1,19 @@
-import React from 'react';
-import { CARIBBEAN_GREEN_FILL, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from 'src/constants/constants';
+import { IconProps } from '../types';
 
-const FilterIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({
+export const FilterIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  fill = CARIBBEAN_GREEN_FILL,
   ...props
-}) => {
+}: IconProps): JSX.Element => {
   return (
     <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
       width={width}
       height={height}
-      fill={fill}
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
+      fill={props.fill}
+      fill-opacity={props.fillOpacity}
       {...props}
     >
       <path d="M0 0h24v24H0z" fill="none" />
