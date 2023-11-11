@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0-alpha.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.11.2...@layer5/sistent-components@0.12.0-alpha.0) (2023-11-11)
+
+### Features
+
+- **fix:** fix clickaway listener ([3d3d4d5](https://github.com/layer5io/sistent/commit/3d3d4d5b1f68f391426f2d0738e7208aed26d8df))
+- **fix:** fix filter ([4ef1656](https://github.com/layer5io/sistent/commit/4ef1656922eafdd3697c0e1ee126cfb34f06c20b))
+- **refactor:** refactor svgs ([4d68836](https://github.com/layer5io/sistent/commit/4d688368ba0b1e9f1f43153c104a824c926b777e))
+
 ## [0.11.2](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.11.1...@layer5/sistent-components@0.11.2) (2023-11-11)
 
 ### Bug Fixes

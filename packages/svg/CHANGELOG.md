@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0-alpha.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.13.0...@layer5/sistent-svg@0.14.0-alpha.0) (2023-11-11)
+
+### Features
+
+- **refactor:** refactor svgs ([4d68836](https://github.com/layer5io/sistent/commit/4d688368ba0b1e9f1f43153c104a824c926b777e))
+
 # [0.13.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.12.0...@layer5/sistent-svg@0.13.0) (2023-11-10)
 
 ### Code Refactoring
