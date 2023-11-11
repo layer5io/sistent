@@ -86,34 +86,36 @@ function CustomColumnVisibilityControl({
             }
           }
         ]}
-        transition
+        // transition
       >
-        <ClickAwayListener onClickAway={handleClose}>
-          <Paper
-            sx={{
-              padding: '1rem',
-              boxShadow: open ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
-              background: '#f4f5f7'
-            }}
-          >
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {columns.map((col) => (
-                <FormControlLabel
-                  key={col.name}
-                  control={
-                    <Checkbox
-                      checked={customToolsProps.columnVisibility[col.name]}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleColumnVisibilityChange(col.name, e.target.checked)
-                      }
-                    />
-                  }
-                  label={col.label}
-                />
-              ))}
-            </div>
-          </Paper>
-        </ClickAwayListener>
+        <div>
+          <ClickAwayListener onClickAway={handleClose}>
+            <Paper
+              sx={{
+                padding: '1rem',
+                boxShadow: open ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
+                background: '#f4f5f7'
+              }}
+            >
+              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                {columns.map((col) => (
+                  <FormControlLabel
+                    key={col.name}
+                    control={
+                      <Checkbox
+                        checked={customToolsProps.columnVisibility[col.name]}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleColumnVisibilityChange(col.name, e.target.checked)
+                        }
+                      />
+                    }
+                    label={col.label}
+                  />
+                ))}
+              </div>
+            </Paper>
+          </ClickAwayListener>
+        </div>
       </Popper>
     </div>
   );
