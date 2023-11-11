@@ -5,7 +5,7 @@ import { Button } from '../base/Button';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { IconButton } from '../base/IconButton';
 import { InputLabel } from '../base/InputLabel';
-import { MenuItem } from '../base/Menu';
+import { MenuItem } from '../base/MenuItem';
 import { Paper } from '../base/Paper';
 import { Popper } from '../base/Popper';
 import { Select } from '../base/Select';
