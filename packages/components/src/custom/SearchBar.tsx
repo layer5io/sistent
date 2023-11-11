@@ -13,7 +13,13 @@ export interface SearchBarProps {
   setExpanded: (expanded: boolean) => void;
 }
 
-function SearchBar({ placeholder, onClear, expanded, setExpanded }: SearchBarProps): JSX.Element {
+function SearchBar({
+  onSearch,
+  placeholder,
+  onClear,
+  expanded,
+  setExpanded
+}: SearchBarProps): JSX.Element {
   const [searchText, setSearchText] = React.useState('');
   const searchRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -48,7 +54,10 @@ function SearchBar({ placeholder, onClear, expanded, setExpanded }: SearchBarPro
       <TextField
         variant="standard"
         value={searchText}
-        onChange={handleSearchChange}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          handleSearchChange(e);
+          onSearch(e.target.value);
+        }}
         inputRef={searchRef}
         placeholder={placeholder}
         style={{
