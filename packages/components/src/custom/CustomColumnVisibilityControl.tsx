@@ -22,11 +22,10 @@ export interface CustomColumn {
   label: string;
 }
 
-function CustomColumnVisibilityControl({
-  columns,
-  customToolsProps,
-  style
-}: CustomColumnVisibilityControlProps): JSX.Element {
+const CustomColumnVisibilityControl = React.forwardRef<
+  HTMLDivElement,
+  CustomColumnVisibilityControlProps
+>(({ columns, customToolsProps, style }: CustomColumnVisibilityControlProps, ref) => {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -48,7 +47,7 @@ function CustomColumnVisibilityControl({
   };
 
   return (
-    <div>
+    <div ref={ref}>
       <Tooltip title="View Columns" arrow>
         <IconButton
           onClick={handleOpen}
@@ -119,6 +118,6 @@ function CustomColumnVisibilityControl({
       </Popper>
     </div>
   );
-}
+});
 
 export default CustomColumnVisibilityControl;
