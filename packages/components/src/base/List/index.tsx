@@ -1,1 +1,1 @@
-export { List } from './list';
+export { List } from './List';
