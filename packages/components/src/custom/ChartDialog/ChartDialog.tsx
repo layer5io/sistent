@@ -1,5 +1,7 @@
 import React from 'react';
-import { DialogActions, DialogContent, DialogContentText } from '../../base/Dialog';
+import { DialogActions } from '../../base/DialogActions';
+import { DialogContent } from '../../base/DialogContent';
+import { DialogContentText } from '../../base/DialogContentText';
 import { StyledDialog, StyledDialogTitle } from '../Dialog';
 
 interface ChartDialogProps {

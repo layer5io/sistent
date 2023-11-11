@@ -1,11 +1,11 @@
 import React from 'react';
-import { DialogActions } from '../../base/Dialog';
+import { DialogActions } from '../../base/DialogActions';
 
-interface DialogActionsProps {
+interface StyledDialogActionsProps {
   children: React.ReactNode;
 }
 
-function StyledDialogActions({ children, ...props }: DialogActionsProps): JSX.Element {
+function StyledDialogActions({ children, ...props }: StyledDialogActionsProps): JSX.Element {
   return <DialogActions {...props}>{children}</DialogActions>;
 }
 

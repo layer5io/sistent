@@ -1,5 +1,6 @@
 import { type DialogProps } from '@mui/material';
-import { Dialog, DialogTitle } from '../../base/Dialog';
+import { Dialog } from '../../base/Dialog';
+import { DialogTitle } from '../../base/DialogTitle';
 
 type StyledDialogProps = {
   open: boolean;

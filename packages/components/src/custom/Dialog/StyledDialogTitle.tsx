@@ -1,12 +1,12 @@
 import React from 'react';
-import { DialogTitle } from '../../base/Dialog';
+import { DialogTitle } from '../../base/DialogTitle';
 import { Typography } from '../../base/Typography';
 
-interface DialogTitleProps {
+interface StyledDialogTitleProps {
   children: React.ReactNode;
 }
 
-function StyledDialogTitle({ children, ...props }: DialogTitleProps): JSX.Element {
+function StyledDialogTitle({ children, ...props }: StyledDialogTitleProps): JSX.Element {
   return (
     <DialogTitle
       sx={{
