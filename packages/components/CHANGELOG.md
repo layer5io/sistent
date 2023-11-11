@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.2](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.11.1...@layer5/sistent-components@0.11.2) (2023-11-11)
+
+### Bug Fixes
+
+- **components:** fix custom column component ([e148701](https://github.com/layer5io/sistent/commit/e14870158382ca8e64509140637f479e53ca545f)), closes [#295](https://github.com/layer5io/sistent/issues/295)
+- **components:** fix searchbar export ([665beda](https://github.com/layer5io/sistent/commit/665beda8dc18442db38cbbf88b281274cebcc6bc)), closes [#293](https://github.com/layer5io/sistent/issues/293)
+
 ## [0.11.1](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.11.0...@layer5/sistent-components@0.11.1) (2023-11-10)
 
 **Note:** Version bump only for package @layer5/sistent-components
