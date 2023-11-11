@@ -1,0 +1,1 @@
+export { DialogContentText } from './DialogContentText';

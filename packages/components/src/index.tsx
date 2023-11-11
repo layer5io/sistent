@@ -4,6 +4,7 @@ export * from './base/AccordionDetails';
 export * from './base/AccordionSummary';
 export * from './base/AppBar';
 export * from './base/Avatar';
+export * from './base/Backdrop';
 export * from './base/Box';
 export * from './base/Button';
 export * from './base/ButtonGroup';
@@ -17,6 +18,10 @@ export * from './base/Chip';
 export * from './base/ClickAwayListener';
 export * from './base/Container';
 export * from './base/Dialog';
+export * from './base/DialogActions';
+export * from './base/DialogContent';
+export * from './base/DialogContentText';
+export * from './base/DialogTitle';
 export * from './base/Divider';
 export * from './base/Drawer';
 export * from './base/Form';
@@ -47,6 +52,7 @@ export {
   type CustomColumn,
   type CustomColumnVisibilityControlProps
 } from './custom/CustomColumnVisibilityControl';
+export * from './custom/Dialog';
 export {
   default as ResponsiveDataTable,
   type Column,

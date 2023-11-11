@@ -1,11 +1,11 @@
 import React from 'react';
-import { DialogContent } from '../../base/Dialog';
+import { DialogContent } from '../../base/DialogContent';
 
-interface DialogContentProps {
+interface StyledDialogContentProps {
   children: React.ReactNode;
 }
 
-function StyledDialogContent({ children, ...props }: DialogContentProps): JSX.Element {
+function StyledDialogContent({ children, ...props }: StyledDialogContentProps): JSX.Element {
   return <DialogContent {...props}>{children}</DialogContent>;
 }
 
