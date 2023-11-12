@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0-alpha.2](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.14.0-alpha.1...@layer5/sistent-svg@0.14.0-alpha.2) (2023-11-12)
+
+### Bug Fixes
+
+- **svg:** make height optional ([35239ad](https://github.com/layer5io/sistent/commit/35239ada507346f41a919236072fabf9813abd94)), closes [#316](https://github.com/layer5io/sistent/issues/316)
+
 # [0.14.0-alpha.1](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.14.0-alpha.0...@layer5/sistent-svg@0.14.0-alpha.1) (2023-11-12)
 
 ### Bug Fixes
