@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.14.0-alpha.3...@layer5/sistent-svg@0.14.0) (2023-11-12)
+
+### Code Refactoring
+
+- **svg:** split up Add icons, and rename AddIconCircleBordered to AddCircleIcon ([230b597](https://github.com/layer5io/sistent/commit/230b59724d82ba186772a678a2f14306686e3397)), closes [#322](https://github.com/layer5io/sistent/issues/322)
+
+### BREAKING CHANGES
+
+- **svg:** Renamed AddIconCircleBordered to AddCircleIcon. Also configured both AddIcon and
+  AddCircleIcon to use the new IconProps
+
 # [0.14.0-alpha.3](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.14.0-alpha.2...@layer5/sistent-svg@0.14.0-alpha.3) (2023-11-12)
 
 ### Bug Fixes

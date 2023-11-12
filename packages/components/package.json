@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.12.0-alpha.3",
+  "version": "0.12.0",
   "description": "Reusable React Components",
   "sideEffects": false,
   "exports": {
@@ -24,7 +24,7 @@
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@layer5/sistent-svg": "^0.14.0-alpha.3"
+    "@layer5/sistent-svg": "^0.14.0"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
