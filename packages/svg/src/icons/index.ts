@@ -1,4 +1,5 @@
 export * from './Add';
+export * from './AddCircle';
 export * from './Application';
 export * from './Bell';
 export * from './Bus';
