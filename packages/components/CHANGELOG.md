@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0-alpha.1](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.12.0-alpha.0...@layer5/sistent-components@0.12.0-alpha.1) (2023-11-12)
+
+### Bug Fixes
+
+- **search:** fix onsearch func ([c6d6e27](https://github.com/layer5io/sistent/commit/c6d6e2761f51fbd694e9f3f2afd8ad8dd2de7ce0))
+
 # [0.12.0-alpha.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.11.2...@layer5/sistent-components@0.12.0-alpha.0) (2023-11-11)
 
 ### Features

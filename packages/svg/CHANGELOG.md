@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0-alpha.1](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.14.0-alpha.0...@layer5/sistent-svg@0.14.0-alpha.1) (2023-11-12)
+
+### Bug Fixes
+
+- **icon:** fix for icon ([99be1a6](https://github.com/layer5io/sistent/commit/99be1a6ab37c36487d3b3d288d098728d7b19405))
+- **svg:** fix iconprops ([697e2f7](https://github.com/layer5io/sistent/commit/697e2f70005b7d2d2173a92a8d659ad2b760acd4)), closes [#244](https://github.com/layer5io/sistent/issues/244)
+- **viewbox:** use correct viewbox ([9cff8bb](https://github.com/layer5io/sistent/commit/9cff8bbb27f31b36660a5aa8eb872a8e3b917beb))
+
 # [0.14.0-alpha.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.13.0...@layer5/sistent-svg@0.14.0-alpha.0) (2023-11-11)
 
 ### Features
