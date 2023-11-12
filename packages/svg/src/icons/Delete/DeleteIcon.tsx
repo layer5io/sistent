@@ -1,13 +1,17 @@
-import { FC } from 'react';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from 'src/constants/constants';
 import { IconProps } from '../types';
 
-export const DeleteIcon: FC<IconProps> = ({ width, height, ...props }) => {
+export const DeleteIcon = ({
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
+  ...props
+}: IconProps): JSX.Element => {
   return (
     <svg
-      width={width}
-      height={height}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
+      width={width}
+      height={height}
       {...props}
     >
       <path d="M0 0h24v24H0z" fill="none" />

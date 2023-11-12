@@ -1,1 +1,1 @@
-export { default as SearchIcon } from './searchicon';
+export { default as SearchIcon } from './SearchIcon';
