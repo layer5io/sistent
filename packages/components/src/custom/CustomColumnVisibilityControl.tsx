@@ -2,7 +2,7 @@ import { ColumnIcon } from '@layer5/sistent-svg';
 import React from 'react';
 import { Checkbox } from '../base/Checkbox';
 import { ClickAwayListener } from '../base/ClickAwayListener';
-import { FormControlLabel } from '../base/Form';
+import { FormControlLabel } from '../base/FormControlLabel';
 import { IconButton } from '../base/IconButton';
 import { Paper } from '../base/Paper';
 import { Popper } from '../base/Popper';

@@ -1,0 +1,1 @@
+export { FormControlLabel } from './FormControlLabel';
