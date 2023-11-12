@@ -1,4 +1,4 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from 'src/constants/constants';
 import { IconProps } from '../types';
 
 export const CloseIcon = ({

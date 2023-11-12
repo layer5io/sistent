@@ -1,7 +1,11 @@
-import { FC } from 'react';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from 'src/constants/constants';
 import { IconProps } from '../types';
 
-export const SaveAsIcon: FC<IconProps> = ({ width, height, ...props }) => {
+export const SaveAsIcon = ({
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
+  ...props
+}: IconProps): JSX.Element => {
   return (
     <svg
       width={width}
