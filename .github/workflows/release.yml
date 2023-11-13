@@ -1,11 +1,9 @@
 name: Publish NPM Package
 
 on:
-  release:
-    types: [published]
-    branches:
-      - 'v-*'
-      - master
+  push:
+    tags:
+      - 'v*'
   workflow_dispatch:
     inputs:
       release-type:
@@ -50,22 +48,28 @@ jobs:
           registry-url: "https://registry.npmjs.org"
           scope: "@layer5"
           
-      - name: Install deps and build
-        run: |
-          yarn
-          
+      - name: Install deps
+        run: yarn
+
       - name: Publish to npm
         run: |
-            git config user.name "${{ github.actor }}"
-            git config user.email "${{ github.actor}}@users.noreply.github.com"
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
 
-            if [ ${{ github.base_ref }} = development ]; then
-            HUSKY=0 npx lerna version --no-private --conventional-commits --conventional-prerelease --preid beta --yes
-            else
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             HUSKY=0 npx lerna version --no-private --conventional-commits --yes
+          else
+            if [ "${{ github.event.ref_type }}" = "tag" ]; then
+              versionType=$(echo "${{ github.ref_name }}" | cut -d '/' -f 2)
+              if [ "${versionType}" = "development" ]; then
+                HUSKY=0 npx lerna version --no-private --conventional-commits --conventional-prerelease --preid beta --yes
+              else
+                HUSKY=0 npx lerna version --no-private --conventional-commits --yes
+              fi
             fi
-            
-            HUSKY=0 npx lerna publish from-git --no-private --yes
+          fi
+
+          HUSKY=0 npx lerna publish from-git --no-private --yes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
