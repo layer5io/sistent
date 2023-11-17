@@ -1,15 +1,6 @@
 name: Publish NPM Package
 
-on:
-  release:
-    types: [published]
-    branches:
-      - 'v-*'
-      - master
-  workflow_dispatch:
-    inputs:
-      release-type:
-        required: true
+on: workflow_dispatch
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
