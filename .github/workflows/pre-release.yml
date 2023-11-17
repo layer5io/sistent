@@ -41,7 +41,7 @@ jobs:
 
         - name: Identify changed packages
           run: |
-            CHANGED_PACKAGES=$(yarn lerna changed --json | jq -r '.[].name')
+            CHANGED_PACKAGES=$(yarn lerna changed --json | jq -r '.[].name' || echo "Error parsing JSON")
             echo $CHANGED_PACKAGES
 
         - name: Version packages
