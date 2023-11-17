@@ -41,11 +41,16 @@ jobs:
 
         - name: Identify changed packages
           run: |
-            CHANGED_PACKAGES=$(yarn lerna changed --json | jq -r '.[].name' || echo "Error parsing JSON")
-            echo $CHANGED_PACKAGES
+            CHANGED_PACKAGES=$(yarn lerna changed --json)
+            echo "Raw JSON output:"
+            echo "$CHANGED_PACKAGES"
+            
+            CHANGED_PACKAGES_NAMES=$(echo "$CHANGED_PACKAGES" | jq -r '.[].name' || echo "Error parsing JSON")
+            echo "Parsed package names:"
+            echo "$CHANGED_PACKAGES_NAMES"
 
         - name: Version packages
-          run: ./scripts/version-prerelease-packages.sh $CHANGED_PACKAGES
+          run: ./scripts/version-prerelease-packages.sh $CHANGED_PACKAGES_NAMES
 
         - name: Commit changes
           run: |
