@@ -39,6 +39,9 @@ jobs:
             registry-url: "https://registry.npmjs.org"
             scope: "@layer5"
 
+        - name: Install deps and build
+          run: yarn
+
         - name: Identify changed packages
           run: |
             CHANGED_PACKAGES=$(yarn lerna changed --json | jq -r '.[].name' || echo "Error parsing JSON")
