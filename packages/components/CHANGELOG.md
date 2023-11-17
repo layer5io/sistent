@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.1-alpha.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.12.0...@layer5/sistent-components@0.12.1-alpha.0) (2023-11-17)
+
+### Bug Fixes
+
+- **fix:** remove extra wrapper ([abfdb95](https://github.com/layer5io/sistent/commit/abfdb956c0952f9053954150d10a8d1c58bd7603))
+
 # [0.12.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.12.0-alpha.3...@layer5/sistent-components@0.12.0) (2023-11-12)
 
 **Note:** Version bump only for package @layer5/sistent-components

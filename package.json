@@ -5,9 +5,11 @@
   "repository": "git@github.com:layer5io/sistent.git",
   "workspaces": [
     "!apps/design-system",
+    "!apps/next-12",
     "packages/*"
   ],
   "scripts": {
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
     "commit:sign": "git cz -S",
     "clean": "lerna clean -y",
     "build-all": "lerna run build",

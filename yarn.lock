@@ -945,7 +945,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@layer5/sistent-svg@^0.14.0, @layer5/sistent-svg@workspace:packages/svg":
+"@layer5/sistent-svg@npm:^0.14.0":
+  version: 0.14.0
+  resolution: "@layer5/sistent-svg@npm:0.14.0"
+  dependencies:
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  peerDependencies:
+    react: ">=17"
+    react-dom: ">=17"
+  dependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  peerDependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 1a5a51bad80383eba4af185b9e5a870a057a3ed7fb0786fa016e8a14f87fcd5013e38a9e3273f77137d182f2d2cc2abb9986acf9f9c6783c359a5f374d16caa4
+  languageName: node
+  linkType: hard
+
+"@layer5/sistent-svg@workspace:packages/svg":
   version: 0.0.0-use.local
   resolution: "@layer5/sistent-svg@workspace:packages/svg"
   dependencies:
