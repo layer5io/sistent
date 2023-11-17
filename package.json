@@ -30,7 +30,7 @@
       "prettier --write",
       "eslint --fix"
     ]
-  },  
+  },
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
@@ -39,6 +39,7 @@
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
+    "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.49.0",
     "husky": "^8.0.0",
