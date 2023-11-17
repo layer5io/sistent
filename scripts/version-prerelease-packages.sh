@@ -4,11 +4,11 @@
 # Example: version-prerelrease-packages.sh
 
 # Get the list of changed packages using Lerna
-CHANGED_PACKAGES=$(HUSKY=0 yarn lerna changed --json | jq -r '.[].name')
+CHANGED_PACKAGES=$(yarn lerna changed --json | jq -r '.[].name')
 
 if [ -n "$CHANGED_PACKAGES" ]; then
   echo "Changed packages detected: $CHANGED_PACKAGES"
-  HUSKY=0 yarn lerna version --no-private --conventional-commits --conventional-prerelease --include-merged-tags --no-git-tag-version --yes
+  yarn lerna version --no-private --conventional-commits --conventional-prerelease --include-merged-tags --no-git-tag-version --yes
 
   # Stage changes to package.json files
   for PACKAGE_NAME in $CHANGED_PACKAGES; do

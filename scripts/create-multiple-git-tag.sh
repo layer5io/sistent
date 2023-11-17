@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for dir in $(HUSKY=0 yarn lerna ls --json --all | jq -r '.[].location'); do
+for dir in $(yarn lerna ls --json --all | jq -r '.[].location'); do
   VERSION=$(node -e "console.log(require('$dir/package.json').version)")
   NAME=$(node -e "console.log(require('$dir/package.json').name)")
   TAG="$NAME@v$VERSION"
