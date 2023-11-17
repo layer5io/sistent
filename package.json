@@ -11,13 +11,13 @@
     "build-all": "lerna run build",
     "clean": "lerna clean -y",
     "commit": "cz",
-    "commit:sign": "cz -S",
+    "commit:sign": "cz -s",
+    "commitlint": "commitlint --edit",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "postinstall": "husky install",
     "lint": "eslint .",
-    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
-    "commitlint": "commitlint --edit"
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\""
   },
   "husky": {
     "hooks": {
