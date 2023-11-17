@@ -45,7 +45,7 @@ jobs:
             echo $CHANGED_PACKAGES
 
         - name: Version packages
-          run: ./version-prerelease-packages.sh $CHANGED_PACKAGES
+          run: ./scripts/version-prerelease-packages.sh $CHANGED_PACKAGES
 
         - name: Commit changes
           run: |
@@ -58,7 +58,7 @@ jobs:
             fi
 
         - name: Create Git tags
-          run: ./create-multiple-git-tag.sh
+          run: ./scripts/create-multiple-git-tag.sh
 
         - name: Publish packages
           run: yarn lerna publish from-package --yes
