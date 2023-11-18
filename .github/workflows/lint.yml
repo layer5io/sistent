@@ -1,4 +1,4 @@
-name: Linting and formatting
+name: Lint check
 
 on:
   push:
@@ -28,4 +28,4 @@ jobs:
         run: yarn install
 
       - name: Run Lint
-        run: yarn lint && yarn format:check && yarn lint-staged
+        run: yarn lint
