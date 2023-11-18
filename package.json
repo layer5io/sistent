@@ -19,14 +19,13 @@
     "lint": "yarn eslint && yarn prettier-eslint --list-different",
     "lint:fix": "yarn eslint --fix",
     "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
-    "prettier-eslint": "yarn run prettier-eslint \"`pwd`/**/*.{ts,tsx}\""
+    "prettier-eslint": "yarn run prettier-eslint \"`pwd`/**/*.{js,jsx,ts,tsx}\""
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "prettier --write -u"
-    ],
-    "!**/*.{js,ts,jsx,tsx}": "prettier --write -u"
+      "prettier --write \"**/*.{js,jsx,ts,tsx}\" --config ./.prettierrc"
+    ]
   },
   "config": {
     "commitizen": {

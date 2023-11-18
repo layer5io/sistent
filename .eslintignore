@@ -7,3 +7,5 @@ storybook-static
 *.md
 site
 apps/next-12
+.yarnrc.yml
+.eslintrc.*js
