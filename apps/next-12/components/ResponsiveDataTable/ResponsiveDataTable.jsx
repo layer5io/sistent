@@ -1,12 +1,7 @@
 import MUIDataTable from 'mui-datatables';
 import { useEffect, useState } from 'react';
 
-export function ResponsiveDataTable({
-  data,
-  columns,
-  options = {},
-  ...props
-}) {
+export function ResponsiveDataTable({ data, columns, options = {}, ...props }) {
   const [tableCols, updateCols] = useState(columns);
   const [columnVisibility, ,] = useState({});
 
@@ -15,7 +10,7 @@ export function ResponsiveDataTable({
       weekday: 'short',
       day: 'numeric',
       month: 'long',
-      year: 'numeric',
+      year: 'numeric'
     };
 
     return new Intl.DateTimeFormat('un-US', dateOptions).format(date);
@@ -42,7 +37,7 @@ export function ResponsiveDataTable({
           break;
         }
       }
-    },
+    }
   };
 
   useEffect(() => {
@@ -81,7 +76,7 @@ export function ResponsiveDataTable({
   }, [columnVisibility]);
 
   const components = {
-    ExpandButton: () => '',
+    ExpandButton: () => ''
   };
 
   return (

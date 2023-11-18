@@ -9,38 +9,53 @@
     "packages/*"
   ],
   "scripts": {
-    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
-    "commit:sign": "git cz -S",
-    "clean": "lerna clean -y",
     "build-all": "lerna run build",
-    "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
-    "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
+    "clean": "lerna clean -y",
+    "commit:sign": "git cz -S",
+    "eslint": "eslint --cache .",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx}\" --config ./.prettierrc",
+    "format:write": "prettier --write \"**/*.{js,jsx,ts,tsx}\" --config ./.prettierrc",
     "postinstall": "husky install",
-    "lint": "eslint ."
+    "lint": "yarn eslint && yarn prettier-eslint --list-different",
+    "lint:fix": "yarn eslint --fix",
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
+    "prettier-eslint": "yarn run prettier-eslint \"`pwd`/**/*.{ts,tsx}\""
   },
   "lint-staged": {
-    "*.{ts,tsx,md}": [
+    "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
-      "yarn format:write"
-    ]
+      "prettier --write -u"
+    ],
+    "!**/*.{js,ts,jsx,tsx}": "prettier --write -u"
   },
-  "devDependencies": {
-    "@commitlint/cli": "^17.7.2",
-    "@commitlint/config-conventional": "^17.7.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.49.0",
-    "husky": "^8.0.0",
-    "lerna": "^7.3.0",
-    "lint-staged": "^14.0.1",
-    "prettier": "^3.0.3",
-    "prettier-plugin-organize-imports": "^3.2.3",
-    "tsconfig": "workspace:^",
-    "typescript": "^5.2.2"
-  },
-  "packageManager": "yarn@3.6.3",
   "config": {
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  }
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.3",
+    "@babel/eslint-parser": "^7.23.3",
+    "@commitlint/cli": "^17.7.2",
+    "@commitlint/config-conventional": "^17.7.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.13.0",
+    "eslint-config-next": "^14.0.3",
+    "eslint-config-semistandard": "latest",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.0.0",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.33.2",
+    "husky": "^8.0.0",
+    "lerna": "^7.3.0",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
+    "prettier-eslint": "^16.1.2",
+    "prettier-eslint-cli": "^8.0.1",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "tsconfig": "workspace:^",
+    "typescript": "^5.2.2"
+  },
+  "packageManager": "yarn@3.6.3"
 }

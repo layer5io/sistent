@@ -1,5 +1,5 @@
-import { AppThemeProvider } from '@/lib/providers/AppThemeProvider'
-import { ReduxProvider } from '@/lib/providers/ReduxProvider'
+import { AppThemeProvider } from '@/lib/providers/AppThemeProvider';
+import { ReduxProvider } from '@/lib/providers/ReduxProvider';
 
 export default function App({ Component, pageProps }) {
   return (
@@ -8,5 +8,5 @@ export default function App({ Component, pageProps }) {
         <Component {...pageProps} />
       </AppThemeProvider>
     </ReduxProvider>
-  )
+  );
 }
