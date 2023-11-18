@@ -4,7 +4,13 @@ module.exports = {
     browser: true,
     es6: true
   },
-  extends: ['semistandard', 'eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+  extends: [
+    'semistandard',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:storybook/recommended'
+  ],
   plugins: ['react'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
