@@ -4,9 +4,9 @@ module.exports = {
     browser: true,
     es6: true
   },
-  extends: ['semistandard', 'eslint:recommended'],
+  extends: ['semistandard', 'eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   plugins: ['react'],
-  parser: '@babel/eslint-parser',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
