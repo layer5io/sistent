@@ -3321,7 +3321,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commitizen@npm:^4.0.3":
+"commitizen@npm:^4.0.3, commitizen@npm:^4.3.0":
   version: 4.3.0
   resolution: "commitizen@npm:4.3.0"
   dependencies:
@@ -9328,6 +9328,7 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^17.7.2
     "@commitlint/config-conventional": ^17.7.0
+    commitizen: ^4.3.0
     cz-conventional-changelog: ^3.3.0
     eslint: ^8.49.0
     husky: ^8.0.0

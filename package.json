@@ -9,24 +9,38 @@
     "packages/*"
   ],
   "scripts": {
-    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
-    "commit:sign": "git cz -S",
-    "clean": "lerna clean -y",
     "build-all": "lerna run build",
+    "clean": "lerna clean -y",
+    "commit": "cz",
+    "commit:sign": "cz -s",
+    "commitlint": "commitlint --edit",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "postinstall": "husky install",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "prepare-commit-msg": "exec < /dev/tty && yarn cz --hook || true"
+    }
   },
   "lint-staged": {
     "*.{ts,tsx,md}": [
-      "eslint --fix",
-      "yarn format:write"
+      "prettier --write",
+      "eslint --fix"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
+    "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.49.0",
     "husky": "^8.0.0",
@@ -37,10 +51,5 @@
     "tsconfig": "workspace:^",
     "typescript": "^5.2.2"
   },
-  "packageManager": "yarn@3.6.3",
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  }
+  "packageManager": "yarn@3.6.3"
 }
