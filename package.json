@@ -11,20 +11,25 @@
   "scripts": {
     "build-all": "lerna run build",
     "clean": "lerna clean -y",
-    "commit:sign": "git cz -S",
-    "eslint": "eslint --cache .",
-    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx}\" --config ./.prettierrc",
-    "format:write": "prettier --write \"**/*.{js,jsx,ts,tsx}\" --config ./.prettierrc",
+    "commit": "cz",
+    "commit:sign": "cz -s",
+    "commitlint": "commitlint --edit",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
+    "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "postinstall": "husky install",
-    "lint": "yarn eslint && yarn prettier-eslint --list-different",
-    "lint:fix": "yarn eslint --fix",
-    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
-    "prettier-eslint": "yarn run prettier-eslint \"`pwd`/**/*.{js,jsx,ts,tsx}\""
+    "lint": "eslint .",
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "prepare-commit-msg": "exec < /dev/tty && yarn cz --hook || true"
+    }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "prettier --write \"**/*.{js,jsx,ts,tsx}\" --config ./.prettierrc"
+    "*.{ts,tsx,md}": [
+      "prettier --write",
+      "eslint --fix"
     ]
   },
   "config": {
@@ -33,30 +38,15 @@
     }
   },
   "devDependencies": {
-    "@babel/core": "^7.23.3",
-    "@babel/eslint-parser": "^7.23.3",
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
-    "@typescript-eslint/eslint-plugin": "^6.11.0",
-    "@typescript-eslint/parser": "^6.11.0",
+    "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.13.0",
-    "eslint-config-next": "^14.0.3",
-    "eslint-config-semistandard": "latest",
-    "eslint-config-standard": "^17.0.0",
-    "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-n": "^15.0.0",
-    "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.4",
-    "eslint-plugin-storybook": "^0.6.15",
+    "eslint": "^8.49.0",
     "husky": "^8.0.0",
     "lerna": "^7.3.0",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
-    "prettier-eslint": "^16.1.2",
-    "prettier-eslint-cli": "^8.0.1",
     "prettier-plugin-organize-imports": "^3.2.3",
     "tsconfig": "workspace:^",
     "typescript": "^5.2.2"
