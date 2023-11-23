@@ -5,7 +5,6 @@ module.exports = {
     es6: true
   },
   extends: [
-    'semistandard',
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
