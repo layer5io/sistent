@@ -1,25 +1,29 @@
-import { Chip } from 'base';
+import { ChipProps, TooltipProps } from '@mui/material';
 import React from 'react';
-import { Tooltip } from '../base/Tooltip';
+import { Chip } from '../../base/Chip';
+import { Tooltip } from '../../base/Tooltip';
 
 export interface ConnectioChipProps {
   tooltip: string;
-  tooltipPlacement?: string;
-  chipLabel: boolean;
-  chipIcon?: Element;
-  chipDeleteIcon?: Element;
-  style?: React.CSSProperties;
+  tooltipPlacement?: TooltipProps['placement'];
+  variant?: ChipProps['variant'];
+  label: string;
+  icon?: React.ReactElement;
+  onClick?: () => void;
   onDelete?: () => void;
+  style?: React.CSSProperties;
 }
 
 function ConnectioChip({
   tooltip,
   tooltipPlacement = 'top',
-  chipLabel,
-  chipIcon,
-  chipDeleteIcon,
+  variant = 'filled',
+  label,
+  icon,
+  onClick,
+  onDelete,
   style,
-  onDelete
+  ...rest
 }: ConnectioChipProps): JSX.Element {
   return (
     <Tooltip title={tooltip} placement={tooltipPlacement}>
@@ -37,12 +41,13 @@ function ConnectioChip({
           background: 'white',
           maxWidth: '230px'
         }}
-        variant="outlined"
-        label={chipLabel}
+        variant={variant}
+        label={label}
+        onClick={onClick}
         onDelete={onDelete}
-        deleteIcon={chipDeleteIcon}
-        icon={chipIcon}
+        icon={icon}
         style={style}
+        {...rest}
       />
     </Tooltip>
   );
