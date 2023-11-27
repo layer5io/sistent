@@ -3,7 +3,6 @@ vite.config.ts
 .eslintrc.cjs
 node_modules
 dist
-storybook-static
 *.md
 site
 apps/next-12
@@ -11,3 +10,4 @@ apps/next-12
 .eslintrc.*js
 *.config.*js
 eslint-config-sistent
+apps/design-system
