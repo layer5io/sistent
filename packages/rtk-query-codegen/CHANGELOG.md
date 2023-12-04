@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.1](https://github.com/layer5io/sistent/compare/@layer5/rtk-query-codegen@0.3.0...@layer5/rtk-query-codegen@0.3.1) (2023-12-04)
+
+**Note:** Version bump only for package @layer5/rtk-query-codegen
+
 # 0.3.0 (2023-10-16)
 
 ### Features
