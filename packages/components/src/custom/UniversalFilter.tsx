@@ -3,13 +3,12 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
 import { Button } from '../base/Button';
 import { ClickAwayListener } from '../base/ClickAwayListener';
-import { IconButton } from '../base/IconButton';
 import { InputLabel } from '../base/InputLabel';
 import { MenuItem } from '../base/MenuItem';
 import { Paper } from '../base/Paper';
-import { Popper } from '../base/Popper';
 import { Select } from '../base/Select';
-import { Tooltip } from '../base/Tooltip';
+import PopperListener from './PopperListener';
+import TooltipIcon from './TooltipIcon';
 
 export interface FilterColumn {
   name: string;
@@ -62,23 +61,9 @@ function UniversalFilter({
   };
 
   return (
-    <div>
-      <Tooltip title="Filter" arrow>
-        <IconButton
-          onClick={handleClick}
-          sx={{
-            '&:hover': {
-              '& svg': {
-                fill: '#00d3a9'
-              }
-            }
-          }}
-          disableRipple
-        >
-          <FilterIcon fill="#3c494f" />
-        </IconButton>
-      </Tooltip>
-      <Popper
+    <React.Fragment>
+      <TooltipIcon title="Close" onClick={handleClick} icon={<FilterIcon fill="#3c494f" />} arrow />
+      <PopperListener
         id={id}
         open={open}
         anchorEl={anchorEl}
@@ -154,8 +139,8 @@ function UniversalFilter({
             </Paper>
           </ClickAwayListener>
         </div>
-      </Popper>
-    </div>
+      </PopperListener>
+    </React.Fragment>
   );
 }
 export default UniversalFilter;
