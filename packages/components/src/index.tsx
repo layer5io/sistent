@@ -63,6 +63,7 @@ export {
   type CustomColumnVisibilityControlProps
 } from './custom/CustomColumnVisibilityControl';
 export * from './custom/Dialog';
+export { default as PopperListener } from './custom/PopperListener';
 export {
   default as ResponsiveDataTable,
   type Column,
