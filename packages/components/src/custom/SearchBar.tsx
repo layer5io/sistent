@@ -1,8 +1,8 @@
 import { CloseIcon, SearchIcon } from '@layer5/sistent-svg';
 import React from 'react';
-import { IconButton } from '../base/IconButton';
+import { ClickAwayListener } from '../base/ClickAwayListener';
 import { TextField } from '../base/TextField';
-import { Tooltip } from '../base/Tooltip';
+import TooltipIcon from './TooltipIcon';
 
 export interface SearchBarProps {
   onSearch: (searchText: string) => void;
@@ -49,60 +49,47 @@ function SearchBar({
     }
   };
 
-  return (
-    <div>
-      <TextField
-        variant="standard"
-        value={searchText}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          handleSearchChange(e);
-          onSearch(e.target.value);
-        }}
-        inputRef={searchRef}
-        placeholder={placeholder}
-        style={{
-          width: '150px',
-          opacity: expanded ? 1 : 0,
-          transition: 'width 0.3s ease, opacity 0.3s ease'
-        }}
-      />
+  const handleClickAway = (): void => {
+    if (expanded) {
+      setExpanded(false);
+    }
+  };
 
-      {expanded ? (
-        <Tooltip title="Close">
-          <IconButton
+  return (
+    <ClickAwayListener onClickAway={handleClickAway}>
+      <div>
+        <TextField
+          variant="standard"
+          value={searchText}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            handleSearchChange(e);
+            onSearch(e.target.value);
+          }}
+          inputRef={searchRef}
+          placeholder={placeholder}
+          style={{
+            width: '150px',
+            opacity: expanded ? 1 : 0,
+            transition: 'width 0.3s ease, opacity 0.3s ease'
+          }}
+        />
+        {expanded ? (
+          <TooltipIcon
+            title="Close"
             onClick={handleClearIconClick}
-            sx={{
-              '&:hover': {
-                '& svg': {
-                  fill: '#00D3A9'
-                },
-                borderRadius: '4px'
-              }
-            }}
-            disableRipple
-          >
-            <CloseIcon fill="#3c494f" />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Search" arrow>
-          <IconButton
+            icon={<CloseIcon fill="#3c494f" />}
+            arrow
+          />
+        ) : (
+          <TooltipIcon
+            title="Search"
             onClick={handleSearchIconClick}
-            sx={{
-              '&:hover': {
-                '& svg': {
-                  fill: '#00D3A9'
-                },
-                borderRadius: '4px'
-              }
-            }}
-            disableRipple
-          >
-            <SearchIcon fill="#3c494f" />
-          </IconButton>
-        </Tooltip>
-      )}
-    </div>
+            icon={<SearchIcon fill="#3c494f" />}
+            arrow
+          />
+        )}
+      </div>
+    </ClickAwayListener>
   );
 }
 
