@@ -1,11 +1,6 @@
 {
     "extends": "tsconfig/react-library.json",
     "compilerOptions": {
-      "baseUrl": ".",
-      "paths": {
-        "base": ["src/base/*"],
-        "custom": ["src/custom/*"]
-      },
       "declarationMap": true,
       "emitDeclarationOnly": true,
       "typeRoots": ["./src/types"],
