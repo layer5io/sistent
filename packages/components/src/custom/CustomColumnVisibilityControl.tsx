@@ -3,10 +3,9 @@ import React from 'react';
 import { Checkbox } from '../base/Checkbox';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { FormControlLabel } from '../base/FormControlLabel';
-import { IconButton } from '../base/IconButton';
 import { Paper } from '../base/Paper';
-import { Popper } from '../base/Popper';
-import { Tooltip } from '../base/Tooltip';
+import PopperListener from './PopperListener';
+import TooltipIcon from './TooltipIcon';
 
 export interface CustomColumnVisibilityControlProps {
   columns: CustomColumn[];
@@ -22,10 +21,10 @@ export interface CustomColumn {
   label: string;
 }
 
-const CustomColumnVisibilityControl = React.forwardRef<
-  HTMLDivElement,
-  CustomColumnVisibilityControlProps
->(({ columns, customToolsProps, style }: CustomColumnVisibilityControlProps, ref) => {
+export function CustomColumnVisibilityControl({
+  columns,
+  customToolsProps
+}: CustomColumnVisibilityControlProps): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -47,26 +46,14 @@ const CustomColumnVisibilityControl = React.forwardRef<
   };
 
   return (
-    <div ref={ref}>
-      <Tooltip title="View Columns" arrow>
-        <IconButton
-          onClick={handleOpen}
-          sx={{
-            '&:hover': {
-              '& svg': {
-                fill: '#00d3a9'
-              },
-              borderRadius: '4px'
-            },
-            ...style
-          }}
-          disableRipple
-        >
-          <ColumnIcon fill="#3c494f" />
-        </IconButton>
-      </Tooltip>
-
-      <Popper
+    <React.Fragment>
+      <TooltipIcon
+        title="View Columns"
+        onClick={handleOpen}
+        icon={<ColumnIcon fill="#3c494f" />}
+        arrow
+      />
+      <PopperListener
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
         placement="bottom-end"
@@ -90,32 +77,32 @@ const CustomColumnVisibilityControl = React.forwardRef<
         <ClickAwayListener onClickAway={handleClose}>
           <Paper
             sx={{
+              display: 'flex',
+              flexDirection: 'column',
               padding: '1rem',
               boxShadow: open ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
               background: '#f4f5f7'
             }}
           >
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              {columns.map((col) => (
-                <FormControlLabel
-                  key={col.name}
-                  control={
-                    <Checkbox
-                      checked={customToolsProps.columnVisibility[col.name]}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleColumnVisibilityChange(col.name, e.target.checked)
-                      }
-                    />
-                  }
-                  label={col.label}
-                />
-              ))}
-            </div>
+            {columns.map((col) => (
+              <FormControlLabel
+                key={col.name}
+                control={
+                  <Checkbox
+                    checked={customToolsProps.columnVisibility[col.name]}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleColumnVisibilityChange(col.name, e.target.checked)
+                    }
+                  />
+                }
+                label={col.label}
+              />
+            ))}
           </Paper>
         </ClickAwayListener>
-      </Popper>
-    </div>
+      </PopperListener>
+    </React.Fragment>
   );
-});
+}
 
 export default CustomColumnVisibilityControl;
