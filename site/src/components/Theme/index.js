@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from 'react';
 
 const defaultState = {
   dark: false,
-  toggleDark: () => {},
+  toggleDark: () => {}
 };
 
 const ThemeContext = React.createContext(defaultState);
@@ -15,13 +15,13 @@ function ThemeProvider({ children }) {
 
   const toggleDark = () => {
     const newDark = !dark;
-    localStorage.setItem("dark", JSON.stringify(newDark));
+    localStorage.setItem('dark', JSON.stringify(newDark));
     setDark(newDark);
   };
 
   useEffect(() => {
     // Getting dark mode value from localStorage!
-    const isDark = JSON.parse(localStorage.getItem("dark"));
+    const isDark = JSON.parse(localStorage.getItem('dark'));
     if (isDark) {
       setDark(isDark);
     }
@@ -31,7 +31,7 @@ function ThemeProvider({ children }) {
     <ThemeContext.Provider
       value={{
         dark,
-        toggleDark,
+        toggleDark
       }}
     >
       {children}

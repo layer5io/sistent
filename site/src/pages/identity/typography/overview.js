@@ -1,4 +1,5 @@
-import React from 'react';
+import Next from '../Next';
+import Previous from '../Previous';
 import Sidebar from '../Sidebar';
 import SubText from '../SubText';
 import SubContent from '../SubContent';
@@ -98,11 +99,11 @@ const Overview = ()=> {
         >
         {basics && basics.map((basic)=>{
             return (
-                <div key={basic.title}>
+              <div key={basic.title}>
                 <SubContent
-                SubContent={basic.title}
-                font="bold"
-                // fontType="Qanelas Soft"
+                  SubContent={basic.title}
+                  font="bold"
+                  // fontType="Qanelas Soft"
                 />
                 <SubContent
                 SubContent={basic.description}

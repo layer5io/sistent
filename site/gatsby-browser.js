@@ -1,7 +1,4 @@
-import React from 'react'
-import "./src/styles/global.css"
-import { ThemeProvider } from "./src/components/Theme"
+import { ThemeProvider } from './src/components/Theme';
+import './src/styles/global.css';
 
-export const wrapRootElement = ({ element }) => (
-    <ThemeProvider>{element}</ThemeProvider>
-)
+export const wrapRootElement = ({ element }) => <ThemeProvider>{element}</ThemeProvider>;

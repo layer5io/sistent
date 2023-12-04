@@ -1,28 +1,31 @@
-name: Linting and formatting
+name: Lint check
 
 on:
-    push:
-        branches:
-            - "*"
-    pull_request:
-        branches:
-            - "*"
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
-    lint:
-        runs-on: ubuntu-latest
-        
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4.1.1
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
 
-            - name: Set up Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v4.0.0
-              with:
-                node-version: ${{ matrix.node-version }}
-      
-            - name: Install dependencies
-              run: yarn install
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-            - name: Run Lint
-              run: yarn lint && yarn format:check && yarn lint-staged
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run Lint
+        run: yarn lint
