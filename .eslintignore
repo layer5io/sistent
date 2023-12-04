@@ -3,5 +3,11 @@ vite.config.ts
 .eslintrc.cjs
 node_modules
 dist
-storybook-static
 *.md
+site
+apps/next-12
+.yarnrc.yml
+.eslintrc.*js
+*.config.*js
+eslint-config-sistent
+apps/design-system
