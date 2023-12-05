@@ -1,10 +1,10 @@
 import { ColumnIcon } from '@layer5/sistent-svg';
 import React from 'react';
+import { Box } from '../base/Box';
+import { Card } from '../base/Card';
 import { Checkbox } from '../base/Checkbox';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { FormControlLabel } from '../base/FormControlLabel';
-import { Card } from '../base/Card';
-import { Box } from '../base/Box';
 import PopperListener from './PopperListener';
 import TooltipIcon from './TooltipIcon';
 
@@ -73,7 +73,7 @@ export function CustomColumnVisibilityControl({
             }
           }
         ]}
-      // transition
+        // transition
       >
         <Box>
           <ClickAwayListener onClickAway={handleClose}>
