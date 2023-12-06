@@ -1,1 +1,1 @@
-// export { ErrorBoundary, withErrorBoundary, withSuppressedErrorBoundary } from './ErrorBoundary';
+export { ErrorBoundary, WithErrorBoundary, withSuppressedErrorBoundary } from './ErrorBoundary';

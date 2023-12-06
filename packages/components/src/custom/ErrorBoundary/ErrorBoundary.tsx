@@ -1,88 +1,78 @@
-/*
-import {
-  ErrorBoundaryProps,
-  FallbackProps,
-  ErrorBoundary as ReactErrorBoundary
-} from 'react-error-boundary';
+import React, { ComponentType, ReactNode } from 'react';
+import { FallbackProps, ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 import { Button } from '../../base/Button';
-import React from 'react';
 
-function Fallback({ error, resetErrorBoundary }: FallbackProps): JSX.Element {
-  if (error instanceof Error) {
-    // Check if error is an instance of Error
-    return (
-      <div role="alert">
-        <h2>Uh-oh!😔 Please pardon the mesh.</h2>
-        <div
-          style={{
-            backgroundColor: '#1E2117',
-            color: '#FFFFFF',
-            padding: '.85rem',
-            borderRadius: '.2rem',
-            marginBlock: '.5rem'
-          }}
-        >
-          <code>{error.message}</code>
-        </div>
-        <Button color="primary" variant="contained" onClick={resetErrorBoundary}>
-          Try again
-        </Button>
-      </div>
-    );
-  } else {
-    // Handle the case where error is not an instance of Error
-    return (
-      <div role="alert">
-        <h2>Uh-oh!😔 An unknown error occurred.</h2>
-        <Button color="primary" variant="contained" onClick={resetErrorBoundary}>
-          Try again
-        </Button>
-      </div>
-    );
-  }
+interface FallbackComponentProps extends FallbackProps {
+  resetErrorBoundary: () => void;
 }
 
-function reportError(error: Error, info: React.ErrorInfo): void {
-  // This is where you'd send the error to Sentry, etc.
-  console.log('Error Caught Inside Boundary --reportError', error, 'Info', info);
-}
-
-function ErrorBoundary({ children, ...props }: ErrorBoundaryProps): JSX.Element {
+function Fallback({ error, resetErrorBoundary }: FallbackComponentProps): JSX.Element {
   return (
-    <ReactErrorBoundary FallbackComponent={Fallback} onError={reportError} {...props}>
+    <div role="alert">
+      <h2>Uh-oh!😔 Please pardon the mesh.</h2>
+      <div
+        style={{
+          backgroundColor: '#1E2117',
+          color: '#FFFFFF',
+          padding: '.85rem',
+          borderRadius: '.2rem',
+          marginBlock: '.5rem'
+        }}
+      >
+        <code>{(error as Error).message}</code>
+      </div>
+      <Button color="primary" variant="contained" onClick={resetErrorBoundary}>
+        Try again
+      </Button>
+    </div>
+  );
+}
+
+const reportError = (error: Error, info: { componentStack: string }): void => {
+  // This is where you'd send the error to Sentry, etc
+  console.log('Error Caught Inside Boundary --reportError', error, 'Info', info);
+};
+
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+export const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
+  return (
+    <ReactErrorBoundary FallbackComponent={Fallback} onError={reportError}>
       {children}
     </ReactErrorBoundary>
   );
+};
+
+interface WithErrorBoundaryProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Component: ComponentType<any>;
+  errorHandlingProps?: ErrorBoundaryProps;
 }
 
-function withErrorBoundary<P extends object>(
-  Component: React.ComponentType<P>,
-  errorHandlingProps: ErrorBoundaryProps | null
-): JSX.Element {
-  const WrappedWithErrorBoundary = (props: P): JSX.Element => (
-    <ErrorBoundary {...(errorHandlingProps ? errorHandlingProps : {})}>
-      <Component {...props} />
+export const WithErrorBoundary: React.FC<WithErrorBoundaryProps> = ({
+  Component,
+  errorHandlingProps = { children: null }
+}: WithErrorBoundaryProps): JSX.Element => {
+  return (
+    <ErrorBoundary {...errorHandlingProps}>
+      <Component />
     </ErrorBoundary>
   );
+};
 
-  return WrappedWithErrorBoundary;
+interface WithSuppressedErrorBoundaryProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Component: ComponentType<any>;
 }
 
-interface Props {
-  children: React.ReactNode;
-}
-
-function withSuppressedErrorBoundary<P extends object>(
-  Component: React.ComponentType<P>
-): JSX.Element {
-  const WrappedWithErrorBoundary = (props: P & Props): JSX.Element => (
-    <ErrorBoundary FallbackComponent={() => null}>
-      <Component {...props} />
-    </ErrorBoundary>
+export const withSuppressedErrorBoundary: React.FC<WithSuppressedErrorBoundaryProps> = ({
+  Component
+}: WithSuppressedErrorBoundaryProps): JSX.Element => {
+  return (
+    <ReactErrorBoundary FallbackComponent={Fallback} onError={reportError}>
+      <Component />
+    </ReactErrorBoundary>
   );
-
-  return WrappedWithErrorBoundary;
-}
-
-export { ErrorBoundary, withErrorBoundary, withSuppressedErrorBoundary };
-*/
+};
