@@ -77,30 +77,32 @@ export function CustomColumnVisibilityControl({
       >
         <Box>
           <ClickAwayListener onClickAway={handleClose}>
-            <Card
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                padding: '1rem',
-                boxShadow: open ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
-                background: '#f4f5f7'
-              }}
-            >
-              {columns.map((col) => (
-                <FormControlLabel
-                  key={col.name}
-                  control={
-                    <Checkbox
-                      checked={customToolsProps.columnVisibility[col.name]}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        handleColumnVisibilityChange(col.name, e.target.checked)
-                      }
-                    />
-                  }
-                  label={col.label}
-                />
-              ))}
-            </Card>
+            <div>
+              <Card
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '1rem',
+                  boxShadow: open ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
+                  background: '#f4f5f7'
+                }}
+              >
+                {columns.map((col) => (
+                  <FormControlLabel
+                    key={col.name}
+                    control={
+                      <Checkbox
+                        checked={customToolsProps.columnVisibility[col.name]}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleColumnVisibilityChange(col.name, e.target.checked)
+                        }
+                      />
+                    }
+                    label={col.label}
+                  />
+                ))}
+              </Card>
+            </div>
           </ClickAwayListener>
         </Box>
       </PopperListener>
