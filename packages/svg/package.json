@@ -13,7 +13,8 @@
     "dev": "NODE_ENV=development tsup",
     "coverage": "jest --coverage",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "test": "jest"
+    "test": "jest",
+    "prepublish": "yarn build"
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",

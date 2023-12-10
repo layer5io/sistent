@@ -21,7 +21,8 @@
     "build": "NODE_ENV=production tsup",
     "dev": "NODE_ENV=development tsup",
     "lint": "eslint .",
-    "lint:fix": "eslint --fix"
+    "lint:fix": "eslint --fix",
+    "prepublish": "yarn build"
   },
   "dependencies": {
     "@layer5/sistent-svg": "^0.14.1"
