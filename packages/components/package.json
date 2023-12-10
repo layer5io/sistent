@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.12.1-alpha.0",
+  "version": "0.12.1",
   "description": "Reusable React Components",
   "sideEffects": false,
   "exports": {
@@ -24,7 +24,7 @@
     "lint:fix": "eslint --fix"
   },
   "dependencies": {
-    "@layer5/sistent-svg": "^0.14.0"
+    "@layer5/sistent-svg": "^0.14.1"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
@@ -40,7 +40,6 @@
     "eslint-plugin-react": "^7.33.2",
     "mui-datatables": "^4.3.0",
     "notistack": "^3.0.1",
-    "tsconfig": "workspace:^",
     "tsup": "^7.2.0",
     "typescript": "^5.0.2"
   },

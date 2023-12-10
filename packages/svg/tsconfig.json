@@ -1,15 +1,3 @@
 {
-    "extends": "tsconfig/react-library.json",
-    "compilerOptions": {
-      "baseUrl": ".",
-      "paths": {
-        "base": ["src/base/*"],
-        "custom": ["src/custom/*"]
-      },
-      "declarationMap": true,
-      "emitDeclarationOnly": true
-    },
-    "include": ["."],
-    "exclude": ["dist", "build", "node_modules", "**/*.d.ts", "tsup.config.ts"]
-  }
-  
+  "extends": ["../../tsconfig.json"]
+}

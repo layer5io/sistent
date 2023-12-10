@@ -1,9 +1,10 @@
 import { ColumnIcon } from '@layer5/sistent-svg';
 import React from 'react';
+import { Box } from '../base/Box';
+import { Card } from '../base/Card';
 import { Checkbox } from '../base/Checkbox';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { FormControlLabel } from '../base/FormControlLabel';
-import { Paper } from '../base/Paper';
 import PopperListener from './PopperListener';
 import TooltipIcon from './TooltipIcon';
 
@@ -74,32 +75,36 @@ export function CustomColumnVisibilityControl({
         ]}
         // transition
       >
-        <ClickAwayListener onClickAway={handleClose}>
-          <Paper
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              padding: '1rem',
-              boxShadow: open ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
-              background: '#f4f5f7'
-            }}
-          >
-            {columns.map((col) => (
-              <FormControlLabel
-                key={col.name}
-                control={
-                  <Checkbox
-                    checked={customToolsProps.columnVisibility[col.name]}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                      handleColumnVisibilityChange(col.name, e.target.checked)
+        <Box>
+          <ClickAwayListener onClickAway={handleClose}>
+            <div>
+              <Card
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  padding: '1rem',
+                  boxShadow: open ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
+                  background: '#f4f5f7'
+                }}
+              >
+                {columns.map((col) => (
+                  <FormControlLabel
+                    key={col.name}
+                    control={
+                      <Checkbox
+                        checked={customToolsProps.columnVisibility[col.name]}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleColumnVisibilityChange(col.name, e.target.checked)
+                        }
+                      />
                     }
+                    label={col.label}
                   />
-                }
-                label={col.label}
-              />
-            ))}
-          </Paper>
-        </ClickAwayListener>
+                ))}
+              </Card>
+            </div>
+          </ClickAwayListener>
+        </Box>
       </PopperListener>
     </React.Fragment>
   );

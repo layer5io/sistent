@@ -940,7 +940,7 @@ __metadata:
   dependencies:
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
-    "@layer5/sistent-svg": ^0.14.0
+    "@layer5/sistent-svg": ^0.14.1
     "@mui/icons-material": ^5.14.12
     "@mui/material": ^5.14.16
     "@types/mui-datatables": ^4.3.6
@@ -954,7 +954,6 @@ __metadata:
     notistack: ^3.0.1
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-    tsconfig: "workspace:^"
     tsup: ^7.2.0
     typescript: ^5.0.2
   peerDependencies:
@@ -986,9 +985,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@layer5/sistent-svg@npm:^0.14.0":
-  version: 0.14.0
-  resolution: "@layer5/sistent-svg@npm:0.14.0"
+"@layer5/sistent-svg@npm:^0.14.1":
+  version: 0.14.1
+  resolution: "@layer5/sistent-svg@npm:0.14.1"
   dependencies:
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
@@ -1005,7 +1004,7 @@ __metadata:
       optional: true
     react-dom:
       optional: true
-  checksum: 1a5a51bad80383eba4af185b9e5a870a057a3ed7fb0786fa016e8a14f87fcd5013e38a9e3273f77137d182f2d2cc2abb9986acf9f9c6783c359a5f374d16caa4
+  checksum: 4df6636f098bbe2206075da8132ac72025166f541db804de031dcfcbc8488bedb3c0df64c8e730f74c44f1de9d4a41857f26766792ac9e1cd70c3bac07cf0338
   languageName: node
   linkType: hard
 
@@ -1025,7 +1024,6 @@ __metadata:
     eslint-plugin-react-refresh: ^0.4.3
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-    tsconfig: "workspace:^"
     tsup: ^7.2.0
     typescript: ^5.0.2
   peerDependencies:
@@ -9694,7 +9692,6 @@ __metadata:
     lint-staged: ^14.0.1
     prettier: ^3.0.3
     prettier-plugin-organize-imports: ^3.2.3
-    tsconfig: "workspace:^"
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -10378,12 +10375,6 @@ __metadata:
   checksum: 28c5f7bbbcabc9dabd4117e8fdc61483f6872a1c6b02a4b1c4d68c5b79d06896c3cc9547610c4c3ba64658531caa2de13ead1ea1bf321c7b53e969c4752b98c7
   languageName: node
   linkType: hard
-
-"tsconfig@workspace:^, tsconfig@workspace:packages/tsconfig":
-  version: 0.0.0-use.local
-  resolution: "tsconfig@workspace:packages/tsconfig"
-  languageName: unknown
-  linkType: soft
 
 "tslib@npm:^1.8.1":
   version: 1.14.1
