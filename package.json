@@ -18,7 +18,13 @@
     "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "postinstall": "husky install",
     "lint": "eslint .",
-    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\""
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
+    "publish:ci": "lerna publish --from-git --no-private --yes",
+    "publish:official": "lerna publish --from-package",
+    "version:alpha": "yarn lerna version --no-private --conventional-commits --conventional-prerelease --include-merged-tags --no-git-tag-version --sync-dist-version",
+    "versionup:major": "yarn lerna version major --no-private --conventional-commits --include-merged-tags --no-git-tag-version --sync-dist-version",
+    "versionup:minor": "yarn lerna version minor --no-private --conventional-commits --include-merged-tags --no-git-tag-version --sync-dist-version",
+    "versionup:patch": "yarn lerna version patch --no-private --conventional-commits --include-merged-tags --no-git-tag-version --sync-dist-version"
   },
   "husky": {
     "hooks": {
