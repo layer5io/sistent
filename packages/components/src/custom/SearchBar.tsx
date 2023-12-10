@@ -11,6 +11,7 @@ export interface SearchBarProps {
   onClear?: () => void;
   expanded: boolean;
   setExpanded: (expanded: boolean) => void;
+  iconFill?: string;
 }
 
 function SearchBar({
@@ -18,7 +19,8 @@ function SearchBar({
   placeholder,
   onClear,
   expanded,
-  setExpanded
+  setExpanded,
+  iconFill
 }: SearchBarProps): JSX.Element {
   const [searchText, setSearchText] = React.useState('');
   const searchRef = React.useRef<HTMLInputElement | null>(null);
@@ -77,14 +79,14 @@ function SearchBar({
           <TooltipIcon
             title="Close"
             onClick={handleClearIconClick}
-            icon={<CloseIcon fill="#3c494f" />}
+            icon={<CloseIcon fill={iconFill} />}
             arrow
           />
         ) : (
           <TooltipIcon
             title="Search"
             onClick={handleSearchIconClick}
-            icon={<SearchIcon fill="#3c494f" />}
+            icon={<SearchIcon fill={iconFill} />}
             arrow
           />
         )}
