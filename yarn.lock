@@ -954,7 +954,6 @@ __metadata:
     notistack: ^3.0.1
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-    tsconfig: "workspace:^"
     tsup: ^7.2.0
     typescript: ^5.0.2
   peerDependencies:
@@ -1025,7 +1024,6 @@ __metadata:
     eslint-plugin-react-refresh: ^0.4.3
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-    tsconfig: "workspace:^"
     tsup: ^7.2.0
     typescript: ^5.0.2
   peerDependencies:
@@ -9694,7 +9692,6 @@ __metadata:
     lint-staged: ^14.0.1
     prettier: ^3.0.3
     prettier-plugin-organize-imports: ^3.2.3
-    tsconfig: "workspace:^"
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -10378,12 +10375,6 @@ __metadata:
   checksum: 28c5f7bbbcabc9dabd4117e8fdc61483f6872a1c6b02a4b1c4d68c5b79d06896c3cc9547610c4c3ba64658531caa2de13ead1ea1bf321c7b53e969c4752b98c7
   languageName: node
   linkType: hard
-
-"tsconfig@workspace:^, tsconfig@workspace:packages/tsconfig":
-  version: 0.0.0-use.local
-  resolution: "tsconfig@workspace:packages/tsconfig"
-  languageName: unknown
-  linkType: soft
 
 "tslib@npm:^1.8.1":
   version: 1.14.1
