@@ -83,9 +83,15 @@ const ResponsiveDataTable = ({
         col.options.display = columnVisibility && columnVisibility[col.name];
 
         if (
-          ['updated_at', 'created_at', 'deleted_at', 'last_login_time', 'joined_at'].includes(
-            col.name
-          )
+          [
+            'updated_at',
+            'created_at',
+            'deleted_at',
+            'last_login_time',
+            'joined_at',
+            'last_run',
+            'next_run'
+          ].includes(col.name)
         ) {
           col.options.customBodyRender = (value: string | number | boolean | object) => {
             if (value === 'NA') {
