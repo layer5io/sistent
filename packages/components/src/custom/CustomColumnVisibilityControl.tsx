@@ -15,6 +15,7 @@ export interface CustomColumnVisibilityControlProps {
     setColumnVisibility: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
   };
   style?: React.CSSProperties;
+  id: string;
 }
 
 export interface CustomColumn {
@@ -24,6 +25,7 @@ export interface CustomColumn {
 
 export function CustomColumnVisibilityControl({
   columns,
+  id,
   customToolsProps
 }: CustomColumnVisibilityControlProps): JSX.Element {
   const [open, setOpen] = React.useState(false);
@@ -48,64 +50,66 @@ export function CustomColumnVisibilityControl({
 
   return (
     <React.Fragment>
-      <TooltipIcon
-        title="View Columns"
-        onClick={handleOpen}
-        icon={<ColumnIcon fill="#3c494f" />}
-        arrow
-      />
-      <PopperListener
-        open={Boolean(anchorEl)}
-        anchorEl={anchorEl}
-        placement="bottom-end"
-        modifiers={[
-          {
-            name: 'flip',
-            options: {
-              enabled: false
+      <div id={id}>
+        <TooltipIcon
+          title="View Columns"
+          onClick={handleOpen}
+          icon={<ColumnIcon fill="#3c494f" />}
+          arrow
+        />
+        <PopperListener
+          open={Boolean(anchorEl)}
+          anchorEl={anchorEl}
+          placement="bottom-end"
+          modifiers={[
+            {
+              name: 'flip',
+              options: {
+                enabled: false
+              }
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                enabled: true,
+                boundariesElement: 'scrollParent'
+              }
             }
-          },
-          {
-            name: 'preventOverflow',
-            options: {
-              enabled: true,
-              boundariesElement: 'scrollParent'
-            }
-          }
-        ]}
-        // transition
-      >
-        <Box>
-          <ClickAwayListener onClickAway={handleClose}>
-            <div>
-              <Card
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  padding: '1rem',
-                  boxShadow: open ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
-                  background: '#f4f5f7'
-                }}
-              >
-                {columns.map((col) => (
-                  <FormControlLabel
-                    key={col.name}
-                    control={
-                      <Checkbox
-                        checked={customToolsProps.columnVisibility[col.name]}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          handleColumnVisibilityChange(col.name, e.target.checked)
-                        }
-                      />
-                    }
-                    label={col.label}
-                  />
-                ))}
-              </Card>
-            </div>
-          </ClickAwayListener>
-        </Box>
-      </PopperListener>
+          ]}
+          // transition
+        >
+          <Box>
+            <ClickAwayListener onClickAway={handleClose}>
+              <div>
+                <Card
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    padding: '1rem',
+                    boxShadow: open ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
+                    background: '#f4f5f7'
+                  }}
+                >
+                  {columns.map((col) => (
+                    <FormControlLabel
+                      key={col.name}
+                      control={
+                        <Checkbox
+                          checked={customToolsProps.columnVisibility[col.name]}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            handleColumnVisibilityChange(col.name, e.target.checked)
+                          }
+                        />
+                      }
+                      label={col.label}
+                    />
+                  ))}
+                </Card>
+              </div>
+            </ClickAwayListener>
+          </Box>
+        </PopperListener>
+      </div>
     </React.Fragment>
   );
 }

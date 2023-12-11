@@ -21,6 +21,7 @@ export interface UniversalFilterProps {
   setSelectedFilters: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   handleApplyFilter: () => void;
   showAllOption?: boolean;
+  id: string;
 }
 
 function UniversalFilter({
@@ -28,7 +29,8 @@ function UniversalFilter({
   selectedFilters,
   setSelectedFilters,
   handleApplyFilter,
-  showAllOption = true
+  showAllOption = true,
+  id
 }: UniversalFilterProps): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
@@ -53,7 +55,7 @@ function UniversalFilter({
   };
 
   const canBeOpen = open && Boolean(anchorEl);
-  const id = canBeOpen ? 'transition-popper' : undefined;
+  const idx = canBeOpen ? 'transition-popper' : undefined;
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -62,84 +64,94 @@ function UniversalFilter({
 
   return (
     <React.Fragment>
-      <TooltipIcon title="Close" onClick={handleClick} icon={<FilterIcon fill="#3c494f" />} arrow />
-      <PopperListener
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        placement="bottom-end"
-        modifiers={[
-          {
-            name: 'flip',
-            options: {
-              enabled: false
+      <div id={id}>
+        <TooltipIcon
+          title="Close"
+          onClick={handleClick}
+          icon={<FilterIcon fill="#3c494f" />}
+          arrow
+        />
+        <PopperListener
+          id={idx}
+          open={open}
+          anchorEl={anchorEl}
+          placement="bottom-end"
+          modifiers={[
+            {
+              name: 'flip',
+              options: {
+                enabled: false
+              }
+            },
+            {
+              name: 'preventOverflow',
+              options: {
+                enabled: true,
+                boundariesElement: 'scrollParent'
+              }
             }
-          },
-          {
-            name: 'preventOverflow',
-            options: {
-              enabled: true,
-              boundariesElement: 'scrollParent'
-            }
-          }
-        ]}
-        // transition
-      >
-        <div>
-          <ClickAwayListener
-            onClickAway={handleClose}
-            mouseEvent="onMouseDown"
-            touchEvent="onTouchStart"
-          >
-            <Paper
-              sx={{
-                padding: '1rem',
-                paddingTop: '1.8rem',
-                boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-                backgroundColor: '#f4f5f7'
-              }}
+          ]}
+          // transition
+        >
+          <div>
+            <ClickAwayListener
+              onClickAway={handleClose}
+              mouseEvent="onMouseDown"
+              touchEvent="onTouchStart"
             >
-              {Object.keys(filters).map((filterColumn) => {
-                const options = filters[filterColumn].options;
-                return (
-                  <div key={filterColumn} role="presentation">
-                    <InputLabel id={filters[filterColumn].name}>
-                      {filters[filterColumn].name}
-                    </InputLabel>
-                    <Select
-                      defaultValue="All"
-                      key={filterColumn}
-                      value={selectedFilters[filterColumn]}
-                      onChange={(e: SelectChangeEvent<unknown>) =>
-                        handleFilterChange(e as React.ChangeEvent<{ value: string }>, filterColumn)
-                      }
-                      style={{
-                        width: '15rem',
-                        marginBottom: '1rem'
-                      }}
-                      inputProps={{ 'aria-label': 'Without label' }}
-                      displayEmpty
-                    >
-                      {showAllOption && <MenuItem value="All">All</MenuItem>}
-                      {options.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </div>
-                );
-              })}
+              <Paper
+                sx={{
+                  padding: '1rem',
+                  paddingTop: '1.8rem',
+                  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                  backgroundColor: '#f4f5f7'
+                }}
+              >
+                {Object.keys(filters).map((filterColumn) => {
+                  const options = filters[filterColumn].options;
+                  return (
+                    <div key={filterColumn} role="presentation">
+                      <InputLabel id={filters[filterColumn].name}>
+                        {filters[filterColumn].name}
+                      </InputLabel>
+                      <Select
+                        defaultValue="All"
+                        key={filterColumn}
+                        value={selectedFilters[filterColumn]}
+                        onChange={(e: SelectChangeEvent<unknown>) =>
+                          handleFilterChange(
+                            e as React.ChangeEvent<{ value: string }>,
+                            filterColumn
+                          )
+                        }
+                        style={{
+                          width: '15rem',
+                          marginBottom: '1rem'
+                        }}
+                        inputProps={{ 'aria-label': 'Without label' }}
+                        displayEmpty
+                      >
+                        {showAllOption && <MenuItem value="All">All</MenuItem>}
+                        {options.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </div>
+                  );
+                })}
 
-              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button variant="contained" onClick={handleApplyOnClick}>
-                  Apply
-                </Button>
-              </div>
-            </Paper>
-          </ClickAwayListener>
-        </div>
-      </PopperListener>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Button variant="contained" onClick={handleApplyOnClick}>
+                    Apply
+                  </Button>
+                </div>
+              </Paper>
+            </ClickAwayListener>
+          </div>
+        </PopperListener>
+      </div>
     </React.Fragment>
   );
 }

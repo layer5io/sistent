@@ -51,14 +51,25 @@ function SearchBar({
     }
   };
 
-  const handleClickAway = (): void => {
-    if (expanded) {
-      setExpanded(false);
-    }
-  };
+  // const handleClickAway = (): void => {
+  //   if (expanded) {
+  //     setExpanded(false);
+  //   }
+  // };
 
   return (
-    <ClickAwayListener onClickAway={handleClickAway}>
+    <ClickAwayListener
+      onClickAway={(event) => {
+        const isTable = (event.target as HTMLElement)?.closest('#ref');
+
+        if (searchText !== '') {
+          return;
+        }
+        if (isTable) {
+          handleClearIconClick(); // Close the search bar as needed
+        }
+      }}
+    >
       <div>
         <TextField
           variant="standard"
