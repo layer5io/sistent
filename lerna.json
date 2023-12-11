@@ -5,8 +5,19 @@
     "publish": {
       "conventionalCommits": true,
       "message": "chore(release): publish",
-      "registry": "https://registry.npmjs.org"
+      "registry": "https://registry.npmjs.org",
+      "loglevel": "verbose"
     }
   },
-  "npmClient": "yarn"
+  "npmClient": "yarn",
+  "ignoreChanges": [
+    "CHANGELOG.md",
+    "packages/**/CHANGELOG.md",
+    "node_modules/**",
+    "package.json",
+    "*.md",
+    ".github/**",
+    "packages/**/.eslintrc.js",
+    "packages/**/.gitignore"
+  ]
 }
