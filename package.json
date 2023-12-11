@@ -24,7 +24,8 @@
     "version:alpha": "yarn lerna version --no-private --conventional-commits --conventional-prerelease --include-merged-tags --no-git-tag-version --sync-dist-version",
     "versionup:major": "yarn lerna version major --no-private --conventional-commits --include-merged-tags --no-git-tag-version --sync-dist-version",
     "versionup:minor": "yarn lerna version minor --no-private --conventional-commits --include-merged-tags --no-git-tag-version --sync-dist-version",
-    "versionup:patch": "yarn lerna version patch --no-private --conventional-commits --include-merged-tags --no-git-tag-version --sync-dist-version"
+    "versionup:patch": "yarn lerna version patch --no-private --conventional-commits --include-merged-tags --no-git-tag-version --sync-dist-version",
+    "release-latest:ci": "lerna publish from-package --yes && yarn run update-lock:latest"
   },
   "husky": {
     "hooks": {

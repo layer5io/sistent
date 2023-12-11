@@ -32,3 +32,6 @@ version-major:
 # For example: 0.12.0 => 0.13.0-alpha.0
 version-alpha:
 	yarn run version:alpha
+
+publish-ci:
+	yarn release-latest:ci

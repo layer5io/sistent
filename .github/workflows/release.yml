@@ -1,0 +1,81 @@
+name: Version and Publish to NPM
+
+on: 
+    workflow_dispatch:
+        inputs:
+            version:
+                description: 'Specify the version type (path, minor, major)'
+                required: true
+                default: 'patch'
+
+jobs:
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+
+            - name: Setup Node.js 18.x
+              uses: actions/setup-node@v3
+              with:
+                node-version: 18
+                registry-url: "https://registry.npmjs.org"
+                scope: "@layer5"
+
+            - name: Install deps and build
+              run: |
+                yarn
+                yarn build-all
+
+            - name: Initialize the NPM config
+              run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
+              env:
+                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+                GITHUB_AUTH: ${{ secrets.GH_TOKEN }}
+          
+            - name: Initialize Git User
+              run: |
+                git config user.name "${{ github.actor }}"
+                git config user.email "${{ github.actor}}@users.noreply.github.com"
+
+            - name: Identify changed packages
+              id: changed-packages
+              run: |
+                echo "Changed packages: $(yarn lerna changed --json | jq -r '.[].name')"          
+
+            - name: Check if there are changed packages
+              run: |
+                echo "Changed packages: ${{ steps.changed-packages.outputs.changed-packages }}"
+              if: steps.changed-packages.outputs.changed-packages != ''
+          
+            - name: Version packages
+              run: |
+                if [ "${{ github.event.inputs.version }}" != 'none' ]; then
+                  ./scripts/version-release.sh "${{ steps.changed-packages.outputs.changed-packages }}"
+                else
+                  echo "Skipping versioning based on input."
+                fi
+        
+            - name: Commit changes
+              run: |
+                  if [ -n "$(git status --porcelain)" ]; then
+                    git add .
+                    git commit -m "chore: publish"
+                    git push origin HEAD
+                  else
+                    echo "No changes to commit."
+                  fi
+          
+            - name: Create Git tags
+              run: ./scripts/create-multiple-git-tag.sh
+          
+            - name: Publish packages
+              run: make publish-ci
+              env:
+                GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+                GITHUB_AUTH: ${{ secrets.GH_TOKEN }}
+                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
