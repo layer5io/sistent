@@ -17,8 +17,15 @@ if [ -n "$CHANGED_PACKAGES" ]; then
 
   # Stage changes to package.json files
   for PACKAGE_NAME in $CHANGED_PACKAGES; do
-    PACKAGE_PATH="packages/$(echo $PACKAGE_NAME | tr -d '@' | sed 's/\//-/')"
-    grep -q "\"name\": \"$PACKAGE_NAME\"" "$PACKAGE_PATH/package.json" && git add "$PACKAGE_PATH/package.json"
+    # Adjusting the package path based on the correct structure
+    PACKAGE_PATH="packages/$PACKAGE_NAME"
+
+    # Check if the package directory exists before attempting to grep
+    if [ -d "$PACKAGE_PATH" ]; then
+      grep -q "\"name\": \"$PACKAGE_NAME\"" "$PACKAGE_PATH/package.json" && git add "$PACKAGE_PATH/package.json"
+    else
+      echo "Package directory $PACKAGE_PATH does not exist."
+    fi
   done
 else
   echo "No changed packages detected. Skipping lerna version."
