@@ -7,10 +7,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package @layer5/sistent-svg
 
-
-
-
-
 ## [0.14.1](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.14.0...@layer5/sistent-svg@0.14.1) (2023-12-04)
 
 **Note:** Version bump only for package @layer5/sistent-svg
