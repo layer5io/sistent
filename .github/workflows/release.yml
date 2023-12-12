@@ -59,15 +59,14 @@ jobs:
                   echo "Skipping versioning based on input."
                 fi
         
-            - name: Commit changes
-              run: |
-                  if [ -n "$(git status --porcelain)" ]; then
-                    git add .
-                    git commit -m "chore: publish"
-                    git push origin HEAD
-                  else
-                    echo "No changes to commit."
-                  fi
+            - name: Use git-auto-commit-action
+              uses: stefanzweifel/git-auto-commit-action@v5
+              with:
+                commit_message: 'chore: publish'
+                commit_user_name: l5io
+                commit_user_email: ci@layer5.io
+                commit_author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+                commit_options: '--signoff'
           
             - name: Create Git tags
               run: ./scripts/create-multiple-git-tag.sh
