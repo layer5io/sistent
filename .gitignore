@@ -37,3 +37,5 @@ packages/design-system/node_modules/**
 lerna-debug.log
 pub.sh
 .eslintcache
+
+.DS_Store
