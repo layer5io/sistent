@@ -40,15 +40,13 @@ export interface FilterActionType {
  * The `filterSchema` object defines available filter options for the TypingFilter component.
  * It provides information about different filter categories, their descriptions, and possible values.
  */
-export interface FilterSchema {
-  [key: string]: {
+export type FilterSchema = Record<string, {
     value?: string;
     description?: string;
     type?: string;
     values?: string[];
     multiple?: boolean;
-  };
-}
+  }>;
 /**
  * @example
  * // Example filter schema with multiple filter categories
@@ -124,13 +122,13 @@ export function filterSelectionReducer(
     // Select a filter and move to start entering its value
     case FilteringEvents.SELECT_FILTER: {
       // ":" is used to separate the filter and its value
-      const newValue = nextValue(context?.prevValue?.at(-1) || '', action.payload?.value || '');
+      const newValue = nextValue(context?.prevValue?.at(-1) ?? '', action.payload?.value ?? '');
       return {
         state: nextState,
         context: {
           ...context,
           value: newValue + nextDelimiter,
-          prevValue: [...(context?.prevValue || []), newValue]
+          prevValue: [...(context?.prevValue ?? []), newValue]
         }
       };
     }
@@ -156,8 +154,8 @@ export function filterSelectionReducer(
           state: prevState,
           context: {
             ...context,
-            prevValue: context?.prevValue?.slice(0, -1) || [],
-            value: action.payload?.value || ''
+            prevValue: context?.prevValue?.slice(0, -1) ?? [],
+            value: action.payload?.value ?? ''
           }
         };
       }
@@ -169,7 +167,7 @@ export function filterSelectionReducer(
           context: {
             ...context,
             value: action.payload.value,
-            prevValue: [...(context?.prevValue || []), newValue.slice(0, -1)]
+            prevValue: [...(context?.prevValue ?? []), newValue.slice(0, -1)]
           }
         };
       }
