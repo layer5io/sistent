@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 /**
  * Wrapper component for flip cards.
@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 export interface FlipCardProps {
   frontComponents: JSX.Element;
   backComponents?: JSX.Element;
-  disableFlip?: Boolean;
+  disableFlip?: boolean;
 }
 
 function FlipCard({ frontComponents, backComponents, disableFlip }: FlipCardProps): JSX.Element {
@@ -68,6 +68,6 @@ function FlipCard({ frontComponents, backComponents, disableFlip }: FlipCardProp
       </div>
     </>
   );
-};
+}
 
 export default FlipCard;
