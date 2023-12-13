@@ -2,7 +2,8 @@
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
 import { StyledTooltip } from './Tooltip';
+import { FlipCard } from './FlipCard';
 
 export { StyledChartDialog } from './ChartDialog';
 export { StyledSearchBar } from './StyledSearchBar';
-export { StyledTooltip, useNotificationHandler, useWindowDimensions };
+export { FlipCard, StyledTooltip, useNotificationHandler, useWindowDimensions };
