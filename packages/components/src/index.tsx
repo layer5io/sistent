@@ -63,12 +63,14 @@ export {
   type CustomColumnVisibilityControlProps
 } from './custom/CustomColumnVisibilityControl';
 export * from './custom/Dialog';
+export { default as PopperListener } from './custom/PopperListener';
 export {
   default as ResponsiveDataTable,
   type Column,
   type ResponsiveDataTableProps
 } from './custom/ResponsiveDataTable';
 export { default as SearchBar, type SearchBarProps } from './custom/SearchBar';
+export { default as TooltipIcon } from './custom/TooltipIcon';
 export {
   default as UniversalFilter,
   type FilterColumn,

@@ -1,21 +1,16 @@
-import React, {useContext} from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
-import Navbar from "../components/Navigation";
-import Sidebar from "../components/Sidebar";
-import Footer from "../components/Footer";
-import Home from "./home";
-import Color from "./identity/colors";
-import Typography from "./identity/typography";
-import Elevation from "./identity/elevation";
-import Spacing from "./identity/spacing";
-import PageLayout from "./identity/page-layouts";
+import { useContext } from 'react';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navigation';
+import Sidebar from '../components/Sidebar';
+import ThemeContext from '../components/Theme';
 import '../styles/global.css';
-import ThemeContext from "../components/Theme";
+import Home from './home';
+import Color from './identity/colors';
+import Elevation from './identity/elevation';
+import PageLayout from './identity/page-layouts';
+import Spacing from './identity/spacing';
+import Typography from './identity/typography';
 
 const IndexPage = () => {
   const theme = useContext(ThemeContext);
@@ -34,18 +29,18 @@ const IndexPage = () => {
   );
 
   return (
-        <div className={`${theme.dark? 'dark' : 'light'} bg-background-default`} >
-        <Router>
-          <Navbar />
-          <div className='flex gap-8'>
-            <Sidebar />
-            <main>{routes}</main>
-          </div>
-          <Footer />
-        </Router>
+    <div className={`${theme.dark ? 'dark' : 'light'} bg-background-default`}>
+      <Router>
+        <Navbar />
+        <div className="flex gap-8">
+          <Sidebar />
+          <main>{routes}</main>
         </div>
+        <Footer />
+      </Router>
+    </div>
   );
-}
+};
 
 export default IndexPage;
 
