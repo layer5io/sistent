@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 
 /**
  * Wrapper component for flip cards.
@@ -17,7 +17,7 @@ export interface FlipCardProps {
 }
 
 function FlipCard({ frontComponents, backComponents, disableFlip }: FlipCardProps): JSX.Element {
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isFlipped, setIsFlipped] = React.useState(false);
 
   const handleFlip = () => {
     if (!disableFlip) {
