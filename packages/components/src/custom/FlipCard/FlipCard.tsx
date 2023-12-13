@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from 'react';
 
 /**
  * Wrapper component for flip cards.
@@ -27,43 +27,53 @@ function FlipCard({ frontComponents, backComponents, disableFlip }: FlipCardProp
 
   return (
     <>
-      <div style={{
-        background: "transparent",
-        perspective: "1000px"
-      }}>
+      <div
+        style={{
+          background: 'transparent',
+          perspective: '1000px'
+        }}
+      >
         <div
           onClick={handleFlip}
           style={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-            height: "100%",
-            textAlign: "center",
-            transition: "transform 0.6s",
-            transformStyle: "preserve-3d",
-            boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2)",
-            transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)"
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            height: '100%',
+            textAlign: 'center',
+            transition: 'transform 0.6s',
+            transformStyle: 'preserve-3d',
+            boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+            transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
           }}
         >
-          <div style={{
-            flex: 1,
-            display: "flex",
-            width: "100%",
-            height: "fit-content",
-            WebkitBackfaceVisibility: "hidden",
-            backfaceVisibility: "hidden",
-            transform: "rotateY(180deg)"
-          }}>{frontComponents}</div>
-          <div style={{
-            flex: 1,
-            display: "flex",
-            position: "absolute",
-            top: 0,
-            width: "100%",
-            height: "100%",
-            WebkitBackfaceVisibility: "hidden",
-            backfaceVisibility: "hidden"
-          }}>{backComponents}</div>
+          <div
+            style={{
+              flex: 1,
+              display: 'flex',
+              width: '100%',
+              height: 'fit-content',
+              WebkitBackfaceVisibility: 'hidden',
+              backfaceVisibility: 'hidden',
+              transform: 'rotateY(180deg)'
+            }}
+          >
+            {frontComponents}
+          </div>
+          <div
+            style={{
+              flex: 1,
+              display: 'flex',
+              position: 'absolute',
+              top: 0,
+              width: '100%',
+              height: '100%',
+              WebkitBackfaceVisibility: 'hidden',
+              backfaceVisibility: 'hidden'
+            }}
+          >
+            {backComponents}
+          </div>
         </div>
       </div>
     </>
