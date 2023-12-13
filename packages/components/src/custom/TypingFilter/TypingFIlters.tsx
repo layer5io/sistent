@@ -4,6 +4,7 @@ import { List } from '../../base/List';
 import { ListItem } from '../../base/ListItem';
 import { Typography } from '../../base/Typography';
 import { FilterSchema, FilterStateType, FilteringEvents } from '../../utils/typing.state';
+import { getCurrentFilterAndValue } from '../../utils/typing.utils';
 
 interface TypingFiltersType {
   filterStateMachine: FilterStateType;

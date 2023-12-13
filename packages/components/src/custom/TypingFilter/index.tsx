@@ -13,6 +13,7 @@ import {
 import TypingFilterInput from './TypingFIlterInput';
 import { TypingFilters } from './TypingFIlters';
 import { TypingFilterValueSuggestions } from './TypingFilterSuggestions';
+import { getFilters } from '../../utils/typing.utils';
 
 interface TypingFilterType {
   filterSchema: FilterSchema;
