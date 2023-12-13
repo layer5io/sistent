@@ -76,3 +76,4 @@ export {
   type FilterColumn,
   type UniversalFilterProps
 } from './custom/UniversalFilter';
+export { default as SistentProvider } from './theme/SistentProvider';
