@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.13.0-alpha.2",
+  "version": "0.13.0-alpha.3",
   "description": "Reusable React Components",
   "sideEffects": false,
   "exports": {
