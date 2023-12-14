@@ -961,7 +961,7 @@ __metadata:
   dependencies:
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
-    "@layer5/sistent-svg": "workspace:^"
+    "@layer5/sistent-svg": ^0.14.2
     "@mui/icons-material": ^5.14.12
     "@mui/material": ^5.14.16
     "@types/mui-datatables": ^4.3.6
@@ -1006,7 +1006,30 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@layer5/sistent-svg@workspace:^, @layer5/sistent-svg@workspace:packages/svg":
+"@layer5/sistent-svg@npm:^0.14.2":
+  version: 0.14.2
+  resolution: "@layer5/sistent-svg@npm:0.14.2"
+  dependencies:
+    react: ^17.0.0 || ^18.0.0
+    react-dom: ^17.0.0 || ^18.0.0
+  peerDependencies:
+    react: ">=17"
+    react-dom: ">=17"
+  dependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  peerDependenciesMeta:
+    react:
+      optional: true
+    react-dom:
+      optional: true
+  checksum: 97088fabbc40d9c6c3943605ef26be07bbfc7525f97963012417cb7674414e64d59f131b4fa722fff3af820a3eccf0ba04b9905404af6ba42570c79146117cf4
+  languageName: node
+  linkType: hard
+
+"@layer5/sistent-svg@workspace:packages/svg":
   version: 0.0.0-use.local
   resolution: "@layer5/sistent-svg@workspace:packages/svg"
   dependencies:
