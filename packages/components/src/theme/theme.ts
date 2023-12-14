@@ -8,14 +8,12 @@ export const drawerWidth = 240;
 export const createCustomTheme = (paletteType: PaletteMode) => {
   const palette = paletteType === 'light' ? lightModePalette : darkModePalette;
 
-  const theme = createTheme({
+  return createTheme({
     palette,
     components,
     typography: typography(paletteType),
     breakpoints: {}
-  });
-
-  return theme;
+  })
 };
 
 /*
