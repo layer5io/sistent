@@ -15,9 +15,9 @@ export default defineConfig({
   sourcemap: env === 'development',
   tsconfig: path.resolve(__dirname, './tsconfig.json'),
   loader: {
-    ".otf": "file",
-    ".woff": "file",
-    ".woff2": "file",
+    '.otf': 'file',
+    '.woff': 'file',
+    '.woff2': 'file'
   },
-  publicDir: "./src/assets/"
+  publicDir: './src/assets/'
 });
