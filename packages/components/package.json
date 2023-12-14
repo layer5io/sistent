@@ -25,7 +25,7 @@
     "prepublish": "yarn build"
   },
   "dependencies": {
-    "@layer5/sistent-svg": "workspace:^"
+    "@layer5/sistent-svg": "^0.14.2"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
@@ -87,5 +87,6 @@
         "default": "./dist/index.js"
       }
     }
-  }
+  },
+  "gitHead": "30ea6e6a02dcc44349a3dbf4ec459c2b3bdc08c9"
 }
