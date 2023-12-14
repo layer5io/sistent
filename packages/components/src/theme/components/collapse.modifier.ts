@@ -3,7 +3,7 @@ import { patternsBlue } from '../colors';
 
 declare module '@mui/material/Collapse' {
   interface CollapseProps {
-    variant?: 'submenu' | string;
+    variant?: 'submenu';
   }
   interface CollapsePropsVariantOverrides {
     submenu: true;
