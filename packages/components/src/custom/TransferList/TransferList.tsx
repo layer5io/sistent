@@ -1,10 +1,10 @@
-import React from "react";
-import Grid from "@mui/material/Grid";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Checkbox from "@mui/material/Checkbox";
-import { Typography } from "@mui/material";
-import { Tooltip } from "@mui/material";
+import { KuberneteIcon, LeftArrowIcon, RightArrowIcon, SMPIcon } from '@layer5/sistent-svg';
+import { Tooltip, Typography } from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import React from 'react';
 import {
   ButtonGrid,
   ListGrid,
@@ -12,15 +12,11 @@ import {
   StyledChip,
   StyledPaper,
   TransferButton
-} from "./style";
-import { LeftArrowIcon } from "@layer5/sistent-svg";
-import { RightArrowIcon } from "@layer5/sistent-svg";
-import { KuberneteIcon } from "@layer5/sistent-svg";
-import { SMPIcon } from "@layer5/sistent-svg";
+} from './style';
 
 export const TRANSFER_COMPONET = {
-  CHIP: "chip",
-  OTHER: "other"
+  CHIP: 'chip',
+  OTHER: 'other'
 };
 
 function not(a: any, b: any) {
@@ -68,7 +64,7 @@ function TransferList({
   emptyStateIconRight,
   emtyStateMessageRight,
   transferComponentType = TRANSFER_COMPONET.OTHER
-}: TransferListProps): JSX.Element  {
+}: TransferListProps): JSX.Element {
   const [checked, setChecked] = React.useState<any[]>([]);
   const [left, setLeft] = React.useState<any[]>([]);
   const [right, setRight] = React.useState<any>(originalAssignedData);
@@ -78,8 +74,8 @@ function TransferList({
 
   React.useEffect(() => {
     assignedData(right);
-    const idsToRemove = new Set(right.map((item: { id: number; }) => item.id));
-    const filteredLeft = assignableData.filter(item => !idsToRemove.has(item.id));
+    const idsToRemove = new Set(right.map((item: { id: number }) => item.id));
+    const filteredLeft = assignableData.filter((item) => !idsToRemove.has(item.id));
     setLeft(filteredLeft);
   }, [right, assignableData]);
 
@@ -122,16 +118,16 @@ function TransferList({
     <StyledPaper>
       <List dense component="div" role="list">
         {items.length > 0 ? (
-          items.map(item => {
+          items.map((item) => {
             const labelId = `transfer-list-item-${item.name}-label`;
             return (
               <ListItem
                 key={item.id}
                 role="listitem"
                 sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  "&:hover": {
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  '&:hover': {
                     backgroundColor: `#00000010`
                   }
                 }}
@@ -140,7 +136,7 @@ function TransferList({
                 {transferComponentType === TRANSFER_COMPONET.CHIP ? (
                   <Tooltip title={item.name} placement="top">
                     <StyledChip
-                      sx={{ paddingY: "10px" }}
+                      sx={{ paddingY: '10px' }}
                       variant="outlined"
                       label={item.name}
                       onDelete={() => {}}
@@ -150,9 +146,7 @@ function TransferList({
                   </Tooltip>
                 ) : (
                   <Tooltip title={item.name} placement="top">
-                    <Typography
-                      sx={{ maxWidth: "230px", height: "1.5rem", overflow: "hidden" }}
-                    >
+                    <Typography sx={{ maxWidth: '230px', height: '1.5rem', overflow: 'hidden' }}>
                       {item.name}
                     </Typography>
                   </Tooltip>
@@ -162,7 +156,7 @@ function TransferList({
                   tabIndex={-1}
                   disableRipple
                   inputProps={{
-                    "aria-labelledby": labelId
+                    'aria-labelledby': labelId
                   }}
                 />
               </ListItem>
@@ -171,18 +165,16 @@ function TransferList({
         ) : (
           <div
             style={{
-              textAlign: "center",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "264px"
+              textAlign: 'center',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '264px'
             }}
           >
             {emptyStateIcon}
-            <Typography
-              sx={{ color: "#979797", px: 5, py: 2, lineHeight: 1 }}
-            >
+            <Typography sx={{ color: '#979797', px: 5, py: 2, lineHeight: 1 }}>
               {emtyStateMessage}
             </Typography>
           </div>
@@ -209,11 +201,7 @@ function TransferList({
             aria-label="move all right"
           >
             <RightArrowIcon width={18} height={18} />
-            <RightArrowIcon
-              style={{ position: "absolute", left: "27px" }}
-              width={18}
-              height={18}
-            />
+            <RightArrowIcon style={{ position: 'absolute', left: '27px' }} width={18} height={18} />
           </TransferButton>
           <TransferButton
             variant="outlined"
@@ -241,11 +229,7 @@ function TransferList({
             aria-label="move all left"
           >
             <LeftArrowIcon width={18} height={18} />
-            <LeftArrowIcon
-              style={{ position: "absolute", left: "27px" }}
-              width={18}
-              height={18}
-            />
+            <LeftArrowIcon style={{ position: 'absolute', left: '27px' }} width={18} height={18} />
           </TransferButton>
         </Grid>
       </ButtonGrid>
