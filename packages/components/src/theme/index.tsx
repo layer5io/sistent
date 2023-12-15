@@ -12,13 +12,15 @@ export const SistentThemeProviderContext = React.createContext<SistentProviderCo
 export interface SistentThemeProviderProps {
   children: React.ReactNode;
   emotionCache?: EmotionCache;
+  initialMode?: PaletteMode;
 }
 
-function SistentThemeProvider({ children, emotionCache }: SistentThemeProviderProps): JSX.Element {
-  const initialMode = 'light';
-  const [mode] = React.useState<PaletteMode>(initialMode);
-
-  const theme = React.useMemo<Theme>(() => createCustomTheme(mode), [mode]);
+function SistentThemeProvider({
+  children,
+  emotionCache,
+  initialMode = 'light'
+}: SistentThemeProviderProps): JSX.Element {
+  const theme = React.useMemo<Theme>(() => createCustomTheme(initialMode), [initialMode]);
 
   return (
     <SistentThemeProviderContext.Provider value={{ emotionCache }}>
