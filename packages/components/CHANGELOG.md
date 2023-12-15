@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0-alpha.8](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.12.0...@layer5/sistent-components@0.13.0-alpha.8) (2023-12-15)
+
+### Bug Fixes
+
+- **clickaway:** remove extra wrapper ([abfdb95](https://github.com/layer5io/sistent/commit/abfdb956c0952f9053954150d10a8d1c58bd7603))
+- **componenets:** Add CssBaseline ([f392abb](https://github.com/layer5io/sistent/commit/f392abb7d1f2fcb11e6e814faac955bf9b872b43))
+- **components:** Fix Drawer's color in theme mode ([9d5c28a](https://github.com/layer5io/sistent/commit/9d5c28a08b2df9bea95f673c1ca99de68bd7209e))
+- **components:** fix font path again ([f524e6f](https://github.com/layer5io/sistent/commit/f524e6f40cd9f94c829aad1d5789da99aeb52d95))
+- **components:** refactor column to not use forwardRef ([6590d55](https://github.com/layer5io/sistent/commit/6590d55809b1c0f75f364986642d41b88c38235e)), closes [#375](https://github.com/layer5io/sistent/issues/375)
+- **components:** return the theme ([13e4229](https://github.com/layer5io/sistent/commit/13e42295ef1d02c8088a5af029dcdac5aeb6ab42))
+- **components:** update filter component ([e087dbf](https://github.com/layer5io/sistent/commit/e087dbfcd39ae3cd75d589b5a263cbf27f6eb2ff)), closes [#394](https://github.com/layer5io/sistent/issues/394)
+- **configure:** toolbar components ([45c3664](https://github.com/layer5io/sistent/commit/45c3664612fe26dbb4a756874e83e66f16d8a84a))
+- **div:** wrapper ([e80688a](https://github.com/layer5io/sistent/commit/e80688a4928fcd1c04ab22212f444f00e756196b))
+- **issues:** column ([fddc3c0](https://github.com/layer5io/sistent/commit/fddc3c04baef4e6bfc6f6d3b2e453f81ba77cb3d))
+- **pretier:** check ([182c5ed](https://github.com/layer5io/sistent/commit/182c5ed62d659c6050da47fd8bec960e994f937b))
+
+### Features
+
+- **add:** date formats ([2e70ef8](https://github.com/layer5io/sistent/commit/2e70ef82b0d30f8f5baed4a8076a338de6dfccb2))
+- **components:** add fonts to assets ([cf39047](https://github.com/layer5io/sistent/commit/cf39047d81a27c6edf6ed4135eae64f3b31eeb53))
+- **components:** add outlined input component ([13da43f](https://github.com/layer5io/sistent/commit/13da43fbb3705492b373ec823e9e8727343e0676))
+- **components:** add placeholder for button style ([b3f2568](https://github.com/layer5io/sistent/commit/b3f2568834a4720a75ad7d48dc84a0743a5067d6))
+- **components:** change path to fonts, and add other colors ([b48a889](https://github.com/layer5io/sistent/commit/b48a8891d7f85820ea8312121037ba9aab38e065))
+- **components:** create PopperListener component ([ad676a6](https://github.com/layer5io/sistent/commit/ad676a6262a9b60e4614efebbe94ebd10d7460b0)), closes [#390](https://github.com/layer5io/sistent/issues/390)
+- **components:** create TooltipIcon ([08bc434](https://github.com/layer5io/sistent/commit/08bc434026963874c94ceda85f02c61ac9d42f71)), closes [#376](https://github.com/layer5io/sistent/issues/376)
+- **components:** Export ThemeProvider ([4c6864b](https://github.com/layer5io/sistent/commit/4c6864b63a8f3449592e2970fa2acf9d9be5665c)), closes [#368](https://github.com/layer5io/sistent/issues/368)
+- **components:** Move initialMode state into props ([a36ddef](https://github.com/layer5io/sistent/commit/a36ddef7189ee68358e2a1809c3729290e382a8e))
+- **components:** update SearchBar ([92486f6](https://github.com/layer5io/sistent/commit/92486f694bc1e340b4de62013f5799354dd6e55d)), closes [#396](https://github.com/layer5io/sistent/issues/396)
+- **prop:** add color prop ([c16c36d](https://github.com/layer5io/sistent/commit/c16c36d040e0e28161efad3263d57b6e1e405e11))
+
 # [0.13.0-alpha.7](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.12.0...@layer5/sistent-components@0.13.0-alpha.7) (2023-12-15)
 
 ### Bug Fixes
