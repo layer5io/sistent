@@ -34,6 +34,7 @@ export const ANAKIWA = '#9EFFEC';
 export const NOT_FOUND = '#666666';
 export const YELLOW_SEA = '#F0A303';
 export const PINE_GREEN = '#008071';
+export const DARK_BLUE_GRAY = '#263238';
 
 export const common = {
   black: BLACK,

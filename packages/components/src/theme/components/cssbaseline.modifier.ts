@@ -11,6 +11,6 @@ export const MuiCssBaseline: Components<Theme>['MuiCssBaseline'] = {
         local('QanelasSoftRegular'),
         local('Quanelas Soft Regular'),
         url('/assets/fonts/QanelasSoftRegular.woff2') format('woff2');
-    }      
+    }
     `
 };

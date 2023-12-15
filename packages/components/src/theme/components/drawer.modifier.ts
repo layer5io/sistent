@@ -1,22 +1,16 @@
 import { Components, Theme } from '@mui/material';
+import { DARK_BLUE_GRAY } from '../colors';
 import { drawerWidth } from '../theme';
 
 export const MuiDrawer: Components<Theme>['MuiDrawer'] = {
   styleOverrides: {
-    root: ({ theme }) => {
-      const {
-        palette: {
-          primary: { main }
-        }
-      } = theme;
-      return {
+    root: {
+      width: drawerWidth,
+      '& .MuiDrawer-paper': {
         width: drawerWidth,
-        '& .MuiDrawer-paper': {
-          width: drawerWidth,
-          boxSize: 'border-box',
-          background: main
-        }
-      };
+        boxSize: 'border-box',
+        background: DARK_BLUE_GRAY
+      }
     }
   }
 };
