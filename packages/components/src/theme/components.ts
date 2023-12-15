@@ -10,6 +10,7 @@ import { MuiIconButton } from './components/iconbutton.modifier';
 import { MuiLink } from './components/link.modifier';
 import { MuiMenu } from './components/menu.modifier';
 import { MuiMenuItem } from './components/menuitem.modifier';
+import { MuiOutlinedInput } from './components/outlinedinput.modifier';
 import { MuiPagination } from './components/pagination.modifier';
 import { MuiSvgIcon } from './components/svgicon.modifier';
 import { MuiTab } from './components/tab.modifier.ts';
@@ -26,6 +27,7 @@ export const components: Components<Theme> = {
   MuiLink,
   MuiMenu,
   MuiMenuItem,
+  MuiOutlinedInput,
   MuiPagination,
   MuiSvgIcon,
   MuiTab
