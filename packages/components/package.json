@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent-components",
-  "version": "0.13.0-alpha.3",
+  "version": "0.13.0-alpha.4",
   "description": "Reusable React Components",
   "sideEffects": false,
   "exports": {
@@ -88,6 +88,5 @@
         "default": "./dist/index.js"
       }
     }
-  },
-  "gitHead": "30ea6e6a02dcc44349a3dbf4ec459c2b3bdc08c9"
+  }
 }
