@@ -1,7 +1,7 @@
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
-export const LeftArrowIcon = ({
+export const RightArrowIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
   ...props
@@ -19,4 +19,4 @@ export const LeftArrowIcon = ({
   );
 };
 
-export default LeftArrowIcon;
+export default RightArrowIcon;
