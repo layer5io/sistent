@@ -10,9 +10,6 @@ export const MuiCssBaseline: Components<Theme>['MuiCssBaseline'] = {
       src: 
         local('QanelasSoftRegular'),
         local('Quanelas Soft Regular'),
-        url('QanelasSoftRegular.woff2') format('woff2'),
-        url('/QanelasSoftRegular.woff2') format('woff2'),
-        url('/QanelasSoftRegular-BF4ZPFBV.woff2') format('woff2'),
         url('/assets/fonts/QanelasSoftRegular.woff2') format('woff2');
     }
     `

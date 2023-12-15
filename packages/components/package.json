@@ -4,6 +4,7 @@
   "description": "Reusable React Components",
   "sideEffects": false,
   "exports": {
+    "./package.json": "./package.json",
     ".": {
       "require": "./dist/index.js",
       "import": "./dist/index.js",
@@ -88,5 +89,6 @@
         "default": "./dist/index.js"
       }
     }
-  }
+  },
+  "gitHead": "60385738bf351777627b212e623eb15c64a36ccc"
 }
