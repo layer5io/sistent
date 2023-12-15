@@ -76,5 +76,5 @@ export {
   type FilterColumn,
   type UniversalFilterProps
 } from './custom/UniversalFilter';
-export { default as SistentProvider } from './theme';
+export { default as SistentThemeProvider } from './theme';
 export * from './theme/colors';

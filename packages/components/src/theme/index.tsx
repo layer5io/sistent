@@ -1,35 +1,32 @@
-import { CacheProvider, EmotionCache } from '@emotion/react';
-import { CssBaseline, PaletteMode, Theme, ThemeProvider } from '@mui/material';
+import { EmotionCache } from '@emotion/react';
+import { PaletteMode, Theme, ThemeProvider } from '@mui/material';
 import React from 'react';
-import createEmotionCache from './createEmotionCache';
 import { createCustomTheme } from './theme';
 
-const clientSideEmotionCache = createEmotionCache();
+interface SistentProviderContextType {
+  emotionCache?: EmotionCache;
+}
 
-interface SistentProviderProps {
+export const SistentThemeProviderContext = React.createContext<SistentProviderContextType>({});
+
+export interface SistentThemeProviderProps {
   children: React.ReactNode;
   emotionCache?: EmotionCache;
 }
 
-function SistentProvider({
-  children,
-  emotionCache = clientSideEmotionCache
-}: SistentProviderProps): JSX.Element {
+function SistentThemeProvider({ children, emotionCache }: SistentThemeProviderProps): JSX.Element {
   const initialMode = 'light';
   const [mode] = React.useState<PaletteMode>(initialMode);
 
   const theme = React.useMemo<Theme>(() => createCustomTheme(mode), [mode]);
 
   return (
-    <CacheProvider value={emotionCache}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
-    </CacheProvider>
+    <SistentThemeProviderContext.Provider value={{ emotionCache }}>
+      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    </SistentThemeProviderContext.Provider>
   );
 }
 
-export default SistentProvider;
+export default SistentThemeProvider;
 
-export { SistentProvider };
+export { SistentThemeProvider };
