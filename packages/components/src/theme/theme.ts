@@ -5,15 +5,16 @@ import { typography } from './typography';
 
 export const drawerWidth = 240;
 
-export const createCustomTheme = (paletteType: PaletteMode) => {
-  const palette = paletteType === 'light' ? lightModePalette : darkModePalette;
-
+export const createCustomTheme = (mode: PaletteMode) => {
   return createTheme({
-    palette,
+    palette: {
+      mode,
+      ...(mode === 'light' ? lightModePalette : darkModePalette)
+    },
     components,
-    typography: typography(paletteType),
+    typography: typography(mode),
     breakpoints: {}
-  })
+  });
 };
 
 /*

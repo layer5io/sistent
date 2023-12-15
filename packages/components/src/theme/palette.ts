@@ -1,11 +1,11 @@
-import { PaletteOptions } from '@mui/material';
+import { PaletteOptions, lighten } from '@mui/material';
 import {
-  BLACK,
   CHARCOAL,
   KEPPEL,
-  WHITE,
+  accentGrey,
   actionIcon,
   buttonDelete,
+  common,
   cultured,
   notificationColors
 } from './colors';
@@ -49,10 +49,16 @@ declare module '@mui/material/styles' {
 
 export const lightModePalette: PaletteOptions = {
   primary: {
-    main: CHARCOAL
+    main: CHARCOAL,
+    light: lighten(CHARCOAL, 0.7),
+    contrastText: common.white
   },
   secondary: {
     main: KEPPEL
+  },
+  background: {
+    default: accentGrey[90],
+    paper: accentGrey[90]
   },
   info: {
     main: notificationColors.info.main
@@ -63,14 +69,15 @@ export const lightModePalette: PaletteOptions = {
   },
   warning: {
     main: notificationColors.warning.main,
-    light: notificationColors.warning.light
+    light: notificationColors.warning.light,
+    contrastText: common.white
   },
   success: {
     main: notificationColors.success.main
   },
   common: {
-    black: BLACK,
-    white: WHITE
+    black: common.black,
+    white: common.white
   },
   cultured: {
     main: cultured.main
@@ -88,7 +95,39 @@ export const lightModePalette: PaletteOptions = {
 };
 
 export const darkModePalette: PaletteOptions = {
-  primary: {},
-  secondary: {},
+  primary: {
+    main: KEPPEL,
+    light: lighten(KEPPEL, 0.7),
+    contrastText: common.white
+  },
+  secondary: {
+    main: KEPPEL
+  },
+  background: {
+    default: accentGrey[10],
+    paper: accentGrey[10]
+  },
+  info: {
+    main: notificationColors.info.main,
+    contrastText: common.white
+  },
+  error: {
+    main: notificationColors.error.main,
+    dark: notificationColors.error.dark,
+    contrastText: common.white
+  },
+  warning: {
+    main: notificationColors.warning.main,
+    light: notificationColors.warning.light,
+    contrastText: common.white
+  },
+  success: {
+    main: notificationColors.success.main,
+    contrastText: common.white
+  },
+  common: {
+    black: common.black,
+    white: common.white
+  },
   neutral: {}
 };

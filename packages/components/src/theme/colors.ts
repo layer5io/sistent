@@ -35,6 +35,153 @@ export const NOT_FOUND = '#666666';
 export const YELLOW_SEA = '#F0A303';
 export const PINE_GREEN = '#008071';
 
+export const common = {
+  black: BLACK,
+  white: WHITE
+};
+
+export const keppel = {};
+
+export const carribean = {};
+
+export const saffron = {};
+
+/**
+ * Grayscale Colors
+ */
+export const charcoal = {
+  100: '#FDFDFD',
+  90: '#EAEDEE',
+  80: '#D2D8DA',
+  70: '#B1B9BC',
+  60: '#8C999E',
+  50: '#647176',
+  40: '#3C494E',
+  30: '#28353A',
+  20: '#142126',
+  10: '#000D12'
+};
+
+export const accentGrey = {
+  90: '#E8EFF3',
+  80: '#C9DBE3',
+  70: '#ABBDC5',
+  60: '#8D9FA7',
+  50: '#6F8189',
+  40: '#51636B',
+  30: '#3D4F57',
+  20: '#293B43',
+  10: '#15272F'
+};
+
+/**
+ * Function Colors
+ */
+export const blue = {
+  70: '#EBF6FF',
+  60: '#99CCFF',
+  50: '#4797FF',
+  40: '#1E77FC',
+  30: '#0F58D6',
+  20: '#043DB0',
+  10: '#001B63'
+};
+
+export const green = {
+  70: '#EFFCED',
+  60: '#B2E3AF',
+  50: '#5BC95B',
+  40: '#36BC3B',
+  30: '#15701E',
+  20: '#0A4A13',
+  10: '#05340A'
+};
+
+export const yellow = {
+  70: '#FFFCE6',
+  60: '#FFE57D',
+  50: '#FFC72B',
+  40: '#FFB302',
+  30: '#D99100',
+  20: '#8C5400',
+  10: '#663A00'
+};
+
+export const red = {
+  70: '#FFF0F0',
+  60: '#FFB3B9',
+  50: '#FF6179',
+  40: '#ff385c',
+  30: '#B3153D',
+  20: '#8C0a2F',
+  10: '#660624'
+};
+
+export const defaultPalette = {
+  keppel: ['#DAF3EB', '#93E6D1', '#41CCB3', '#00B39F', '#007763', '#006661', '#00403F']
+};
+
+type BackgroundColor = {
+  [key in
+    | 'default'
+    | 'secondary'
+    | 'tertiary'
+    | 'hover'
+    | 'brand-default'
+    | 'info-default'
+    | 'success-default'
+    | 'warning-default'
+    | 'error-default']: string;
+};
+
+export const background: BackgroundColor = {
+  default: charcoal[100],
+  secondary: accentGrey[90],
+  tertiary: accentGrey[80],
+  hover: charcoal[90],
+  'brand-default': accentGrey[40],
+  'info-default': blue[30],
+  'success-default': green[30],
+  'warning-default': yellow[30],
+  'error-default': red[30]
+};
+
+interface TextColor {
+  default: string;
+  secondary: string;
+  tertiary: string;
+  inverse: string;
+  brand: string;
+  info: string;
+  success: string;
+  warning: string;
+  error: string;
+}
+
+export const text: TextColor = {
+  default: charcoal[10],
+  secondary: charcoal[90],
+  tertiary: charcoal[50],
+  inverse: charcoal[100],
+  brand: accentGrey[40],
+  info: blue[30],
+  success: green[30],
+  warning: yellow[30],
+  error: red[30]
+};
+
+interface BorderColor {
+  default: string;
+  strong: string;
+  brand: string;
+}
+
+export const border: BorderColor = {
+  default: charcoal[90],
+  strong: charcoal[50],
+  brand: accentGrey[40]
+};
+
 /**
  * Use the colors below that provides the action that you want to use
  */
@@ -49,10 +196,6 @@ export const patternsBlue = {
 
 export const cultured = {
   main: CULTURED
-};
-
-export const green = {
-  main: GREEN
 };
 
 export const darkTeal = {
