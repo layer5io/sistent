@@ -52,4 +52,7 @@ export * from './Undo';
 export * from './Validate';
 export * from './Visibility';
 export * from './Visualizer';
-export * from './Zoom';
+export * from './LeftArrow';
+export * from './RightArrow';
+export * from './Kubernetes';
+export * from './SMP';
