@@ -1,5 +1,5 @@
 import { EmotionCache } from '@emotion/react';
-import { PaletteMode, Theme, ThemeProvider } from '@mui/material';
+import { CssBaseline, PaletteMode, Theme, ThemeProvider } from '@mui/material';
 import React from 'react';
 import { createCustomTheme } from './theme';
 
@@ -24,7 +24,10 @@ function SistentThemeProvider({
 
   return (
     <SistentThemeProviderContext.Provider value={{ emotionCache }}>
-      <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
     </SistentThemeProviderContext.Provider>
   );
 }
