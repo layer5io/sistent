@@ -94,7 +94,7 @@ const ResponsiveDataTable = ({
           ].includes(col.name)
         ) {
           col.options.customBodyRender = (value: string | number | boolean | object) => {
-            if (value === 'NA') {
+            if (value === 'NA' || value === null || value === undefined) {
               return <>{value}</>;
             } else if (typeof value === 'object' && 'Valid' in value) {
               const obj = value as { Valid: boolean; Time: string | undefined };
