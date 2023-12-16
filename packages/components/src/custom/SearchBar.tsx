@@ -81,7 +81,7 @@ function SearchBar({
           inputRef={searchRef}
           placeholder={placeholder}
           style={{
-            width: '150px',
+            width: expanded ? '150px' : '0',
             opacity: expanded ? 1 : 0,
             transition: 'width 0.3s ease, opacity 0.3s ease'
           }}
