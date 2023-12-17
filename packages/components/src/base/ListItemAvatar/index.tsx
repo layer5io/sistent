@@ -1,1 +1,0 @@
-export { ListItemAvatar } from './ListItemAvatar';
