@@ -6,7 +6,9 @@
   "workspaces": [
     "!apps/design-system",
     "!apps/next-12",
-    "packages/*"
+    "!packages/rtk-query-codegen",
+    "packages/components",
+    "packages/svg"
   ],
   "scripts": {
     "build-all": "lerna run build",
