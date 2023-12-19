@@ -1,40 +1,29 @@
-import { ChipProps, TooltipProps } from '@mui/material';
-import React from 'react';
-import { Chip } from '../../base/Chip';
-import { Tooltip } from '../../base/Tooltip';
-import { Grid, Typography } from '@material-ui/core';
-import React from 'react';
-import CurvedArrowIcon from './curvedArrowIcon';
+import CurvedArrowIcon from '@layer5/sistent-svg';
+import { Grid } from '../../base/Grid';
+import { Typography } from '../../base/Typography';
 
 /**
- * Wrapper component for flip cards.
+ * Empty state component for grid view.
  *
  * @param {Object} props - The component props.
  * @param {Object} props.message - The message of the empty state.
  * @param {string} props.icon - The icon of the empty state.
+ * @param {boolean} pros.poiner - The arrow pointer for button state.
  *
  */
 
 export interface EmptyStateProps {
-  tooltip: string;
-  tooltipPlacement?: TooltipProps['placement'];
-  variant?: ChipProps['variant'];
-  label: string;
-  icon?: React.ReactElement;
-  onClick?: () => void;
-  onDelete?: () => void;
-  style?: React.CSSProperties;
+  icon: string;
+  message?: string;
+  pointerLabel?: string;
+  poiner?: boolean;
 }
 
 function EmptyState({
-  tooltip,
-  tooltipPlacement = 'top',
-  variant = 'filled',
-  label,
   icon,
-  onClick,
-  onDelete,
-  style,
+  message,
+  pointerLabel,
+  poiner = false,
   ...rest
 }: EmptyStateProps): JSX.Element {
   return (
@@ -45,36 +34,38 @@ function EmptyState({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        minHeight: '50vh',
+        minHeight: '50vh'
       }}
     >
-      <Grid style={{ display: 'flex', width: '100%', padding: '0 40px' }}>
-        <CurvedArrowIcon />
-        <Typography
-          style={{
-            fontSize: 24,
-            color: '#808080',
-            px: 5,
-            py: 2,
-            lineHeight: 1.5,
-            letterSpacing: '0.15px',
-            display: 'flex',
-            alignItems: 'flex-end',
-            marginBottom: -32,
-          }}
-        >
-          {pointerLabel}
-        </Typography>
-      </Grid>
+      {poiner && (
+        <Grid style={{ display: 'flex', width: '100%', padding: '0 40px' }}>
+          <CurvedArrowIcon />
+          <Typography
+            sx={{
+              fontSize: 24,
+              color: '#808080',
+              px: 5,
+              py: 2,
+              lineHeight: 1.5,
+              letterSpacing: '0.15px',
+              display: 'flex',
+              alignItems: 'flex-end',
+              marginBottom: -32
+            }}
+          >
+            {pointerLabel}
+          </Typography>
+        </Grid>
+      )}
       <Grid style={{ marginTop: '120px' }}>
         {icon}
         <Typography
-          style={{
+          sx={{
             fontSize: 24,
             color: '#808080',
             px: 5,
             py: 2,
-            lineHeight: 1,
+            lineHeight: 1
           }}
         >
           {message}
