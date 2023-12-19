@@ -23,8 +23,7 @@ function EmptyState({
   icon,
   message,
   pointerLabel,
-  poiner = false,
-  ...rest
+  poiner = false
 }: EmptyStateProps): JSX.Element {
   return (
     <div
