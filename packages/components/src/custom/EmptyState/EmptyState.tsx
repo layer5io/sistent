@@ -1,4 +1,4 @@
-import CurvedArrowIcon from '@layer5/sistent-svg';
+import { LeftAngledArrowIcon } from '@layer5/sistent-svg';
 import { Grid } from '../../base/Grid';
 import { Typography } from '../../base/Typography';
 
@@ -39,7 +39,7 @@ function EmptyState({
     >
       {poiner && (
         <Grid style={{ display: 'flex', width: '100%', padding: '0 40px' }}>
-          <CurvedArrowIcon />
+          <LeftAngledArrowIcon />
           <Typography
             sx={{
               fontSize: 24,
@@ -50,7 +50,7 @@ function EmptyState({
               letterSpacing: '0.15px',
               display: 'flex',
               alignItems: 'flex-end',
-              marginBottom: -2rem
+              marginBottom: '-2rem'
             }}
           >
             {pointerLabel}
@@ -61,7 +61,7 @@ function EmptyState({
         {icon}
         <Typography
           sx={{
-            fontSize: 1.5rem,
+            fontSize: '1.5rem',
             color: '#808080',
             px: 5,
             py: 2,
