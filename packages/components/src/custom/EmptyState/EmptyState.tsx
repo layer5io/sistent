@@ -61,7 +61,7 @@ function EmptyState({
         {icon}
         <Typography
           sx={{
-            fontSize: 24,
+            fontSize: 1.5rem,
             color: '#808080',
             px: 5,
             py: 2,
