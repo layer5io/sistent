@@ -19,12 +19,7 @@ export interface EmptyStateProps {
   poiner?: boolean;
 }
 
-function EmptyState({
-  icon,
-  message,
-  pointerLabel,
-  poiner = false
-}: EmptyStateProps): JSX.Element {
+function EmptyState({ icon, message, pointerLabel, poiner = false }: EmptyStateProps): JSX.Element {
   return (
     <div
       style={{
