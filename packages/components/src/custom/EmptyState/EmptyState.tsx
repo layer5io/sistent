@@ -50,7 +50,7 @@ function EmptyState({
               letterSpacing: '0.15px',
               display: 'flex',
               alignItems: 'flex-end',
-              marginBottom: -32
+              marginBottom: -2rem
             }}
           >
             {pointerLabel}
