@@ -1,11 +1,11 @@
 // import _ from 'lodash';
+import { CloneIcon } from '@layer5/sistent-svg';
 import { truncate } from 'lodash';
 import React from 'react';
 import { Box } from '../base/Box';
 import { IconButton } from '../base/IconButton';
 import { Tooltip } from '../base/Tooltip';
 import { Typography } from '../base/Typography';
-import {CloneIcon} from '@layer5/sistent-svg'
 // import { Launch as LaunchIcon } from '@material-ui/icons';
 // import { isEmptyAtAllDepths } from '../../utils/objects';
 
