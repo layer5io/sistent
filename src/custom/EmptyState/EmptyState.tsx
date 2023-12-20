@@ -1,6 +1,6 @@
-import { LeftAngledArrowIcon } from '../../icons';
 import { Grid } from '../../base/Grid';
 import { Typography } from '../../base/Typography';
+import { LeftAngledArrowIcon } from '../../icons';
 
 /**
  * Empty state component for grid view.

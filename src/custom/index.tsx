@@ -13,13 +13,13 @@ import { StyledTooltip } from './Tooltip';
 
 export { StyledChartDialog } from './ChartDialog';
 export { StyledSearchBar } from './StyledSearchBar';
-export { CustomColumnVisibilityControl };
-export type { CustomColumn, CustomColumnVisibilityControlProps };
 export {
   ConnectionChip,
+  CustomColumnVisibilityControl,
   EmptyState,
   FlipCard,
   StyledTooltip,
   useNotificationHandler,
   useWindowDimensions
 };
+export type { CustomColumn, CustomColumnVisibilityControlProps };
