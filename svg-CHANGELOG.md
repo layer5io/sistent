@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.4](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.14.0...@layer5/sistent-svg@0.14.4) (2023-12-19)
+
+
+### Features
+
+* Added environment and workspace icon ([8594786](https://github.com/layer5io/sistent/commit/8594786e16065ce99e72c15b7c4581df01da3a7a))
+* Added Icons - Left arrow, Right arrow, K8, smp ([14ca4e3](https://github.com/layer5io/sistent/commit/14ca4e339fc4e03e6f9d98488c435a5f6f2c9a23))
+* Added LeftAngledArrowIcon ([cca5963](https://github.com/layer5io/sistent/commit/cca59636aa7f6156b2810be57a65f0ea0da662d4))
+* fix typo ([e97e753](https://github.com/layer5io/sistent/commit/e97e753645d47fbec7117384eec8fe0bfaf612f9))
+* formatting ([d2ec7a1](https://github.com/layer5io/sistent/commit/d2ec7a1ec646bb3e6aecd06bc4d36edc210c615b))
+* formatting ([86aa4cd](https://github.com/layer5io/sistent/commit/86aa4cdaedbd6d4f1a20100dcf4412d0d6177fab))
+* **svg:** create icons for TypingFilter component ([8217b49](https://github.com/layer5io/sistent/commit/8217b49ce3fb597d2e032db6f5762d22a240fac6)), closes [#400](https://github.com/layer5io/sistent/issues/400) [#341](https://github.com/layer5io/sistent/issues/341)
+
+
+
+
+
 ## [0.14.3](https://github.com/layer5io/sistent/compare/@layer5/sistent-svg@0.14.0...@layer5/sistent-svg@0.14.3) (2023-12-16)
 
 ### Features

@@ -11,8 +11,7 @@
   ],
   "workspaces": [
     "!apps/design-system",
-    "!apps/next-12",
-    "!packages/rtk-query-codegen"
+    "!apps/next-12"
   ],
   "scripts": {
     "build": "NODE_ENV=production tsup",
