@@ -862,6 +862,7 @@ __metadata:
     "@layer5/sistent-svg": "workspace:^"
     "@mui/icons-material": ^5.14.12
     "@mui/material": ^5.14.16
+    "@types/lodash": ^4.14.202
     "@types/mui-datatables": ^4.3.6
     "@types/react": ^18.2.15
     "@types/react-dom": ^18.2.7
@@ -869,6 +870,7 @@ __metadata:
     "@typescript-eslint/parser": ^6.0.0
     eslint: ^8.45.0
     eslint-plugin-react: ^7.33.2
+    lodash: ^4.17.21
     mui-datatables: ^4.3.0
     notistack: ^3.0.1
     react: ^17.0.0 || ^18.0.0
@@ -1951,6 +1953,13 @@ __metadata:
   version: 7.0.15
   resolution: "@types/json-schema@npm:7.0.15"
   checksum: 97ed0cb44d4070aecea772b7b2e2ed971e10c81ec87dd4ecc160322ffa55ff330dace1793489540e3e318d90942064bb697cc0f8989391797792d919737b3b98
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:^4.14.202":
+  version: 4.14.202
+  resolution: "@types/lodash@npm:4.14.202"
+  checksum: a91acf3564a568c6f199912f3eb2c76c99c5a0d7e219394294213b3f2d54f672619f0fde4da22b29dc5d4c31457cd799acc2e5cb6bd90f9af04a1578483b6ff7
   languageName: node
   linkType: hard
 
