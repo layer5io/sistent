@@ -1,0 +1,1 @@
+export { StyledModal } from './modal';
