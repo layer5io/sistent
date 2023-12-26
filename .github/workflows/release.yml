@@ -4,7 +4,7 @@ on:
     workflow_dispatch:
         inputs:
             version:
-                description: 'Specify the version type (path, minor, major)'
+                description: 'Specify the version type (patch, minor, major)'
                 required: true
                 default: 'patch'
 
@@ -29,8 +29,8 @@ jobs:
 
             - name: Install deps and build
               run: |
-                yarn
-                yarn build-all
+                npm install
+                npm run build
 
             - name: Initialize the NPM config
               run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN

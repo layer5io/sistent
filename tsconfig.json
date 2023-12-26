@@ -19,21 +19,6 @@
         "resolveJsonModule": true,
         "allowSyntheticDefaultImports": true,
         "importHelpers": true,
-        "baseUrl": ".",
-        "paths": {
-            "@layer5/sistent-components": [
-                "packages/components"
-            ],
-            "@layer5/eslint-config-sistent": [
-                "packages/eslint-config-sistent"
-            ],
-            "@layer5/rtk-query-codegen": [
-                "rtk-query-codegen"
-            ],
-            "@layer5/sistent-svg": [
-                "packages/svg"
-            ],
-        }
     },
     "include": [
         "."

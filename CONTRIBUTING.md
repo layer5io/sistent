@@ -83,7 +83,21 @@ For example:
 - `feat(auth): add user authentication feature`
 - `fix(ui): resolve styling issue in the header`
 
-Please ensure that your commits adhere to this format to maintain a clear and organized commit history.
+Please ensure that your commits adhere to this format to maintain a clear and organized commit history. This repo also uses `commitizen` and `commitlint` to make sure that you are adhering the rules in writing a commit.
+
+To write a commit message for this repo, each commit should have the following above, which includes the type, an optional scope, and a descriptive message.
+
+- `style`: Since we're using `prettier` and `eslint` to fix formatting and linting styles, you can write your commit message like so:
+
+`style(repo): use prettier and eslint to lint and format`
+
+or `style: format files`.
+
+The above will just write a commit message without a scope.
+
+- `feat`: When using this commit type, we're introducing a new feature into the repo. This feature has never been used, and will require a `minor` version to be used.
+- `fix`: When usin this commit type, we're introducing backward compatibility fixes to the existing repo. To help have a clean git commit, it would be better to create new features, and then work on fixing them to make meaningful releases.
+- `docs`: This is specific to any of the documentations, like Markdown files.
 
 #### Tests
 
