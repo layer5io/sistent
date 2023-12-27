@@ -100,8 +100,6 @@ e.g. `npm install ../packages/components` and `npm install ../packages/svg`
 <br/>
 ```
 
-```
-
 ## Join the Layer5 community!
 
 <a name="contributing"></a><a name="community"></a>
