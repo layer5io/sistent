@@ -71,6 +71,37 @@ format-fix:
 
 <br/>
 
+## Testing Packages Locally
+
+To test the packages locally, you need install the packages in the following order:
+
+1. `@layer5/sistent-svg`
+2. `@layer5/sistent-components`
+
+To install the packages, run the following command:
+
+```bash
+npm install <path-to-package>
+```
+
+This path will be the path where you have clone the repo in your local machine.
+
+```
+e.g. `npm install ../packages/components` and `npm install ../packages/svg`
+```
+
+> [!NOTE]
+> Things you need in order to test the packages locally:
+>
+> 1. You need to have `yarn` installed in your local machine.
+> 2. You need to have `node` installed in your local machine.
+> 3. You need to have `npm` installed in your local machine.
+
+<br/>
+```
+
+```
+
 ## Join the Layer5 community!
 
 <a name="contributing"></a><a name="community"></a>
@@ -80,7 +111,7 @@ Our projects are community-built and welcome collaboration. 👍 Be sure to see 
 <a href ="https://layer5.io/community/meshmates"><img alt="MeshMates" src=".github/readme/images/layer5-community-sign.png" style="margin-right:10px; margin-bottom:15px;" width="28%" align="left"/></a>
 <h3>Find your MeshMate</h3>
 
-<p>MeshMates are experienced Layer5 community members, who will help you learn your way around, discover live projects and expand your community network. 
+<p>MeshMates are experienced Layer5 community members, who will help you learn your way around, discover live projects and expand your community network.
 Become a <b>Meshtee</b> today!</p>
 
 Find out more on the <a href="https://layer5.io/community">Layer5 community</a>. <br />
@@ -110,3 +141,4 @@ Find out more on the <a href="https://layer5.io/community">Layer5 community</a>.
 </p>
 <p align="center">
 <i>Not sure where to start?</i> Grab an open issue with the <a href="https://github.com/issues?q=is%3Aopen+is%3Aissue+archived%3Afalse+org%3Alayer5io+org%3Ameshery+org%3Alayer5labs+org%3Aservice-mesh-performance+org%3Aservice-mesh-patterns+label%3A%22help+wanted%22+">help-wanted label</a>.</p>
+```
