@@ -93,9 +93,9 @@ e.g. `npm install ../packages/components` and `npm install ../packages/svg`
 > [!NOTE]
 > Things you need in order to test the packages locally:
 >
-> 1. You need to have `yarn` installed in your local machine.
-> 2. You need to have `node` installed in your local machine.
-> 3. You need to have `npm` installed in your local machine.
+> 1.  You need to have `yarn` installed in your local machine.
+> 2.  You need to have `node` installed in your local machine.
+> 3.  You need to have `npm` installed in your local machine.
 
 <br/>
 ```
