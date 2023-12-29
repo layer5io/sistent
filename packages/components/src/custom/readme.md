@@ -1,4 +1,6 @@
-# Responsive Data Table Component
+# Custom Components
+
+## Responsive Data Table Component
 
 This custom React component, `ResponsiveDataTable`, is a wrapper around the Material-UI (MUI) DataTables library (`mui-datatables`). It provides a responsive and customizable table with additional features tailored for specific use cases. Below is an explanation of each component and its functionalities.
 
@@ -31,7 +33,7 @@ This custom React component, `ResponsiveDataTable`, is a wrapper around the Mate
 | `theme`            | `object`                               | (Optional) Theme object for styling the table.                                                              |
 | `colViews`         | `Record<string, boolean> \| undefined` | (Optional) Object representing the visibility status of each column. This is similar to `columnVisibility`. |
 
-## Customization
+### Customization
 
 ### Column Visibility
 
@@ -44,3 +46,60 @@ Custom rendering for specific columns can be achieved using the `options.customB
 ### Date formatting
 
 The component includes a formatDate function to format date values consistently. You can customize the date formatting by modifying the formatDate function.
+
+<hr>
+
+## Custom Search Component
+
+## Overview
+
+The `SearchBar` component is a reusable search bar. This component provides a user-friendly interface for searching within your application. It features a text input field with the ability to expand and collapse, a search icon, and a clear icon for removing the entered search text.
+
+## Props
+
+| Property      | Type     | Description                                                                           |
+| ------------- | -------- | ------------------------------------------------------------------------------------- |
+| `onSearch`    | `func`   | Callback function to handle the search logic.                                         |
+| `onClear`     | `func`   | Callback function to handle the clear logic.                                          |
+| `placeholder` | `string` | (Optional) Placeholder text to be displayed in the search bar.                        |
+| `expanded`    | `bool`   | (Optional) Set to `true` if the search bar should be expanded initially.              |
+| `setExpanded` | `func`   | (Optional) Callback function to update the expanded state of the search bar.          |
+| `iconFill`    | `string` | (Optional) Color of the search icon. If not provided, the default color will be used. |
+
+## Usage
+
+```javascript
+import React, { useState } from 'react';
+import SearchBar from '@layer5/sistent/components';
+
+function App() {
+  const [searchText, setSearchText] = useState('');
+
+  // this handles the search logic only will be needed if the api doesn't have search param
+  const handleSearch = (text) => {
+    // Handle the search logic here
+    setSearchText(text);
+  };
+
+  const handleClear = () => {
+    // Handle the clear logic here
+    setSearchText('');
+  };
+
+  return (
+    <div>
+      <SearchBar
+        onSearch={handleSearch}
+        onClear={handleClear}
+        placeholder="Search..."
+        expanded={searchText !== ''}
+        setExpanded={(isExpanded) => setSearchText(isExpanded)}
+        iconFill="#000" // Optional: customize the icon color
+      />
+      {/* Your application content here */}
+    </div>
+  );
+}
+
+export default App;
+```
