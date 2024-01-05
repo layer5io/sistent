@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Components = () => {
   return <div className="text-center text-bold">Components</div>;
 };

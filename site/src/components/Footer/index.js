@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Footer = () => {
   return (
     <div className="ml-[17.5rem] pt-[5rem]">

@@ -1,6 +1,8 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Link } from 'react-router-dom';
 
 const Navigation = (props) => {
+  console.log('naviation');
   return (
     <div className="w-[1120px] h-14 relative mt-[32px]">
       <div className="w-[1160px] h-0.5 left-[-50px] top-[54px] absolute bg-gray-200" />
@@ -9,6 +11,7 @@ const Navigation = (props) => {
           <Link
             to={`/identity/${props.type}/overview`}
             className="grow shrink basis-0 text-center text-emerald-700 text-base font-semibold font-openSans leading-7"
+            relative="path"
           >
             Overview
           </Link>
