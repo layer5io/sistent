@@ -1,4 +1,4 @@
-import { KuberneteIcon, LeftArrowIcon, RightArrowIcon, SMPIcon } from '@layer5/sistent-svg';
+import { KubernetesIcon, LeftArrowIcon, RightArrowIcon, SMPIcon } from '@layer5/sistent-svg';
 import { Tooltip, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
@@ -141,7 +141,7 @@ function TransferList({
                       label={item.name}
                       onDelete={() => {}}
                       deleteIcon={<SMPIcon />}
-                      icon={<KuberneteIcon />}
+                      icon={<KubernetesIcon />}
                     />
                   </Tooltip>
                 ) : (
