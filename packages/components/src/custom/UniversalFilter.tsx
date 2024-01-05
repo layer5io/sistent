@@ -66,7 +66,7 @@ function UniversalFilter({
     <React.Fragment>
       <div id={id}>
         <TooltipIcon
-          title="Close"
+          title="Filter"
           onClick={handleClick}
           icon={<FilterIcon fill="#3c494f" />}
           arrow
@@ -99,55 +99,57 @@ function UniversalFilter({
               mouseEvent="onMouseDown"
               touchEvent="onTouchStart"
             >
-              <Paper
-                sx={{
-                  padding: '1rem',
-                  paddingTop: '1.8rem',
-                  boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-                  backgroundColor: '#f4f5f7'
-                }}
-              >
-                {Object.keys(filters).map((filterColumn) => {
-                  const options = filters[filterColumn].options;
-                  return (
-                    <div key={filterColumn} role="presentation">
-                      <InputLabel id={filters[filterColumn].name}>
-                        {filters[filterColumn].name}
-                      </InputLabel>
-                      <Select
-                        defaultValue="All"
-                        key={filterColumn}
-                        value={selectedFilters[filterColumn]}
-                        onChange={(e: SelectChangeEvent<unknown>) =>
-                          handleFilterChange(
-                            e as React.ChangeEvent<{ value: string }>,
-                            filterColumn
-                          )
-                        }
-                        style={{
-                          width: '15rem',
-                          marginBottom: '1rem'
-                        }}
-                        inputProps={{ 'aria-label': 'Without label' }}
-                        displayEmpty
-                      >
-                        {showAllOption && <MenuItem value="All">All</MenuItem>}
-                        {options.map((option) => (
-                          <MenuItem key={option.value} value={option.value}>
-                            {option.label}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </div>
-                  );
-                })}
+              <div>
+                <Paper
+                  sx={{
+                    padding: '1rem',
+                    paddingTop: '1.8rem',
+                    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+                    backgroundColor: '#f4f5f7'
+                  }}
+                >
+                  {Object.keys(filters).map((filterColumn) => {
+                    const options = filters[filterColumn].options;
+                    return (
+                      <div key={filterColumn} role="presentation">
+                        <InputLabel id={filters[filterColumn].name}>
+                          {filters[filterColumn].name}
+                        </InputLabel>
+                        <Select
+                          defaultValue="All"
+                          key={filterColumn}
+                          value={selectedFilters[filterColumn]}
+                          onChange={(e: SelectChangeEvent<unknown>) =>
+                            handleFilterChange(
+                              e as React.ChangeEvent<{ value: string }>,
+                              filterColumn
+                            )
+                          }
+                          style={{
+                            width: '15rem',
+                            marginBottom: '1rem'
+                          }}
+                          inputProps={{ 'aria-label': 'Without label' }}
+                          displayEmpty
+                        >
+                          {showAllOption && <MenuItem value="All">All</MenuItem>}
+                          {options.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                              {option.label}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </div>
+                    );
+                  })}
 
-                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                  <Button variant="contained" onClick={handleApplyOnClick}>
-                    Apply
-                  </Button>
-                </div>
-              </Paper>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <Button variant="contained" onClick={handleApplyOnClick}>
+                      Apply
+                    </Button>
+                  </div>
+                </Paper>
+              </div>
             </ClickAwayListener>
           </div>
         </PopperListener>
