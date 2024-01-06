@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { useContext } from 'react';
 import Search from '../../assets/images/Search.svg';
 import SearchDark from '../../assets/images/SearchDark.svg';
