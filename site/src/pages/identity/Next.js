@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link } from 'gatsby';
 import nextIcon from '../../assets/images/Chevron-light.svg';
 
 const Next = ({ content, parent, child, subchild }) => {

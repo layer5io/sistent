@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'gatsby';
 import ChevronLightUp from '../../assets/images/Chevron-light-up.svg';
 import Chevron from '../../assets/images/Chevron-light.svg';
 
