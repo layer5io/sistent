@@ -293,46 +293,41 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 - **components:** Export ThemeProvider ([4c6864b](https://github.com/layer5io/sistent/commit/4c6864b63a8f3449592e2970fa2acf9d9be5665c)), closes [#368](https://github.com/layer5io/sistent/issues/368)
 - **components:** update SearchBar ([92486f6](https://github.com/layer5io/sistent/commit/92486f694bc1e340b4de62013f5799354dd6e55d)), closes [#396](https://github.com/layer5io/sistent/issues/396)
 - **prop:** add color prop ([c16c36d](https://github.com/layer5io/sistent/commit/c16c36d040e0e28161efad3263d57b6e1e405e11))
-## [0.12.4](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.12.0...@layer5/sistent-components@0.12.4) (2023-12-19)
 
+## [0.12.4](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.12.0...@layer5/sistent-components@0.12.4) (2023-12-19)
 
 ### Bug Fixes
 
-* **clickaway:** remove extra wrapper ([abfdb95](https://github.com/layer5io/sistent/commit/abfdb956c0952f9053954150d10a8d1c58bd7603))
-* **components:** refactor column to not use forwardRef ([6590d55](https://github.com/layer5io/sistent/commit/6590d55809b1c0f75f364986642d41b88c38235e)), closes [#375](https://github.com/layer5io/sistent/issues/375)
-* **components:** update filter component ([e087dbf](https://github.com/layer5io/sistent/commit/e087dbfcd39ae3cd75d589b5a263cbf27f6eb2ff)), closes [#394](https://github.com/layer5io/sistent/issues/394)
-* **configure:** toolbar components ([45c3664](https://github.com/layer5io/sistent/commit/45c3664612fe26dbb4a756874e83e66f16d8a84a))
-* **div:** wrapper ([e80688a](https://github.com/layer5io/sistent/commit/e80688a4928fcd1c04ab22212f444f00e756196b))
-* **filter:** icon and div wrapper ([21738b0](https://github.com/layer5io/sistent/commit/21738b0fcdeaefa3ec72aae8d0f103ab27ef2c81))
-* formatting issues ([d4f5655](https://github.com/layer5io/sistent/commit/d4f5655379f8db835838b88b6138e34928f09112))
-* **issues:** column ([fddc3c0](https://github.com/layer5io/sistent/commit/fddc3c04baef4e6bfc6f6d3b2e453f81ba77cb3d))
-* lint issues ([04a9a43](https://github.com/layer5io/sistent/commit/04a9a43cd9f1598d2aca8fcd738b448ecb41065c))
-* **pretier:** check ([182c5ed](https://github.com/layer5io/sistent/commit/182c5ed62d659c6050da47fd8bec960e994f937b))
-* **search:** search width when not expanded ([5183dcc](https://github.com/layer5io/sistent/commit/5183dcc77bae6b1ab022960b6ea11b40ca70c439))
-* **table:** null issue for cols ([27c72c1](https://github.com/layer5io/sistent/commit/27c72c1d573c97a20be36f7cab98b3b61eb2fd2d))
-
+- **clickaway:** remove extra wrapper ([abfdb95](https://github.com/layer5io/sistent/commit/abfdb956c0952f9053954150d10a8d1c58bd7603))
+- **components:** refactor column to not use forwardRef ([6590d55](https://github.com/layer5io/sistent/commit/6590d55809b1c0f75f364986642d41b88c38235e)), closes [#375](https://github.com/layer5io/sistent/issues/375)
+- **components:** update filter component ([e087dbf](https://github.com/layer5io/sistent/commit/e087dbfcd39ae3cd75d589b5a263cbf27f6eb2ff)), closes [#394](https://github.com/layer5io/sistent/issues/394)
+- **configure:** toolbar components ([45c3664](https://github.com/layer5io/sistent/commit/45c3664612fe26dbb4a756874e83e66f16d8a84a))
+- **div:** wrapper ([e80688a](https://github.com/layer5io/sistent/commit/e80688a4928fcd1c04ab22212f444f00e756196b))
+- **filter:** icon and div wrapper ([21738b0](https://github.com/layer5io/sistent/commit/21738b0fcdeaefa3ec72aae8d0f103ab27ef2c81))
+- formatting issues ([d4f5655](https://github.com/layer5io/sistent/commit/d4f5655379f8db835838b88b6138e34928f09112))
+- **issues:** column ([fddc3c0](https://github.com/layer5io/sistent/commit/fddc3c04baef4e6bfc6f6d3b2e453f81ba77cb3d))
+- lint issues ([04a9a43](https://github.com/layer5io/sistent/commit/04a9a43cd9f1598d2aca8fcd738b448ecb41065c))
+- **pretier:** check ([182c5ed](https://github.com/layer5io/sistent/commit/182c5ed62d659c6050da47fd8bec960e994f937b))
+- **search:** search width when not expanded ([5183dcc](https://github.com/layer5io/sistent/commit/5183dcc77bae6b1ab022960b6ea11b40ca70c439))
+- **table:** null issue for cols ([27c72c1](https://github.com/layer5io/sistent/commit/27c72c1d573c97a20be36f7cab98b3b61eb2fd2d))
 
 ### Features
 
-* Add flip card component ([031e6bb](https://github.com/layer5io/sistent/commit/031e6bb525e6f904b52fe266ea4ea4f35cae6344))
-* **add:** date formats ([2e70ef8](https://github.com/layer5io/sistent/commit/2e70ef82b0d30f8f5baed4a8076a338de6dfccb2))
-* Added component import path ([783011f](https://github.com/layer5io/sistent/commit/783011f137f228db2c1d2afe266a133373800bcb))
-* Change useState import ([2202d4a](https://github.com/layer5io/sistent/commit/2202d4ab691fce8793234d3b793b47fd577efed7))
-* **components:** create PopperListener component ([ad676a6](https://github.com/layer5io/sistent/commit/ad676a6262a9b60e4614efebbe94ebd10d7460b0)), closes [#390](https://github.com/layer5io/sistent/issues/390)
-* **components:** create TooltipIcon ([08bc434](https://github.com/layer5io/sistent/commit/08bc434026963874c94ceda85f02c61ac9d42f71)), closes [#376](https://github.com/layer5io/sistent/issues/376)
-* **components:** update SearchBar ([92486f6](https://github.com/layer5io/sistent/commit/92486f694bc1e340b4de62013f5799354dd6e55d)), closes [#396](https://github.com/layer5io/sistent/issues/396)
-* empty state component ([07ab5dc](https://github.com/layer5io/sistent/commit/07ab5dcfdc36945ba8c73a16d41f092b180c7d5b))
-* formatting ([9583d85](https://github.com/layer5io/sistent/commit/9583d85a4c8d6c3f513e1cb2c7a08fd5b58d883d))
-* formatting ([d2ec7a1](https://github.com/layer5io/sistent/commit/d2ec7a1ec646bb3e6aecd06bc4d36edc210c615b))
-* formatting ([d1f9531](https://github.com/layer5io/sistent/commit/d1f95313406b19ab0f43910f1ca918a25baf3961))
-* icon import ([84af48a](https://github.com/layer5io/sistent/commit/84af48afeecf837492bfac38c775f73d71891d29))
-* **prop:** add color prop ([c16c36d](https://github.com/layer5io/sistent/commit/c16c36d040e0e28161efad3263d57b6e1e405e11))
-* Remove unused defined props ([33d8cae](https://github.com/layer5io/sistent/commit/33d8cae3da4769930bcbef363e77f4670486b625))
-* t ([c71a64b](https://github.com/layer5io/sistent/commit/c71a64b0a3b18a20002afadea85b3678244cf481))
-
-
-
-
+- Add flip card component ([031e6bb](https://github.com/layer5io/sistent/commit/031e6bb525e6f904b52fe266ea4ea4f35cae6344))
+- **add:** date formats ([2e70ef8](https://github.com/layer5io/sistent/commit/2e70ef82b0d30f8f5baed4a8076a338de6dfccb2))
+- Added component import path ([783011f](https://github.com/layer5io/sistent/commit/783011f137f228db2c1d2afe266a133373800bcb))
+- Change useState import ([2202d4a](https://github.com/layer5io/sistent/commit/2202d4ab691fce8793234d3b793b47fd577efed7))
+- **components:** create PopperListener component ([ad676a6](https://github.com/layer5io/sistent/commit/ad676a6262a9b60e4614efebbe94ebd10d7460b0)), closes [#390](https://github.com/layer5io/sistent/issues/390)
+- **components:** create TooltipIcon ([08bc434](https://github.com/layer5io/sistent/commit/08bc434026963874c94ceda85f02c61ac9d42f71)), closes [#376](https://github.com/layer5io/sistent/issues/376)
+- **components:** update SearchBar ([92486f6](https://github.com/layer5io/sistent/commit/92486f694bc1e340b4de62013f5799354dd6e55d)), closes [#396](https://github.com/layer5io/sistent/issues/396)
+- empty state component ([07ab5dc](https://github.com/layer5io/sistent/commit/07ab5dcfdc36945ba8c73a16d41f092b180c7d5b))
+- formatting ([9583d85](https://github.com/layer5io/sistent/commit/9583d85a4c8d6c3f513e1cb2c7a08fd5b58d883d))
+- formatting ([d2ec7a1](https://github.com/layer5io/sistent/commit/d2ec7a1ec646bb3e6aecd06bc4d36edc210c615b))
+- formatting ([d1f9531](https://github.com/layer5io/sistent/commit/d1f95313406b19ab0f43910f1ca918a25baf3961))
+- icon import ([84af48a](https://github.com/layer5io/sistent/commit/84af48afeecf837492bfac38c775f73d71891d29))
+- **prop:** add color prop ([c16c36d](https://github.com/layer5io/sistent/commit/c16c36d040e0e28161efad3263d57b6e1e405e11))
+- Remove unused defined props ([33d8cae](https://github.com/layer5io/sistent/commit/33d8cae3da4769930bcbef363e77f4670486b625))
+- t ([c71a64b](https://github.com/layer5io/sistent/commit/c71a64b0a3b18a20002afadea85b3678244cf481))
 
 ## [0.12.3](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.12.0...@layer5/sistent-components@0.12.3) (2023-12-16)
 
