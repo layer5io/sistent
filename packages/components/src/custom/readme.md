@@ -33,6 +33,13 @@ This custom React component, `ResponsiveDataTable`, is a wrapper around the Mate
 | `theme`            | `object`                               | (Optional) Theme object for styling the table.                                                              |
 | `colViews`         | `Record<string, boolean> \| undefined` | (Optional) Object representing the visibility status of each column. This is similar to `columnVisibility`. |
 
+### Standard Props
+
+| Property | Type     | Description                                                                                                 |
+| -------- | -------- | ----------------------------------------------------------------------------------------------------------- |
+| `rowsPerPageOptions`  | `number[]` | (Optional) Array of numbers representing the number of rows per page. If not provided, the default values will be used(20, 50, 100). |
+
+
 ### Customization
 
 ### Column Visibility
