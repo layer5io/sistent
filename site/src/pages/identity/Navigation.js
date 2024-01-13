@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'gatsby';
 
 const Navigation = (props) => {
-  console.log('naviation');
   return (
     <div className="w-[1120px] h-14 relative mt-[32px]">
       <div className="w-[1160px] h-0.5 left-[-50px] top-[54px] absolute bg-gray-200" />

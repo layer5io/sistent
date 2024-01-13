@@ -1,21 +1,19 @@
-import React, { useContext } from 'react';
-import ThemeContext from '../Theme';
-import Navbar from '../Navigation';
+import React from 'react';
+import Navbar from '../Navbar';
 import Sidebar from '../../pages/identity/Sidebar';
 import Footer from '../Footer';
+import PageContainerWrapper from './PageContainer';
 
 const Layout = ({ children }) => {
-  const theme = useContext(ThemeContext);
-
   return (
-    <div className={`${theme.dark ? 'dark' : 'light'} bg-background-default`}>
+    <PageContainerWrapper>
       <Navbar />
       <div className="flex gap-8">
         <Sidebar />
         <main>{children}</main>
       </div>
       <Footer />
-    </div>
+    </PageContainerWrapper>
   );
 };
 
