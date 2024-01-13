@@ -464,6 +464,7 @@ export const darktheme = {
 
   textBrand: '#008C81',
   borderDefault: '#EAEDEE',
+  textDefault: '#000D12',
 
   //DarkTheme
   DarkTheme: true

@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-const NavbarStyles = styled.nav`
+const NavbarWrapper = styled.nav`
   .nav {
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
@@ -13,4 +13,4 @@ const NavbarStyles = styled.nav`
   }
 `;
 
-export default NavbarStyles;
+export default NavbarWrapper;

@@ -2,7 +2,7 @@ import React from 'react';
 
 import Next from '../Next';
 import Previous from '../Previous';
-import Sidebar from '../Sidebar';
+import Sidebar from '../../../components/Sidebar';
 import SubContent from '../SubContent';
 
 const items = [

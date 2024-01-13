@@ -1,19 +1,24 @@
 import React from 'react';
 import Navbar from '../Navbar';
-import Sidebar from '../../pages/identity/Sidebar';
+import Sidebar from '../Sidebar';
 import Footer from '../Footer';
-import PageContainerWrapper from './PageContainer';
+import LayoutWrapper from './layout.style';
+import { Row, Col } from '../UI/Layout';
 
 const Layout = ({ children }) => {
   return (
-    <PageContainerWrapper>
+    <LayoutWrapper>
       <Navbar />
-      <div className="flex gap-8">
-        <Sidebar />
-        <main>{children}</main>
+      <div className="content">
+        <div className="main-content">
+          <Sidebar />
+          <Col>
+            <main>{children}</main>
+          </Col>
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </PageContainerWrapper>
+    </LayoutWrapper>
   );
 };
 

@@ -10,14 +10,14 @@ import SistentLogo from '../../assets/images/SistentLogo.svg';
 import Button from '../UI/Button';
 import ThemeContext from '../UI/Theme/ThemeManager';
 import { Col, Row } from '../UI/Layout';
-import NavbarStyles from './navbar.style';
+import NavbarWrapper from './navbar.style';
 
 const Navbar = () => {
   const theme = useContext(ThemeContext);
 
   return (
-    <NavbarStyles>
-      <Row Vcenter className="nav py-5 px-10 -mx-10">
+    <NavbarWrapper>
+      <Row className="nav">
         <Col xs={6} className="pl-0">
           <Row>
             <div className="w-12 h-12 mr-4 relative">
@@ -61,7 +61,7 @@ const Navbar = () => {
           </Row>
         </Col>
       </Row>
-    </NavbarStyles>
+    </NavbarWrapper>
   );
 };
 
