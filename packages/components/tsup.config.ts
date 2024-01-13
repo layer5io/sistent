@@ -4,7 +4,6 @@ import { defineConfig } from 'tsup';
 const env = process.env.NODE_ENV;
 
 export default defineConfig({
-  outdir: 'dist',
   entry: ['src/index.tsx'],
   bundle: env === 'production',
   clean: true,
@@ -14,5 +13,11 @@ export default defineConfig({
   minify: env === 'production',
   watch: env === 'development',
   sourcemap: env === 'development',
-  tsconfig: path.resolve(__dirname, './tsconfig.json')
+  tsconfig: path.resolve(__dirname, './tsconfig.json'),
+  loader: {
+    '.otf': 'file',
+    '.woff': 'file',
+    '.woff2': 'file'
+  },
+  publicDir: './src/assets/'
 });

@@ -11,7 +11,13 @@ interface TooltipIconProps {
   style?: React.CSSProperties;
 }
 
-export function TooltipIcon({ title, onClick, icon, style, arrow = false }: TooltipIconProps) {
+export function TooltipIcon({
+  title,
+  onClick,
+  icon,
+  style,
+  arrow = false
+}: TooltipIconProps): JSX.Element {
   return (
     <Tooltip title={title} arrow={arrow}>
       <IconButton
