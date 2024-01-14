@@ -225,6 +225,8 @@ const lighttheme = {
   borderGradientTransitionAfter: 'linear-gradient(to left top, #00b39f, #fff 120%)',
 
   textBrand: '#008C81',
+  borderDefault: '#EAEDEE',
+  textDefault: '#000D12',
 
   //DarkTheme
   DarkTheme: false

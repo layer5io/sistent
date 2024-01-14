@@ -3,7 +3,7 @@ import Navbar from '../Navbar';
 import Sidebar from '../Sidebar';
 import Footer from '../Footer';
 import LayoutWrapper from './layout.style';
-import { Row, Col } from '../UI/Layout';
+import { Col } from '../reuse/Layout';
 
 const Layout = ({ children }) => {
   return (

@@ -7,9 +7,9 @@ import Weather from '../../assets/images/Weather.svg';
 import WeatherDark from '../../assets/images/WeatherDark.svg';
 
 import SistentLogo from '../../assets/images/SistentLogo.svg';
-import Button from '../UI/Button';
-import ThemeContext from '../UI/Theme/ThemeManager';
-import { Col, Row } from '../UI/Layout';
+import Button from '../reuse/Button';
+import ThemeContext from '../reuse/Theme/ThemeManager';
+import { Col, Row } from '../reuse/Layout';
 import NavbarWrapper from './navbar.style';
 
 const Navbar = () => {

@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { Col } from '../UI/Layout';
+import { Col } from '../reuse/Layout';
 
 const SidebarWrapper = styled(Col)`
   padding-left: 0;
