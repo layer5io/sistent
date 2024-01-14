@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
         <div className="main-content">
           <Sidebar />
           <Col>
-            <main>{children}</main>
+            <main className="main">{children}</main>
           </Col>
         </div>
         <Footer />

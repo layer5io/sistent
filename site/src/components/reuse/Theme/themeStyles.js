@@ -227,6 +227,7 @@ const lighttheme = {
   textBrand: '#008C81',
   borderDefault: '#EAEDEE',
   textDefault: '#000D12',
+  textSecondary: '#3C494E',
 
   //DarkTheme
   DarkTheme: false
@@ -467,6 +468,7 @@ export const darktheme = {
   textBrand: '#008C81',
   borderDefault: '#EAEDEE',
   textDefault: '#000D12',
+  textSecondary: '#3C494E',
 
   //DarkTheme
   DarkTheme: true

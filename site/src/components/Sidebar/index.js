@@ -2,6 +2,7 @@ import React from 'react';
 import SidebarWrapper from './sidebar.style';
 import { Link } from 'gatsby';
 import { useLocation } from '@reach/router';
+import Dropdown from './Dropdown';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -12,7 +13,11 @@ const Sidebar = () => {
       <ul className="list">
         {SIDEBAR_ITEMS.map((item) => (
           <li key={item.id} className={`item ${path === item.path ? 'active' : ''}`}>
-            <Link to={item.isLinked ? item.path : undefined}>{item.title}</Link>
+            {item.isLinked ? (
+              <Link to={item.path}>{item.title}</Link>
+            ) : (
+              <Dropdown items={item.children}>{item.title}</Dropdown>
+            )}
           </li>
         ))}
       </ul>
@@ -24,7 +29,7 @@ const SIDEBAR_ITEMS = [
   {
     id: 1,
     title: 'About Sistent',
-    isLink: true,
+    isLinked: true,
     path: '/',
     children: []
   },
@@ -38,14 +43,14 @@ const SIDEBAR_ITEMS = [
         id: 2.1,
         title: 'Color',
         isLinked: true,
-        path: '/identity/color',
+        path: '/identity/color/',
         children: []
       },
       {
         id: 2.2,
         title: 'Typography',
         isLinked: true,
-        path: '/identity/typography',
+        path: '/identity/typography/',
         children: []
       }
     ]
@@ -54,21 +59,21 @@ const SIDEBAR_ITEMS = [
     id: 3,
     title: 'Components',
     isLinked: true,
-    path: '/components',
+    path: '/components/',
     children: []
   },
   {
     id: 4,
     title: 'Patterns & Templates',
     isLinked: true,
-    path: '/patterns',
+    path: '/patterns/',
     children: []
   },
   {
     id: 5,
     title: 'Visualization & Illustration',
     isLinked: true,
-    path: '/illustrations',
+    path: '/illustrations/',
     children: []
   }
 ];

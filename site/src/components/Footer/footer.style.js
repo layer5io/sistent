@@ -9,6 +9,7 @@ const FooterWrapper = styled.div`
     border-top: 1px solid ${(props) => props.theme.borderDefault};
     padding: 0px 5rem 0px 2.5rem;
     padding-top: 5rem;
+    padding-bottom: 5rem;
   }
 
   .text {

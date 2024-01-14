@@ -21,6 +21,10 @@ const LayoutWrapper = styled.div`
     flex-direction: row;
     justify-content: space-between;
   }
+
+  .main {
+    padding-left: 1rem;
+  }
 `;
 
 export default LayoutWrapper;
