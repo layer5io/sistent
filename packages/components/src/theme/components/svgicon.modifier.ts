@@ -1,6 +1,6 @@
 import { Components, Theme } from '@mui/material';
 
-export const MuiSvgIcon: Components<Theme>['MuiSvgIcon'] = {
+export const SistentSvgIcon: Components<Theme>['MuiSvgIcon'] = {
   styleOverrides: {
     root: {
       height: 24,

@@ -1,6 +1,6 @@
 import { Components, Theme } from '@mui/material';
 
-export const MuiMenu: Components<Theme>['MuiMenu'] = {
+export const SistentMenu: Components<Theme>['MuiMenu'] = {
   styleOverrides: {
     paper: {
       '& .MuiMenuItem-root.Mui-selected': {

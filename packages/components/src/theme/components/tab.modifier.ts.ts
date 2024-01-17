@@ -1,7 +1,7 @@
 import { Components, Theme } from '@mui/material';
 import { actionIcon, white } from '../colors';
 
-export const MuiTab: Components<Theme>['MuiTab'] = {
+export const SistentTab: Components<Theme>['MuiTab'] = {
   styleOverrides: {
     root: {
       '&.Mui-selected': {

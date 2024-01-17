@@ -1,6 +1,6 @@
 import { Components, Theme } from '@mui/material';
 
-export const MuiCssBaseline: Components<Theme>['MuiCssBaseline'] = {
+export const SistentCssBaseline: Components<Theme>['MuiCssBaseline'] = {
   styleOverrides: `
     @font-face {
       font-family: 'Qanelas Soft Regular';

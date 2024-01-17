@@ -1,7 +1,7 @@
 import { Components, Theme } from '@mui/material';
 import { defaultPalette } from '../colors';
 
-export const MuiOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
+export const SistentOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
   styleOverrides: {
     root: {
       '&:hover $notchedOutline': {

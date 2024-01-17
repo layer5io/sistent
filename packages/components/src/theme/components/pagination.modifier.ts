@@ -1,7 +1,7 @@
 import { Components, Theme } from '@mui/material';
 import { anakiwa, connected, white } from '../colors';
 
-export const MuiPagination: Components<Theme>['MuiPagination'] = {
+export const SistentPagination: Components<Theme>['MuiPagination'] = {
   styleOverrides: {
     root: {
       button: {

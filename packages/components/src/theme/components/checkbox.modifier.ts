@@ -1,7 +1,7 @@
 import { Components, Theme } from '@mui/material';
 import { CHARCOAL, connected, darkSlateGray } from '../colors';
 
-export const MuiCheckbox: Components<Theme>['MuiCheckbox'] = {
+export const SistentCheckbox: Components<Theme>['MuiCheckbox'] = {
   styleOverrides: {
     root: {
       color: 'transparent',
