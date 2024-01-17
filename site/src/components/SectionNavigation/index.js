@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import SectionNavigationWrapper from './navigation.style';
 import { Col } from '../reuse/Layout';
 
-const SectionNavigation = ({ navItems, defaultActiveIndex }) => {
-  const [activeIndex, setActiveIndex] = useState();
+const SectionNavigation = ({ navItems, activeIndex, onItemClick }) => {
   return (
     <SectionNavigationWrapper>
       <Col xs={4} className="nav-items">
@@ -12,7 +11,7 @@ const SectionNavigation = ({ navItems, defaultActiveIndex }) => {
             <div
               className="item"
               style={{ width: `${100 / navItems.length}%` }}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => onItemClick(index)}
             >
               <p className={activeIndex === index && 'active'}>{item}</p>
             </div>

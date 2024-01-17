@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../../components/Layout';
 import PageHeader from '../../components/UI/PageHeader';
-import Heading from '../../components/UI/Heading';
+import Heading from '../../components/UI/PageHeading';
 import Paragraph from '../../components/UI/Paragraph';
 
 const Components = () => {

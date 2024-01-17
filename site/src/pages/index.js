@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../components/Layout';
 import Paragraph from '../components/UI/Paragraph';
-import Heading from '../components/UI/Heading';
+import Heading from '../components/UI/PageHeading';
 import PageHeader from '../components/UI/PageHeader';
 
 const IndexPage = () => {

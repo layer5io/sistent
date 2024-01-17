@@ -5,7 +5,7 @@ const PageHeader = styled.header`
   padding-bottom: 1rem;
   padding-right: 0;
   padding-left: 0;
-  max-width: 80%;
+  max-width: 85%;
 
   h1 {
     margin-bottom: 0.8rem;

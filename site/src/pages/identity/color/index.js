@@ -1,12 +1,15 @@
-import React from 'react';
-import Navigation from '../Navigation';
+import React, { useState } from 'react';
 import Layout from '../../../components/Layout';
-import Heading from '../../../components/UI/Heading';
+import Heading from '../../../components/UI/PageHeading';
 import PageHeader from '../../../components/UI/PageHeader';
 import Paragraph from '../../../components/UI/Paragraph';
 import SectionNavigation from '../../../components/SectionNavigation';
+import Overview from '../../../components/identity/color/overview';
+import Guidance from '../../../components/identity/color/guidance';
+import Code from '../../../components/identity/color/code';
 
 const Color = () => {
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
   return (
     <Layout>
       <PageHeader>
@@ -17,7 +20,14 @@ const Color = () => {
           mind.
         </Paragraph>
       </PageHeader>
-      <SectionNavigation navItems={COLOR_PAGE_SECTIONS} activeIndex={0} />
+      <SectionNavigation
+        navItems={COLOR_PAGE_SECTIONS}
+        activeIndex={activeTabIndex}
+        onItemClick={(i) => setActiveTabIndex(i)}
+      />
+      {activeTabIndex === 0 && <Overview />}
+      {activeTabIndex === 1 && <Guidance />}
+      {activeTabIndex === 2 && <Code />}
     </Layout>
   );
 };

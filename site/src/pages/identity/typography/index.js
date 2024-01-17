@@ -2,7 +2,7 @@ import React from 'react';
 
 import Navigation from '../Navigation';
 import Layout from '../../../components/Layout';
-import Heading from '../../../components/UI/Heading';
+import Heading from '../../../components/UI/PageHeading';
 import PageHeader from '../../../components/UI/PageHeader';
 import Paragraph from '../../../components/UI/Paragraph';
 
