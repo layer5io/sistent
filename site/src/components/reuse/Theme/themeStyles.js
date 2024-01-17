@@ -225,9 +225,12 @@ const lighttheme = {
   borderGradientTransitionAfter: 'linear-gradient(to left top, #00b39f, #fff 120%)',
 
   textBrand: '#008C81',
-  borderDefault: '#EAEDEE',
   textDefault: '#000D12',
   textSecondary: '#3C494E',
+
+  borderDefault: '#EAEDEE',
+
+  backgroundBrandDefault: '#008C81',
 
   //DarkTheme
   DarkTheme: false
@@ -466,9 +469,12 @@ export const darktheme = {
   borderGradientTransitionAfter: 'linear-gradient(to left top, #00b39f, #121212 100%)',
 
   textBrand: '#008C81',
-  borderDefault: '#EAEDEE',
-  textDefault: '#000D12',
   textSecondary: '#3C494E',
+  textDefault: '#000D12',
+
+  borderDefault: '#EAEDEE',
+
+  backgroundBrandDefault: '#008C81',
 
   //DarkTheme
   DarkTheme: true

@@ -1,5 +1,4 @@
 import React from 'react';
-import Home from './home';
 import Layout from '../components/Layout';
 import Paragraph from '../components/UI/Paragraph';
 import Heading from '../components/UI/Heading';

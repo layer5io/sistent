@@ -18,6 +18,7 @@ const SidebarWrapper = styled(Col)`
 
     &.active {
       color: ${(props) => props.theme.textBrand};
+      font-weight: 600;
     }
   }
 

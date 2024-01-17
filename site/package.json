@@ -15,7 +15,6 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "@layer5/sistent-svg": "^0.14.4",
     "autoprefixer": "^10.4.16",
     "babel-plugin-styled-components": "^2.1.4",
     "gatsby": "^5.12.4",

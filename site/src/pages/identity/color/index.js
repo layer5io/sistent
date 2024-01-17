@@ -4,6 +4,7 @@ import Layout from '../../../components/Layout';
 import Heading from '../../../components/UI/Heading';
 import PageHeader from '../../../components/UI/PageHeader';
 import Paragraph from '../../../components/UI/Paragraph';
+import SectionNavigation from '../../../components/SectionNavigation';
 
 const Color = () => {
   return (
@@ -16,9 +17,11 @@ const Color = () => {
           mind.
         </Paragraph>
       </PageHeader>
-      <Navigation type="color" />
+      <SectionNavigation navItems={COLOR_PAGE_SECTIONS} activeIndex={0} />
     </Layout>
   );
 };
+
+const COLOR_PAGE_SECTIONS = ['Overview', 'Guidance', 'Code'];
 
 export default Color;

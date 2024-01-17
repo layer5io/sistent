@@ -4,9 +4,9 @@ const Heading = styled.h1`
   align-self: stretch;
   color: ${(props) => props.theme.textDefault};
   font-size: 52px;
-  font-weight: bold;
+  font-weight: 700;
   font-family: 'Qanelas Soft', sans-serif;
-  line-height: 64px;
+  line-height: 52px;
   text-transform: capitalize;
 `;
 
