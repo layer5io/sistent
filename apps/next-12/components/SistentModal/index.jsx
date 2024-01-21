@@ -17,7 +17,9 @@ export default function SistentModal() {
   };
   return (
     <React.Fragment>
-      <Button variant="contained" onClick={handleModalOpen}>Open</Button>
+      <Button variant="contained" onClick={handleModalOpen}>
+        Open
+      </Button>
       <Modal
         open={openModal}
         modalTitle="Where do you want to start?"

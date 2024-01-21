@@ -22,6 +22,9 @@ node_modules
 build/**
 dist/**
 
+packages/dist/**
+packages/design-system/node_modules/**
+
 .yarn/*
 .yarn/cache
 !.yarn/patches
@@ -33,3 +36,6 @@ dist/**
 **/storybook-static/**
 lerna-debug.log
 pub.sh
+.eslintcache
+
+.DS_Store

@@ -6,41 +6,64 @@
   "workspaces": [
     "!apps/design-system",
     "!apps/next-12",
-    "packages/*"
+    "!packages/rtk-query-codegen",
+    "packages/components",
+    "packages/svg"
   ],
   "scripts": {
-    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
-    "commit:sign": "git cz -S",
-    "clean": "lerna clean -y",
     "build-all": "lerna run build",
+    "clean": "lerna clean -y",
+    "commit": "cz",
+    "commit:sign": "cz -s",
+    "commitlint": "commitlint --edit",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "postinstall": "husky install",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
+    "publish:ci": "lerna publish from-git --no-private --yes",
+    "publish:official": "lerna publish from-package --no-private",
+    "version:alpha": "yarn lerna version --no-private --conventional-commits --conventional-prerelease --include-merged-tags --no-git-tag-version --sync-dist-version",
+    "versionup:major": "yarn lerna version major --no-private --conventional-commits --include-merged-tags --no-git-tag-version --sync-dist-version",
+    "versionup:minor": "yarn lerna version minor --no-private --conventional-commits --include-merged-tags --no-git-tag-version --sync-dist-version",
+    "versionup:patch": "yarn lerna version patch --no-private --conventional-commits --include-merged-tags --no-git-tag-version --sync-dist-version",
+    "release-latest:ci": "lerna publish from-package --no-private --yes && yarn run update-lock:latest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "prepare-commit-msg": "exec < /dev/tty && yarn cz --hook || true"
+    }
   },
   "lint-staged": {
     "*.{ts,tsx,md}": [
-      "eslint --fix",
-      "yarn format:write"
+      "prettier --write",
+      "eslint --fix"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0",
+    "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.49.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.4",
+    "eslint-plugin-storybook": "^0.6.15",
     "husky": "^8.0.0",
     "lerna": "^7.3.0",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3",
     "prettier-plugin-organize-imports": "^3.2.3",
-    "tsconfig": "workspace:^",
     "typescript": "^5.2.2"
   },
-  "packageManager": "yarn@3.6.3",
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  }
+  "packageManager": "yarn@3.6.3"
 }

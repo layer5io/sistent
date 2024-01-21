@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent-svg",
-  "version": "0.14.0",
+  "version": "0.14.4",
   "description": "SVG Icons library",
   "main": "./dist/index.js",
   "module": "./dist/index..js",
@@ -13,7 +13,8 @@
     "dev": "NODE_ENV=development tsup",
     "coverage": "jest --coverage",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "test": "jest"
+    "test": "jest",
+    "prepublish": "yarn build"
   },
   "devDependencies": {
     "@testing-library/react": "^14.0.0",
@@ -26,7 +27,6 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
-    "tsconfig": "workspace:^",
     "tsup": "^7.2.0",
     "typescript": "^5.0.2"
   },

@@ -75,7 +75,6 @@ const ResponsiveDataTable = ({
 
   React.useEffect(() => {
     columns?.forEach((col) => {
-      console.log('Current Column:', col);
       if (typeof col === 'object' && col !== null) {
         if (!col.options) {
           col.options = {};
@@ -83,12 +82,18 @@ const ResponsiveDataTable = ({
         col.options.display = columnVisibility && columnVisibility[col.name];
 
         if (
-          ['updated_at', 'created_at', 'deleted_at', 'last_login_time', 'joined_at'].includes(
-            col.name
-          )
+          [
+            'updated_at',
+            'created_at',
+            'deleted_at',
+            'last_login_time',
+            'joined_at',
+            'last_run',
+            'next_run'
+          ].includes(col.name)
         ) {
           col.options.customBodyRender = (value: string | number | boolean | object) => {
-            if (value === 'NA') {
+            if (value === 'NA' || value === null || value === undefined) {
               return <>{value}</>;
             } else if (typeof value === 'object' && 'Valid' in value) {
               const obj = value as { Valid: boolean; Time: string | undefined };
