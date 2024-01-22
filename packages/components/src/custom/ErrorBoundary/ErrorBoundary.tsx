@@ -25,7 +25,7 @@ interface FallbackComponentProps extends FallbackProps {
   children?: ReactNode;
 }
 
-function Fallback({ error, resetErrorBoundary, children }: FallbackComponentProps): JSX.Element {
+function Fallback({ error, children }: FallbackComponentProps): JSX.Element {
   return (
     <div role="alert">
       <h2>Uh-oh!😔 Please pardon the mesh.</h2>
