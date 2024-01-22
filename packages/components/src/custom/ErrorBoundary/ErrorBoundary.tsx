@@ -1,12 +1,31 @@
+import { styled } from '@mui/system';
 import React, { ComponentType, ReactNode } from 'react';
 import { FallbackProps, ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
-import { Button } from '../../base/Button';
+import { Box } from '../../base/Box';
+import { Link } from '../../base/Link';
+import { Typography } from '../../base/Typography';
+import { BLACK, KEPPEL } from '../../theme/colors';
+
+const ErrorMessage = styled(Typography)(() => ({
+  color: BLACK,
+  fontWeight: 'normal',
+  marginTop: '2px',
+  marginBottom: '2px',
+  fontSize: '1.15rem'
+}));
+
+const StyledLink = styled(Link)(() => ({
+  color: KEPPEL,
+  textDecoration: 'underline',
+  cursor: 'pointer'
+}));
 
 interface FallbackComponentProps extends FallbackProps {
   resetErrorBoundary: () => void;
+  children?: ReactNode;
 }
 
-function Fallback({ error, resetErrorBoundary }: FallbackComponentProps): JSX.Element {
+function Fallback({ error, resetErrorBoundary, children }: FallbackComponentProps): JSX.Element {
   return (
     <div role="alert">
       <h2>Uh-oh!😔 Please pardon the mesh.</h2>
@@ -21,9 +40,18 @@ function Fallback({ error, resetErrorBoundary }: FallbackComponentProps): JSX.El
       >
         <code>{(error as Error).message}</code>
       </div>
-      <Button color="primary" variant="contained" onClick={resetErrorBoundary}>
-        Try again
-      </Button>
+      <ErrorMessage>
+        We apologize for the inconvenience. The issue may be on our end. If troubleshooting doesn't
+        work, please check out our support channels{' '}
+        <StyledLink href="https://discuss.layer5.io/" target="_blank" rel="noopener noreferrer">
+          Discuss Forum
+        </StyledLink>{' '}
+        {' or '}
+        <StyledLink href="https://slack.layer5.io/" target="_blank" rel="noopener noreferrer">
+          Slack
+        </StyledLink>
+      </ErrorMessage>
+      <Box>{children}</Box>
     </div>
   );
 }
