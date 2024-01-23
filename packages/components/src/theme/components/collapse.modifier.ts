@@ -10,7 +10,7 @@ declare module '@mui/material/Collapse' {
   }
 }
 
-export const MuiCollapse: Components<Theme>['MuiCollapse'] = {
+export const SistentCollapse: Components<Theme>['MuiCollapse'] = {
   styleOverrides: {
     root: {}
   },

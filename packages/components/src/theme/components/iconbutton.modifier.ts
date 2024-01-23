@@ -1,6 +1,6 @@
 import { Components, Theme } from '@mui/material';
 
-export const MuiIconButton: Components<Theme>['MuiIconButton'] = {
+export const SistentIconButton: Components<Theme>['MuiIconButton'] = {
   styleOverrides: {
     root: {
       '@media (max-width: 400px)': {

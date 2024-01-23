@@ -1,7 +1,7 @@
 import { Components, Theme } from '@mui/material';
 import { connected, darkTeal } from '../colors';
 
-export const MuiLink: Components<Theme>['MuiLink'] = {
+export const SistentLink: Components<Theme>['MuiLink'] = {
   styleOverrides: {
     root: {
       fontWeight: '600',

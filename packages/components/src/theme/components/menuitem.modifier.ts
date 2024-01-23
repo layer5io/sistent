@@ -1,7 +1,7 @@
 import { Components, Theme } from '@mui/material';
 import { darkTeal } from '../colors';
 
-export const MuiMenuItem: Components<Theme>['MuiMenuItem'] = {
+export const SistentMenuItem: Components<Theme>['MuiMenuItem'] = {
   styleOverrides: {
     root: {
       '&:hover': {

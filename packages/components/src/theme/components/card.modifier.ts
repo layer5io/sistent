@@ -1,6 +1,6 @@
 import { Components, Theme } from '@mui/material';
 
-export const MuiCard: Components<Theme>['MuiCard'] = {
+export const SistentCard: Components<Theme>['MuiCard'] = {
   styleOverrides: {
     root: {
       backgroundImage:
