@@ -114,7 +114,7 @@ const ResponsiveDataTable = ({
       }
     });
     updateCols && updateCols([...columns]);
-  }, [columnVisibility]);
+  }, [columnVisibility, columns, updateCols]);
 
   const components = {
     ExpandButton: () => ''
