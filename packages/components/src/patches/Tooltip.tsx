@@ -11,10 +11,12 @@ export interface ChildrenPropType<T> {
 export const Tooltip = React.forwardRef<
   HTMLDivElement,
   TooltipProps & ChildrenPropType<React.ReactNode>
->((props, ref) => (
-  <MuiTooltip {...props} ref={ref}>
-    <span>{props.children}</span>
-  </MuiTooltip>
-));
+>(
+  (props, ref): JSX.Element => (
+    <MuiTooltip {...props} ref={ref}>
+      <span>{props.children}</span>
+    </MuiTooltip>
+  )
+);
 
 export default Tooltip;
