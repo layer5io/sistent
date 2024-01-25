@@ -3,6 +3,67 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.12.0...@layer5/sistent-components@0.13.0) (2024-01-25)
+
+
+### Bug Fixes
+
+* **button:** add styles ([0e164e2](https://github.com/layer5io/sistent/commit/0e164e25bffe91d3e54c768d4f6bf3b7c870732c))
+* **clickaway:** remove extra wrapper ([abfdb95](https://github.com/layer5io/sistent/commit/abfdb956c0952f9053954150d10a8d1c58bd7603))
+* **componenets:** Add CssBaseline ([f392abb](https://github.com/layer5io/sistent/commit/f392abb7d1f2fcb11e6e814faac955bf9b872b43))
+* **components:** add fallback fonts ([f937a2f](https://github.com/layer5io/sistent/commit/f937a2f3e1ae0bd2934d0474217d4caeb9b36efe))
+* **components:** Fix Drawer's color in theme mode ([9d5c28a](https://github.com/layer5io/sistent/commit/9d5c28a08b2df9bea95f673c1ca99de68bd7209e))
+* **components:** fix font path again ([f524e6f](https://github.com/layer5io/sistent/commit/f524e6f40cd9f94c829aad1d5789da99aeb52d95))
+* **components:** refactor column to not use forwardRef ([6590d55](https://github.com/layer5io/sistent/commit/6590d55809b1c0f75f364986642d41b88c38235e)), closes [#375](https://github.com/layer5io/sistent/issues/375)
+* **components:** remove font import ([762cae2](https://github.com/layer5io/sistent/commit/762cae2d5165771e16168545c6beab0dad6ad412))
+* **components:** return the theme ([13e4229](https://github.com/layer5io/sistent/commit/13e42295ef1d02c8088a5af029dcdac5aeb6ab42))
+* **components:** update filter component ([e087dbf](https://github.com/layer5io/sistent/commit/e087dbfcd39ae3cd75d589b5a263cbf27f6eb2ff)), closes [#394](https://github.com/layer5io/sistent/issues/394)
+* **configure:** toolbar components ([45c3664](https://github.com/layer5io/sistent/commit/45c3664612fe26dbb4a756874e83e66f16d8a84a))
+* **div:** wrapper ([e80688a](https://github.com/layer5io/sistent/commit/e80688a4928fcd1c04ab22212f444f00e756196b))
+* Export error boundaries ([ba3965c](https://github.com/layer5io/sistent/commit/ba3965c288c3253709420de50b7a0b5c0a40f70a))
+* **filter:** icon and div wrapper ([21738b0](https://github.com/layer5io/sistent/commit/21738b0fcdeaefa3ec72aae8d0f103ab27ef2c81))
+* formatting issues ([d4f5655](https://github.com/layer5io/sistent/commit/d4f5655379f8db835838b88b6138e34928f09112))
+* **issues:** column ([fddc3c0](https://github.com/layer5io/sistent/commit/fddc3c04baef4e6bfc6f6d3b2e453f81ba77cb3d))
+* lint issues ([04a9a43](https://github.com/layer5io/sistent/commit/04a9a43cd9f1598d2aca8fcd738b448ecb41065c))
+* **lint:** lint fix ([420b458](https://github.com/layer5io/sistent/commit/420b4583c71d107fb0160f750dc8df4231a2e036))
+* **pretier:** check ([182c5ed](https://github.com/layer5io/sistent/commit/182c5ed62d659c6050da47fd8bec960e994f937b))
+* **refactor:** error-boundary ([117653a](https://github.com/layer5io/sistent/commit/117653a215787fe7fe0e640a2fe9adf2393adc6b))
+* **refactor:** refactor error boundary ([797122f](https://github.com/layer5io/sistent/commit/797122fdf260f5c9cc960e38516cc34386ae477b))
+* **search:** search width when not expanded ([5183dcc](https://github.com/layer5io/sistent/commit/5183dcc77bae6b1ab022960b6ea11b40ca70c439))
+* **table:** null issue for cols ([27c72c1](https://github.com/layer5io/sistent/commit/27c72c1d573c97a20be36f7cab98b3b61eb2fd2d))
+
+
+### Features
+
+* Add flip card component ([031e6bb](https://github.com/layer5io/sistent/commit/031e6bb525e6f904b52fe266ea4ea4f35cae6344))
+* **add:** date formats ([2e70ef8](https://github.com/layer5io/sistent/commit/2e70ef82b0d30f8f5baed4a8076a338de6dfccb2))
+* Added component import path ([783011f](https://github.com/layer5io/sistent/commit/783011f137f228db2c1d2afe266a133373800bcb))
+* Change useState import ([2202d4a](https://github.com/layer5io/sistent/commit/2202d4ab691fce8793234d3b793b47fd577efed7))
+* **components:** add fonts to assets ([cf39047](https://github.com/layer5io/sistent/commit/cf39047d81a27c6edf6ed4135eae64f3b31eeb53))
+* **components:** add outlined input component ([13da43f](https://github.com/layer5io/sistent/commit/13da43fbb3705492b373ec823e9e8727343e0676))
+* **components:** add placeholder for button style ([b3f2568](https://github.com/layer5io/sistent/commit/b3f2568834a4720a75ad7d48dc84a0743a5067d6))
+* **components:** change path to fonts, and add other colors ([b48a889](https://github.com/layer5io/sistent/commit/b48a8891d7f85820ea8312121037ba9aab38e065))
+* **components:** create PopperListener component ([ad676a6](https://github.com/layer5io/sistent/commit/ad676a6262a9b60e4614efebbe94ebd10d7460b0)), closes [#390](https://github.com/layer5io/sistent/issues/390)
+* **components:** create TooltipIcon ([08bc434](https://github.com/layer5io/sistent/commit/08bc434026963874c94ceda85f02c61ac9d42f71)), closes [#376](https://github.com/layer5io/sistent/issues/376)
+* **components:** Export ThemeProvider ([4c6864b](https://github.com/layer5io/sistent/commit/4c6864b63a8f3449592e2970fa2acf9d9be5665c)), closes [#368](https://github.com/layer5io/sistent/issues/368)
+* **components:** Move initialMode state into props ([a36ddef](https://github.com/layer5io/sistent/commit/a36ddef7189ee68358e2a1809c3729290e382a8e))
+* **components:** update SearchBar ([92486f6](https://github.com/layer5io/sistent/commit/92486f694bc1e340b4de62013f5799354dd6e55d)), closes [#396](https://github.com/layer5io/sistent/issues/396)
+* empty state component ([07ab5dc](https://github.com/layer5io/sistent/commit/07ab5dcfdc36945ba8c73a16d41f092b180c7d5b))
+* formatting ([9583d85](https://github.com/layer5io/sistent/commit/9583d85a4c8d6c3f513e1cb2c7a08fd5b58d883d))
+* formatting ([d2ec7a1](https://github.com/layer5io/sistent/commit/d2ec7a1ec646bb3e6aecd06bc4d36edc210c615b))
+* formatting ([d1f9531](https://github.com/layer5io/sistent/commit/d1f95313406b19ab0f43910f1ca918a25baf3961))
+* icon import ([84af48a](https://github.com/layer5io/sistent/commit/84af48afeecf837492bfac38c775f73d71891d29))
+* **prop:** add color prop ([c16c36d](https://github.com/layer5io/sistent/commit/c16c36d040e0e28161efad3263d57b6e1e405e11))
+* **readme:** custom components ([b66e04c](https://github.com/layer5io/sistent/commit/b66e04ce469e469ff2e4ed85ec89a41d6fab68ae))
+* **readme:** readme for table ([bf732ab](https://github.com/layer5io/sistent/commit/bf732ab0b038dba082e1fee34e4e23b0c72584fa))
+* Remove unused defined props ([33d8cae](https://github.com/layer5io/sistent/commit/33d8cae3da4769930bcbef363e77f4670486b625))
+* t ([c71a64b](https://github.com/layer5io/sistent/commit/c71a64b0a3b18a20002afadea85b3678244cf481))
+* **toggle:** add toggle ([739dfa2](https://github.com/layer5io/sistent/commit/739dfa206faa8f944a25bdda185c4a43bf7c399f))
+
+
+
+
+
 # [0.13.0-alpha.10](https://github.com/layer5io/sistent/compare/@layer5/sistent-components@0.12.0...@layer5/sistent-components@0.13.0-alpha.10) (2023-12-15)
 
 ### Bug Fixes
