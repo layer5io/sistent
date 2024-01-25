@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'gatsby';
 
 const Navigation = (props) => {
   return (
@@ -9,6 +10,7 @@ const Navigation = (props) => {
           <Link
             to={`/identity/${props.type}/overview`}
             className="grow shrink basis-0 text-center text-emerald-700 text-base font-semibold font-openSans leading-7"
+            relative="path"
           >
             Overview
           </Link>

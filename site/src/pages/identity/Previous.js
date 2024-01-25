@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'gatsby';
 import PrevIcon from '../../assets/images/Chevron-light.svg';
 
 const Previous = ({ content, parent, child, subchild }) => {
