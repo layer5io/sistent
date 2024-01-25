@@ -1,4 +1,3 @@
-// import { ErrorBoundary, withErrorBoundary, withSuppressedErrorBoundary } from './ErrorBoundary';
 import { ConnectionChip } from './ConnectionChip';
 import {
   CustomColumn,
@@ -6,6 +5,7 @@ import {
   CustomColumnVisibilityControlProps
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
 import { EmptyState } from './EmptyState';
+import { ErrorBoundary, WithErrorBoundary, withSuppressedErrorBoundary } from './ErrorBoundary';
 import { FlipCard } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
@@ -17,9 +17,12 @@ export {
   ConnectionChip,
   CustomColumnVisibilityControl,
   EmptyState,
+  ErrorBoundary,
   FlipCard,
   StyledTooltip,
+  WithErrorBoundary,
   useNotificationHandler,
-  useWindowDimensions
+  useWindowDimensions,
+  withSuppressedErrorBoundary
 };
 export type { CustomColumn, CustomColumnVisibilityControlProps };

@@ -1,4 +1,4 @@
-name-template: 'Sistent v$NEXT_PATCH_VERSION'
+name-template: '@layer5/sistent@v$NEXT_PATCH_VERSION'
 tag-template: 'v$NEXT_PATCH_VERSION'
 categories:
   - title: '🚀 Features'
@@ -15,6 +15,17 @@ categories:
       - 'kind/chore'
       - 'chore'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+version-resolver:
+  major:
+    labels:
+      - "major"
+  minor:
+    labels:
+      - "minor"
+  patch:
+    labels:
+      - "patch"
+  default: patch
 template: |
   ## What's New
   $CHANGES
