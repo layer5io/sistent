@@ -4,3 +4,5 @@ const importDesignUiSchema = {
   },
   'ui:order': ['name', 'designType', 'uploadType', 'file', 'url']
 };
+
+export default importDesignUiSchema;
