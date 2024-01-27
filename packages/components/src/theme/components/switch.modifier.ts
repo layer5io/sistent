@@ -1,7 +1,7 @@
 import { Components, Theme } from '@mui/material';
 import { CARIBBEAN_GREEN, CHARCOAL } from '../colors';
 
-export const MuiToggleButton: Components<Theme>['MuiToggleButton'] = {
+export const MuiSwitch: Components<Theme>['MuiSwitch'] = {
   styleOverrides: {
     root: {
       '& .MuiSwitch-switchBase': {
