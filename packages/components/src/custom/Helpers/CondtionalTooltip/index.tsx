@@ -1,1 +1,2 @@
-export { ConditionalTooltip } from './tooltip-for-desc';
+import ConditionalTooltip from './tooltip-for-desc';
+export { ConditionalTooltip };

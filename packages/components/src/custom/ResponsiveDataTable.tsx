@@ -75,7 +75,6 @@ const ResponsiveDataTable = ({
 
   React.useEffect(() => {
     columns?.forEach((col) => {
-      console.log('Current Column:', col);
       if (typeof col === 'object' && col !== null) {
         if (!col.options) {
           col.options = {};
