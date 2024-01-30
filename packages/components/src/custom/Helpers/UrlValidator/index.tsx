@@ -1,3 +1,3 @@
-import handleImageValidation from './image-url-validation';
+import { validateImageUrl } from './image-url-validation';
 
-export { handleImageValidation };
+export { validateImageUrl };

@@ -62,6 +62,5 @@ To use these helper components in your project, follow these steps:
 3. **ImageUrlValidator**: A custom React hook for validating image URLs.
 
    - **File**: `ImageUrlValidator`
-   - **Usage**: Provides the `useImageUrlValidator` hook, which allows you to validate image URLs.
-   - **Returns**: function that accepts an image URL and a dispatch function, and returns a Promise<boolean> indicating whether the image is valid or not.
-
+   - **Usage**: Provides the `validateImageUrl` hook, which allows you to validate image URLs.
+   - **Returns**: An object containing the validation state and a function for updating the validation state.

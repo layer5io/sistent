@@ -1,6 +1,13 @@
 type DispatchImageFunction = (url: string) => void;
+export const validateImageUrl = async (
+  url: string,
+  dispatchImage: DispatchImageFunction
+): Promise<boolean> => {
+  // Basic URL verification
+  if (!isUrlValid(url)) {
+    return false;
+  }
 
-const handleImageValidation = async (url: string, dispatchImage: DispatchImageFunction): Promise<boolean> => {
   try {
     const img = new Image();
     img.src = url;
@@ -10,11 +17,22 @@ const handleImageValidation = async (url: string, dispatchImage: DispatchImageFu
       img.onerror = () => reject();
     });
 
+    // Dispatch action after image is successfully loaded
     dispatchImage(url);
+
     return true; // Image loaded successfully
   } catch (error) {
     return false; // Image failed to load
   }
 };
 
-export default handleImageValidation;
+// Function to verify if URL is valid
+const isUrlValid = (url: string): boolean => {
+  try {
+    new URL(url);
+    return true;
+  } catch (error) {
+    console.error('Invalid URL:', url);
+    return false;
+  }
+};

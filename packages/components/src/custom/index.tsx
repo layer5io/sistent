@@ -4,8 +4,8 @@ import { ErrorBoundary, WithErrorBoundary, withSuppressedErrorBoundary } from '.
 import { FlipCard } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
+import { validateImageUrl } from './Helpers/UrlValidator';
 import { StyledTooltip } from './Tooltip';
-import { handleImageValidation } from './Helpers/UrlValidator';
 
 export { StyledChartDialog } from './ChartDialog';
 export { StyledSearchBar } from './StyledSearchBar';
@@ -18,6 +18,6 @@ export {
   WithErrorBoundary,
   useNotificationHandler,
   useWindowDimensions,
-  withSuppressedErrorBoundary,
-  handleImageValidation
+  validateImageUrl,
+  withSuppressedErrorBoundary
 };
