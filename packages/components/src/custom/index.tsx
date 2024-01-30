@@ -5,6 +5,7 @@ import { FlipCard } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
 import { StyledTooltip } from './Tooltip';
+import { handleImageValidation } from './Helpers/UrlValidator';
 
 export { StyledChartDialog } from './ChartDialog';
 export { StyledSearchBar } from './StyledSearchBar';
@@ -17,5 +18,6 @@ export {
   WithErrorBoundary,
   useNotificationHandler,
   useWindowDimensions,
-  withSuppressedErrorBoundary
+  withSuppressedErrorBoundary,
+  handleImageValidation
 };
