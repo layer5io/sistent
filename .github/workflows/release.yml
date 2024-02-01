@@ -1,82 +1,45 @@
-name: Version and Publish to NPM
+# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
+# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
 
-on: 
-    workflow_dispatch:
-        inputs:
-            version:
-                description: 'Specify the version type (path, minor, major)'
-                required: true
-                default: 'patch'
+name: Publish Node.js Package
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      release-version:
+        required: true
 
 jobs:
-    build:
-        name: Build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout Repo
-              uses: actions/checkout@v4
-              with:
-                fetch-depth: 0
-                token: ${{ secrets.RELEASEDRAFTER_PAT }}
-                ref: 'master'
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{secrets.GH_TOKEN}}
 
-            - name: Setup Node.js 18.x
-              uses: actions/setup-node@v3
-              with:
-                node-version: 18
-                registry-url: "https://registry.npmjs.org"
-                scope: "@layer5"
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: |
+          npm install
 
-            - name: Install deps and build
-              run: |
-                yarn
-                yarn build-all
-
-            - name: Initialize the NPM config
-              run: npm config set //registry.npmjs.org/:_authToken $NPM_TOKEN
-              env:
-                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-                GITHUB_AUTH: ${{ secrets.GH_TOKEN }}
-          
-            - name: Initialize Git User
-              run: |
-                git config user.name "${{ github.actor }}"
-                git config user.email "${{ github.actor}}@users.noreply.github.com"
-
-            - name: Identify changed packages
-              id: changed-packages
-              run: |
-                echo "Changed packages: $(yarn lerna changed --json | jq -r '.[].name')"          
-
-            - name: Check if there are changed packages
-              run: |
-                echo "Changed packages: ${{ steps.changed-packages.outputs.changed-packages }}"
-              if: steps.changed-packages.outputs.changed-packages != ''
-          
-            - name: Version packages
-              run: |
-                if [ "${{ github.event.inputs.version }}" != 'none' ]; then
-                  ./scripts/version-release.sh "${{ steps.changed-packages.outputs.changed-packages }}"
-                else
-                  echo "Skipping versioning based on input."
-                fi
-        
-            - name: Use git-auto-commit-action
-              uses: stefanzweifel/git-auto-commit-action@v5
-              with:
-                commit_message: 'chore: publish'
-                commit_user_name: l5io
-                commit_user_email: ci@layer5.io
-                commit_author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-                commit_options: '--signoff'
-          
-            - name: Create Git tags
-              run: ./scripts/create-multiple-git-tag.sh
-          
-            - name: Publish packages
-              run: make publish-ci
-              env:
-                GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-                GITHUB_AUTH: ${{ secrets.GH_TOKEN }}
-                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-                NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  publish-gpr:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{secrets.GH_TOKEN}}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          registry-url: "https://registry.npmjs.org"
+          scope: "@layer5"
+      - run: npm publish --verbose
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}      
