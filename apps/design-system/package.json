@@ -42,7 +42,6 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "eslint-plugin-storybook": "^0.6.15",
     "msw": "^2.0.3",
-    "msw-storybook-addon": "^1.10.0",
     "mui-datatables": "^4.3.0",
     "storybook": "^7.5.3",
     "typescript": "^5.0.2",
