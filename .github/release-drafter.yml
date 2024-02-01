@@ -15,6 +15,17 @@ categories:
       - 'kind/chore'
       - 'chore'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+version-resolver:
+  major:
+    labels:
+      - "major"
+  minor:
+    labels:
+      - "minor"
+  patch:
+    labels:
+      - "patch"
+  default: patch
 template: |
   ## What's New
   $CHANGES
