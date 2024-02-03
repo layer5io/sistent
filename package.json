@@ -106,5 +106,8 @@
     "react-dom": {
       "optional": true
     }
-  }
+  },
+    "publishConfig": {
+      "access": "public"
+    }
 }
