@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent",
-  "version": "0.14.0",
+  "version": "0.14.1",
   "description": "Reusable React Components and SVG Icons library",
   "repository": "git@github.com:layer5io/sistent.git",
   "main": "./dist/index.js",
