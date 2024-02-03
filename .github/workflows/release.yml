@@ -6,10 +6,6 @@ name: Publish Node.js Package
 on:
   release:
     types: [published]
-  workflow_dispatch:
-    inputs:
-      release-version:
-        required: true
 
 jobs:
   build:
