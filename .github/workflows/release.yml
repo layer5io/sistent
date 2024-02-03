@@ -33,6 +33,8 @@ jobs:
           node-version: 18
           registry-url: "https://registry.npmjs.org"
           scope: "@layer5"
-      - run: npm publish --verbose
+      - run: |
+          npm build
+          npm publish --verbose
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}      
