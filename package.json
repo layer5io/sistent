@@ -9,10 +9,6 @@
   "files": [
     "dist"
   ],
-  "workspaces": [
-    "!apps/design-system",
-    "!apps/next-12"
-  ],
   "scripts": {
     "build": "NODE_ENV=production tsup",
     "commit": "cz",
