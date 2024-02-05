@@ -23,6 +23,7 @@ export interface ResponsiveDataTableProps {
   columnVisibility: Record<string, boolean> | undefined;
   theme?: object;
   colViews?: Record<string, boolean> | undefined;
+  rowsPerPageOptions?: number[] | undefined;
 }
 
 const ResponsiveDataTable = ({
@@ -32,6 +33,7 @@ const ResponsiveDataTable = ({
   tableCols,
   updateCols,
   columnVisibility,
+  rowsPerPageOptions = [20, 50, 100], // Default and standard page size options
   ...props
 }: ResponsiveDataTableProps): JSX.Element => {
   const formatDate = (date: Date): string => {
@@ -47,6 +49,7 @@ const ResponsiveDataTable = ({
 
   const updatedOptions = {
     ...options,
+    rowsPerPageOptions: rowsPerPageOptions,
     onViewColumnsChange: (column: string, action: string) => {
       switch (action) {
         case 'add': {
