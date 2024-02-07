@@ -1,6 +1,6 @@
 {
   "name": "@layer5/sistent",
-  "version": "0.14.7",
+  "version": "0.14.8",
   "description": "Reusable React Components and SVG Icons library",
   "repository": {
     "type": "git",
@@ -24,7 +24,6 @@
     "postinstall": "husky install",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
-    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
     "test": "jest",
     "versionup:major": "npm version major",
     "versionup:minor": "npm version minor",

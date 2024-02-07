@@ -6,7 +6,9 @@ name: Publish Node.js Package
 on:
   release:
     types: [synchronize, published]
-
+env:
+  HUSKY: 0
+  
 jobs:
   build:
     runs-on: ubuntu-latest
