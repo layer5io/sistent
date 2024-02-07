@@ -14,26 +14,18 @@
   ],
   "scripts": {
     "build": "NODE_ENV=production tsup",
-    "commit": "cz",
-    "commit:sign": "cz -s",
     "commitlint": "commitlint --edit",
     "coverage": "jest --coverage",
     "dev": "NODE_ENV=development tsup",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
-    "postinstall": "husky install",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+    "prepare": "husky install",
     "test": "jest",
     "versionup:major": "npm version major",
     "versionup:minor": "npm version minor",
     "versionup:patch": "npm version patch"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "prepare-commit-msg": "exec < /dev/tty && yarn cz --hook || true"
-    }
   },
   "lint-staged": {
     "*.{ts,tsx,md}": [
@@ -43,7 +35,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "cz-conventional-changelog"
+      "path": "./node_modules/cz-conventional-changelog"
     }
   },
   "devDependencies": {
