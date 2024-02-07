@@ -78,22 +78,24 @@ export function TypingFilter({ filterSchema, handleFilter, autoFilter = false }:
     if (!inputFieldRef.current) {
       return;
     }
-
+  
+    const inputField = inputFieldRef.current; // Copy the value to a variable
+  
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
-        // Perform nullish check before accessing inputFieldRef.current.value
-        const inputValue = inputFieldRef.current?.value ?? '';
+        // Perform nullish check before accessing inputField.value
+        const inputValue = inputField?.value ?? '';
         handleFilter(getFilters(inputValue, filterSchema));
         setAnchorEl(null);
       }
     };
-
-    inputFieldRef.current?.addEventListener('keydown', handleKeyDown);
-
+  
+    inputField?.addEventListener('keydown', handleKeyDown);
+  
     return () => {
-      inputFieldRef.current?.removeEventListener('keydown', handleKeyDown);
+      inputField?.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [filterSchema, handleFilter]);  
 
   React.useEffect(() => {
     if (autoFilter && filterState.state === FilteringState.SELECTING_FILTER) {
@@ -101,7 +103,7 @@ export function TypingFilter({ filterSchema, handleFilter, autoFilter = false }:
       const filterValue = filterState.context?.value ?? '';
       handleFilter(getFilters(filterValue, filterSchema));
     }
-  }, [filterState.state]);
+  }, [filterState.state, autoFilter, filterSchema, filterState.context?.value, handleFilter]);
 
   return (
     <React.Fragment>
