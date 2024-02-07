@@ -78,9 +78,9 @@ export function TypingFilter({ filterSchema, handleFilter, autoFilter = false }:
     if (!inputFieldRef.current) {
       return;
     }
-  
+
     const inputField = inputFieldRef.current; // Copy the value to a variable
-  
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
         // Perform nullish check before accessing inputField.value
@@ -89,13 +89,13 @@ export function TypingFilter({ filterSchema, handleFilter, autoFilter = false }:
         setAnchorEl(null);
       }
     };
-  
+
     inputField?.addEventListener('keydown', handleKeyDown);
-  
+
     return () => {
       inputField?.removeEventListener('keydown', handleKeyDown);
     };
-  }, [filterSchema, handleFilter]);  
+  }, [filterSchema, handleFilter]);
 
   React.useEffect(() => {
     if (autoFilter && filterState.state === FilteringState.SELECTING_FILTER) {
