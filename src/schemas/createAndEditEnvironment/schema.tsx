@@ -9,7 +9,8 @@ const createAndEditEnvironmentSchema = {
       'x-rjsf-grid-area': '12'
     },
     name: {
-      description: "Enter a unique and meaningful name for the environment. Remember you can change name of environment after it's creation too",
+      description:
+        "Enter a unique and meaningful name for the environment. Remember you can change name of environment after it's creation too",
       title: 'Name',
       type: 'string',
       'x-rjsf-grid-area': '12'
@@ -17,7 +18,7 @@ const createAndEditEnvironmentSchema = {
     organization: {
       type: 'string',
       title: 'Organization',
-      description: "Select a organization in whic",
+      description: 'Select a organization in whic',
       enum: [],
       enumNames: [],
       'x-rjsf-grid-area': '12'

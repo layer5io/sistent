@@ -40,13 +40,16 @@ export interface FilterActionType {
  * The `filterSchema` object defines available filter options for the TypingFilter component.
  * It provides information about different filter categories, their descriptions, and possible values.
  */
-export type FilterSchema = Record<string, {
+export type FilterSchema = Record<
+  string,
+  {
     value?: string;
     description?: string;
     type?: string;
     values?: string[];
     multiple?: boolean;
-  }>;
+  }
+>;
 /**
  * @example
  * // Example filter schema with multiple filter categories

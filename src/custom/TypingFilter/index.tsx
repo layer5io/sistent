@@ -10,10 +10,10 @@ import {
   FilteringState,
   filterReducer
 } from '../../utils/typing.state';
+import { getFilters } from '../../utils/typing.utils';
 import TypingFilterInput from './TypingFIlterInput';
 import { TypingFilters } from './TypingFIlters';
 import { TypingFilterValueSuggestions } from './TypingFilterSuggestions';
-import { getFilters } from '../../utils/typing.utils';
 
 interface TypingFilterType {
   filterSchema: FilterSchema;
@@ -79,21 +79,23 @@ export function TypingFilter({ filterSchema, handleFilter, autoFilter = false }:
       return;
     }
 
+    const inputField = inputFieldRef.current; // Copy the value to a variable
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
-        // Perform nullish check before accessing inputFieldRef.current.value
-        const inputValue = inputFieldRef.current?.value ?? '';
+        // Perform nullish check before accessing inputField.value
+        const inputValue = inputField?.value ?? '';
         handleFilter(getFilters(inputValue, filterSchema));
         setAnchorEl(null);
       }
     };
 
-    inputFieldRef.current?.addEventListener('keydown', handleKeyDown);
+    inputField?.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      inputFieldRef.current?.removeEventListener('keydown', handleKeyDown);
+      inputField?.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [filterSchema, handleFilter]);
 
   React.useEffect(() => {
     if (autoFilter && filterState.state === FilteringState.SELECTING_FILTER) {
@@ -101,7 +103,7 @@ export function TypingFilter({ filterSchema, handleFilter, autoFilter = false }:
       const filterValue = filterState.context?.value ?? '';
       handleFilter(getFilters(filterValue, filterSchema));
     }
-  }, [filterState.state]);
+  }, [filterState.state, autoFilter, filterSchema, filterState.context?.value, handleFilter]);
 
   return (
     <React.Fragment>
