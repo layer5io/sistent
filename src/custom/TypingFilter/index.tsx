@@ -10,10 +10,10 @@ import {
   FilteringState,
   filterReducer
 } from '../../utils/typing.state';
+import { getFilters } from '../../utils/typing.utils';
 import TypingFilterInput from './TypingFIlterInput';
 import { TypingFilters } from './TypingFIlters';
 import { TypingFilterValueSuggestions } from './TypingFilterSuggestions';
-import { getFilters } from '../../utils/typing.utils';
 
 interface TypingFilterType {
   filterSchema: FilterSchema;
