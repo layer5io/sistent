@@ -1,5 +1,5 @@
 import { useEffect, useRef, memo } from 'react';
-import { bb } from 'billboard.js';
+import bb from 'billboard.js';
 
 function BBChart({ options }) {
   const chartRef = useRef(null);
