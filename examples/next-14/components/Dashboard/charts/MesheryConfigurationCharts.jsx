@@ -7,8 +7,8 @@ import DashboardInfoOutlined from '@/styles/DashboardInfoOutlined';
 import DashboardSection from '@/styles/DashboardSection';
 import BBChart from '@/components/BBChart';
 import { dataToColors } from '@/utils/charts';
-import { useGetPatternsQuery } from '@/rtk-query/queries/design';
-import { useGetFiltersQuery } from '@/rtk-query/queries/filter';
+import { useGetPatternsQuery } from '@/lib/redux/rtk-query/queries/design';
+import { useGetFiltersQuery } from '@/lib/redux/rtk-query/queries/filter';
 import { renderTooltipContent } from '@/components/MesheryMeshInterface/TextTooltip';
 import CreateDesignBtn from './CreateDesignBtn';
 
@@ -77,7 +77,7 @@ export default function MesheryConfigurationChart() {
           <Typography variant="h6" gutterBottom sx={{ cursor: 'pointer' }}>
             Configuration
           </Typography>
-          <div onClick={(e) => e.stopPropagation()}>
+          <div>
             <TextTooltip
               backgroundColor="#3C494F"
               placement="left"
@@ -87,12 +87,14 @@ export default function MesheryConfigurationChart() {
                 link: url,
               })}
             >
-              <IconButton disableRipple={true} disableFocusRipple={true}>
-                <DashboardInfoOutlined
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                />
+              <IconButton
+                disableRipple={true}
+                disableFocusRipple={true}
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+              >
+                <DashboardInfoOutlined />
               </IconButton>
             </TextTooltip>
           </div>

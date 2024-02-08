@@ -7,7 +7,7 @@ import {
   useLazyGetMeshModelsQuery,
   useLazyGetModelFromCategoryQuery,
   useLazyGetRelationshipsQuery,
-} from '@/rtk-query/queries/meshModel';
+} from '@/lib/redux/rtk-query/queries/meshModel';
 import { dataToColors } from '@/utils/charts';
 import BBChart from '@/components/BBChart';
 import { donut, pie } from 'billboard.js';
@@ -42,9 +42,9 @@ function MeshModelContructs() {
         pagesize: 'all',
       });
 
-      setTotalModels(models.data.total_count);
-      setTotalComponents(components.data.total_count);
-      setTotalRelationships(relationships.data.total_count);
+      setTotalModels(models.data?.total_count);
+      setTotalComponents(components.data?.total_count);
+      setTotalRelationships(relationships.data?.total_count);
     } catch (error) {
       console.error('Error fetching Mesh Models data:', error);
     }
@@ -101,7 +101,7 @@ function MeshModelContructs() {
           <Typography variant="h6" gutterBottom sx={{ cursor: 'pointer' }}>
             Registry
           </Typography>
-          <div onClick={(e) => e.stopPropagation()}>
+          <div>
             <TextTooltip
               backgroundColor="#3C494F"
               placement="left"
@@ -194,7 +194,7 @@ function MeshModelCategories() {
           <Typography variant="h6" gutterBottom sx={{ cursor: 'pointer' }}>
             Categories
           </Typography>
-          <div onClick={(e) => e.stopPropagation()}>
+          <div>
             <TextTooltip
               backgroundColor="#3C494F"
               title={renderTooltipContent({

@@ -1,5 +1,5 @@
 import TextTooltip from '@/components/MesheryMeshInterface/TextTooltip';
-import { useGetAllConnectionStatusQuery } from '@/rtk-query/queries/connection';
+import { useGetAllConnectionStatusQuery } from '@/lib/redux/rtk-query/queries/connection';
 import { Typography, Box, IconButton } from '@layer5/sistent';
 import Link from 'next/link';
 import BBChart from '@/components/BBChart';
@@ -55,7 +55,7 @@ export function ConnectionStatsChart() {
           <Typography variant="h6" gutterBottom sx={{ cursor: 'pointer' }}>
             Connections
           </Typography>
-          <div onClick={(e) => e.stopPropagation()}>
+          <div>
             <TextTooltip
               backgroundColor="#3C494F"
               interactive={true}
@@ -72,8 +72,9 @@ export function ConnectionStatsChart() {
                 disableFocusRipple={true}
                 disableTouchRipple={true}
                 sx={{ padding: '0px' }}
+                onClick={(e) => e.stopPropagation()}
               >
-                <DashboardInfoOutlined onClick={(e) => e.stopPropagation()} />
+                <DashboardInfoOutlined />
               </IconButton>
             </TextTooltip>
           </div>

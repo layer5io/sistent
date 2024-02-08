@@ -6,6 +6,8 @@ import { ALL_VIEW } from './config';
 import ToolWrapper from '@/styles/ToolWrapper';
 import CreateButton from '@/styles/CreateButton';
 import SearchAndView from '@/styles/SearchAndView';
+import { useNotification } from '@/lib/hooks/useNotification';
+import { getK8sClusterIdsFromCtxId } from '@/utils/multi-ctx';
 
 const ACTION_TYPES = {
   FETCH_MESHSYNC_RESOURCES: {
@@ -45,8 +47,6 @@ export function ResourcesTable(props) {
   const clusterIds = encodeURIComponent(
     JSON.stringify(getK8sClusterIdsFromCtxId(selectedK8sContexts, k8sConfig)),
   );
-
-  const StyleClass = useStyles();
 
   const { notify } = useNotification();
 
