@@ -1,5 +1,6 @@
 import { Box, Typography } from '@layer5/sistent';
 
+// million-ignore
 export function TabPanel(props) {
   const { children, value, index, ...other } = props;
 

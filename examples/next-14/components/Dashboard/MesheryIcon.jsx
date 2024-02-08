@@ -1,3 +1,4 @@
+import { SvgIcon } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 export function MesheryIcon({
@@ -12,7 +13,7 @@ export function MesheryIcon({
   const fill = theme.palette.mode === 'dark' ? primaryFill : secondaryFill;
 
   return (
-    <svg
+    <SvgIcon
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}
@@ -20,10 +21,6 @@ export function MesheryIcon({
       fill={fill}
       style={props.style}
     >
-      <defs>
-        <style>{'.cls-1 {fill: #00d3a9;} .cls-2 {fill: #00b39f;}'}</style>
-      </defs>
-
       <polygon fill={primaryFill} points="69.49 31.82 69.49 64.07 97.44 47.89 69.49 31.82" />
       <polygon fill={primaryFill} points="69.49 70.81 69.49 103.22 97.7 87.09 69.49 70.81" />
       <polygon fill={secondaryFill} points="65.47 63.85 65.47 32.09 37.87 47.92 65.47 63.85" />
@@ -49,7 +46,7 @@ export function MesheryIcon({
       <path fill={secondaryFill} d="M135,64.81a67.06,67.06,0,0,0-8-29.35L105.49,47.88Z" />
       <path fill={primaryFill} d="M69.49,135a67.12,67.12,0,0,0,29.63-7.83L69.49,110Z" />
       <polygon fill={secondaryFill} points="31.51 83.44 31.51 51.56 3.83 67.43 31.51 83.44" />
-    </svg>
+    </SvgIcon>
   );
 }
 

@@ -105,10 +105,10 @@ export default function Provider() {
                   const provider = availableProviders[key];
 
                   return (
-                    <Fragment key={provider.provider_name}>
-                      <p style={{ fontWeight: 700 }}>{provider.provider_name}</p>
+                    <Fragment key={provider?.provider_name}>
+                      <p style={{ fontWeight: 700 }}>{provider?.provider_name}</p>
                       <ul>
-                        {provider.provider_description?.map((desc, i) => (
+                        {provider?.provider_description?.map((desc, i) => (
                           <li key={`desc-${i}`}>{String(desc)}</li>
                         ))}
                       </ul>

@@ -109,7 +109,7 @@ function Dashboard() {
                   key={resource}
                   icon={
                     resource === 'Overview' ? (
-                      <MesheryIcon />
+                      <MesheryIcon width="28px" height="28px" />
                     ) : (
                       <KubernetesIcon width="28px" height="28px" />
                     )

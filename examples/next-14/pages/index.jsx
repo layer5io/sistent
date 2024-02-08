@@ -14,11 +14,7 @@ function IndexPage() {
     document.title = `${newTitle} | Meshery`;
   }, []);
 
-  return (
-    <div>
-      <Dashboard />
-    </div>
-  );
+  return <Dashboard />;
 }
 
 export default IndexPage;

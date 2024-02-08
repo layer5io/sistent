@@ -81,7 +81,7 @@ export default function MesheryConfigurationChart() {
             <TextTooltip
               backgroundColor="#3C494F"
               placement="left"
-              interactive={true}
+              interactive="true"
               title={renderTooltipContent({
                 showPriortext: 'Meshery’s ability to configure infrastructure and applications.',
                 link: url,

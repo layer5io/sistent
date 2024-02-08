@@ -105,7 +105,7 @@ function MeshModelContructs() {
             <TextTooltip
               backgroundColor="#3C494F"
               placement="left"
-              interactive={true}
+              interactive="true"
               title={renderTooltipContent({
                 showPriortext:
                   'Meshery uses a set of resource models to define concrete boundaries to ensure extensible and sustainable management.',
@@ -204,7 +204,7 @@ function MeshModelCategories() {
                 link: url,
               })}
               placement="left"
-              interactive={true}
+              interactive="true"
             >
               <IconButton
                 disableRipple={true}

@@ -58,7 +58,7 @@ export function ConnectionStatsChart() {
           <div>
             <TextTooltip
               backgroundColor="#3C494F"
-              interactive={true}
+              interactive="true"
               title={renderTooltipContent({
                 showPriortext:
                   'Meshery Connections are managed and unmanaged resources that either through discovery or manual entry are managed by a state machine and used within one or more Environments.',

@@ -1,9 +1,9 @@
 import SvgIcon from '@mui/material/SvgIcon';
 
 /**
- * Function component for rendering an info icon.
+ * Function component for rendering a cross circle icon.
  * @param {import("../type").IconProps} props - Icon props.
- * @returns {JSX.Element} - Info icon SVG element.
+ * @returns {JSX.Element} - Cross circle icon SVG element.
  */
 export function CrossCircleIcon({ width = '24', height = '24', fill = 'currentColor', ...props }) {
   return (
@@ -16,17 +16,10 @@ export function CrossCircleIcon({ width = '24', height = '24', fill = 'currentCo
       style={{ ...props.style }}
       {...props}
     >
-      <g clipPath="url(#a)">
-        <path
-          d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2Zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59Z"
-          fillOpacity=".54"
-        />
-      </g>
-      <defs>
-        <clipPath id="a">
-          <path d="M0 0h24v24H0z" fill={props.stroke || '#FFFFF'} />
-        </clipPath>
-      </defs>
+      <path
+        d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2Zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59Z"
+        fillOpacity=".54"
+      />
     </SvgIcon>
   );
 }
