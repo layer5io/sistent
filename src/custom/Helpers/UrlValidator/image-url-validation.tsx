@@ -32,7 +32,6 @@ const isUrlValid = (url: string): boolean => {
     new URL(url);
     return true;
   } catch (error) {
-    console.error('Invalid URL:', url);
     return false;
   }
 };
