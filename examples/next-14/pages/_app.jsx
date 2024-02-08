@@ -1,4 +1,4 @@
-import { store } from '@/store';
+import { store } from '@/lib/redux';
 import { SistentThemeProvider } from '@layer5/sistent';
 import { Provider } from 'react-redux';
 

@@ -1,24 +1,22 @@
-import Dashboard from '@/components/Dashboard';
 import { useDispatch } from 'react-redux';
 import { updatePathTitle } from '@/lib/redux/features/page/page.slice';
-import { useEffect } from 'react';
+import { useEffect, Fragment } from 'react';
+import Provider from '@/components/Provider';
 
-function IndexPage() {
+export default function ProviderPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const newTitle = 'Dashboard';
+    const newTitle = 'Provider';
 
     dispatch(updatePathTitle(newTitle));
 
     document.title = `${newTitle} | Meshery`;
-  }, []);
+  });
 
   return (
-    <div>
-      <Dashboard />
-    </div>
+    <Fragment>
+      <Provider />
+    </Fragment>
   );
 }
-
-export default IndexPage;
