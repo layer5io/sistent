@@ -209,7 +209,7 @@ export const actionIcon = {
   hover: darkTeal.dark
 };
 
-export const tabeMenu = {
+export const tabMenu = {
   main: darkTeal.main,
   hover: darkTeal.dark
 };
