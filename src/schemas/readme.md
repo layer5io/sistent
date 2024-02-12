@@ -1,6 +1,6 @@
 # RJSF Schemas
 
-RJSF, or React JSON Schema Form, schemas play a crucial role in defining the structure and behavior of forms within our design system. These schemas, written in JSON format, provide a blueprint for rendering forms dynamically and handling user input effectively.
+RJSF, or React JSON Schema Form, schemas play a crucial role in defining the structure and behavior of forms. These schemas, written in JSON format, provide a blueprint for rendering forms dynamically and handling user input effectively.
 
 ### What are RJSF Schemas?
 
@@ -12,14 +12,14 @@ RJSF Schemas, based on the React JSON Schema Form library, define the structure,
    Include the required schema in your React component by importing it. For example:
 
    ```javascript
-   import MyFormSchema from 'path/to/MyFormSchema';
+   import MyFormSchema from '@layer5/sistent';
    ```
 
 1. **Rendering Forms:**
-   Integrate the schema into your component to render the form dynamically. Utilize libraries like RJSF to transform the schema into a fully functional form.
+   Integrate the schema into your component to render the form dynamically. Use already created generic RJSF components or use RJSF Form component directly.
 
    ```javascript
-   import { sampleSchema, sampleUiSchema } from 'react-jsonschema-form';
+   import { sampleSchema, sampleUiSchema } from '@layer5/sistent';
    <Form schema={sampleSchema} uiSchema={sampleUiSchema} onSubmit={handleFormSubmission} />;
    ```
 
@@ -28,7 +28,7 @@ RJSF Schemas, based on the React JSON Schema Form library, define the structure,
 
 ### File Conventions for Schemas
 
-Follow a consistent file structure convention to enhance clarity and organization:
+Follow a consistent file structure convention to enhance clarity and organization when adding new schema:
 
 1. Use the same name as the schema for the directory.
 1. Use CamelCase for multi-word schema names, e.g., UserRegistrationFormSchema.
@@ -36,7 +36,7 @@ Follow a consistent file structure convention to enhance clarity and organizatio
 
 ### Naming Conventions for Schemas
 
-Follow a consistent naming convention to enhance clarity and organization:
+Follow a consistent naming convention to enhance clarity and organization when adding new schema:
 
 1. Use descriptive names that convey the purpose of the form.
 1. CamelCase for multi-word schema names, e.g., UserRegistrationFormSchema.
