@@ -5,7 +5,12 @@ import {
   CustomColumnVisibilityControlProps
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
 import { EmptyState } from './EmptyState';
-import { ErrorBoundary, WithErrorBoundary, withSuppressedErrorBoundary } from './ErrorBoundary';
+import {
+  ErrorBoundary,
+  Fallback,
+  withErrorBoundary,
+  withSuppressedErrorBoundary
+} from './ErrorBoundary';
 import { FlipCard } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
@@ -22,15 +27,16 @@ export {
   CustomColumnVisibilityControl,
   EmptyState,
   ErrorBoundary,
+  Fallback,
   FlipCard,
   PopperListener,
   ResponsiveDataTable,
   SearchBar,
   StyledTooltip,
   UniversalFilter,
-  WithErrorBoundary,
   useNotificationHandler,
   useWindowDimensions,
+  withErrorBoundary,
   withSuppressedErrorBoundary
 };
 export type {
