@@ -80,7 +80,7 @@ interface WithErrorBoundaryProps {
   errorHandlingProps?: ErrorBoundaryProps;
 }
 
-export const WithErrorBoundary: React.FC<WithErrorBoundaryProps> = ({
+export const withErrorBoundary: React.FC<WithErrorBoundaryProps> = ({
   Component,
   errorHandlingProps = { children: null }
 }: WithErrorBoundaryProps): JSX.Element => {

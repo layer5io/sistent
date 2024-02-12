@@ -8,7 +8,7 @@ import { EmptyState } from './EmptyState';
 import {
   ErrorBoundary,
   Fallback,
-  WithErrorBoundary,
+  withErrorBoundary,
   withSuppressedErrorBoundary
 } from './ErrorBoundary';
 import { FlipCard } from './FlipCard';
@@ -34,9 +34,9 @@ export {
   SearchBar,
   StyledTooltip,
   UniversalFilter,
-  WithErrorBoundary,
   useNotificationHandler,
   useWindowDimensions,
+  withErrorBoundary,
   withSuppressedErrorBoundary
 };
 export type {

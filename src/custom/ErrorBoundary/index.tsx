@@ -1,6 +1,6 @@
 export {
   ErrorBoundary,
   Fallback,
-  WithErrorBoundary,
+  withErrorBoundary,
   withSuppressedErrorBoundary
 } from './ErrorBoundary';
