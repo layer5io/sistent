@@ -47,5 +47,5 @@ Follow a consistent naming convention to enhance clarity and organization when a
 
 In addition to the properties offered by the JSON schema, we have introduced the following custom properties that you can include in new schema:
 
-x-rjsf-grid-area: This property accepts an integer that defines the width of the field. For instance, specifying 6 means it will take up half of the parent width, while 12 signifies full width.
-x-encode-in-uri: When set to true, this property enables RJSF to encode data in URI format and return it.
+1. `x-rjsf-grid-area:` This property accepts an integer that defines the width of the field. For instance, specifying 6 means it will take up half of the parent width, while 12 signifies full width.
+1. `x-encode-in-uri:` When set to true, this property enables RJSF to encode data in URI format and return it.
