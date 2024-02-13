@@ -5,7 +5,7 @@ name: Publish Node.js Package
 
 on:
   release:
-    types: [synchronize, published]
+    types: [published]
 env:
   HUSKY: 0
   
@@ -29,6 +29,11 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+
+      - name: "Set Package Version"
+        uses: reedyuk/npm-version@1.1.1
+        with:
+          version: ${{ github.event.release.tag_name }}
 
       - uses: actions/setup-node@v3
         with:
