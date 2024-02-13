@@ -1,42 +1,31 @@
 {
   "name": "@layer5/sistent",
-  "version": "0.14.0",
+  "version": "0.14.11",
   "description": "Reusable React Components and SVG Icons library",
-  "repository": "git@github.com:layer5io/sistent.git",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/layer5io/sistent.git"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index..js",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "workspaces": [
-    "!apps/design-system",
-    "!apps/next-12"
-  ],
   "scripts": {
     "build": "NODE_ENV=production tsup",
-    "commit": "cz",
-    "commit:sign": "cz -s",
     "commitlint": "commitlint --edit",
     "coverage": "jest --coverage",
     "dev": "NODE_ENV=development tsup",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
-    "postinstall": "husky install",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
-    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
-    "prepublish": "npm run build",
+    "prepare": "husky install",
     "test": "jest",
     "versionup:major": "npm version major",
     "versionup:minor": "npm version minor",
     "versionup:patch": "npm version patch"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "prepare-commit-msg": "exec < /dev/tty && yarn cz --hook || true"
-    }
   },
   "lint-staged": {
     "*.{ts,tsx,md}": [
@@ -46,7 +35,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "cz-conventional-changelog"
+      "path": "./node_modules/cz-conventional-changelog"
     }
   },
   "devDependencies": {
@@ -107,5 +96,8 @@
     "react-dom": {
       "optional": true
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

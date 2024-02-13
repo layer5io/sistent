@@ -5,19 +5,15 @@ name: Publish Node.js Package
 
 on:
   release:
-    types: [published]
-  workflow_dispatch:
-    inputs:
-      release-version:
-        required: true
-
+    types: [synchronize, published]
+env:
+  HUSKY: 0
+  
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{secrets.GH_TOKEN}}
 
       - uses: actions/setup-node@v3
         with:
@@ -33,13 +29,15 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          token: ${{secrets.GH_TOKEN}}
+
       - uses: actions/setup-node@v3
         with:
           node-version: 18
           registry-url: "https://registry.npmjs.org"
           scope: "@layer5"
-      - run: npm publish --verbose
+      - run: |
+          npm install
+          npm run build
+          npm publish --verbose
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}      
