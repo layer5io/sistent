@@ -1,1 +1,0 @@
-export { TooltipIcon } from './tooltipicon';
