@@ -1,3 +1,3 @@
-import CustomTooltip from './Tooltip';
+import CustomTooltip from './customTooltip';
 
 export { CustomTooltip };
