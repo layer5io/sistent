@@ -4,6 +4,7 @@ import {
   CustomColumnVisibilityControl,
   CustomColumnVisibilityControlProps
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
+import { CustomTooltip } from './CustomTooltip';
 import { EmptyState } from './EmptyState';
 import {
   ErrorBoundary,
@@ -17,7 +18,6 @@ import { useNotificationHandler } from './Helpers/Notification';
 import PopperListener, { IPopperListener } from './PopperListener';
 import ResponsiveDataTable from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
-import { StyledTooltip } from './Tooltip';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 
 export { StyledChartDialog } from './ChartDialog';
@@ -25,6 +25,7 @@ export { StyledSearchBar } from './StyledSearchBar';
 export {
   ConnectionChip,
   CustomColumnVisibilityControl,
+  CustomTooltip,
   EmptyState,
   ErrorBoundary,
   Fallback,
@@ -32,7 +33,6 @@ export {
   PopperListener,
   ResponsiveDataTable,
   SearchBar,
-  StyledTooltip,
   UniversalFilter,
   useNotificationHandler,
   useWindowDimensions,
