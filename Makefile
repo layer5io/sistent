@@ -2,14 +2,28 @@
 
 ## Install Sistent dependencies your local machine.
 package-setup:
-	yarn install
+	npm install
 
 ## Build Sistent components and packages on your local machine.
 package-build: setup
-	yarn run build-all
+	npm run build
 
 package-format-check:
-	yarn run format:check
+	npm run format:check
 
 package-format-fix:
-	yarn run format:write
+	npm run format:write
+
+.PHONY: version-patch version-minor version-major
+
+# Create a patch version of packages
+version-patch:
+	npm run versionup:patch
+
+# Create a minor version of packages
+version-minor:
+	npm run versionup:minor
+
+# Create a major versio of packages
+version-major:
+	npm run versionup:major

@@ -1,9 +1,5 @@
-import React from 'react';
-
-const Elevation = ()=> {
-    return(
-        <div className="text-center text-bold">Elevation</div>
-    )
-}
+const Elevation = () => {
+  return <div className="text-center text-bold">Elevation</div>;
+};
 
 export default Elevation;
