@@ -76,21 +76,6 @@ function UniversalFilter({
           open={open}
           anchorEl={anchorEl}
           placement="bottom-end"
-          modifiers={[
-            {
-              name: 'flip',
-              options: {
-                enabled: false
-              }
-            },
-            {
-              name: 'preventOverflow',
-              options: {
-                enabled: true,
-                boundariesElement: 'scrollParent'
-              }
-            }
-          ]}
           // transition
         >
           <div>
