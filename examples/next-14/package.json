@@ -10,8 +10,8 @@
     "start": "next start"
   },
   "dependencies": {
-    "@layer5/sistent": "^0.14.12",
     "@casl/ability": "^6.5.0",
+    "@layer5/sistent": "^0.14.12",
     "@mui/icons-material": "^5.15.8",
     "@mui/lab": "^5.0.0-alpha.164",
     "@mui/x-tree-view": "^6.17.0",
