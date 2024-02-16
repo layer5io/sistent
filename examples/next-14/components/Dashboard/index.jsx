@@ -1,64 +1,15 @@
-import { Paper, Tab, Tabs } from '@layer5/sistent';
-import { styled } from '@mui/material';
 import { ResourcesConfig } from './resources/config';
 import TextTooltip from '../MesheryMeshInterface/TextTooltip';
 import { KubernetesIcon } from '@layer5/sistent';
 import MesheryIcon from './MesheryIcon';
 import { TabPanel } from './TabPanel';
-import { useRouter } from 'next/navigation';
 import Overview from './Overview';
 import ResourcesSubMenu from './resources/ResourcesSubMenu';
 import ResourcesTable from './resources/ResourcesTable';
 import { withRouter } from 'next/router';
-
-const DashboardTab = styled(Tab)(({ theme }) => ({
-  minWidth: 40,
-  paddingLeft: 0,
-  paddingRight: 0,
-  '&.Mui-selected': {
-    color: theme.palette.mode === 'dark' ? '#00B39F' : theme.palette.primary.main,
-  },
-}));
-
-const DashboardTabs = styled(Tabs)(({ theme }) => ({
-  flexGrow: 1,
-  '& .MuiTabs-indicator': {
-    backgroundColor: theme.palette.mode === 'dark' ? '#00B39F' : theme.palette.primary.main,
-  },
-  '& .MuiTab-fullWidth': {
-    flexBasis: 'unset',
-  },
-}));
-
-const useDashboardRouter = () => {
-  const router = useRouter();
-  const { query, push: pushRoute, route } = router;
-
-  const resourceCategory = query && query.resourceCategory ? query.resourceCategory : 'Overview';
-  const selectedResource = query && query.resource;
-
-  const changeResourceTab = (resourceCategory) => {
-    if (query.resourceCategory === resourceCategory) {
-      return;
-    }
-    pushRoute(
-      `${route}?resourceCategory=${resourceCategory || query.resourceCategory}`,
-      undefined,
-      { shallow: true },
-    );
-  };
-
-  const handleChangeSelectedResource = (resource) => {
-    if (query.resource === resource) {
-      return;
-    }
-    pushRoute(`${route}?resourceCategory=${resourceCategory}&resource=${resource}`, undefined, {
-      shallow: true,
-    });
-  };
-
-  return { resourceCategory, changeResourceTab, selectedResource, handleChangeSelectedResource };
-};
+import { DashboardTab } from '@/styles/DashboardTab';
+import { DashboardTabs } from '@/styles/DashboardTabs';
+import useDashboardRouter from '@/lib/hooks/useDashboardRouter';
 
 const ResourceCategoryTabs = ['Overview', ...Object.keys(ResourcesConfig)];
 
@@ -75,21 +26,8 @@ function Dashboard() {
   };
 
   return (
-    <div
-      style={{
-        flexGrow: 1,
-        maxWidth: '100%',
-        height: 'auto',
-      }}
-    >
-      <Paper
-        square
-        sx={{
-          flexGrow: 1,
-          maxWidth: '100%',
-          height: 'auto',
-        }}
-      >
+    <DashboardLayout>
+      <PaperSquare square>
         <DashboardTabs
           indicatorColor="primary"
           variant="fullWidth"
@@ -119,7 +57,7 @@ function Dashboard() {
             );
           })}
         </DashboardTabs>
-      </Paper>
+      </PaperSquare>
       <TabPanel value={resourceCategory} index={'Overview'}>
         <Overview />
       </TabPanel>
@@ -148,7 +86,7 @@ function Dashboard() {
           )}
         </TabPanel>
       ))}
-    </div>
+    </DashboardLayout>
   );
 }
 

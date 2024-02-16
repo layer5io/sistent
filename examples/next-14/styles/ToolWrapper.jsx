@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 const ToolWrapper = styled('div')(({ theme }) => ({
   marginBottom: '3rem',

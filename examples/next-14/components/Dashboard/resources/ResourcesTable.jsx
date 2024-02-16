@@ -1,4 +1,5 @@
-import { Slide, SearchBar, ResponsiveDataTable, useWindowDimensions } from '@layer5/sistent';
+import { SearchBar, ResponsiveDataTable, useWindowDimensions } from '@layer5/sistent';
+import Slide from '@mui/material/Slide';
 import View from '../View';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -20,6 +21,13 @@ export function ResourcesTable(props) {
   const { updateProgress, k8sConfig, resourceConfig, submenu, workloadType, selectedK8sContexts } =
     props;
 
+    const { width } = useWindowDimensions();
+  const { notify } = useNotification();
+
+  const connectionMetadataState = useSelector(
+    (state) => state.connection.connectionMetadataState,
+  );
+
   const [meshSyncResources, setMeshSyncResources] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -30,8 +38,6 @@ export function ResourcesTable(props) {
   const [selectedResource, setSelectedResource] = useState({});
   const [view, setView] = useState(ALL_VIEW);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-  const { width } = useWindowDimensions();
-  const connectionMetadataState = useSelector((state) => state.get('connectionMetadataState'));
 
   const switchView = (view, resource) => {
     setSelectedResource(resource);
@@ -47,8 +53,6 @@ export function ResourcesTable(props) {
   const clusterIds = encodeURIComponent(
     JSON.stringify(getK8sClusterIdsFromCtxId(selectedK8sContexts, k8sConfig)),
   );
-
-  const { notify } = useNotification();
 
   const getMeshsyncResources = (page, pageSize, search, sortOrder) => {
     setLoading(true);

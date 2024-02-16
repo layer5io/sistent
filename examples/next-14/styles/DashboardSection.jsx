@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 const DashboardSection = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#202020' : '#FFFFFF',

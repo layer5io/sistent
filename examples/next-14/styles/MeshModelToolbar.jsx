@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 const MeshModelToolbar = styled('div')(({ theme }) => ({
   display: 'flex',

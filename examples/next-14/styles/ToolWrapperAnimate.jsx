@@ -1,4 +1,4 @@
-import { styled } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 const ToolWrapperAnimate = styled('div')(({ theme }) => ({
   height: '4rem',

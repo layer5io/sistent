@@ -9,9 +9,11 @@ import k8sConfigSlice from './features/config/k8sConfig.slice';
 import contextsSlice from './features/contexts/contexts.slice';
 import providerSlice from './features/provider/provider.slice';
 import sessionSlice from './features/session/session.slice';
+import connectionSlice from './features/connection/connection.slice';
 
 export const rootReducer = (state, action) => {
   const reducers = combineReducers({
+    [api.reducerPath]: api.reducer,
     // [themeSlice.name]: themeSlice.reducer,
     [navSlice.name]: navSlice.reducer,
     [usersSlice.name]: usersSlice.reducer,
@@ -22,7 +24,7 @@ export const rootReducer = (state, action) => {
     [k8sConfigSlice.name]: k8sConfigSlice.reducer,
     [eventsSlice.name]: eventsSlice.reducer,
     [contextsSlice.name]: contextsSlice.reducer,
-    [api.reducerPath]: api.reducer,
+    [connectionSlice.name]: connectionSlice.reducer,
   });
   if (action.type === 'HYDRATE') {
     return reducers(

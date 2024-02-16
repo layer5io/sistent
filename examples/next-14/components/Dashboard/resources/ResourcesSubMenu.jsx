@@ -3,6 +3,10 @@ import TabPanel from '../TabPanel';
 import ResourcesTable from './ResourcesTable';
 import { KubernetesIcon } from '@layer5/sistent';
 import React from 'react';
+import { DashboardLayout } from '@/styles/DashboardLayout';
+import { PaperSquare } from '@/styles/PaperSquare';
+import { DashboardSubMenuTab } from '@/styles/DashboardSubMenuTab';
+import { DashboardTabs } from '@/styles/DashboardTabs';
 
 function ResourcesSubMenu(props) {
   const {
@@ -30,9 +34,9 @@ function ResourcesSubMenu(props) {
 
   return (
     <>
-      <div className={classes.wrapperClss}>
-        <Paper className={classes.wrapperClss}>
-          <div className={classes.subMenuTab}>
+      <DashboardLayout>
+        <PaperSquare>
+          <DashboardSubMenuTab>
             <Box sx={{ margin: '0 auto', width: '100%', maxWidth: { xs: 490, sm: 880, md: 1200 } }}>
               <Tabs
                 value={getResourceCategoryIndex(selectedResource)}
@@ -64,8 +68,8 @@ function ResourcesSubMenu(props) {
                 ))}
               </Tabs>
             </Box>
-          </div>
-        </Paper>
+          </DashboardSubMenuTab>
+        </PaperSquare>
         {TABS.map((key, index) => (
           <TabPanel value={selectedResource} index={key} key={index}>
             <ResourcesTable
@@ -80,7 +84,7 @@ function ResourcesSubMenu(props) {
             />
           </TabPanel>
         ))}
-      </div>
+      </DashboardLayout>
     </>
   );
 }

@@ -14,6 +14,7 @@ export function MesheryIcon({
 
   return (
     <SvgIcon
+    component={"SvgIconsvg"}
       xmlns="http://www.w3.org/2000/svg"
       width={width}
       height={height}

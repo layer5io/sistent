@@ -1,4 +1,5 @@
-import { styled } from '@mui/material';
+import { primaryColor } from '@layer5/sistent';
+import { styled } from '@mui/material/styles';
 
 const InnerContainerAnimate = styled(InnerContainer)(({ theme }) => ({
   width: '100%',
@@ -8,7 +9,7 @@ const InnerContainerAnimate = styled(InnerContainer)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   left: '0%',
-  backgroundColor: theme.palette.secondary.tabContainer,
+  backgroundColor: primaryColor.dark,
   [theme.breakpoints.down('sm')]: {
     flexDirection: 'row',
     paddingLeft: '1rem',

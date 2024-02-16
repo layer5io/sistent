@@ -11,7 +11,7 @@ export const DefaultTableCell = ({ columnData, icon, tooltip }) => {
           </Typography>
           {icon ? (
             <Tooltip title={tooltip ? tooltip : ''} placement="top">
-              <Typography style={{ display: 'flex', marginLeft: '5px' }} variant="span">
+              <Typography style={{ display: 'flex', marginLeft: '5px' }} variant="body1">
                 {icon}
               </Typography>
             </Tooltip>

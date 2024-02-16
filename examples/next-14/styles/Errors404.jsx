@@ -1,7 +1,8 @@
-import { styled } from '@mui/material';
+import { ALICE_BLUE, darkTeal } from '@layer5/sistent';
+import { styled } from '@mui/material/styles';
 
 export const ErrorMain = styled('main')(({ theme }) => ({
-  background: theme.palette.aliceBlue,
+  background: ALICE_BLUE,
   padding: '4rem 8rem',
   minHeight: '100vh',
   ['@media (max-width:680px)']: {
@@ -36,7 +37,7 @@ export const ErrorContentContainer = styled('div')(() => ({
 }));
 
 export const ErrorLink = styled('a')(({ theme }) => ({
-  color: theme.palette.secondary.focused,
+  color: darkTeal.dark,
   textDecoration: 'none',
 }));
 

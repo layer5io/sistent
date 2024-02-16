@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { updatePathTitle } from '@/lib/redux/features/page/page.slice';
 import { useEffect, Fragment } from 'react';
-import Provider from '@/components/Provider';
+import Provider from '@/components/ProviderLogin';
 
 export default function ProviderPage() {
   const dispatch = useDispatch();

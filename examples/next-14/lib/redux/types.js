@@ -55,6 +55,12 @@
  */
 
 /**
+ * Represents the state of the connection.
+ * @typedef {Object} ConnectionState
+ * @property {null} connectionMetadataState - State of the connection metadata.
+ */
+
+/**
  * Represents the root application state.
  * @typedef {Object} RootAppState
  * @property {ThemeState} theme - Theme state.

@@ -4,14 +4,14 @@ import { styled } from '@mui/material';
 import ConnectionStatsChart from './charts/ConnectionStatsChart';
 import MesheryConfigurationChart from './charts/MesheryConfigurationCharts';
 
-const RootClass = styled('div')(({ theme }) => ({
+const OverviewLayout = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#202020' : '#FFFFFF',
   marginTop: '1rem',
 }));
 
 function Overview() {
   return (
-    <RootClass>
+    <OverviewLayout>
       <Grid container spacing={2}>
         <Grid item xs={12} md={12}>
           <MeshModelGraph />
@@ -28,7 +28,7 @@ function Overview() {
           </Grid>
         </Grid>
       </Grid>
-    </RootClass>
+    </OverviewLayout>
   );
 }
 

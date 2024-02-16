@@ -78,7 +78,7 @@ export const errorHandlerGenerator =
  * Custom hook for handling Kubernetes operations.
  * @returns {Function} - Function to ping Kubernetes.
  */
-export default function useKubernetesHook() {
+export default function useKubernetes() {
   const { notify } = useNotification();
   const dispatch = useDispatch();
 

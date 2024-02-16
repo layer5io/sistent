@@ -2,6 +2,25 @@ import { ResponsiveDataTable, Typography, Paper } from '@layer5/sistent';
 import { ArrowBack } from '@mui/icons-material';
 import React, { useEffect } from 'react';
 import { ALL_VIEW } from './resources/config';
+import { styled } from '@mui/material/styles';
+
+const ParentStyle = styled('div')(() => ({
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+  boxSizing: 'border-box',
+  display: 'block',
+  width: '100%',
+}));
+
+const CellStyle = styled('div')(() => ({
+  boxSizing: 'border-box',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+}));
 
 export function View(props) {
   const { setView, resource } = props;
@@ -24,30 +43,14 @@ export function View(props) {
         sort: false,
         display: key == 'id' ? false : true,
         customBodyRender: function CustomBody(value) {
-          let parentStyle = {
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-            boxSizing: 'border-box',
-            display: 'block',
-            width: '100%',
-          };
-          let cellStyle = {
-            boxSizing: 'border-box',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          };
           return (
             <>
               <div style={{ position: 'relative', height: '20px' }}>
-                <div style={parentStyle}>
-                  <div style={cellStyle}>
+              <ParentStyle>
+                  <CellStyle>
                     {typeof value === 'object' && value !== null ? JSON.stringify(value) : value}
-                  </div>
-                </div>
+                  </CellStyle>
+                </ParentStyle>
               </div>
             </>
           );
@@ -76,7 +79,7 @@ export function View(props) {
           </Typography>
 
           <ResponsiveDataTable
-            classes={classes.muiRow}
+            // classes={classes.muiRow}
             data={value}
             columns={columns}
             options={options}
