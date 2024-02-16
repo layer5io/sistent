@@ -7,8 +7,8 @@ import DashboardInfoOutlined from '@/styles/DashboardInfoOutlined';
 import DashboardSection from '@/styles/DashboardSection';
 import BBChart from '@/components/BBChart';
 import { dataToColors } from '@/utils/charts';
-import { useGetPatternsQuery } from '@/lib/redux/rtk-query/queries/design';
-import { useGetFiltersQuery } from '@/lib/redux/rtk-query/queries/filter';
+import { useGetPatternsQuery } from '@/lib/rtk-query/queries/design';
+import { useGetFiltersQuery } from '@/lib/rtk-query/queries/filter';
 import { renderTooltipContent } from '@/components/MesheryMeshInterface/TextTooltip';
 import CreateDesignBtn from './CreateDesignBtn';
 

@@ -7,7 +7,7 @@ import {
   useLazyGetMeshModelsQuery,
   useLazyGetModelFromCategoryQuery,
   useLazyGetRelationshipsQuery,
-} from '@/lib/redux/rtk-query/queries/meshModel';
+} from '@/lib/rtk-query/queries/meshModel';
 import { dataToColors } from '@/utils/charts';
 import BBChart from '@/components/BBChart';
 import { donut, pie } from 'billboard.js';

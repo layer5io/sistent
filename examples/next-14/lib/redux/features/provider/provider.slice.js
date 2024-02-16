@@ -1,6 +1,5 @@
-import { createSlice, PayloadAction, createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { ProvidersState } from '../../types';
-import dataFetch from '@/utils/dataFetch';
 
 /**
  * Async thunk to fetch providers data.

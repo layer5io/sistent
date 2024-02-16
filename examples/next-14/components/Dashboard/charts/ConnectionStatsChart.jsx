@@ -1,5 +1,5 @@
 import TextTooltip from '@/components/MesheryMeshInterface/TextTooltip';
-import { useGetAllConnectionStatusQuery } from '@/lib/redux/rtk-query/queries/connection';
+import { useGetAllConnectionStatusQuery } from '@/lib/rtk-query/queries/connection';
 import { Typography, Box, IconButton } from '@layer5/sistent';
 import Link from 'next/link';
 import BBChart from '@/components/BBChart';

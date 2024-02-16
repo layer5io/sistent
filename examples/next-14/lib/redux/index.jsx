@@ -1,5 +1,5 @@
 import { rootReducer } from './root.reducer';
-import { api } from './rtk-query/config';
+import { api } from '../rtk-query/config';
 import { configureStore } from '@reduxjs/toolkit';
 
 export const store = () => {

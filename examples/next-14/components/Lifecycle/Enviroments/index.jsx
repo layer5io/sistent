@@ -7,7 +7,7 @@ import {
   useCreateEnvironmentMutation,
   useUpdateEnvironmentMutation,
   useDeleteEnvironmentMutation,
-} from '@/lib/redux/rtk-query/queries/environments';
+} from '@/lib/rtk-query/queries/environments';
 import { useNotification } from '@/hooks/useNotification';
 import EnvironmentCard from './EnvironmentCard';
 import { EnvironmentIcon, Box, SearchBar, Grid, Typography, Button } from '@layer5/sistent';

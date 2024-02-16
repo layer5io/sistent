@@ -27,18 +27,14 @@ import { content } from './content';
 import ProviderFooter from './ProviderFooter';
 import { disabledMenuItems } from './disabledMenuItem';
 import { ArrowDropDown } from '@mui/icons-material';
+import { useFetchProvidersQuery } from '@/lib/rtk-query/queries/provider';
 
 export default function Provider() {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const dispatch = useDispatch();
-  const availableProviders = useSelector(selectProviders);
-
-  useEffect(() => {
-    void dispatch(fetchProviders());
-  }, [dispatch]);
+  const { data: availableProviders } = useFetchProvidersQuery({});
 
   const handleClickOpen = () => {
     setOpen(true);

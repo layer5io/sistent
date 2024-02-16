@@ -1,5 +1,7 @@
 import million from 'million/compiler';
 
+const API_URL = process.env.API_URL;
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -15,8 +17,8 @@ const nextConfig = {
   },
   async rewrites() {
     return [
-      { source: '/api/:path*', destination: 'http://localhost:9081/:path*' },
-      { source: '/user/:path*', destination: 'http://localhost:9081/:path*' },
+      { source: '/api/:path*', destination: `${API_URL}/:path*` },
+      { source: '/user/:path*', destination: `${API_URL}/:path*` },
       { source: '/provider/:path*', destination: '/:path*' },
     ];
   },
