@@ -25,7 +25,7 @@ interface FallbackComponentProps extends FallbackProps {
   children?: React.ReactNode;
 }
 
-function Fallback({ error, children }: FallbackComponentProps): JSX.Element {
+export function Fallback({ error, children }: FallbackComponentProps): JSX.Element {
   return (
     <div role="alert">
       <h2>Uh-oh!😔 Please pardon the mesh.</h2>
@@ -62,12 +62,13 @@ const reportError = (error: Error, info: React.ErrorInfo): void => {
 };
 
 interface ErrorBoundaryProps {
+  customFallback?: React.ComponentType<FallbackProps>;
   children: React.ReactNode;
 }
 
-export const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
+export const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ customFallback, children }) => {
   return (
-    <ReactErrorBoundary FallbackComponent={Fallback} onError={reportError}>
+    <ReactErrorBoundary FallbackComponent={customFallback ?? Fallback} onError={reportError}>
       {children}
     </ReactErrorBoundary>
   );
@@ -79,7 +80,7 @@ interface WithErrorBoundaryProps {
   errorHandlingProps?: ErrorBoundaryProps;
 }
 
-export const WithErrorBoundary: React.FC<WithErrorBoundaryProps> = ({
+export const withErrorBoundary: React.FC<WithErrorBoundaryProps> = ({
   Component,
   errorHandlingProps = { children: null }
 }: WithErrorBoundaryProps): JSX.Element => {
@@ -99,7 +100,7 @@ export const withSuppressedErrorBoundary: React.FC<WithSuppressedErrorBoundaryPr
   Component
 }: WithSuppressedErrorBoundaryProps): JSX.Element => {
   return (
-    <ReactErrorBoundary FallbackComponent={Fallback} onError={reportError}>
+    <ReactErrorBoundary FallbackComponent={() => null} onError={reportError}>
       <Component />
     </ReactErrorBoundary>
   );
