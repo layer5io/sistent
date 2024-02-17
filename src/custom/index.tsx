@@ -14,6 +14,7 @@ import {
 import { FlipCard } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
+import { validateImageUrl } from './Helpers/UrlValidator';
 import PopperListener, { IPopperListener } from './PopperListener';
 import ResponsiveDataTable, { ResponsiveDataTableProps } from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
@@ -36,6 +37,7 @@ export {
   UniversalFilter,
   useNotificationHandler,
   useWindowDimensions,
+  validateImageUrl,
   withErrorBoundary,
   withSuppressedErrorBoundary
 };
