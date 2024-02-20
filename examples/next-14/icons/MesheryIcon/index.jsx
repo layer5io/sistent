@@ -1,26 +1,37 @@
 import { SvgIcon } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-export function MesheryIcon({
-  width = '28px',
-  height = '28px',
-  primaryFill = '#00b39f',
-  secondaryFill = '#00d3a9',
-  ...props
-}) {
+function MesheryIconBase({ ...props }) {
+  const {
+    width = '28px',
+    height = '28px',
+    // fill = "currentColor",
+    primaryFill = '#00b39f',
+    secondaryFill = '#00d3a9',
+    onClick,
+    className,
+    color = 'unset',
+    fontSize = 'unset',
+    style,
+  } = props;
+
   const theme = useTheme();
 
   const fill = theme.palette.mode === 'dark' ? primaryFill : secondaryFill;
 
   return (
     <SvgIcon
-    component={"SvgIconsvg"}
+      component={'SvgIconsvg'}
       xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 134.95 135.02"
       width={width}
       height={height}
-      viewBox="0 0 134.95 135.02"
       fill={fill}
-      style={props.style}
+      onClick={onClick}
+      className={className}
+      color={color}
+      fontSize={fontSize}
+      style={style}
     >
       <polygon fill={primaryFill} points="69.49 31.82 69.49 64.07 97.44 47.89 69.49 31.82" />
       <polygon fill={primaryFill} points="69.49 70.81 69.49 103.22 97.7 87.09 69.49 70.81" />
@@ -49,6 +60,10 @@ export function MesheryIcon({
       <polygon fill={secondaryFill} points="31.51 83.44 31.51 51.56 3.83 67.43 31.51 83.44" />
     </SvgIcon>
   );
+}
+
+export function MesheryIcon() {
+  return <SvgIcon component={MesheryIconBase} />;
 }
 
 export default MesheryIcon;
