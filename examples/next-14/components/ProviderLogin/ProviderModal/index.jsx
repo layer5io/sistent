@@ -47,12 +47,7 @@ function ExternalLinkIcon({ width = 16, height = 16, ...props }) {
   );
 }
 
-function ProviderDialogTitle({
-  onClose,
-  title,
-  children,
-  ...props
-}) {
+function ProviderDialogTitle({ onClose, title, children, ...props }) {
   const { ...other } = props;
 
   return (
@@ -91,29 +86,25 @@ function ProvidersAvailableList({ availableProviders }) {
 
   return (
     <Box>
-      {availableProviders.map(
-        (provider, index) => (
-          <Box key={index} sx={{ marginBottom: 2 }}>
-            <Typography variant="h6" sx={{ fontWeight: 700 }}>
-              {provider.provider_name}
-            </Typography>
-            <List dense disablePadding>
-              {provider.provider_description.map((desc, i) => (
-                <ListItem dense disableGutters disablePadding key={i}>
-                  <ListItemText primary={desc} />
-                </ListItem>
-              ))}
-            </List>
-          </Box>
-        ),
-      )}
+      {availableProviders.map((provider, index) => (
+        <Box key={index} sx={{ marginBottom: 2 }}>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
+            {provider.provider_name}
+          </Typography>
+          <List dense disablePadding>
+            {provider.provider_description.map((desc, i) => (
+              <ListItem dense disableGutters disablePadding key={i}>
+                <ListItemText primary={desc} />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+      ))}
     </Box>
   );
 }
 
-function ProviderList({
-  providerData,
-}) {
+function ProviderList({ providerData }) {
   return (
     <Box>
       {providerData.map((provider, index) => (
