@@ -21,12 +21,10 @@ export function ResourcesTable(props) {
   const { updateProgress, k8sConfig, resourceConfig, submenu, workloadType, selectedK8sContexts } =
     props;
 
-    const { width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const { notify } = useNotification();
 
-  const connectionMetadataState = useSelector(
-    (state) => state.connection.connectionMetadataState,
-  );
+  const connectionMetadataState = useSelector((state) => state.connection.connectionMetadataState);
 
   const [meshSyncResources, setMeshSyncResources] = useState([]);
   const [loading, setLoading] = useState(false);

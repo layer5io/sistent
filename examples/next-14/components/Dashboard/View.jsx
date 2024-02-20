@@ -46,7 +46,7 @@ export function View(props) {
           return (
             <>
               <div style={{ position: 'relative', height: '20px' }}>
-              <ParentStyle>
+                <ParentStyle>
                   <CellStyle>
                     {typeof value === 'object' && value !== null ? JSON.stringify(value) : value}
                   </CellStyle>
