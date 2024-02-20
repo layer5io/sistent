@@ -11,9 +11,11 @@
   },
   "dependencies": {
     "@casl/ability": "^6.5.0",
+    "@emotion/server": "^11.11.0",
     "@layer5/sistent": "^0.14.12",
     "@mui/icons-material": "^5.15.8",
     "@mui/lab": "^5.0.0-alpha.164",
+    "@mui/material-nextjs": "^5.15.9",
     "@mui/x-tree-view": "^6.17.0",
     "@reduxjs/toolkit": "^2.1.0",
     "axios": "^1.6.7",
