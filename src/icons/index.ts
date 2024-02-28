@@ -36,6 +36,8 @@ export * from './Mesh';
 // export { default as ModifiedApplicationFileIcon } from "./ModifiedApplicationFileIcon";
 // export { default as OriginalApplicationFileIcon } from "./OriginalApplicationFileIcon";
 export * from './Environment';
+export * from './ExternalLink';
+export * from './HelpIcon';
 export * from './Kubernetes';
 export * from './LeftAngledArrow';
 export * from './LeftArrow';
