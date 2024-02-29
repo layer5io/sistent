@@ -35,6 +35,10 @@ export const NOT_FOUND = '#666666';
 export const YELLOW_SEA = '#F0A303';
 export const PINE_GREEN = '#008071';
 export const DARK_BLUE_GRAY = '#263238';
+export const BUTTON_MODAL = '#396679';
+export const BUTTON_MODAL_DARK = '#202020';
+export const SLIGHT_BLACK = '#548194';
+export const SLIGHT_BLACK_2 = '#23365f';
 
 export const common = {
   black: BLACK,
