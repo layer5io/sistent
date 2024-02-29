@@ -18,6 +18,8 @@ import { useNotificationHandler } from './Helpers/Notification';
 import PopperListener, { IPopperListener } from './PopperListener';
 import ResponsiveDataTable, { ResponsiveDataTableProps } from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
+import { TransferList } from './TransferModal/TransferList';
+import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 
 export { StyledChartDialog } from './ChartDialog';
@@ -33,6 +35,7 @@ export {
   PopperListener,
   ResponsiveDataTable,
   SearchBar,
+  TransferList,
   UniversalFilter,
   useNotificationHandler,
   useWindowDimensions,
@@ -45,5 +48,6 @@ export type {
   IPopperListener,
   ResponsiveDataTableProps,
   SearchBarProps,
+  TransferListProps,
   UniversalFilterProps
 };
