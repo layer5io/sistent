@@ -6,14 +6,14 @@ import { STEEL_GRAY } from '../../../theme/colors/colors';
 export const StyledChip = styled(Chip)({
   padding: '5px 6px !important',
   color: BLACK,
-  fontSize: '14px',
+  fontSize: '0.875rem',
   textTransform: 'uppercase',
   fontWeight: 400,
   height: 'unset',
   borderRadius: '100px',
   border: `0.5px solid ${accentGrey[40]}`,
   background: WHITE,
-  maxWidth: '230px'
+  maxWidth: '14.375rem'
 });
 
 export const StyledPaper = styled(Paper)({
@@ -65,11 +65,11 @@ export const ListGrid = styled(Grid)({
 });
 
 export const ButtonGrid = styled(Grid)({
-  padding: '40px 1rem 0 1rem',
+  padding: '2.5rem 1rem 0 1rem',
   '@media (max-width: 768px)': {
     padding: '1rem',
     transform: 'rotate(90deg)',
-    height: '100px',
-    marginLeft: '100px'
+    height: '6.25rem',
+    marginLeft: '6.25rem'
   }
 });
