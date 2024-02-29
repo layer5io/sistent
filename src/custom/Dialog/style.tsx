@@ -4,14 +4,14 @@ import {
   BUTTON_MODAL,
   BUTTON_MODAL_DARK,
   NOT_FOUND,
-  SLIGHT_BLACK,
   SLIGHT_BLACK_2,
+  SLIGHT_BLUE,
   WHITE
 } from '../../theme/colors/colors';
 
 export const HeaderModal = styled('div')(({ theme }) => {
-  const startColor = theme.palette.mode === 'light' ? BUTTON_MODAL : BUTTON_MODAL_DARK;
-  const endColor = theme.palette.mode === 'light' ? BLACK : SLIGHT_BLACK_2;
+  const startColor = theme.palette.mode === 'light' ? BUTTON_MODAL : BLACK;
+  const endColor = theme.palette.mode === 'light' ? SLIGHT_BLUE : SLIGHT_BLACK_2;
 
   return {
     display: 'flex',
@@ -21,7 +21,7 @@ export const HeaderModal = styled('div')(({ theme }) => {
     background: `linear-gradient(90deg, ${startColor}, ${endColor})`,
     filter:
       theme.palette.mode === 'light'
-        ? `progid:DXImageTransform.Microsoft.gradient(startColorstr='${BUTTON_MODAL}',endColorstr='${SLIGHT_BLACK}',GradientType=1)`
+        ? `progid:DXImageTransform.Microsoft.gradient(startColorstr='${BUTTON_MODAL}',endColorstr='${SLIGHT_BLUE}',GradientType=1)`
         : `progid:DXImageTransform.Microsoft.gradient(startColorstr='${BUTTON_MODAL_DARK}',GradientType=1)`
   };
 });

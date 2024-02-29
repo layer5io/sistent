@@ -37,7 +37,7 @@ export const PINE_GREEN = '#008071';
 export const DARK_BLUE_GRAY = '#263238';
 export const BUTTON_MODAL = '#396679';
 export const BUTTON_MODAL_DARK = '#202020';
-export const SLIGHT_BLACK = '#548194';
+export const SLIGHT_BLUE = '#548194';
 export const SLIGHT_BLACK_2 = '#23365f';
 
 export const common = {
