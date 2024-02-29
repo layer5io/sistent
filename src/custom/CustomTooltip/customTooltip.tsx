@@ -2,7 +2,7 @@ import { type TooltipProps } from '@mui/material';
 import React from 'react';
 import { Tooltip } from '../../base/Tooltip';
 
-type StyledTooltipProps = {
+type CustomTooltipProps = {
   title: string;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   children: React.ReactNode;
@@ -14,7 +14,7 @@ function StyledTooltip({
   placement,
   children,
   ...props
-}: StyledTooltipProps): JSX.Element {
+}: CustomTooltipProps): JSX.Element {
   return (
     <Tooltip title={title} placement={placement} onClick={onClick} arrow {...props}>
       {children}
