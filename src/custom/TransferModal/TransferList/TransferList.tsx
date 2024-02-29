@@ -16,12 +16,29 @@ export const TRANSFER_COMPONET = {
   OTHER: 'other'
 };
 
-function not(a: any, b: any) {
-  return a.filter((value: any) => b.indexOf(value) === -1);
+export interface TransferListProps {
+  name: string;
+  assignableData: ListItemType[];
+  assignedData: (data: ListItemType[]) => void;
+  originalAssignedData: ListItemType[];
+  emptyStateIconLeft: JSX.Element;
+  emtyStateMessageLeft: string;
+  emptyStateIconRight: JSX.Element;
+  emtyStateMessageRight: string;
+  transferComponentType: string;
 }
 
-function intersection(a: any, b: any) {
-  return a.filter((value: any) => b.indexOf(value) !== -1);
+interface ListItemType {
+  id: number;
+  name: string;
+}
+
+function not<T>(a: T[], b: T[]): T[] {
+  return a.filter((value: T) => b.indexOf(value) === -1);
+}
+
+function intersection<T>(a: T[], b: T[]): T[] {
+  return a.filter((value: T) => b.indexOf(value) !== -1);
 }
 
 /**
@@ -39,18 +56,6 @@ function intersection(a: any, b: any) {
  * @param {String} props.transferComponentType - Type of the component transfer (There is two types: chip and other).
  */
 
-export interface TransferListProps {
-  name: string;
-  assignableData: Array<any>;
-  assignedData: Function;
-  originalAssignedData: Array<any>;
-  emptyStateIconLeft: JSX.Element;
-  emtyStateMessageLeft: string;
-  emptyStateIconRight: JSX.Element;
-  emtyStateMessageRight: string;
-  transferComponentType: string;
-}
-
 function TransferList({
   name,
   assignableData,
@@ -62,9 +67,9 @@ function TransferList({
   emtyStateMessageRight,
   transferComponentType = TRANSFER_COMPONET.OTHER
 }: TransferListProps): JSX.Element {
-  const [checked, setChecked] = React.useState<any[]>([]);
-  const [left, setLeft] = React.useState<any[]>([]);
-  const [right, setRight] = React.useState<any>(originalAssignedData);
+  const [checked, setChecked] = React.useState<ListItemType[]>([]);
+  const [left, setLeft] = React.useState<ListItemType[]>([]);
+  const [right, setRight] = React.useState<ListItemType[]>(originalAssignedData);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -74,9 +79,9 @@ function TransferList({
     const idsToRemove = new Set(right.map((item: { id: number }) => item.id));
     const filteredLeft = assignableData.filter((item) => !idsToRemove.has(item.id));
     setLeft(filteredLeft);
-  }, [right, assignableData]);
+  }, [right, assignableData, assignedData]);
 
-  const handleToggle = (value: any) => () => {
+  const handleToggle = (value: ListItemType) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
 
@@ -111,7 +116,11 @@ function TransferList({
     setRight([]);
   };
 
-  const customList = (items: any[], emptyStateIcon: any, emtyStateMessage: string) => (
+  const customList = (
+    items: ListItemType[],
+    emptyStateIcon: JSX.Element,
+    emtyStateMessage: string
+  ) => (
     <StyledPaper>
       <List dense component="div" role="list">
         {items.length > 0 ? (
