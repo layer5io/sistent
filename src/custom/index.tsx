@@ -5,6 +5,13 @@ import {
   CustomColumnVisibilityControlProps
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
 import { CustomTooltip } from './CustomTooltip';
+import {
+  CustomDialog,
+  StyledDialogActions,
+  StyledDialogContent,
+  StyledDialogTitle
+} from './Dialog';
+import { CustomDialogProps } from './Dialog/CustomDialog';
 import { EmptyState } from './EmptyState';
 import {
   ErrorBoundary,
@@ -25,6 +32,7 @@ export { StyledSearchBar } from './StyledSearchBar';
 export {
   ConnectionChip,
   CustomColumnVisibilityControl,
+  CustomDialog,
   CustomTooltip,
   EmptyState,
   ErrorBoundary,
@@ -33,6 +41,9 @@ export {
   PopperListener,
   ResponsiveDataTable,
   SearchBar,
+  StyledDialogActions,
+  StyledDialogContent,
+  StyledDialogTitle,
   UniversalFilter,
   useNotificationHandler,
   useWindowDimensions,
@@ -42,8 +53,11 @@ export {
 export type {
   CustomColumn,
   CustomColumnVisibilityControlProps,
+  CustomDialogProps,
   IPopperListener,
   ResponsiveDataTableProps,
   SearchBarProps,
   UniversalFilterProps
 };
+
+export * from './Dialog';
