@@ -60,7 +60,7 @@ build:
 ```
 
 ```
-attach:
+attach sistent to your project:
 	npm install [path to sistent repo ]
 ```
 
