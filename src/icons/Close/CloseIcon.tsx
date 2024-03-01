@@ -4,6 +4,7 @@ import { IconProps } from '../types';
 export const CloseIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
+  fill = '#F6F8F8',
   ...props
 }: IconProps): JSX.Element => {
   return (
@@ -12,7 +13,7 @@ export const CloseIcon = ({
       viewBox="0 0 24 24"
       width={width}
       height={height}
-      fill={props.fill}
+      fill={fill}
       {...props}
     >
       <path d="M0 0h24v24H0z" fill="none" />

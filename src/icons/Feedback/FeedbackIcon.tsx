@@ -1,7 +1,12 @@
 import { FC } from 'react';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
-const FeedbackIcon: FC<IconProps> = ({ width, height, ...props }) => {
+const FeedbackIcon: FC<IconProps> = ({
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
+  ...props
+}) => {
   return (
     <svg
       width={width}

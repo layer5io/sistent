@@ -15,8 +15,9 @@ export const ContentContainer = styled('div')(({ theme }) => ({
 
 export const ModalWrapper = styled('div')(() => ({
   zIndex: '100',
-  borderRadius: '5px 5px 0px 0pxx'
+  borderRadius: '5px'
 }));
+
 export const ButtonContainer = styled('div')(({ theme }) => {
   const startColor = theme.palette.mode === 'light' ? BUTTON_MODAL : BLACK;
   const endColor = theme.palette.mode === 'light' ? SLIGHT_BLUE : SLIGHT_BLACK_2;
@@ -38,7 +39,7 @@ export const HeaderModal = styled('div')(({ theme }) => {
 
   return {
     display: 'flex',
-    borderRadius: '5px',
+    borderRadius: '5px  5px 0px 0px',
     justifyContent: 'space-between',
     padding: '1rem',
     boxShadow: 'inset 0px -1px 3px 0px rgba(0,0,0,0.2)',

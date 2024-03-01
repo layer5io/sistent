@@ -1,4 +1,3 @@
-import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
@@ -23,12 +22,14 @@ import {
   FeedbackOptions,
   FeedbackSubmitButton,
   FeedbackTextArea,
+  MeetWrapper,
+  StyledCheckBox,
   StyledLink,
   StyledTextArea
 } from './style';
 
 const tooltipContent = (
-  <p>
+  <MeetWrapper>
     Some account and system information may be sent to Layer5. We will use it to fix problems and
     improve our services, subject to our{' '}
     <StyledLink target="_blank" href="https://layer5.io/company/legal/privacy">
@@ -39,7 +40,7 @@ const tooltipContent = (
       Terms of Service
     </StyledLink>
     . We may email you for more information or updates.
-  </p>
+  </MeetWrapper>
 );
 
 interface FeedbackDataItem {
@@ -79,7 +80,7 @@ const feedbackData: FeedbackDataItem[] = [
           color: 'black'
         }}
       >
-        <Typography style={{ lineHeight: '2.5' }}>
+        <Typography style={{ lineHeight: '2.5', textAlign: 'center' }}>
           Need help or have more feedback than fits here?
           <br /> Meet with us.
         </Typography>
@@ -146,7 +147,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
             open={true}
             closeComponent={
               <CloseButton onClick={() => setIsOpen(false)}>
-                <CloseIcon fill="#F6F8F8" />
+                <CloseIcon />
               </CloseButton>
             }
             actions={
@@ -165,13 +166,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
                       marginLeft: '0px',
                       marginRight: '5px'
                     }}
-                    control={
-                      <Checkbox
-                        style={{ color: '#F6F8F8' }}
-                        checked={isChecked}
-                        onChange={handleCheckboxChange}
-                      />
-                    }
+                    control={<StyledCheckBox checked={isChecked} onChange={handleCheckboxChange} />}
                   />
                   <Typography style={{ fontSize: '0.8rem', marginRight: '10px', color: 'white' }}>
                     We may email you for more information or updates
@@ -187,12 +182,12 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
                 </FeedbackSubmitButton>
               </div>
             }
-            leftHeaderIcon={<FeedbackIcon width={'24'} height={'24'} fill="#F6F8F8" />}
+            leftHeaderIcon={<FeedbackIcon fill="#FBFBFB" />}
             title="Feedback"
             helpArea={
               <Tooltip placement="top" title={tooltipContent} arrow>
                 <div style={{ marginRight: '0.5rem' }}>
-                  <QuestionIcon fill="#F6F8F8" />
+                  <QuestionIcon />
                 </div>
               </Tooltip>
             }
@@ -207,12 +202,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
                       onClick={() => {
                         setCategory(item);
                       }}
-                      style={{
-                        borderBottom: category?.label === item.label ? '2px solid #00B39F' : '',
-                        background: category?.label === item.label ? '#fff' : '',
-                        color: category?.label === item.label ? '#000' : '',
-                        fill: category?.label === item.label ? '#51636B' : ''
-                      }}
+                      isOpen={category?.label === item.label}
                     >
                       <FeedbackMiniIcon>{item.icon}</FeedbackMiniIcon>
                       <Typography>{item.label}</Typography>
