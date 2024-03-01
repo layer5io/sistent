@@ -1,3 +1,4 @@
+import { Checkbox } from '@mui/material';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
@@ -23,7 +24,6 @@ import {
   FeedbackSubmitButton,
   FeedbackTextArea,
   MeetWrapper,
-  StyledCheckBox,
   StyledLink,
   StyledTextArea
 } from './style';
@@ -166,7 +166,13 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
                       marginLeft: '0px',
                       marginRight: '5px'
                     }}
-                    control={<StyledCheckBox checked={isChecked} onChange={handleCheckboxChange} />}
+                    control={
+                      <Checkbox
+                        style={{ color: '#fff' }}
+                        checked={isChecked}
+                        onChange={handleCheckboxChange}
+                      />
+                    }
                   />
                   <Typography style={{ fontSize: '0.8rem', marginRight: '10px', color: 'white' }}>
                     We may email you for more information or updates
@@ -175,7 +181,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
                 <FeedbackSubmitButton
                   type="submit"
                   disabled={!(messageValue && isChecked)}
-                  style={{ backgroundColor: !(messageValue && isChecked) ? '#b0bec5' : '#00B39F' }}
+                  isOpen={!(messageValue && isChecked)}
                   onClick={handleSubmit}
                 >
                   Send

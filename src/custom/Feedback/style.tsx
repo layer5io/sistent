@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, styled } from '@mui/material';
+import { Box, Button, styled } from '@mui/material';
 import { BUTTON_MODAL, BUTTON_MODAL_DARK } from '../../theme/colors/colors';
 export const CloseButton = styled('div')({
   cursor: 'pointer'
@@ -27,13 +27,14 @@ export const FeedbackMiniIcon = styled('div')({
   height: '24px'
 });
 
-export const FeedbackSubmitButton = styled(Button)({
+export const FeedbackSubmitButton = styled(Button)<ContainerProps>(({ isOpen }) => ({
   color: 'white',
   width: '67px',
   height: '36px',
   textTransform: 'lowercase',
-  boxShadow: '0px 1px 8px rgba(0, 0, 0, 0.25)'
-});
+  boxShadow: '0px 1px 8px rgba(0, 0, 0, 0.25)',
+  backgroundColor: isOpen ? '#b0bec5' : '#00B39F'
+}));
 
 export const FeedbackButton = styled(Button)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? BUTTON_MODAL_DARK : BUTTON_MODAL,
@@ -143,10 +144,6 @@ export const StyledTextArea = styled('textarea')(({ theme }) => ({
     outline: '1px solid #00D3A9'
   }
 }));
-
-export const StyledCheckBox = styled(Checkbox)({
-  color: '#F6F8F8'
-});
 
 export const MeetWrapper = styled('p')(({ theme }) => ({
   color: theme.palette.mode === 'dark' ? '#FBFBFB' : '#1E2117'
