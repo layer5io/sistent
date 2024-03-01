@@ -59,7 +59,7 @@ const feedbackData: FeedbackDataItem[] = [
     isTextInput: true
   },
   {
-    icon: <IdeaIcon width={'24'} height={'24'} />,
+    icon: <IdeaIcon />,
     label: 'Suggestion',
     placeholder: 'I have a suggestion about...',
     isTextInput: true
