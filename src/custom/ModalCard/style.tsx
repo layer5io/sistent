@@ -1,4 +1,5 @@
 import { styled } from '@mui/material';
+import { Typography } from '../../base';
 import {
   BLACK,
   BUTTON_MODAL,
@@ -32,6 +33,9 @@ export const ButtonContainer = styled('div')(({ theme }) => {
     position: 'relative',
     zIndex: '100'
   };
+});
+export const HeaderTypography = styled(Typography)({
+  fontSize: '18px'
 });
 export const HeaderModal = styled('div')(({ theme }) => {
   const startColor = theme.palette.mode === 'light' ? BUTTON_MODAL : BLACK;

@@ -1,6 +1,11 @@
 import { type DialogProps } from '@mui/material';
-import { Typography } from '../../base';
-import { ButtonContainer, ContentContainer, HeaderModal, ModalWrapper } from './style';
+import {
+  ButtonContainer,
+  ContentContainer,
+  HeaderModal,
+  HeaderTypography,
+  ModalWrapper
+} from './style';
 
 export interface CustomDialogProps {
   open: boolean;
@@ -37,7 +42,7 @@ function ModalCard({
         {title && (
           <>
             <div style={{ display: 'flex', alignItems: 'center', color: 'white' }}>
-              <Typography>{title}</Typography>
+              <HeaderTypography>{title}</HeaderTypography>
             </div>
           </>
         )}
