@@ -1,7 +1,12 @@
 import { FC } from 'react';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
-export const QuestionIcon: FC<IconProps> = ({ width, height, ...props }) => (
+export const QuestionIcon: FC<IconProps> = ({
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
+  ...props
+}) => (
   <svg
     width={width}
     height={height}

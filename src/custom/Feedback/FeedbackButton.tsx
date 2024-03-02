@@ -1,8 +1,6 @@
-import { Checkbox } from '@mui/material';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import React, { useRef, useState } from 'react';
+import { Tooltip } from '../../base/Tooltip';
 import {
   CalenderIcon,
   CloseIcon,
@@ -13,6 +11,7 @@ import {
 } from '../../icons';
 import { ModalCard } from '../ModalCard';
 import {
+  ActionWrapper,
   CloseButton,
   Container,
   FeedbackButton,
@@ -23,7 +22,10 @@ import {
   FeedbackOptions,
   FeedbackSubmitButton,
   FeedbackTextArea,
+  HelperWrapper,
+  InnerComponentWrapper,
   MeetWrapper,
+  StyledCheckbox,
   StyledLink,
   StyledTextArea
 } from './style';
@@ -147,7 +149,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
             open={true}
             closeComponent={
               <CloseButton onClick={() => setIsOpen(false)}>
-                <CloseIcon />
+                <CloseIcon width={'30'} height={'30'} />
               </CloseButton>
             }
             actions={
@@ -157,27 +159,12 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
                   alignItems: 'center'
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <FormControlLabel
-                    label={''}
-                    style={{
-                      color: 'white',
-                      fontSize: '2px',
-                      marginLeft: '0px',
-                      marginRight: '5px'
-                    }}
-                    control={
-                      <Checkbox
-                        style={{ color: '#fff' }}
-                        checked={isChecked}
-                        onChange={handleCheckboxChange}
-                      />
-                    }
-                  />
-                  <Typography style={{ fontSize: '0.8rem', marginRight: '10px', color: 'white' }}>
+                <ActionWrapper>
+                  <StyledCheckbox checked={isChecked} onChange={handleCheckboxChange} />
+                  <Typography style={{ color: 'white', fontSize: '12px', height: '15px' }}>
                     We may email you for more information or updates
                   </Typography>
-                </div>
+                </ActionWrapper>
                 <FeedbackSubmitButton
                   type="submit"
                   disabled={!(messageValue && isChecked)}
@@ -192,9 +179,9 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
             title="Feedback"
             helpArea={
               <Tooltip placement="top" title={tooltipContent} arrow>
-                <div style={{ marginRight: '0.5rem' }}>
-                  <QuestionIcon />
-                </div>
+                <HelperWrapper>
+                  <QuestionIcon width={'30'} height={'30'} />
+                </HelperWrapper>
               </Tooltip>
             }
             helpText={'Help'}
@@ -217,22 +204,20 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
                 </FeedbackOptions>
                 {category?.isTextInput ? (
                   <FeedbackTextArea>
-                    <div style={{ padding: '1.6rem 1.1rem' }}>
-                      <StyledTextArea
-                        value={messageValue || ''}
-                        onChange={(e) => {
-                          setMessageValue(e.target.value);
-                        }}
-                        ref={feedbackTextRef}
-                        required
-                        placeholder={category.placeholder}
-                        rows={5}
-                        cols={30}
-                      />
-                    </div>
+                    <StyledTextArea
+                      value={messageValue || ''}
+                      onChange={(e) => {
+                        setMessageValue(e.target.value);
+                      }}
+                      ref={feedbackTextRef}
+                      required
+                      placeholder={category.placeholder}
+                      rows={5}
+                      cols={30}
+                    />
                   </FeedbackTextArea>
                 ) : (
-                  <div style={{ padding: '1.6rem 1.1rem' }}>{category?.innerComponent}</div>
+                  <InnerComponentWrapper>{category?.innerComponent}</InnerComponentWrapper>
                 )}
               </FeedbackForm>
             }

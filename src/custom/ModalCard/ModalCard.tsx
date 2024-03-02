@@ -43,7 +43,7 @@ function ModalCard({
         )}
 
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          {helpText && <div>{helpArea}</div>}
+          {helpText && <>{helpArea}</>}
           {closeComponent}
         </div>
       </HeaderModal>

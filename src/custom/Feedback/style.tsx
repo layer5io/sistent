@@ -1,7 +1,11 @@
-import { Box, Button, styled } from '@mui/material';
+import { Box, Button, Checkbox, styled } from '@mui/material';
 import { BUTTON_MODAL, BUTTON_MODAL_DARK } from '../../theme/colors/colors';
 export const CloseButton = styled('div')({
-  cursor: 'pointer'
+  cursor: 'pointer',
+  width: '30px',
+  height: '30px',
+  display: 'flex',
+  alignItems: 'center'
 });
 
 interface ContainerProps {
@@ -15,11 +19,22 @@ export const Container = styled(Box)<ContainerProps>(({ isOpen }) => ({
   transition: 'bottom 0.5s ease'
 }));
 
-export const FeedbackTextArea = styled(Box)({
+export const FeedbackTextArea = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  transition: 'bottom 0.5s ease'
+  transition: 'bottom 0.5s ease',
+  padding: '1.688rem 1.188rem',
+  width: '28rem',
+  height: '12rem'
+});
+
+export const ActionWrapper = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  paddingTop: '0.5px',
+  height: '20px',
+  width: '21.188rem'
 });
 
 export const FeedbackMiniIcon = styled('div')({
@@ -29,9 +44,9 @@ export const FeedbackMiniIcon = styled('div')({
 
 export const FeedbackSubmitButton = styled(Button)<ContainerProps>(({ isOpen }) => ({
   color: 'white',
-  width: '67px',
-  height: '36px',
-  textTransform: 'lowercase',
+  width: '4.313rem',
+  height: '2.25rem',
+  textTransform: 'none',
   boxShadow: '0px 1px 8px rgba(0, 0, 0, 0.25)',
   backgroundColor: isOpen ? '#b0bec5' : '#00B39F'
 }));
@@ -75,7 +90,7 @@ export const FeedbackMessage = styled(Box)<FeedbackMessageProps>(({ isOpen, them
   backgroundColor: theme.palette.mode === 'dark' ? '#1E2117' : '#fff',
   border: '1px solid #ddd',
   padding: '20px',
-  width: '448px',
+  width: '28rem',
   height: '333.5px',
   display: 'flex',
   flexDirection: 'column',
@@ -99,8 +114,8 @@ export const FeedbackOptionButton = styled(Button)<FeedbackMessageProps>(({ them
   textTransform: 'none',
   width: '100%',
   height: '5rem',
-  marginBottom: '0.5rem',
   display: 'flex',
+  padding: '0rem',
   borderRadius: '0px',
   flexDirection: 'column',
   borderBottom: isOpen ? '2px solid #00B39F' : '',
@@ -133,7 +148,10 @@ export const StyledTextArea = styled('textarea')(({ theme }) => ({
   borderRadius: '4px',
   color: theme.palette.mode === 'dark' ? '#FBFBFB' : '#000',
   fontSize: '16px',
-  padding: '10px',
+  paddingTop: '10.5px',
+  paddingBottom: '10.5px',
+  paddingLeft: '0.6rem',
+  paddingRight: '0.6rem',
   resize: 'none',
   fontFamily: 'inherit',
   fontStyle: 'normal',
@@ -155,4 +173,22 @@ export const StyledLink = styled('a')({
   '&:hover': {
     color: 'inherit'
   }
+});
+
+export const StyledCheckbox = styled(Checkbox)({
+  color: '#fff',
+  marginLeft: '-11px',
+  paddingLeft: '0px'
+});
+export const InnerComponentWrapper = styled('div')({
+  padding: '1.5rem 1rem',
+  width: '28rem',
+  height: '12rem'
+});
+export const HelperWrapper = styled('div')({
+  padding: '0px',
+  width: '30px',
+  height: '30px',
+  display: 'flex',
+  alignItems: 'center'
 });

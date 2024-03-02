@@ -23,7 +23,7 @@ export const ButtonContainer = styled('div')(({ theme }) => {
   const endColor = theme.palette.mode === 'light' ? SLIGHT_BLUE : SLIGHT_BLACK_2;
 
   return {
-    padding: '1rem 1.5rem',
+    padding: '1.25rem 1rem',
     display: 'flex',
     justifyContent: 'flex-end',
 
@@ -41,7 +41,8 @@ export const HeaderModal = styled('div')(({ theme }) => {
     display: 'flex',
     borderRadius: '5px  5px 0px 0px',
     justifyContent: 'space-between',
-    padding: '1rem',
+    padding: '11px 16px',
+    height: '52px',
     boxShadow: 'inset 0px -1px 3px 0px rgba(0,0,0,0.2)',
     background: `linear-gradient(90deg, ${startColor}, ${endColor})`,
     filter:
