@@ -4,6 +4,14 @@ import {
   CustomColumnVisibilityControl,
   CustomColumnVisibilityControlProps
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
+import { CustomTooltip } from './CustomTooltip';
+import {
+  CustomDialog,
+  StyledDialogActions,
+  StyledDialogContent,
+  StyledDialogTitle
+} from './Dialog';
+import { CustomDialogProps } from './Dialog/CustomDialog';
 import { EmptyState } from './EmptyState';
 import {
   ErrorBoundary,
@@ -17,7 +25,6 @@ import { useNotificationHandler } from './Helpers/Notification';
 import PopperListener, { IPopperListener } from './PopperListener';
 import ResponsiveDataTable, { ResponsiveDataTableProps } from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
-import { StyledTooltip } from './Tooltip';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 
 export { StyledChartDialog } from './ChartDialog';
@@ -25,6 +32,8 @@ export { StyledSearchBar } from './StyledSearchBar';
 export {
   ConnectionChip,
   CustomColumnVisibilityControl,
+  CustomDialog,
+  CustomTooltip,
   EmptyState,
   ErrorBoundary,
   Fallback,
@@ -32,7 +41,9 @@ export {
   PopperListener,
   ResponsiveDataTable,
   SearchBar,
-  StyledTooltip,
+  StyledDialogActions,
+  StyledDialogContent,
+  StyledDialogTitle,
   UniversalFilter,
   useNotificationHandler,
   useWindowDimensions,
@@ -42,8 +53,11 @@ export {
 export type {
   CustomColumn,
   CustomColumnVisibilityControlProps,
+  CustomDialogProps,
   IPopperListener,
   ResponsiveDataTableProps,
   SearchBarProps,
   UniversalFilterProps
 };
+
+export * from './Dialog';

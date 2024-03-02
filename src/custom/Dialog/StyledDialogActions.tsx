@@ -5,7 +5,7 @@ interface StyledDialogActionsProps {
   children: React.ReactNode;
 }
 
-function StyledDialogActions({ children, ...props }: StyledDialogActionsProps): JSX.Element {
+export function StyledDialogActions({ children, ...props }: StyledDialogActionsProps): JSX.Element {
   return <DialogActions {...props}>{children}</DialogActions>;
 }
 

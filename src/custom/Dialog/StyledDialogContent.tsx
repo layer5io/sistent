@@ -5,7 +5,7 @@ interface StyledDialogContentProps {
   children: React.ReactNode;
 }
 
-function StyledDialogContent({ children, ...props }: StyledDialogContentProps): JSX.Element {
+export function StyledDialogContent({ children, ...props }: StyledDialogContentProps): JSX.Element {
   return <DialogContent {...props}>{children}</DialogContent>;
 }
 
