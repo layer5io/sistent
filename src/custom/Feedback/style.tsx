@@ -176,7 +176,7 @@ export const StyledLink = styled('a')({
 });
 
 export const StyledCheckbox = styled(Checkbox)({
-  color: '#fff',
+  color: '#fff !important',
   marginLeft: '-11px',
   paddingLeft: '0px'
 });
