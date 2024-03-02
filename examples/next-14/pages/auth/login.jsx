@@ -18,7 +18,7 @@ const SessionExpired = styled(DialogContentText)(() => ({
   justifyContent: 'space-evenly',
 }));
 
-export default function UnauthenticationSession() {
+export default function UnauthenticatedSession() {
   const router = useRouter();
 
   const [open, setOpen] = React.useState(false);
