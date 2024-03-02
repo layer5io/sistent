@@ -21,7 +21,6 @@
     "axios": "^1.6.7",
     "billboard.js": "^3.10.3",
     "lodash": "^4.17.21",
-    "million": "^3.0.2",
     "moment": "^2.30.1",
     "next": "14.1.0",
     "notistack": "^3.0.1",

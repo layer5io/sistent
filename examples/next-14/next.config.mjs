@@ -1,5 +1,3 @@
-import million from 'million/compiler';
-
 const API_URL = process.env.API_URL;
 
 /** @type {import('next').NextConfig} */
@@ -29,7 +27,7 @@ const nextConfig = {
         source: '/api/:path*',
         headers: [
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
-          { key: 'Access-Control-Allow-Origin', value: '*' }, // replace this your actual origin
+          { key: 'Access-Control-Allow-Origin', value: '*' },
           {
             key: 'Access-Control-Allow-Methods',
             value: 'GET,DELETE,PATCH,POST,PUT',
@@ -42,14 +40,6 @@ const nextConfig = {
         ],
       },
     ];
-  },
-};
-
-const millionConfig = {
-  auto: {
-    threshold: 0.05, // default: 0.1,
-    skip: ['useBadHook', /badVariable/g], // default []
-    // if you're using RSC: auto: { rsc: true },
   },
 };
 
