@@ -180,10 +180,6 @@ export const StyledTextArea = styled('textarea')(({ theme }) => ({
   }
 }));
 
-export const MeetWrapper = styled('p')(({ theme }) => ({
-  color: theme.palette.mode === 'dark' ? SNOW_WHITE : DARK_JUNGLE_GREEN
-}));
-
 export const StyledLink = styled('a')({
   textDecoration: 'underline',
   color: 'inherit',

@@ -1,6 +1,5 @@
 import Typography from '@mui/material/Typography';
 import React, { CSSProperties, useRef, useState } from 'react';
-import { Tooltip } from '../../base/Tooltip';
 import {
   CalenderIcon,
   CloseIcon,
@@ -10,6 +9,7 @@ import {
   SuccessIcon
 } from '../../icons';
 import { CULTURED } from '../../theme';
+import { CustomTooltip } from '../CustomTooltip';
 import { ModalCard } from '../ModalCard';
 import {
   ActionWrapper,
@@ -25,14 +25,13 @@ import {
   FeedbackTextArea,
   HelperWrapper,
   InnerComponentWrapper,
-  MeetWrapper,
   StyledCheckbox,
   StyledLink,
   StyledTextArea
 } from './style';
 
 const tooltipContent = (
-  <MeetWrapper>
+  <p>
     Some account and system information may be sent to Layer5. We will use it to fix problems and
     improve our services, subject to our{' '}
     <StyledLink target="_blank" href="https://layer5.io/company/legal/privacy">
@@ -43,7 +42,7 @@ const tooltipContent = (
       Terms of Service
     </StyledLink>
     . We may email you for more information or updates.
-  </MeetWrapper>
+  </p>
 );
 
 interface FeedbackDataItem {
@@ -184,11 +183,11 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
             leftHeaderIcon={<FeedbackIcon />}
             title="Feedback"
             helpArea={
-              <Tooltip placement="top" title={tooltipContent} arrow>
+              <CustomTooltip placement="top" title={tooltipContent} arrow>
                 <HelperWrapper>
                   <QuestionIcon width={'30'} height={'30'} />
                 </HelperWrapper>
-              </Tooltip>
+              </CustomTooltip>
             }
             helpText={'Help'}
             content={
