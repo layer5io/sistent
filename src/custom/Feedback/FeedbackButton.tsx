@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import React, { useRef, useState } from 'react';
+import React, { CSSProperties, useRef, useState } from 'react';
 import { Tooltip } from '../../base/Tooltip';
 import {
   CalenderIcon,
@@ -99,9 +99,15 @@ const feedbackData: FeedbackDataItem[] = [
 
 interface FeedbackComponentProps {
   onSubmit: (data: { label: string; message: string }) => void;
+  containerStyles?: CSSProperties;
+  feedbackOptionStyles?: CSSProperties;
 }
 
-const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
+const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
+  onSubmit,
+  containerStyles,
+  feedbackOptionStyles
+}) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [category, setCategory] = useState<FeedbackDataItem | undefined>();
@@ -134,7 +140,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Container isOpen={isOpen}>
+    <Container isOpen={isOpen} style={containerStyles}>
       {submitted ? (
         <FeedbackMessage isOpen={isOpen}>
           <SuccessIcon width={'32'} height={'32'} />
@@ -191,6 +197,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
                   {feedbackData?.map((item) => (
                     <FeedbackOptionButton
                       key={item.label}
+                      style={feedbackOptionStyles}
                       type="button"
                       onClick={() => {
                         setCategory(item);
