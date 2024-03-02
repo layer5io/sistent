@@ -5,6 +5,7 @@ import { Box } from '../../base/Box';
 import { Link } from '../../base/Link';
 import { Typography } from '../../base/Typography';
 import { BLACK, KEPPEL } from '../../theme/colors';
+import { DARK_JUNGLE_GREEN } from '../../theme/colors/colors';
 
 const ErrorMessage = styled(Typography)(() => ({
   color: BLACK,
@@ -31,7 +32,7 @@ export function Fallback({ error, children }: FallbackComponentProps): JSX.Eleme
       <h2>Uh-oh!😔 Please pardon the mesh.</h2>
       <div
         style={{
-          backgroundColor: '#1E2117',
+          backgroundColor: DARK_JUNGLE_GREEN,
           color: '#FFFFFF',
           padding: '.85rem',
           borderRadius: '.2rem',

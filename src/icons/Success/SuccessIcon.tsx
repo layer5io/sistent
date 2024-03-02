@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import { KEPPEL_GREEN_FILL } from '../../constants/constants';
+import { WHITE } from '../../theme';
 import { IconProps } from '../types';
 
 const SuccessIcon: FC<IconProps> = ({ width, height, ...props }) => {
@@ -11,15 +13,15 @@ const SuccessIcon: FC<IconProps> = ({ width, height, ...props }) => {
       viewBox="0 0 50 50"
       {...props}
     >
-      <circle fill="#25AE88" cx="25" cy="25" r="25" />
+      <circle fill={props.stroke || KEPPEL_GREEN_FILL} cx="25" cy="25" r="25" />
       <polyline
         fill="none"
-        stroke="#FFFFFF"
-        strokeWidth="2" // Changed to "strokeWidth" from "stroke-width"
-        strokeLinecap="round" // Changed to "strokeLinecap" from "stroke-linecap"
-        strokeLinejoin="round" // Changed to "strokeLinejoin" from "stroke-linejoin"
-        strokeMiterlimit="10" // Changed to "strokeMiterlimit" from "stroke-miterlimit"
-        points="38,15 22,33 12,25 " // Changed to lowercase "points" from "points"
+        stroke={WHITE}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeMiterlimit="10"
+        points="38,15 22,33 12,25 "
       />
     </svg>
   );

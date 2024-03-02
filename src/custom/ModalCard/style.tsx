@@ -4,6 +4,7 @@ import {
   BLACK,
   BUTTON_MODAL,
   BUTTON_MODAL_DARK,
+  CULTURED,
   NOT_FOUND,
   SLIGHT_BLACK_2,
   SLIGHT_BLUE,
@@ -47,6 +48,7 @@ export const HeaderModal = styled('div')(({ theme }) => {
     justifyContent: 'space-between',
     padding: '11px 16px',
     height: '52px',
+    fill: CULTURED,
     boxShadow: 'inset 0px -1px 3px 0px rgba(0,0,0,0.2)',
     background: `linear-gradient(90deg, ${startColor}, ${endColor})`,
     filter:

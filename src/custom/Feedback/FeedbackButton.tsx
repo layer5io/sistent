@@ -9,6 +9,7 @@ import {
   QuestionIcon,
   SuccessIcon
 } from '../../icons';
+import { CULTURED } from '../../theme';
 import { ModalCard } from '../ModalCard';
 import {
   ActionWrapper,
@@ -48,7 +49,7 @@ const tooltipContent = (
 interface FeedbackDataItem {
   icon: JSX.Element;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   isTextInput: boolean;
   innerComponent?: JSX.Element;
 }
@@ -69,7 +70,6 @@ const feedbackData: FeedbackDataItem[] = [
   {
     icon: <CalenderIcon />,
     label: 'Meet Request',
-    placeholder: 'You have a suggestion3?',
     isTextInput: false,
     innerComponent: (
       <div
@@ -149,7 +149,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
             open={true}
             closeComponent={
               <CloseButton onClick={() => setIsOpen(false)}>
-                <CloseIcon width={'30'} height={'30'} />
+                <CloseIcon width={'30'} height={'30'} fill={CULTURED} />
               </CloseButton>
             }
             actions={
@@ -175,7 +175,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({ onSubmit }) => {
                 </FeedbackSubmitButton>
               </div>
             }
-            leftHeaderIcon={<FeedbackIcon fill="#FBFBFB" />}
+            leftHeaderIcon={<FeedbackIcon />}
             title="Feedback"
             helpArea={
               <Tooltip placement="top" title={tooltipContent} arrow>
