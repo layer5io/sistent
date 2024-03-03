@@ -19,14 +19,15 @@ import {
   withErrorBoundary,
   withSuppressedErrorBoundary
 } from './ErrorBoundary';
+import { FeedbackButton } from './Feedback';
 import { FlipCard } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
+import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
 import ResponsiveDataTable, { ResponsiveDataTableProps } from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
-
 export { StyledChartDialog } from './ChartDialog';
 export { StyledSearchBar } from './StyledSearchBar';
 export {
@@ -37,7 +38,9 @@ export {
   EmptyState,
   ErrorBoundary,
   Fallback,
+  FeedbackButton,
   FlipCard,
+  ModalCard,
   PopperListener,
   ResponsiveDataTable,
   SearchBar,
