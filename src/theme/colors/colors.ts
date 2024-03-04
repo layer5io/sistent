@@ -4,6 +4,7 @@ import { alpha } from '@mui/material';
  * Define the base common colors to derive from
  */
 export const KEPPEL = '#00B39F';
+export const DARK_KEPPEL = '#00A18F';
 export const CARIBBEAN_GREEN = '#00D3A9';
 export const TEAL_BLUE = '#477E96';
 export const CHARCOAL = '#3C494F';

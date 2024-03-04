@@ -8,6 +8,7 @@ import {
   CHINESE_SILVER,
   CULTURED,
   DARK_JUNGLE_GREEN,
+  DARK_KEPPEL,
   DARK_PRIMARY_COLOR,
   DARK_SLATE_GRAY,
   KEPPEL,
@@ -144,7 +145,10 @@ export const FeedbackSubmitButton = styled(Button)<SubmitProp>(({ isOpen }) => (
   height: '2.25rem',
   textTransform: 'none',
   boxShadow: '0px 1px 8px rgba(0, 0, 0, 0.25)',
-  backgroundColor: isOpen ? buttonDisabled.main : KEPPEL
+  backgroundColor: isOpen ? buttonDisabled.main : KEPPEL,
+  '&:hover': {
+    backgroundColor: DARK_KEPPEL
+  }
 }));
 
 export const FeedbackButton = styled(Button)<RenderPositionType>(({ theme, renderPosition }) => ({
@@ -189,7 +193,7 @@ const positionMap: Record<
     transform: 'rotate(-90deg) translateY(-50%)'
   },
   'right-bottom': {
-    bottom: '5%',
+    bottom: '10%',
     right: '-45px',
     transform: 'rotate(-90deg)'
   }
