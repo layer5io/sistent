@@ -3,7 +3,7 @@ import React from 'react';
 import { CHARCOAL, WHITE } from '../../theme';
 
 type CustomTooltipProps = {
-  title: string | React.ReactNode;
+  title: string | React.ReactNode | JSX.Element;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   children: React.ReactNode;
 } & Omit<TooltipProps, 'title' | 'onClick'>;
