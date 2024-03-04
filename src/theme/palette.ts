@@ -9,7 +9,7 @@ import {
   cultured,
   notificationColors
 } from './colors';
-import { lightGray } from './colors/colors';
+import { darkSlateGray, lightGray } from './colors/colors';
 
 declare module '@mui/material/styles' {
   interface PaletteColor {
@@ -34,6 +34,9 @@ declare module '@mui/material/styles' {
     iconButton: {
       main: string;
     };
+    checkbox: {
+      main: string;
+    };
   }
   interface PaletteOptions {
     neutral?: PaletteOptions['primary'];
@@ -49,6 +52,9 @@ declare module '@mui/material/styles' {
       hover?: string;
     };
     iconButton?: {
+      main?: string;
+    };
+    checkbox?: {
       main?: string;
     };
   }
@@ -100,6 +106,9 @@ export const lightModePalette: PaletteOptions = {
     main: buttonDelete.main,
     hover: buttonDelete.hover
   },
+  checkbox: {
+    main: darkSlateGray.main
+  },
   neutral: {},
   text: {}
 };
@@ -141,6 +150,9 @@ export const darkModePalette: PaletteOptions = {
   },
   iconButton: {
     main: lightGray.dark
+  },
+  checkbox: {
+    main: KEPPEL
   },
   neutral: {}
 };
