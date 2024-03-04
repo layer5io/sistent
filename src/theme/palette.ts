@@ -9,6 +9,7 @@ import {
   cultured,
   notificationColors
 } from './colors';
+import { lightGray } from './colors/colors';
 
 declare module '@mui/material/styles' {
   interface PaletteColor {
@@ -30,6 +31,9 @@ declare module '@mui/material/styles' {
       main: string;
       hover: string;
     };
+    iconButton: {
+      main: string;
+    };
   }
   interface PaletteOptions {
     neutral?: PaletteOptions['primary'];
@@ -43,6 +47,9 @@ declare module '@mui/material/styles' {
     buttonDelete?: {
       main?: string;
       hover?: string;
+    };
+    iconButton?: {
+      main?: string;
     };
   }
 }
@@ -81,6 +88,9 @@ export const lightModePalette: PaletteOptions = {
   },
   cultured: {
     main: cultured.main
+  },
+  iconButton: {
+    main: lightGray.main
   },
   actionIcon: {
     main: actionIcon.main,
@@ -128,6 +138,9 @@ export const darkModePalette: PaletteOptions = {
   common: {
     black: common.black,
     white: common.white
+  },
+  iconButton: {
+    main: lightGray.dark
   },
   neutral: {}
 };

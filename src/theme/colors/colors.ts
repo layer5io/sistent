@@ -203,6 +203,11 @@ export const cultured = {
   main: CULTURED
 };
 
+export const lightGray = {
+  main: LIGHT_TEAL,
+  dark: CULTURED
+};
+
 export const darkTeal = {
   main: DARK_TEAL,
   dark: LIGHT_TEAL
