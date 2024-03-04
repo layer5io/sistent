@@ -24,16 +24,95 @@ export const CloseButton = styled('div')({
   alignItems: 'center',
   fill: CULTURED
 });
-
-interface ContainerProps {
+interface SubmitProp {
   isOpen: boolean;
 }
+interface RenderPositionType {
+  renderPosition:
+    | 'bottom-center'
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'right-top'
+    | 'right-middle'
+    | 'right-bottom';
+}
+interface ContainerProps extends RenderPositionType {
+  isOpen: boolean;
+}
+const containerPositionMap: Record<
+  'bottom-center' | 'bottom-right' | 'bottom-left' | 'right-top' | 'right-middle' | 'right-bottom',
+  { open: React.CSSProperties; closed: React.CSSProperties }
+> = {
+  'bottom-center': {
+    open: {
+      bottom: '0px',
+      left: '50%',
+      transform: 'translateX(-50%)'
+    },
+    closed: {
+      bottom: '-42%',
+      left: '50%',
+      transform: 'translateX(-50%)'
+    }
+  },
+  'bottom-right': {
+    open: {
+      bottom: '0px',
+      right: '10px'
+    },
+    closed: {
+      bottom: '-42%',
+      right: '10px'
+    }
+  },
+  'bottom-left': {
+    open: {
+      bottom: '0px',
+      left: '10px'
+    },
+    closed: {
+      bottom: '-42%',
+      left: '10px'
+    }
+  },
+  'right-top': {
+    open: {
+      top: '0px',
+      right: '0px'
+    },
+    closed: {
+      top: '0px',
+      right: '-42%'
+    }
+  },
+  'right-middle': {
+    open: {
+      top: '50%',
+      right: '0px',
+      transform: 'translateY(-50%)'
+    },
+    closed: {
+      top: '50%',
+      right: '-42%',
+      transform: 'translateY(-50%)'
+    }
+  },
+  'right-bottom': {
+    open: {
+      bottom: '0px',
+      right: '0px'
+    },
+    closed: {
+      bottom: '0px',
+      right: '-42%'
+    }
+  }
+};
 
-export const Container = styled(Box)<ContainerProps>(({ isOpen }) => ({
+export const Container = styled(Box)<ContainerProps>(({ isOpen, renderPosition }) => ({
   position: 'fixed',
-  bottom: isOpen ? '0px' : '-487px',
-  right: '20px',
-  transition: 'bottom 0.5s ease'
+  transition: 'all 0.5s ease',
+  ...containerPositionMap[renderPosition][isOpen ? 'open' : 'closed']
 }));
 
 export const FeedbackTextArea = styled('div')({
@@ -59,7 +138,7 @@ export const FeedbackMiniIcon = styled('div')({
   height: '24px'
 });
 
-export const FeedbackSubmitButton = styled(Button)<ContainerProps>(({ isOpen }) => ({
+export const FeedbackSubmitButton = styled(Button)<SubmitProp>(({ isOpen }) => ({
   color: 'white',
   width: '4.313rem',
   height: '2.25rem',
@@ -68,7 +147,7 @@ export const FeedbackSubmitButton = styled(Button)<ContainerProps>(({ isOpen }) 
   backgroundColor: isOpen ? buttonDisabled.main : KEPPEL
 }));
 
-export const FeedbackButton = styled(Button)(({ theme }) => ({
+export const FeedbackButton = styled(Button)<RenderPositionType>(({ theme, renderPosition }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? BUTTON_MODAL_DARK : BUTTON_MODAL,
   color: CULTURED,
   borderRadius: '5px',
@@ -76,11 +155,45 @@ export const FeedbackButton = styled(Button)(({ theme }) => ({
   fontSize: '16px',
   transition: 'bottom 0.5s ease',
   position: 'fixed',
-  bottom: '-10px',
+  ...positionMap[renderPosition],
   '&:hover': {
     backgroundColor: theme.palette.mode === 'dark' ? BLACK : '#213A45'
   }
 }));
+
+const positionMap: Record<
+  'bottom-center' | 'bottom-right' | 'bottom-left' | 'right-top' | 'right-middle' | 'right-bottom',
+  React.CSSProperties
+> = {
+  'bottom-center': {
+    bottom: '-10px',
+    left: '50%',
+    transform: 'translateX(-50%)'
+  },
+  'bottom-right': {
+    bottom: '-10px',
+    right: '10px'
+  },
+  'bottom-left': {
+    bottom: '-10px',
+    left: '10px'
+  },
+  'right-top': {
+    top: '8%',
+    right: '-4%',
+    transform: 'rotate(-90deg)'
+  },
+  'right-middle': {
+    top: '50%',
+    right: '-6%',
+    transform: 'rotate(-90deg) translateY(-50%)'
+  },
+  'right-bottom': {
+    bottom: '5%',
+    right: '-4%',
+    transform: 'rotate(-90deg)'
+  }
+};
 
 export const FeedbackForm = styled('form')(({ theme }) => ({
   display: 'block',

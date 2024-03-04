@@ -100,12 +100,20 @@ interface FeedbackComponentProps {
   onSubmit: (data: { label: string; message: string }) => void;
   containerStyles?: CSSProperties;
   feedbackOptionStyles?: CSSProperties;
+  renderPosition:
+    | 'bottom-center'
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'right-top'
+    | 'right-middle'
+    | 'right-bottom';
 }
 
 const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
   onSubmit,
   containerStyles,
-  feedbackOptionStyles
+  feedbackOptionStyles,
+  renderPosition
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -139,98 +147,101 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
   };
 
   return (
-    <Container isOpen={isOpen} style={containerStyles}>
-      {submitted ? (
-        <FeedbackMessage isOpen={isOpen}>
-          <SuccessIcon width={'32'} height={'32'} />
-          We got your concern. Thank you!
-        </FeedbackMessage>
-      ) : (
-        <>
-          <FeedbackButton onClick={handleFeedback}>Feedback</FeedbackButton>
-
-          <ModalCard
-            onClose={() => {}}
-            open={true}
-            closeComponent={
-              <CloseButton onClick={() => setIsOpen(false)}>
-                <CloseIcon width={'30'} height={'30'} fill={CULTURED} />
-              </CloseButton>
-            }
-            actions={
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center'
-                }}
-              >
-                <ActionWrapper>
-                  <StyledCheckbox checked={isChecked} onChange={handleCheckboxChange} />
-                  <Typography style={{ color: 'white', fontSize: '12px', height: '15px' }}>
-                    We may email you for more information or updates
-                  </Typography>
-                </ActionWrapper>
-                <FeedbackSubmitButton
-                  type="submit"
-                  disabled={!(messageValue && isChecked)}
-                  isOpen={!(messageValue && isChecked)}
-                  onClick={handleSubmit}
+    <>
+      <FeedbackButton onClick={handleFeedback} renderPosition={renderPosition}>
+        Feedback
+      </FeedbackButton>
+      <Container isOpen={isOpen} style={containerStyles} renderPosition={renderPosition}>
+        {submitted ? (
+          <FeedbackMessage isOpen={isOpen}>
+            <SuccessIcon width={'32'} height={'32'} />
+            We got your concern. Thank you!
+          </FeedbackMessage>
+        ) : (
+          <>
+            <ModalCard
+              onClose={() => {}}
+              open={true}
+              closeComponent={
+                <CloseButton onClick={() => setIsOpen(false)}>
+                  <CloseIcon width={'30'} height={'30'} fill={CULTURED} />
+                </CloseButton>
+              }
+              actions={
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
                 >
-                  Send
-                </FeedbackSubmitButton>
-              </div>
-            }
-            leftHeaderIcon={<FeedbackIcon />}
-            title="Feedback"
-            helpArea={
-              <CustomTooltip placement="top" title={tooltipContent} arrow>
-                <HelperWrapper>
-                  <QuestionIcon width={'30'} height={'30'} />
-                </HelperWrapper>
-              </CustomTooltip>
-            }
-            helpText={'Help'}
-            content={
-              <FeedbackForm>
-                <FeedbackOptions>
-                  {feedbackData?.map((item) => (
-                    <FeedbackOptionButton
-                      key={item.label}
-                      style={feedbackOptionStyles}
-                      type="button"
-                      onClick={() => {
-                        setCategory(item);
-                      }}
-                      isOpen={category?.label === item.label}
-                    >
-                      <FeedbackMiniIcon>{item.icon}</FeedbackMiniIcon>
-                      <Typography>{item.label}</Typography>
-                    </FeedbackOptionButton>
-                  ))}
-                </FeedbackOptions>
-                {category?.isTextInput ? (
-                  <FeedbackTextArea>
-                    <StyledTextArea
-                      value={messageValue || ''}
-                      onChange={(e) => {
-                        setMessageValue(e.target.value);
-                      }}
-                      ref={feedbackTextRef}
-                      required
-                      placeholder={category.placeholder}
-                      rows={5}
-                      cols={30}
-                    />
-                  </FeedbackTextArea>
-                ) : (
-                  <InnerComponentWrapper>{category?.innerComponent}</InnerComponentWrapper>
-                )}
-              </FeedbackForm>
-            }
-          ></ModalCard>
-        </>
-      )}
-    </Container>
+                  <ActionWrapper>
+                    <StyledCheckbox checked={isChecked} onChange={handleCheckboxChange} />
+                    <Typography style={{ color: 'white', fontSize: '12px', height: '15px' }}>
+                      We may email you for more information or updates
+                    </Typography>
+                  </ActionWrapper>
+                  <FeedbackSubmitButton
+                    type="submit"
+                    disabled={!(messageValue && isChecked)}
+                    isOpen={!(messageValue && isChecked)}
+                    onClick={handleSubmit}
+                  >
+                    Send
+                  </FeedbackSubmitButton>
+                </div>
+              }
+              leftHeaderIcon={<FeedbackIcon />}
+              title="Feedback"
+              helpArea={
+                <CustomTooltip placement="top" title={tooltipContent} arrow>
+                  <HelperWrapper>
+                    <QuestionIcon width={'30'} height={'30'} />
+                  </HelperWrapper>
+                </CustomTooltip>
+              }
+              helpText={'Help'}
+              content={
+                <FeedbackForm>
+                  <FeedbackOptions>
+                    {feedbackData?.map((item) => (
+                      <FeedbackOptionButton
+                        key={item.label}
+                        style={feedbackOptionStyles}
+                        type="button"
+                        onClick={() => {
+                          setCategory(item);
+                        }}
+                        isOpen={category?.label === item.label}
+                      >
+                        <FeedbackMiniIcon>{item.icon}</FeedbackMiniIcon>
+                        <Typography>{item.label}</Typography>
+                      </FeedbackOptionButton>
+                    ))}
+                  </FeedbackOptions>
+                  {category?.isTextInput ? (
+                    <FeedbackTextArea>
+                      <StyledTextArea
+                        value={messageValue || ''}
+                        onChange={(e) => {
+                          setMessageValue(e.target.value);
+                        }}
+                        ref={feedbackTextRef}
+                        required
+                        placeholder={category.placeholder}
+                        rows={5}
+                        cols={30}
+                      />
+                    </FeedbackTextArea>
+                  ) : (
+                    <InnerComponentWrapper>{category?.innerComponent}</InnerComponentWrapper>
+                  )}
+                </FeedbackForm>
+              }
+            ></ModalCard>
+          </>
+        )}
+      </Container>
+    </>
   );
 };
 
