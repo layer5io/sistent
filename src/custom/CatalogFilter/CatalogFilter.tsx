@@ -9,14 +9,14 @@ export interface CatalogFilterProps {
   catalogVisibility: boolean;
   handleCatalogVisibility: () => void;
   hideCatalog: boolean;
-  classes: string;
+  classes?: string;
 }
 
 function CatalogFilter({
   catalogVisibility,
   handleCatalogVisibility,
   hideCatalog,
-  classes
+  classes = ''
 }: CatalogFilterProps): React.JSX.Element {
   return (
     <>
