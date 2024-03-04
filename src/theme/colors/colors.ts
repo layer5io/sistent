@@ -39,7 +39,8 @@ export const BUTTON_MODAL = '#396679';
 export const BUTTON_MODAL_DARK = '#202020';
 export const SLIGHT_BLUE = '#548194';
 export const SLIGHT_BLACK_2 = '#23365f';
-
+export const SNOW_WHITE = '#FBFBFB';
+export const MEDIUM_GREY = '#DDDDDD';
 export const common = {
   black: BLACK,
   white: WHITE
