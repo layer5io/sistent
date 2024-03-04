@@ -61,7 +61,7 @@ const containerPositionMap: Record<
       right: '10px'
     },
     closed: {
-      bottom: '-42%',
+      bottom: '-448px',
       right: '10px'
     }
   },
@@ -71,7 +71,7 @@ const containerPositionMap: Record<
       left: '10px'
     },
     closed: {
-      bottom: '-42%',
+      bottom: '-448px',
       left: '10px'
     }
   },
@@ -82,7 +82,7 @@ const containerPositionMap: Record<
     },
     closed: {
       top: '0px',
-      right: '-42%'
+      right: '-448px'
     }
   },
   'right-middle': {
@@ -93,7 +93,7 @@ const containerPositionMap: Record<
     },
     closed: {
       top: '50%',
-      right: '-42%',
+      right: '-448px',
       transform: 'translateY(-50%)'
     }
   },
@@ -104,7 +104,7 @@ const containerPositionMap: Record<
     },
     closed: {
       bottom: '0px',
-      right: '-42%'
+      right: '-448px'
     }
   }
 };
@@ -180,17 +180,17 @@ const positionMap: Record<
   },
   'right-top': {
     top: '8%',
-    right: '-4%',
+    right: '-45px',
     transform: 'rotate(-90deg)'
   },
   'right-middle': {
     top: '50%',
-    right: '-6%',
+    right: '-70px',
     transform: 'rotate(-90deg) translateY(-50%)'
   },
   'right-bottom': {
     bottom: '5%',
-    right: '-4%',
+    right: '-45px',
     transform: 'rotate(-90deg)'
   }
 };
