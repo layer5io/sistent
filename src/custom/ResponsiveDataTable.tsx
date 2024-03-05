@@ -1,5 +1,5 @@
 import MUIDataTable from 'mui-datatables';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 export interface Column {
   name: string;
@@ -76,7 +76,7 @@ const ResponsiveDataTable = ({
     }
   };
 
-  React.useEffect(() => {
+  const updateColumnsEffect = useCallback(() => {
     columns?.forEach((col) => {
       if (typeof col === 'object' && col !== null) {
         if (!col.options) {
@@ -117,7 +117,13 @@ const ResponsiveDataTable = ({
       }
     });
     updateCols && updateCols([...columns]);
-  }, [columnVisibility, columns, updateCols]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columnVisibility, updateCols]);
+
+  React.useEffect(() => {
+    updateColumnsEffect();
+  }, [updateColumnsEffect]);
 
   const components = {
     ExpandButton: () => ''
