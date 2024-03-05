@@ -8,6 +8,7 @@ import {
   CHINESE_SILVER,
   CULTURED,
   DARK_JUNGLE_GREEN,
+  DARK_KEPPEL,
   DARK_PRIMARY_COLOR,
   DARK_SLATE_GRAY,
   KEPPEL,
@@ -61,7 +62,7 @@ const containerPositionMap: Record<
       right: '10px'
     },
     closed: {
-      bottom: '-42%',
+      bottom: '-448px',
       right: '10px'
     }
   },
@@ -71,7 +72,7 @@ const containerPositionMap: Record<
       left: '10px'
     },
     closed: {
-      bottom: '-42%',
+      bottom: '-448px',
       left: '10px'
     }
   },
@@ -82,7 +83,7 @@ const containerPositionMap: Record<
     },
     closed: {
       top: '0px',
-      right: '-42%'
+      right: '-448px'
     }
   },
   'right-middle': {
@@ -93,7 +94,7 @@ const containerPositionMap: Record<
     },
     closed: {
       top: '50%',
-      right: '-42%',
+      right: '-448px',
       transform: 'translateY(-50%)'
     }
   },
@@ -104,7 +105,7 @@ const containerPositionMap: Record<
     },
     closed: {
       bottom: '0px',
-      right: '-42%'
+      right: '-448px'
     }
   }
 };
@@ -144,7 +145,10 @@ export const FeedbackSubmitButton = styled(Button)<SubmitProp>(({ isOpen }) => (
   height: '2.25rem',
   textTransform: 'none',
   boxShadow: '0px 1px 8px rgba(0, 0, 0, 0.25)',
-  backgroundColor: isOpen ? buttonDisabled.main : KEPPEL
+  backgroundColor: isOpen ? buttonDisabled.main : KEPPEL,
+  '&:hover': {
+    backgroundColor: DARK_KEPPEL
+  }
 }));
 
 export const FeedbackButton = styled(Button)<RenderPositionType>(({ theme, renderPosition }) => ({
@@ -180,17 +184,17 @@ const positionMap: Record<
   },
   'right-top': {
     top: '8%',
-    right: '-4%',
+    right: '-45px',
     transform: 'rotate(-90deg)'
   },
   'right-middle': {
     top: '50%',
-    right: '-6%',
+    right: '-70px',
     transform: 'rotate(-90deg) translateY(-50%)'
   },
   'right-bottom': {
-    bottom: '5%',
-    right: '-4%',
+    bottom: '10%',
+    right: '-45px',
     transform: 'rotate(-90deg)'
   }
 };
