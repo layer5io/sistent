@@ -155,7 +155,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
         {submitted ? (
           <FeedbackMessage isOpen={isOpen}>
             <SuccessIcon width={'32'} height={'32'} />
-            We got your concern. Thank you!
+            Submitting your feedback...
           </FeedbackMessage>
         ) : (
           <>
