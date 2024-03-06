@@ -8,7 +8,7 @@ import {
   QuestionIcon,
   SuccessIcon
 } from '../../icons';
-import { CULTURED } from '../../theme';
+import { CULTURED, KEPPEL } from '../../theme';
 import { CustomTooltip } from '../CustomTooltip';
 import { ModalCard } from '../ModalCard';
 import {
@@ -55,7 +55,7 @@ interface FeedbackDataItem {
 
 const feedbackData: FeedbackDataItem[] = [
   {
-    icon: <FeedbackIcon />,
+    icon: <FeedbackIcon secondaryFill={KEPPEL} />,
     label: 'Issue',
     placeholder: 'I’m having an issue with...',
     isTextInput: true
@@ -148,7 +148,11 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
 
   return (
     <>
-      <FeedbackButton onClick={handleFeedback} renderPosition={renderPosition}>
+      <FeedbackButton
+        onClick={handleFeedback}
+        style={containerStyles}
+        renderPosition={renderPosition}
+      >
         Feedback
       </FeedbackButton>
       <Container isOpen={isOpen} style={containerStyles} renderPosition={renderPosition}>
