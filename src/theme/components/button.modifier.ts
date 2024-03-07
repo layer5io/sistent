@@ -1,32 +1,33 @@
 import { Components, Theme } from '@mui/material';
-import { CARIBBEAN_GREEN, WHITE, buttonDisabled } from '../colors';
+import { background, text } from '../colors/colors';
 
 export const MuiButton: Components<Theme>['MuiButton'] = {
   styleOverrides: {
     root: ({ theme }) => {
       const {
         palette: {
-          secondary: { main }
+          secondary: { main },
+          disabled: { main: buttonDisabled }
         }
       } = theme;
       return {
         '&.MuiButton-contained': {
-          color: WHITE,
+          color: text.default,
           backgroundColor: main,
           '&:hover': {
-            backgroundColor: CARIBBEAN_GREEN
+            backgroundColor: background['brand-default']
           }
         },
         '&.MuiButton-outlined': {
           border: `1px solid ${main}`,
           '&:hover': {
-            backgroundColor: CARIBBEAN_GREEN,
-            color: WHITE
+            backgroundColor: background['brand-default'],
+            color: text.default
           }
         },
         '&.MuiButton-contained.Mui-disabled': {
-          color: buttonDisabled.main,
-          backgroundColor: buttonDisabled.main
+          color: buttonDisabled,
+          backgroundColor: buttonDisabled
         }
       };
     }

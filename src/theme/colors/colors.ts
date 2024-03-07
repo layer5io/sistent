@@ -47,9 +47,20 @@ export const common = {
   white: WHITE
 };
 
-export const keppel = {};
+export const keppel = {
+  80: '#daf3eb',
+  70: '#00B39F',
+  60: '#93E6D1',
+  50: '#41CCB3',
+  40: '#00B39F',
+  30: '#008c81',
+  20: '#006661',
+  10: '#00403f'
+};
 
-export const carribean = {};
+export const carribean = {
+  40: '#00D3A9'
+};
 
 export const saffron = {};
 
@@ -138,7 +149,8 @@ type BackgroundColor = {
     | 'info-default'
     | 'success-default'
     | 'warning-default'
-    | 'error-default']: string;
+    | 'error-default'
+    | 'brand-disabled']: string;
 };
 
 export const background: BackgroundColor = {
@@ -146,11 +158,12 @@ export const background: BackgroundColor = {
   secondary: accentGrey[90],
   tertiary: accentGrey[80],
   hover: charcoal[90],
-  'brand-default': accentGrey[40],
+  'brand-default': keppel[30],
   'info-default': blue[30],
   'success-default': green[30],
   'warning-default': yellow[30],
-  'error-default': red[30]
+  'error-default': red[30],
+  'brand-disabled': charcoal[90]
 };
 
 interface TextColor {
@@ -167,7 +180,7 @@ interface TextColor {
 
 export const text: TextColor = {
   default: charcoal[10],
-  secondary: charcoal[90],
+  secondary: charcoal[40],
   tertiary: charcoal[50],
   inverse: charcoal[100],
   brand: accentGrey[40],
