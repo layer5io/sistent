@@ -52,6 +52,18 @@ format-fix:
 	npm run format:write
 ```
 
+To test the sistent component locally, you can run
+
+```
+build:
+  npm run build
+```
+
+```
+attach sistent to your project:
+	npm install [path to sistent repo ]
+```
+
 > [!NOTE]
 > Avoid using `type any` in your code. Always specify explicit types to ensure type safety and maintainability.
 

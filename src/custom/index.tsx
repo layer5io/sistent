@@ -5,6 +5,13 @@ import {
   CustomColumnVisibilityControlProps
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
 import { CustomTooltip } from './CustomTooltip';
+import {
+  CustomDialog,
+  StyledDialogActions,
+  StyledDialogContent,
+  StyledDialogTitle
+} from './Dialog';
+import { CustomDialogProps } from './Dialog/CustomDialog';
 import { EmptyState } from './EmptyState';
 import {
   ErrorBoundary,
@@ -12,27 +19,34 @@ import {
   withErrorBoundary,
   withSuppressedErrorBoundary
 } from './ErrorBoundary';
+import { FeedbackButton } from './Feedback';
 import { FlipCard } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
+import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
 import ResponsiveDataTable, { ResponsiveDataTableProps } from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
-
 export { StyledChartDialog } from './ChartDialog';
 export { StyledSearchBar } from './StyledSearchBar';
 export {
   ConnectionChip,
   CustomColumnVisibilityControl,
+  CustomDialog,
   CustomTooltip,
   EmptyState,
   ErrorBoundary,
   Fallback,
+  FeedbackButton,
   FlipCard,
+  ModalCard,
   PopperListener,
   ResponsiveDataTable,
   SearchBar,
+  StyledDialogActions,
+  StyledDialogContent,
+  StyledDialogTitle,
   UniversalFilter,
   useNotificationHandler,
   useWindowDimensions,
@@ -42,8 +56,11 @@ export {
 export type {
   CustomColumn,
   CustomColumnVisibilityControlProps,
+  CustomDialogProps,
   IPopperListener,
   ResponsiveDataTableProps,
   SearchBarProps,
   UniversalFilterProps
 };
+
+export * from './Dialog';
