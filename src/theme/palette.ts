@@ -156,5 +156,57 @@ export const lightModePalette: PaletteOptions = {
 };
 
 export const darkModePalette: PaletteOptions = {
-  // dark variants of the tokens
+  background: {
+    default: Colors.charcoal[10],
+    secondary: Colors.accentGrey[10],
+    tertiary: Colors.accentGrey[30],
+    hover: Colors.charcoal[20],
+    blur: {
+      heavy: `rgba(${Colors.accentGrey[10]}, 0.8)`,
+      light: `rgba(${Colors.accentGrey[10]}, 0.5)`
+    },
+    brand: {
+      default: Colors.keppel[40],
+      hover: Colors.keppel[50],
+      disabled: Colors.charcoal[20],
+      pressed: Colors.keppel[60],
+      secondary: Colors.keppel[20],
+      tertiary: Colors.keppel[10]
+    },
+    cta: {
+      default: Colors.saffron[40],
+      hover: Colors.saffron[50],
+      pressed: Colors.saffron[60],
+      secondary: Colors.saffron[20],
+      tertiary: Colors.saffron[10]
+    },
+    info: {
+      default: Colors.blue[40],
+      hover: Colors.blue[50],
+      pressed: Colors.blue[60],
+      secondary: Colors.blue[20],
+      tertiary: Colors.blue[10]
+    },
+    success: {
+      default: Colors.green[40],
+      hover: Colors.green[50],
+      pressed: Colors.green[60],
+      secondary: Colors.green[20],
+      tertiary: Colors.green[10]
+    },
+    warning: {
+      default: Colors.yellow[40],
+      hover: Colors.yellow[50],
+      pressed: Colors.yellow[60],
+      secondary: Colors.yellow[20],
+      tertiary: Colors.yellow[10]
+    },
+    error: {
+      default: Colors.red[40],
+      hover: Colors.red[50],
+      pressed: Colors.red[60],
+      secondary: Colors.red[20],
+      tertiary: Colors.red[10]
+    }
+  }
 };
