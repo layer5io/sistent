@@ -38,6 +38,7 @@ declare module '@mui/material/styles' {
       brand: string;
       info: string;
       success: string;
+      warning: string;
       error: string;
     };
     border: {
@@ -81,6 +82,7 @@ declare module '@mui/material/styles' {
       brand: string;
       info: string;
       success: string;
+      warning: string;
       error: string;
     };
     border: {
@@ -152,6 +154,30 @@ export const lightModePalette: PaletteOptions = {
       secondary: Colors.red[60],
       tertiary: Colors.red[70]
     }
+  },
+  text: {
+    default: Colors.charcoal[10],
+    secondary: Colors.charcoal[90],
+    tertiary: Colors.charcoal[50],
+    inverse: Colors.charcoal[100],
+    brand: Colors.accentGrey[40],
+    info: Colors.blue[30],
+    success: Colors.green[30],
+    warning: Colors.yellow[30],
+    error: Colors.red[30]
+  },
+  border: {
+    default: Colors.charcoal[90],
+    strong: Colors.charcoal[30],
+    brand: Colors.keppel[30],
+    normal: Colors.charcoal[60]
+  },
+  icon: {
+    default: Colors.accentGrey[10],
+    brand: Colors.keppel[30],
+    inverse: Colors.charcoal[100],
+    weather: Colors.accentGrey[50],
+    disabled: Colors.charcoal[70]
   }
 };
 
@@ -208,5 +234,30 @@ export const darkModePalette: PaletteOptions = {
       secondary: Colors.red[20],
       tertiary: Colors.red[10]
     }
+  },
+  text: {
+    default: Colors.charcoal[100],
+    secondary: Colors.charcoal[40],
+    tertiary: Colors.charcoal[60],
+    inverse: Colors.charcoal[10],
+    brand: Colors.keppel[40],
+    info: Colors.blue[40],
+    success: Colors.green[40],
+    warning: Colors.yellow[40],
+    error: Colors.red[40]
+  },
+  border: {
+    default: Colors.accentGrey[10],
+    strong: Colors.accentGrey[60],
+    brand: Colors.keppel[40],
+    normal: Colors.accentGrey[30]
+  },
+
+  icon: {
+    default: Colors.accentGrey[90],
+    brand: Colors.keppel[40],
+    inverse: Colors.charcoal[10],
+    weather: Colors.saffron[40],
+    disabled: Colors.charcoal[50]
   }
 };
