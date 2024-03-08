@@ -8,14 +8,14 @@ import { iconMedium } from '../../constants/iconsSizes';
 export interface CatalogFilterProps {
   catalogVisibility: boolean;
   handleCatalogVisibility: () => void;
-  hideCatalog: boolean;
+  hideCatalog?: boolean;
   classes?: string;
 }
 
 function CatalogFilter({
   catalogVisibility,
   handleCatalogVisibility,
-  hideCatalog,
+  hideCatalog = false,
   classes = ''
 }: CatalogFilterProps): React.JSX.Element {
   return (
