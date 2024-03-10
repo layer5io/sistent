@@ -5,42 +5,74 @@ declare module '@mui/material/styles' {
   interface Interactiveness {
     default: string;
     hover: string;
-    disabled: string;
+    disabled?: string;
     pressed: string;
     secondary: string;
     tertiary: string;
   }
+  interface TypeBackground {
+    secondary?: string;
+    tertiary?: string;
+    hover?: string;
+    blur?: {
+      heavy: string;
+      light: string;
+    };
+    brand?: Interactiveness;
+    cta?: Interactiveness;
+    info?: Interactiveness;
+    success?: Interactiveness;
+    warning?: Interactiveness;
+    error?: Interactiveness;
+  }
+
+  interface TypeText {
+    default?: string;
+    secondary: string;
+    tertiary?: string;
+    inverse?: string;
+    brand?: string;
+    info?: string;
+    success?: string;
+    warning?: string;
+    error?: string;
+  }
 
   interface PaletteColor {
-    background: {
-      default: string;
-      primary: string;
-      secondary: string;
-      tertiary: string;
-      hover: string;
-      blur: {
-        heavy: string;
-        light: string;
-      };
-      brand: Interactiveness;
-      cta: Interactiveness;
-      info: Interactiveness;
-      success: Interactiveness;
-      warning: Interactiveness;
-      error: Interactiveness;
-      code: string;
+    secondary?: string;
+    blur?: {
+      heavy: string;
+      light: string;
     };
-    text: {
-      default: string;
-      secondary: string;
-      tertiary: string;
-      inverse: string;
-      brand: string;
-      info: string;
-      success: string;
-      warning: string;
-      error: string;
+    brand?: Interactiveness;
+    cta?: Interactiveness;
+    info?: Interactiveness;
+    success?: Interactiveness;
+    warning?: Interactiveness;
+    error?: Interactiveness;
+    code?: string;
+    strong?: string;
+    normal?: string;
+  }
+
+  interface SimplePaletteColorOptions {
+    secondary?: string;
+    blur?: {
+      heavy: string;
+      light: string;
     };
+    brand?: Interactiveness;
+    cta?: Interactiveness;
+    info?: Interactiveness;
+    success?: Interactiveness;
+    warning?: Interactiveness;
+    error?: Interactiveness;
+    code?: string;
+    strong?: string;
+    normal?: string;
+  }
+
+  interface Palette {
     border: {
       default: string;
       strong: string;
@@ -55,36 +87,7 @@ declare module '@mui/material/styles' {
       disabled: string;
     };
   }
-  interface SimplePaletteColorOptions {
-    background: {
-      default: string;
-      primary: string;
-      secondary: string;
-      tertiary: string;
-      hover: string;
-      blur: {
-        heavy: string;
-        light: string;
-      };
-      brand: Interactiveness;
-      cta: Interactiveness;
-      info: Interactiveness;
-      success: Interactiveness;
-      warning: Interactiveness;
-      error: Interactiveness;
-      code: string;
-    };
-    text: {
-      default: string;
-      secondary: string;
-      tertiary: string;
-      inverse: string;
-      brand: string;
-      info: string;
-      success: string;
-      warning: string;
-      error: string;
-    };
+  interface PaletteOptions {
     border: {
       default: string;
       strong: string;
