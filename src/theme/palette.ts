@@ -2,6 +2,7 @@ import { PaletteOptions } from '@mui/material';
 import * as Colors from './colors';
 
 declare module '@mui/material/styles' {
+  // Defines the interaction color options used in the palette.
   interface Interactiveness {
     default: string;
     hover: string;
@@ -10,6 +11,7 @@ declare module '@mui/material/styles' {
     secondary: string;
     tertiary: string;
   }
+  // Defines the extended background color options used in the palette.
   interface TypeBackground {
     secondary?: string;
     tertiary?: string;
@@ -26,6 +28,7 @@ declare module '@mui/material/styles' {
     error?: Interactiveness;
   }
 
+  // Defines the extended text color options used in the palette.
   interface TypeText {
     default?: string;
     secondary: string;
@@ -38,6 +41,7 @@ declare module '@mui/material/styles' {
     error?: string;
   }
 
+  // Defines the color options for the palette
   interface PaletteColor {
     secondary?: string;
     blur?: {
@@ -55,6 +59,7 @@ declare module '@mui/material/styles' {
     normal?: string;
   }
 
+  // Defines the simple palette color options.
   interface SimplePaletteColorOptions {
     secondary?: string;
     blur?: {
@@ -72,6 +77,9 @@ declare module '@mui/material/styles' {
     normal?: string;
   }
 
+  /* Defines the palette containing border and icon color options.
+    To define any additional custom color options, you can extend the interface here.
+  */
   interface Palette {
     border: {
       default: string;
@@ -87,6 +95,8 @@ declare module '@mui/material/styles' {
       disabled: string;
     };
   }
+
+  // Defines the options available for the palette.
   interface PaletteOptions {
     border: {
       default: string;
