@@ -59,7 +59,15 @@ export const keppel = {
   10: '#00403f'
 };
 
-export const carribean = {};
+export const carribean = {
+  70: '#E6FFF6',
+  60: '#A3FFE0',
+  50: '#78FAD3',
+  40: '#00D3A9',
+  30: '#00AD90',
+  20: '#006157',
+  10: '#003B37'
+};
 
 export const saffron = {
   70: '#F8E2A6',

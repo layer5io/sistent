@@ -1,4 +1,4 @@
-import { PaletteOptions } from '@mui/material';
+import { PaletteOptions, alpha } from '@mui/material';
 import * as Colors from './colors';
 
 declare module '@mui/material/styles' {
@@ -121,8 +121,8 @@ export const lightModePalette: PaletteOptions = {
     tertiary: Colors.accentGrey[80],
     hover: Colors.charcoal[90],
     blur: {
-      heavy: `rgba(${Colors.charcoal[90]}, 0.8)`,
-      light: `rgba(${Colors.charcoal[90]}, 0.2)`
+      heavy: alpha(Colors.charcoal[90], 0.8),
+      light: alpha(Colors.charcoal[90], 0.5)
     },
     brand: {
       default: Colors.keppel[30],
@@ -201,8 +201,8 @@ export const darkModePalette: PaletteOptions = {
     tertiary: Colors.accentGrey[30],
     hover: Colors.charcoal[20],
     blur: {
-      heavy: `rgba(${Colors.accentGrey[10]}, 0.8)`,
-      light: `rgba(${Colors.accentGrey[10]}, 0.5)`
+      heavy: alpha(Colors.charcoal[10], 0.8),
+      light: alpha(Colors.charcoal[10], 0.5)
     },
     brand: {
       default: Colors.keppel[40],
