@@ -4,6 +4,7 @@ import { alpha } from '@mui/material';
  * Define the base common colors to derive from
  */
 export const KEPPEL = '#00B39F';
+export const DARK_KEPPEL = '#00A18F';
 export const CARIBBEAN_GREEN = '#00D3A9';
 export const TEAL_BLUE = '#477E96';
 export const CHARCOAL = '#3C494F';
@@ -16,6 +17,7 @@ export const GRAY = '#696969';
 export const GRAY97 = '#f7f7f7';
 export const DARK_SLATE_GRAY = '#294957';
 export const LIGHT_GRAY = '#d3d3d3'; // same as tableBorder
+export const STEEL_GRAY = '#525252';
 export const ALICE_BLUE = '#EBEFF1';
 export const LIMED_SPRUCE = '#3C494F';
 export const WHITESMOKE = '#F5F5F5';
@@ -39,7 +41,8 @@ export const BUTTON_MODAL = '#396679';
 export const BUTTON_MODAL_DARK = '#202020';
 export const SLIGHT_BLUE = '#548194';
 export const SLIGHT_BLACK_2 = '#23365f';
-
+export const SNOW_WHITE = '#FBFBFB';
+export const MEDIUM_GREY = '#DDDDDD';
 export const common = {
   black: BLACK,
   white: WHITE
