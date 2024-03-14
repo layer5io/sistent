@@ -189,8 +189,8 @@ const positionMap: Record<
   },
   'right-middle': {
     top: '50%',
-    right: '-60px',
-    transform: 'rotate(-90deg) translateY(-50%)'
+    right: '-45px',
+    transform: 'rotate(-90deg)'
   },
   'right-bottom': {
     bottom: '10%',
