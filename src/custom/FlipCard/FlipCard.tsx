@@ -1,83 +1,97 @@
-import React from 'react';
+import { Theme } from '@mui/material/styles';
+import { styled } from '@mui/system';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 
-/**
- * Wrapper component for flip cards.
- *
- * @param {Object} props - The component props.
- * @param {Object} props.frontComponents - The components of the card front.
- * @param {string} props.backComponents - The components of the card back.
- * @param {Boolean} props.disableFlip - The card can be flip or not.
- *
- */
+export type FlipCardProps = {
+  classes: { [key: string]: string };
+  duration?: number;
+  onClick: () => void;
+  onShow?: () => void;
+  children: ReactNode[];
+};
 
-export interface FlipCardProps {
-  frontComponents: JSX.Element;
-  backComponents?: JSX.Element;
-  disableFlip?: boolean;
+const styles = (theme: Theme) => ({
+  card: {
+    height: '100%',
+    backgroundColor: 'transparent',
+    perspective: theme.spacing(125)
+  },
+  innerCard: {
+    padding: theme.spacing(2),
+    borderRadius: theme.spacing(1),
+    transformStyle: 'preserve-3d',
+    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+    backgroundColor: theme.palette.secondary,
+    cursor: 'pointer'
+  },
+  content: { backfaceVisibility: 'hidden' },
+  frontContent: {},
+  backContent: { transform: 'scale(-1, 1)', maxWidth: '50vw', wordBreak: 'break-word' }
+});
+
+function GetChild(children: ReactNode[], key: number) {
+  if (!children) throw Error('FlipCard requires exactly two child components');
+  if (children.length != 2) throw Error('FlipCard requires exactly two child components');
+
+  return children[key];
 }
 
-function FlipCard({ frontComponents, backComponents, disableFlip }: FlipCardProps): JSX.Element {
-  const [isFlipped, setIsFlipped] = React.useState(false);
+function StyledFlipCard({ classes, duration = 500, onClick, onShow, children }: FlipCardProps) {
+  const [flipped, setFlipped] = useState(false);
+  const [activeBack, setActiveBack] = useState(false);
 
-  const handleFlip = () => {
-    if (!disableFlip) {
-      setIsFlipped(!isFlipped);
-    }
-  };
+  const timeout = useRef<null | NodeJS.Timeout>(null);
+
+  const Front = GetChild(children, 0);
+  const Back = GetChild(children, 1);
+
+  useEffect(() => {
+    // This function makes sure that the inner content of the card disappears roughly
+    // after 30 deg rotation has already occured. It will ensure that the user doesn't gets
+    // a "blank" card while the card is rotating
+    //
+    // This guarantee can be offered because of two main reasons:
+    // 1. In sufficiently modern browsers JS and CSS are handled in different threads
+    // hence ones execution doesn't blocks another.
+    // 2. setTimeout will put its callback at the end of current context's end hence ensuring
+    // this callback doesn't gets blocked by another JS process.
+
+    if (timeout.current) clearTimeout(timeout.current);
+
+    timeout.current = setTimeout(() => {
+      setActiveBack(flipped);
+    }, duration / 6);
+  }, [flipped, duration]);
 
   return (
-    <>
+    <div
+      className={classes.card}
+      onClick={() => {
+        setFlipped((flipped) => !flipped);
+        onClick && onClick();
+        onShow && onShow();
+      }}
+    >
       <div
+        className={classes.innerCard}
         style={{
-          background: 'transparent',
-          perspective: '1000px'
+          transform: flipped ? 'scale(-1,1)' : undefined,
+          transition: `transform ${duration}ms`,
+          transformOrigin: '50% 50% 10%'
         }}
       >
-        <div
-          onClick={handleFlip}
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            height: '100%',
-            textAlign: 'center',
-            transition: 'transform 0.6s',
-            transformStyle: 'preserve-3d',
-            boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-            transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
-          }}
-        >
-          <div
-            style={{
-              flex: 1,
-              display: 'flex',
-              width: '100%',
-              height: 'fit-content',
-              WebkitBackfaceVisibility: 'hidden',
-              backfaceVisibility: 'hidden',
-              transform: 'rotateY(180deg)'
-            }}
-          >
-            {frontComponents}
+        {!activeBack ? (
+          <div className={`${classes.content} ${classes.frontContent}`}>
+            {React.isValidElement(Front) ? Front : null}
           </div>
-          <div
-            style={{
-              flex: 1,
-              display: 'flex',
-              position: 'absolute',
-              top: 0,
-              width: '100%',
-              height: '100%',
-              WebkitBackfaceVisibility: 'hidden',
-              backfaceVisibility: 'hidden'
-            }}
-          >
-            {backComponents}
+        ) : (
+          <div className={`${classes.content} ${classes.backContent}`}>
+            {React.isValidElement(Back) ? Back : null}
           </div>
-        </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }
 
-export default FlipCard;
+export const FlipCard = styled(StyledFlipCard)({ styles });
