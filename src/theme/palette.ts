@@ -29,6 +29,7 @@ declare module '@mui/material/styles' {
     success?: Interactiveness;
     warning?: Interactiveness;
     error?: Interactiveness;
+    code?: string;
   }
 
   // Defines the extended text color options used in the palette.
@@ -172,7 +173,8 @@ export const lightModePalette: PaletteOptions = {
       pressed: Colors.red[10],
       secondary: Colors.red[60],
       tertiary: Colors.red[70]
-    }
+    },
+    code: Colors.charcoal[90]
   },
   text: {
     default: Colors.charcoal[10],
@@ -255,7 +257,8 @@ export const darkModePalette: PaletteOptions = {
       pressed: Colors.red[60],
       secondary: Colors.red[20],
       tertiary: Colors.red[10]
-    }
+    },
+    code: Colors.accentGrey[90]
   },
   text: {
     default: Colors.charcoal[100],

@@ -4,15 +4,12 @@ import {
   BLACK,
   BUTTON_MODAL,
   BUTTON_MODAL_DARK,
-  CULTURED,
-  NOT_FOUND,
   SLIGHT_BLACK_2,
-  SLIGHT_BLUE,
-  WHITE
+  SLIGHT_BLUE
 } from '../../theme/colors/colors';
 
 export const ContentContainer = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'light' ? WHITE : NOT_FOUND
+  backgroundColor: theme.palette.background.default
 }));
 
 export const ModalWrapper = styled('div')(() => ({
@@ -48,7 +45,7 @@ export const HeaderModal = styled('div')(({ theme }) => {
     justifyContent: 'space-between',
     padding: '11px 16px',
     height: '52px',
-    fill: CULTURED,
+    fill: theme.palette.icon.inverse,
     boxShadow: 'inset 0px -1px 3px 0px rgba(0,0,0,0.2)',
     background: `linear-gradient(90deg, ${startColor}, ${endColor})`,
     filter:
