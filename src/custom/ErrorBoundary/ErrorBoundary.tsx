@@ -21,7 +21,7 @@ const StyledLink = styled(Link)(({ theme }) => ({
 
 const CodeMessage = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.background.code,
-  color: '#FFFFFF',
+  color: theme.palette.text.tertiary,
   padding: '.85rem',
   borderRadius: '.2rem',
   marginBlock: '.5rem'
