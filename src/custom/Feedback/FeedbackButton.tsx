@@ -8,7 +8,7 @@ import {
   QuestionIcon,
   SuccessIcon
 } from '../../icons';
-import { CULTURED, KEPPEL } from '../../theme';
+import { CULTURED } from '../../theme';
 import { CustomTooltip } from '../CustomTooltip';
 import { ModalCard } from '../ModalCard';
 import {
@@ -55,7 +55,7 @@ interface FeedbackDataItem {
 
 const feedbackData: FeedbackDataItem[] = [
   {
-    icon: <FeedbackIcon secondaryFill={KEPPEL} />,
+    icon: <FeedbackIcon />,
     label: 'Issue',
     placeholder: 'I’m having an issue with...',
     isTextInput: true
