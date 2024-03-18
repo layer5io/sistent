@@ -6,14 +6,14 @@ export const MuiAppBar: Components<Theme>['MuiAppBar'] = {
     root: ({ theme }) => {
       const {
         palette: {
-          primary: { main }
+          background: { default: defaultBackground }
         }
       } = theme;
       return {
         width: `calc(100% - ${drawerWidth}px)`,
         ml: { sm: `${drawerWidth}px` },
         elevation: 2,
-        background: main
+        background: defaultBackground
       };
     }
   }

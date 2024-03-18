@@ -1,18 +1,25 @@
 import { Components, Theme } from '@mui/material';
-import { anakiwa, connected, white } from '../colors';
+import { white } from '../colors';
 
 export const MuiPagination: Components<Theme>['MuiPagination'] = {
   styleOverrides: {
-    root: {
-      button: {
-        '&:hover': {
-          backgroundColor: anakiwa.main
-        },
-        '&.Mui-selected': {
-          color: white.main,
-          backgroundColor: connected.main
+    root: ({ theme }) => {
+      const {
+        palette: {
+          background: { brand }
         }
-      }
+      } = theme;
+      return {
+        button: {
+          '&:hover': {
+            backgroundColor: brand?.hover
+          },
+          '&.Mui-selected': {
+            color: white.main,
+            backgroundColor: brand?.default
+          }
+        }
+      };
     }
   }
 };
