@@ -1,27 +1,33 @@
 import { Components, Theme } from '@mui/material';
-import { darkTeal } from '../colors';
 
 export const MuiMenuItem: Components<Theme>['MuiMenuItem'] = {
   styleOverrides: {
-    root: {
-      '&:hover': {
-        '& li': {
-          color: darkTeal.dark,
-          fill: darkTeal.dark
+    root: ({ theme }) => {
+      const {
+        palette: {
+          background: { hover }
         }
-      },
-
-      '& svg': {
+      } = theme;
+      return {
         '&:hover': {
-          fill: darkTeal.dark
-        }
-      },
+          '& li': {
+            color: hover,
+            fill: hover
+          }
+        },
 
-      '&.Mui-disabled': {
-        '&:hover': {
-          cursor: 'not-allowed'
+        '& svg': {
+          '&:hover': {
+            fill: hover
+          }
+        },
+
+        '&.Mui-disabled': {
+          '&:hover': {
+            cursor: 'not-allowed'
+          }
         }
-      }
+      };
     }
   }
 };

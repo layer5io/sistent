@@ -14,6 +14,9 @@ declare module '@mui/material/styles' {
   // Defines the extended background color options used in the palette.
   interface TypeBackground {
     secondary?: string;
+    graphics?: {
+      default: string;
+    };
     tertiary?: string;
     hover?: string;
     blur?: {
@@ -132,6 +135,9 @@ export const lightModePalette: PaletteOptions = {
       secondary: Colors.keppel[50],
       tertiary: Colors.keppel[70]
     },
+    graphics: {
+      default: Colors.carribean[30]
+    },
     cta: {
       default: Colors.saffron[30],
       hover: Colors.keppel[40],
@@ -211,6 +217,9 @@ export const darkModePalette: PaletteOptions = {
       pressed: Colors.keppel[60],
       secondary: Colors.keppel[20],
       tertiary: Colors.keppel[10]
+    },
+    graphics: {
+      default: Colors.carribean[40]
     },
     cta: {
       default: Colors.saffron[40],

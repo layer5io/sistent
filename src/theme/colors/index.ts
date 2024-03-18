@@ -42,6 +42,7 @@ export {
   blue,
   buttonDelete,
   buttonDisabled,
+  carribean,
   casper,
   charcoal,
   common,
