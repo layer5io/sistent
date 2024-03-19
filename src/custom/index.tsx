@@ -1,3 +1,4 @@
+import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ConnectionChip } from './ConnectionChip';
 import {
   CustomColumn,
@@ -33,6 +34,7 @@ import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 export { StyledChartDialog } from './ChartDialog';
 export { StyledSearchBar } from './StyledSearchBar';
 export {
+  CatalogFilter,
   ConnectionChip,
   CustomColumnVisibilityControl,
   CustomDialog,
@@ -57,6 +59,7 @@ export {
   withSuppressedErrorBoundary
 };
 export type {
+  CatalogFilterProps,
   CustomColumn,
   CustomColumnVisibilityControlProps,
   CustomDialogProps,
