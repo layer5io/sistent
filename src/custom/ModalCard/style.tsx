@@ -39,13 +39,15 @@ export const HeaderModal = styled('div')(({ theme }) => {
   const startColor = theme.palette.mode === 'light' ? BUTTON_MODAL : BLACK;
   const endColor = theme.palette.mode === 'light' ? SLIGHT_BLUE : SLIGHT_BLACK_2;
 
+  const iconColor = theme.palette.icon?.inverse;
+
   return {
     display: 'flex',
     borderRadius: '5px  5px 0px 0px',
     justifyContent: 'space-between',
     padding: '11px 16px',
     height: '52px',
-    fill: theme.palette.icon.inverse,
+    fill: iconColor,
     boxShadow: 'inset 0px -1px 3px 0px rgba(0,0,0,0.2)',
     background: `linear-gradient(90deg, ${startColor}, ${endColor})`,
     filter:
