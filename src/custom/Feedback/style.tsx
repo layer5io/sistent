@@ -189,8 +189,8 @@ const positionMap: Record<
   },
   'right-middle': {
     top: '50%',
-    right: '-70px',
-    transform: 'rotate(-90deg) translateY(-50%)'
+    right: '-45px',
+    transform: 'rotate(-90deg)'
   },
   'right-bottom': {
     bottom: '10%',
@@ -199,7 +199,7 @@ const positionMap: Record<
   }
 };
 
-export const FeedbackForm = styled('form')(({ theme }) => ({
+export const FeedbackForm = styled('div')(({ theme }) => ({
   display: 'block',
   right: '0',
   backgroundColor: theme.palette.mode === 'dark' ? '#333333' : CULTURED,

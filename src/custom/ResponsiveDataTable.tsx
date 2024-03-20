@@ -33,7 +33,7 @@ const ResponsiveDataTable = ({
   tableCols,
   updateCols,
   columnVisibility,
-  rowsPerPageOptions = [20, 50, 100], // Default and standard page size options
+  rowsPerPageOptions = [10, 25, 50, 100], // Default and standard page size options
   ...props
 }: ResponsiveDataTableProps): JSX.Element => {
   const formatDate = (date: Date): string => {

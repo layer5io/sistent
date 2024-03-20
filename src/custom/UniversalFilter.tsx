@@ -19,6 +19,7 @@ export interface UniversalFilterProps {
   filters: Record<string, FilterColumn>;
   selectedFilters: Record<string, string>;
   setSelectedFilters: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  variant: 'filled' | 'standard' | 'outlined';
   handleApplyFilter: () => void;
   showAllOption?: boolean;
   id: string;
@@ -28,6 +29,7 @@ function UniversalFilter({
   filters,
   selectedFilters,
   setSelectedFilters,
+  variant = 'outlined',
   handleApplyFilter,
   showAllOption = true,
   id
@@ -104,6 +106,7 @@ function UniversalFilter({
                           defaultValue="All"
                           key={filterColumn}
                           value={selectedFilters[filterColumn]}
+                          variant={variant}
                           onChange={(e: SelectChangeEvent<unknown>) =>
                             handleFilterChange(
                               e as React.ChangeEvent<{ value: string }>,
