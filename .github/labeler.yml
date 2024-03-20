@@ -5,8 +5,8 @@ area/docs:
 area/site:
   - "site/**/*"  
 component/components:
-  - "packages/components/**/*"
+  - "/src/custom/**/*"
 component/icons:
-  - "packages/svg/**/*"
+  - "/src/icons/**/*"
 framework/storyboard:
   - "packages/design-system/**/*"
