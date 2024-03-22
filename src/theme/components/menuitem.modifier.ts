@@ -5,20 +5,20 @@ export const MuiMenuItem: Components<Theme>['MuiMenuItem'] = {
     root: ({ theme }) => {
       const {
         palette: {
-          background: { hover }
+          text: { tertiary }
         }
       } = theme;
       return {
         '&:hover': {
           '& li': {
-            color: hover,
-            fill: hover
+            color: tertiary,
+            fill: tertiary
           }
         },
 
         '& svg': {
           '&:hover': {
-            fill: hover
+            fill: tertiary
           }
         },
 

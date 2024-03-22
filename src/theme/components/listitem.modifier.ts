@@ -1,6 +1,16 @@
 import { Components, ListItemProps, Theme } from '@mui/material';
 
+declare module '@mui/material/ListItem' {
+  interface ListItemPropsVariantOverrides {
+    menu: true;
+    submenu: true;
+  }
+}
+
 export const MuiListItem: Components<Theme>['MuiListItem'] = {
+  styleOverrides: {
+    root: {}
+  },
   variants: [
     {
       props: { variant: 'menu' } as ListItemProps,
@@ -30,7 +40,7 @@ export const MuiListItem: Components<Theme>['MuiListItem'] = {
               }
             }
           },
-          '&:li:has(> .MuiMenuItem)': {
+          '&:has(> .MuiListItem-root.MuiMenuItem-root)': {
             backgroundColor: brand?.default
           },
           '& svg': {
