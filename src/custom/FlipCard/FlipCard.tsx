@@ -1,13 +1,13 @@
 import { Theme } from '@mui/material/styles';
 import { styled } from '@mui/system';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React from 'react';
 
 export type FlipCardProps = {
   classes: { [key: string]: string };
   duration?: number;
   onClick: () => void;
   onShow?: () => void;
-  children: ReactNode[];
+  children: [React.ReactNode, React.ReactNode];
 };
 
 const styles = (theme: Theme) => ({
@@ -29,7 +29,7 @@ const styles = (theme: Theme) => ({
   backContent: { transform: 'scale(-1, 1)', maxWidth: '50vw', wordBreak: 'break-word' }
 });
 
-function GetChild(children: ReactNode[], key: number) {
+function GetChild(children: [React.ReactNode, React.ReactNode], key: number) {
   if (!children) throw Error('FlipCard requires exactly two child components');
   if (children.length != 2) throw Error('FlipCard requires exactly two child components');
 
@@ -37,15 +37,15 @@ function GetChild(children: ReactNode[], key: number) {
 }
 
 function StyledFlipCard({ classes, duration = 500, onClick, onShow, children }: FlipCardProps) {
-  const [flipped, setFlipped] = useState(false);
-  const [activeBack, setActiveBack] = useState(false);
+  const [flipped, setFlipped] = React.useState(false);
+  const [activeBack, setActiveBack] = React.useState(false);
 
-  const timeout = useRef<null | NodeJS.Timeout>(null);
+  const timeout = React.useRef<null | NodeJS.Timeout>(null);
 
   const Front = GetChild(children, 0);
   const Back = GetChild(children, 1);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // This function makes sure that the inner content of the card disappears roughly
     // after 30 deg rotation has already occured. It will ensure that the user doesn't gets
     // a "blank" card while the card is rotating
