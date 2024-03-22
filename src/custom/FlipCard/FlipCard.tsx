@@ -1,5 +1,5 @@
+import { styled } from '@mui/material';
 import { Theme } from '@mui/material/styles';
-import { styled } from '@mui/system';
 import React from 'react';
 
 export type FlipCardProps = {
