@@ -48,11 +48,36 @@ export const common = {
   white: WHITE
 };
 
-export const keppel = {};
+export const keppel = {
+  80: '#daf3eb',
+  70: '#00B39F',
+  60: '#93E6D1',
+  50: '#41CCB3',
+  40: '#00B39F',
+  30: '#008c81',
+  20: '#006661',
+  10: '#00403f'
+};
 
-export const carribean = {};
+export const carribean = {
+  70: '#E6FFF6',
+  60: '#A3FFE0',
+  50: '#78FAD3',
+  40: '#00D3A9',
+  30: '#00AD90',
+  20: '#006157',
+  10: '#003B37'
+};
 
-export const saffron = {};
+export const saffron = {
+  70: '#F8E2A6',
+  60: '#fffbbd',
+  50: '#ffeb6b',
+  40: '#ebc017',
+  30: '#c4990a',
+  20: '#785400',
+  10: '#523600'
+};
 
 /**
  * Grayscale Colors

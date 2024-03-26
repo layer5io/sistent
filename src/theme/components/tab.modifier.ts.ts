@@ -1,15 +1,22 @@
 import { Components, Theme } from '@mui/material';
-import { actionIcon, white } from '../colors';
 
 export const MuiTab: Components<Theme>['MuiTab'] = {
   styleOverrides: {
-    root: {
-      '&.Mui-selected': {
-        color: actionIcon.main,
-        backgroundColor: white.main
-      },
-      backgroundColor: actionIcon.main,
-      color: white.main
+    root: ({ theme }) => {
+      const {
+        palette: {
+          text: { default: defaultText },
+          background: { default: defaultBackground }
+        }
+      } = theme;
+      return {
+        '&.Mui-selected': {
+          color: defaultText,
+          backgroundColor: defaultBackground
+        },
+        backgroundColor: defaultText,
+        color: defaultBackground
+      };
     }
   }
 };

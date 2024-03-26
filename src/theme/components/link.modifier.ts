@@ -1,26 +1,33 @@
 import { Components, Theme } from '@mui/material';
-import { connected, darkTeal } from '../colors';
 
 export const MuiLink: Components<Theme>['MuiLink'] = {
   styleOverrides: {
-    root: {
-      fontWeight: '600',
-      textDecoration: 'none',
-      color: darkTeal.main,
-      '&:visited': {
-        textDecoration: 'none'
-      },
-      '&:hover': {
-        textDecoration: 'underline'
-      },
-      '&.keppel': {
-        color: connected.main
-      },
-      '&.Mui-disabled': {
-        '&:hover': {
-          cursor: 'not-allowed'
+    root: ({ theme }) => {
+      const {
+        palette: {
+          text: { default: defaultText },
+          background: { brand }
         }
-      }
+      } = theme;
+      return {
+        fontWeight: '600',
+        textDecoration: 'none',
+        color: defaultText,
+        '&:visited': {
+          textDecoration: 'none'
+        },
+        '&:hover': {
+          textDecoration: 'underline'
+        },
+        '&.keppel': {
+          color: brand?.default
+        },
+        '&.Mui-disabled': {
+          '&:hover': {
+            cursor: 'not-allowed'
+          }
+        }
+      };
     }
   }
 };

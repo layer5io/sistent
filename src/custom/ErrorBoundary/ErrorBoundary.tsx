@@ -1,24 +1,30 @@
-import { styled } from '@mui/system';
+import { styled } from '@mui/material';
 import React from 'react';
 import { FallbackProps, ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 import { Box } from '../../base/Box';
 import { Link } from '../../base/Link';
 import { Typography } from '../../base/Typography';
-import { BLACK, KEPPEL } from '../../theme/colors';
-import { DARK_JUNGLE_GREEN } from '../../theme/colors/colors';
 
-const ErrorMessage = styled(Typography)(() => ({
-  color: BLACK,
+const ErrorMessage = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.default,
   fontWeight: 'normal',
   marginTop: '2px',
   marginBottom: '2px',
   fontSize: '1.15rem'
 }));
 
-const StyledLink = styled(Link)(() => ({
-  color: KEPPEL,
+const StyledLink = styled(Link)(({ theme }) => ({
+  color: theme.palette.border.brand,
   textDecoration: 'underline',
   cursor: 'pointer'
+}));
+
+const CodeMessage = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.code,
+  color: theme.palette.text.tertiary,
+  padding: '.85rem',
+  borderRadius: '.2rem',
+  marginBlock: '.5rem'
 }));
 
 interface FallbackComponentProps extends FallbackProps {
@@ -30,17 +36,9 @@ export function Fallback({ error, children }: FallbackComponentProps): JSX.Eleme
   return (
     <div role="alert">
       <h2>Uh-oh!😔 Please pardon the mesh.</h2>
-      <div
-        style={{
-          backgroundColor: DARK_JUNGLE_GREEN,
-          color: '#FFFFFF',
-          padding: '.85rem',
-          borderRadius: '.2rem',
-          marginBlock: '.5rem'
-        }}
-      >
+      <CodeMessage>
         <code>{(error as Error).message}</code>
-      </div>
+      </CodeMessage>
       <ErrorMessage>
         We apologize for the inconvenience. The issue may be on our end. If troubleshooting doesn't
         work, please check out our support channels{' '}

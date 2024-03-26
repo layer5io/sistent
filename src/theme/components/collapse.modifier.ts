@@ -1,5 +1,4 @@
 import { Components, Theme } from '@mui/material';
-import { patternsBlue } from '../colors';
 
 declare module '@mui/material/Collapse' {
   interface CollapseProps {
@@ -19,12 +18,14 @@ export const MuiCollapse: Components<Theme>['MuiCollapse'] = {
       props: { variant: 'submenu' },
       style: ({ theme }) => {
         const {
-          palette: { cultured }
+          palette: {
+            background: { hover, secondary }
+          }
         } = theme;
         return {
-          backgroundColor: cultured.main,
+          backgroundColor: hover,
           '&:active': {
-            backgroundColor: patternsBlue.main
+            backgroundColor: secondary
           }
         };
       }
