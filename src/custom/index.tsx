@@ -1,3 +1,4 @@
+import { ActionButton } from './ActionButton';
 import { ConnectionChip } from './ConnectionChip';
 import {
   CustomColumn,
@@ -33,6 +34,7 @@ import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 export { StyledChartDialog } from './ChartDialog';
 export { StyledSearchBar } from './StyledSearchBar';
 export {
+  ActionButton,
   ConnectionChip,
   CustomColumnVisibilityControl,
   CustomDialog,
