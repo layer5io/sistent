@@ -1,4 +1,5 @@
 import { ActionButton } from './ActionButton';
+import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ConnectionChip } from './ConnectionChip';
 import {
   CustomColumn,
@@ -35,6 +36,7 @@ export { StyledChartDialog } from './ChartDialog';
 export { StyledSearchBar } from './StyledSearchBar';
 export {
   ActionButton,
+  CatalogFilter,
   ConnectionChip,
   CustomColumnVisibilityControl,
   CustomDialog,
@@ -59,6 +61,7 @@ export {
   withSuppressedErrorBoundary
 };
 export type {
+  CatalogFilterProps,
   CustomColumn,
   CustomColumnVisibilityControlProps,
   CustomDialogProps,
