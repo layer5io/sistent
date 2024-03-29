@@ -22,6 +22,7 @@ export * from './Delete';
 export * from './Deploy';
 export * from './Designer';
 export * from './Detail';
+export * from './DropDownIcon';
 export * from './Error';
 export * from './Favorite';
 export * from './Filter';

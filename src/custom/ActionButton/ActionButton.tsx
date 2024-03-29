@@ -1,4 +1,4 @@
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import * as React from 'react';
 import {
   Button,
   ButtonGroup,
@@ -8,8 +8,8 @@ import {
   MenuList,
   Paper,
   Popper
-} from '@mui/material';
-import * as React from 'react';
+} from '../../base';
+import DropDownIcon from '../../icons';
 
 interface Option {
   icon: React.ReactNode;
@@ -58,7 +58,7 @@ export default function ActionButton({
           Action
         </Button>
         <Button size="small" onClick={handleToggle} variant="contained">
-          <ArrowDropDownIcon />
+          <DropDownIcon />
         </Button>
       </ButtonGroup>
       <Popper
