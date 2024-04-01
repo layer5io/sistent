@@ -23,6 +23,12 @@ declare module '@mui/material/styles' {
       heavy: string;
       light: string;
     };
+    //additional color palette {neutral}
+    neutral?: {
+      default: string;
+      hover: string;
+      pressed: string;
+    };
     inverse?: string;
     brand?: Interactiveness;
     cta?: Interactiveness;
@@ -44,6 +50,10 @@ declare module '@mui/material/styles' {
     success?: string;
     warning?: string;
     error?: string;
+    neutral?: {
+      default: string;
+      alt: string;
+    };
   }
 
   // Defines the color options for the palette
@@ -52,6 +62,12 @@ declare module '@mui/material/styles' {
     blur?: {
       heavy: string;
       light: string;
+    };
+    neutral?: {
+      default: string;
+      hover: string;
+      pressed: string;
+      alt: string;
     };
     inverse?: string;
     brand?: Interactiveness;
@@ -71,6 +87,12 @@ declare module '@mui/material/styles' {
     blur?: {
       heavy: string;
       light: string;
+    };
+    neutral?: {
+      default: string;
+      hover: string;
+      pressed: string;
+      alt: string;
     };
     inverse?: string;
     brand?: Interactiveness;
@@ -93,6 +115,10 @@ declare module '@mui/material/styles' {
       strong: string;
       brand: string;
       normal: string;
+      neutral?: {
+        default: string;
+        alt: string;
+      };
     };
     icon: {
       default: string;
@@ -100,6 +126,10 @@ declare module '@mui/material/styles' {
       inverse: string;
       weather: string;
       disabled: string;
+      neutral?: {
+        default: string;
+        alt: string;
+      };
     };
   }
 
@@ -110,6 +140,10 @@ declare module '@mui/material/styles' {
       strong: string;
       brand: string;
       normal: string;
+      neutral?: {
+        default: string;
+        alt: string;
+      };
     };
     icon: {
       default: string;
@@ -117,6 +151,10 @@ declare module '@mui/material/styles' {
       inverse: string;
       weather: string;
       disabled: string;
+      neutral?: {
+        default: string;
+        alt: string;
+      };
     };
   }
 }
@@ -130,6 +168,11 @@ export const lightModePalette: PaletteOptions = {
     blur: {
       heavy: alpha(Colors.charcoal[90], 0.8),
       light: alpha(Colors.charcoal[90], 0.5)
+    },
+    neutral: {
+      default: Colors.charcoal[40],
+      hover: Colors.charcoal[30],
+      pressed: Colors.charcoal[20]
     },
     inverse: Colors.charcoal[10],
     brand: {
@@ -189,20 +232,32 @@ export const lightModePalette: PaletteOptions = {
     info: Colors.blue[40],
     success: Colors.green[30],
     warning: Colors.yellow[30],
-    error: Colors.red[30]
+    error: Colors.red[30],
+    neutral: {
+      default: Colors.charcoal[40],
+      alt: Colors.charcoal[40]
+    }
   },
   border: {
     default: Colors.charcoal[90],
     strong: Colors.charcoal[30],
     brand: Colors.keppel[40],
-    normal: Colors.charcoal[60]
+    normal: Colors.charcoal[60],
+    neutral: {
+      default: Colors.charcoal[40],
+      alt: Colors.charcoal[40]
+    }
   },
   icon: {
     default: Colors.accentGrey[10],
     brand: Colors.keppel[40],
     inverse: Colors.charcoal[100],
     weather: Colors.accentGrey[50],
-    disabled: Colors.charcoal[70]
+    disabled: Colors.charcoal[70],
+    neutral: {
+      default: Colors.charcoal[40],
+      alt: Colors.charcoal[40]
+    }
   }
 };
 
@@ -215,6 +270,11 @@ export const darkModePalette: PaletteOptions = {
     blur: {
       heavy: alpha(Colors.charcoal[10], 0.8),
       light: alpha(Colors.charcoal[10], 0.5)
+    },
+    neutral: {
+      default: Colors.accentGrey[100],
+      hover: Colors.charcoal[90],
+      pressed: Colors.charcoal[80]
     },
     brand: {
       default: Colors.keppel[40],
@@ -273,13 +333,21 @@ export const darkModePalette: PaletteOptions = {
     info: Colors.blue[40],
     success: Colors.green[40],
     warning: Colors.yellow[40],
-    error: Colors.red[40]
+    error: Colors.red[40],
+    neutral: {
+      default: Colors.accentGrey[100],
+      alt: Colors.keppel[40]
+    }
   },
   border: {
     default: Colors.accentGrey[10],
     strong: Colors.accentGrey[60],
     brand: Colors.keppel[40],
-    normal: Colors.accentGrey[30]
+    normal: Colors.accentGrey[30],
+    neutral: {
+      default: Colors.accentGrey[100],
+      alt: Colors.keppel[40]
+    }
   },
 
   icon: {
@@ -287,6 +355,10 @@ export const darkModePalette: PaletteOptions = {
     brand: Colors.keppel[40],
     inverse: Colors.charcoal[10],
     weather: Colors.saffron[40],
-    disabled: Colors.charcoal[50]
+    disabled: Colors.charcoal[50],
+    neutral: {
+      default: Colors.accentGrey[100],
+      alt: Colors.keppel[40]
+    }
   }
 };
