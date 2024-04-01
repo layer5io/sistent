@@ -49,12 +49,11 @@ export const common = {
 };
 
 export const keppel = {
-  80: '#daf3eb',
-  70: '#00B39F',
+  70: '#daf3eb',
   60: '#93E6D1',
   50: '#41CCB3',
   40: '#00B39F',
-  30: '#008c81',
+  30: '#007763',
   20: '#006661',
   10: '#00403f'
 };
@@ -70,7 +69,7 @@ export const carribean = {
 };
 
 export const saffron = {
-  70: '#F8E2A6',
+  70: '#FFFEE6',
   60: '#fffbbd',
   50: '#ffeb6b',
   40: '#ebc017',
@@ -111,13 +110,13 @@ export const accentGrey = {
  * Function Colors
  */
 export const blue = {
-  70: '#EBF6FF',
-  60: '#99CCFF',
-  50: '#4797FF',
-  40: '#1E77FC',
-  30: '#0F58D6',
-  20: '#043DB0',
-  10: '#001B63'
+  70: '#F0FBFF',
+  60: '#9EDDFF',
+  50: '#75CAFF',
+  40: '#2196F3',
+  30: '#1272CC',
+  20: '#0754A6',
+  10: '#003980'
 };
 
 export const green = {

@@ -23,6 +23,7 @@ declare module '@mui/material/styles' {
       heavy: string;
       light: string;
     };
+    inverse?: string;
     brand?: Interactiveness;
     cta?: Interactiveness;
     info?: Interactiveness;
@@ -52,6 +53,7 @@ declare module '@mui/material/styles' {
       heavy: string;
       light: string;
     };
+    inverse?: string;
     brand?: Interactiveness;
     cta?: Interactiveness;
     info?: Interactiveness;
@@ -70,6 +72,7 @@ declare module '@mui/material/styles' {
       heavy: string;
       light: string;
     };
+    inverse?: string;
     brand?: Interactiveness;
     cta?: Interactiveness;
     info?: Interactiveness;
@@ -128,11 +131,12 @@ export const lightModePalette: PaletteOptions = {
       heavy: alpha(Colors.charcoal[90], 0.8),
       light: alpha(Colors.charcoal[90], 0.5)
     },
+    inverse: Colors.charcoal[10],
     brand: {
       default: Colors.keppel[30],
-      hover: Colors.keppel[40],
+      hover: Colors.keppel[50],
       disabled: Colors.charcoal[90],
-      pressed: Colors.keppel[10],
+      pressed: Colors.keppel[60],
       secondary: Colors.keppel[50],
       tertiary: Colors.keppel[70]
     },
@@ -140,14 +144,14 @@ export const lightModePalette: PaletteOptions = {
       default: Colors.carribean[30]
     },
     cta: {
-      default: Colors.saffron[30],
-      hover: Colors.keppel[40],
-      pressed: Colors.keppel[50],
-      secondary: Colors.keppel[60],
-      tertiary: Colors.keppel[70]
+      default: Colors.saffron[40],
+      hover: Colors.saffron[50],
+      pressed: Colors.saffron[60],
+      secondary: Colors.saffron[60],
+      tertiary: Colors.saffron[70]
     },
     info: {
-      default: Colors.blue[30],
+      default: Colors.blue[40],
       hover: Colors.blue[20],
       pressed: Colors.blue[10],
       secondary: Colors.blue[60],
@@ -178,11 +182,11 @@ export const lightModePalette: PaletteOptions = {
   },
   text: {
     default: Colors.charcoal[10],
-    secondary: Colors.charcoal[90],
-    tertiary: Colors.charcoal[50],
+    secondary: Colors.charcoal[40],
+    tertiary: Colors.charcoal[70],
     inverse: Colors.charcoal[100],
     brand: Colors.accentGrey[40],
-    info: Colors.blue[30],
+    info: Colors.blue[40],
     success: Colors.green[30],
     warning: Colors.yellow[30],
     error: Colors.red[30]
@@ -190,12 +194,12 @@ export const lightModePalette: PaletteOptions = {
   border: {
     default: Colors.charcoal[90],
     strong: Colors.charcoal[30],
-    brand: Colors.keppel[30],
+    brand: Colors.keppel[40],
     normal: Colors.charcoal[60]
   },
   icon: {
     default: Colors.accentGrey[10],
-    brand: Colors.keppel[30],
+    brand: Colors.keppel[40],
     inverse: Colors.charcoal[100],
     weather: Colors.accentGrey[50],
     disabled: Colors.charcoal[70]
