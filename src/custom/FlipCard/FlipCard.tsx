@@ -5,7 +5,7 @@ import React from 'react';
 export type FlipCardProps = {
   classes: { [key: string]: string };
   duration?: number;
-  onClick: () => void;
+  onClick?: () => void;
   onShow?: () => void;
   children: [React.ReactNode, React.ReactNode];
 };
