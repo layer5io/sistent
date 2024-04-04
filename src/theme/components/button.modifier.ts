@@ -6,12 +6,14 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
       const {
         palette: {
           background: { brand },
-          text: { tertiary, default: defaultText, inverse }
-        }
+          text: { tertiary, default: defaultText }
+        },
+        typography: { textB2SemiBold }
       } = theme;
       return {
+        ...textB2SemiBold,
         '&.MuiButton-contained': {
-          color: inverse,
+          color: defaultText,
           backgroundColor: brand?.default,
           '&:hover': {
             backgroundColor: brand?.hover

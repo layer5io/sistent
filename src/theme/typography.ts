@@ -83,6 +83,7 @@ export const typography = (mode: PaletteMode): TypographyOptions => {
       fontSize: '1rem',
       fontWeight: 'semi-bold',
       lineHeight: '1.75rem',
+      textTransform: 'capitalize',
       [theme.breakpoints.down('sm')]: {
         fontSize: '1rem',
         lineHeight: '1.75rem'
