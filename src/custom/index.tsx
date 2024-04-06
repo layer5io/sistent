@@ -1,3 +1,4 @@
+import { ActionButton } from './ActionButton';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ConnectionChip } from './ConnectionChip';
 import {
@@ -34,6 +35,7 @@ import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 export { StyledChartDialog } from './ChartDialog';
 export { StyledSearchBar } from './StyledSearchBar';
 export {
+  ActionButton,
   CatalogFilter,
   ConnectionChip,
   CustomColumnVisibilityControl,

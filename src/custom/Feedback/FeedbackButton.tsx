@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import React, { CSSProperties, useRef, useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import {
   CalenderIcon,
   CloseIcon,
@@ -107,21 +107,23 @@ interface FeedbackComponentProps {
     | 'right-top'
     | 'right-middle'
     | 'right-bottom';
+  defaultMessage?: string;
+  defaultOpen?: boolean;
 }
 
 const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
   onSubmit,
   containerStyles,
   feedbackOptionStyles,
-  renderPosition
+  renderPosition,
+  defaultMessage = undefined,
+  defaultOpen = false
 }) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(defaultOpen);
   const [submitted, setSubmitted] = useState<boolean>(false);
-  const [category, setCategory] = useState<FeedbackDataItem | undefined>();
-  const [messageValue, setMessageValue] = useState<string | undefined>();
-  const feedbackTextRef = useRef<HTMLTextAreaElement>(null);
-  const [isChecked, setIsChecked] = useState<boolean>(false);
-
+  const [category, setCategory] = useState<FeedbackDataItem | undefined>(feedbackData[0]);
+  const [messageValue, setMessageValue] = useState<string | undefined>(defaultMessage);
+  const [isChecked, setIsChecked] = useState<boolean>(!!defaultMessage);
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
   };
@@ -229,7 +231,6 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
                         onChange={(e) => {
                           setMessageValue(e.target.value);
                         }}
-                        ref={feedbackTextRef}
                         required
                         placeholder={category.placeholder}
                         rows={5}
