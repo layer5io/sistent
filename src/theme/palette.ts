@@ -14,6 +14,7 @@ declare module '@mui/material/styles' {
   // Defines the extended background color options used in the palette.
   interface TypeBackground {
     secondary?: string;
+    supplementary?: string;
     graphics?: {
       default: string;
     };
@@ -54,11 +55,15 @@ declare module '@mui/material/styles' {
       default: string;
       alt: string;
     };
+    constant?: {
+      white: string;
+    };
   }
 
   // Defines the color options for the palette
   interface PaletteColor {
     secondary?: string;
+    supplementary?: string;
     blur?: {
       heavy: string;
       light: string;
@@ -68,6 +73,9 @@ declare module '@mui/material/styles' {
       hover: string;
       pressed: string;
       alt: string;
+    };
+    constant?: {
+      white: string;
     };
     inverse?: string;
     brand?: Interactiveness;
@@ -84,6 +92,7 @@ declare module '@mui/material/styles' {
   // Defines the simple palette color options.
   interface SimplePaletteColorOptions {
     secondary?: string;
+    supplementary?: string;
     blur?: {
       heavy: string;
       light: string;
@@ -93,6 +102,9 @@ declare module '@mui/material/styles' {
       hover: string;
       pressed: string;
       alt: string;
+    };
+    constant?: {
+      white: string;
     };
     inverse?: string;
     brand?: Interactiveness;
@@ -122,6 +134,7 @@ declare module '@mui/material/styles' {
     };
     icon: {
       default: string;
+      secondary: string;
       brand: string;
       inverse: string;
       weather: string;
@@ -147,6 +160,7 @@ declare module '@mui/material/styles' {
     };
     icon: {
       default: string;
+      secondary: string;
       brand: string;
       inverse: string;
       weather: string;
@@ -165,6 +179,7 @@ export const lightModePalette: PaletteOptions = {
     secondary: Colors.accentGrey[90],
     tertiary: Colors.accentGrey[80],
     hover: Colors.charcoal[90],
+    supplementary: Colors.accentGrey[40],
     blur: {
       heavy: alpha(Colors.charcoal[90], 0.8),
       light: alpha(Colors.charcoal[90], 0.5)
@@ -176,7 +191,7 @@ export const lightModePalette: PaletteOptions = {
     },
     inverse: Colors.charcoal[10],
     brand: {
-      default: Colors.keppel[30],
+      default: Colors.keppel[40],
       hover: Colors.keppel[50],
       disabled: Colors.charcoal[90],
       pressed: Colors.keppel[60],
@@ -228,7 +243,7 @@ export const lightModePalette: PaletteOptions = {
     secondary: Colors.charcoal[40],
     tertiary: Colors.charcoal[70],
     inverse: Colors.charcoal[100],
-    brand: Colors.accentGrey[40],
+    brand: Colors.keppel[40],
     info: Colors.blue[40],
     success: Colors.green[30],
     warning: Colors.yellow[30],
@@ -236,6 +251,9 @@ export const lightModePalette: PaletteOptions = {
     neutral: {
       default: Colors.charcoal[40],
       alt: Colors.charcoal[40]
+    },
+    constant: {
+      white: Colors.charcoal[100]
     }
   },
   border: {
@@ -250,6 +268,7 @@ export const lightModePalette: PaletteOptions = {
   },
   icon: {
     default: Colors.accentGrey[10],
+    secondary: Colors.charcoal[40],
     brand: Colors.keppel[40],
     inverse: Colors.charcoal[100],
     weather: Colors.accentGrey[50],
@@ -267,6 +286,7 @@ export const darkModePalette: PaletteOptions = {
     secondary: Colors.accentGrey[10],
     tertiary: Colors.accentGrey[30],
     hover: Colors.charcoal[20],
+    supplementary: Colors.accentGrey[40],
     blur: {
       heavy: alpha(Colors.charcoal[10], 0.8),
       light: alpha(Colors.charcoal[10], 0.5)
@@ -337,6 +357,9 @@ export const darkModePalette: PaletteOptions = {
     neutral: {
       default: Colors.accentGrey[100],
       alt: Colors.keppel[40]
+    },
+    constant: {
+      white: Colors.charcoal[100]
     }
   },
   border: {
@@ -352,6 +375,7 @@ export const darkModePalette: PaletteOptions = {
 
   icon: {
     default: Colors.accentGrey[90],
+    secondary: Colors.charcoal[80],
     brand: Colors.keppel[40],
     inverse: Colors.charcoal[10],
     weather: Colors.saffron[40],

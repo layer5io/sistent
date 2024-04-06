@@ -37,40 +37,41 @@ export const typography = (mode: PaletteMode): TypographyOptions => {
   return {
     fontFamily: ['Qanelas Soft Regular', 'Roboto', 'Helvectica', 'Arial', 'sans-serif'].join(','),
     textH1Bold: {
-      fontFamily: ['Qanelas Soft Regular', 'Roboto', 'Helvectica', 'Arial', 'sans-serif'].join(','),
+      fontFamily: ['Qanelas Soft'].join(','),
       fontSize: '52px',
       lineHeight: '64px',
-      fontWeight: 'bold',
+      fontWeight: 700,
       [theme.breakpoints.down('sm')]: {
         fontSize: '32px',
         lineHeight: '40px'
       }
     },
     textH2Medium: {
-      fontFamily: ['Qanelas Soft Regular', 'Roboto', 'Helvectica', 'Arial', 'sans-serif'].join(','),
+      fontFamily: ['Qanelas Soft'].join(','),
       fontSize: '32px',
       lineHeight: '40px',
-      fontWeight: 'medium',
+      fontWeight: 500,
       [theme.breakpoints.down('sm')]: {
         fontSize: '24px',
         lineHeight: '36px'
       }
     },
     textH3Medium: {
-      fontFamily: ['Qanelas Soft Regular', 'Roboto', 'Helvectica', 'Arial', 'sans-serif'].join(','),
+      fontFamily: ['Qanelas Soft'].join(','),
       fontSize: '1.5rem',
       lineHeight: '2.25rem',
-      fontWeight: 'medium',
+      fontWeight: 500,
       [theme.breakpoints.down('sm')]: {
         fontSize: '1rem',
-        lineHeight: '1.75rem'
+        lineHeight: '1.75rem',
+        fontWeight: 700
       }
     },
     textB1Regular: {
       fontFamily: ['Open Sans'].join(','),
       color: mode === 'light' ? common.black : common.white,
       fontSize: '1rem',
-      fontWeight: 'regular',
+      fontWeight: 400,
       lineHeight: '1.75rem',
       [theme.breakpoints.down('sm')]: {
         fontSize: '1rem',
@@ -81,7 +82,7 @@ export const typography = (mode: PaletteMode): TypographyOptions => {
       fontFamily: ['Open Sans'].join(','),
       color: mode === 'light' ? common.black : common.white,
       fontSize: '1rem',
-      fontWeight: 'semi-bold',
+      fontWeight: 600,
       lineHeight: '1.75rem',
       textTransform: 'capitalize',
       [theme.breakpoints.down('sm')]: {
@@ -90,33 +91,33 @@ export const typography = (mode: PaletteMode): TypographyOptions => {
       }
     },
     textB3Regular: {
-      fontFamily: ['Open Sans', 'Roboto', 'Helvectica', 'Arial', 'sans-serif'].join(','),
+      fontFamily: ['Open Sans'].join(','),
       fontSize: '0.875rem',
-      fontWeight: 'regular',
+      fontWeight: 400,
       lineHeight: '1.5rem'
     },
     textL1Bold: {
       fontFamily: ['Qanelas Soft'].join(','),
       fontSize: '0.75rem',
-      fontWeight: 'bold',
+      fontWeight: 700,
       lineHeight: '1rem'
     },
     textL2Regular: {
       fontFamily: ['Open Sans'].join(','),
       fontSize: '0.75rem',
-      fontWeight: 'regular',
+      fontWeight: 400,
       lineHeight: '1.5rem'
     },
     textC1Regular: {
       fontFamily: ['Consolas'].join(','),
       fontSize: '0.75rem',
-      fontWeight: 'regular',
+      fontWeight: 400,
       lineHeight: '1.5rem'
     },
     textC2Regular: {
       fontFamily: ['Consolas'].join(','),
       fontSize: '1rem',
-      fontWeight: 'regular',
+      fontWeight: 400,
       lineHeight: '1.75rem'
     },
     caption: {},

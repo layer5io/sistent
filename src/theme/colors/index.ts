@@ -60,6 +60,8 @@ export {
   red,
   redDelete,
   saffron,
+  slateGray,
+  socialIcons,
   tabMenu,
   tableBackgroundHover,
   white,
