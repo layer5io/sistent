@@ -1,5 +1,6 @@
 import { styled } from '@mui/material';
 import React from 'react';
+import { BUTTON_MODAL_DARK, WHITE } from '../../theme/colors/colors';
 
 export type FlipCardProps = {
   duration?: number;
@@ -26,7 +27,7 @@ const InnerCard = styled('div')(({ theme }) => ({
   borderRadius: theme.spacing(1),
   transformStyle: 'preserve-3d',
   boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-  backgroundColor: theme.palette.secondary.main,
+  backgroundColor: theme.palette.mode === 'dark' ? BUTTON_MODAL_DARK : WHITE,
   cursor: 'pointer',
   transformOrigin: '50% 50% 10%'
 }));
