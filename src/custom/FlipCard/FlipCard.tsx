@@ -38,7 +38,6 @@ const FrontContent = styled('div')({
 const BackContent = styled('div')({
   backfaceVisibility: 'hidden',
   transform: 'scale(-1, 1)',
-  maxWidth: '50vw',
   wordBreak: 'break-word'
 });
 
