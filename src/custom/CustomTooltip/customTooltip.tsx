@@ -26,8 +26,7 @@ function CustomTooltip({
             color: WHITE,
             fontSize: { fontSize },
             borderRadius: '0.9375rem',
-            padding: '0.9rem',
-            zIndex: '999999'
+            padding: '0.9rem'
           }
         },
         popper: {
@@ -38,6 +37,7 @@ function CustomTooltip({
       }}
       title={title}
       placement={placement}
+      arrow
       onClick={onClick}
       {...props}
     >
