@@ -1,33 +1,12 @@
 import { styled } from '@mui/material';
-import { Theme } from '@mui/material/styles';
 import React from 'react';
 
 export type FlipCardProps = {
-  classes: { [key: string]: string };
   duration?: number;
   onClick?: () => void;
   onShow?: () => void;
   children: [React.ReactNode, React.ReactNode];
 };
-
-const styles = (theme: Theme) => ({
-  card: {
-    height: '100%',
-    backgroundColor: 'transparent',
-    perspective: theme.spacing(125)
-  },
-  innerCard: {
-    padding: theme.spacing(2),
-    borderRadius: theme.spacing(1),
-    transformStyle: 'preserve-3d',
-    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-    backgroundColor: theme.palette.secondary,
-    cursor: 'pointer'
-  },
-  content: { backfaceVisibility: 'hidden' },
-  frontContent: {},
-  backContent: { transform: 'scale(-1, 1)', maxWidth: '50vw', wordBreak: 'break-word' }
-});
 
 function GetChild(children: [React.ReactNode, React.ReactNode], key: number) {
   if (!children) throw Error('FlipCard requires exactly two child components');
@@ -36,7 +15,34 @@ function GetChild(children: [React.ReactNode, React.ReactNode], key: number) {
   return children[key];
 }
 
-function StyledFlipCard({ classes, duration = 500, onClick, onShow, children }: FlipCardProps) {
+const Card = styled('div')(({ theme }) => ({
+  height: '100%',
+  backgroundColor: 'transparent',
+  perspective: theme.spacing(125)
+}));
+
+const InnerCard = styled('div')(({ theme }) => ({
+  padding: theme.spacing(2),
+  borderRadius: theme.spacing(1),
+  transformStyle: 'preserve-3d',
+  boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+  backgroundColor: theme.palette.secondary.main,
+  cursor: 'pointer',
+  transformOrigin: '50% 50% 10%'
+}));
+
+const FrontContent = styled('div')({
+  backfaceVisibility: 'hidden'
+});
+
+const BackContent = styled('div')({
+  backfaceVisibility: 'hidden',
+  transform: 'scale(-1, 1)',
+  maxWidth: '50vw',
+  wordBreak: 'break-word'
+});
+
+export function FlipCard({ duration = 500, onClick, onShow, children }: FlipCardProps) {
   const [flipped, setFlipped] = React.useState(false);
   const [activeBack, setActiveBack] = React.useState(false);
 
@@ -64,34 +70,25 @@ function StyledFlipCard({ classes, duration = 500, onClick, onShow, children }: 
   }, [flipped, duration]);
 
   return (
-    <div
-      className={classes.card}
+    <Card
       onClick={() => {
         setFlipped((flipped) => !flipped);
         onClick && onClick();
         onShow && onShow();
       }}
     >
-      <div
-        className={classes.innerCard}
+      <InnerCard
         style={{
           transform: flipped ? 'scale(-1,1)' : undefined,
-          transition: `transform ${duration}ms`,
-          transformOrigin: '50% 50% 10%'
+          transition: `transform ${duration}ms`
         }}
       >
         {!activeBack ? (
-          <div className={`${classes.content} ${classes.frontContent}`}>
-            {React.isValidElement(Front) ? Front : null}
-          </div>
+          <FrontContent>{React.isValidElement(Front) ? Front : null}</FrontContent>
         ) : (
-          <div className={`${classes.content} ${classes.backContent}`}>
-            {React.isValidElement(Back) ? Back : null}
-          </div>
+          <BackContent>{React.isValidElement(Back) ? Back : null}</BackContent>
         )}
-      </div>
-    </div>
+      </InnerCard>
+    </Card>
   );
 }
-
-export const FlipCard = styled(StyledFlipCard)({ styles });
