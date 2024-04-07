@@ -1,5 +1,3 @@
-const publishCatalogItemUiSchema = {
-  'ui:order': ['type', 'compatibility', 'pattern_caveats', 'pattern_info']
-};
+const grafanaCredentialUiSchema = {};
 
-export default publishCatalogItemUiSchema;
+export default grafanaCredentialUiSchema;
