@@ -1,3 +1,5 @@
+
+import { ActionButton } from './ActionButton';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ConnectionChip } from './ConnectionChip';
 import {
@@ -21,7 +23,7 @@ import {
   withSuppressedErrorBoundary
 } from './ErrorBoundary';
 import { FeedbackButton } from './Feedback';
-import { FlipCard } from './FlipCard';
+import { FlipCard, FlipCardProps } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
 import { ModalCard } from './ModalCard';
@@ -34,6 +36,7 @@ import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 export { StyledChartDialog } from './ChartDialog';
 export { StyledSearchBar } from './StyledSearchBar';
 export {
+  ActionButton,
   CatalogFilter,
   ConnectionChip,
   CustomColumnVisibilityControl,
@@ -63,6 +66,7 @@ export type {
   CustomColumn,
   CustomColumnVisibilityControlProps,
   CustomDialogProps,
+  FlipCardProps,
   IPopperListener,
   ResponsiveDataTableProps,
   SearchBarProps,

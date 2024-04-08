@@ -10,6 +10,7 @@ const CalenderIcon: FC<IconProps> = ({ width, height, ...props }) => {
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 19 24"
+      stroke="none"
       {...props}
     >
       <path d="M14 9H4V11H14V9Z" />
