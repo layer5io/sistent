@@ -21,23 +21,12 @@ const FeedbackIcon: FC<KeppelApplicationIconProps> = ({
       fill={props.fill}
       {...props}
     >
-      <path d="M20 2H4C2.9 2 2.01 2.9 2.01 4L2 22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM13 14H11V12H13V14ZM13 10H11V6H13V10Z" />
-      <line
-        x1="12"
-        y1="6"
-        x2="12"
-        y2="10"
-        stroke={props.secondaryFill || 'transparent'}
-        stroke-width="2"
+      <path
+        stroke="none"
+        d="M20 2H4C2.9 2 2.01 2.9 2.01 4L2 22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM13 14H11V12H13V14ZM13 10H11V6H13V10Z"
       />
-      <line
-        x1="12"
-        y1="12"
-        x2="12"
-        y2="14"
-        stroke={props.secondaryFill || 'transparent'}
-        stroke-width="2"
-      />
+      <line x1="12" y1="6" x2="12" y2="10" stroke="inherit" stroke-width="2" />
+      <line x1="12" y1="12" x2="12" y2="14" stroke="inherit" stroke-width="2" />
     </svg>
   );
 };

@@ -268,10 +268,12 @@ export const FeedbackOptionButton = styled(Button)<FeedbackMessageProps>(({ them
     ? SNOW_WHITE
     : SNOW_WHITE,
   fill: isOpen ? (theme.palette.mode === 'dark' ? CULTURED : DARK_PRIMARY_COLOR) : CULTURED,
+  stroke: isOpen ? SNOW_WHITE : KEPPEL,
   '&:hover': {
     color: theme.palette.mode === 'dark' ? SNOW_WHITE : BLACK,
     fill: theme.palette.mode === 'dark' ? CULTURED : DARK_PRIMARY_COLOR,
-    backgroundColor: WHITE
+    backgroundColor: WHITE,
+    stroke: SNOW_WHITE
   }
 }));
 
