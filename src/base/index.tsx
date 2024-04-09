@@ -31,6 +31,7 @@ export * from './FormControl';
 export * from './FormControlLabel';
 export * from './FormGroup';
 export * from './Grid';
+export * from './Grow';
 export * from './IconButton';
 export * from './Input';
 export * from './InputLabel';
