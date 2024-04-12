@@ -60,6 +60,10 @@ export {
   withErrorBoundary,
   withSuppressedErrorBoundary
 };
+
+//Custom Modal
+export { Modal, ModalBody, ModalFooter, useModal } from './Modal';
+
 export type {
   CatalogFilterProps,
   CustomColumn,
