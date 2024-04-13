@@ -5,7 +5,7 @@ import Tooltip from '../patches/Tooltip';
 
 interface TooltipIconProps {
   title: string;
-  onClick: (event: React.MouseEvent<HTMLElement>) => void;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   icon: React.ReactNode;
   arrow?: boolean;
   style?: React.CSSProperties;

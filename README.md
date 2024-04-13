@@ -1,19 +1,25 @@
-# Layer5 Design System Sistent
+# Layer5 Design System Sistent 
 
 The Sistent Design System from Layer5 provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences.
 
-### Packages
+<hr>
+<h3 align="center"> --> Visit <a href="https://layer5.io/projects/sistent">https://layer5.io/projects/sistent</a></h3>
+<hr>
 
-Design System components in React, usually built with Vite.
+## Using Sistent
+
+Visit the Sistent website for further instructions.
 
 ### Brand
 
 - Layer5 Brand Guide ([PDF](https://layer5.io/brand/brand-guide.pdf))
 - [Layer5 Logos](https://layer5.io/company/brand) (more assets available in shared Community drive).
 
-## Packages
+### Components and Packages
 
 - Design System components in React.js
+
+## Contributing to Sistent
 
 ### Prerequisites
 
@@ -72,7 +78,7 @@ attach sistent to your project:
 ## Join the Layer5 community!
 
 <a name="contributing"></a><a name="community"></a>
-Our projects are community-built and welcome collaboration. 👍 Be sure to see the <a href="https://docs.google.com/document/d/17OPtDE_rdnPQxmk2Kauhm3GwXF1R5dZ3Cj8qZLKdo5E/edit">Layer5 Community Welcome Guide</a> for a tour of resources available to you and jump into our <a href="http://slack.layer5.io">Slack</a>!
+Our projects are community-built and welcome collaboration. 👍 Be sure to see the <a href="https://layer5.io/community/newcomers">Layer5 Community Welcome Guide</a> for a tour of resources available to you and jump into our <a href="http://slack.layer5.io">Slack</a>!
 
 <p style="clear:both;">
 <a href ="https://layer5.io/community/meshmates"><img alt="MeshMates" src=".github/readme/images/layer5-community-sign.png" style="margin-right:10px; margin-bottom:15px;" width="28%" align="left"/></a>

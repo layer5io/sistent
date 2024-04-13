@@ -1,26 +1,24 @@
 import { styled } from '@mui/material';
 import { Button, Chip, Grid, Paper, Typography } from '../../../base';
-import { ALICE_BLUE, BLACK, DARK_TEAL, KEPPEL, WHITE, accentGrey } from '../../../theme';
-import { STEEL_GRAY } from '../../../theme/colors/colors';
 
-export const StyledChip = styled(Chip)({
+export const StyledChip = styled(Chip)(({ theme }) => ({
   padding: '5px 6px !important',
-  color: BLACK,
+  color: theme.palette.text.default,
   fontSize: '0.875rem',
   textTransform: 'uppercase',
   fontWeight: 400,
   height: 'unset',
   borderRadius: '100px',
-  border: `0.5px solid ${accentGrey[40]}`,
-  background: WHITE,
+  border: `0.5px solid ${theme.palette.border?.normal}`,
+  background: theme.palette.background.default,
   maxWidth: '14.375rem'
-});
+}));
 
-export const StyledPaper = styled(Paper)({
+export const StyledPaper = styled(Paper)(({ theme }) => ({
   width: 300,
   height: 280,
   overflow: 'auto',
-  backgroundColor: ALICE_BLUE,
+  backgroundColor: theme.palette.background.blur?.heavy,
   borderRadius: '10px',
   boxShadow: '0px 1px 4px 0px rgba(0, 0, 0, 0.25) inset',
   '@media (max-width: 843px)': {
@@ -32,26 +30,26 @@ export const StyledPaper = styled(Paper)({
   '@media (max-width: 375px)': {
     width: '100%'
   }
-});
+}));
 
-export const ListHeading = styled(Typography)({
+export const ListHeading = styled(Typography)(({ theme }) => ({
   paddingBottom: '15px',
-  color: STEEL_GRAY,
+  color: theme.palette.text?.default,
   textAlign: 'center',
   fontSize: '1rem',
   letterSpacing: '0.15px'
-});
+}));
 
-export const TransferButton = styled(Button)({
+export const TransferButton = styled(Button)(({ theme }) => ({
   margin: '5px 0',
   padding: '7px 0',
   borderRadius: '10px',
-  borderColor: DARK_TEAL,
+  borderColor: theme.palette.border?.strong,
   boxShadow: 'none',
   '&:hover': {
-    borderColor: KEPPEL
+    borderColor: theme.palette.border?.brand
   }
-});
+}));
 
 export const ListGrid = styled(Grid)({
   padding: '0 1rem',
