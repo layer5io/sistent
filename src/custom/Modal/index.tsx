@@ -1,5 +1,6 @@
 import { Dialog, DialogProps, IconButton, Typography, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
+import { Button, Paper } from '../../base';
 import { iconLarge } from '../../constants/iconsSizes';
 import { CloseIcon, InfoIcon } from '../../icons';
 
@@ -64,16 +65,11 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }) => {
 const CloseBtn = styled(IconButton)`
   && {
     transform: rotate(-90deg);
-    color: #ffffff;
 
     &:hover {
       transform: rotate(90deg);
       transition: all 0.3s ease-in;
       cursor: pointer;
-    }
-
-    & svg {
-      fill: #fff;
     }
   }
 `;
@@ -132,9 +128,10 @@ export const Modal: React.FC<ModalProps> = ({
   );
 };
 
-export const ModalBody = styled('div')`
-  padding: 1rem;
-`;
+export const ModalBody = styled(Paper)(({ theme }) => ({
+  padding: '1rem',
+  backgroundColor: theme.palette.background.default
+}));
 
 interface ModalFooterProps {
   children: React.ReactNode;
@@ -152,8 +149,37 @@ const StyledFooter = styled('div')({
 export const ModalFooter: React.FC<ModalFooterProps> = ({ children }) => {
   return (
     <StyledFooter>
-      <InfoIcon {...iconLarge} fill="#2196F3" />
+      <InfoIcon {...iconLarge} fill="#fff" />
       <div>{children}</div>
     </StyledFooter>
   );
 };
+
+// ModalButtonPrimary
+export const ModalButtonPrimary = styled(({ ...otherProps }) => (
+  <Button variant="contained" {...otherProps} />
+))(({ theme }) => ({
+  backgroundColor: theme.palette.background.brand?.default,
+  color: theme.palette.text.inverse
+}));
+
+// ModalButtonSecondary
+export const ModalButtonSecondary = styled(({ ...otherProps }) => (
+  <Button variant="outlined" {...otherProps} />
+))(({ theme }) => ({
+  '&.MuiButton-outlined': {
+    border: `1px solid ${theme.palette.common.white}`,
+    color: theme.palette.common?.white,
+    '&:hover': {
+      background: 'transparent',
+      color: theme.palette.common?.white
+    }
+  }
+}));
+
+// ModalButtonTertiary
+export const ModalButtonTertiary = styled(({ ...otherProps }) => (
+  <Button variant="text" {...otherProps} />
+))(({ theme }) => ({
+  color: theme.palette.text.inverse
+}));

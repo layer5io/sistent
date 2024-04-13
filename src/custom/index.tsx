@@ -62,7 +62,18 @@ export {
 };
 
 //Custom Modal
-export { Modal, ModalBody, ModalFooter, useModal } from './Modal';
+export {
+  Modal,
+  ModalBody,
+  ModalButtonPrimary,
+  ModalButtonSecondary,
+  ModalButtonTertiary,
+  ModalFooter,
+  useModal
+} from './Modal';
+
+// Stepper
+export { CustomizedStepper, useStepper } from './Stepper';
 
 export type {
   CatalogFilterProps,

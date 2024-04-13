@@ -1,103 +1,104 @@
 {
-  "name": "@layer5/sistent",
-  "version": "0.14.11",
-  "description": "Reusable React Components and SVG Icons library",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/layer5io/sistent.git"
-  },
-  "main": "./dist/index.js",
-  "module": "./dist/index..js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "NODE_ENV=production tsup",
-    "commitlint": "commitlint --edit",
-    "coverage": "jest --coverage",
-    "dev": "NODE_ENV=development tsup",
-    "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
-    "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
-    "prepare": "husky install",
-    "test": "jest",
-    "versionup:major": "npm version major",
-    "versionup:minor": "npm version minor",
-    "versionup:patch": "npm version patch"
-  },
-  "lint-staged": {
-    "*.{ts,tsx,md}": [
-      "prettier --write",
-      "eslint --fix"
-    ]
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
+    "name": "@layer5/sistent",
+    "version": "0.14.11",
+    "description": "Reusable React Components and SVG Icons library",
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/layer5io/sistent.git"
+    },
+    "main": "./dist/index.js",
+    "module": "./dist/index..js",
+    "types": "./dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "NODE_ENV=production tsup",
+        "build:watch": "NODE_ENV=production tsup --watch",
+        "commitlint": "commitlint --edit",
+        "coverage": "jest --coverage",
+        "dev": "NODE_ENV=development tsup",
+        "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
+        "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
+        "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+        "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
+        "prepare": "husky install",
+        "test": "jest",
+        "versionup:major": "npm version major",
+        "versionup:minor": "npm version minor",
+        "versionup:patch": "npm version patch"
+    },
+    "lint-staged": {
+        "*.{ts,tsx,md}": [
+            "prettier --write",
+            "eslint --fix"
+        ]
+    },
+    "config": {
+        "commitizen": {
+            "path": "./node_modules/cz-conventional-changelog"
+        }
+    },
+    "devDependencies": {
+        "@commitlint/cli": "^17.7.2",
+        "@commitlint/config-conventional": "^17.7.0",
+        "@mui/icons-material": "^5.15.11",
+        "@testing-library/react": "^14.1.2",
+        "@types/jest": "^29.5.11",
+        "@types/react": "^18.2.45",
+        "@types/react-dom": "^18.2.18",
+        "@typescript-eslint/eslint-plugin": "^6.12.0",
+        "@typescript-eslint/parser": "^6.12.0",
+        "commitizen": "^4.3.0",
+        "cz-conventional-changelog": "^3.3.0",
+        "eslint": "^8.49.0",
+        "eslint-plugin-react": "^7.33.2",
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "eslint-plugin-react-refresh": "^0.4.4",
+        "eslint-plugin-storybook": "^0.6.15",
+        "husky": "^8.0.0",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "lint-staged": "^14.0.1",
+        "mui-datatables": "^4.3.0",
+        "notistack": "^3.0.1",
+        "prettier": "^3.0.3",
+        "prettier-plugin-organize-imports": "^3.2.3",
+        "react-error-boundary": "^4.0.12",
+        "ts-jest": "^29.1.1",
+        "tsup": "^8.0.1",
+        "typescript": "^5.3.3"
+    },
+    "peerDependencies": {
+        "@emotion/react": "^11.11.3",
+        "@emotion/styled": "^11.11.0",
+        "@mui/material": "^5.15.11",
+        "@types/mui-datatables": "*",
+        "mui-datatables": "*",
+        "react": ">=17",
+        "react-dom": ">=17"
+    },
+    "peerDependenciesMeta": {
+        "@emotion/react": {
+            "optional": true
+        },
+        "@emotion/styled": {
+            "optional": true
+        },
+        "@mui/material": {
+            "optional": true
+        },
+        "mui-datatables": {
+            "optional": true
+        },
+        "react": {
+            "optional": true
+        },
+        "react-dom": {
+            "optional": true
+        }
+    },
+    "publishConfig": {
+        "access": "public"
     }
-  },
-  "devDependencies": {
-    "@commitlint/cli": "^17.7.2",
-    "@commitlint/config-conventional": "^17.7.0",
-    "@mui/icons-material": "^5.15.11",
-    "@testing-library/react": "^14.1.2",
-    "@types/jest": "^29.5.11",
-    "@types/react": "^18.2.45",
-    "@types/react-dom": "^18.2.18",
-    "@typescript-eslint/eslint-plugin": "^6.12.0",
-    "@typescript-eslint/parser": "^6.12.0",
-    "commitizen": "^4.3.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.49.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.4",
-    "eslint-plugin-storybook": "^0.6.15",
-    "husky": "^8.0.0",
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
-    "lint-staged": "^14.0.1",
-    "mui-datatables": "^4.3.0",
-    "notistack": "^3.0.1",
-    "prettier": "^3.0.3",
-    "prettier-plugin-organize-imports": "^3.2.3",
-    "react-error-boundary": "^4.0.12",
-    "ts-jest": "^29.1.1",
-    "tsup": "^8.0.1",
-    "typescript": "^5.3.3"
-  },
-  "peerDependencies": {
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.15.11",
-    "@types/mui-datatables": "*",
-    "mui-datatables": "*",
-    "react": ">=17",
-    "react-dom": ">=17"
-  },
-  "peerDependenciesMeta": {
-    "@emotion/react": {
-      "optional": true
-    },
-    "@emotion/styled": {
-      "optional": true
-    },
-    "@mui/material": {
-      "optional": true
-    },
-    "mui-datatables": {
-      "optional": true
-    },
-    "react": {
-      "optional": true
-    },
-    "react-dom": {
-      "optional": true
-    }
-  },
-  "publishConfig": {
-    "access": "public"
-  }
 }
