@@ -42,6 +42,7 @@ export * from './ExternalLink';
 export * from './Feedback';
 export * from './HelpIcon';
 export * from './Idea';
+export * from './InfoOutlined';
 export * from './Kubernetes';
 export * from './LeftAngledArrow';
 export * from './LeftArrow';
