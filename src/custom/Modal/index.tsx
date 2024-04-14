@@ -1,8 +1,9 @@
-import { Dialog, DialogProps, IconButton, Typography, styled } from '@mui/material';
+import { DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
-import { Button, Paper } from '../../base';
+import { Dialog, IconButton, Paper, Tooltip, Typography } from '../../base';
+import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
 import { iconLarge } from '../../constants/iconsSizes';
-import { CloseIcon, InfoIcon } from '../../icons';
+import { CloseIcon, InfoCircleIcon } from '../../icons';
 
 interface ModalProps extends DialogProps {
   closeModal: () => void;
@@ -11,59 +12,28 @@ interface ModalProps extends DialogProps {
   reactNode: React.ReactNode;
 }
 
-export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }) => {
-  const [open, setOpen] = useState(false);
-  const [title, setTitle] = useState<string>('');
+interface ModalFooterProps {
+  children: React.ReactNode;
+  variant?: 'filled' | 'transparent';
+  helpText?: string;
+}
 
-  const onCloseRef = useRef<(() => void) | null>(null);
+type openModalCallback = (props: {
+  title: string;
+  reactNode?: React.ReactNode;
+  onClose?: () => void;
+}) => void;
 
-  const [reactNode, setReactNode] = useState<React.ReactNode | null>(null);
-
-  const openModal = ({
-    title,
-    reactNode = null,
-    onClose
-  }: {
-    title: string;
-    reactNode?: React.ReactNode;
-    onClose?: () => void;
-  }) => {
-    title && setTitle(title);
-    onClose && (onCloseRef.current = onClose);
-    setOpen(true);
-    reactNode && setReactNode(reactNode);
-  };
-
-  const closeModal = () => {
-    setOpen(false);
-    onCloseRef.current && onCloseRef.current();
-    setReactNode(null);
-    setTitle('');
-    onCloseRef.current = null;
-  };
-
-  const ModalComponent = () => (
-    <Modal
-      open={open}
-      closeModal={closeModal}
-      title={title}
-      reactNode={reactNode}
-      headerIcon={headerIcon}
-    />
-  );
-
-  return [
-    ModalComponent,
-    {
-      isOpen: open,
-      openModal,
-      closeModal
-    }
-  ] as const;
-};
+interface UseModalReturnI extends ModalProps {
+  openModal: openModalCallback;
+  isOpen: boolean;
+}
 
 const CloseBtn = styled(IconButton)`
   && {
+    & svg {
+      fill: #fff;
+    }
     transform: rotate(-90deg);
 
     &:hover {
@@ -93,6 +63,61 @@ const StyledHeader = styled('div')(() => ({
   textAlign: 'center'
 }));
 
+export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseModalReturnI => {
+  const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState<string>('');
+
+  const onCloseRef = useRef<(() => void) | null>(null);
+
+  const [reactNode, setReactNode] = useState<React.ReactNode | null>(null);
+
+  const openModal: openModalCallback = ({ title, reactNode = null, onClose }) => {
+    title && setTitle(title);
+    onClose && (onCloseRef.current = onClose);
+    setOpen(true);
+    reactNode && setReactNode(reactNode);
+  };
+
+  const closeModal = () => {
+    setOpen(false);
+    onCloseRef.current && onCloseRef.current();
+    setReactNode(null);
+    setTitle('');
+    onCloseRef.current = null;
+  };
+
+  return {
+    isOpen: open, // deprecated
+    open,
+    openModal,
+    reactNode,
+    title,
+    headerIcon,
+    closeModal
+  };
+};
+
+export const ModalBody = styled(Paper)(({ theme }) => ({
+  padding: '1rem',
+  backgroundColor: theme.palette.background.default
+}));
+
+const StyledFooter = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'variant'
+})<ModalFooterProps>(({ theme, variant }) => ({
+  background:
+    variant == 'filled' ? 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)' : 'transparent',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  padding: '1rem',
+  gap: '1rem',
+
+  '&& .InfoCircleIcon': {
+    fill: variant == 'filled' ? theme.palette.common.white : theme.palette.background.info?.default
+  }
+}));
+
 export const Modal: React.FC<ModalProps> = ({
   open,
   closeModal,
@@ -117,7 +142,7 @@ export const Modal: React.FC<ModalProps> = ({
             {title}
           </Typography>
           <CloseBtn onClick={closeModal}>
-            <CloseIcon {...iconLarge} />
+            <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
           </CloseBtn>
         </StyledHeader>
       )}
@@ -128,45 +153,27 @@ export const Modal: React.FC<ModalProps> = ({
   );
 };
 
-export const ModalBody = styled(Paper)(({ theme }) => ({
-  padding: '1rem',
-  backgroundColor: theme.palette.background.default
-}));
-
-interface ModalFooterProps {
-  children: React.ReactNode;
-}
-
-const StyledFooter = styled('div')({
-  background: 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  padding: '1rem',
-  gap: '1rem'
-});
-
-export const ModalFooter: React.FC<ModalFooterProps> = ({ children }) => {
+export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, variant }) => {
   return (
-    <StyledFooter>
-      <InfoIcon {...iconLarge} fill="#fff" />
+    <StyledFooter variant={variant}>
+      {helpText && (
+        <Tooltip title="Hello world" placement="top">
+          <InfoCircleIcon {...iconLarge} className="InfoCircleIcon" />
+        </Tooltip>
+      )}
       <div>{children}</div>
     </StyledFooter>
   );
 };
 
 // ModalButtonPrimary
-export const ModalButtonPrimary = styled(({ ...otherProps }) => (
-  <Button variant="contained" {...otherProps} />
-))(({ theme }) => ({
+export const ModalButtonPrimary: React.FC = styled(ContainedButton)(({ theme }) => ({
   backgroundColor: theme.palette.background.brand?.default,
   color: theme.palette.text.inverse
 }));
 
 // ModalButtonSecondary
-export const ModalButtonSecondary = styled(({ ...otherProps }) => (
-  <Button variant="outlined" {...otherProps} />
-))(({ theme }) => ({
+export const ModalButtonSecondary = styled(OutlinedButton)(({ theme }) => ({
   '&.MuiButton-outlined': {
     border: `1px solid ${theme.palette.common.white}`,
     color: theme.palette.common?.white,
@@ -178,8 +185,6 @@ export const ModalButtonSecondary = styled(({ ...otherProps }) => (
 }));
 
 // ModalButtonTertiary
-export const ModalButtonTertiary = styled(({ ...otherProps }) => (
-  <Button variant="text" {...otherProps} />
-))(({ theme }) => ({
+export const ModalButtonTertiary = styled(TextButton)(({ theme }) => ({
   color: theme.palette.text.inverse
 }));

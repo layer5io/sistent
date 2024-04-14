@@ -12,6 +12,7 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
       } = theme;
       return {
         ...textB2SemiBold,
+        fontFamily: 'Qanelas Soft, sans-serif',
         '&.MuiButton-contained': {
           color: defaultText,
           backgroundColor: brand?.default,

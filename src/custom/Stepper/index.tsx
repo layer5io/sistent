@@ -10,7 +10,7 @@ interface ColorlibStepIconPropsI extends StepIconProps {
 
 interface StepI {
   label: string;
-  component: React.ComponentType;
+  component: React.ComponentType<CustomizedStepperPropsI>;
   icon: React.ComponentType<IconProps>;
 }
 
@@ -18,10 +18,19 @@ interface UseStepperOptionsI {
   steps: StepI[];
 }
 
+type SharedData = unknown;
+
 interface CustomizedStepperPropsI {
   steps: StepI[];
   activeStep: number;
-  ActiveStepContent: React.ElementType;
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  handleNext: () => void;
+  goBack: () => void;
+  goToStep: (step: number) => void;
+  canGoBack: boolean;
+  canGoForward: boolean;
+  sharedData: SharedData;
+  setSharedData: React.Dispatch<React.SetStateAction<null>>;
 }
 
 const ColorlibConnector = styled(StepConnector)(() => ({
@@ -93,9 +102,10 @@ function ColorlibStepIcon(props: ColorlibStepIconPropsI) {
 const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
   steps,
   activeStep,
-  ActiveStepContent
+  ...otherProps
 }) => {
   const icons = steps.map((step) => step.icon);
+  const ActiveComponent = steps[activeStep].component;
 
   return (
     <Stack spacing={2}>
@@ -113,16 +123,15 @@ const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
         </Stepper>
       </Stack>
       <StepContentWrapper>
-        <ActiveStepContent />
+        <ActiveComponent activeStep={activeStep} {...otherProps} steps={steps} />
       </StepContentWrapper>
     </Stack>
   );
 };
 
-export const useStepper = ({ steps }: UseStepperOptionsI) => {
+export const useStepper = ({ steps }: UseStepperOptionsI): CustomizedStepperPropsI => {
   const [activeStep, setActiveStep] = useState(0);
   const [sharedData, setSharedData] = useState(null);
-  const ActiveStepContent = steps[activeStep].component;
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
@@ -154,7 +163,6 @@ export const useStepper = ({ steps }: UseStepperOptionsI) => {
     setActiveStep,
     sharedData,
     setSharedData,
-    ActiveStepContent,
     handleNext,
     goBack,
     goToStep,
