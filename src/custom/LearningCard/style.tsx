@@ -1,4 +1,5 @@
 import { styled } from '@mui/material/styles';
+import { ONYX_BLACK, SILVER_GRAY } from '../../theme';
 
 const CardWrapper = styled('div')({
   maxWidth: '28rem',
@@ -32,7 +33,7 @@ const CardParent = styled('div')(({ theme }) => ({
 }));
 
 const Card2 = styled('div')(({ theme }) => ({
-  background: theme.palette.mode === 'light' ? '#E6E6E6' : '#1D1817',
+  background: theme.palette.mode === 'light' ? SILVER_GRAY : ONYX_BLACK,
   transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)'
 }));
 

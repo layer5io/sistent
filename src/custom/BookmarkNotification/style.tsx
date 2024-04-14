@@ -1,4 +1,5 @@
 import { styled } from '@mui/material';
+import { YELLOW_SEA } from '../../theme';
 
 export const NotificationWrapper = styled('div')({
   position: 'fixed',
@@ -13,7 +14,7 @@ export const NotificationWrapper = styled('div')({
     padding: '0.75rem 1rem',
     borderRadius: '5px',
     boxShadow: '0 2px 5px 0 rgb(0 0 0 / 26%)',
-    background: '#EBC017',
+    background: YELLOW_SEA,
     animation: '$fadeIn .8s',
 
     p: {
