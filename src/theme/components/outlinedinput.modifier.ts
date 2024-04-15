@@ -10,9 +10,11 @@ export const MuiOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
       const {
         palette: {
           background: { graphics, brand }
-        }
+        },
+        typography: { textB1Regular }
       } = theme;
       return {
+        ...textB1Regular,
         [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
           borderColor: graphics?.default
         },
