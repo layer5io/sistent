@@ -37,7 +37,11 @@ import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 export { StyledChartDialog } from './ChartDialog';
 export { LearningContent } from './LearningContent';
+export { SetupPreReq } from './SetupPrerequisite';
 export { StyledSearchBar } from './StyledSearchBar';
+export { TOC } from './TOCChapter';
+export { TOCLearning } from './TOCLearning';
+export { Terminal } from './Terminal';
 export {
   ActionButton,
   BookmarkNotification,
