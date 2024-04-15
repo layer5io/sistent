@@ -18,7 +18,7 @@ interface UseStepperOptionsI {
   steps: StepI[];
 }
 
-type SharedData = unknown;
+// type SharedData = unknown;
 
 interface CustomizedStepperPropsI {
   steps: StepI[];
@@ -29,8 +29,8 @@ interface CustomizedStepperPropsI {
   goToStep: (step: number) => void;
   canGoBack: boolean;
   canGoForward: boolean;
-  sharedData: SharedData;
-  setSharedData: React.Dispatch<React.SetStateAction<null>>;
+  // sharedData: SharedData;
+  // setSharedData: React.Dispatch<React.SetStateAction<null>>;
 }
 
 const ColorlibConnector = styled(StepConnector)(() => ({
@@ -131,7 +131,7 @@ const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
 
 export const useStepper = ({ steps }: UseStepperOptionsI): CustomizedStepperPropsI => {
   const [activeStep, setActiveStep] = useState(0);
-  const [sharedData, setSharedData] = useState(null);
+  // const [sharedData, setSharedData] = useState({});
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
@@ -161,8 +161,8 @@ export const useStepper = ({ steps }: UseStepperOptionsI): CustomizedStepperProp
   return {
     activeStep,
     setActiveStep,
-    sharedData,
-    setSharedData,
+    // sharedData,
+    // setSharedData,
     handleNext,
     goBack,
     goToStep,

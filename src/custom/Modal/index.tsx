@@ -1,9 +1,10 @@
 import { DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
-import { Dialog, IconButton, Paper, Tooltip, Typography } from '../../base';
+import { Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
 import { iconLarge } from '../../constants/iconsSizes';
 import { CloseIcon, InfoCircleIcon } from '../../icons';
+import { CustomTooltip } from '../CustomTooltip';
 
 interface ModalProps extends DialogProps {
   closeModal: () => void;
@@ -114,7 +115,7 @@ const StyledFooter = styled('div', {
   gap: '1rem',
 
   '&& .InfoCircleIcon': {
-    fill: variant == 'filled' ? theme.palette.common.white : theme.palette.background.info?.default
+    color: variant == 'filled' ? theme.palette.common.white : theme.palette.background.info?.default
   }
 }));
 
@@ -157,9 +158,11 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
   return (
     <StyledFooter variant={variant}>
       {helpText && (
-        <Tooltip title="Hello world" placement="top">
-          <InfoCircleIcon {...iconLarge} className="InfoCircleIcon" />
-        </Tooltip>
+        <CustomTooltip title={helpText} placement="top">
+          <IconButton>
+            <InfoCircleIcon {...iconLarge} className="InfoCircleIcon" />
+          </IconButton>
+        </CustomTooltip>
       )}
       <div>{children}</div>
     </StyledFooter>
