@@ -22,6 +22,9 @@ import publishCatalogItemUiSchema from './publishCatalogItem/uiSchema';
 import kubernetesCredentialSchema from './kubernetesCredential/schema';
 import kubernetesCredentialUiSchema from './kubernetesCredential/uiSchema';
 
+import prometheusCredentialSchema from './prometheusCredential/schema';
+import prometheusCredentialUiSchema from './prometheusCredential/uiSchema';
+
 export {
   createAndEditEnvironmentSchema,
   createAndEditEnvironmentUiSchema,
@@ -37,6 +40,8 @@ export {
   importFilterUiSchema,
   kubernetesCredentialSchema,
   kubernetesCredentialUiSchema,
+  prometheusCredentialSchema,
+  prometheusCredentialUiSchema,
   publishCatalogItemSchema,
   publishCatalogItemUiSchema
 };
