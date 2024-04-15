@@ -54,11 +54,35 @@ export const common = {
   white: WHITE
 };
 
-export const keppel = {};
+export const keppel = {
+  70: '#daf3eb',
+  60: '#93E6D1',
+  50: '#41CCB3',
+  40: '#00B39F',
+  30: '#007763',
+  20: '#006661',
+  10: '#00403f'
+};
 
-export const carribean = {};
+export const carribean = {
+  70: '#E6FFF6',
+  60: '#A3FFE0',
+  50: '#78FAD3',
+  40: '#00D3A9',
+  30: '#00AD90',
+  20: '#006157',
+  10: '#003B37'
+};
 
-export const saffron = {};
+export const saffron = {
+  70: '#FFFEE6',
+  60: '#fffbbd',
+  50: '#ffeb6b',
+  40: '#ebc017',
+  30: '#c4990a',
+  20: '#785400',
+  10: '#523600'
+};
 
 /**
  * Grayscale Colors
@@ -77,6 +101,7 @@ export const charcoal = {
 };
 
 export const accentGrey = {
+  100: '#F6F8F8',
   90: '#E8EFF3',
   80: '#C9DBE3',
   70: '#ABBDC5',
@@ -92,13 +117,13 @@ export const accentGrey = {
  * Function Colors
  */
 export const blue = {
-  70: '#EBF6FF',
-  60: '#99CCFF',
-  50: '#4797FF',
-  40: '#1E77FC',
-  30: '#0F58D6',
-  20: '#043DB0',
-  10: '#001B63'
+  70: '#F0FBFF',
+  60: '#9EDDFF',
+  50: '#75CAFF',
+  40: '#2196F3',
+  30: '#1272CC',
+  20: '#0754A6',
+  10: '#003980'
 };
 
 export const green = {

@@ -24,7 +24,7 @@ import {
   withSuppressedErrorBoundary
 } from './ErrorBoundary';
 import { FeedbackButton } from './Feedback';
-import { FlipCard } from './FlipCard';
+import { FlipCard, FlipCardProps } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
 import { LearningCard } from './LearningCard';
@@ -76,6 +76,7 @@ export type {
   CustomColumn,
   CustomColumnVisibilityControlProps,
   CustomDialogProps,
+  FlipCardProps,
   IPopperListener,
   ResponsiveDataTableProps,
   SearchBarProps,
