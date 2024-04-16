@@ -123,7 +123,7 @@ function TransferList({
         observer.unobserve(sentinel);
       }
     };
-  }, [assignableData, assignablePage]);
+  }, [assignableData]);
 
   React.useEffect(() => {
     const handleScroll = (entries: IntersectionObserverEntry[]) => {
@@ -144,7 +144,7 @@ function TransferList({
         observer.unobserve(sentinel);
       }
     };
-  }, [originalAssignedData, assignedPage]);
+  }, [originalAssignedData]);
 
   const handleToggle = (value: ListItemType) => () => {
     const currentIndex = checked.indexOf(value);
