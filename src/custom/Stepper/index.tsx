@@ -2,7 +2,7 @@ import { Box, IconProps, Stack, Step, StepConnector, StepLabel, Stepper } from '
 import { stepConnectorClasses } from '@mui/material/StepConnector';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { styled } from '@mui/system';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 interface ColorlibStepIconPropsI extends StepIconProps {
   icons: React.ComponentType<IconProps>[];
@@ -10,7 +10,7 @@ interface ColorlibStepIconPropsI extends StepIconProps {
 
 interface StepI {
   label: string;
-  component: React.ComponentType<CustomizedStepperPropsI>;
+  component: React.ComponentType;
   icon: React.ComponentType<IconProps>;
 }
 
@@ -18,9 +18,14 @@ interface UseStepperOptionsI {
   steps: StepI[];
 }
 
-// type SharedData = unknown;
-
 interface CustomizedStepperPropsI {
+  activeStep: number;
+  stepLabels: string[];
+  children: React.ReactNode;
+  icons: React.ComponentType<IconProps>[];
+}
+
+interface UseStepperI {
   steps: StepI[];
   activeStep: number;
   setActiveStep: React.Dispatch<React.SetStateAction<number>>;
@@ -29,8 +34,9 @@ interface CustomizedStepperPropsI {
   goToStep: (step: number) => void;
   canGoBack: boolean;
   canGoForward: boolean;
-  // sharedData: SharedData;
-  // setSharedData: React.Dispatch<React.SetStateAction<null>>;
+  stepLabels: string[];
+  icons: React.ComponentType<IconProps>[];
+  activeStepComponent: React.ComponentType;
 }
 
 const ColorlibConnector = styled(StepConnector)(() => ({
@@ -100,38 +106,33 @@ function ColorlibStepIcon(props: ColorlibStepIconPropsI) {
 }
 
 const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
-  steps,
+  stepLabels,
   activeStep,
-  ...otherProps
+  children,
+  icons
 }) => {
-  const icons = steps.map((step) => step.icon);
-  const ActiveComponent = steps[activeStep].component;
-
   return (
     <Stack spacing={2}>
       <Stack direction="row" justifyContent="center">
         <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
-          {steps.map((step) => (
-            <Step key={step.label}>
+          {stepLabels.map((label) => (
+            <Step key={label}>
               <StepLabel
                 StepIconComponent={(props) => <ColorlibStepIcon {...props} icons={icons} />}
               >
-                {step.label}
+                {label}
               </StepLabel>
             </Step>
           ))}
         </Stepper>
       </Stack>
-      <StepContentWrapper>
-        <ActiveComponent activeStep={activeStep} {...otherProps} steps={steps} />
-      </StepContentWrapper>
+      <StepContentWrapper>{children}</StepContentWrapper>
     </Stack>
   );
 };
 
-export const useStepper = ({ steps }: UseStepperOptionsI): CustomizedStepperPropsI => {
+export const useStepper = ({ steps }: UseStepperOptionsI): UseStepperI => {
   const [activeStep, setActiveStep] = useState(0);
-  // const [sharedData, setSharedData] = useState({});
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
@@ -158,17 +159,23 @@ export const useStepper = ({ steps }: UseStepperOptionsI): CustomizedStepperProp
   const canGoBack = activeStep > 0;
   const canGoForward = activeStep < steps.length - 1;
 
+  const icons = useMemo(() => steps.map((step) => step.icon), [steps]);
+  const stepLabels = useMemo(() => steps.map((step) => step.label), [steps]);
+
+  const activeStepComponent = steps[activeStep].component;
+
   return {
     activeStep,
     setActiveStep,
-    // sharedData,
-    // setSharedData,
     handleNext,
     goBack,
     goToStep,
     steps,
     canGoBack,
-    canGoForward
+    stepLabels,
+    icons,
+    canGoForward,
+    activeStepComponent
   };
 };
 
