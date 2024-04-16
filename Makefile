@@ -8,6 +8,9 @@ package-setup:
 package-build: setup
 	npm run build
 
+package-build-watch: setup
+	npm run build:watch
+
 package-format-check:
 	npm run format:check
 

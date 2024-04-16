@@ -1,19 +1,25 @@
-# Layer5 Design System Sistent
+# Layer5 Design System Sistent 
 
 The Sistent Design System from Layer5 provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences.
 
-### Packages
+<hr>
+<h3 align="center"> --> Visit <a href="https://layer5.io/projects/sistent">https://layer5.io/projects/sistent</a></h3>
+<hr>
 
-Design System components in React, usually built with Vite.
+## Using Sistent
+
+Visit the Sistent website for further instructions.
 
 ### Brand
 
 - Layer5 Brand Guide ([PDF](https://layer5.io/brand/brand-guide.pdf))
 - [Layer5 Logos](https://layer5.io/company/brand) (more assets available in shared Community drive).
 
-## Packages
+### Components and Packages
 
 - Design System components in React.js
+
+## Contributing to Sistent
 
 ### Prerequisites
 

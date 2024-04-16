@@ -33,4 +33,5 @@ function InfoIcon({
 
 export default InfoIcon;
 
+export { InfoCircleIcon } from './InfoCircle';
 export { InfoIcon };
