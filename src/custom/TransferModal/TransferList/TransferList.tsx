@@ -26,6 +26,10 @@ export interface TransferListProps {
   emptyStateIconRight: JSX.Element;
   emtyStateMessageRight: string;
   transferComponentType: string;
+  assignablePage: () => void;
+  assignedPage: () => void;
+  originalLeftCount: number;
+  originalRightCount: number;
 }
 
 interface ListItemType {
@@ -60,16 +64,35 @@ function TransferList({
   name,
   assignableData,
   assignedData,
+  assignablePage,
+  assignedPage,
   originalAssignedData,
   emptyStateIconLeft,
   emtyStateMessageLeft,
   emptyStateIconRight,
   emtyStateMessageRight,
+  originalLeftCount,
+  originalRightCount,
   transferComponentType = TRANSFER_COMPONET.OTHER
 }: TransferListProps): JSX.Element {
   const [checked, setChecked] = React.useState<ListItemType[]>([]);
   const [left, setLeft] = React.useState<ListItemType[]>([]);
   const [right, setRight] = React.useState<ListItemType[]>(originalAssignedData);
+  const [leftCount, setLeftCount] = React.useState<number>(0);
+  const [rightCount, setRightCount] = React.useState<number>(0);
+
+  React.useEffect(() => {
+    setRight(originalAssignedData);
+  }, [originalAssignedData]);
+
+  React.useEffect(() => {
+    setLeft(assignableData);
+  }, [assignableData]);
+
+  React.useEffect(() => {
+    setLeftCount(originalLeftCount);
+    setRightCount(originalRightCount);
+  }, [originalLeftCount, originalRightCount]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -80,6 +103,48 @@ function TransferList({
     const filteredLeft = assignableData.filter((item) => !idsToRemove.has(item.id));
     setLeft(filteredLeft);
   }, [right, assignableData, assignedData]);
+
+  React.useEffect(() => {
+    const handleScroll = (entries: IntersectionObserverEntry[]) => {
+      const target = entries[0];
+      if (target.isIntersecting) {
+        assignablePage();
+      }
+    };
+
+    const observer = new IntersectionObserver(handleScroll, { threshold: 1 });
+    const sentinel = document.getElementById('leftList');
+    if (sentinel) {
+      observer.observe(sentinel);
+    }
+
+    return () => {
+      if (sentinel) {
+        observer.unobserve(sentinel);
+      }
+    };
+  }, [assignableData, assignablePage]);
+
+  React.useEffect(() => {
+    const handleScroll = (entries: IntersectionObserverEntry[]) => {
+      const target = entries[0];
+      if (target.isIntersecting) {
+        assignedPage();
+      }
+    };
+
+    const observer = new IntersectionObserver(handleScroll, { threshold: 1 });
+    const sentinel = document.getElementById('rightList');
+    if (sentinel) {
+      observer.observe(sentinel);
+    }
+
+    return () => {
+      if (sentinel) {
+        observer.unobserve(sentinel);
+      }
+    };
+  }, [originalAssignedData, assignedPage]);
 
   const handleToggle = (value: ListItemType) => () => {
     const currentIndex = checked.indexOf(value);
@@ -97,29 +162,38 @@ function TransferList({
   const handleAllRight = () => {
     setRight(right.concat(left));
     setLeft([]);
+    setLeftCount(0);
+    setRightCount((prevRightCount: number) => prevRightCount + leftCount);
   };
 
   const handleCheckedRight = () => {
     setRight(right.concat(leftChecked));
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
+    setLeftCount((prevLeftCount: number) => prevLeftCount - leftChecked.length);
+    setRightCount((prevRightCount: number) => prevRightCount + leftChecked.length);
   };
 
   const handleCheckedLeft = () => {
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
+    setRightCount((prevRightCount: number) => prevRightCount - rightChecked.length);
+    setLeftCount((prevLeftCount: number) => prevLeftCount + rightChecked.length);
   };
 
   const handleAllLeft = () => {
     setLeft(left.concat(right));
     setRight([]);
+    setRightCount(0);
+    setLeftCount((prevLeftCount: number) => prevLeftCount + rightCount);
   };
 
   const customList = (
     items: ListItemType[],
     emptyStateIcon: JSX.Element,
-    emtyStateMessage: string
+    emtyStateMessage: string,
+    listId?: string
   ) => (
     <StyledPaper>
       <List dense component="div" role="list">
@@ -186,6 +260,7 @@ function TransferList({
           </div>
         )}
       </List>
+      <div id={listId}></div>
     </StyledPaper>
   );
 
@@ -195,7 +270,7 @@ function TransferList({
         <ListHeading>
           Available {name} ({left.length})
         </ListHeading>
-        {customList(left, emptyStateIconLeft, emtyStateMessageLeft)}
+        {customList(left, emptyStateIconLeft, emtyStateMessageLeft, 'leftList')}
       </ListGrid>
       <ButtonGrid>
         <Grid container direction="column" alignItems="center">
@@ -243,7 +318,7 @@ function TransferList({
         <ListHeading>
           Assigned {name} ({right.length})
         </ListHeading>
-        {customList(right, emptyStateIconRight, emtyStateMessageRight)}
+        {customList(right, emptyStateIconRight, emtyStateMessageRight, 'rightList')}
       </ListGrid>
     </Grid>
   );
