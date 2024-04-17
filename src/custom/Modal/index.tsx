@@ -172,17 +172,17 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
 // ModalButtonPrimary
 export const ModalButtonPrimary: React.FC = styled(ContainedButton)(({ theme }) => ({
   backgroundColor: theme.palette.background.brand?.default,
-  color: theme.palette.text.inverse
+  color: theme.palette.text.constant?.white
 }));
 
 // ModalButtonSecondary
 export const ModalButtonSecondary = styled(OutlinedButton)(({ theme }) => ({
   '&.MuiButton-outlined': {
     border: `1px solid ${theme.palette.common.white}`,
-    color: theme.palette.common?.white,
+    color: theme.palette.text.constant?.white,
     '&:hover': {
       background: 'transparent',
-      color: theme.palette.common?.white
+      color: theme.palette.text.constant?.white
     }
   }
 }));
@@ -190,4 +190,10 @@ export const ModalButtonSecondary = styled(OutlinedButton)(({ theme }) => ({
 // ModalButtonTertiary
 export const ModalButtonTertiary = styled(TextButton)(({ theme }) => ({
   color: theme.palette.text.inverse
+}));
+
+// ModalButtonDanger
+export const ModalButtonDanger = styled(ContainedButton)(({ theme }) => ({
+  backgroundColor: theme.palette.background.error?.default,
+  color: theme.palette.text.constant?.white
 }));
