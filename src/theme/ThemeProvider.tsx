@@ -37,7 +37,6 @@ export function SistentThemeProviderWithoutBaseLine({
   emotionCache,
   initialMode = 'light'
 }: SistentThemeProviderProps): JSX.Element {
-  console.log('SistentThemeProviderWithoutBaseLine');
   const theme = React.useMemo<Theme>(() => createCustomTheme(initialMode), [initialMode]);
 
   return (
