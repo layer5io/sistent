@@ -38,6 +38,7 @@ import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 export { StyledChartDialog } from './ChartDialog';
 export { LearningContent } from './LearningContent';
 export { SetupPreReq } from './SetupPrerequisite';
+export { StyledChapter } from './StyledChapter';
 export { StyledSearchBar } from './StyledSearchBar';
 export { TOC } from './TOCChapter';
 export { TOCLearning } from './TOCLearning';

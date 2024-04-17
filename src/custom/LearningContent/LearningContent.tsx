@@ -4,7 +4,7 @@ import { ChapterContent, ChapterDesc, ChapterNumber, ContentCardWrapper } from '
 interface ChapterProps {
   frontmatter: {
     courseTitle: string;
-    chapterTitle: string;
+    chapterTitle?: string;
     description: string;
   };
 }
