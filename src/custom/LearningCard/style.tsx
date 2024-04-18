@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { ONYX_BLACK, SILVER_GRAY } from '../../theme';
+import { BLACK, ONYX_BLACK, SILVER_GRAY, WHITE } from '../../theme';
 
 const CardWrapper = styled('div')({
   maxWidth: '28rem',
@@ -8,16 +8,18 @@ const CardWrapper = styled('div')({
   borderRadius: '1rem'
 });
 
-const CardActive = styled('div')({
+const CardActive = styled('div')(({ theme }) => ({
   cursor: 'pointer',
   transition: 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s',
   '&:hover': {
     boxShadow: 'rgba(0, 179, 158, 0.9) 0px 0px 19px 6px'
-  }
-});
+  },
+  backgroundColor: theme.palette.mode === 'light' ? WHITE : BLACK
+}));
 
 const CardLink = styled('a')({
-  color: 'black'
+  color: 'black',
+  textDecoration: 'none'
 });
 
 const CardParent = styled('div')(({ theme }) => ({

@@ -1,5 +1,4 @@
-import React, { FC } from 'react';
-import { IconProps } from '../../icons/types';
+import React from 'react';
 import { Card, CardHeader, ContainerCardWrapper, SetupPreReqWrapper } from './style';
 
 // const meshery =
@@ -9,7 +8,7 @@ import { Card, CardHeader, ContainerCardWrapper, SetupPreReqWrapper } from './st
 interface SetupItem {
   heading: string;
   description: string;
-  Icon: FC<IconProps>;
+  Icon: JSX.Element;
   onClick: () => void;
 }
 interface SetupPreReqProps {
@@ -30,7 +29,7 @@ const SetupPreReq: React.FC<SetupPreReqProps> = ({ Steps }) => (
           <Card>
             <CardHeader>
               <h2>{item.heading}</h2>
-              {item.Icon && <item.Icon />}
+              {item.Icon}
             </CardHeader>
             <p>{item.description}</p>
           </Card>

@@ -5,7 +5,7 @@ import { ALABASTER_WHITE, KEPPEL, MIDNIGHT_BLACK } from '../../theme';
 export const ChapterCardWrapper = styled('div')(({ theme }) => ({
   transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
   padding: '1rem 1.25rem',
-  margin: '2rem 0',
+  width: '64rem',
   backgroundColor: theme.palette.mode === 'light' ? ALABASTER_WHITE : MIDNIGHT_BLACK,
   display: 'flex',
   border: `1px solid ${
