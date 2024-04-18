@@ -14,10 +14,20 @@ const StyledChapter = styled('div')(({ theme }) => ({
     color: 'gray'
   },
 
-  a: {
-    '&:hover': {
-      color: KEPPEL
-    }
+  '& a': {
+    color: KEPPEL
+  },
+  '& pre': {
+    backgroundColor: '#011627',
+    padding: '1em',
+    borderRadius: '0.5rem',
+    overflowX: 'auto',
+    color: '#d6deeb',
+    position: 'relative',
+    textAlign: 'left',
+    width: '100%',
+    margin: '1rem auto autocompleteClasses',
+    fontFamily: 'Courier New, Courier, monospace'
   }
 }));
 export default StyledChapter;
