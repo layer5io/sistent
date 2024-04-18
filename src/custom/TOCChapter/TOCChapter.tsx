@@ -1,12 +1,8 @@
 import React from 'react';
 import { TOCWrapper } from './style';
 
-interface TOCDataItem {
-  chapter: string;
-}
-
 interface TOCProps {
-  availableChapters: TOCDataItem[];
+  availableChapters: string[];
   currentChapter: string | undefined | null;
   onClick: (item: string, e: React.MouseEvent<HTMLLIElement, MouseEvent>) => void;
 }
@@ -24,13 +20,13 @@ const TOC: React.FC<TOCProps> = ({ availableChapters, currentChapter, onClick })
         <ul className={`toc-ul toc-ul-open`}>
           {availableChapters.map((item) => (
             <li
-              key={item.chapter}
-              className={item.chapter === currentChapter ? 'active-link' : ''}
+              key={item}
+              className={item + '.mdx' === currentChapter ? 'active-link' : ''}
               onClick={(e) => {
-                onClick(item.chapter, e);
+                onClick(item, e);
               }}
             >
-              <p className="toc-item"> {reformatTOC(item.chapter)}</p>
+              <p className="toc-item"> {reformatTOC(item)}</p>
             </li>
           ))}
         </ul>
