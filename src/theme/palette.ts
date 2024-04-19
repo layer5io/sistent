@@ -45,6 +45,7 @@ declare module '@mui/material/styles' {
     default?: string;
     secondary: string;
     tertiary?: string;
+    disabled: string;
     inverse?: string;
     brand?: string;
     info?: string;
@@ -87,6 +88,7 @@ declare module '@mui/material/styles' {
     code?: string;
     strong?: string;
     normal?: string;
+    disabled?: string;
   }
 
   // Defines the simple palette color options.
@@ -116,6 +118,7 @@ declare module '@mui/material/styles' {
     code?: string;
     strong?: string;
     normal?: string;
+    disabled?: string;
   }
 
   /* Defines the palette containing border and icon color options.
@@ -241,7 +244,8 @@ export const lightModePalette: PaletteOptions = {
   text: {
     default: Colors.charcoal[10],
     secondary: Colors.charcoal[40],
-    tertiary: Colors.charcoal[70],
+    tertiary: Colors.charcoal[50],
+    disabled: Colors.charcoal[70],
     inverse: Colors.charcoal[100],
     brand: Colors.keppel[40],
     info: Colors.blue[40],
@@ -348,6 +352,7 @@ export const darkModePalette: PaletteOptions = {
     default: Colors.charcoal[100],
     secondary: Colors.charcoal[40],
     tertiary: Colors.charcoal[60],
+    disabled: Colors.charcoal[70],
     inverse: Colors.charcoal[10],
     brand: Colors.keppel[40],
     info: Colors.blue[40],

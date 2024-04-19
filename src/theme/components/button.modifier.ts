@@ -5,8 +5,9 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
     root: ({ theme }) => {
       const {
         palette: {
-          background: { brand },
-          text: { tertiary, default: defaultText }
+          background: { brand, neutral: BgNeutral },
+          text: { disabled, constant, neutral: TextNeutral },
+          border: { neutral }
         },
         typography: { textB2SemiBold }
       } = theme;
@@ -14,27 +15,27 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
         ...textB2SemiBold,
         fontFamily: 'Qanelas Soft, sans-serif',
         '&.MuiButton-contained': {
-          color: defaultText,
+          color: constant?.white,
           backgroundColor: brand?.default,
           '&:hover': {
             backgroundColor: brand?.hover
           }
         },
         '&.MuiButton-outlined': {
-          border: `1px solid ${brand?.default}`,
+          border: `1px solid ${neutral?.default}`,
           '&:hover': {
-            backgroundColor: brand?.hover,
-            color: defaultText
+            backgroundColor: BgNeutral?.pressed,
+            color: TextNeutral?.default
           }
         },
         '&.MuiButton-contained.Mui-disabled': {
-          color: tertiary,
+          color: disabled,
           backgroundColor: brand?.disabled
         },
         '&.MuiButton-outlined.Mui-disabled': {
-          border: `1px solid ${tertiary}`,
+          border: `1px solid ${disabled}`,
           backgroundColor: brand?.disabled,
-          color: tertiary
+          color: disabled
         }
       };
     }
