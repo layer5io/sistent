@@ -13,15 +13,13 @@ interface SetupItem {
 }
 interface SetupPreReqProps {
   Steps: SetupItem[];
+  PrerequisiteLine?: string;
 }
-const SetupPreReq: React.FC<SetupPreReqProps> = ({ Steps }) => (
+const SetupPreReq: React.FC<SetupPreReqProps> = ({ Steps, PrerequisiteLine }) => (
   <SetupPreReqWrapper>
     <div className="get-started-desc" id="pre-requisites">
       <h2>Prerequisites</h2>
-      <p>
-        In this learning path, we will be using Meshery as the management plane to manage the
-        service meshes. Meshery, collaborative Kubernetes manager
-      </p>
+      <p>{PrerequisiteLine}</p>
     </div>
     <ContainerCardWrapper id="Set up">
       {Steps.map((item) => {

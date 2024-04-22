@@ -33,12 +33,9 @@ const Card = styled('div')(({ theme }) => ({
 
 const CardHeader = styled('div')({
   display: 'flex',
-  flex: 'auto',
-  '& .setup-imgs ': {
-    flex: '0 0 25%',
-    alignSelf: 'center',
-    margin: '0 0.5rem'
-  }
+  alignItems: 'center',
+  margin: '1rem 0 !important',
+  gap: '1rem'
 });
 
 const SetupImgs = styled('div')({
