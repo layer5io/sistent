@@ -9,7 +9,7 @@ interface SetupItem {
   heading: string;
   description: string;
   Icon: JSX.Element;
-  onClick: () => void;
+  url: string;
 }
 interface SetupPreReqProps {
   Steps: SetupItem[];
@@ -24,7 +24,7 @@ const SetupPreReq: React.FC<SetupPreReqProps> = ({ Steps, PrerequisiteLine }) =>
     <ContainerCardWrapper id="Set up">
       {Steps.map((item) => {
         return (
-          <Card>
+          <Card href={item.url} target="_blank">
             <CardHeader>
               <h2>{item.heading}</h2>
               {item.Icon}
