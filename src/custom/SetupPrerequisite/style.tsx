@@ -13,14 +13,15 @@ const SetupPreReqWrapper = styled('div')({
 const ContainerCardWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   cursor: 'pointer',
-  '& div': {
+  '& a': {
     color: theme.palette.text.primary,
     margin: '1rem'
   }
 }));
 
-const Card = styled('div')(({ theme }) => ({
+const Card = styled('a')(({ theme }) => ({
   padding: '2rem',
+  textDecoration: 'none',
   background: theme.palette.mode === 'light' ? '#EEEEEE' : '#212121',
   maxWidth: '20rem',
   minHeight: '21.5rem',
