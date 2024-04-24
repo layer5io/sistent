@@ -19,9 +19,7 @@ interface Tutorial {
     courseTitle: string;
     description: string;
     status?: boolean;
-    cardImage: {
-      src: string;
-    };
+    cardImage: string;
   };
 }
 
@@ -52,7 +50,7 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount }) => {
                 <p className="summary">{tutorial.frontmatter.description}</p>
               </CardDesc>
               <CardImage>
-                <img src={tutorial.frontmatter.cardImage.src} alt={tutorial.frontmatter.title} />
+                <img src={tutorial.frontmatter.cardImage} alt={tutorial.frontmatter.title} />
               </CardImage>
             </div>
           </CardParent>
@@ -83,7 +81,7 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount }) => {
                   </p>
                 </CardSubdata>
                 <CardImage>
-                  <img src={tutorial.frontmatter.cardImage.src} alt={tutorial.frontmatter.title} />
+                  <img src={tutorial.frontmatter.cardImage} />
                 </CardImage>
               </div>
             </CardParent>

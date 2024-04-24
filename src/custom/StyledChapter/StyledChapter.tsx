@@ -15,7 +15,8 @@ const StyledChapter = styled('div')(({ theme }) => ({
   },
 
   '& a': {
-    color: KEPPEL
+    color: KEPPEL,
+    textDecoration: 'none'
   },
   '& pre': {
     backgroundColor: '#011627',
