@@ -19,11 +19,22 @@ import importFilterUiSchema from './importFilter/uiSchema';
 import publishCatalogItemSchema from './publishCatalogItem/schema';
 import publishCatalogItemUiSchema from './publishCatalogItem/uiSchema';
 
+import kubernetesCredentialSchema from './kubernetesCredential/schema';
+import kubernetesCredentialUiSchema from './kubernetesCredential/uiSchema';
+
+import prometheusCredentialSchema from './prometheusCredential/schema';
+import prometheusCredentialUiSchema from './prometheusCredential/uiSchema';
+
+import grafanaCredentialSchema from './grafanaCredential/schema';
+import grafanaCredentialSUiSchema from './grafanaCredential/uiSchema';
+
 export {
   createAndEditEnvironmentSchema,
   createAndEditEnvironmentUiSchema,
   createAndEditWorkspaceSchema,
   createAndEditWorkspaceUiSchema,
+  grafanaCredentialSUiSchema,
+  grafanaCredentialSchema,
   helmConnectionSchema,
   helmConnectionUiSchema,
   helpAndSupportModalSchema,
@@ -32,6 +43,10 @@ export {
   importDesignUiSchema,
   importFilterSchema,
   importFilterUiSchema,
+  kubernetesCredentialSchema,
+  kubernetesCredentialUiSchema,
+  prometheusCredentialSchema,
+  prometheusCredentialUiSchema,
   publishCatalogItemSchema,
   publishCatalogItemUiSchema
 };
