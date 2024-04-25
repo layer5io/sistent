@@ -19,6 +19,9 @@ import importFilterUiSchema from './importFilter/uiSchema';
 import publishCatalogItemSchema from './publishCatalogItem/schema';
 import publishCatalogItemUiSchema from './publishCatalogItem/uiSchema';
 
+import kubernetesCredentialSchema from './kubernetesCredential/schema';
+import kubernetesCredentialUiSchema from './kubernetesCredential/uiSchema';
+
 export {
   createAndEditEnvironmentSchema,
   createAndEditEnvironmentUiSchema,
@@ -32,6 +35,8 @@ export {
   importDesignUiSchema,
   importFilterSchema,
   importFilterUiSchema,
+  kubernetesCredentialSchema,
+  kubernetesCredentialUiSchema,
   publishCatalogItemSchema,
   publishCatalogItemUiSchema
 };
