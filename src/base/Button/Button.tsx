@@ -14,4 +14,20 @@ export function Button({ label, children, ...props }: ButtonProps): JSX.Element 
   );
 }
 
+export const ContainedButton = (props: ButtonProps): JSX.Element => (
+  <Button variant="contained" {...props}>
+    {props.children}
+  </Button>
+);
+export const OutlinedButton = (props: ButtonProps): JSX.Element => (
+  <Button variant="outlined" {...props}>
+    {props.children}
+  </Button>
+);
+export const TextButton = (props: ButtonProps): JSX.Element => (
+  <Button variant="text" {...props}>
+    {props.children}
+  </Button>
+);
+
 export default Button;

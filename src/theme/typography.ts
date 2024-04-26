@@ -18,16 +18,31 @@ declare module '@mui/material/styles' {
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
-    textH1Bold: React.CSSProperties;
-    textH2Medium: React.CSSProperties;
-    textH3Medium: React.CSSProperties;
-    textB1Regular: React.CSSProperties;
-    textB2SemiBold: React.CSSProperties;
-    textB3Regular: React.CSSProperties;
-    textL1Bold: React.CSSProperties;
-    textL2Regular: React.CSSProperties;
-    textC1Regular: React.CSSProperties;
-    textC2Regular: React.CSSProperties;
+    textH1Bold?: React.CSSProperties;
+    textH2Medium?: React.CSSProperties;
+    textH3Medium?: React.CSSProperties;
+    textB1Regular?: React.CSSProperties;
+    textB2SemiBold?: React.CSSProperties;
+    textB3Regular?: React.CSSProperties;
+    textL1Bold?: React.CSSProperties;
+    textL2Regular?: React.CSSProperties;
+    textC1Regular?: React.CSSProperties;
+    textC2Regular?: React.CSSProperties;
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    textH1Bold: true;
+    textH2Medium: true;
+    textH3Medium: true;
+    textB1Regular: true;
+    textB2SemiBold: true;
+    textB3Regular: true;
+    textL1Bold: true;
+    textL2Regular: true;
+    textC1Regular: true;
+    textC2Regular: true;
   }
 }
 
@@ -37,7 +52,7 @@ export const typography = (mode: PaletteMode): TypographyOptions => {
   return {
     fontFamily: ['Qanelas Soft Regular', 'Roboto', 'Helvectica', 'Arial', 'sans-serif'].join(','),
     textH1Bold: {
-      fontFamily: ['Qanelas Soft'].join(','),
+      fontFamily: ['Qanelas Soft Regular'].join(','),
       fontSize: '52px',
       lineHeight: '64px',
       fontWeight: 700,
@@ -47,7 +62,7 @@ export const typography = (mode: PaletteMode): TypographyOptions => {
       }
     },
     textH2Medium: {
-      fontFamily: ['Qanelas Soft'].join(','),
+      fontFamily: ['Qanelas Soft Regular'].join(','),
       fontSize: '32px',
       lineHeight: '40px',
       fontWeight: 500,
@@ -57,7 +72,7 @@ export const typography = (mode: PaletteMode): TypographyOptions => {
       }
     },
     textH3Medium: {
-      fontFamily: ['Qanelas Soft'].join(','),
+      fontFamily: ['Qanelas Soft Regular'].join(','),
       fontSize: '1.5rem',
       lineHeight: '2.25rem',
       fontWeight: 500,
@@ -97,7 +112,7 @@ export const typography = (mode: PaletteMode): TypographyOptions => {
       lineHeight: '1.5rem'
     },
     textL1Bold: {
-      fontFamily: ['Qanelas Soft'].join(','),
+      fontFamily: ['Qanelas Soft Regular'].join(','),
       fontSize: '0.75rem',
       fontWeight: 700,
       lineHeight: '1rem'
