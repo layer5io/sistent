@@ -1,2 +1,2 @@
 export { default as CircleIcon } from './CircleIcon';
-export { default as OutlinedCircleIcon } from './OutlinedCircleIcon';
+export { default as CircleOutlineIcon } from './CircleOutlineIcon';

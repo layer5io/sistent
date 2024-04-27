@@ -151,23 +151,23 @@ declare module '@mui/material/styles' {
 
   // Defines the options available for the palette.
   interface PaletteOptions {
-    border: {
-      default: string;
-      strong: string;
-      brand: string;
-      normal: string;
+    border?: {
+      default?: string;
+      strong?: string;
+      brand?: string;
+      normal?: string;
       neutral?: {
         default: string;
         alt: string;
       };
     };
-    icon: {
-      default: string;
-      secondary: string;
-      brand: string;
-      inverse: string;
-      weather: string;
-      disabled: string;
+    icon?: {
+      default?: string;
+      secondary?: string;
+      brand?: string;
+      inverse?: string;
+      weather?: string;
+      disabled?: string;
       neutral?: {
         default: string;
         alt: string;

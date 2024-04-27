@@ -8,5 +8,6 @@ module.exports = {
       lines: 80,
       statements: 80
     }
-  }
+  },
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };
