@@ -49,9 +49,15 @@ export const SLIGHT_BLUE = '#548194';
 export const SLIGHT_BLACK_2 = '#23365f';
 export const SNOW_WHITE = '#FBFBFB';
 export const MEDIUM_GREY = '#DDDDDD';
+export const BLUE_BLACK = '#252E31';
+
 export const common = {
   black: BLACK,
   white: WHITE
+};
+
+export const navBar = {
+  main: BLUE_BLACK
 };
 
 export const keppel = {
@@ -87,7 +93,7 @@ export const saffron = {
 /**
  * Grayscale Colors
  */
-export const charcoal = {
+export const oldCharcoal = {
   100: '#FDFDFD',
   90: '#EAEDEE',
   80: '#D2D8DA',
@@ -117,6 +123,7 @@ export const accentGrey = {
  * Function Colors
  */
 export const blue = {
+  90: '#EBEFF1',
   70: '#F0FBFF',
   60: '#9EDDFF',
   50: '#75CAFF',
@@ -154,6 +161,25 @@ export const red = {
   30: '#B3153D',
   20: '#8C0a2F',
   10: '#660624'
+};
+
+export const purple = {
+  40: '#4A154B'
+};
+
+const baseCharcoalColor = CHARCOAL;
+
+export const charcoal = {
+  100: alpha(baseCharcoalColor, 0.08),
+  90: alpha(baseCharcoalColor, 0.16),
+  80: alpha(baseCharcoalColor, 0.24),
+  70: alpha(baseCharcoalColor, 0.32),
+  60: alpha(baseCharcoalColor, 0.48),
+  50: baseCharcoalColor,
+  40: alpha(baseCharcoalColor, 0.64),
+  30: alpha(baseCharcoalColor, 0.72),
+  20: alpha(baseCharcoalColor, 0.8),
+  10: alpha(baseCharcoalColor, 0.88)
 };
 
 export const defaultPalette = {

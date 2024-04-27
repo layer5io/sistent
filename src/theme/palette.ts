@@ -151,6 +151,80 @@ declare module '@mui/material/styles' {
 
   // Defines the options available for the palette.
   interface PaletteOptions {
+    // Provide backward compatibility to Meshery Cloud UI
+    navBar?: string;
+    darkJungleGreen?: string;
+    lightDarkJungleGreen?: string;
+    superLightDarkJungleGreen?: string;
+    anakiwa?: string;
+    btnBg?: string;
+    actionIcon?: string;
+    actionIconHover?: string;
+    tablebghover?: string;
+    btnHover?: string;
+    tabmenuhover?: string;
+    btnDisabled?: string;
+    caribbeanGreen?: string;
+    yellowSea?: string;
+    keppelGreen?: string;
+    pineGreen?: string;
+    charcoal?: string;
+    cultured?: string;
+    white?: string;
+    lightWhite?: string;
+    superLightWhite?: string;
+    darkShadeGray?: string;
+    chineseSilver?: string;
+    lightGray?: string;
+    saffron?: string;
+    gray?: string;
+    gray97?: string;
+    darkSlateGray?: string;
+    aliceBlue?: string;
+    limedSpruce?: string;
+    whiteSmoke?: string;
+    slack?: string;
+    twitter?: string;
+    github?: string;
+    youtube?: string;
+    docker?: string;
+    tableBorder?: string;
+    primaryColor?: string;
+    darkPrimaryColor?: string;
+    slateGray?: string;
+    lightSlateGray?: string;
+    erieBlack?: string;
+    lightErieBlack?: string;
+    superLightErieBlack?: string;
+    casper?: string;
+    lightCasper?: string;
+    superLightCasper?: string;
+    disabledRow?: string;
+    tooltipText?: string;
+    solitude?: string;
+    ghostWhite?: string;
+    black?: string;
+    toolBg?: string;
+    lightBlue?: string;
+    btnDelete?: string;
+    btnDeleteHover?: string;
+    mesheryAccent?: string;
+    cardBorder?: string;
+    lighterGray?: string;
+    spanishGray?: string;
+    steam?: string;
+    funnelCloud?: string;
+    tropicalRainforest?: string;
+    drWhite?: string;
+    connected?: string;
+    registered?: string;
+    discovered?: string;
+    ignored?: string;
+    deleted?: string;
+    maintenance?: string;
+    disconnected?: string;
+    notFound?: string;
+    goshawkGrey?: string;
     border: {
       default: string;
       strong: string;
@@ -177,6 +251,80 @@ declare module '@mui/material/styles' {
 }
 
 export const lightModePalette: PaletteOptions = {
+  navBar: Colors.navBar.main,
+  darkJungleGreen: Colors.DARK_JUNGLE_GREEN,
+  lightDarkJungleGreen: alpha(Colors.DARK_JUNGLE_GREEN, 0.8),
+  superLightDarkJungleGreen: alpha(Colors.DARK_JUNGLE_GREEN, 0.6),
+  anakiwa: Colors.ANAKIWA,
+  btnBg: Colors.KEPPEL,
+  actionIcon: Colors.CHARCOAL,
+  actionIconHover: Colors.DARK_SLATE_GRAY,
+  tablebghover: Colors.ALICE_BLUE,
+  btnHover: Colors.CARIBBEAN_GREEN,
+  tabmenuhover: Colors.DARK_SLATE_GRAY,
+  btnDisabled: Colors.charcoal[80],
+  caribbeanGreen: Colors.CARIBBEAN_GREEN,
+  yellowSea: Colors.YELLOW_SEA,
+  keppelGreen: Colors.KEPPEL,
+  pineGreen: Colors.PINE_GREEN,
+  charcoal: Colors.CHARCOAL,
+  cultured: Colors.CULTURED,
+  white: Colors.WHITE,
+  lightWhite: alpha(Colors.WHITE, 0.8),
+  superLightWhite: alpha(Colors.WHITE, 0.6),
+  darkShadeGray: Colors.DARK_SHADE_GRAY,
+  chineseSilver: Colors.CHINESE_SILVER,
+  lightGray: Colors.CHINESE_SILVER,
+  saffron: Colors.SAFFRON,
+  gray: Colors.GRAY,
+  gray97: Colors.GRAY97,
+  darkSlateGray: Colors.DARK_SLATE_GRAY,
+  aliceBlue: Colors.ALICE_BLUE,
+  limedSpruce: Colors.CHARCOAL,
+  whiteSmoke: Colors.WHITESMOKE,
+  slack: Colors.charcoal[40],
+  twitter: Colors.TEAL_BLUE,
+  github: Colors.charcoal[20],
+  youtube: Colors.charcoal[40],
+  docker: Colors.TEAL_BLUE,
+  tableBorder: Colors.LIGHT_GRAY,
+  primaryColor: Colors.PRIMARY_COLOR,
+  darkPrimaryColor: Colors.DARK_PRIMARY_COLOR,
+  slateGray: Colors.SLATE_GRAY,
+  lightSlateGray: alpha(Colors.SLATE_GRAY, 0.8),
+  erieBlack: Colors.EERIE_BLACK,
+  lightErieBlack: alpha(Colors.EERIE_BLACK, 0.8),
+  superLightErieBlack: alpha(Colors.EERIE_BLACK, 0.6),
+  casper: Colors.CASPER,
+  lightCasper: alpha(Colors.CASPER, 0.8),
+  superLightCasper: alpha(Colors.CASPER, 0.6),
+  disabledRow: alpha(Colors.DARK_JUNGLE_GREEN, 0.05),
+  tooltipText: Colors.DARK_JUNGLE_GREEN,
+  solitude: Colors.charcoal[90],
+  ghostWhite: Colors.charcoal[90],
+  black: Colors.BLACK,
+  toolBg: alpha(Colors.BLACK, 0.2),
+  lightBlue: Colors.ALICE_BLUE,
+  btnDelete: Colors.charcoal[40],
+  btnDeleteHover: Colors.charcoal[30],
+  mesheryAccent: Colors.ALICE_BLUE,
+  cardBorder: Colors.CHARCOAL,
+  lighterGray: Colors.CHARCOAL,
+  spanishGray: Colors.charcoal[50],
+  steam: Colors.MEDIUM_GREY,
+  funnelCloud: Colors.PRIMARY_COLOR,
+  tropicalRainforest: Colors.PINE_GREEN,
+  drWhite: Colors.SNOW_WHITE,
+  connected: Colors.KEPPEL,
+  registered: Colors.TEAL_BLUE,
+  discovered: Colors.charcoal[80],
+  ignored: Colors.DARK_PRIMARY_COLOR,
+  deleted: Colors.charcoal[40],
+  maintenance: Colors.YELLOW_SEA,
+  disconnected: Colors.charcoal[30],
+  notFound: Colors.NOT_FOUND,
+  goshawkGrey: Colors.CHARCOAL,
+
   background: {
     default: Colors.charcoal[100],
     secondary: Colors.accentGrey[90],
