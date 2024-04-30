@@ -172,7 +172,11 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
 // ModalButtonPrimary
 export const ModalButtonPrimary: React.FC = styled(ContainedButton)(({ theme }) => ({
   backgroundColor: theme.palette.background.brand?.default,
-  color: theme.palette.text.constant?.white
+  color: theme.palette.text.constant?.white,
+  '&.MuiButton-contained.Mui-disabled': {
+    color: '#647176',
+    backgroundColor: '#b1b9bc'
+  }
 }));
 
 // ModalButtonSecondary
@@ -186,9 +190,9 @@ export const ModalButtonSecondary = styled(OutlinedButton)(({ theme }) => ({
     }
   },
   '&.MuiButton-outlined.Mui-disabled': {
-    color: theme.palette.grey[500],
+    color: '#647176',
     border: 'none',
-    backgroundColor: theme.palette.grey[100]
+    backgroundColor: '#b1b9bc'
   }
 }));
 
