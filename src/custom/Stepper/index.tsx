@@ -39,13 +39,12 @@ interface UseStepperI {
   activeStepComponent: React.ComponentType;
 }
 
-const ColorlibConnector = styled(StepConnector)(() => ({
+const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 22
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      background: '#00B39F',
       transition: 'all 1s ease-in'
     }
   },
@@ -58,7 +57,7 @@ const ColorlibConnector = styled(StepConnector)(() => ({
   [`& .${stepConnectorClasses.line}`]: {
     height: 3,
     border: 0,
-    background: '#00B39F',
+    background: theme.palette.grey[700],
     borderRadius: 1,
     transition: 'all 0.5s ease-out '
   }
@@ -78,19 +77,16 @@ const ColorlibStepIconRoot = styled('div')<{
   alignItems: 'center',
   ...(ownerState.active && {
     background: theme.palette.background.default,
-    color: '#3C494E',
     border: '.2rem solid #00B39F',
     transition: 'all 0.5s ease-in'
   }),
   ...(ownerState.completed && {
     border: '.2rem solid #00B39F',
-    background: '#00B39F',
     transition: 'all 0.5s ease-in'
   })
 }));
 
 const StepContentWrapper = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
   padding: theme.spacing(2)
 }));
 
