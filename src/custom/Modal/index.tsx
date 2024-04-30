@@ -184,6 +184,11 @@ export const ModalButtonSecondary = styled(OutlinedButton)(({ theme }) => ({
       background: 'transparent',
       color: theme.palette.text.constant?.white
     }
+  },
+  '&.MuiButton-outlined.Mui-disabled': {
+    color: theme.palette.grey[500],
+    border: 'none',
+    backgroundColor: theme.palette.grey[100]
   }
 }));
 
