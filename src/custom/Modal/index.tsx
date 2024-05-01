@@ -174,8 +174,8 @@ export const ModalButtonPrimary: React.FC = styled(ContainedButton)(({ theme }) 
   backgroundColor: theme.palette.background.brand?.default,
   color: theme.palette.text.constant?.white,
   '&.MuiButton-contained.Mui-disabled': {
-    color: theme.palette.grey[700],
-    backgroundColor: theme.palette.grey[400]
+    color: theme.palette.text.disabled,
+    backgroundColor: theme.palette.primary.disabled
   }
 }));
 
@@ -190,9 +190,9 @@ export const ModalButtonSecondary = styled(OutlinedButton)(({ theme }) => ({
     }
   },
   '&.MuiButton-outlined.Mui-disabled': {
-    color: theme.palette.grey[700],
+    color: theme.palette.text.disabled,
     border: 'none',
-    backgroundColor: theme.palette.grey[400]
+    backgroundColor: theme.palette.secondary.disabled
   }
 }));
 
