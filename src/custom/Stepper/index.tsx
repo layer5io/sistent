@@ -58,7 +58,7 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`& .${stepConnectorClasses.line}`]: {
     height: 3,
     border: 0,
-    background: theme.palette.mode === 'dark' ? theme.palette.grey[700] : theme.palette.grey[300],
+    background: theme.palette.background.tertiary,
     borderRadius: 1,
     transition: 'all 0.5s ease-out '
   }
@@ -67,7 +67,7 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
 const ColorlibStepIconRoot = styled('div')<{
   ownerState: { completed?: boolean; active?: boolean };
 }>(({ theme, ownerState }) => ({
-  background: theme.palette.mode === 'dark' ? theme.palette.grey[700] : theme.palette.grey[300],
+  background: theme.palette.background.tertiary,
   zIndex: 1,
   width: 50,
   height: 50,
@@ -92,7 +92,7 @@ const StepContentWrapper = styled(Box)(({ theme }) => ({
 
 const StyledStepLabel = styled(StepLabel)(({ theme }) => ({
   '& .MuiStepLabel-labelContainer': {
-    color: theme.palette.mode === 'dark' ? theme.palette.grey[700] : theme.palette.grey[500]
+    color: theme.palette.text.tertiary
   }
 }));
 
