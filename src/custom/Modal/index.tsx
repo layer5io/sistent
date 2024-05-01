@@ -100,7 +100,7 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
 
 export const ModalBody = styled(Paper)(({ theme }) => ({
   padding: '1rem',
-  backgroundColor: theme.palette.background.default
+  backgroundColor: theme.palette.background.secondary
 }));
 
 const StyledFooter = styled('div', {

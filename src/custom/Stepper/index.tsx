@@ -80,7 +80,7 @@ const ColorlibStepIconRoot = styled('div')<{
     transition: 'all 0.5s ease-in'
   }),
   ...(ownerState.completed && {
-    background: theme.palette.background?.default,
+    background: theme.palette.background.secondary,
     border: `.2rem solid ${theme.palette.background.brand?.default}`,
     transition: 'all 0.5s ease-in'
   })
