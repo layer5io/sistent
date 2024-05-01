@@ -4,7 +4,6 @@ import { Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
 import { iconLarge } from '../../constants/iconsSizes';
 import { CloseIcon, InfoCircleIcon } from '../../icons';
-import { charcoal } from '../../theme';
 import { CustomTooltip } from '../CustomTooltip';
 
 interface ModalProps extends DialogProps {
@@ -175,8 +174,8 @@ export const ModalButtonPrimary: React.FC = styled(ContainedButton)(({ theme }) 
   backgroundColor: theme.palette.background.brand?.default,
   color: theme.palette.text.constant?.white,
   '&.MuiButton-contained.Mui-disabled': {
-    color: charcoal[50],
-    backgroundColor: charcoal[70]
+    color: theme.palette.grey[700],
+    backgroundColor: theme.palette.grey[400]
   }
 }));
 
@@ -191,9 +190,9 @@ export const ModalButtonSecondary = styled(OutlinedButton)(({ theme }) => ({
     }
   },
   '&.MuiButton-outlined.Mui-disabled': {
-    color: charcoal[50],
+    color: theme.palette.grey[700],
     border: 'none',
-    backgroundColor: charcoal[70]
+    backgroundColor: theme.palette.grey[400]
   }
 }));
 
