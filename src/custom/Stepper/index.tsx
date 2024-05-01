@@ -39,26 +39,26 @@ interface UseStepperI {
   activeStepComponent: React.ComponentType;
 }
 
-const ColorlibConnector = styled(StepConnector)(() => ({
+const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
     top: 22
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      background: '#00B39F',
+      background: theme.palette.background.brand?.default,
       transition: 'all 1s ease-in'
     }
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      background: '#00B39F',
+      background: theme.palette.background.brand?.default,
       transition: 'all 1s ease-in'
     }
   },
   [`& .${stepConnectorClasses.line}`]: {
     height: 3,
     border: 0,
-    background: '#00B39F',
+    background: theme.palette.background.tertiary,
     borderRadius: 1,
     transition: 'all 0.5s ease-out '
   }
@@ -67,9 +67,8 @@ const ColorlibConnector = styled(StepConnector)(() => ({
 const ColorlibStepIconRoot = styled('div')<{
   ownerState: { completed?: boolean; active?: boolean };
 }>(({ theme, ownerState }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#ccc',
+  background: theme.palette.background.tertiary,
   zIndex: 1,
-  color: '#fff',
   width: 50,
   height: 50,
   display: 'flex',
@@ -77,21 +76,24 @@ const ColorlibStepIconRoot = styled('div')<{
   justifyContent: 'center',
   alignItems: 'center',
   ...(ownerState.active && {
-    background: theme.palette.background.default,
-    color: '#3C494E',
-    border: '.2rem solid #00B39F',
+    border: `.2rem solid ${theme.palette.background.brand?.default}`,
     transition: 'all 0.5s ease-in'
   }),
   ...(ownerState.completed && {
-    border: '.2rem solid #00B39F',
-    background: '#00B39F',
+    background: theme.palette.background.secondary,
+    border: `.2rem solid ${theme.palette.background.brand?.default}`,
     transition: 'all 0.5s ease-in'
   })
 }));
 
 const StepContentWrapper = styled(Box)(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
   padding: theme.spacing(2)
+}));
+
+const StyledStepLabel = styled(StepLabel)(({ theme }) => ({
+  '& .MuiStepLabel-labelContainer': {
+    color: theme.palette.text.tertiary
+  }
 }));
 
 function ColorlibStepIcon(props: ColorlibStepIconPropsI) {
@@ -117,11 +119,11 @@ const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
         <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
           {stepLabels.map((label) => (
             <Step key={label}>
-              <StepLabel
+              <StyledStepLabel
                 StepIconComponent={(props) => <ColorlibStepIcon {...props} icons={icons} />}
               >
                 {label}
-              </StepLabel>
+              </StyledStepLabel>
             </Step>
           ))}
         </Stepper>
