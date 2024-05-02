@@ -30,20 +30,8 @@ import {
   StyledTextArea
 } from './style';
 
-const tooltipContent = (
-  <p>
-    Some account and system information may be sent to Layer5. We will use it to fix problems and
-    improve our services, subject to our{' '}
-    <StyledLink target="_blank" href="https://layer5.io/company/legal/privacy">
-      Privacy Policy
-    </StyledLink>{' '}
-    and{' '}
-    <StyledLink target="_blank" href="https://layer5.io/company/legal/terms-of-service">
-      Terms of Service
-    </StyledLink>
-    . We may email you for more information or updates.
-  </p>
-);
+const tooltipContent =
+  'Some account and system information may be sent to Layer5. We will use it to fix problems and improve our services, subject to our [Privacy Policy](https://layer5.io/company/legal/privacy) and [Terms of Service](https://layer5.io/company/legal/terms-of-service). We may email you for more information or updates.';
 
 interface FeedbackDataItem {
   icon: JSX.Element;
@@ -199,7 +187,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
               leftHeaderIcon={<FeedbackIcon />}
               title="Feedback"
               helpArea={
-                <CustomTooltip placement="top" title={tooltipContent} arrow>
+                <CustomTooltip placement="top" title={tooltipContent}>
                   <HelperWrapper>
                     <QuestionIcon width={'30'} height={'30'} />
                   </HelperWrapper>
