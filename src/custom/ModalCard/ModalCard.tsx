@@ -37,9 +37,7 @@ function ModalCard({
     <ModalWrapper>
       <HeaderModal>
         {leftHeaderIcon && (
-          <div style={{ display: 'flex', alignItems: 'center', fill: 'white' }}>
-            {leftHeaderIcon}
-          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>{leftHeaderIcon}</div>
         )}
         {title && (
           <>
