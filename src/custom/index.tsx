@@ -25,6 +25,7 @@ import { FeedbackButton } from './Feedback';
 import { FlipCard, FlipCardProps } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
+// import RenderMarkdown from './Markdown';
 import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
 import ResponsiveDataTable, { ResponsiveDataTableProps } from './ResponsiveDataTable';
@@ -32,6 +33,7 @@ import SearchBar, { SearchBarProps } from './SearchBar';
 import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
+
 export { StyledChartDialog } from './ChartDialog';
 export { StyledSearchBar } from './StyledSearchBar';
 export {
@@ -71,6 +73,10 @@ export {
   ModalFooter,
   useModal
 } from './Modal';
+
+// Markdown
+export { StyledMarkdown } from './Markdown/styles';
+// export { RenderMarkdown };
 
 // Stepper
 export { CustomizedStepper, useStepper } from './Stepper';
