@@ -30,6 +30,10 @@ declare module '@mui/material/styles' {
       hover: string;
       pressed: string;
     };
+    constant?: {
+      disabled: string;
+      white: string;
+    };
     inverse?: string;
     brand?: Interactiveness;
     cta?: Interactiveness;
@@ -58,6 +62,7 @@ declare module '@mui/material/styles' {
     };
     constant?: {
       white: string;
+      disabled: string;
     };
   }
 
@@ -77,6 +82,7 @@ declare module '@mui/material/styles' {
     };
     constant?: {
       white: string;
+      disabled: string;
     };
     inverse?: string;
     brand?: Interactiveness;
@@ -107,6 +113,7 @@ declare module '@mui/material/styles' {
     };
     constant?: {
       white: string;
+      disabled: string;
     };
     inverse?: string;
     brand?: Interactiveness;
@@ -387,7 +394,11 @@ export const lightModePalette: PaletteOptions = {
       secondary: Colors.red[60],
       tertiary: Colors.red[70]
     },
-    code: Colors.charcoal[90]
+    code: Colors.charcoal[90],
+    constant: {
+      white: Colors.accentGrey[100],
+      disabled: Colors.charcoal[70]
+    }
   },
   text: {
     default: Colors.charcoal[10],
@@ -405,7 +416,8 @@ export const lightModePalette: PaletteOptions = {
       alt: Colors.charcoal[40]
     },
     constant: {
-      white: Colors.charcoal[100]
+      white: Colors.charcoal[100],
+      disabled: Colors.charcoal[50]
     }
   },
   border: {
@@ -494,7 +506,11 @@ export const darkModePalette: PaletteOptions = {
       secondary: Colors.red[20],
       tertiary: Colors.red[10]
     },
-    code: Colors.accentGrey[90]
+    code: Colors.accentGrey[90],
+    constant: {
+      white: Colors.accentGrey[100],
+      disabled: Colors.charcoal[70]
+    }
   },
   text: {
     default: Colors.charcoal[100],
@@ -512,7 +528,8 @@ export const darkModePalette: PaletteOptions = {
       alt: Colors.keppel[40]
     },
     constant: {
-      white: Colors.charcoal[100]
+      white: Colors.charcoal[100],
+      disabled: Colors.charcoal[50]
     }
   },
   border: {
