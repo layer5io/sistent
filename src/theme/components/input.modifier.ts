@@ -6,9 +6,11 @@ export const MuiInput: Components<Theme>['MuiInput'] = {
       const {
         palette: {
           background: { graphics }
-        }
+        },
+        typography: { textB1Regular }
       } = theme;
       return {
+        ...textB1Regular,
         '&:before': {
           borderBottom: '2px solid rgba(0, 0, 0, 0.5)'
         },
