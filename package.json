@@ -76,7 +76,9 @@
         "@types/mui-datatables": "*",
         "mui-datatables": "*",
         "react": ">=17",
-        "react-dom": ">=17"
+        "react-dom": ">=17",
+        "remark": "^15.0.1",
+        "remark-html": "^16.0.1"
     },
     "peerDependenciesMeta": {
         "@emotion/react": {
