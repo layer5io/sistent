@@ -1,17 +1,44 @@
 import { Tooltip, type TooltipProps } from '@mui/material';
 import React from 'react';
-import { CHARCOAL, WHITE } from '../../theme';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import { CHARCOAL, KEPPEL, WHITE } from '../../theme';
 
 type CustomTooltipProps = {
-  title: string | React.ReactNode | JSX.Element;
+  title: string;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   children: React.ReactNode;
   fontSize?: string;
 } & Omit<TooltipProps, 'title' | 'onClick'>;
 
+export function MarkdownFormatter(text: string) {
+  return (
+    <Markdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        a: ({ ...props }) => (
+          <a
+            {...props}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: KEPPEL,
+              textDecoration: 'underline'
+            }}
+          >
+            {props.children}
+          </a>
+        )
+      }}
+    >
+      {text}
+    </Markdown>
+  );
+}
+
 function CustomTooltip({
   title,
-  onClick,
+  onClick = () => {},
   placement,
   children,
   fontSize = '1rem',
@@ -35,7 +62,7 @@ function CustomTooltip({
           }
         }
       }}
-      title={title}
+      title={MarkdownFormatter(title)}
       placement={placement}
       arrow
       onClick={onClick}
