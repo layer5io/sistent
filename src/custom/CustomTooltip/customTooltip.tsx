@@ -5,13 +5,13 @@ import remarkGfm from 'remark-gfm';
 import { CHARCOAL, KEPPEL, WHITE } from '../../theme';
 
 type CustomTooltipProps = {
-  title: string | React.ReactNode | JSX.Element;
+  title: string;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   children: React.ReactNode;
   fontSize?: string;
 } & Omit<TooltipProps, 'title' | 'onClick'>;
 
-export function getHyperLinkDiv(text: string) {
+export function MarkdownFormatter(text: string) {
   return (
     <Markdown
       remarkPlugins={[remarkGfm]}
@@ -38,7 +38,7 @@ export function getHyperLinkDiv(text: string) {
 
 function CustomTooltip({
   title,
-  onClick = () => { },
+  onClick = () => {},
   placement,
   children,
   fontSize = '1rem',
@@ -62,7 +62,7 @@ function CustomTooltip({
           }
         }
       }}
-      title={title}
+      title={MarkdownFormatter(title)}
       placement={placement}
       arrow
       onClick={onClick}
