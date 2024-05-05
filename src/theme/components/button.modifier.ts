@@ -13,6 +13,7 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
       } = theme;
       return {
         ...textB2SemiBold,
+        display: 'flex',
         '&.MuiButton-contained': {
           color: constant?.white,
           backgroundColor: brand?.default,
