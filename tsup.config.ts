@@ -9,7 +9,7 @@ export default defineConfig({
   bundle: env === 'production',
   clean: true,
   dts: true,
-  format: ['cjs'],
+  format: ['cjs', 'esm'],
   external: ['react'],
   minify: env === 'production',
   watch: env === 'development',
