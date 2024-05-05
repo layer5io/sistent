@@ -25,13 +25,26 @@ import {
   FeedbackTextArea,
   HelperWrapper,
   InnerComponentWrapper,
+  NeedHelpComponent,
   StyledCheckbox,
   StyledLink,
   StyledTextArea
 } from './style';
 
-const tooltipContent =
-  'Some account and system information may be sent to Layer5. We will use it to fix problems and improve our services, subject to our [Privacy Policy](https://layer5.io/company/legal/privacy) and [Terms of Service](https://layer5.io/company/legal/terms-of-service). We may email you for more information or updates.';
+const tooltipContent = (
+  <p>
+    Some account and system information may be sent to Layer5. We will use it to fix problems and
+    improve our services, subject to our{' '}
+    <StyledLink target="_blank" href="https://layer5.io/company/legal/privacy">
+      Privacy Policy
+    </StyledLink>{' '}
+    and{' '}
+    <StyledLink target="_blank" href="https://layer5.io/company/legal/terms-of-service">
+      Terms of Service
+    </StyledLink>
+    . We may email you for more information or updates.
+  </p>
+);
 
 interface FeedbackDataItem {
   icon: JSX.Element;
@@ -59,16 +72,7 @@ const feedbackData: FeedbackDataItem[] = [
     label: 'Meet Request',
     isTextInput: false,
     innerComponent: (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          height: '137px',
-          color: 'black'
-        }}
-      >
+      <NeedHelpComponent>
         <Typography style={{ lineHeight: '2.5', textAlign: 'center' }}>
           Need help or have more feedback than fits here?
           <br /> Meet with us.
@@ -79,7 +83,7 @@ const feedbackData: FeedbackDataItem[] = [
         >
           Select a time convenient for you.
         </StyledLink>
-      </div>
+      </NeedHelpComponent>
     )
   }
 ];

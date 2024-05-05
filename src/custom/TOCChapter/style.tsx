@@ -40,8 +40,8 @@ export const TOCWrapper = styled('div')(({ theme }) => ({
   '.toc-list': {
     '& ul': {
       position: 'relative',
-      paddingInlineStart: '3.031rem',
-      MozPaddingStart: '2.78rem',
+      paddingInlineStart: '2.65rem',
+      MozPaddingStart: '2.65rem',
       '&::after': {
         position: 'absolute',
         inset: '1rem auto 1rem 31px',
