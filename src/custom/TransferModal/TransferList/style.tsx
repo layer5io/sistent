@@ -47,6 +47,8 @@ export const TransferButton = styled(Button)(({ theme }) => ({
   borderRadius: '10px',
   borderColor: theme.palette.border?.strong,
   boxShadow: 'none',
+  display: 'flex',
+  flexDirection: 'row',
   fill: theme.palette.icon.default,
   '&:hover': {
     borderColor: theme.palette.border?.brand,
