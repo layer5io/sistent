@@ -25,6 +25,7 @@ import {
   FeedbackTextArea,
   HelperWrapper,
   InnerComponentWrapper,
+  NeedHelpComponent,
   StyledCheckbox,
   StyledLink,
   StyledTextArea
@@ -59,16 +60,7 @@ const feedbackData: FeedbackDataItem[] = [
     label: 'Meet Request',
     isTextInput: false,
     innerComponent: (
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          height: '137px',
-          color: 'black'
-        }}
-      >
+      <NeedHelpComponent>
         <Typography style={{ lineHeight: '2.5', textAlign: 'center' }}>
           Need help or have more feedback than fits here?
           <br /> Meet with us.
@@ -79,7 +71,7 @@ const feedbackData: FeedbackDataItem[] = [
         >
           Select a time convenient for you.
         </StyledLink>
-      </div>
+      </NeedHelpComponent>
     )
   }
 ];
