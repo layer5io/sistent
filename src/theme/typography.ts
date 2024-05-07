@@ -91,7 +91,6 @@ export const typography = (mode: PaletteMode): TypographyOptions => {
       fontSize: '1rem',
       fontWeight: 400,
       lineHeight: '1.75rem',
-      display: 'block',
       [theme.breakpoints.down('sm')]: {
         fontSize: '1rem',
         lineHeight: '1.75rem'
