@@ -1,1 +1,0 @@
-export { AccordionDetails } from './AccordionDetails';

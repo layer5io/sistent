@@ -2,37 +2,34 @@
 
 The Sistent Design System from Layer5 provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences.
 
-### Packages
+<hr>
+<h3 align="center"> --> Visit <a href="https://layer5.io/projects/sistent">https://layer5.io/projects/sistent</a></h3>
+<hr>
 
-Design System components in React, usually built with Vite.
+## Using Sistent
 
-List of npm packages:
-
-- `@layer5/sistent-components`
-- `@layer5/sistent-svg`
+Visit the Sistent website for further instructions.
 
 ### Brand
 
 - Layer5 Brand Guide ([PDF](https://layer5.io/brand/brand-guide.pdf))
 - [Layer5 Logos](https://layer5.io/company/brand) (more assets available in shared Community drive).
 
-## Packages
+### Components and Packages
 
 - Design System components in React.js
+
+## Contributing to Sistent
 
 ### Prerequisites
 
 Before you begin, ensure you have the following installed on your system:
 
 - Node.js
-- Yarn
 
 ### How to get started
 
-Use `corepack enable` to go ahead and install yarn.
-
-1. Install `yarn@3.6.3`
-2. Use `yarn` to install dependencies from the root of this project.
+Make sure you have `npm` on `node@16` and above. The CI workflows checks for in `node@16`, `node@18` and `node@20`
 
 <div>&nbsp;</div>
 
@@ -40,30 +37,37 @@ Use `corepack enable` to go ahead and install yarn.
 
 To set up the project, run the following command to install dependencies:
 
+Please note that at this time, `npm install` will also build the project as the first step. This is to ensure that this is building correctly before moving to a task.
+
 ```
 setup:
-	yarn install
-```
-
-To build the project, you can use the following command:
-
-```
-build: install
-	yarn run build-all
+	npm install
 ```
 
 To check if your code meets the formatting standards, you can run:
 
 ```
 format-check:
-	yarn run format:check
+	npm run format:check
 ```
 
 To automatically fix formatting issues, you can run
 
 ```
 format-fix:
-	yarn run format:write
+	npm run format:write
+```
+
+To test the sistent component locally, you can run
+
+```
+build:
+  npm run build
+```
+
+```
+attach sistent to your project:
+	npm install [path to sistent repo ]
 ```
 
 > [!NOTE]
@@ -74,7 +78,7 @@ format-fix:
 ## Join the Layer5 community!
 
 <a name="contributing"></a><a name="community"></a>
-Our projects are community-built and welcome collaboration. 👍 Be sure to see the <a href="https://docs.google.com/document/d/17OPtDE_rdnPQxmk2Kauhm3GwXF1R5dZ3Cj8qZLKdo5E/edit">Layer5 Community Welcome Guide</a> for a tour of resources available to you and jump into our <a href="http://slack.layer5.io">Slack</a>!
+Our projects are community-built and welcome collaboration. 👍 Be sure to see the <a href="https://layer5.io/community/newcomers">Layer5 Community Welcome Guide</a> for a tour of resources available to you and jump into our <a href="http://slack.layer5.io">Slack</a>!
 
 <p style="clear:both;">
 <a href ="https://layer5.io/community/meshmates"><img alt="MeshMates" src=".github/readme/images/layer5-community-sign.png" style="margin-right:10px; margin-bottom:15px;" width="28%" align="left"/></a>

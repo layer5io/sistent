@@ -11,21 +11,25 @@ jobs:
               node-version: [16, 18, 20]
         steps:
         - name: Checkout Repo
-          uses: actions/checkout@v3
+          uses: actions/checkout@v4
     
         - name: Setup Node.js ${{ matrix.node-version }}
-          uses: actions/setup-node@v3
+          uses: actions/setup-node@v4
           with:
             node-version: ${{ matrix.node-version }}
         
         - name: Setup and install deps
           run: |
-            yarn install
+            npm install
 
         - name: Prettier check
           run: |
-            yarn format:check
+            npm run format:check
     
         - name: Build
           run: |
-            yarn run build-all
+            npm run build
+
+        - name: Test
+          run: |
+            npm run test
