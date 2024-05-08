@@ -57,7 +57,7 @@ const StyledDialog = styled(Dialog)`
 const StyledHeader = styled('div')(({ theme }) => ({
   background:
     theme.palette.mode === 'light'
-      ? 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)'
+      ? 'linear-gradient(90deg, #396679 0%, #548194 100%)'
       : 'linear-gradient(90deg, #000 0%, #23363F 100%)',
   color: '#eee',
   display: 'flex',
@@ -109,8 +109,7 @@ export const ModalBody = styled(Paper)(({ theme }) => ({
 const StyledFooter = styled('div', {
   shouldForwardProp: (prop) => prop !== 'variant'
 })<ModalFooterProps>(({ theme, variant }) => ({
-  background:
-    variant == 'filled' ? 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)' : 'transparent',
+  background: variant == 'filled' ? (theme.palette.mode === 'light' ? '#396679' : '') : '#1E2117',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
