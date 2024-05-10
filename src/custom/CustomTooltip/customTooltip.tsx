@@ -8,6 +8,7 @@ type CustomTooltipProps = {
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
   children: React.ReactNode;
   fontSize?: string;
+  fontWeight?: number;
 } & Omit<TooltipProps, 'title' | 'onClick'>;
 
 function CustomTooltip({
@@ -16,6 +17,7 @@ function CustomTooltip({
   placement,
   children,
   fontSize = '1rem',
+  fontWeight = 400,
   ...props
 }: CustomTooltipProps): JSX.Element {
   return (
@@ -26,8 +28,9 @@ function CustomTooltip({
             background: CHARCOAL,
             color: WHITE,
             fontSize: { fontSize },
-            borderRadius: '0.9375rem',
-            padding: '0.9rem'
+            fontWeight: { fontWeight },
+            borderRadius: '0.5rem',
+            padding: '1rem'
           }
         },
         popper: {
