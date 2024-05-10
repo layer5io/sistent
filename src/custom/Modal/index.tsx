@@ -54,9 +54,12 @@ const StyledDialog = styled(Dialog)`
   }
 `;
 
-const StyledHeader = styled('div')(() => ({
-  background: 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)',
-  color: '#fff',
+const StyledHeader = styled('div')(({ theme }) => ({
+  background:
+    theme.palette.mode === 'light'
+      ? 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)'
+      : 'linear-gradient(90deg, #000 0%, #23363F 100%)',
+  color: '#eee',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -173,17 +176,21 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
 export const ModalButtonPrimary: React.FC = styled(ContainedButton)(({ theme }) => ({
   backgroundColor: theme.palette.background.brand?.default,
   color: theme.palette.text.constant?.white,
+  '&:hover': {
+    background: theme.palette.background.brand?.hover
+  },
   '&.MuiButton-contained.Mui-disabled': {
-    color: theme.palette.text.disabled,
-    backgroundColor: theme.palette.primary.disabled
+    color: theme.palette.text.constant?.disabled,
+    backgroundColor: theme.palette.background.constant?.disabled
   }
 }));
 
 // ModalButtonSecondary
 export const ModalButtonSecondary = styled(OutlinedButton)(({ theme }) => ({
   '&.MuiButton-outlined': {
-    border: `1px solid ${theme.palette.common.white}`,
+    border: `1px solid ${theme.palette.background.constant?.white}`,
     color: theme.palette.text.constant?.white,
+    backgroundColor: 'transparent',
     '&:hover': {
       background: 'transparent',
       color: theme.palette.text.constant?.white
@@ -192,7 +199,7 @@ export const ModalButtonSecondary = styled(OutlinedButton)(({ theme }) => ({
   '&.MuiButton-outlined.Mui-disabled': {
     color: theme.palette.text.disabled,
     border: 'none',
-    backgroundColor: theme.palette.secondary.disabled
+    backgroundColor: theme.palette.background.brand?.disabled
   }
 }));
 
@@ -204,5 +211,8 @@ export const ModalButtonTertiary = styled(TextButton)(({ theme }) => ({
 // ModalButtonDanger
 export const ModalButtonDanger = styled(ContainedButton)(({ theme }) => ({
   backgroundColor: theme.palette.background.error?.default,
-  color: theme.palette.text.constant?.white
+  color: theme.palette.text.constant?.white,
+  '&:hover': {
+    background: theme.palette.background.error?.hover
+  }
 }));

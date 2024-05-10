@@ -30,6 +30,8 @@ export interface TransferListProps {
   assignedPage: () => void;
   originalLeftCount: number;
   originalRightCount: number;
+  rightPermission: boolean;
+  leftPermission: boolean;
 }
 
 interface ListItemType {
@@ -58,6 +60,8 @@ function intersection<T>(a: T[], b: T[]): T[] {
  * @param {Element} props.emptyStateIconRight - Icon for empty state of list right.
  * @param {String} props.emtyStateMessageRight - Message for the empty state of the list right.
  * @param {String} props.transferComponentType - Type of the component transfer (There is two types: chip and other).
+ * @param {Boolean} props.leftPermission - Permission to move data from left to right.
+ * @param {Boolean} props.rightPermission - Permission to move data from right to left.
  */
 
 function TransferList({
@@ -73,6 +77,8 @@ function TransferList({
   emtyStateMessageRight,
   originalLeftCount,
   originalRightCount,
+  leftPermission = true,
+  rightPermission = true,
   transferComponentType = TRANSFER_COMPONET.OTHER
 }: TransferListProps): JSX.Element {
   const [checked, setChecked] = React.useState<ListItemType[]>([]);
@@ -280,7 +286,10 @@ function TransferList({
             variant="outlined"
             size="small"
             onClick={handleAllRight}
-            disabled={left.length === 0}
+            disabled={
+              !rightPermission ||
+              (rightPermission && (left?.length === 0 || left.length < leftCount))
+            }
             aria-label="move all right"
           >
             <RightArrowIcon width={18} height={18} />
@@ -290,7 +299,7 @@ function TransferList({
             variant="outlined"
             size="small"
             onClick={handleCheckedRight}
-            disabled={leftChecked.length === 0}
+            disabled={!rightPermission || (rightPermission && leftChecked.length === 0)}
             aria-label="move selected right"
           >
             <RightArrowIcon width={18} height={18} />
@@ -299,7 +308,7 @@ function TransferList({
             variant="outlined"
             size="small"
             onClick={handleCheckedLeft}
-            disabled={rightChecked.length === 0}
+            disabled={!leftPermission || (leftPermission && rightChecked.length === 0)}
             aria-label="move selected left"
           >
             <LeftArrowIcon width={18} height={18} />
@@ -308,7 +317,10 @@ function TransferList({
             variant="outlined"
             size="small"
             onClick={handleAllLeft}
-            disabled={right.length === 0}
+            disabled={
+              !leftPermission ||
+              (leftPermission && (right?.length === 0 || right.length < rightCount))
+            }
             aria-label="move all left"
           >
             <LeftArrowIcon width={18} height={18} />

@@ -1,5 +1,6 @@
 import { styled } from '@mui/material';
 import { Button, Chip, Grid, Paper, Typography } from '../../../base';
+import { KEPPEL } from '../../../theme';
 
 export const StyledChip = styled(Chip)(({ theme }) => ({
   padding: '5px 6px !important',
@@ -46,8 +47,13 @@ export const TransferButton = styled(Button)(({ theme }) => ({
   borderRadius: '10px',
   borderColor: theme.palette.border?.strong,
   boxShadow: 'none',
+  display: 'flex',
+  flexDirection: 'row',
+  fill: theme.palette.icon.default,
   '&:hover': {
-    borderColor: theme.palette.border?.brand
+    borderColor: theme.palette.border?.brand,
+    backgroundColor: `${KEPPEL} !important`,
+    fill: theme.palette.icon.inverse
   }
 }));
 
