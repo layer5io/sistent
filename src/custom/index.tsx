@@ -77,6 +77,7 @@ export {
 export {
   Modal,
   ModalBody,
+  ModalButtonDanger,
   ModalButtonPrimary,
   ModalButtonSecondary,
   ModalButtonTertiary,
