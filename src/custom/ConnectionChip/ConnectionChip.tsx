@@ -1,7 +1,7 @@
 import { ChipProps, TooltipProps } from '@mui/material';
 import React from 'react';
 import { Chip } from '../../base/Chip';
-import { Tooltip } from '../../base/Tooltip';
+import { CustomTooltip } from '../CustomTooltip';
 
 export interface ConnectionChipProps {
   tooltip: string;
@@ -26,7 +26,7 @@ function ConnectionChip({
   ...rest
 }: ConnectionChipProps): JSX.Element {
   return (
-    <Tooltip title={tooltip} placement={tooltipPlacement}>
+    <CustomTooltip title={tooltip} placement={tooltipPlacement}>
       <Chip
         sx={{
           paddingY: '10px',
@@ -49,7 +49,7 @@ function ConnectionChip({
         style={style}
         {...rest}
       />
-    </Tooltip>
+    </CustomTooltip>
   );
 }
 

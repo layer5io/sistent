@@ -54,9 +54,12 @@ const StyledDialog = styled(Dialog)`
   }
 `;
 
-const StyledHeader = styled('div')(() => ({
-  background: 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)',
-  color: '#fff',
+const StyledHeader = styled('div')(({ theme }) => ({
+  background:
+    theme.palette.mode === 'light'
+      ? 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)'
+      : 'linear-gradient(90deg, #000 0%, #23363F 100%)',
+  color: '#eee',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',

@@ -9,7 +9,6 @@ import {
   CULTURED,
   DARK_JUNGLE_GREEN,
   DARK_KEPPEL,
-  DARK_PRIMARY_COLOR,
   DARK_SLATE_GRAY,
   KEPPEL,
   MEDIUM_GREY,
@@ -267,13 +266,12 @@ export const FeedbackOptionButton = styled(Button)<FeedbackMessageProps>(({ them
     : theme.palette.mode === 'dark'
     ? SNOW_WHITE
     : SNOW_WHITE,
-  fill: isOpen ? (theme.palette.mode === 'dark' ? CULTURED : DARK_PRIMARY_COLOR) : CULTURED,
-  stroke: isOpen ? SNOW_WHITE : KEPPEL,
+  fill: isOpen ? theme.palette.icon.default : SNOW_WHITE,
+  stroke: isOpen ? theme.palette.icon.inverse : theme.palette.icon.brand,
   '&:hover': {
-    color: theme.palette.mode === 'dark' ? SNOW_WHITE : BLACK,
-    fill: theme.palette.mode === 'dark' ? CULTURED : DARK_PRIMARY_COLOR,
-    backgroundColor: WHITE,
-    stroke: SNOW_WHITE
+    color: theme.palette.text.default,
+    backgroundColor: theme.palette.background.hover,
+    fill: theme.palette.icon.default
   }
 }));
 
@@ -298,7 +296,14 @@ export const StyledTextArea = styled('textarea')(({ theme }) => ({
     outline: `1px solid ${CARIBBEAN_GREEN}`
   }
 }));
-
+export const NeedHelpComponent = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  height: '137px',
+  color: theme.palette.text.default
+}));
 export const StyledLink = styled('a')({
   textDecoration: 'underline',
   color: 'inherit',

@@ -27,9 +27,10 @@ interface Props {
   tutorial: Tutorial;
   path: string;
   courseCount: number;
+  courseType: string;
 }
 
-const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount }) => {
+const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType }) => {
   return (
     <CardWrapper>
       {tutorial.frontmatter.disabled === 'yes' ? (
@@ -77,7 +78,8 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount }) => {
                 </CardDesc>
                 <CardSubdata className="card-subdata">
                   <p>
-                    {courseCount} Course{courseCount === 1 ? '' : 's'}
+                    {courseCount} {courseType}
+                    {courseCount === 1 ? '' : 's'}
                   </p>
                 </CardSubdata>
                 <CardImage>
