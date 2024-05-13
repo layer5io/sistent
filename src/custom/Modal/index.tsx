@@ -17,6 +17,7 @@ interface ModalFooterProps {
   children: React.ReactNode;
   variant?: 'filled' | 'transparent';
   helpText?: string;
+  hasHelpText?: boolean;
 }
 
 type openModalCallback = (props: {
@@ -103,17 +104,17 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
 
 export const ModalBody = styled(Paper)(({ theme }) => ({
   padding: '1rem',
-  backgroundColor: theme.palette.background.secondary
+  backgroundColor: theme.palette.background.constant?.white
 }));
 
 const StyledFooter = styled('div', {
   shouldForwardProp: (prop) => prop !== 'variant'
-})<ModalFooterProps>(({ theme, variant }) => ({
+})<ModalFooterProps>(({ theme, variant, hasHelpText }) => ({
   background:
     variant == 'filled' ? 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)' : 'transparent',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
+  justifyContent: hasHelpText ? 'space-between' : 'end',
   padding: '1rem',
   gap: '1rem',
 
@@ -159,7 +160,7 @@ export const Modal: React.FC<ModalProps> = ({
 
 export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, variant }) => {
   return (
-    <StyledFooter variant={variant}>
+    <StyledFooter variant={variant} hasHelpText={!!helpText}>
       {helpText && (
         <CustomTooltip title={helpText} placement="top">
           <IconButton>
