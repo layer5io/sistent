@@ -30,7 +30,7 @@ function CustomTooltip({
             fontSize: { fontSize },
             fontWeight: { fontWeight },
             borderRadius: '0.5rem',
-            padding: '1rem'
+            padding: '0.9rem'
           }
         },
         popper: {
