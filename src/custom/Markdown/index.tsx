@@ -10,7 +10,6 @@ import {
   StyledMarkdownH5,
   StyledMarkdownH6,
   StyledMarkdownLi,
-  StyledMarkdownP,
   StyledMarkdownTd,
   StyledMarkdownTh,
   StyledMarkdownUl
@@ -25,7 +24,6 @@ const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ content }) => {
       remarkPlugins={[remarkGfm]}
       components={{
         a: ({ ...props }) => <StyledMarkdown>{props.children}</StyledMarkdown>,
-        p: ({ ...props }) => <StyledMarkdownP>{props.children}</StyledMarkdownP>,
         h1: ({ ...props }) => <StyledMarkdownH1>{props.children}</StyledMarkdownH1>,
         h2: ({ ...props }) => <StyledMarkdownH2>{props.children}</StyledMarkdownH2>,
         h3: ({ ...props }) => <StyledMarkdownH3>{props.children}</StyledMarkdownH3>,
