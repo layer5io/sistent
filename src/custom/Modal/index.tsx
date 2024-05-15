@@ -1,9 +1,9 @@
 import { DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { Dialog, IconButton, Paper, Typography } from '../../base';
-import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
 import { iconLarge } from '../../constants/iconsSizes';
 import { CloseIcon, InfoCircleIcon } from '../../icons';
+import { ContainedButton, OutlinedButton, TextButton } from '../../styled';
 import { CustomTooltip } from '../CustomTooltip';
 
 interface ModalProps extends DialogProps {
