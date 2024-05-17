@@ -3,7 +3,6 @@ import {} from '../../constants/constants';
 import {
   BLACK,
   BUTTON_MODAL,
-  BUTTON_MODAL_DARK,
   CARIBBEAN_GREEN,
   CHINESE_SILVER,
   CULTURED,
@@ -151,7 +150,7 @@ export const FeedbackSubmitButton = styled(Button)<SubmitProp>(({ isOpen }) => (
 }));
 
 export const FeedbackButton = styled(Button)<RenderPositionType>(({ theme, renderPosition }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? BUTTON_MODAL_DARK : BUTTON_MODAL,
+  backgroundColor: BUTTON_MODAL,
   color: CULTURED,
   borderRadius: '5px',
   padding: '10px 20px',
