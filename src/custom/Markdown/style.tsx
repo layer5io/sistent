@@ -13,6 +13,11 @@ export const StyledMarkdownP = styled('p')(({ theme }) => ({
   ...theme.typography.textB1Regular
 }));
 
+export const StyledMarkdownTooltipP = styled('p')(({ theme }) => ({
+  color: theme.palette.text.default,
+  marginBlock: '0px'
+}));
+
 export const StyledMarkdownH1 = styled('h1')(({ theme }) => ({
   color: theme.palette.text.default
 }));
