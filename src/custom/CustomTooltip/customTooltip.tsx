@@ -1,7 +1,7 @@
 import { Tooltip, type TooltipProps } from '@mui/material';
 import React from 'react';
 import { CHARCOAL, WHITE } from '../../theme';
-import RenderMarkdown from '../Markdown';
+import { RenderMarkdownTooltip } from '../Markdown';
 
 type CustomTooltipProps = {
   title: string | React.ReactNode | JSX.Element;
@@ -9,6 +9,7 @@ type CustomTooltipProps = {
   children: React.ReactNode;
   fontSize?: string;
   fontWeight?: number;
+  variant?: 'standard' | 'small';
 } & Omit<TooltipProps, 'title' | 'onClick'>;
 
 function CustomTooltip({
@@ -16,8 +17,9 @@ function CustomTooltip({
   onClick,
   placement,
   children,
-  fontSize = '1rem',
+  fontSize,
   fontWeight = 400,
+  variant = 'small',
   ...props
 }: CustomTooltipProps): JSX.Element {
   return (
@@ -27,10 +29,10 @@ function CustomTooltip({
           sx: {
             background: CHARCOAL,
             color: WHITE,
-            fontSize: { fontSize },
+            fontSize: fontSize || (variant === 'standard' ? '1rem' : '0.75rem'),
             fontWeight: { fontWeight },
             borderRadius: '0.5rem',
-            padding: '0.9rem'
+            padding: variant === 'standard' ? '0.9rem' : '0.5rem 0.75rem'
           }
         },
         popper: {
@@ -39,7 +41,7 @@ function CustomTooltip({
           }
         }
       }}
-      title={<RenderMarkdown content={typeof title === 'string' ? title : ''} />}
+      title={<RenderMarkdownTooltip content={typeof title === 'string' ? title : ''} />}
       placement={placement}
       arrow
       onClick={onClick}
