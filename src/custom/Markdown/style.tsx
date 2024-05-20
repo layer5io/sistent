@@ -10,12 +10,12 @@ export const StyledMarkdown = styled('a')(({ theme }) => ({
 }));
 
 export const StyledMarkdownP = styled('p')(({ theme }) => ({
-  color: theme.palette.text.inverse || text.inverse,
+  color: theme.palette.text.constant?.white || text.inverse,
   ...theme.typography.textB1Regular
 }));
 
 export const StyledMarkdownTooltipP = styled('p')(({ theme }) => ({
-  color: theme.palette.text.inverse || text.inverse,
+  color: theme.palette.text.constant?.white || text.inverse,
   marginBlock: '0px'
 }));
 
