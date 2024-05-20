@@ -2,7 +2,7 @@ import { DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
-import { iconLarge } from '../../constants/iconsSizes';
+import { iconLarge, iconMedium } from '../../constants/iconsSizes';
 import { CloseIcon, InfoCircleIcon } from '../../icons';
 import { CustomTooltip } from '../CustomTooltip';
 
@@ -51,6 +51,7 @@ const StyledDialog = styled(Dialog)`
     .MuiDialog-paper {
       width: auto;
       max-width: 100%;
+      border-radius: 0.5rem;
     }
   }
 `;
@@ -161,7 +162,7 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
       {helpText && (
         <CustomTooltip title={helpText} placement="top">
           <IconButton>
-            <InfoCircleIcon {...iconLarge} className="InfoCircleIcon" />
+            <InfoCircleIcon {...iconMedium} className="InfoCircleIcon" />
           </IconButton>
         </CustomTooltip>
       )}
