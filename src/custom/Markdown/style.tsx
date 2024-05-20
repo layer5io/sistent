@@ -10,7 +10,7 @@ export const StyledMarkdown = styled('a')(({ theme }) => ({
 }));
 
 export const StyledMarkdownP = styled('p')(({ theme }) => ({
-  color: theme.palette.text.constant?.white || text.inverse,
+  color: theme.palette.text.default,
   ...theme.typography.textB1Regular
 }));
 
