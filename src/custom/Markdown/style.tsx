@@ -6,7 +6,8 @@ export const StyledMarkdown = styled('a')(({ theme }) => ({
   textDecoration: 'none',
   '&:hover': {
     textDecoration: 'underline'
-  }
+  },
+  cursor: 'pointer'
 }));
 
 export const StyledMarkdownP = styled('p')(({ theme }) => ({
