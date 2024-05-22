@@ -10,6 +10,7 @@ type CustomTooltipProps = {
   fontSize?: string;
   fontWeight?: number;
   variant?: 'standard' | 'small';
+  bgColor?: string;
 } & Omit<TooltipProps, 'title' | 'onClick'>;
 
 function CustomTooltip({
@@ -20,6 +21,7 @@ function CustomTooltip({
   fontSize,
   fontWeight = 400,
   variant = 'small',
+  bgColor = CHARCOAL,
   ...props
 }: CustomTooltipProps): JSX.Element {
   return (
@@ -27,7 +29,7 @@ function CustomTooltip({
       componentsProps={{
         tooltip: {
           sx: {
-            background: CHARCOAL,
+            background: bgColor,
             color: WHITE,
             fontSize: fontSize || (variant === 'standard' ? '1rem' : '0.75rem'),
             fontWeight: { fontWeight },
