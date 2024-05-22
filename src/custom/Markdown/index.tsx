@@ -26,7 +26,17 @@ export const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ content }) => {
       remarkPlugins={[remarkGfm]}
       components={{
         p: ({ ...props }) => <StyledMarkdownP>{props.children}</StyledMarkdownP>,
-        a: ({ ...props }) => <StyledMarkdown>{props.children}</StyledMarkdown>,
+        a: ({ ...props }) => (
+          <StyledMarkdown
+            onClick={(e) => {
+              e.preventDefault();
+              window.open(props.href, '_blank');
+            }}
+            href={props.href}
+          >
+            {props.children}
+          </StyledMarkdown>
+        ),
         h1: ({ ...props }) => <StyledMarkdownH1>{props.children}</StyledMarkdownH1>,
         h2: ({ ...props }) => <StyledMarkdownH2>{props.children}</StyledMarkdownH2>,
         h3: ({ ...props }) => <StyledMarkdownH3>{props.children}</StyledMarkdownH3>,
@@ -53,7 +63,17 @@ export const RenderMarkdownTooltip: React.FC<RenderMarkdownProps> = ({ content }
       remarkPlugins={[remarkGfm]}
       components={{
         p: ({ ...props }) => <StyledMarkdownTooltipP>{props.children}</StyledMarkdownTooltipP>,
-        a: ({ ...props }) => <StyledMarkdown>{props.children}</StyledMarkdown>,
+        a: ({ ...props }) => (
+          <StyledMarkdown
+            onClick={(e) => {
+              e.preventDefault();
+              window.open(props.href, '_blank');
+            }}
+            href={props.href}
+          >
+            {props.children}
+          </StyledMarkdown>
+        ),
         h1: ({ ...props }) => <StyledMarkdownH1>{props.children}</StyledMarkdownH1>,
         h2: ({ ...props }) => <StyledMarkdownH2>{props.children}</StyledMarkdownH2>,
         h3: ({ ...props }) => <StyledMarkdownH3>{props.children}</StyledMarkdownH3>,
