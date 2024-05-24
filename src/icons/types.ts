@@ -1,10 +1,14 @@
+import { BoxProps, SxProps, Theme } from '@mui/material';
 import React from 'react';
+import { IconSize } from './SistentIcon';
 
 export type IconProps = {
-  children?: never;
+  children?: React.ReactNode;
   color?: string;
   title?: string;
   width?: number | string;
   height?: number | string;
-  fill?: string;
-} & React.SVGProps<SVGSVGElement>;
+  size?: IconSize;
+  sx?: SxProps<Theme>;
+} & Omit<BoxProps, 'sx'> &
+  React.SVGProps<SVGSVGElement>;
