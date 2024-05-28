@@ -1,5 +1,60 @@
+import { Theme, ThemeProvider, createTheme } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import React, { useCallback } from 'react';
+
+const dataTableTheme = (theme: Theme) =>
+  createTheme({
+    components: {
+      MuiTable: {
+        styleOverrides: {
+          root: {
+            border: `2px solid ${theme.palette.border.normal}`,
+            width: '-webkit-fill-available',
+            '@media (max-width: 500px)': {
+              wordWrap: 'break-word'
+            }
+          }
+        }
+      },
+      MUIDataTableHeadCell: {
+        styleOverrides: {
+          data: {
+            fontWeight: 'bold',
+            textTransform: 'uppercase'
+          },
+          root: {
+            fontWeight: 'bold',
+            textTransform: 'uppercase',
+            color: theme.palette.text.default
+          }
+        }
+      },
+      MUIDataTableSearch: {
+        styleOverrides: {
+          main: {
+            '@media (max-width: 600px)': {
+              justifyContent: 'center'
+            }
+          }
+        }
+      },
+      MuiInput: {
+        styleOverrides: {
+          root: {
+            '&:before': {
+              borderBottom: `2px solid ${theme.palette.border.brand}`
+            },
+            '&.Mui-focused:after': {
+              borderBottom: `2px solid ${theme.palette.border.brand}`
+            },
+            '&:hover:not(.Mui-disabled):before': {
+              borderBottom: `2px solid ${theme.palette.border.brand}`
+            }
+          }
+        }
+      }
+    }
+  });
 
 export interface Column {
   name: string;
@@ -130,14 +185,16 @@ const ResponsiveDataTable = ({
   };
 
   return (
-    <MUIDataTable
-      columns={tableCols ?? []}
-      data={data || []}
-      title={undefined}
-      components={components}
-      options={updatedOptions}
-      {...props}
-    />
+    <ThemeProvider theme={dataTableTheme}>
+      <MUIDataTable
+        columns={tableCols ?? []}
+        data={data || []}
+        title={undefined}
+        components={components}
+        options={updatedOptions}
+        {...props}
+      />
+    </ThemeProvider>
   );
 };
 
