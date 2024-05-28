@@ -102,5 +102,11 @@
     },
     "publishConfig": {
         "access": "public"
+    },
+    "dependencies": {
+        "@xstate/react": "^4.1.1",
+        "ajv": "^8.14.0",
+        "lodash": "^4.17.21",
+        "xstate": "^5.13.0"
     }
 }
