@@ -39,11 +39,12 @@ function CustomTooltip({
         },
         popper: {
           sx: {
+            zIndex: 99999,
             opacity: '1'
           }
         }
       }}
-      title={<RenderMarkdownTooltip content={typeof title === 'string' ? title : ''} />}
+      title={typeof title === 'string' ? <RenderMarkdownTooltip content={title} /> : title}
       placement={placement}
       arrow
       onClick={onClick}
