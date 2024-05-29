@@ -39,7 +39,7 @@ function CustomTooltip({
         },
         popper: {
           sx: {
-            zIndex: 99999,
+            zIndex: 9999999999,
             opacity: '1'
           }
         }
