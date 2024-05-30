@@ -8,7 +8,7 @@ const dataTableTheme = (theme: Theme) =>
       MuiTable: {
         styleOverrides: {
           root: {
-            border: `2px solid ${theme.palette.border.normal}`,
+            // border: `2px solid ${theme.palette.border.normal}`,
             width: '-webkit-fill-available',
             '@media (max-width: 500px)': {
               wordWrap: 'break-word'
@@ -34,6 +34,42 @@ const dataTableTheme = (theme: Theme) =>
           main: {
             '@media (max-width: 600px)': {
               justifyContent: 'center'
+            }
+          }
+        }
+      },
+      MuiCheckbox: {
+        styleOverrides: {
+          root: {
+            intermediate: false,
+            color: 'transparent',
+            '&.Mui-checked': {
+              color: theme.palette.text.default,
+              '& .MuiSvgIcon-root': {
+                width: '1.25rem',
+                height: '1.25rem',
+                borderColor: theme.palette.border.brand,
+                marginLeft: '0px',
+                padding: '0px'
+              }
+            },
+            '&.MuiCheckbox-indeterminate': {
+              color: theme.palette.background.brand?.default
+            },
+            '& .MuiSvgIcon-root': {
+              width: '1.25rem',
+              height: '1.25rem',
+              border: `.75px solid ${theme.palette.border.strong}`,
+              borderRadius: '2px',
+              padding: '0px'
+            },
+            '&:hover': {
+              backgroundColor: 'transparent'
+            },
+            '&.Mui-disabled': {
+              '&:hover': {
+                cursor: 'not-allowed'
+              }
             }
           }
         }
