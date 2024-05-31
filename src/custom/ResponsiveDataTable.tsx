@@ -12,7 +12,9 @@ const dataTableTheme = (theme: Theme) =>
             width: '-webkit-fill-available',
             '@media (max-width: 500px)': {
               wordWrap: 'break-word'
-            }
+            },
+            background: theme.palette.background.constant?.table,
+            color: theme.palette.text.default
           }
         }
       },
@@ -20,7 +22,8 @@ const dataTableTheme = (theme: Theme) =>
         styleOverrides: {
           data: {
             fontWeight: 'bold',
-            textTransform: 'uppercase'
+            textTransform: 'uppercase',
+            color: theme.palette.text.default
           },
           root: {
             fontWeight: 'bold',
@@ -71,6 +74,30 @@ const dataTableTheme = (theme: Theme) =>
                 cursor: 'not-allowed'
               }
             }
+          }
+        }
+      },
+      MuiTableCell: {
+        styleOverrides: {
+          body: {
+            color: theme.palette.text.default
+          },
+          root: {
+            borderBottom: 'none'
+          }
+        }
+      },
+      MUIDataTablePagination: {
+        styleOverrides: {
+          toolbar: {
+            color: theme.palette.text.default
+          }
+        }
+      },
+      MUIDataTableSelectCell: {
+        styleOverrides: {
+          headerCell: {
+            background: theme.palette.background.constant?.table
           }
         }
       },

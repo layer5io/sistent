@@ -33,6 +33,7 @@ declare module '@mui/material/styles' {
     constant?: {
       disabled: string;
       white: string;
+      table: string;
     };
     inverse?: string;
     brand?: Interactiveness;
@@ -84,6 +85,7 @@ declare module '@mui/material/styles' {
     constant?: {
       white: string;
       disabled: string;
+      table: string;
     };
     inverse?: string;
     brand?: Interactiveness;
@@ -116,6 +118,7 @@ declare module '@mui/material/styles' {
     constant?: {
       white: string;
       disabled: string;
+      table: string;
     };
     inverse?: string;
     brand?: Interactiveness;
@@ -252,7 +255,8 @@ export const lightModePalette: PaletteOptions = {
     code: Colors.charcoal[90],
     constant: {
       white: Colors.accentGrey[100],
-      disabled: Colors.charcoal[70]
+      disabled: Colors.charcoal[70],
+      table: Colors.charcoal[100]
     },
     surfaces: Colors.accentGrey[100]
   },
@@ -365,7 +369,8 @@ export const darkModePalette: PaletteOptions = {
     code: Colors.accentGrey[90],
     constant: {
       white: Colors.accentGrey[100],
-      disabled: Colors.charcoal[70]
+      disabled: Colors.charcoal[70],
+      table: '#363636'
     },
     surfaces: Colors.accentGrey[10]
   },
