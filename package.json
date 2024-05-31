@@ -7,7 +7,7 @@
     "url": "git+ssh://git@github.com/layer5io/sistent.git"
   },
   "main": "./dist/index.js",
-  "module": "./dist/index..js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
     "dist"
