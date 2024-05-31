@@ -3,6 +3,7 @@ export * from './AddCircle';
 export * from './Application';
 export * from './Bell';
 export * from './Bus';
+export * from './CatalogIcon';
 export * from './Chevron';
 export * from './Circle';
 export * from './Clone';
