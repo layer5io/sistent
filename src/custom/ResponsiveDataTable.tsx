@@ -83,7 +83,7 @@ const dataTableTheme = (theme: Theme) =>
             color: theme.palette.text.default
           },
           root: {
-            borderBottom: 'none'
+            borderBottom: `1px solid ${theme.palette.border.default}`
           }
         }
       },
