@@ -16,27 +16,3 @@ export const createCustomTheme = (mode: PaletteMode) => {
     breakpoints: {}
   });
 };
-
-/*
-  const commonPalette = {
-    palette: {
-      paletteType,
-      ...(paletteType === 'light' ? lightModePalette : darkModePalette)
-    }
-  };
-
-
-  const palette =
-    paletteType === 'dark'
-      ? {
-          mode: 'dark',
-          ...commonPalette,
-          text: {
-            main: '#FFFFFF'
-          }
-        }
-      : {
-          mode: 'light',
-          ...commonPalette
-        };
-        */

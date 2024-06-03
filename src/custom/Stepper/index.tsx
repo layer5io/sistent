@@ -1,8 +1,9 @@
-import { Box, IconProps, Stack, Step, StepConnector, StepLabel, Stepper } from '@mui/material';
+import { Box, Stack, Step, StepConnector, StepLabel, Stepper, useTheme } from '@mui/material';
 import { stepConnectorClasses } from '@mui/material/StepConnector';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { styled } from '@mui/system';
 import React, { useMemo, useState } from 'react';
+import { IconProps } from '../../icons/types';
 
 interface ColorlibStepIconPropsI extends StepIconProps {
   icons: React.ComponentType<IconProps>[];
@@ -23,6 +24,7 @@ interface CustomizedStepperPropsI {
   stepLabels: string[];
   children: React.ReactNode;
   icons: React.ComponentType<IconProps>[];
+  ContentWrapper?: React.ComponentType;
 }
 
 interface UseStepperI {
@@ -100,9 +102,10 @@ function ColorlibStepIcon(props: ColorlibStepIconPropsI) {
   const { active, completed, className, icons } = props;
 
   const Icon = icons[Number(props.icon) - 1];
+  const theme = useTheme();
   return (
     <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
-      {Icon ? <Icon /> : null}
+      {Icon ? <Icon fill={theme.palette.icon.secondary} /> : null}
     </ColorlibStepIconRoot>
   );
 }
@@ -111,11 +114,18 @@ const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
   stepLabels,
   activeStep,
   children,
-  icons
+  icons,
+  ContentWrapper = StepContentWrapper
 }) => {
+  const theme = useTheme();
+
   return (
-    <Stack spacing={2}>
-      <Stack direction="row" justifyContent="center">
+    <Stack>
+      <Stack
+        direction="row"
+        justifyContent="center"
+        style={{ paddingBlock: '1rem', backgroundColor: theme.palette.background.blur?.heavy }}
+      >
         <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
           {stepLabels.map((label) => (
             <Step key={label}>
@@ -128,7 +138,7 @@ const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
           ))}
         </Stepper>
       </Stack>
-      <StepContentWrapper>{children}</StepContentWrapper>
+      <ContentWrapper>{children}</ContentWrapper>
     </Stack>
   );
 };
