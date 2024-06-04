@@ -1,3 +1,5 @@
+import { styled, useTheme } from '@mui/material';
+
 export { darkModePalette, lightModePalette } from './palette';
 export { typography } from './typography';
 
@@ -6,3 +8,5 @@ export {
   SistentThemeProviderWithoutBaseLine
 } from './ThemeProvider';
 export * from './colors';
+
+export { styled, useTheme };
