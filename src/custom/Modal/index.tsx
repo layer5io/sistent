@@ -1,6 +1,6 @@
 import { DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
-import { Dialog, IconButton, Paper, Typography } from '../../base';
+import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
 import { iconLarge, iconMedium } from '../../constants/iconsSizes';
 import { CloseIcon, InfoCircleIcon } from '../../icons';
@@ -172,7 +172,7 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
 };
 
 // ModalButtonPrimary
-export const ModalButtonPrimary: React.FC = styled(ContainedButton)(({ theme }) => ({
+export const ModalButtonPrimary = styled(ContainedButton)(({ theme }) => ({
   backgroundColor: theme.palette.background.brand?.default,
   color: theme.palette.text.constant?.white,
   '&:hover': {
@@ -215,3 +215,31 @@ export const ModalButtonDanger = styled(ContainedButton)(({ theme }) => ({
     background: theme.palette.background.error?.hover
   }
 }));
+
+const ButtonContainer = styled(Box)(() => ({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'end',
+  gap: '1rem'
+}));
+
+interface PrimaryActionButtonsProps {
+  primaryText: string;
+  secondaryText: string;
+  primaryButtonProps?: React.ComponentProps<typeof ModalButtonPrimary>;
+  secondaryButtonProps?: React.ComponentProps<typeof ModalButtonSecondary>;
+}
+
+export const PrimaryActionButtons: React.FC<PrimaryActionButtonsProps> = ({
+  primaryText,
+  secondaryText,
+  primaryButtonProps,
+  secondaryButtonProps
+}) => {
+  return (
+    <ButtonContainer>
+      <ModalButtonPrimary {...primaryButtonProps}>{primaryText}</ModalButtonPrimary>
+      <ModalButtonSecondary {...secondaryButtonProps}>{secondaryText}</ModalButtonSecondary>
+    </ButtonContainer>
+  );
+};
