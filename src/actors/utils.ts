@@ -1,7 +1,7 @@
 // disbale stict no any for now for full file
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { AnyActorRef, AnyEventObject, enqueueActions, sendTo } from 'xstate';
+import { AnyActorRef, AnyEventObject, assign, enqueueActions, sendTo } from 'xstate';
 import { AnyActorSystem } from 'xstate/dist/declarations/src/system';
 
 type ContextWithReturnAddress = { returnAddress: AnyActorRef };
@@ -43,3 +43,35 @@ export const reply = (eventFn: (actionArgs: any, params: any) => AnyEventObject)
   sendTo(({ context }: { context: ContextWithReturnAddress }) => context.returnAddress, eventFn);
 
 export const XSTATE_DEBUG_EVENT = 'XSTATE_DEBUG_EVENT';
+
+type deferredEventsQueue = AnyEventObject[];
+
+interface DeferredEventsQueueContext {
+  deferredEventsQueue: deferredEventsQueue;
+}
+
+interface deferActionParams {
+  event: AnyEventObject;
+  context: DeferredEventsQueueContext;
+}
+
+const defer = assign({
+  deferredEventsQueue: ({ context: { deferredEventsQueue }, event }: deferActionParams) => [
+    ...deferredEventsQueue,
+    event
+  ]
+});
+
+const recall = enqueueActions(({ context: { deferredEventsQueue }, enqueue }) => {
+  enqueue.assign({
+    deferredEventsQueue: []
+  });
+  for (const event of deferredEventsQueue) {
+    enqueue.raise(event);
+  }
+});
+
+export const DeferEvents = {
+  defer,
+  recall
+};
