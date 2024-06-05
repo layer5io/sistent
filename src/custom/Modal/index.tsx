@@ -238,8 +238,8 @@ export const PrimaryActionButtons: React.FC<PrimaryActionButtonsProps> = ({
 }) => {
   return (
     <ButtonContainer>
-      <ModalButtonPrimary {...primaryButtonProps}>{primaryText}</ModalButtonPrimary>
       <ModalButtonSecondary {...secondaryButtonProps}>{secondaryText}</ModalButtonSecondary>
+      <ModalButtonPrimary {...primaryButtonProps}>{primaryText}</ModalButtonPrimary>
     </ButtonContainer>
   );
 };
