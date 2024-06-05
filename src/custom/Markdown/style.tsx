@@ -12,6 +12,7 @@ export const StyledMarkdown = styled('a')(({ theme }) => ({
 
 export const StyledMarkdownP = styled('p')(({ theme }) => ({
   color: theme.palette.text.default,
+  marginBlock: '0px',
   ...theme.typography.textB1Regular
 }));
 
@@ -61,10 +62,12 @@ export const StyledMarkdownLi = styled('li')(({ theme }) => ({
 
 export const StyledMarkdownTh = styled('th')(({ theme }) => ({
   color: theme.palette.text.default,
-  ...theme.typography.textH3Medium
+  ...theme.typography.textH3Medium,
+  marginBlock: '0px'
 }));
 
 export const StyledMarkdownTd = styled('td')(({ theme }) => ({
   color: theme.palette.text.default,
+  marginBlock: '0px',
   ...theme.typography.textB1Regular
 }));
