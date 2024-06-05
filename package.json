@@ -43,6 +43,7 @@
     "@commitlint/cli": "^17.7.2",
     "@commitlint/config-conventional": "^17.7.0",
     "@mui/icons-material": "^5.15.11",
+    "@reduxjs/toolkit": "^2.2.5",
     "@testing-library/react": "^14.1.2",
     "@types/jest": "^29.5.11",
     "@types/react": "^18.2.45",
@@ -76,10 +77,10 @@
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.15.11",
     "@types/mui-datatables": "*",
+    "@xstate/react": "^4.1.1",
     "mui-datatables": "*",
     "react": ">=17",
     "react-dom": ">=17",
-    "@xstate/react": "^4.1.1",
     "xstate": "^5.13.0"
   },
   "peerDependenciesMeta": {
