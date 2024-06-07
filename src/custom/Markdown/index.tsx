@@ -66,10 +66,10 @@ export const RenderMarkdownTooltip: React.FC<RenderMarkdownProps> = ({ content }
         a: ({ ...props }) => (
           <StyledMarkdown
             onClick={(e) => {
-              e.preventDefault();
               window.open(props.href, '_blank');
+              e.stopPropagation();
             }}
-            href={props.href}
+            as="a"
           >
             {props.children}
           </StyledMarkdown>
