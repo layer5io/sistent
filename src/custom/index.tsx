@@ -84,6 +84,7 @@ export {
   ModalButtonSecondary,
   ModalButtonTertiary,
   ModalFooter,
+  PrimaryActionButtons,
   useModal
 } from './Modal';
 
