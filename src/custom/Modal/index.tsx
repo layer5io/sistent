@@ -1,4 +1,4 @@
-import { DialogProps, styled } from '@mui/material';
+import { ButtonProps, DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
@@ -171,18 +171,24 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
   );
 };
 
+interface ModalButtonPrimaryProps extends ButtonProps {
+  isOpen: boolean;
+}
+
 // ModalButtonPrimary
-export const ModalButtonPrimary: React.FC = styled(ContainedButton)(({ theme }) => ({
-  backgroundColor: theme.palette.background.brand?.default,
-  color: theme.palette.text.constant?.white,
-  '&:hover': {
-    background: theme.palette.background.brand?.hover
-  },
-  '&.MuiButton-contained.Mui-disabled': {
-    color: theme.palette.text.constant?.disabled,
-    backgroundColor: theme.palette.background.constant?.disabled
-  }
-}));
+export const ModalButtonPrimary: React.FC<ModalButtonPrimaryProps> = styled(ContainedButton)(
+  ({ theme }) => ({
+    backgroundColor: theme.palette.background.brand?.default,
+    color: theme.palette.text.constant?.white,
+    '&:hover': {
+      background: theme.palette.background.brand?.hover
+    },
+    '&.MuiButton-contained.Mui-disabled': {
+      color: theme.palette.text.constant?.disabled,
+      backgroundColor: theme.palette.background.constant?.disabled
+    }
+  })
+);
 
 // ModalButtonSecondary
 export const ModalButtonSecondary = styled(OutlinedButton)(({ theme }) => ({
