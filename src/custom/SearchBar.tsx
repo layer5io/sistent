@@ -61,7 +61,6 @@ export interface SearchBarProps {
   onClear?: () => void;
   expanded: boolean;
   setExpanded: (expanded: boolean) => void;
-  iconFill?: string;
 }
 
 function SearchBar({
@@ -69,13 +68,11 @@ function SearchBar({
   placeholder,
   onClear,
   expanded,
-  setExpanded,
-  iconFill
+  setExpanded
 }: SearchBarProps): JSX.Element {
   const [searchText, setSearchText] = React.useState('');
   const searchRef = React.useRef<HTMLInputElement | null>(null);
-
-  const outerTheme = useTheme();
+  const theme = useTheme();
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchText(event.target.value);
@@ -123,7 +120,7 @@ function SearchBar({
       }}
     >
       <div>
-        <ThemeProvider theme={customTheme(outerTheme)}>
+        <ThemeProvider theme={customTheme(theme)}>
           <TextField
             variant="standard"
             value={searchText}
@@ -144,14 +141,14 @@ function SearchBar({
           <TooltipIcon
             title="Close"
             onClick={handleClearIconClick}
-            icon={<CloseIcon fill={iconFill} />}
+            icon={<CloseIcon fill={theme.palette.icon.default} />}
             arrow
           />
         ) : (
           <TooltipIcon
             title="Search"
             onClick={handleSearchIconClick}
-            icon={<SearchIcon fill={iconFill} />}
+            icon={<SearchIcon fill={theme.palette.icon.default} />}
             arrow
           />
         )}
