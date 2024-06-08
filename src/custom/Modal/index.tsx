@@ -1,6 +1,6 @@
 import { ButtonProps, DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
-import { Dialog, IconButton, Paper, Typography } from '../../base';
+import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
 import { iconLarge, iconMedium } from '../../constants/iconsSizes';
 import { CloseIcon, InfoCircleIcon } from '../../icons';
@@ -172,23 +172,21 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
 };
 
 interface ModalButtonPrimaryProps extends ButtonProps {
-  isOpen: boolean;
+  isOpen?: boolean;
 }
 
 // ModalButtonPrimary
-export const ModalButtonPrimary: React.FC<ModalButtonPrimaryProps> = styled(ContainedButton)(
-  ({ theme }) => ({
-    backgroundColor: theme.palette.background.brand?.default,
-    color: theme.palette.text.constant?.white,
-    '&:hover': {
-      background: theme.palette.background.brand?.hover
-    },
-    '&.MuiButton-contained.Mui-disabled': {
-      color: theme.palette.text.constant?.disabled,
-      backgroundColor: theme.palette.background.constant?.disabled
-    }
-  })
-);
+export const ModalButtonPrimary = styled(ContainedButton)<ModalButtonPrimaryProps>(({ theme }) => ({
+  backgroundColor: theme.palette.background.brand?.default,
+  color: theme.palette.text.constant?.white,
+  '&:hover': {
+    background: theme.palette.background.brand?.hover
+  },
+  '&.MuiButton-contained.Mui-disabled': {
+    color: theme.palette.text.constant?.disabled,
+    backgroundColor: theme.palette.background.constant?.disabled
+  }
+}));
 
 // ModalButtonSecondary
 export const ModalButtonSecondary = styled(OutlinedButton)(({ theme }) => ({
@@ -221,3 +219,31 @@ export const ModalButtonDanger = styled(ContainedButton)(({ theme }) => ({
     background: theme.palette.background.error?.hover
   }
 }));
+
+const ButtonContainer = styled(Box)(() => ({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'end',
+  gap: '1rem'
+}));
+
+interface PrimaryActionButtonsProps {
+  primaryText: string;
+  secondaryText: string;
+  primaryButtonProps?: React.ComponentProps<typeof ModalButtonPrimary>;
+  secondaryButtonProps?: React.ComponentProps<typeof ModalButtonSecondary>;
+}
+
+export const PrimaryActionButtons: React.FC<PrimaryActionButtonsProps> = ({
+  primaryText,
+  secondaryText,
+  primaryButtonProps,
+  secondaryButtonProps
+}) => {
+  return (
+    <ButtonContainer>
+      <ModalButtonSecondary {...secondaryButtonProps}>{secondaryText}</ModalButtonSecondary>
+      <ModalButtonPrimary {...primaryButtonProps}>{primaryText}</ModalButtonPrimary>
+    </ButtonContainer>
+  );
+};
