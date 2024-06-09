@@ -40,7 +40,6 @@ export const fromWorkerfiedActor = (
     const { self, system } = actorScope;
     console.log('Starting fromWorkerActor [+]', state, actorScope);
     worker.postMessage(workerCommands.startActor());
-    console.log('Worker created fromWorkerActor [-]', worker);
     const workerState = {
       worker,
       snapshot: null
@@ -48,17 +47,7 @@ export const fromWorkerfiedActor = (
 
     worker.addEventListener('message', (event) => {
       const eventFromWorker = event.data as AnyEventObject;
-
-      console.log('message received from worker', eventFromWorker, event);
-      console.log(
-        'matching',
-        eventFromWorker.type,
-        WORKER_EVENTS.STATE_SNAPSHOT,
-        eventFromWorker.type === WORKER_EVENTS.STATE_SNAPSHOT
-      );
       if (eventFromWorker.type == 'STATE_SNAPSHOT') {
-        // workerState.snapshot = event.data.snapshot;
-        console.log('passing snapshot', eventFromWorker.data.snapshot);
         self.send(eventFromWorker);
         return state;
       }
@@ -81,7 +70,6 @@ export const fromWorkerfiedActor = (
   transition: (state, event, actorScope) => {
     const { self } = actorScope;
     const workerState = instanceStates.get(self);
-    console.log('Transitioning fromWorkerActor...', state, event, actorScope, workerState);
     if (event.type === 'xstate.stop') {
       console.log('Stopping fromWorkerActor...', state, event, actorScope);
       workerState.worker.postMessage(workerCommands.stopActor());
@@ -94,19 +82,20 @@ export const fromWorkerfiedActor = (
     }
     if (event.type == WORKER_EVENTS.STATE_SNAPSHOT) {
       const snapshot = (event as STATE_SNAPSHOT_EVENT).data.snapshot;
-      console.log('Syncing  snapshot with worker', snapshot);
       return {
         ...state,
         ...(snapshot || {})
       };
     }
 
-    workerState.worker.postMessage(workerCommands.sendEvent(event));
+    try {
+      workerState.worker.postMessage(workerCommands.sendEvent(event));
+    } catch (error) {
+      console.error('Error sending event to worker', error, event);
+    }
     const nextState = {
       ...state
-      // matches: (value: StateValue) => matchesState(value, state?.value)
     };
-    console.log('Transitioned fromWorkerActor...', workerState, nextState);
     return nextState;
   },
   getInitialSnapshot: (_, input) => {
@@ -121,7 +110,6 @@ export const fromWorkerfiedActor = (
       context: {},
       matches: function (value: StateValue) {
         const currentValue = (this as WorkerSnapshot).value;
-        console.log('Matching', currentValue, value);
         return matchesState(currentValue, value);
       }
     } as unknown as AnyMachineSnapshot;

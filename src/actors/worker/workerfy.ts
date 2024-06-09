@@ -37,7 +37,6 @@ const ProxyActor = setup({
 
 const syncSnapshot = (actorRef: AnyActorRef) => {
   return actorRef.subscribe((snapshot) => {
-    console.log('Worker sending state snapshot...', snapshot.toJSON());
     postMessage(workerEvents.stateSnapshot(snapshot.toJSON()));
   });
 };
@@ -52,19 +51,14 @@ export const workerfyActor = (actor: AnyActorLogic) => {
   }).start();
 
   addEventListener('message', (event) => {
-    console.log('Worker received message', event.data);
-
     if (event.data.type === WORKER_COMMANDS.START_ACTOR) {
       actorRef = createActor(actor, {
         input: event.data.input,
         parent: parentProxy
       });
 
-      console.log('Worker created actor', actor);
       snapshotSubscription = syncSnapshot(actorRef);
       actorRef.start();
-      console.log('Worker starting actor...');
-      console.log('Worker started state Subscription', snapshotSubscription);
     }
 
     if (event.data.type === WORKER_COMMANDS.STOP_ACTOR) {
