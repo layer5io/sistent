@@ -89,7 +89,7 @@ export function CustomColumnVisibilityControl({
                     flexDirection: 'column',
                     padding: '1rem',
                     boxShadow: open ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
-                    background: theme.palette.background.blur?.heavy
+                    background: theme.palette.background.surfaces
                   }}
                 >
                   {columns.map((col) => (

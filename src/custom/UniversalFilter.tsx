@@ -94,7 +94,7 @@ function UniversalFilter({
                     padding: '1rem',
                     paddingTop: '1.8rem',
                     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-                    backgroundColor: theme.palette.background.blur?.heavy
+                    backgroundColor: theme.palette.background.surfaces
                   }}
                 >
                   {Object.keys(filters).map((filterColumn) => {
