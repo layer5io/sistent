@@ -1,4 +1,4 @@
-import { DialogProps, styled } from '@mui/material';
+import { ButtonProps, DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
@@ -171,8 +171,12 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
   );
 };
 
+interface ModalButtonPrimaryProps extends ButtonProps {
+  isOpen?: boolean;
+}
+
 // ModalButtonPrimary
-export const ModalButtonPrimary = styled(ContainedButton)(({ theme }) => ({
+export const ModalButtonPrimary = styled(ContainedButton)<ModalButtonPrimaryProps>(({ theme }) => ({
   backgroundColor: theme.palette.background.brand?.default,
   color: theme.palette.text.constant?.white,
   '&:hover': {

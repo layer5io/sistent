@@ -10,6 +10,7 @@ import {
 } from '../../icons';
 import { CULTURED } from '../../theme';
 import { CustomTooltip } from '../CustomTooltip';
+import { ModalButtonPrimary } from '../Modal';
 import { ModalCard } from '../ModalCard';
 import {
   ActionWrapper,
@@ -21,7 +22,6 @@ import {
   FeedbackMiniIcon,
   FeedbackOptionButton,
   FeedbackOptions,
-  FeedbackSubmitButton,
   FeedbackTextArea,
   HelperWrapper,
   InnerComponentWrapper,
@@ -166,14 +166,14 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
                       We may email you for more information or updates
                     </Typography>
                   </ActionWrapper>
-                  <FeedbackSubmitButton
+                  <ModalButtonPrimary
                     type="submit"
                     disabled={!(messageValue && isChecked)}
                     isOpen={!(messageValue && isChecked)}
                     onClick={handleSubmit}
                   >
                     Send
-                  </FeedbackSubmitButton>
+                  </ModalButtonPrimary>
                 </div>
               }
               leftHeaderIcon={<FeedbackIcon />}

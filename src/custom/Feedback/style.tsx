@@ -218,7 +218,7 @@ export const FeedbackMessage = styled(Box)<FeedbackMessageProps>(({ isOpen, them
   position: 'relative',
   bottom: isOpen ? '0px' : '-240px',
   right: '0',
-  color: BLACK,
+  color: theme.palette.text.default,
   backgroundColor: theme.palette.mode === 'dark' ? DARK_JUNGLE_GREEN : WHITE,
   border: `1px solid ${MEDIUM_GREY}`,
   padding: '20px',
