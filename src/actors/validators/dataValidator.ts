@@ -168,13 +168,14 @@ export const dataValidatorMachine = setup({
         waiting: {},
         debouncing: {
           after: {
-            debounceTimeout: '#validationMachine.validatingData'
+            debounceTimeout: '#validatingData'
           }
         }
       }
     },
 
     validatingData: {
+      id: 'validatingData',
       invoke: {
         src: 'ValidateActor',
         input: ({ context }: { context: ValidationMachineContext }) => ({

@@ -37,7 +37,13 @@ const ProxyActor = setup({
 
 const syncSnapshot = (actorRef: AnyActorRef) => {
   return actorRef.subscribe((snapshot) => {
-    postMessage(workerEvents.stateSnapshot(snapshot.toJSON()));
+    const jsonSnapshot = snapshot.toJSON();
+    delete jsonSnapshot.children; // children are not serializable
+    try {
+      postMessage(workerEvents.stateSnapshot(jsonSnapshot));
+    } catch (error) {
+      console.error('Error sending snapshot from worker', error, jsonSnapshot);
+    }
   });
 };
 

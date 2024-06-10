@@ -81,7 +81,7 @@ export const fromWorkerfiedActor = (
       };
     }
     if (event.type == WORKER_EVENTS.STATE_SNAPSHOT) {
-      const snapshot = (event as STATE_SNAPSHOT_EVENT).data.snapshot;
+      const snapshot = (event as STATE_SNAPSHOT_EVENT).data.snapshot as AnyMachineSnapshot;
       return {
         ...state,
         ...(snapshot || {})
@@ -110,7 +110,7 @@ export const fromWorkerfiedActor = (
       context: {},
       matches: function (value: StateValue) {
         const currentValue = (this as WorkerSnapshot).value;
-        return matchesState(currentValue, value);
+        return matchesState(value, currentValue);
       }
     } as unknown as AnyMachineSnapshot;
   },
