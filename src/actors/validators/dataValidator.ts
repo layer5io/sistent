@@ -168,13 +168,14 @@ export const dataValidatorMachine = setup({
         waiting: {},
         debouncing: {
           after: {
-            debounceTimeout: '#validationMachine.validatingData'
+            debounceTimeout: '#validatingData'
           }
         }
       }
     },
 
     validatingData: {
+      id: 'validatingData',
       invoke: {
         src: 'ValidateActor',
         input: ({ context }: { context: ValidationMachineContext }) => ({
@@ -224,7 +225,7 @@ export const dataValidatorMachine = setup({
 type ValidationMachineSnapshot = SnapshotFrom<typeof dataValidatorMachine>;
 
 export const selectValidationResults = (state: ValidationMachineSnapshot) =>
-  state.context.validationResults;
+  state.context?.validationResults;
 
 export const selectIsValidating = (state: ValidationMachineSnapshot) =>
   state.matches('validatingData');
