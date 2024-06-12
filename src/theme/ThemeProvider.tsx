@@ -1,5 +1,5 @@
 import { EmotionCache } from '@emotion/react';
-import { CssBaseline, PaletteMode, Theme, ThemeProvider } from '@mui/material';
+import { CssBaseline, Interactiveness, PaletteMode, Theme, ThemeProvider } from '@mui/material';
 import React from 'react';
 import { createCustomTheme } from './theme';
 
@@ -13,15 +13,19 @@ export interface SistentThemeProviderProps {
   children: React.ReactNode;
   emotionCache?: EmotionCache;
   initialMode?: PaletteMode;
+  customTheme?: Interactiveness;
 }
 
 function SistentThemeProvider({
   children,
   emotionCache,
-  initialMode = 'light'
+  initialMode = 'light',
+  customTheme
 }: SistentThemeProviderProps): JSX.Element {
   const theme = React.useMemo<Theme>(() => createCustomTheme(initialMode), [initialMode]);
-
+  if (customTheme) {
+    theme.palette.background.brand = customTheme;
+  }
   return (
     <SistentThemeProviderContext.Provider value={{ emotionCache }}>
       <ThemeProvider theme={theme}>
@@ -38,7 +42,6 @@ export function SistentThemeProviderWithoutBaseLine({
   initialMode = 'light'
 }: SistentThemeProviderProps): JSX.Element {
   const theme = React.useMemo<Theme>(() => createCustomTheme(initialMode), [initialMode]);
-
   return (
     <SistentThemeProviderContext.Provider value={{ emotionCache }}>
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
