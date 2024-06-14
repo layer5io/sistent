@@ -49,8 +49,6 @@ const CloseBtn = styled(IconButton)`
 const StyledDialog = styled(Dialog)`
   && {
     .MuiDialog-paper {
-      width: auto;
-      max-width: 100%;
       border-radius: 0.5rem;
     }
   }
@@ -128,10 +126,13 @@ export const Modal: React.FC<ModalProps> = ({
   headerIcon,
   reactNode,
   children,
+  maxWidth = 'xs',
   ...props
 }) => {
   return (
     <StyledDialog
+      fullWidth={true}
+      maxWidth={maxWidth}
       open={open}
       onClose={closeModal}
       aria-labelledby="alert-dialog-slide-title"
