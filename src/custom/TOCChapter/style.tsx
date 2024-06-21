@@ -44,7 +44,7 @@ export const TOCWrapper = styled('div')(({ theme }) => ({
       MozPaddingStart: '2.65rem',
       '&::after': {
         position: 'absolute',
-        inset: '1rem auto 1rem 27px',
+        inset: '1rem auto 1rem 1.7rem',
         width: 'auto',
         height: 'auto',
         borderLeft: `1px solid rgba(177, 182, 184, 0.25)`,
@@ -75,13 +75,6 @@ export const TOCWrapper = styled('div')(({ theme }) => ({
         '&::marker, & p, & a': {
           color: CARIBBEAN_GREEN
         }
-      }
-    }
-  },
-  '@media(max-width: 1200px)': {
-    '.toc-list ul': {
-      '&::after': {
-        inset: '1rem auto 1rem 24px'
       }
     }
   }
