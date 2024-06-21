@@ -22,10 +22,10 @@ function SistentThemeProvider({
   initialMode = 'light',
   customTheme
 }: SistentThemeProviderProps): JSX.Element {
-  const theme = React.useMemo<Theme>(() => createCustomTheme(initialMode), [initialMode]);
-  if (customTheme) {
-    theme.palette.background.brand = customTheme;
-  }
+  const theme = React.useMemo<Theme>(
+    () => createCustomTheme(initialMode, customTheme),
+    [initialMode, customTheme]
+  );
   return (
     <SistentThemeProviderContext.Provider value={{ emotionCache }}>
       <ThemeProvider theme={theme}>
