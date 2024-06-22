@@ -1,21 +1,24 @@
-import { useParams } from 'react-router-dom';
+import React from 'react';
+
 import Navigation from '../Navigation';
-import Text from '../Text';
-import Code from './code';
-import Guidance from './guidance';
-import Overview from './overview';
+import Layout from '../../../components/Layout';
+import Heading from '../../../components/UI/PageHeading';
+import PageHeader from '../../../components/UI/PageHeader';
+import Paragraph from '../../../components/UI/Paragraph';
 
 const Typography = () => {
-  const { id } = useParams();
   return (
-    <>
-      <Text
-        title="Typography"
-        description="Most of the information that is present in a user interface for the purpose of passing information across is represented via typography. Correct structuring and appropriate application is important for all interfaces."
-      />
+    <Layout>
+      <PageHeader>
+        <Heading>Typography</Heading>
+        <Paragraph>
+          Most of the information that is present in a user interface for the purpose of passing
+          information across is represented via typography. Correct typography structure and
+          appropriate application is important in all interfaces.
+        </Paragraph>
+      </PageHeader>
       <Navigation type="typography" />
-      {id === 'guidance' ? <Guidance /> : id === 'code' ? <Code /> : <Overview />}
-    </>
+    </Layout>
   );
 };
 
