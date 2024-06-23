@@ -79,7 +79,7 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType
                 <CardSubdata className="card-subdata">
                   <p>
                     {courseCount} {courseType}
-                    {courseCount === 1 ? '' : 's'}
+                    {courseCount > 1 ? 's' : ''}
                   </p>
                 </CardSubdata>
                 <CardImage>
