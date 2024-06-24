@@ -7,14 +7,10 @@ export const drawerWidth = 240;
 
 export const createCustomTheme = (mode: PaletteMode, brandPalette?: Interactiveness) => {
   const basePalette = mode == 'light' ? lightModePalette : darkModePalette;
-  const themePalette = brandPalette
-    ? Object.assign({}, basePalette, {
-        background: {
-          brand: brandPalette
-        }
-      })
-    : basePalette;
-
+  const themePalette = structuredClone(basePalette);
+  if (brandPalette && themePalette.background) {
+    themePalette.background.brand = brandPalette;
+  }
   return createTheme({
     palette: {
       mode,
