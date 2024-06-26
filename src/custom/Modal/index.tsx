@@ -161,7 +161,7 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
   return (
     <StyledFooter variant={variant} hasHelpText={!!helpText}>
       {helpText && (
-        <CustomTooltip title={helpText} placement="top">
+        <CustomTooltip title={helpText} variant="standard" placement="top">
           <IconButton>
             <InfoCircleIcon {...iconMedium} className="InfoCircleIcon" />
           </IconButton>
