@@ -17,6 +17,7 @@ import {
   DesignInnerCard,
   DesignName,
   DesignType,
+  ImageWrapper,
   MetricsContainerFront,
   MetricsCount,
   MetricsDiv,
@@ -32,7 +33,7 @@ type CatalogCardProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   pattern: any;
   patternType: string;
-  url: string;
+  cardLink: string;
   cardHeight: string;
   cardWidth: string;
   cardStyles: React.CSSProperties;
@@ -62,7 +63,7 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
   cardHeight,
   cardWidth,
   cardStyles,
-  url
+  cardLink
 }) => {
   const outerStyles = {
     height: cardHeight,
@@ -70,7 +71,7 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
     ...cardStyles
   };
   return (
-    <DesignCardUrl href={url} target="_blank" rel="noreferrer">
+    <DesignCardUrl href={cardLink} target="_blank" rel="noreferrer">
       <DesignCard outerStyles={outerStyles}>
         <DesignInnerCard className="innerCard">
           <ClassWrap catalogClassName={pattern?.catalog_data?.content_class} />
@@ -84,19 +85,9 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
             >
               {pattern.name}
             </DesignName>
-            <div
-              style={{
-                background: 'rgba(231, 239, 243, 0.40)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '0.5rem',
-                width: '100%',
-                borderRadius: '0.5rem'
-              }}
-            >
+            <ImageWrapper>
               <DesignIcon height={'118'} width={'120'} />
-            </div>
+            </ImageWrapper>
           </DesignDetailsDiv>
           <MetricsContainerFront>
             <MetricsDiv>

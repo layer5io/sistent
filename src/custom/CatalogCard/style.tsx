@@ -16,13 +16,12 @@ export const StyledClassWrapper = styled('div')(() => ({
 }));
 
 export const StyledInnerClassWrapper = styled('div')<StyledInnerClassWrapperProps>(({
-  catalogClassName,
-  theme
+  catalogClassName
 }) => {
   const mapToColor: Record<string, string> = {
-    community: theme.palette.icon.secondary,
-    official: theme.palette.background.cta?.default || '#EBC017',
-    verified: theme.palette.background.brand?.default || ''
+    community: 'rgba(122,132,142,.8)',
+    official: '#EBC017',
+    verified: '#00B39F'
   };
   return {
     font: 'bold 10px sans-serif',
@@ -67,10 +66,7 @@ export const DesignInnerCard = styled('div')(({ theme }) => ({
   height: '100%',
   textAlign: 'center',
   transition: 'transform 0.6s',
-  boxShadow:
-    theme.palette.mode === 'dark'
-      ? '0 4px 8px 0 rgba(255, 255, 255, 0.1)'
-      : '0 4px 8px 0 rgba(0,0,0,0.2)',
+  boxShadow: `2px 2px 3px 0px ${theme.palette.background.brand?.default}`,
   borderRadius: '0.9375rem'
 }));
 export const DesignType = styled('span')(({ theme }) => ({
@@ -105,17 +101,8 @@ export const DesignName = styled(Typography)(({ theme }) => ({
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
-  // textAlign: "center",
-  textAlign: 'left',
-  '& :after': {
-    content: "''",
-    textAlign: 'right',
-    position: 'absolute',
-    bottom: '0',
-    right: '0',
-    width: '70%',
-    background: 'linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%)'
-  }
+  textAlign: 'center',
+  width: '100%'
 }));
 export const MetricsContainerFront = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -153,12 +140,13 @@ export const DesignDetailsDiv = styled('div')(() => ({
     height: 'max-content'
   }
 }));
-export const CardFront = styled('div')(({ theme }) => ({
-  boxShadow: `2px 2px 3px 0px ${theme.palette.background.brand?.default}`,
-  background: `linear-gradient(to left bottom, #EBEFF1,#f4f5f7, #f7f7f9, #fff, #fff, #fff,#fff,#fff, #fff, #f7f7f9, #f4f5f7, #EBEFF1)`,
+
+export const ImageWrapper = styled('div')(({ theme }) => ({
+  background: theme.palette.mode === 'light' ? 'rgba(231, 239, 243, 0.40)' : '#212121',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '0.5rem',
   width: '100%',
-  height: '100%',
-  WebkitBackfaceVisibility: 'hidden',
-  borderRadius: '0.9375rem',
-  backfaceVisibility: 'hidden'
+  borderRadius: '0.5rem'
 }));
