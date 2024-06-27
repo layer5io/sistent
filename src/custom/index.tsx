@@ -37,6 +37,7 @@ import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 
+export { CatalogCard } from './CatalogCard';
 export { StyledChartDialog } from './ChartDialog';
 export { LearningContent } from './LearningContent';
 export { SetupPreReq } from './SetupPrerequisite';
