@@ -8,3 +8,8 @@ export type IconProps = {
   height?: number | string;
   fill?: string;
 } & React.SVGProps<SVGSVGElement>;
+
+export type CustomIconProps = {
+  primaryFill?: string;
+  secondaryFill?: string;
+} & IconProps;
