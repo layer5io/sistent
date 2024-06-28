@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/material';
 import React from 'react';
 import { Box } from '../../base/Box';
 import { Card } from '../../base/Card';
@@ -30,6 +31,7 @@ export function CustomColumnVisibilityControl({
 }: CustomColumnVisibilityControlProps): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const theme = useTheme();
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -54,7 +56,7 @@ export function CustomColumnVisibilityControl({
         <TooltipIcon
           title="View Columns"
           onClick={handleOpen}
-          icon={<ColumnIcon fill="#3c494f" />}
+          icon={<ColumnIcon fill={theme.palette.icon.default} />}
           arrow
         />
         <PopperListener
@@ -87,7 +89,7 @@ export function CustomColumnVisibilityControl({
                     flexDirection: 'column',
                     padding: '1rem',
                     boxShadow: open ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
-                    background: '#f4f5f7'
+                    background: theme.palette.background.surfaces
                   }}
                 >
                   {columns.map((col) => (
