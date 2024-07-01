@@ -56,3 +56,4 @@ function CustomTooltip({
 }
 
 export default CustomTooltip;
+export type { CustomTooltipProps };

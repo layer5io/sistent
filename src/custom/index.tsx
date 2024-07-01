@@ -8,7 +8,7 @@ import {
   CustomColumnVisibilityControl,
   CustomColumnVisibilityControlProps
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
-import { CustomTooltip } from './CustomTooltip';
+import { CustomTooltip, InfoTooltip } from './CustomTooltip';
 import {
   CustomDialog,
   StyledDialogActions,
@@ -60,6 +60,7 @@ export {
   Fallback,
   FeedbackButton,
   FlipCard,
+  InfoTooltip,
   LearningCard,
   ModalCard,
   PopperListener,
