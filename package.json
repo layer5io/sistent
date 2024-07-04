@@ -67,6 +67,7 @@
     "prettier-plugin-organize-imports": "^3.2.3",
     "react-error-boundary": "^4.0.12",
     "react-markdown": "^8.0.7",
+    "rehype-raw": "^6.1.1",
     "remark-gfm": "^3.0.1",
     "ts-jest": "^29.1.1",
     "tsup": "^8.0.1",
