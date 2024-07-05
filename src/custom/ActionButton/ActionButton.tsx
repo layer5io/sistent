@@ -20,12 +20,14 @@ interface Option {
 
 interface ActionButtonProps {
   defaultActionClick: () => void;
+  defaultActionDisabled?: boolean;
   options: Option[];
   label: string;
 }
 
 export default function ActionButton({
   defaultActionClick,
+  defaultActionDisabled = false,
   options,
   label
 }: ActionButtonProps): JSX.Element {
@@ -53,7 +55,7 @@ export default function ActionButton({
         style={{ boxShadow: 'none' }}
         aria-label="Button group with a nested menu"
       >
-        <Button onClick={defaultActionClick} variant="contained">
+        <Button onClick={defaultActionClick} variant="contained" disabled={defaultActionDisabled}>
           {label}
         </Button>
         <Button size="small" onClick={handleToggle} variant="contained">
