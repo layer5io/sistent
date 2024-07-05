@@ -3,6 +3,7 @@ import {
   Button,
   ButtonGroup,
   ClickAwayListener,
+  Divider,
   MenuItem,
   MenuList,
   Paper,
@@ -13,6 +14,8 @@ interface Option {
   icon: React.ReactNode;
   label: string;
   onClick: (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => void;
+  isDivider?: boolean;
+  show?: boolean;
 }
 
 interface ActionButtonProps {
@@ -68,18 +71,24 @@ export default function ActionButton({
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>
             <MenuList id="split-button-menu" autoFocusItem>
-              {options.map((option, index) => (
-                <MenuItem
-                  key={index}
-                  onClick={(event) => {
-                    handleMenuItemClick();
-                    option.onClick(event, index);
-                  }}
-                >
-                  <div style={{ marginRight: '1rem' }}>{option.icon}</div>
-                  {option.label}
-                </MenuItem>
-              ))}
+              {options
+                .filter((option) => option.show !== false)
+                .map((option, index) =>
+                  option.isDivider ? (
+                    <Divider />
+                  ) : (
+                    <MenuItem
+                      key={index}
+                      onClick={(event) => {
+                        handleMenuItemClick();
+                        option.onClick(event, index);
+                      }}
+                    >
+                      <div style={{ marginRight: '1rem' }}>{option.icon}</div>
+                      {option.label}
+                    </MenuItem>
+                  )
+                )}
             </MenuList>
           </ClickAwayListener>
         </Paper>
