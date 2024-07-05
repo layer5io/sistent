@@ -72,7 +72,7 @@ export default function ActionButton({
           <ClickAwayListener onClickAway={handleClose}>
             <MenuList id="split-button-menu" autoFocusItem>
               {options
-                .filter((option) => option.show !== false)
+                .filter((option) => option?.show !== false)
                 .map((option, index) =>
                   option.isDivider ? (
                     <Divider />
