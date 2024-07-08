@@ -13,6 +13,8 @@ const SetupPreReqWrapper = styled('div')({
 const ContainerCardWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   cursor: 'pointer',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
   '& a': {
     color: theme.palette.text.primary,
     margin: '1rem'
