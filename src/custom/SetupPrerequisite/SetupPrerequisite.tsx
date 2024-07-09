@@ -1,14 +1,10 @@
 import React from 'react';
 import { Card, CardHeader, ContainerCardWrapper, SetupPreReqWrapper } from './style';
 
-// const meshery =
-//   require('../../../assets/images/meshery/icon-only/meshery-logo-light.svg') as string;
-// const mesheryOperator =
-//   require('../../../assets/images/meshery-operator/meshery-operator-dark.svg') as string;
 interface SetupItem {
   heading: string;
   description: string;
-  Icon: JSX.Element;
+  Icon: JSX.Element | string; // Updated to allow string (image source)
   url: string;
 }
 interface SetupPreReqProps {
@@ -22,12 +18,16 @@ const SetupPreReq: React.FC<SetupPreReqProps> = ({ Steps, PrerequisiteLine }) =>
       <p>{PrerequisiteLine}</p>
     </div>
     <ContainerCardWrapper id="Set up">
-      {Steps.map((item) => {
+      {Steps.map((item, index) => {
         return (
-          <Card href={item.url} target="_blank">
+          <Card key={index} href={item.url} target="_blank">
             <CardHeader>
               <h2>{item.heading}</h2>
-              {item.Icon}
+              {typeof item.Icon === 'string' ? (
+                <img src={item.Icon} alt={item.heading} width={'40px'} height={'40px'} />
+              ) : (
+                item.Icon
+              )}
             </CardHeader>
             <p>{item.description}</p>
           </Card>
