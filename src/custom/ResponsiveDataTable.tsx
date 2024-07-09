@@ -4,7 +4,9 @@ import React, { useCallback } from 'react';
 
 const dataTableTheme = (theme: Theme) =>
   createTheme({
+    ...theme,
     components: {
+      ...theme.components,
       MuiTable: {
         styleOverrides: {
           root: {
