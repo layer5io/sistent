@@ -20,7 +20,7 @@ function CustomTooltip({
   children,
   fontSize,
   fontWeight = 400,
-  variant = 'small',
+  variant = 'standard',
   bgColor = CHARCOAL,
   ...props
 }: CustomTooltipProps): JSX.Element {
