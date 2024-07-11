@@ -1,3 +1,3 @@
-import UserSearchField from './UserSeachField';
+import UserSearchField from './UserSearchField';
 
 export { UserSearchField };
