@@ -37,10 +37,12 @@ const SHARE_MODE = {
 
 interface User {
   id: string;
+  user_id: string;
   first_name: string;
   last_name: string;
   email: string;
-  avatar_url: string;
+  avatar_url?: string;
+  deleted_at?: { Valid: boolean };
 }
 
 interface AccessListProps {
@@ -119,6 +121,12 @@ interface ShareModalProps {
   hostURL?: string | null;
   /** Optional flag to disable the visibility selector. Defaults to `false` if not provided */
   isVisibilitySelectorDisabled?: boolean;
+  /**
+   * Function to fetch user suggestions based on the input value.
+   * @param {string} value - The input value for which suggestions are to be fetched.
+   * @returns {Promise<User[]>} A promise that resolves to an array of user suggestions.
+   */
+  fetchSuggestions: (value: string) => Promise<User[]>;
 }
 
 /**
@@ -133,7 +141,8 @@ const ShareModal: React.FC<ShareModalProps> = ({
   fetchAccessActors,
   handleShare,
   hostURL = null,
-  isVisibilitySelectorDisabled = false
+  isVisibilitySelectorDisabled = false,
+  fetchSuggestions
 }: ShareModalProps): JSX.Element => {
   const theme = useTheme();
   const [openMenu, setMenu] = useState<boolean>(false);
@@ -210,6 +219,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                 hostURL={hostURL}
               />
             }
+            fetchSuggestions={fetchSuggestions}
           />
         </ModalBody>
         <ModalBody>
