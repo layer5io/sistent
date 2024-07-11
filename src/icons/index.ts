@@ -86,3 +86,4 @@ export * from './Validate';
 export * from './Visibility';
 export * from './Visualizer';
 export * from './Workspace';
+export * from './Chain';
