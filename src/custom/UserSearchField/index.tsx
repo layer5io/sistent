@@ -1,3 +1,3 @@
-import UserSeachField from './UserSeachField';
+import UserSearchField from './UserSeachField';
 
-export { UserSeachField };
+export { UserSearchField };
