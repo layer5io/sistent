@@ -65,41 +65,48 @@ const AccessList: React.FC<AccessListProps> = ({
   };
 
   return (
-    <ListWrapper>
-      <List dense>
-        {accessList.map((actorData) => (
-          <ListItem key={actorData.id} style={{ paddingLeft: '0' }}>
-            <ListItemAvatar>
-              <Avatar
-                alt={actorData.first_name}
-                src={actorData.avatar_url}
-                imgProps={{ referrerPolicy: 'no-referrer' }}
-                onClick={() => {
-                  hostURL && openInNewTab(`${hostURL}/user/${actorData.id}`);
-                }}
+    <>
+      {accessList.length > 0 && (
+        <Typography variant="h6" style={{ marginTop: '0.5rem' }}>
+          People with Access
+        </Typography>
+      )}
+      <ListWrapper>
+        <List dense>
+          {accessList.map((actorData) => (
+            <ListItem key={actorData.id} style={{ paddingLeft: '0' }}>
+              <ListItemAvatar>
+                <Avatar
+                  alt={actorData.first_name}
+                  src={actorData.avatar_url}
+                  imgProps={{ referrerPolicy: 'no-referrer' }}
+                  onClick={() => {
+                    hostURL && openInNewTab(`${hostURL}/user/${actorData.id}`);
+                  }}
+                />
+              </ListItemAvatar>
+              <ListItemText
+                primary={`${actorData.first_name || ''} ${actorData.last_name || ''}`}
+                secondary={actorData.email}
               />
-            </ListItemAvatar>
-            <ListItemText
-              primary={`${actorData.first_name || ''} ${actorData.last_name || ''}`}
-              secondary={actorData.email}
-            />
-            <ListItemSecondaryAction>
-              {ownerData.id === actorData.id ? (
-                <div>Owner</div>
-              ) : (
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => handleDelete(actorData.email)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              )}
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
-      </List>
-    </ListWrapper>
+              <ListItemSecondaryAction>
+                {ownerData.id === actorData.id ? (
+                  <div>Owner</div>
+                ) : (
+                  <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    onClick={() => handleDelete(actorData.email)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                )}
+              </ListItemSecondaryAction>
+            </ListItem>
+          ))}
+        </List>
+      </ListWrapper>
+    </>
   );
 };
 
