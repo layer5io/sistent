@@ -10,8 +10,7 @@ import {
   MenuItem,
   Typography
 } from '../../base';
-import { ChainIcon } from '../../icons/Chain';
-import { DeleteIcon } from '../../icons/Delete';
+import { ChainIcon, DeleteIcon, LockIcon, PublicIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { Modal, ModalBody, ModalButtonPrimary, ModalButtonSecondary, ModalFooter } from '../Modal';
 import { UserSearchField } from '../UserSearchField';
@@ -237,16 +236,16 @@ const ShareModal: React.FC<ShareModalProps> = ({
               <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>
                 <VisibilityIconWrapper>
                   {selectedOption === SHARE_MODE.PUBLIC ? (
-                    <ChainIcon
+                    <PublicIcon
                       width={24}
                       height={24}
-                      stroke={theme.palette.type === 'dark' ? '#fff' : 'black'}
+                      stroke={theme.palette.mode === 'dark' ? '#fff' : 'black'}
                     />
                   ) : (
-                    <ChainIcon
+                    <LockIcon
                       width={24}
                       height={24}
-                      stroke={theme.palette.type === 'dark' ? '#fff' : 'black'}
+                      stroke={theme.palette.mode === 'dark' ? '#fff' : 'black'}
                     />
                   )}
                 </VisibilityIconWrapper>
