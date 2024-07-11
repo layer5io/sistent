@@ -21,7 +21,7 @@ interface UserSearchFieldProps {
   // Array of user objects currently selected.
   usersData: User[];
   // Function to update the selected users data.
-  setUsersData: (users: User[]) => void;
+  setUsersData: React.Dispatch<React.SetStateAction<User[]>>;
   // Label for the text field.
   label?: string;
   // Function to enable or disable the save button.
@@ -51,7 +51,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
   fetchSuggestions
 }: UserSearchFieldProps) => {
   const [error, setError] = useState<string | false>(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState<User | undefined>(undefined);
   const [options, setOptions] = useState<User[]>([]);
   const [open, setOpen] = useState(false);
   const [searchUserLoading, setSearchUserLoading] = useState(false);
@@ -65,9 +65,9 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
     }
   };
 
-  const handleAdd = (_: React.ChangeEvent, value: User | null) => {
+  const handleAdd = (_event: React.SyntheticEvent<Element, Event>, value: User | null) => {
     if (value) {
-      setUsersData((prevData) => {
+      setUsersData((prevData: User[]): User[] => {
         prevData = prevData || [];
         const isDuplicate = prevData.some((user) => user.user_id === value.user_id);
         const isDeleted = value.deleted_at?.Valid === true;
@@ -80,7 +80,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         setError(false);
         return [...prevData, value];
       });
-      setInputValue('');
+      setInputValue(undefined); // Clear the input value
       setOptions([]);
       if (setDisableSave) {
         setDisableSave(false);
@@ -88,7 +88,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
     }
   };
 
-  const handleInputChange = (_: React.ChangeEvent, value: string) => {
+  const handleInputChange = (_event: React.SyntheticEvent<Element, Event>, value: string) => {
     if (value === '') {
       setOptions([]);
       setOpen(false);
@@ -106,9 +106,11 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
   /**
    * Clone customUsersList component to pass necessary props
    */
-  const clonedComponent = React.cloneElement(customUsersList, {
-    handleDelete: handleDelete
-  });
+  const clonedComponent = customUsersList
+    ? React.cloneElement(customUsersList, {
+        handleDelete: handleDelete
+      })
+    : null;
 
   const renderChip = (avatarObj: User) => (
     <Chip
@@ -165,7 +167,8 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
             }}
           />
         )}
-        renderOption={(props, option) => (
+        renderOption={(props: React.HTMLAttributes<HTMLLIElement>, option) => (
+          // @ts-expect-error Props need to be passed to BOX component to make sure styles getting updated
           <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
             <Grid container alignItems="center">
               <Grid item>
@@ -215,7 +218,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
               onClick={() => setShowAllUsers(!showAllUsers)}
               sx={{
                 cursor: 'pointer',
-                color: theme.palette.test.neutral.default,
+                color: theme.palette.text.default,
                 fontWeight: '600',
                 '&:hover': {
                   color: theme.palette.text.brand
