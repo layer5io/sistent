@@ -111,4 +111,4 @@ export type {
 };
 
 export * from './Dialog';
-export * from './UserSearchField'
+export * from './UserSearchField';
