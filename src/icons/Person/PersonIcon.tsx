@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { IconProps } from '../types';
 
-export const PersonIcon: FC<IconProps> = ({ width, height, fill = "#5f6368", ...props }) => {
+export const PersonIcon: FC<IconProps> = ({ width, height, fill = "#5f6368", ...props }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
