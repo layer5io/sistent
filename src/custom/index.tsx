@@ -111,3 +111,4 @@ export type {
 };
 
 export * from './Dialog';
+export * from './UserSearchField'
