@@ -5,7 +5,7 @@ const helpAndSupportModalUiSchema = {
   subject: {
     'ui:placeholder': 'Summary or title for your support request'
   },
-  description: {
+  message: {
     'ui:placeholder': 'Detailed description of your support request'
   },
   scope: {
