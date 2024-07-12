@@ -1,3 +1,4 @@
+import { SelectChangeEvent } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import {
   Avatar,
@@ -110,11 +111,17 @@ const AccessList: React.FC<AccessListProps> = ({
   );
 };
 
+interface SelectedResource {
+  visibility: string;
+  name: string;
+  [key: string]: unknown;
+}
+
 interface ShareModalProps {
   /** Function to close the share modal */
   handleShareModalClose: () => void;
-  /** The resource that is selected for sharing. The type is `object` because it can vary based on the application context */
-  selectedResource: object;
+  /** The resource that is selected for sharing.*/
+  selectedResource: SelectedResource;
   /** The name of the data being shared, like design or filter */
   dataName: string;
   /** Data of the user who owns the resource */
@@ -122,9 +129,14 @@ interface ShareModalProps {
   /** Function to fetch the list of users who have access to the resource */
   fetchAccessActors: () => Promise<User[]>;
   /** Function to handle the sharing of the resource with specified users and options */
-  handleShare: (shareUserData: User[], selectedOption: string) => void;
+  handleShare: (shareUserData: User[], selectedOption: string | undefined) => void;
   /** Optional URL of the host application. Defaults to `null` if not provided */
   hostURL?: string | null;
+  /**
+   * Optional URL of the resource. Defaults to empty string if not provided
+   * Resource URL will be the URL which user will copy with Copy Link Button
+   */
+  resourceURL?: string;
   /** Optional flag to disable the visibility selector. Defaults to `false` if not provided */
   isVisibilitySelectorDisabled?: boolean;
   /**
@@ -147,6 +159,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
   fetchAccessActors,
   handleShare,
   hostURL = null,
+  resourceURL = '',
   isVisibilitySelectorDisabled = false,
   fetchSuggestions
 }: ShareModalProps): JSX.Element => {
@@ -159,7 +172,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
     setShareUserData((prevData) => prevData.filter((user) => user.email !== email));
   };
 
-  const handleOptionClick = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleOptionClick = (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as string;
     setOption(value);
   };
@@ -170,7 +183,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
    * Copy design link in clipboard
    */
   const handleCopy = () => {
-    navigator.clipboard.writeText(getCatalogUrl(catalogType, cardName, cardId));
+    navigator.clipboard.writeText(resourceURL);
   };
 
   const isShareDisabled = () => {
@@ -229,16 +242,10 @@ const ShareModal: React.FC<ShareModalProps> = ({
           />
         </ModalBody>
         <ModalBody>
-          <CustomListItemText variant="h6">General Access</CustomListItemText>
-          <CustomDialogContentText
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginTop: '0.2rem',
-              alignItems: 'center',
-              alignContent: 'center'
-            }}
-          >
+          <CustomListItemText>
+            <Typography variant="h6">General Access</Typography>
+          </CustomListItemText>
+          <CustomDialogContentText>
             <FormControlWrapper size="small">
               <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>
                 <VisibilityIconWrapper>
@@ -258,6 +265,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                 </VisibilityIconWrapper>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <CustomSelect
+                    variant="outlined"
                     defaultValue={selectedOption}
                     labelId="share-menu-select"
                     id="share-menu"
@@ -288,7 +296,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
               <ChainIcon
                 width={24}
                 height={24}
-                stroke={theme.palette.type === 'dark' ? '#fff' : 'black'}
+                stroke={theme.palette.mode === 'dark' ? '#fff' : 'black'}
               />
             </IconButtonWrapper>
             Copy Link

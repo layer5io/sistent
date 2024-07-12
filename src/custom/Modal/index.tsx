@@ -9,8 +9,8 @@ import { CustomTooltip } from '../CustomTooltip';
 interface ModalProps extends DialogProps {
   closeModal: () => void;
   title: string;
-  headerIcon: React.ReactNode;
-  reactNode: React.ReactNode;
+  headerIcon?: React.ReactNode;
+  reactNode?: React.ReactNode;
 }
 
 interface ModalFooterProps {
