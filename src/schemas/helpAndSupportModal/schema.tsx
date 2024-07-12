@@ -32,7 +32,7 @@ const helpAndSupportModalSchema = {
       default: 'Technical'
     }
   },
-  required: ['subject', 'description']
+  required: ['subject', 'message']
 };
 
 export default helpAndSupportModalSchema;
