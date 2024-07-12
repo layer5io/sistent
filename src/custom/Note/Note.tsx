@@ -1,10 +1,11 @@
 import { styled } from '@mui/material';
 import { FC } from 'react';
+import { RenderMarkdownTooltip } from '../Markdown';
 
 interface AlertProps {
   type?: 'success' | 'warning' | 'note';
   title?: string;
-  content?: string;
+  content: string;
 }
 
 const NoteWrapper = styled('div')<NoteWrapperProps>(({ type, theme }) => ({
@@ -40,7 +41,9 @@ const Note: FC<AlertProps> = ({ type = 'note', title, content }) => {
   return (
     <NoteWrapper type={type}>
       <NoteHeading type={type}>{title}</NoteHeading>
-      <NoteContent>{content}</NoteContent>
+      <NoteContent>
+        <RenderMarkdownTooltip content={content} />
+      </NoteContent>
     </NoteWrapper>
   );
 };
