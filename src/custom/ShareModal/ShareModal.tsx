@@ -13,6 +13,7 @@ import {
 } from '../../base';
 import { ChainIcon, DeleteIcon, LockIcon, PublicIcon } from '../../icons';
 import { useTheme } from '../../theme';
+import { BLACK, WHITE } from '../../theme/colors';
 import { Modal, ModalBody, ModalButtonPrimary, ModalButtonSecondary, ModalFooter } from '../Modal';
 import { UserSearchField } from '../UserSearchField';
 import {
@@ -65,6 +66,8 @@ const AccessList: React.FC<AccessListProps> = ({
     window.open(url, '_blank', 'noreferrer');
   };
 
+  const theme = useTheme();
+
   return (
     <>
       {accessList.length > 0 && (
@@ -99,7 +102,7 @@ const AccessList: React.FC<AccessListProps> = ({
                     aria-label="delete"
                     onClick={() => handleDelete(actorData.email)}
                   >
-                    <DeleteIcon />
+                    <DeleteIcon fill={theme.palette.background.neutral?.default} />
                   </IconButton>
                 )}
               </ListItemSecondaryAction>
@@ -240,8 +243,6 @@ const ShareModal: React.FC<ShareModalProps> = ({
             }
             fetchSuggestions={fetchSuggestions}
           />
-        </ModalBody>
-        <ModalBody>
           <CustomListItemText>
             <Typography variant="h6">General Access</Typography>
           </CustomListItemText>
@@ -253,13 +254,13 @@ const ShareModal: React.FC<ShareModalProps> = ({
                     <PublicIcon
                       width={24}
                       height={24}
-                      stroke={theme.palette.mode === 'dark' ? '#fff' : 'black'}
+                      stroke={theme.palette.mode === 'dark' ? WHITE : BLACK}
                     />
                   ) : (
                     <LockIcon
                       width={24}
                       height={24}
-                      stroke={theme.palette.mode === 'dark' ? '#fff' : 'black'}
+                      stroke={theme.palette.mode === 'dark' ? WHITE : BLACK}
                     />
                   )}
                 </VisibilityIconWrapper>
@@ -291,15 +292,15 @@ const ShareModal: React.FC<ShareModalProps> = ({
         </ModalBody>
 
         <ModalFooter variant="filled">
-          <ModalButtonSecondary variant="outlined" onClick={handleCopy}>
+          <ModalButtonSecondary
+            variant="outlined"
+            onClick={handleCopy}
+            style={{ marginRight: '1rem', padding: '7px 16px' }}
+          >
             <IconButtonWrapper>
-              <ChainIcon
-                width={24}
-                height={24}
-                stroke={theme.palette.mode === 'dark' ? '#fff' : 'black'}
-              />
+              <ChainIcon width={24} height={24} fill={theme.palette.text.constant?.white} />
             </IconButtonWrapper>
-            Copy Link
+            <Typography>Copy Link</Typography>
           </ModalButtonSecondary>
           <ModalButtonPrimary
             disabled={isShareDisabled()}

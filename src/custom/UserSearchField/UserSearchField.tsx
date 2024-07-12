@@ -89,15 +89,19 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
   };
 
   const handleInputChange = (_event: React.SyntheticEvent<Element, Event>, value: string) => {
+    console.log('called handle change');
     if (value === '') {
       setOptions([]);
       setOpen(false);
     } else {
+      console.log('Inside else');
       setSearchUserLoading(true);
       fetchSuggestions(value).then((filteredData) => {
+        console.log('Inside then function', filteredData);
         setOptions(filteredData);
         setSearchUserLoading(false);
       });
+      console.log('last');
       setError(false);
       setOpen(true);
     }

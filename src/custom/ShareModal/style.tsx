@@ -23,7 +23,7 @@ export const IconButtonWrapper = styled(`div`)(() => ({
 export const VisibilityIconWrapper = styled(`div`)(({ theme }) => ({
   width: '36px',
   height: '36px',
-  background: theme.palette.secondary.tabHover,
+  background: theme.palette.background.hover,
   borderRadius: '20px',
   display: 'flex',
   justifyContent: 'center',
@@ -35,14 +35,14 @@ export const FormControlWrapper = styled(FormControl)(() => ({
   width: '100%'
 }));
 
-export const ListWrapper = styled(`div`)(({ theme }) => ({
+export const ListWrapper = styled(`div`)(() => ({
   maxHeight: '16rem',
-  overflowY: 'auto',
-  color: theme.palette.secondary.text
+  overflowY: 'auto'
 }));
 
 export const CustomSelect = styled(Select)(() => ({
   width: '6rem',
+  boxShadow: 'none',
   '&:before': {
     display: 'none'
   },
@@ -52,6 +52,12 @@ export const CustomSelect = styled(Select)(() => ({
   fontFamily: 'Qanelas Soft, sans-serif',
   '&.MuiTypography-root': {
     fontFamily: 'Qanelas Soft, sans-serif'
+  },
+  '& .MuiOutlinedInput-notchedOutline': {
+    border: 'none'
+  },
+  '& .MuiSelect-select': {
+    padding: 0
   }
 }));
 
