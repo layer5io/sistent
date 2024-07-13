@@ -37,7 +37,6 @@ const Card = styled('a')(({ theme }) => ({
 const CardHeader = styled('div')({
   display: 'flex',
   alignItems: 'center',
-  margin: '1rem 0 !important',
   gap: '1rem'
 });
 
