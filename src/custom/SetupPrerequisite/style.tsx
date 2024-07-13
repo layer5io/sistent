@@ -22,10 +22,10 @@ const ContainerCardWrapper = styled('div')(({ theme }) => ({
 }));
 
 const Card = styled('a')(({ theme }) => ({
+  flex: '1',
   padding: '2rem',
   textDecoration: 'none',
   background: theme.palette.mode === 'light' ? '#EEEEEE' : '#212121',
-  maxWidth: '20rem',
   minHeight: '21.5rem',
   transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
   borderRadius: '10px',
