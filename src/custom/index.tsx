@@ -8,6 +8,7 @@ import {
   CustomColumnVisibilityControl,
   CustomColumnVisibilityControlProps
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
+import { CustomImage } from './CustomImage';
 import { CustomTooltip, InfoTooltip } from './CustomTooltip';
 import {
   CustomDialog,
@@ -54,6 +55,7 @@ export {
   ConnectionChip,
   CustomColumnVisibilityControl,
   CustomDialog,
+  CustomImage,
   CustomTooltip,
   EmptyState,
   ErrorBoundary,
