@@ -26,6 +26,7 @@ function CustomTooltip({
 }: CustomTooltipProps): JSX.Element {
   return (
     <Tooltip
+      leaveDelay={500}
       componentsProps={{
         tooltip: {
           sx: {
