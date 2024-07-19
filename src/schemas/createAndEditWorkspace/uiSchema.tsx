@@ -1,4 +1,4 @@
-const createAndEditEnvironmentUiSchema = {
+const createAndEditWorkspaceUiSchema = {
   organization: {
     'ui:disabled': false,
     'ui:widget': 'select'
@@ -6,4 +6,4 @@ const createAndEditEnvironmentUiSchema = {
   'ui:order': ['organization', 'name', 'description']
 };
 
-export default createAndEditEnvironmentUiSchema;
+export default createAndEditWorkspaceUiSchema;
