@@ -6,10 +6,10 @@ import { RenderMarkdownTooltip } from '../Markdown';
 type CustomTooltipProps = {
   title: string | React.ReactNode | JSX.Element;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   fontSize?: string;
   fontWeight?: number;
-  variant?: 'standard' | 'small';
+  variant?: 'info' | 'trivial';
   bgColor?: string;
 } & Omit<TooltipProps, 'title' | 'onClick'>;
 
@@ -20,22 +20,22 @@ function CustomTooltip({
   children,
   fontSize,
   fontWeight = 400,
-  variant = 'standard',
+  variant = 'info',
   bgColor = CHARCOAL,
   ...props
 }: CustomTooltipProps): JSX.Element {
   return (
     <Tooltip
-      leaveDelay={1000}
+      leaveDelay={variant === 'info' ? 1000 : 0}
       componentsProps={{
         tooltip: {
           sx: {
             background: bgColor,
             color: WHITE,
-            fontSize: fontSize || (variant === 'standard' ? '1rem' : '0.75rem'),
+            fontSize: fontSize || (variant === 'info' ? '1rem' : '0.75rem'),
             fontWeight: { fontWeight },
             borderRadius: '0.5rem',
-            padding: variant === 'standard' ? '0.9rem' : '0.5rem 0.75rem'
+            padding: variant === 'info' ? '0.9rem' : '0.5rem 0.75rem'
           }
         },
         popper: {
@@ -51,7 +51,7 @@ function CustomTooltip({
       onClick={onClick}
       {...props}
     >
-      {children}
+      {children || <span />}
     </Tooltip>
   );
 }
