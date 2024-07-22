@@ -2,14 +2,18 @@ import { Components, Theme } from '@mui/material';
 
 export const MuiCheckbox: Components<Theme>['MuiCheckbox'] = {
   styleOverrides: {
-    root: ({ theme }) => {
+    root: ({ theme, ownerState }) => {
       const {
         palette: {
           text: { default: defaultText },
+          icon: { inverse: inverseColor },
           background: { brand },
           border: { strong }
         }
       } = theme;
+
+      const inverseBackground = ownerState.inverseBackground || false;
+
       return {
         color: 'transparent',
         '&.Mui-checked': {
@@ -25,7 +29,8 @@ export const MuiCheckbox: Components<Theme>['MuiCheckbox'] = {
         '& .MuiSvgIcon-root': {
           width: '1.25rem',
           height: '1.25rem',
-          border: `.75px solid ${strong}`,
+          fill: inverseBackground ? inverseColor : defaultText,
+          border: `.75px solid ${inverseBackground ? inverseColor : strong}`,
           borderRadius: '2px',
           padding: '0px'
         },
