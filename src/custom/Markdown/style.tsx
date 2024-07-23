@@ -71,3 +71,8 @@ export const StyledMarkdownTd = styled('td')(({ theme }) => ({
   marginBlock: '0px',
   ...theme.typography.textB1Regular
 }));
+
+export const StyledMarkdownPre = styled('pre')(({ theme }) => ({
+  background: theme.palette.background.code,
+  whiteSpace: 'pre-line'
+}));
