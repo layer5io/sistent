@@ -8,7 +8,8 @@ import {
   CustomColumnVisibilityControl,
   CustomColumnVisibilityControlProps
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
-import { CustomTooltip } from './CustomTooltip';
+import { CustomImage } from './CustomImage';
+import { CustomTooltip, InfoTooltip } from './CustomTooltip';
 import {
   CustomDialog,
   StyledDialogActions,
@@ -36,9 +37,10 @@ import SearchBar, { SearchBarProps } from './SearchBar';
 import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
-
+export { CatalogCard } from './CatalogCard';
 export { StyledChartDialog } from './ChartDialog';
 export { LearningContent } from './LearningContent';
+export { Note } from './Note';
 export { SetupPreReq } from './SetupPrerequisite';
 export { StyledChapter } from './StyledChapter';
 export { StyledSearchBar } from './StyledSearchBar';
@@ -53,12 +55,14 @@ export {
   ConnectionChip,
   CustomColumnVisibilityControl,
   CustomDialog,
+  CustomImage,
   CustomTooltip,
   EmptyState,
   ErrorBoundary,
   Fallback,
   FeedbackButton,
   FlipCard,
+  InfoTooltip,
   LearningCard,
   ModalCard,
   PopperListener,

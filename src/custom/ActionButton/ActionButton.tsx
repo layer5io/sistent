@@ -3,6 +3,7 @@ import {
   Button,
   ButtonGroup,
   ClickAwayListener,
+  Divider,
   MenuItem,
   MenuList,
   Paper,
@@ -13,16 +14,20 @@ interface Option {
   icon: React.ReactNode;
   label: string;
   onClick: (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => void;
+  isDivider?: boolean;
+  show?: boolean;
 }
 
 interface ActionButtonProps {
   defaultActionClick: () => void;
+  defaultActionDisabled?: boolean;
   options: Option[];
   label: string;
 }
 
 export default function ActionButton({
   defaultActionClick,
+  defaultActionDisabled = false,
   options,
   label
 }: ActionButtonProps): JSX.Element {
@@ -50,7 +55,7 @@ export default function ActionButton({
         style={{ boxShadow: 'none' }}
         aria-label="Button group with a nested menu"
       >
-        <Button onClick={defaultActionClick} variant="contained">
+        <Button onClick={defaultActionClick} variant="contained" disabled={defaultActionDisabled}>
           {label}
         </Button>
         <Button size="small" onClick={handleToggle} variant="contained">
@@ -68,18 +73,24 @@ export default function ActionButton({
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>
             <MenuList id="split-button-menu" autoFocusItem>
-              {options.map((option, index) => (
-                <MenuItem
-                  key={index}
-                  onClick={(event) => {
-                    handleMenuItemClick();
-                    option.onClick(event, index);
-                  }}
-                >
-                  <div style={{ marginRight: '1rem' }}>{option.icon}</div>
-                  {option.label}
-                </MenuItem>
-              ))}
+              {options
+                .filter((option) => option?.show !== false)
+                .map((option, index) =>
+                  option.isDivider ? (
+                    <Divider />
+                  ) : (
+                    <MenuItem
+                      key={index}
+                      onClick={(event) => {
+                        handleMenuItemClick();
+                        option.onClick(event, index);
+                      }}
+                    >
+                      <div style={{ marginRight: '1rem' }}>{option.icon}</div>
+                      {option.label}
+                    </MenuItem>
+                  )
+                )}
             </MenuList>
           </ClickAwayListener>
         </Paper>

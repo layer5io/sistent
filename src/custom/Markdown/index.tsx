@@ -1,4 +1,5 @@
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import {
   StyledMarkdown,
@@ -24,6 +25,7 @@ export const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ content }) => {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
+      rehypePlugins={[rehypeRaw]}
       components={{
         p: ({ ...props }) => <StyledMarkdownP>{props.children}</StyledMarkdownP>,
         a: ({ ...props }) => (

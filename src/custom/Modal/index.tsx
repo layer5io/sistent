@@ -1,4 +1,4 @@
-import { DialogProps, styled } from '@mui/material';
+import { ButtonProps, DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
@@ -49,8 +49,6 @@ const CloseBtn = styled(IconButton)`
 const StyledDialog = styled(Dialog)`
   && {
     .MuiDialog-paper {
-      width: auto;
-      max-width: 100%;
       border-radius: 0.5rem;
     }
   }
@@ -102,7 +100,8 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
 
 export const ModalBody = styled(Paper)(({ theme }) => ({
   padding: '1rem',
-  backgroundColor: theme.palette.background.surfaces
+  backgroundColor: theme.palette.background.surfaces,
+  overflowY: 'auto'
 }));
 
 const StyledFooter = styled('div', {
@@ -128,10 +127,13 @@ export const Modal: React.FC<ModalProps> = ({
   headerIcon,
   reactNode,
   children,
+  maxWidth = 'xs',
   ...props
 }) => {
   return (
     <StyledDialog
+      fullWidth={true}
+      maxWidth={maxWidth}
       open={open}
       onClose={closeModal}
       aria-labelledby="alert-dialog-slide-title"
@@ -160,7 +162,7 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
   return (
     <StyledFooter variant={variant} hasHelpText={!!helpText}>
       {helpText && (
-        <CustomTooltip title={helpText} placement="top">
+        <CustomTooltip title={helpText} variant="standard" placement="top">
           <IconButton>
             <InfoCircleIcon {...iconMedium} className="InfoCircleIcon" />
           </IconButton>
@@ -171,8 +173,12 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
   );
 };
 
+interface ModalButtonPrimaryProps extends ButtonProps {
+  isOpen?: boolean;
+}
+
 // ModalButtonPrimary
-export const ModalButtonPrimary = styled(ContainedButton)(({ theme }) => ({
+export const ModalButtonPrimary = styled(ContainedButton)<ModalButtonPrimaryProps>(({ theme }) => ({
   backgroundColor: theme.palette.background.brand?.default,
   color: theme.palette.text.constant?.white,
   '&:hover': {
