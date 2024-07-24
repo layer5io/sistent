@@ -39,6 +39,7 @@ const customTheme = (theme: Theme) =>
       MuiInput: {
         styleOverrides: {
           root: {
+            color: theme.palette.text.default,
             '&::before': {
               borderBottom: '2px solid var(--TextField-brandBorderColor)'
             },
