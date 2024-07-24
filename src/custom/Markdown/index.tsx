@@ -12,6 +12,7 @@ import {
   StyledMarkdownH6,
   StyledMarkdownLi,
   StyledMarkdownP,
+  StyledMarkdownPre,
   StyledMarkdownTd,
   StyledMarkdownTh,
   StyledMarkdownTooltipP,
@@ -51,7 +52,8 @@ export const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ content }) => {
         ul: ({ ...props }) => <StyledMarkdownUl>{props.children}</StyledMarkdownUl>,
         li: ({ ...props }) => <StyledMarkdownLi>{props.children}</StyledMarkdownLi>,
         th: ({ ...props }) => <StyledMarkdownTh>{props.children}</StyledMarkdownTh>,
-        td: ({ ...props }) => <StyledMarkdownTd>{props.children}</StyledMarkdownTd>
+        td: ({ ...props }) => <StyledMarkdownTd>{props.children}</StyledMarkdownTd>,
+        pre: ({ ...props }) => <StyledMarkdownPre>{props.children}</StyledMarkdownPre>
       }}
     >
       {content}
