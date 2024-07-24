@@ -38,7 +38,20 @@ type CatalogCardProps = {
   cardWidth: string;
   cardStyles: React.CSSProperties;
   type: string;
+  version?: string;
 };
+
+export const VersionTag = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  top: '40px',
+  right: '8px',
+  backgroundColor: theme.palette.primary.main,
+  color: theme.palette.primary.contrastText,
+  padding: '2px 6px',
+  borderRadius: '4px',
+  fontSize: '0.75rem',
+  fontWeight: 'bold'
+}));
 
 export const ClassToIconMap = {
   community: <CommunityClassIcon width="16px" height="12px" />,
@@ -63,7 +76,8 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
   cardHeight,
   cardWidth,
   cardStyles,
-  cardLink
+  cardLink,
+  version
 }) => {
   const outerStyles = {
     height: cardHeight,
@@ -75,6 +89,7 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
       <DesignCard outerStyles={outerStyles}>
         <DesignInnerCard className="innerCard">
           <ClassWrap catalogClassName={pattern?.catalog_data?.content_class} />
+          {version && <VersionTag>v: {version}</VersionTag>}
           <DesignType>{patternType}</DesignType>
           <DesignDetailsDiv>
             <DesignName
