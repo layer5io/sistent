@@ -170,6 +170,11 @@ const ResponsiveDataTable = ({
 
   const updatedOptions = {
     ...options,
+    print: false,
+    download: false,
+    search: false,
+    filter: false,
+    viewColumns: false,
     rowsPerPageOptions: rowsPerPageOptions,
     onViewColumnsChange: (column: string, action: string) => {
       switch (action) {

@@ -28,6 +28,7 @@ import { FeedbackButton } from './Feedback';
 import { FlipCard, FlipCardProps } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
+import { ColView, updateVisibleColumns } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { LearningCard } from './LearningCard';
 import { RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';
@@ -73,6 +74,7 @@ export {
   StyledDialogTitle,
   TransferList,
   UniversalFilter,
+  updateVisibleColumns,
   useNotificationHandler,
   useWindowDimensions,
   withErrorBoundary,
@@ -101,6 +103,7 @@ export { CustomizedStepper, useStepper } from './Stepper';
 
 export type {
   CatalogFilterProps,
+  ColView,
   CustomColumn,
   CustomColumnVisibilityControlProps,
   CustomDialogProps,
