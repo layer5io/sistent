@@ -50,7 +50,7 @@ function CustomTooltip({
       onClick={onClick}
       {...props}
     >
-      {children}
+      <div>{children}</div>
     </Tooltip>
   );
 }

@@ -1,10 +1,13 @@
 import { Theme, ThemeProvider, createTheme } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import React, { useCallback } from 'react';
+import { CustomTooltip } from './CustomTooltip';
 
 const dataTableTheme = (theme: Theme) =>
   createTheme({
+    ...theme,
     components: {
+      ...theme.components,
       MuiTable: {
         styleOverrides: {
           root: {
@@ -258,7 +261,10 @@ const ResponsiveDataTable = ({
         columns={tableCols ?? []}
         data={data || []}
         title={undefined}
-        components={components}
+        components={{
+          Tooltip: CustomTooltip as unknown as React.ReactNode,
+          ...components
+        }}
         options={updatedOptions}
         {...props}
       />
