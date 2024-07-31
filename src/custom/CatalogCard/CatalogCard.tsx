@@ -43,11 +43,11 @@ type CatalogCardProps = {
 
 export const VersionTag = styled('div')(({ theme }) => ({
   position: 'absolute',
-  top: '40px',
-  right: '8px',
-  backgroundColor: theme.palette.primary.main,
-  color: theme.palette.primary.contrastText,
-  padding: '2px 6px',
+  bottom: '65px',
+  left: '18px',
+  backgroundColor: theme.palette.grey[500],
+  color: theme.palette.grey[900],
+  padding: '1px 10px',
   borderRadius: '4px',
   fontSize: '0.75rem',
   fontWeight: 'bold'
@@ -89,7 +89,7 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
       <DesignCard outerStyles={outerStyles}>
         <DesignInnerCard className="innerCard">
           <ClassWrap catalogClassName={pattern?.catalog_data?.content_class} />
-          {version && <VersionTag>v: {version}</VersionTag>}
+          {version && <VersionTag>v{version}</VersionTag>}
           <DesignType>{patternType}</DesignType>
           <DesignDetailsDiv>
             <DesignName
