@@ -2,7 +2,7 @@ import { styled } from '@mui/material';
 import { text } from '../../theme/colors/colors';
 
 export const StyledMarkdown = styled('a')(({ theme }) => ({
-  color: theme.palette.text.brand,
+  color: theme.palette.background.brand?.default,
   textDecoration: 'none',
   '&:hover': {
     textDecoration: 'underline'
