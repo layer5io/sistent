@@ -1,8 +1,9 @@
 import { Theme, ThemeProvider, createTheme, styled } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import React, { useCallback } from 'react';
-import { IconButton, Menu, MenuItem } from '../base';
-import { DropDownIcon } from '../icons';
+import { Menu, MenuItem } from '../base';
+import { EllipsisIcon } from '../icons/Ellipsis';
+import TooltipIcon from './TooltipIcon';
 
 export const IconWrapper = styled('div')<{ disabled?: boolean }>(({ disabled = false }) => ({
   cursor: disabled ? 'not-allowed' : 'pointer',
@@ -22,7 +23,7 @@ export const DataTableEllipsisMenu: React.FC<{
   actionsList: NonNullable<Column['options']>['actionsList'];
 }> = ({ actionsList }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -31,9 +32,7 @@ export const DataTableEllipsisMenu: React.FC<{
 
   return (
     <>
-      <IconButton onClick={handleClick}>
-        <DropDownIcon />
-      </IconButton>
+      <TooltipIcon title="View Actions" onClick={handleClick} icon={<EllipsisIcon />} arrow />
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
