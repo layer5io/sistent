@@ -1,7 +1,7 @@
-import { Theme, ThemeProvider, createTheme, styled } from '@mui/material';
+import { Theme, ThemeProvider, createTheme, styled, useTheme } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import React, { useCallback } from 'react';
-import { Menu, MenuItem } from '../base';
+import { ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { EllipsisIcon } from '../icons/Ellipsis';
 import TooltipIcon from './TooltipIcon';
 
@@ -12,11 +12,6 @@ export const IconWrapper = styled('div')<{ disabled?: boolean }>(({ disabled = f
   '& svg': {
     cursor: disabled ? 'not-allowed' : 'pointer'
   }
-}));
-
-const CustomMenuItem = styled(MenuItem)(() => ({
-  paddingLeft: '0px',
-  padding: '10px'
 }));
 
 export const DataTableEllipsisMenu: React.FC<{
@@ -30,26 +25,34 @@ export const DataTableEllipsisMenu: React.FC<{
     setAnchorEl(null);
   };
 
+  const theme = useTheme();
+
   return (
     <>
       <TooltipIcon title="View Actions" onClick={handleClick} icon={<EllipsisIcon />} arrow />
       <Menu
+        id="basic-menu"
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        PaperProps={{
-          style: {
-            maxHeight: 48 * 4.5
+        sx={{
+          ' .MuiPaper-root': {
+            background: theme.palette.background.surfaces
           }
         }}
       >
         {actionsList &&
           actionsList.map((action, index) => (
             <IconWrapper key={index} disabled={action.disabled}>
-              <CustomMenuItem key={index} onClick={action.onClick} disabled={action.disabled}>
-                {action.icon}
-                {action.title}
-              </CustomMenuItem>
+              <MenuItem
+                sx={{ width: '-webkit-fill-available' }}
+                key={index}
+                onClick={action.onClick}
+                disabled={action.disabled}
+              >
+                <ListItemIcon>{action.icon}</ListItemIcon>
+                <ListItemText>{action.title}</ListItemText>
+              </MenuItem>
             </IconWrapper>
           ))}
       </Menu>
