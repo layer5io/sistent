@@ -173,6 +173,15 @@ const dataTableTheme = (theme: Theme) =>
             }
           }
         }
+      },
+      MuiTableRow: {
+        styleOverrides: {
+          root: {
+            '&.Mui-disabled': {
+              cursor: 'not-allowed'
+            }
+          }
+        }
       }
     }
   });
