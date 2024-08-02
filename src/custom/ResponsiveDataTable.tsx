@@ -1,6 +1,46 @@
 import { Theme, ThemeProvider, createTheme } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import React, { useCallback } from 'react';
+import { IconButton, Menu, MenuItem } from '../base';
+import { DropDownIcon } from '../icons';
+
+const DataTableEllipsisMenu: React.FC<{
+  actionsList: NonNullable<Column['options']>['actionsList'];
+}> = ({ actionsList }) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  return (
+    <>
+      <IconButton onClick={handleClick}>
+        <DropDownIcon />
+      </IconButton>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        PaperProps={{
+          style: {
+            maxHeight: 48 * 4.5,
+            width: '20ch'
+          }
+        }}
+      >
+        {actionsList &&
+          actionsList.map((action, index) => (
+            <MenuItem key={index} onClick={action.onClick} disabled={action.disabled}>
+              {action.icon}
+              {action.title}
+            </MenuItem>
+          ))}
+      </Menu>
+    </>
+  );
+};
 
 const dataTableTheme = (theme: Theme) =>
   createTheme({
@@ -129,6 +169,12 @@ export interface Column {
     display?: boolean;
     sortDescFirst?: boolean;
     customBodyRender?: (value: string | number | boolean | object) => JSX.Element;
+    actionsList?: {
+      title: string;
+      icon: JSX.Element;
+      onClick: () => void;
+      disabled?: boolean;
+    }[];
   };
 }
 
@@ -164,6 +210,16 @@ const ResponsiveDataTable = ({
 
     return new Intl.DateTimeFormat('un-US', dateOptions).format(date);
   };
+
+  columns.forEach((col) => {
+    console.log('col', col);
+    if (col.options?.actionsList) {
+      console.log('col.options.actionsList', col.options.actionsList);
+      col.options.customBodyRender = function CustomBody() {
+        return <DataTableEllipsisMenu actionsList={col.options?.actionsList} />;
+      };
+    }
+  });
 
   const updatedOptions = {
     ...options,
