@@ -1,6 +1,64 @@
-import { Theme, ThemeProvider, createTheme } from '@mui/material';
+import { Theme, ThemeProvider, createTheme, styled, useTheme } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import React, { useCallback } from 'react';
+import { ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
+import { EllipsisIcon } from '../icons/Ellipsis';
+import TooltipIcon from './TooltipIcon';
+
+export const IconWrapper = styled('div')<{ disabled?: boolean }>(({ disabled = false }) => ({
+  cursor: disabled ? 'not-allowed' : 'pointer',
+  opacity: disabled ? '0.5' : '1',
+  display: 'flex',
+  '& svg': {
+    cursor: disabled ? 'not-allowed' : 'pointer'
+  }
+}));
+
+export const DataTableEllipsisMenu: React.FC<{
+  actionsList: NonNullable<Column['options']>['actionsList'];
+}> = ({ actionsList }) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const theme = useTheme();
+
+  return (
+    <>
+      <TooltipIcon title="View Actions" onClick={handleClick} icon={<EllipsisIcon />} arrow />
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        sx={{
+          ' .MuiPaper-root': {
+            background: theme.palette.background.surfaces
+          }
+        }}
+      >
+        {actionsList &&
+          actionsList.map((action, index) => (
+            <IconWrapper key={index} disabled={action.disabled}>
+              <MenuItem
+                sx={{ width: '-webkit-fill-available' }}
+                key={index}
+                onClick={action.onClick}
+                disabled={action.disabled}
+              >
+                <ListItemIcon>{action.icon}</ListItemIcon>
+                <ListItemText>{action.title}</ListItemText>
+              </MenuItem>
+            </IconWrapper>
+          ))}
+      </Menu>
+    </>
+  );
+};
 
 const dataTableTheme = (theme: Theme) =>
   createTheme({
@@ -115,6 +173,15 @@ const dataTableTheme = (theme: Theme) =>
             }
           }
         }
+      },
+      MuiTableRow: {
+        styleOverrides: {
+          root: {
+            '&.Mui-disabled': {
+              cursor: 'not-allowed'
+            }
+          }
+        }
       }
     }
   });
@@ -129,6 +196,12 @@ export interface Column {
     display?: boolean;
     sortDescFirst?: boolean;
     customBodyRender?: (value: string | number | boolean | object) => JSX.Element;
+    actionsList?: {
+      title: string;
+      icon: JSX.Element;
+      onClick: () => void;
+      disabled?: boolean;
+    }[];
   };
 }
 
