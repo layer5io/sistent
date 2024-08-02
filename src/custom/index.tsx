@@ -33,7 +33,10 @@ import { LearningCard } from './LearningCard';
 import { RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
-import ResponsiveDataTable, { ResponsiveDataTableProps } from './ResponsiveDataTable';
+import ResponsiveDataTable, {
+  DataTableEllipsisMenu,
+  ResponsiveDataTableProps
+} from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
 import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
@@ -58,6 +61,7 @@ export {
   CustomDialog,
   CustomImage,
   CustomTooltip,
+  DataTableEllipsisMenu,
   EmptyState,
   ErrorBoundary,
   Fallback,

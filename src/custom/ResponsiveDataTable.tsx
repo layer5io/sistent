@@ -1,10 +1,24 @@
-import { Theme, ThemeProvider, createTheme } from '@mui/material';
+import { Theme, ThemeProvider, createTheme, styled } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import React, { useCallback } from 'react';
 import { IconButton, Menu, MenuItem } from '../base';
 import { DropDownIcon } from '../icons';
 
-const DataTableEllipsisMenu: React.FC<{
+export const IconWrapper = styled('div')<{ disabled?: boolean }>(({ disabled = false }) => ({
+  cursor: disabled ? 'not-allowed' : 'pointer',
+  opacity: disabled ? '0.5' : '1',
+  display: 'flex',
+  '& svg': {
+    cursor: disabled ? 'not-allowed' : 'pointer'
+  }
+}));
+
+const CustomMenuItem = styled(MenuItem)(() => ({
+  paddingLeft: '0px',
+  padding: '10px'
+}));
+
+export const DataTableEllipsisMenu: React.FC<{
   actionsList: NonNullable<Column['options']>['actionsList'];
 }> = ({ actionsList }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -14,6 +28,7 @@ const DataTableEllipsisMenu: React.FC<{
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   return (
     <>
       <IconButton onClick={handleClick}>
@@ -25,17 +40,18 @@ const DataTableEllipsisMenu: React.FC<{
         onClose={handleClose}
         PaperProps={{
           style: {
-            maxHeight: 48 * 4.5,
-            width: '20ch'
+            maxHeight: 48 * 4.5
           }
         }}
       >
         {actionsList &&
           actionsList.map((action, index) => (
-            <MenuItem key={index} onClick={action.onClick} disabled={action.disabled}>
-              {action.icon}
-              {action.title}
-            </MenuItem>
+            <IconWrapper key={index} disabled={action.disabled}>
+              <CustomMenuItem key={index} onClick={action.onClick} disabled={action.disabled}>
+                {action.icon}
+                {action.title}
+              </CustomMenuItem>
+            </IconWrapper>
           ))}
       </Menu>
     </>
@@ -210,16 +226,6 @@ const ResponsiveDataTable = ({
 
     return new Intl.DateTimeFormat('un-US', dateOptions).format(date);
   };
-
-  columns.forEach((col) => {
-    console.log('col', col);
-    if (col.options?.actionsList) {
-      console.log('col.options.actionsList', col.options.actionsList);
-      col.options.customBodyRender = function CustomBody() {
-        return <DataTableEllipsisMenu actionsList={col.options?.actionsList} />;
-      };
-    }
-  });
 
   const updatedOptions = {
     ...options,
