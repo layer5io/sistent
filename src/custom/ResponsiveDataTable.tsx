@@ -1,4 +1,4 @@
-import { Theme, ThemeProvider, createTheme, styled, useTheme } from '@mui/material';
+import { Theme, ThemeProvider, createTheme, styled } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import React, { useCallback } from 'react';
 import { Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
@@ -20,7 +20,6 @@ export const DataTableEllipsisMenu: React.FC<{
 }> = ({ actionsList }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isSocialShareOpen, setIsSocialShareOpen] = React.useState(false);
-  const theme = useTheme();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -45,17 +44,7 @@ export const DataTableEllipsisMenu: React.FC<{
   return (
     <>
       <TooltipIcon title="View Actions" onClick={handleClick} icon={<EllipsisIcon />} arrow />
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        sx={{
-          ' .MuiPaper-root': {
-            background: theme.palette.background.surfaces
-          }
-        }}
-      >
+      <Menu id="basic-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {actionsList &&
           actionsList.map((action, index) => (
             <React.Fragment key={index}>
@@ -63,8 +52,8 @@ export const DataTableEllipsisMenu: React.FC<{
                 <>
                   <MenuItem
                     sx={{
-                      width: '-webkit-fill-available',
-                      background: theme.palette.background.surfaces
+                      width: '-webkit-fill-available'
+                      // background: theme.palette.background.surfaces
                     }}
                     onClick={() => handleActionClick(action)}
                     disabled={action.disabled}
@@ -74,15 +63,17 @@ export const DataTableEllipsisMenu: React.FC<{
                     </ListItemIcon>
                     <ListItemText>{action.title}</ListItemText>
                   </MenuItem>
-                  <Collapse in={isSocialShareOpen}>{action.customComponent}</Collapse>
+                  <Collapse variant="submenu" in={isSocialShareOpen} unmountOnExit>
+                    {action.customComponent}
+                  </Collapse>
                 </>
               ) : (
                 <>
                   <IconWrapper key={index} disabled={action.disabled}>
                     <MenuItem
                       sx={{
-                        width: '-webkit-fill-available',
-                        background: theme.palette.background.surfaces
+                        width: '-webkit-fill-available'
+                        // background: theme.palette.background.surfaces
                       }}
                       key={index}
                       onClick={() => handleActionClick(action)}
