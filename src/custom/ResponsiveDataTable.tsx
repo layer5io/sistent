@@ -1,7 +1,8 @@
-import { Theme, ThemeProvider, createTheme, styled, useTheme } from '@mui/material';
+import { Theme, ThemeProvider, createTheme, styled } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import React, { useCallback } from 'react';
-import { ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
+import { Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
+import { ShareIcon } from '../icons';
 import { EllipsisIcon } from '../icons/Ellipsis';
 import TooltipIcon from './TooltipIcon';
 
@@ -18,42 +19,73 @@ export const DataTableEllipsisMenu: React.FC<{
   actionsList: NonNullable<Column['options']>['actionsList'];
 }> = ({ actionsList }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [isSocialShareOpen, setIsSocialShareOpen] = React.useState(false);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setIsSocialShareOpen(false);
   };
 
-  const theme = useTheme();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleActionClick = (action: any) => {
+    if (action.type === 'share-social') {
+      setIsSocialShareOpen(!isSocialShareOpen);
+    } else {
+      if (action.onClick) {
+        action.onClick();
+      }
+      handleClose();
+    }
+  };
 
   return (
     <>
       <TooltipIcon title="View Actions" onClick={handleClick} icon={<EllipsisIcon />} arrow />
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        sx={{
-          ' .MuiPaper-root': {
-            background: theme.palette.background.surfaces
-          }
-        }}
-      >
+      <Menu id="basic-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {actionsList &&
           actionsList.map((action, index) => (
-            <IconWrapper key={index} disabled={action.disabled}>
-              <MenuItem
-                sx={{ width: '-webkit-fill-available' }}
-                key={index}
-                onClick={action.onClick}
-                disabled={action.disabled}
-              >
-                <ListItemIcon>{action.icon}</ListItemIcon>
-                <ListItemText>{action.title}</ListItemText>
-              </MenuItem>
-            </IconWrapper>
+            <React.Fragment key={index}>
+              {action.type === 'share-social' ? (
+                <>
+                  <MenuItem
+                    sx={{
+                      width: '-webkit-fill-available'
+                      // background: theme.palette.background.surfaces
+                    }}
+                    onClick={() => handleActionClick(action)}
+                    disabled={action.disabled}
+                  >
+                    <ListItemIcon>
+                      <ShareIcon width={24} height={24} />
+                    </ListItemIcon>
+                    <ListItemText>{action.title}</ListItemText>
+                  </MenuItem>
+                  <Collapse variant="submenu" in={isSocialShareOpen} unmountOnExit>
+                    {action.customComponent}
+                  </Collapse>
+                </>
+              ) : (
+                <>
+                  <IconWrapper key={index} disabled={action.disabled}>
+                    <MenuItem
+                      sx={{
+                        width: '-webkit-fill-available'
+                        // background: theme.palette.background.surfaces
+                      }}
+                      key={index}
+                      onClick={() => handleActionClick(action)}
+                      disabled={action.disabled}
+                    >
+                      <ListItemIcon>{action.icon}</ListItemIcon>
+                      <ListItemText>{action.title}</ListItemText>
+                    </MenuItem>
+                  </IconWrapper>
+                </>
+              )}
+            </React.Fragment>
           ))}
       </Menu>
     </>
@@ -201,6 +233,8 @@ export interface Column {
       icon: JSX.Element;
       onClick: () => void;
       disabled?: boolean;
+      customComponent?: JSX.Element;
+      type?: string;
     }[];
   };
 }
