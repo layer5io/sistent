@@ -50,8 +50,9 @@ export const DataTableEllipsisMenu: React.FC<{
                 onClick={action.onClick}
                 disabled={action.disabled}
               >
-                <ListItemIcon>{action.icon}</ListItemIcon>
-                <ListItemText>{action.title}</ListItemText>
+                {action.icon && <ListItemIcon>{action.icon}</ListItemIcon>}
+                {action.title && <ListItemText>{action.title}</ListItemText>}
+                {action.menuItem}
               </MenuItem>
             </IconWrapper>
           ))}
@@ -197,9 +198,10 @@ export interface Column {
     sortDescFirst?: boolean;
     customBodyRender?: (value: string | number | boolean | object) => JSX.Element;
     actionsList?: {
-      title: string;
-      icon: JSX.Element;
-      onClick: () => void;
+      title?: string;
+      icon?: JSX.Element;
+      menuItem?: JSX.Element;
+      onClick?: () => void;
       disabled?: boolean;
     }[];
   };
