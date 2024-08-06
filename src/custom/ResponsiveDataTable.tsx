@@ -1,7 +1,7 @@
 import { Theme, ThemeProvider, createTheme, styled } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import React, { useCallback } from 'react';
-import { Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
+import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { ShareIcon } from '../icons';
 import { EllipsisIcon } from '../icons/Ellipsis';
 import TooltipIcon from './TooltipIcon';
@@ -356,7 +356,8 @@ const ResponsiveDataTable = ({
   }, [updateColumnsEffect]);
 
   const components = {
-    ExpandButton: () => ''
+    ExpandButton: () => '',
+    Checkbox: Checkbox
   };
 
   return (
