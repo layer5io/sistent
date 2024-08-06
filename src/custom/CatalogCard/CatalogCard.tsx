@@ -13,17 +13,26 @@ import VerificationClassIcon from '../../icons/ContentClassIcons/VerificationCla
 import DeploymentsIcon from '../../icons/Deployments/DeploymentsIcon';
 import { DownloadIcon } from '../../icons/Download';
 import {
+  BackFace,
+  BackFaceContent,
   DesignCard,
   DesignDetailsDiv,
   DesignInnerCard,
   DesignName,
   DesignType,
+  FlipCard,
+  Flipper,
+  FrontFace,
   ImageWrapper,
   MetricsContainerFront,
   MetricsCount,
   MetricsDiv,
+  ProfileSection,
   StyledClassWrapper,
-  StyledInnerClassWrapper
+  StyledInnerClassWrapper,
+  TechnologiesSection,
+  UpdatedSection,
+  VersionTag
 } from './style';
 
 export const DesignCardUrl = styled('a')(() => ({
@@ -65,18 +74,6 @@ type CatalogCardProps = {
   updatedAt: string;
 };
 
-export const VersionTag = styled('div')(({ theme }) => ({
-  display: 'inline-block',
-  backgroundColor: theme.palette.background.secondary,
-  color: theme.palette.text.secondary,
-  borderRadius: '4px',
-  fontSize: '0.75rem',
-  fontWeight: 'bold',
-  margin: '5px 0',
-  padding: '2px 5px',
-  maxWidth: 'fit-content'
-}));
-
 export const ClassToIconMap = {
   community: <CommunityClassIcon width="16px" height="12px" />,
   official: <OfficialClassIcon width="16px" height="12px" />,
@@ -94,81 +91,6 @@ const ClassWrap = ({ catalogClassName }: { catalogClassName: string }) => {
     </StyledClassWrapper>
   );
 };
-
-const FlipCard = styled('div')(() => ({
-  perspective: '1000px',
-  '&:hover .flipper': {
-    transform: 'rotateY(-180deg)'
-  }
-}));
-
-const Flipper = styled('div')(() => ({
-  transition: '0.6s',
-  transformStyle: 'preserve-3d',
-  position: 'relative'
-}));
-
-const Face = styled('div')(() => ({
-  backfaceVisibility: 'hidden',
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  width: '100%',
-  height: '100%'
-}));
-
-const FrontFace = styled(Face)(() => ({
-  zIndex: 2,
-  transform: 'rotateY(0deg)'
-}));
-
-const BackFace = styled(Box)(() => ({
-  transform: 'rotateY(-180deg)',
-  color: '#fff',
-  display: 'inline-flex',
-  flexDirection: 'column',
-  padding: '16px',
-  height: '100%',
-  width: '100%',
-  position: 'relative',
-  bottom: 0,
-  left: 0,
-  backfaceVisibility: 'hidden'
-}));
-
-const BackFaceContent = styled(Box)(({ theme }) => ({
-  position: 'absolute',
-  background: `linear-gradient(to bottom right, black 40%, ${theme.palette.background.brand?.default})`,
-  width: '100%',
-  top: 0,
-  left: 0,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'left',
-  padding: '16px',
-  boxShadow: `2px 2px 3px 0px black`,
-  borderRadius: '1rem'
-}));
-
-const ProfileSection = styled(Box)({
-  display: 'flex',
-  alignItems: 'center',
-  marginBottom: '16px'
-});
-
-const TechnologiesSection = styled(Box)(({ theme }) => ({
-  backgroundColor: 'rgba(255, 255, 255, 0.25)',
-  padding: theme.spacing(1),
-  borderRadius: theme.shape.borderRadius,
-  marginBottom: '16px'
-}));
-
-const UpdatedSection = styled(Box)({
-  display: 'flex',
-  alignItems: 'center',
-  color: '#fff',
-  margin: '20px 0'
-});
 
 const CatalogCard: React.FC<CatalogCardProps> = ({
   pattern,
