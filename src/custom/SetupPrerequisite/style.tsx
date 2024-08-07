@@ -31,6 +31,10 @@ const Card = styled('a')(({ theme }) => ({
   borderRadius: '10px',
   '&:hover': {
     boxShadow: 'rgb(0, 211, 169) 0px 0px 7px'
+  },
+  '& a': {
+    color: theme.palette.background.brand?.default,
+    margin: '0 !important'
   }
 }));
 
