@@ -29,6 +29,15 @@ const StyledChapter = styled('div')(({ theme }) => ({
     width: '100%',
     margin: '1rem auto autocompleteClasses',
     fontFamily: 'Courier New, Courier, monospace'
+  },
+  '& code': {
+    color: 'inherit',
+    padding: '.2em .4em',
+    margin: '0',
+    fontSize: '85%',
+    wordBreak: 'normal',
+    backgroundColor: theme.palette.background.secondary,
+    borderRadius: '.25rem'
   }
 }));
 export default StyledChapter;
