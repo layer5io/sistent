@@ -46,6 +46,7 @@
     "@reduxjs/toolkit": "^2.2.5",
     "@testing-library/react": "^14.1.2",
     "@types/jest": "^29.5.11",
+    "@types/lodash": "^4.17.7",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "@typescript-eslint/eslint-plugin": "^6.12.0",
@@ -106,5 +107,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }
