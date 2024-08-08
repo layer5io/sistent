@@ -33,6 +33,7 @@ declare module '@mui/material/styles' {
     constant?: {
       disabled: string;
       white: string;
+      table: string;
     };
     inverse?: string;
     brand?: Interactiveness;
@@ -42,6 +43,7 @@ declare module '@mui/material/styles' {
     warning?: Interactiveness;
     error?: Interactiveness;
     code?: string;
+    surfaces?: string;
   }
 
   // Defines the extended text color options used in the palette.
@@ -83,6 +85,7 @@ declare module '@mui/material/styles' {
     constant?: {
       white: string;
       disabled: string;
+      table: string;
     };
     inverse?: string;
     brand?: Interactiveness;
@@ -95,6 +98,7 @@ declare module '@mui/material/styles' {
     strong?: string;
     normal?: string;
     disabled?: string;
+    surfaces?: string;
   }
 
   // Defines the simple palette color options.
@@ -114,6 +118,7 @@ declare module '@mui/material/styles' {
     constant?: {
       white: string;
       disabled: string;
+      table: string;
     };
     inverse?: string;
     brand?: Interactiveness;
@@ -126,6 +131,7 @@ declare module '@mui/material/styles' {
     strong?: string;
     normal?: string;
     disabled?: string;
+    surfaces?: string;
   }
 
   /* Defines the palette containing border and icon color options.
@@ -249,8 +255,10 @@ export const lightModePalette: PaletteOptions = {
     code: Colors.charcoal[90],
     constant: {
       white: Colors.accentGrey[100],
-      disabled: Colors.charcoal[70]
-    }
+      disabled: Colors.charcoal[70],
+      table: Colors.charcoal[100]
+    },
+    surfaces: Colors.accentGrey[100]
   },
   text: {
     default: Colors.charcoal[10],
@@ -361,8 +369,10 @@ export const darkModePalette: PaletteOptions = {
     code: Colors.accentGrey[90],
     constant: {
       white: Colors.accentGrey[100],
-      disabled: Colors.charcoal[70]
-    }
+      disabled: Colors.charcoal[70],
+      table: '#363636'
+    },
+    surfaces: Colors.accentGrey[10]
   },
   text: {
     default: Colors.charcoal[100],

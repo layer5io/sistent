@@ -1,3 +1,4 @@
+import { useTheme } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
 import { Button } from '../base/Button';
@@ -36,6 +37,7 @@ function UniversalFilter({
 }: UniversalFilterProps): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
 
   const handleFilterChange = (event: React.ChangeEvent<{ value: string }>, columnName: string) => {
     const value = event.target.value;
@@ -70,7 +72,7 @@ function UniversalFilter({
         <TooltipIcon
           title="Filter"
           onClick={handleClick}
-          icon={<FilterIcon fill="#3c494f" />}
+          icon={<FilterIcon fill={theme.palette.icon.default} />}
           arrow
         />
         <PopperListener
@@ -92,7 +94,7 @@ function UniversalFilter({
                     padding: '1rem',
                     paddingTop: '1.8rem',
                     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-                    backgroundColor: '#f4f5f7'
+                    backgroundColor: theme.palette.background.surfaces
                   }}
                 >
                   {Object.keys(filters).map((filterColumn) => {

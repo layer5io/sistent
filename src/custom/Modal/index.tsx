@@ -1,8 +1,8 @@
-import { DialogProps, styled } from '@mui/material';
+import { ButtonProps, DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
-import { Dialog, IconButton, Paper, Typography } from '../../base';
+import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
-import { iconLarge } from '../../constants/iconsSizes';
+import { iconLarge, iconMedium } from '../../constants/iconsSizes';
 import { CloseIcon, InfoCircleIcon } from '../../icons';
 import { CustomTooltip } from '../CustomTooltip';
 
@@ -17,6 +17,7 @@ interface ModalFooterProps {
   children: React.ReactNode;
   variant?: 'filled' | 'transparent';
   helpText?: string;
+  hasHelpText?: boolean;
 }
 
 type openModalCallback = (props: {
@@ -48,17 +49,13 @@ const CloseBtn = styled(IconButton)`
 const StyledDialog = styled(Dialog)`
   && {
     .MuiDialog-paper {
-      width: auto;
-      max-width: 100%;
+      border-radius: 0.5rem;
     }
   }
 `;
 
-const StyledHeader = styled('div')(({ theme }) => ({
-  background:
-    theme.palette.mode === 'light'
-      ? 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)'
-      : 'linear-gradient(90deg, #000 0%, #23363F 100%)',
+const StyledHeader = styled('div')(() => ({
+  background: 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)',
   color: '#eee',
   display: 'flex',
   justifyContent: 'space-between',
@@ -103,17 +100,18 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
 
 export const ModalBody = styled(Paper)(({ theme }) => ({
   padding: '1rem',
-  backgroundColor: theme.palette.background.secondary
+  backgroundColor: theme.palette.background.surfaces,
+  overflowY: 'auto'
 }));
 
 const StyledFooter = styled('div', {
   shouldForwardProp: (prop) => prop !== 'variant'
-})<ModalFooterProps>(({ theme, variant }) => ({
+})<ModalFooterProps>(({ theme, variant, hasHelpText }) => ({
   background:
     variant == 'filled' ? 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)' : 'transparent',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
+  justifyContent: hasHelpText ? 'space-between' : 'end',
   padding: '1rem',
   gap: '1rem',
 
@@ -129,10 +127,13 @@ export const Modal: React.FC<ModalProps> = ({
   headerIcon,
   reactNode,
   children,
+  maxWidth = 'xs',
   ...props
 }) => {
   return (
     <StyledDialog
+      fullWidth={true}
+      maxWidth={maxWidth}
       open={open}
       onClose={closeModal}
       aria-labelledby="alert-dialog-slide-title"
@@ -159,11 +160,11 @@ export const Modal: React.FC<ModalProps> = ({
 
 export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, variant }) => {
   return (
-    <StyledFooter variant={variant}>
+    <StyledFooter variant={variant} hasHelpText={!!helpText}>
       {helpText && (
-        <CustomTooltip title={helpText} placement="top">
+        <CustomTooltip title={helpText} variant="standard" placement="top">
           <IconButton>
-            <InfoCircleIcon {...iconLarge} className="InfoCircleIcon" />
+            <InfoCircleIcon {...iconMedium} className="InfoCircleIcon" />
           </IconButton>
         </CustomTooltip>
       )}
@@ -172,8 +173,12 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
   );
 };
 
+interface ModalButtonPrimaryProps extends ButtonProps {
+  isOpen?: boolean;
+}
+
 // ModalButtonPrimary
-export const ModalButtonPrimary: React.FC = styled(ContainedButton)(({ theme }) => ({
+export const ModalButtonPrimary = styled(ContainedButton)<ModalButtonPrimaryProps>(({ theme }) => ({
   backgroundColor: theme.palette.background.brand?.default,
   color: theme.palette.text.constant?.white,
   '&:hover': {
@@ -216,3 +221,31 @@ export const ModalButtonDanger = styled(ContainedButton)(({ theme }) => ({
     background: theme.palette.background.error?.hover
   }
 }));
+
+const ButtonContainer = styled(Box)(() => ({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'end',
+  gap: '1rem'
+}));
+
+interface PrimaryActionButtonsProps {
+  primaryText: string;
+  secondaryText: string;
+  primaryButtonProps?: React.ComponentProps<typeof ModalButtonPrimary>;
+  secondaryButtonProps?: React.ComponentProps<typeof ModalButtonSecondary>;
+}
+
+export const PrimaryActionButtons: React.FC<PrimaryActionButtonsProps> = ({
+  primaryText,
+  secondaryText,
+  primaryButtonProps,
+  secondaryButtonProps
+}) => {
+  return (
+    <ButtonContainer>
+      <ModalButtonSecondary {...secondaryButtonProps}>{secondaryText}</ModalButtonSecondary>
+      <ModalButtonPrimary {...primaryButtonProps}>{primaryText}</ModalButtonPrimary>
+    </ButtonContainer>
+  );
+};

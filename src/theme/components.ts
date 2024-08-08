@@ -1,6 +1,7 @@
 import { Components, Theme } from '@mui/material';
 import { MuiAppBar } from './components/appbar.modifiter';
 import { MuiButton } from './components/button.modifier';
+import { MuiButtonGroup } from './components/buttongroup.modifier';
 import { MuiCard } from './components/card.modifier';
 import { MuiCheckbox } from './components/checkbox.modifier';
 import { MuiCollapse } from './components/collapse.modifier';
@@ -35,6 +36,7 @@ export const components: Components<Theme> = {
   MuiSvgIcon,
   MuiTab,
   MuiSwitch,
+  MuiButtonGroup,
   MuiButton,
   MuiListItem
 };

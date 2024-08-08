@@ -13,6 +13,8 @@ const SetupPreReqWrapper = styled('div')({
 const ContainerCardWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   cursor: 'pointer',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
   '& a': {
     color: theme.palette.text.primary,
     margin: '1rem'
@@ -20,22 +22,27 @@ const ContainerCardWrapper = styled('div')(({ theme }) => ({
 }));
 
 const Card = styled('a')(({ theme }) => ({
+  flex: '1',
   padding: '2rem',
   textDecoration: 'none',
   background: theme.palette.mode === 'light' ? '#EEEEEE' : '#212121',
-  maxWidth: '20rem',
   minHeight: '21.5rem',
   transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
   borderRadius: '10px',
   '&:hover': {
     boxShadow: 'rgb(0, 211, 169) 0px 0px 7px'
+  },
+  '& a': {
+    margin: '0 !important',
+    '&:hover': {
+      color: theme.palette.background.brand?.default
+    }
   }
 }));
 
 const CardHeader = styled('div')({
   display: 'flex',
   alignItems: 'center',
-  margin: '1rem 0 !important',
   gap: '1rem'
 });
 

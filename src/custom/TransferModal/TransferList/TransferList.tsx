@@ -105,10 +105,8 @@ function TransferList({
 
   React.useEffect(() => {
     assignedData(right);
-    const idsToRemove = new Set(right.map((item: { id: number }) => item.id));
-    const filteredLeft = assignableData.filter((item) => !idsToRemove.has(item.id));
-    setLeft(filteredLeft);
-  }, [right, assignableData, assignedData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [right]);
 
   React.useEffect(() => {
     const handleScroll = (entries: IntersectionObserverEntry[]) => {

@@ -3,7 +3,6 @@ import {} from '../../constants/constants';
 import {
   BLACK,
   BUTTON_MODAL,
-  BUTTON_MODAL_DARK,
   CARIBBEAN_GREEN,
   CHINESE_SILVER,
   CULTURED,
@@ -151,7 +150,7 @@ export const FeedbackSubmitButton = styled(Button)<SubmitProp>(({ isOpen }) => (
 }));
 
 export const FeedbackButton = styled(Button)<RenderPositionType>(({ theme, renderPosition }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? BUTTON_MODAL_DARK : BUTTON_MODAL,
+  backgroundColor: BUTTON_MODAL,
   color: CULTURED,
   borderRadius: '5px',
   padding: '10px 20px',
@@ -219,7 +218,7 @@ export const FeedbackMessage = styled(Box)<FeedbackMessageProps>(({ isOpen, them
   position: 'relative',
   bottom: isOpen ? '0px' : '-240px',
   right: '0',
-  color: BLACK,
+  color: theme.palette.text.default,
   backgroundColor: theme.palette.mode === 'dark' ? DARK_JUNGLE_GREEN : WHITE,
   border: `1px solid ${MEDIUM_GREY}`,
   padding: '20px',

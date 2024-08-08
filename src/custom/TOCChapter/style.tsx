@@ -1,5 +1,4 @@
 import { styled } from '@mui/material';
-import { CARIBBEAN_GREEN } from '../../theme';
 
 export const TOCWrapper = styled('div')(({ theme }) => ({
   '.chapter-back': {
@@ -44,7 +43,7 @@ export const TOCWrapper = styled('div')(({ theme }) => ({
       MozPaddingStart: '2.65rem',
       '&::after': {
         position: 'absolute',
-        inset: '1rem auto 1rem 31px',
+        inset: '1rem auto 1rem 1.7rem',
         width: 'auto',
         height: 'auto',
         borderLeft: `1px solid rgba(177, 182, 184, 0.25)`,
@@ -67,61 +66,14 @@ export const TOCWrapper = styled('div')(({ theme }) => ({
         },
         '&:hover': {
           '&::marker, & p, & a': {
-            color: CARIBBEAN_GREEN
+            color: theme.palette.background.brand?.default
           }
         }
       },
       '.active-link': {
         '&::marker, & p, & a': {
-          color: CARIBBEAN_GREEN
+          color: theme.palette.background.brand?.default
         }
-      }
-    }
-  },
-  '@media(max-width: 992px)': {
-    '.toc-list ul': {
-      '&::after': {
-        inset: '1rem auto 1rem 32.4px'
-      }
-    }
-  },
-  '@media(max-width: 767px)': {
-    position: 'initial',
-    '.toc-list ul': {
-      display: 'flex',
-      flexFlow: 'wrap',
-      margin: '1.5rem 0',
-      flexDirection: 'column',
-      paddingInlineStart: '0rem',
-      '&::after': {
-        display: 'none'
-      },
-      '& li': {
-        listStyleType: 'none',
-        margin: '0.5rem',
-        display: 'none'
-      }
-    },
-    '.toc-ul': {
-      opacity: 0,
-      height: 0,
-      transition: 'none',
-      paddingLeft: '1rem'
-    },
-    '.toc-ul-open': {
-      height: 'auto',
-      opacity: 1,
-      transition: 'all .4s',
-      '& li': {
-        display: 'inline-block'
-      }
-    },
-    '.chapter-back': {
-      '& h4': {
-        margin: '0 1rem'
-      },
-      '.toc-toggle-btn': {
-        display: 'flex'
       }
     }
   }

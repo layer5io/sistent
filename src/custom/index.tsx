@@ -8,7 +8,8 @@ import {
   CustomColumnVisibilityControl,
   CustomColumnVisibilityControlProps
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
-import { CustomTooltip } from './CustomTooltip';
+import { CustomImage } from './CustomImage';
+import { CustomTooltip, InfoTooltip } from './CustomTooltip';
 import {
   CustomDialog,
   StyledDialogActions,
@@ -27,16 +28,23 @@ import { FeedbackButton } from './Feedback';
 import { FlipCard, FlipCardProps } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
+import { ColView, updateVisibleColumns } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { LearningCard } from './LearningCard';
+import { RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
-import ResponsiveDataTable, { ResponsiveDataTableProps } from './ResponsiveDataTable';
+import ResponsiveDataTable, {
+  DataTableEllipsisMenu,
+  ResponsiveDataTableProps
+} from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
 import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
+export { CatalogCard } from './CatalogCard';
 export { StyledChartDialog } from './ChartDialog';
 export { LearningContent } from './LearningContent';
+export { Note } from './Note';
 export { SetupPreReq } from './SetupPrerequisite';
 export { StyledChapter } from './StyledChapter';
 export { StyledSearchBar } from './StyledSearchBar';
@@ -51,12 +59,15 @@ export {
   ConnectionChip,
   CustomColumnVisibilityControl,
   CustomDialog,
+  CustomImage,
   CustomTooltip,
+  DataTableEllipsisMenu,
   EmptyState,
   ErrorBoundary,
   Fallback,
   FeedbackButton,
   FlipCard,
+  InfoTooltip,
   LearningCard,
   ModalCard,
   PopperListener,
@@ -67,6 +78,7 @@ export {
   StyledDialogTitle,
   TransferList,
   UniversalFilter,
+  updateVisibleColumns,
   useNotificationHandler,
   useWindowDimensions,
   withErrorBoundary,
@@ -77,18 +89,25 @@ export {
 export {
   Modal,
   ModalBody,
+  ModalButtonDanger,
   ModalButtonPrimary,
   ModalButtonSecondary,
   ModalButtonTertiary,
   ModalFooter,
+  PrimaryActionButtons,
   useModal
 } from './Modal';
+
+// Markdown
+export { StyledMarkdown } from './Markdown/style';
+export { RenderMarkdown };
 
 // Stepper
 export { CustomizedStepper, useStepper } from './Stepper';
 
 export type {
   CatalogFilterProps,
+  ColView,
   CustomColumn,
   CustomColumnVisibilityControlProps,
   CustomDialogProps,

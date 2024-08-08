@@ -15,7 +15,7 @@ const helpAndSupportModalSchema = {
       minLength: 1,
       'x-rjsf-grid-area': '12'
     },
-    description: {
+    message: {
       type: 'string',
       title: 'Description',
       description:
@@ -32,7 +32,7 @@ const helpAndSupportModalSchema = {
       default: 'Technical'
     }
   },
-  required: ['subject', 'description']
+  required: ['subject', 'message']
 };
 
 export default helpAndSupportModalSchema;
