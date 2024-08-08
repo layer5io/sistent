@@ -15,7 +15,7 @@ const StyledChapter = styled('div')(({ theme }) => ({
   },
 
   '& a': {
-    color: theme.palette.background.default,
+    color: theme.palette.background.brand?.default,
     textDecoration: 'none'
   },
   '& pre': {
