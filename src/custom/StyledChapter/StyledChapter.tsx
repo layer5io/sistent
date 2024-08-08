@@ -36,7 +36,7 @@ const StyledChapter = styled('div')(({ theme }) => ({
     margin: '0',
     fontSize: '85%',
     wordBreak: 'normal',
-    backgroundColor: theme.palette.background.secondary,
+    backgroundColor: theme.palette.background.code,
     borderRadius: '.25rem'
   }
 }));
