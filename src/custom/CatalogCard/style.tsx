@@ -150,3 +150,90 @@ export const ImageWrapper = styled('div')(({ theme }) => ({
   width: '100%',
   borderRadius: '0.5rem'
 }));
+
+export const VersionTag = styled('div')(({ theme }) => ({
+  display: 'inline-block',
+  backgroundColor: theme.palette.background.secondary,
+  color: theme.palette.text.secondary,
+  borderRadius: '4px',
+  fontSize: '0.75rem',
+  fontWeight: 'bold',
+  margin: '5px 0',
+  padding: '2px 5px',
+  maxWidth: 'fit-content'
+}));
+
+export const FlipCard = styled('div')(() => ({
+  perspective: '1000px',
+  '&:hover .flipper': {
+    transform: 'rotateY(-180deg)'
+  }
+}));
+
+export const Flipper = styled('div')(() => ({
+  transition: '0.6s',
+  transformStyle: 'preserve-3d',
+  position: 'relative'
+}));
+
+export const Face = styled('div')(() => ({
+  backfaceVisibility: 'hidden',
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  width: '100%',
+  height: '100%'
+}));
+
+export const FrontFace = styled(Face)(() => ({
+  zIndex: 2,
+  transform: 'rotateY(0deg)'
+}));
+
+export const BackFace = styled('div')(() => ({
+  transform: 'rotateY(-180deg)',
+  color: '#fff',
+  display: 'inline-flex',
+  flexDirection: 'column',
+  padding: '16px',
+  height: '100%',
+  width: '100%',
+  position: 'relative',
+  bottom: 0,
+  left: 0,
+  backfaceVisibility: 'hidden'
+}));
+
+export const BackFaceContent = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  background: `linear-gradient(to bottom right, black 40%, ${theme.palette.background.brand?.default})`,
+  width: '100%',
+  top: 0,
+  left: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'left',
+  padding: '16px',
+  boxShadow: `2px 2px 3px 0px black`,
+  borderRadius: '1rem'
+}));
+
+export const ProfileSection = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  marginBottom: '16px'
+});
+
+export const TechnologiesSection = styled('div')(({ theme }) => ({
+  backgroundColor: 'rgba(255, 255, 255, 0.25)',
+  padding: theme.spacing(1),
+  borderRadius: theme.shape.borderRadius,
+  marginBottom: '16px'
+}));
+
+export const UpdatedSection = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  color: '#fff',
+  margin: '20px 0'
+});
