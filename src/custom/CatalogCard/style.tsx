@@ -151,7 +151,7 @@ export const ImageWrapper = styled('div')(({ theme }) => ({
   borderRadius: '0.5rem'
 }));
 
-export const VersionTag = styled('div')(({ theme }) => ({
+export const StyledVersionTag = styled('div')(({ theme }) => ({
   display: 'inline-block',
   backgroundColor: theme.palette.background.secondary,
   color: theme.palette.text.secondary,
@@ -161,6 +161,18 @@ export const VersionTag = styled('div')(({ theme }) => ({
   margin: '5px 0',
   padding: '2px 5px',
   maxWidth: 'fit-content'
+}));
+
+export const VersionTag = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  bottom: '60px',
+  left: '15px',
+  backgroundColor: theme.palette.background.secondary,
+  color: theme.palette.text.secondary,
+  padding: '2px 6px',
+  borderRadius: '4px',
+  fontSize: '0.75rem',
+  fontWeight: 'bold'
 }));
 
 export const FlipCard = styled('div')(() => ({
