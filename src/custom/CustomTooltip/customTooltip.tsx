@@ -1,7 +1,7 @@
 import { Tooltip, type TooltipProps } from '@mui/material';
 import React from 'react';
 import { CHARCOAL, WHITE } from '../../theme';
-import { RenderMarkdownTooltip } from '../Markdown';
+import { RenderMarkdown } from '../Markdown';
 
 type CustomTooltipProps = {
   title: string | React.ReactNode | JSX.Element;
@@ -44,7 +44,9 @@ function CustomTooltip({
           }
         }
       }}
-      title={typeof title === 'string' ? <RenderMarkdownTooltip content={title} /> : title}
+      title={
+        typeof title === 'string' ? <RenderMarkdown content={title} isTooltip={true} /> : title
+      }
       placement={placement}
       arrow
       onClick={onClick}
