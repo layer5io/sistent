@@ -18,6 +18,15 @@ const StyledChapter = styled('div')(({ theme }) => ({
     color: theme.palette.background.brand?.default,
     textDecoration: 'none'
   },
+  '& p > code': {
+    color: 'inherit',
+    padding: '.2em .4em',
+    margin: '0',
+    fontSize: '85%',
+    wordBreak: 'normal',
+    backgroundColor: theme.palette.background.code,
+    borderRadius: '.25rem'
+  },
   '& pre': {
     backgroundColor: '#011627',
     padding: '1em',
@@ -29,15 +38,6 @@ const StyledChapter = styled('div')(({ theme }) => ({
     width: '100%',
     margin: '1rem auto autocompleteClasses',
     fontFamily: 'Courier New, Courier, monospace'
-  },
-  '& code': {
-    color: 'inherit',
-    padding: '.2em .4em',
-    margin: '0',
-    fontSize: '85%',
-    wordBreak: 'normal',
-    backgroundColor: theme.palette.background.code,
-    borderRadius: '.25rem'
   }
 }));
 export default StyledChapter;
