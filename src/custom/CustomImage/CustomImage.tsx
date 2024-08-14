@@ -53,13 +53,14 @@ const CustomImage: React.FC<ImageComponentProps> = ({ src, alt, ...props }) => {
             background: 'transparent',
             boxShadow: 'none',
             overflow: 'auto',
-            maxWidth: '60rem'
+            maxWidth: '100%'
           }
         }}
       >
         <img
           src={src}
           alt={alt}
+          onClick={handleZoomClose}
           style={{
             objectFit: 'contain',
             maxWidth: '100%',

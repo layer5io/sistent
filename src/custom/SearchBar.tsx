@@ -12,7 +12,7 @@ const customTheme = (theme: Theme) =>
       MuiTextField: {
         styleOverrides: {
           root: {
-            '--TextField-brandBorderColor': 'rgba(0, 0, 0, 0.5)',
+            '--TextField-brandBorderColor': theme.palette.border.strong,
             '--TextField-brandBorderHoverColor': theme.palette.background.graphics?.default,
             '--TextField-brandBorderFocusedColor': theme.palette.background.graphics?.default,
             '& label.Mui-focused': {
@@ -39,6 +39,7 @@ const customTheme = (theme: Theme) =>
       MuiInput: {
         styleOverrides: {
           root: {
+            color: theme.palette.text.default,
             '&::before': {
               borderBottom: '2px solid var(--TextField-brandBorderColor)'
             },
@@ -61,7 +62,6 @@ export interface SearchBarProps {
   onClear?: () => void;
   expanded: boolean;
   setExpanded: (expanded: boolean) => void;
-  iconFill?: string;
 }
 
 function SearchBar({
@@ -69,13 +69,11 @@ function SearchBar({
   placeholder,
   onClear,
   expanded,
-  setExpanded,
-  iconFill
+  setExpanded
 }: SearchBarProps): JSX.Element {
   const [searchText, setSearchText] = React.useState('');
   const searchRef = React.useRef<HTMLInputElement | null>(null);
-
-  const outerTheme = useTheme();
+  const theme = useTheme();
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchText(event.target.value);
@@ -123,7 +121,7 @@ function SearchBar({
       }}
     >
       <div>
-        <ThemeProvider theme={customTheme(outerTheme)}>
+        <ThemeProvider theme={customTheme(theme)}>
           <TextField
             variant="standard"
             value={searchText}
@@ -144,14 +142,14 @@ function SearchBar({
           <TooltipIcon
             title="Close"
             onClick={handleClearIconClick}
-            icon={<CloseIcon fill={iconFill} />}
+            icon={<CloseIcon fill={theme.palette.icon.default} />}
             arrow
           />
         ) : (
           <TooltipIcon
             title="Search"
             onClick={handleSearchIconClick}
-            icon={<SearchIcon fill={iconFill} />}
+            icon={<SearchIcon fill={theme.palette.icon.default} />}
             arrow
           />
         )}

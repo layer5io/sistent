@@ -156,6 +156,16 @@ export const red = {
   10: '#660624'
 };
 
+export const redOrange = {
+  70: '#E8BEB3',
+  60: '#E1A999',
+  50: '#D99380',
+  40: '#D17D66',
+  30: '#CA684D',
+  20: '#C25233',
+  10: '#BB3D1A'
+};
+
 export const defaultPalette = {
   keppel: ['#DAF3EB', '#93E6D1', '#41CCB3', '#00B39F', '#007763', '#006661', '#00403F']
 };
