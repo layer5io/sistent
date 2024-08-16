@@ -4,7 +4,7 @@ import { defineConfig } from 'tsup';
 const env = process.env.NODE_ENV;
 
 export default defineConfig({
-  outdir: 'dist',
+  outDir: 'dist',
   entry: ['src/index.tsx'],
   bundle: env === 'production',
   clean: true,
