@@ -66,6 +66,7 @@ export const DesignInnerCard = styled('div')(({ theme }) => ({
   height: '100%',
   textAlign: 'center',
   transition: 'transform 0.6s',
+  background: theme.palette.background.default,
   boxShadow: `2px 2px 3px 0px ${theme.palette.background.brand?.default}`,
   borderRadius: '0.9375rem'
 }));
