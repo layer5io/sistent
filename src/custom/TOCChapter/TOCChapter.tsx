@@ -9,10 +9,11 @@ interface TOCProps {
 
 const TOC: React.FC<TOCProps> = ({ availableChapters, currentChapter, onClick }) => {
   const reformatTOC = (data: string): string => {
-    let newData = data.split('-').join(' ');
-    const firstLetter = newData.charAt(0).toUpperCase();
-    newData = `${firstLetter}${newData.slice(1)}`;
-    return newData;
+    const words = data.split('-');
+    const formattedString = words
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+    return formattedString;
   };
   return (
     <TOCWrapper>
