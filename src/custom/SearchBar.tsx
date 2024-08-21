@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { Theme, ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
 import debounce from 'lodash/debounce';
