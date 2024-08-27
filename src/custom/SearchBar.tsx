@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { Theme, ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
-import React from 'react';
+import debounce from 'lodash/debounce';
+import React, { useCallback } from 'react';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { TextField } from '../base/TextField';
 import { CloseIcon, SearchIcon } from '../icons';
@@ -75,11 +77,22 @@ function SearchBar({
   const searchRef = React.useRef<HTMLInputElement | null>(null);
   const theme = useTheme();
 
+  // Debounce the onSearch function
+  const debouncedOnSearch = useCallback(
+    debounce((value) => {
+      onSearch(value);
+    }, 300),
+    [onSearch]
+  );
+
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setSearchText(event.target.value);
+    const value = event.target.value;
+    setSearchText(value);
+    debouncedOnSearch(value);
   };
 
   const handleClearIconClick = (): void => {
+    debouncedOnSearch('');
     setSearchText('');
     setExpanded(false);
     if (onClear) {
@@ -89,6 +102,7 @@ function SearchBar({
 
   const handleSearchIconClick = (): void => {
     if (expanded) {
+      debouncedOnSearch('');
       setSearchText('');
       setExpanded(false);
     } else {
@@ -100,12 +114,6 @@ function SearchBar({
       }, 300);
     }
   };
-
-  // const handleClickAway = (): void => {
-  //   if (expanded) {
-  //     setExpanded(false);
-  //   }
-  // };
 
   return (
     <ClickAwayListener
@@ -125,10 +133,7 @@ function SearchBar({
           <TextField
             variant="standard"
             value={searchText}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              handleSearchChange(e);
-              onSearch(e.target.value);
-            }}
+            onChange={handleSearchChange} // Updated to use the new handler
             inputRef={searchRef}
             placeholder={placeholder}
             style={{
