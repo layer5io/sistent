@@ -38,6 +38,7 @@ type CatalogCardProps = {
   cardWidth: string;
   cardStyles: React.CSSProperties;
   type: string;
+  onCardClick?: () => void;
 };
 
 export const ClassToIconMap = {
@@ -63,7 +64,8 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
   cardHeight,
   cardWidth,
   cardStyles,
-  cardLink
+  cardLink,
+  onCardClick
 }) => {
   const outerStyles = {
     height: cardHeight,
@@ -71,7 +73,7 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
     ...cardStyles
   };
   return (
-    <DesignCardUrl href={cardLink} target="_blank" rel="noreferrer">
+    <DesignCardUrl href={cardLink} onClick={onCardClick} target="_blank" rel="noreferrer">
       <DesignCard outerStyles={outerStyles}>
         <DesignInnerCard className="innerCard">
           <ClassWrap catalogClassName={pattern?.catalog_data?.content_class} />
