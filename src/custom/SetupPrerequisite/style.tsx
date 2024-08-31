@@ -30,7 +30,7 @@ const Card = styled('a')(({ theme }) => ({
   transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
   borderRadius: '10px',
   '&:hover': {
-    boxShadow: 'rgb(0, 211, 169) 0px 0px 7px'
+    boxShadow: `${theme.palette.background.brand?.default} 0px 0px 7px`
   },
   '& a': {
     margin: '0 !important',
