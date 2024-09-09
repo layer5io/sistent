@@ -1,6 +1,96 @@
-import { Theme, ThemeProvider, createTheme } from '@mui/material';
+import { Theme, ThemeProvider, createTheme, styled } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import React, { useCallback } from 'react';
+import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
+import { ShareIcon } from '../icons';
+import { EllipsisIcon } from '../icons/Ellipsis';
+import TooltipIcon from './TooltipIcon';
+
+export const IconWrapper = styled('div')<{ disabled?: boolean }>(({ disabled = false }) => ({
+  cursor: disabled ? 'not-allowed' : 'pointer',
+  opacity: disabled ? '0.5' : '1',
+  display: 'flex',
+  '& svg': {
+    cursor: disabled ? 'not-allowed' : 'pointer'
+  }
+}));
+
+export const DataTableEllipsisMenu: React.FC<{
+  actionsList: NonNullable<Column['options']>['actionsList'];
+}> = ({ actionsList }) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [isSocialShareOpen, setIsSocialShareOpen] = React.useState(false);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    setIsSocialShareOpen(false);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleActionClick = (action: any) => {
+    if (action.type === 'share-social') {
+      setIsSocialShareOpen(!isSocialShareOpen);
+    } else {
+      if (action.onClick) {
+        action.onClick();
+      }
+      handleClose();
+    }
+  };
+
+  return (
+    <>
+      <TooltipIcon title="View Actions" onClick={handleClick} icon={<EllipsisIcon />} arrow />
+      <Menu id="basic-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+        {actionsList &&
+          actionsList.map((action, index) => (
+            <React.Fragment key={index}>
+              {action.type === 'share-social' ? (
+                <>
+                  <MenuItem
+                    sx={{
+                      width: '-webkit-fill-available'
+                      // background: theme.palette.background.surfaces
+                    }}
+                    onClick={() => handleActionClick(action)}
+                    disabled={action.disabled}
+                  >
+                    <ListItemIcon>
+                      <ShareIcon width={24} height={24} />
+                    </ListItemIcon>
+                    <ListItemText>{action.title}</ListItemText>
+                  </MenuItem>
+                  <Collapse variant="submenu" in={isSocialShareOpen} unmountOnExit>
+                    {action.customComponent}
+                  </Collapse>
+                </>
+              ) : (
+                <>
+                  <IconWrapper key={index} disabled={action.disabled}>
+                    <MenuItem
+                      sx={{
+                        width: '-webkit-fill-available'
+                        // background: theme.palette.background.surfaces
+                      }}
+                      key={index}
+                      onClick={() => handleActionClick(action)}
+                      disabled={action.disabled}
+                    >
+                      <ListItemIcon>{action.icon}</ListItemIcon>
+                      <ListItemText>{action.title}</ListItemText>
+                    </MenuItem>
+                  </IconWrapper>
+                </>
+              )}
+            </React.Fragment>
+          ))}
+      </Menu>
+    </>
+  );
+};
 
 const dataTableTheme = (theme: Theme) =>
   createTheme({
@@ -115,6 +205,15 @@ const dataTableTheme = (theme: Theme) =>
             }
           }
         }
+      },
+      MuiTableRow: {
+        styleOverrides: {
+          root: {
+            '&.Mui-disabled': {
+              cursor: 'not-allowed'
+            }
+          }
+        }
       }
     }
   });
@@ -129,6 +228,14 @@ export interface Column {
     display?: boolean;
     sortDescFirst?: boolean;
     customBodyRender?: (value: string | number | boolean | object) => JSX.Element;
+    actionsList?: {
+      title: string;
+      icon: JSX.Element;
+      onClick: () => void;
+      disabled?: boolean;
+      customComponent?: JSX.Element;
+      type?: string;
+    }[];
   };
 }
 
@@ -167,6 +274,11 @@ const ResponsiveDataTable = ({
 
   const updatedOptions = {
     ...options,
+    print: false,
+    download: false,
+    search: false,
+    filter: false,
+    viewColumns: false,
     rowsPerPageOptions: rowsPerPageOptions,
     onViewColumnsChange: (column: string, action: string) => {
       switch (action) {
@@ -244,7 +356,8 @@ const ResponsiveDataTable = ({
   }, [updateColumnsEffect]);
 
   const components = {
-    ExpandButton: () => ''
+    ExpandButton: () => '',
+    Checkbox: Checkbox
   };
 
   return (

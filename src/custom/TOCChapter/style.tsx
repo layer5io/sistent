@@ -1,5 +1,4 @@
 import { styled } from '@mui/material';
-import { CARIBBEAN_GREEN } from '../../theme';
 
 export const TOCWrapper = styled('div')(({ theme }) => ({
   '.chapter-back': {
@@ -67,13 +66,13 @@ export const TOCWrapper = styled('div')(({ theme }) => ({
         },
         '&:hover': {
           '&::marker, & p, & a': {
-            color: CARIBBEAN_GREEN
+            color: theme.palette.background.brand?.default
           }
         }
       },
       '.active-link': {
         '&::marker, & p, & a': {
-          color: CARIBBEAN_GREEN
+          color: theme.palette.background.brand?.default
         }
       }
     }

@@ -1,5 +1,5 @@
 import { styled } from '@mui/material';
-import { KEPPEL, SLATE_BLUE, TRANSPARENT_WHITE } from '../../theme';
+import { SLATE_BLUE, TRANSPARENT_WHITE } from '../../theme';
 
 const StyledChapter = styled('div')(({ theme }) => ({
   color: theme.palette.text.primary,
@@ -15,8 +15,20 @@ const StyledChapter = styled('div')(({ theme }) => ({
   },
 
   '& a': {
-    color: KEPPEL,
-    textDecoration: 'none'
+    color: theme.palette.background.brand?.default,
+    textDecoration: 'underline',
+    '&:hover': {
+      color: theme.palette.background.brand?.default
+    }
+  },
+  '& p > code': {
+    color: 'inherit',
+    padding: '.2em .4em',
+    margin: '0',
+    fontSize: '85%',
+    wordBreak: 'normal',
+    backgroundColor: theme.palette.background.code,
+    borderRadius: '.25rem'
   },
   '& pre': {
     backgroundColor: '#011627',
@@ -29,6 +41,22 @@ const StyledChapter = styled('div')(({ theme }) => ({
     width: '100%',
     margin: '1rem auto autocompleteClasses',
     fontFamily: 'Courier New, Courier, monospace'
+  },
+  '& li code': {
+    color: 'inherit',
+    padding: '.2em .4em',
+    margin: '0',
+    fontSize: '85%',
+    wordBreak: 'normal',
+    backgroundColor: theme.palette.background.code,
+    borderRadius: '.25rem'
+  },
+  '& li a': {
+    color: theme.palette.text.default,
+    textDecoration: 'underline',
+    '&:hover': {
+      color: theme.palette.background.brand?.default
+    }
   }
 }));
 export default StyledChapter;

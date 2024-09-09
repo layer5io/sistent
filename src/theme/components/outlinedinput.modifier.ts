@@ -9,7 +9,8 @@ export const MuiOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
     root: ({ theme }) => {
       const {
         palette: {
-          background: { graphics, brand }
+          background: { graphics, brand },
+          border: { strong }
         },
         typography: { textB1Regular }
       } = theme;
@@ -26,6 +27,9 @@ export const MuiOutlinedInput: Components<Theme>['MuiOutlinedInput'] = {
         },
         '&:hover .MuiOutlinedInput-notchedOutline': {
           borderColor: brand?.default
+        },
+        '& .MuiOutlinedInput-notchedOutline': {
+          borderColor: strong
         }
       };
     }

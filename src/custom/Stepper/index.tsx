@@ -24,7 +24,7 @@ interface CustomizedStepperPropsI {
   stepLabels: string[];
   children: React.ReactNode;
   icons: React.ComponentType<IconProps>[];
-  ContentWrapper?: React.ComponentType;
+  ContentWrapper?: React.ComponentType<{ children: React.ReactNode }>;
 }
 
 interface UseStepperI {

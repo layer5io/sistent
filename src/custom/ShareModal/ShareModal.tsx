@@ -148,6 +148,7 @@ interface ShareModalProps {
    * @returns {Promise<User[]>} A promise that resolves to an array of user suggestions.
    */
   fetchSuggestions: (value: string) => Promise<User[]>;
+  handleCopy: () => void;
 }
 
 /**
@@ -162,7 +163,8 @@ const ShareModal: React.FC<ShareModalProps> = ({
   fetchAccessActors,
   handleShare,
   hostURL = null,
-  resourceURL = '',
+  handleCopy,
+
   isVisibilitySelectorDisabled = false,
   fetchSuggestions
 }: ShareModalProps): JSX.Element => {
@@ -181,13 +183,6 @@ const ShareModal: React.FC<ShareModalProps> = ({
   };
 
   const handleMenuClose = () => setMenu(false);
-
-  /**
-   * Copy design link in clipboard
-   */
-  const handleCopy = () => {
-    navigator.clipboard.writeText(resourceURL);
-  };
 
   const isShareDisabled = () => {
     const existingAccessIds = shareUserData.map((user) => user.id);

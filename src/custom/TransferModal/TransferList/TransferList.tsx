@@ -1,6 +1,7 @@
 import React from 'react';
 import { Checkbox, Grid, List, ListItem, Typography } from '../../../base';
 import { KubernetesIcon, LeftArrowIcon, RightArrowIcon, SMPIcon } from '../../../icons';
+import { MesheryIcon } from '../../../icons/Meshery';
 import Tooltip from '../../../patches/Tooltip';
 import {
   ButtonGrid,
@@ -15,6 +16,17 @@ export const TRANSFER_COMPONET = {
   CHIP: 'chip',
   OTHER: 'other'
 };
+export function getFallbackImageBasedOnKind(kind: string | undefined): JSX.Element {
+  if (!kind) {
+    return <KubernetesIcon />;
+  }
+  const fallbackComponents: { [key: string]: JSX.Element } = {
+    meshery: <MesheryIcon />,
+    kubernetes: <KubernetesIcon />
+  };
+
+  return fallbackComponents[kind] || null;
+}
 
 export interface TransferListProps {
   name: string;
@@ -37,6 +49,7 @@ export interface TransferListProps {
 interface ListItemType {
   id: number;
   name: string;
+  kind: string | undefined;
 }
 
 function not<T>(a: T[], b: T[]): T[] {
@@ -105,10 +118,8 @@ function TransferList({
 
   React.useEffect(() => {
     assignedData(right);
-    const idsToRemove = new Set(right.map((item: { id: number }) => item.id));
-    const filteredLeft = assignableData.filter((item) => !idsToRemove.has(item.id));
-    setLeft(filteredLeft);
-  }, [right, assignableData, assignedData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [right]);
 
   React.useEffect(() => {
     const handleScroll = (entries: IntersectionObserverEntry[]) => {
@@ -229,7 +240,7 @@ function TransferList({
                       label={item.name}
                       onDelete={() => {}}
                       deleteIcon={<SMPIcon />}
-                      icon={<KubernetesIcon />}
+                      icon={getFallbackImageBasedOnKind(item?.kind) || <KubernetesIcon />}
                     />
                   </Tooltip>
                 ) : (

@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { Theme, ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
-import React from 'react';
+import debounce from 'lodash/debounce';
+import React, { useCallback } from 'react';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { TextField } from '../base/TextField';
 import { CloseIcon, SearchIcon } from '../icons';
@@ -12,7 +14,7 @@ const customTheme = (theme: Theme) =>
       MuiTextField: {
         styleOverrides: {
           root: {
-            '--TextField-brandBorderColor': 'rgba(0, 0, 0, 0.5)',
+            '--TextField-brandBorderColor': theme.palette.border.strong,
             '--TextField-brandBorderHoverColor': theme.palette.background.graphics?.default,
             '--TextField-brandBorderFocusedColor': theme.palette.background.graphics?.default,
             '& label.Mui-focused': {
@@ -39,6 +41,7 @@ const customTheme = (theme: Theme) =>
       MuiInput: {
         styleOverrides: {
           root: {
+            color: theme.palette.text.default,
             '&::before': {
               borderBottom: '2px solid var(--TextField-brandBorderColor)'
             },
@@ -61,7 +64,6 @@ export interface SearchBarProps {
   onClear?: () => void;
   expanded: boolean;
   setExpanded: (expanded: boolean) => void;
-  iconFill?: string;
 }
 
 function SearchBar({
@@ -69,19 +71,28 @@ function SearchBar({
   placeholder,
   onClear,
   expanded,
-  setExpanded,
-  iconFill
+  setExpanded
 }: SearchBarProps): JSX.Element {
   const [searchText, setSearchText] = React.useState('');
   const searchRef = React.useRef<HTMLInputElement | null>(null);
+  const theme = useTheme();
 
-  const outerTheme = useTheme();
+  // Debounce the onSearch function
+  const debouncedOnSearch = useCallback(
+    debounce((value) => {
+      onSearch(value);
+    }, 300),
+    [onSearch]
+  );
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setSearchText(event.target.value);
+    const value = event.target.value;
+    setSearchText(value);
+    debouncedOnSearch(value);
   };
 
   const handleClearIconClick = (): void => {
+    debouncedOnSearch('');
     setSearchText('');
     setExpanded(false);
     if (onClear) {
@@ -91,6 +102,7 @@ function SearchBar({
 
   const handleSearchIconClick = (): void => {
     if (expanded) {
+      debouncedOnSearch('');
       setSearchText('');
       setExpanded(false);
     } else {
@@ -102,12 +114,6 @@ function SearchBar({
       }, 300);
     }
   };
-
-  // const handleClickAway = (): void => {
-  //   if (expanded) {
-  //     setExpanded(false);
-  //   }
-  // };
 
   return (
     <ClickAwayListener
@@ -123,14 +129,11 @@ function SearchBar({
       }}
     >
       <div>
-        <ThemeProvider theme={customTheme(outerTheme)}>
+        <ThemeProvider theme={customTheme(theme)}>
           <TextField
             variant="standard"
             value={searchText}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              handleSearchChange(e);
-              onSearch(e.target.value);
-            }}
+            onChange={handleSearchChange} // Updated to use the new handler
             inputRef={searchRef}
             placeholder={placeholder}
             style={{
@@ -144,14 +147,14 @@ function SearchBar({
           <TooltipIcon
             title="Close"
             onClick={handleClearIconClick}
-            icon={<CloseIcon fill={iconFill} />}
+            icon={<CloseIcon fill={theme.palette.icon.default} />}
             arrow
           />
         ) : (
           <TooltipIcon
             title="Search"
             onClick={handleSearchIconClick}
-            icon={<SearchIcon fill={iconFill} />}
+            icon={<SearchIcon fill={theme.palette.icon.default} />}
             arrow
           />
         )}

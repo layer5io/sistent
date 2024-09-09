@@ -1,7 +1,7 @@
 import { SxProps } from '@mui/material/styles';
 import React from 'react';
 import { IconButton } from '../base/IconButton';
-import Tooltip from '../patches/Tooltip';
+import { CustomTooltip } from './CustomTooltip';
 
 interface TooltipIconProps {
   title: string;
@@ -19,7 +19,7 @@ export function TooltipIcon({
   arrow = false
 }: TooltipIconProps): JSX.Element {
   return (
-    <Tooltip title={title} arrow={arrow}>
+    <CustomTooltip title={title} arrow={arrow}>
       <IconButton
         onClick={onClick}
         sx={{
@@ -35,7 +35,7 @@ export function TooltipIcon({
       >
         {icon}
       </IconButton>
-    </Tooltip>
+    </CustomTooltip>
   );
 }
 

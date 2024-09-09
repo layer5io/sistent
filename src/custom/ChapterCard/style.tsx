@@ -1,5 +1,5 @@
 import { styled } from '@mui/material';
-import { ALABASTER_WHITE, KEPPEL, MIDNIGHT_BLACK } from '../../theme';
+import { ALABASTER_WHITE, MIDNIGHT_BLACK } from '../../theme';
 
 // Styled component for ChapterCardWrapper
 export const ChapterCardWrapper = styled('div')(({ theme }) => ({
@@ -13,7 +13,7 @@ export const ChapterCardWrapper = styled('div')(({ theme }) => ({
   }`,
   justifyContent: 'space-between',
   '&:hover': {
-    border: `1px solid ${KEPPEL}`,
+    border: `1px solid ${theme.palette.background.brand?.default}`,
     transition:
       'background 150ms ease-out 0s, border 150ms ease-out 0s, transform 150ms ease-out 0s',
     transform: 'translate3d(0px, -3px, 0px)',

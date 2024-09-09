@@ -8,6 +8,7 @@ import {
   CustomColumnVisibilityControl,
   CustomColumnVisibilityControlProps
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
+import { CustomImage } from './CustomImage';
 import { CustomTooltip, InfoTooltip } from './CustomTooltip';
 import {
   CustomDialog,
@@ -27,11 +28,15 @@ import { FeedbackButton } from './Feedback';
 import { FlipCard, FlipCardProps } from './FlipCard';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
+import { ColView, updateVisibleColumns } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { LearningCard } from './LearningCard';
 import { RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
-import ResponsiveDataTable, { ResponsiveDataTableProps } from './ResponsiveDataTable';
+import ResponsiveDataTable, {
+  DataTableEllipsisMenu,
+  ResponsiveDataTableProps
+} from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
 import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
@@ -54,7 +59,9 @@ export {
   ConnectionChip,
   CustomColumnVisibilityControl,
   CustomDialog,
+  CustomImage,
   CustomTooltip,
+  DataTableEllipsisMenu,
   EmptyState,
   ErrorBoundary,
   Fallback,
@@ -71,6 +78,7 @@ export {
   StyledDialogTitle,
   TransferList,
   UniversalFilter,
+  updateVisibleColumns,
   useNotificationHandler,
   useWindowDimensions,
   withErrorBoundary,
@@ -99,6 +107,7 @@ export { CustomizedStepper, useStepper } from './Stepper';
 
 export type {
   CatalogFilterProps,
+  ColView,
   CustomColumn,
   CustomColumnVisibilityControlProps,
   CustomDialogProps,
