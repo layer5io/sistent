@@ -1,6 +1,6 @@
 import { Tooltip, type TooltipProps } from '@mui/material';
 import React from 'react';
-import { CHARCOAL, WHITE } from '../../theme';
+import { WHITE } from '../../theme';
 import { RenderMarkdownTooltip } from '../Markdown';
 
 type CustomTooltipProps = {
@@ -21,7 +21,7 @@ function CustomTooltip({
   fontSize,
   fontWeight = 400,
   variant = 'standard',
-  bgColor = CHARCOAL,
+  bgColor = '#333333',
   ...props
 }: CustomTooltipProps): JSX.Element {
   return (
@@ -41,6 +41,11 @@ function CustomTooltip({
           sx: {
             zIndex: 9999999999,
             opacity: '1'
+          }
+        },
+        arrow: {
+          sx: {
+            color: bgColor
           }
         }
       }}
