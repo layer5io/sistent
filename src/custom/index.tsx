@@ -122,3 +122,5 @@ export type {
 };
 
 export * from './Dialog';
+export * from './ShareModal';
+export * from './UserSearchField';
