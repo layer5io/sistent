@@ -64,7 +64,7 @@ export const createCanShow = (
     };
 
     if (can) {
-      return <>{children}</>;
+      return children;
     }
 
     if (invert_action.includes('hide')) {
@@ -72,7 +72,6 @@ export const createCanShow = (
     }
 
     const pointerEvents = notifyOnclick ? 'auto' : 'none';
-    console.log('cant perform action ', reason, eventBus);
 
     const onClick = notifyOnclick
       ? (e: React.MouseEvent<HTMLDivElement | HTMLElement>) => {
