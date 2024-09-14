@@ -122,3 +122,4 @@ export type {
 };
 
 export * from './Dialog';
+export * from './permissions';
