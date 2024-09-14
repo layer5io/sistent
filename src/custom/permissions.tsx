@@ -2,12 +2,12 @@
 import React from 'react';
 import { EventBus } from '../actors/eventBus';
 
-interface Key {
+export interface Key {
   subject: string;
   action: string;
 }
 
-type InvertAction = 'disable' | 'hide';
+export type InvertAction = 'disable' | 'hide';
 
 export type MissingPermissionReason = {
   type: 'MISSING_PERMISSION';
@@ -25,7 +25,7 @@ export type MissingCapabilityReason = {
 
 export type ReasonEvent = MissingPermissionReason | MissingCapabilityReason;
 
-interface HasKeyProps<ReasonEvent> {
+export interface HasKeyProps<ReasonEvent> {
   Key?: Key;
   predicate?: (capabilitiesRegistry: unknown) => [boolean, ReasonEvent]; // returns a boolean and an event if the user does not have the permission
   children: React.ReactNode;
@@ -48,8 +48,7 @@ export const createCanShow = (
     const hasKey = Key?.subject ? CAN(Key?.action, Key?.subject) : true;
     const predicateRes = predicate && predicate(getCapabilitiesRegistry());
 
-    //WARNING: remove the false from the below line to enable the feature
-    const can = predicateRes ? predicateRes[0] && hasKey && false : hasKey && false;
+    const can = predicateRes ? predicateRes[0] && hasKey : hasKey && false;
 
     const reason = predicateRes?.[1] || {
       type: 'MISSING_PERMISSION',
@@ -71,7 +70,7 @@ export const createCanShow = (
 
     const onClick = isClickable
       ? () => {
-          console.log('cant perform action : reason', reason);
+          console.log('cant perform action : reason', reason, eventBus);
           const mesheryEventBus = eventBus();
           mesheryEventBus.publish(reason);
         }
