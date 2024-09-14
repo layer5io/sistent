@@ -29,7 +29,7 @@ export interface HasKeyProps<ReasonEvent> {
   Key?: Key;
   predicate?: (capabilitiesRegistry: unknown) => [boolean, ReasonEvent]; // returns a boolean and an event if the user does not have the permission
   children: React.ReactNode;
-  allowClick?: boolean;
+  notifyOnclick?: boolean;
   invert_action?: InvertAction[];
 }
 
@@ -40,7 +40,13 @@ export const createCanShow = (
   CAN: (action: string, subject: string) => boolean,
   eventBus: () => EventBus<ReasonEvent>
 ) => {
-  return ({ Key, children, predicate, invert_action = ['disable'] }: HasKeyProps<ReasonEvent>) => {
+  return ({
+    Key,
+    children,
+    notifyOnclick = true,
+    predicate,
+    invert_action = ['disable']
+  }: HasKeyProps<ReasonEvent>) => {
     if (!children) {
       return null;
     }
@@ -65,11 +71,12 @@ export const createCanShow = (
       return null;
     }
 
-    const isClickable = children && (children as React.ReactElement).props.onClick;
-    const pointerEvents = isClickable ? 'auto' : 'none';
+    const pointerEvents = notifyOnclick ? 'auto' : 'none';
+    console.log('cant perform action ', reason, eventBus);
 
-    const onClick = isClickable
-      ? () => {
+    const onClick = notifyOnclick
+      ? (e: React.MouseEvent<HTMLDivElement | HTMLElement>) => {
+          e.stopPropagation();
           console.log('cant perform action : reason', reason, eventBus);
           const mesheryEventBus = eventBus();
           mesheryEventBus.publish(reason);
@@ -85,6 +92,7 @@ export const createCanShow = (
           pointerEvents,
           opacity: opacity
         }}
+        onClick={onClick}
       >
         {React.cloneElement(children as React.ReactElement, {
           style: {
