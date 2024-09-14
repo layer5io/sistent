@@ -37,3 +37,5 @@ export {
   sendToActor,
   sendToActors
 } from './utils';
+
+export * from './eventBus';
