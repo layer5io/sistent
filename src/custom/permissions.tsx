@@ -48,7 +48,7 @@ export const createCanShow = (
     const hasKey = Key?.subject ? CAN(Key?.action, Key?.subject) : true;
     const predicateRes = predicate && predicate(getCapabilitiesRegistry());
 
-    const can = predicateRes ? predicateRes[0] && hasKey : hasKey && false;
+    const can = predicateRes ? predicateRes[0] && hasKey : hasKey;
 
     const reason = predicateRes?.[1] || {
       type: 'MISSING_PERMISSION',
