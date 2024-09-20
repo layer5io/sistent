@@ -1,7 +1,7 @@
 ---
 name: 🐛 General Bug Report
 about: Report an issue to help improve the project.
-title: ''
+title: '[Bug]'
 labels: 'kind/bug'
 assignees: ''
 ---
@@ -20,10 +20,7 @@ assignees: ''
 
 #### Environment
 
-- **Host OS:** Mac Linux Windows
-- **Platform:** Docker or Kubernetes
-- **Meshery Server Version:** stable-v
-- **Meshery Client Version:** stable-v
+<!-- Please mention the environment where you encountered the issue (e.g., browser, OS, etc.). -->
 
 <!-- Optional
 #### To Reproduce

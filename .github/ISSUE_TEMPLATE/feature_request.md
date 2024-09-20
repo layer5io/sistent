@@ -1,7 +1,7 @@
 ---
 name: 💡 Feature Request
-about: Suggest an enhancement to Meshery.
-title: ''
+about: Suggest a new idea for Sistent.
+title: '[Feature]'
 labels: 'kind/enhancement'
 assignees: ''
 ---
