@@ -168,7 +168,7 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
           </IconButton>
         </CustomTooltip>
       )}
-      <div>{children}</div>
+      {children}
     </StyledFooter>
   );
 };
