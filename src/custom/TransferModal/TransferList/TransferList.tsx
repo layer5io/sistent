@@ -215,7 +215,7 @@ function TransferList({
     listId?: string
   ) => (
     <StyledPaper>
-      <List dense component="div" role="list">
+      <List dense component="div" role="list" data-testid={`connections-${listId}`}>
         {items.length > 0 ? (
           items.map((item) => {
             const labelId = `transfer-list-item-${item.name}-label`;
@@ -302,6 +302,7 @@ function TransferList({
               (rightPermission && (left?.length === 0 || left.length < leftCount))
             }
             aria-label="move all right"
+            data-testid="move-all-right"
           >
             <RightArrowIcon width={18} height={18} />
             <RightArrowIcon style={{ position: 'absolute', left: '27px' }} width={18} height={18} />
@@ -312,6 +313,7 @@ function TransferList({
             onClick={handleCheckedRight}
             disabled={!rightPermission || (rightPermission && leftChecked.length === 0)}
             aria-label="move selected right"
+            data-testid="move-selected-right"
           >
             <RightArrowIcon width={18} height={18} />
           </TransferButton>
@@ -321,6 +323,7 @@ function TransferList({
             onClick={handleCheckedLeft}
             disabled={!leftPermission || (leftPermission && rightChecked.length === 0)}
             aria-label="move selected left"
+            data-testid="move-selected-left"
           >
             <LeftArrowIcon width={18} height={18} />
           </TransferButton>
@@ -333,6 +336,7 @@ function TransferList({
               (leftPermission && (right?.length === 0 || right.length < rightCount))
             }
             aria-label="move all left"
+            data-testid="move-all-left"
           >
             <LeftArrowIcon width={18} height={18} />
             <LeftArrowIcon style={{ position: 'absolute', left: '27px' }} width={18} height={18} />
