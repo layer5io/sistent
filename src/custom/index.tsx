@@ -89,6 +89,7 @@ export {
 
 //Custom Modal
 export {
+  CloseBtn,
   Modal,
   ModalBody,
   ModalButtonDanger,
@@ -96,6 +97,7 @@ export {
   ModalButtonSecondary,
   ModalButtonTertiary,
   ModalFooter,
+  ModalStyledHeader,
   PrimaryActionButtons,
   useModal
 } from './Modal';
