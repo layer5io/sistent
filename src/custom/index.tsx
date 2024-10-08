@@ -45,6 +45,7 @@ import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 export { CatalogCard } from './CatalogCard';
 export { StyledChartDialog } from './ChartDialog';
 export { LearningContent } from './LearningContent';
+export { NavigationNavbar } from './NavigationNavbar';
 export { Note } from './Note';
 export { SetupPreReq } from './SetupPrerequisite';
 export { StyledChapter } from './StyledChapter';
