@@ -5,6 +5,7 @@ import { TextField } from '../../base/TextField';
 
 interface SearchBarProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   value?: string;
   width?: string;
   label: string;
@@ -13,6 +14,7 @@ interface SearchBarProps {
 
 function StyledSearchBar({
   onChange,
+  onKeyDown,
   value,
   width,
   label,
@@ -35,6 +37,7 @@ function StyledSearchBar({
           type="search"
           value={value}
           onChange={onChange}
+          onKeyDown={onKeyDown}
           sx={{
             margin: 'auto',
             height: '5ch'

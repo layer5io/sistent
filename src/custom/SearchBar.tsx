@@ -64,6 +64,7 @@ export interface SearchBarProps {
   onClear?: () => void;
   expanded: boolean;
   setExpanded: (expanded: boolean) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 function SearchBar({
@@ -71,7 +72,8 @@ function SearchBar({
   placeholder,
   onClear,
   expanded,
-  setExpanded
+  setExpanded,
+  onKeyDown
 }: SearchBarProps): JSX.Element {
   const [searchText, setSearchText] = React.useState('');
   const searchRef = React.useRef<HTMLInputElement | null>(null);
@@ -136,6 +138,7 @@ function SearchBar({
             onChange={handleSearchChange} // Updated to use the new handler
             inputRef={searchRef}
             placeholder={placeholder}
+            onKeyDown={onKeyDown}
             style={{
               width: expanded ? '150px' : '0',
               opacity: expanded ? 1 : 0,
