@@ -31,7 +31,7 @@ interface UseModalReturnI extends ModalProps {
   isOpen: boolean;
 }
 
-const CloseBtn = styled(IconButton)`
+export const CloseBtn = styled(IconButton)`
   && {
     & svg {
       fill: #fff;
@@ -54,7 +54,7 @@ const StyledDialog = styled(Dialog)`
   }
 `;
 
-const StyledHeader = styled('div')(() => ({
+export const ModalStyledHeader = styled('div')(() => ({
   background: 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)',
   color: '#eee',
   display: 'flex',
@@ -141,7 +141,7 @@ export const Modal: React.FC<ModalProps> = ({
       {...props}
     >
       {title && (
-        <StyledHeader>
+        <ModalStyledHeader>
           {headerIcon && headerIcon}
           <Typography component={'div'} variant="h6">
             {title}
@@ -149,7 +149,7 @@ export const Modal: React.FC<ModalProps> = ({
           <CloseBtn onClick={closeModal}>
             <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
           </CloseBtn>
-        </StyledHeader>
+        </ModalStyledHeader>
       )}
 
       {reactNode && reactNode}
