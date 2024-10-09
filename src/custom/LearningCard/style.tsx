@@ -12,7 +12,7 @@ const CardActive = styled('div')(({ theme }) => ({
   cursor: 'pointer',
   transition: 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s',
   '&:hover': {
-    boxShadow: 'rgba(0, 179, 158, 0.9) 0px 0px 19px 6px'
+    boxShadow: `${theme.palette.background.brand?.default} 0px 0px 19px 6px`
   },
   backgroundColor: theme.palette.mode === 'light' ? WHITE : BLACK
 }));
@@ -23,7 +23,7 @@ const CardLink = styled('a')({
 });
 
 const CardParent = styled('div')(({ theme }) => ({
-  borderTop: `5px solid ${theme.palette.primary.main}`,
+  borderTop: `5px solid ${theme.palette.background.brand?.default}`,
   borderRadius: '0.25rem',
   minHeight: '16rem',
   display: 'flex',

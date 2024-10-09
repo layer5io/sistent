@@ -12,7 +12,6 @@ const importDesignSchema = {
     designType: {
       title: 'Design type',
       enum: ['Helm Chart', 'Kubernetes Manifest', 'Docker Compose', 'Meshery Design'],
-      default: 'Meshery Design',
       'x-rjsf-grid-area': '6',
       description:
         "Select the type of design you are uploading. The 'Design Type' determines the format, structure, and content of the file you are uploading. Choose the appropriate design type that matches the nature of your file. Checkout https://docs.meshery.io/guides/configuration-management/creating-a-meshery-design to learn more about designs"

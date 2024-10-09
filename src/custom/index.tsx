@@ -34,6 +34,7 @@ import { LearningCard } from './LearningCard';
 import { RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
+import PromptComponent from './Prompt';
 import ResponsiveDataTable, {
   DataTableEllipsisMenu,
   ResponsiveDataTableProps
@@ -73,6 +74,7 @@ export {
   LearningCard,
   ModalCard,
   PopperListener,
+  PromptComponent,
   ResponsiveDataTable,
   SearchBar,
   StyledDialogActions,
@@ -89,6 +91,7 @@ export {
 
 //Custom Modal
 export {
+  CloseBtn,
   Modal,
   ModalBody,
   ModalButtonDanger,
@@ -96,6 +99,7 @@ export {
   ModalButtonSecondary,
   ModalButtonTertiary,
   ModalFooter,
+  ModalStyledHeader,
   PrimaryActionButtons,
   useModal
 } from './Modal';
@@ -122,3 +126,4 @@ export type {
 };
 
 export * from './Dialog';
+export * from './permissions';
