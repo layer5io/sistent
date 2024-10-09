@@ -1,6 +1,5 @@
 import { styled } from '@mui/material/styles';
 import { Box, Button, InputAdornment, ListItemButton } from '../../base';
-import { CARIBBEAN_GREEN, CHINESE_SILVER, CULTURED, DARK_SLATE_GRAY, KEPPEL } from '../../theme';
 import { StyleProps } from './CatalogFilterSidebar';
 
 export const FiltersCardDiv = styled(Box)<{ styleProps: StyleProps }>(({ styleProps }) => ({
@@ -31,10 +30,10 @@ export const LabelDiv = styled('div')(() => ({
   alignItems: 'center'
 }));
 
-export const FilterButton = styled(Button)(() => ({
-  backgroundColor: KEPPEL,
+export const FilterButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.brand?.default,
   '&:hover': {
-    backgroundColor: CARIBBEAN_GREEN
+    backgroundColor: theme.palette.background.default
   },
   height: '3.5rem',
   ['@media (max-width:450px)']: {
@@ -42,33 +41,33 @@ export const FilterButton = styled(Button)(() => ({
   }
 }));
 
-export const FiltersDrawerHeader = styled(Box)(() => ({
+export const FiltersDrawerHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '0.5rem 1rem',
-  backgroundColor: DARK_SLATE_GRAY,
+  backgroundColor: theme.palette.border.strong,
   height: '10vh',
   boxShadow: '0px 4px 4px rgba(0, 179, 159, 0.4)',
   marginBottom: '0.625rem'
 }));
 
-export const CheckBoxButton = styled(ListItemButton)(() => ({
+export const CheckBoxButton = styled(ListItemButton)(({ theme }) => ({
   padding: '0.25rem 2rem',
   borderBottom: '1px solid',
-  borderBottomColor: CHINESE_SILVER
+  borderBottomColor: theme.palette.text.disabled
 }));
 
-export const FilterTitleButton = styled(ListItemButton)(() => ({
-  backgroundColor: CULTURED,
+export const FilterTitleButton = styled(ListItemButton)(({ theme }) => ({
+  backgroundColor: theme.palette.background.surfaces,
   borderRadius: '0.5rem',
   marginTop: 2,
   display: 'flex',
   justifyContent: 'space-between'
 }));
 
-export const InputAdornmentEnd = styled(InputAdornment)(() => ({
-  borderLeft: `1px solid ${CHINESE_SILVER}`,
+export const InputAdornmentEnd = styled(InputAdornment)(({ theme }) => ({
+  borderLeft: `1px solid ${theme.palette.text.disabled}`,
   height: '30px',
   paddingLeft: '10px',
   '@media (max-width: 590px)': {

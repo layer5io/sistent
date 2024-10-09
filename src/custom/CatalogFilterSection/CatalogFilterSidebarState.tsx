@@ -6,6 +6,7 @@ import {
   StyleProps
 } from './CatalogFilterSidebar';
 import FilterSection from './FilterSection';
+
 /**
  * @component CatalogFilterSidebarState
  * @description A functional component that manages the filter state.
