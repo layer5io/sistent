@@ -58,7 +58,6 @@ interface Pattern {
 }
 
 type CatalogCardProps = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   pattern: Pattern;
   patternType: string;
   cardLink: string;
