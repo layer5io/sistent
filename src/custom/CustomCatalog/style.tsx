@@ -27,6 +27,23 @@ export const StyledClassWrapper = styled('div')(() => ({
   left: '-3px'
 }));
 
+export const TechnologyText = styled('div')(() => ({
+  color: '#eee',
+  fontSize: '0.875rem',
+  lineHeight: '1.5',
+  fontWeight: '600',
+  borderBottom: '1px solid rgba(231, 239, 243, 0.40)'
+}));
+
+export const NoTechnologyText = styled('div')(() => ({
+  color: '#eee',
+  overflow: 'hidden',
+  fontSize: '14px',
+  lineHeight: '24px',
+  fontWeight: '400',
+  marginTop: '.8rem'
+}));
+
 export const StyledInnerClassWrapper = styled('div')<StyledInnerClassWrapperProps>(({
   catalogClassName
 }) => {
@@ -251,16 +268,30 @@ export const BackFaceContent = styled('div')(({ theme }) => ({
 }));
 
 export const ProfileSection = styled('div')({
+  height: 'max-content',
   display: 'flex',
+  marginTop: '1.2rem',
+  flexDirection: 'row',
+  padding: '0rem 1rem',
+  justifyContent: 'flex-start',
   alignItems: 'center',
-  marginBottom: '16px'
+  ['@media (max-width:1200px)']: {
+    height: 'max-content'
+  }
 });
 
-export const TechnologiesSection = styled('div')(({ theme }) => ({
-  backgroundColor: 'rgba(255, 255, 255, 0.25)',
-  padding: theme.spacing(1),
-  borderRadius: theme.shape.borderRadius,
-  marginBottom: '16px'
+export const TechnologiesSection = styled('div')(() => ({
+  marginBottom: '16px',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  width: '100%',
+  gap: '1rem',
+  alignItems: 'flex-start',
+  background: 'rgba(231, 239, 243, 0.40)',
+  borderRadius: '0.25rem',
+  padding: '0.5rem 1rem',
+  alignSelf: 'stretch'
 }));
 
 export const UpdatedSection = styled('div')({

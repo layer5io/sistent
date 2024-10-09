@@ -1,11 +1,12 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import { Avatar, Box, Typography, styled } from '@mui/material';
-import React from 'react';
+import { Avatar, Typography, styled } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import { Grid } from '../../base';
 import { CloneIcon, CommunityClassIcon, OfficialClassIcon, OpenIcon, ShareIcon } from '../../icons';
 import VerificationClassIcon from '../../icons/ContentClassIcons/VerificationClassIcon';
 import DeploymentsIcon from '../../icons/Deployments/DeploymentsIcon';
 import { DownloadIcon } from '../../icons/Download';
+import { CustomTooltip } from '../CustomTooltip';
 import {
   CardBack,
   CardFront,
@@ -20,10 +21,12 @@ import {
   MetricsContainerFront,
   MetricsCount,
   MetricsDiv,
+  NoTechnologyText,
   ProfileSection,
   StyledClassWrapper,
   StyledInnerClassWrapper,
   TechnologiesSection,
+  TechnologyText,
   VersionTag
 } from './style';
 
@@ -48,6 +51,7 @@ interface Pattern {
   catalog_data?: {
     content_class?: string;
     imageURL?: string;
+    compatibility?: string[];
   };
   visibility: string;
   updated_at: Date;
@@ -64,6 +68,7 @@ type CatalogCardProps = {
   type: string;
   version?: string;
   avatarUrl: string;
+  compatibility: string[];
   userName: string;
   technologies: string[];
   updatedAt: string;
@@ -74,7 +79,10 @@ type CatalogCardProps = {
   date?: boolean;
   cardVersion?: boolean;
   UserName?: string;
-  children?: React.ReactNode;
+  children?: React.ReactNode; // catalogImage
+  TechnologyComponent?: React.ReactNode;
+  basePath?: string; // path of meshmodel img stored
+  getHostUrl?: () => string;
 };
 
 export const ClassToIconMap = {
@@ -104,19 +112,60 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   cardLink,
   shouldFlip,
   isDetailed,
-  cardAvatarUrl,
   cardTechnologies,
-  date,
   cardVersion,
   avatarUrl,
   UserName,
-  children
+  children,
+  basePath,
+  getHostUrl
 }) => {
   const outerStyles = {
     height: cardHeight,
     width: cardWidth,
     ...cardStyles
   };
+
+  const technologies = pattern.catalog_data?.compatibility || []; // an array
+  const techlimit = 5;
+  const [availableTechnologies, setAvailableTechnologies] = useState<string[]>([]);
+  const checkImageUrlValidity = async (url: string, appendHostUrl = true) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      // Only append host if the URL does not start with "http" or "https"
+      if (appendHostUrl && !url.startsWith('http')) {
+        img.src = (getHostUrl ? getHostUrl() : '') + url;
+      } else {
+        img.src = url;
+      }
+      img.onload = () => {
+        // Check if the image loaded successfully
+        resolve(true);
+      };
+
+      img.onerror = () => {
+        // Handle the case where the image could not be loaded
+        resolve(false);
+      };
+    });
+  };
+
+  const handleImage = async () => {
+    const validSvgPaths = [];
+    for (const technology of technologies) {
+      const svgIconPath = `${basePath}/${technology.toLowerCase()}/icons/color/${technology.toLowerCase()}-color.svg`;
+      const isSvgPathValid = await checkImageUrlValidity(svgIconPath as string);
+      if (isSvgPathValid) {
+        validSvgPaths.push(technology);
+      }
+    }
+
+    setAvailableTechnologies(validSvgPaths);
+  };
+  useEffect(() => {
+    handleImage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <DesignCardUrl href={cardLink} target="_blank" rel="noreferrer">
@@ -181,39 +230,70 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
           </CardFront>
           {shouldFlip && (
             <CardBack isCatalog={true}>
-              {cardAvatarUrl && (
-                <ProfileSection>
-                  <Avatar
-                    alt="Design Author"
-                    src={avatarUrl}
-                    sx={{ width: '32px', height: '32px', color: '#293B43' }}
-                  />
-                  <DesignAuthorName>{UserName}</DesignAuthorName>
-                </ProfileSection>
-              )}
+              <ProfileSection>
+                <Avatar
+                  alt="Design Author"
+                  src={avatarUrl}
+                  sx={{ width: '32px', height: '32px', color: '#293B43' }}
+                />
+                <DesignAuthorName>{UserName}</DesignAuthorName>
+              </ProfileSection>
 
               <DesignDetailsDiv style={{ marginTop: '0.7rem', gap: '5px' }}>
                 {cardTechnologies && (
                   <TechnologiesSection>
-                    <Typography
-                      variant="subtitle1"
-                      style={{ color: 'white', textDecoration: 'underline' }}
+                    <TechnologyText>Technologies</TechnologyText>
+                    <Grid
+                      container
+                      style={{ gap: '4px', alignItems: 'flex-start', flexWrap: 'nowrap' }}
                     >
-                      Technologies
-                    </Typography>
-                    <Box display="flex" alignItems="center" justifyContent="center" mt={1}>
-                      <img
-                        src="path_to_kubernetes_icon"
-                        alt="Kubernetes"
-                        style={{ width: '40px', height: '40px' }}
-                      />
-                    </Box>
+                      {technologies.length < 1 || availableTechnologies.length < 1 ? (
+                        <NoTechnologyText>No technologies</NoTechnologyText>
+                      ) : (
+                        <>
+                          {availableTechnologies.slice(0, techlimit).map((technology, index) => {
+                            const svgPath =
+                              (getHostUrl ? getHostUrl() : '') +
+                              `${basePath}/${technology.toLowerCase()}/icons/color/${technology.toLowerCase()}-color.svg`;
+                            return (
+                              <Grid item key={index}>
+                                <CustomTooltip key={index} title={technology.toLowerCase()}>
+                                  <img
+                                    height="24px"
+                                    width="24px"
+                                    alt={technology.toLowerCase()}
+                                    src={svgPath}
+                                  />
+                                </CustomTooltip>
+                              </Grid>
+                            );
+                          })}
+                          {availableTechnologies.length > techlimit && (
+                            <Grid
+                              item
+                              sx={{
+                                padding: '0 8px 0 4px',
+                                borderRadius: '16px',
+                                border: '1px solid #C9DBE3',
+                                background: '#E7EFF3',
+                                color: '#3C494E',
+                                fontSize: '14px',
+                                lineHeight: '1.5',
+                                fontWeight: '600'
+                              }}
+                            >
+                              +{availableTechnologies.length - techlimit}
+                            </Grid>
+                          )}
+                        </>
+                      )}
+                    </Grid>
                   </TechnologiesSection>
                 )}
               </DesignDetailsDiv>
 
-              {date && (
-                <DesignDetailsDiv>
+              {isDetailed && (
+                <DesignDetailsDiv style={{ marginTop: '50px' }}>
                   <Grid container style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                     <Grid
                       item
