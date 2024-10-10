@@ -1,5 +1,5 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import { Avatar, Typography, styled } from '@mui/material';
+import { Avatar, styled } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Grid } from '../../base';
 import { CloneIcon, CommunityClassIcon, OfficialClassIcon, OpenIcon, ShareIcon } from '../../icons';
@@ -27,7 +27,8 @@ import {
   StyledInnerClassWrapper,
   TechnologiesSection,
   TechnologyText,
-  VersionTag
+  VersionDiv,
+  VersionText
 } from './style';
 
 export const DesignCardUrl = styled('a')(() => ({
@@ -165,6 +166,18 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
     handleImage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (!shouldFlip) {
+    return (
+      <DesignCard shouldFlip={shouldFlip} isDetailed={isDetailed} outerStyles={outerStyles}>
+        <DesignInnerCard shouldFlip={shouldFlip} className="innerCard">
+          <CardFront shouldFlip={shouldFlip} isDetailed={isDetailed}>
+            {children}
+          </CardFront>
+        </DesignInnerCard>
+      </DesignCard>
+    );
+  }
 
   return (
     <DesignCardUrl href={cardLink} target="_blank" rel="noreferrer">
@@ -329,11 +342,10 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
                   </Grid>
                 </DesignDetailsDiv>
               )}
-
               {cardVersion && (
-                <VersionTag>
-                  <Typography variant="body2">v{cardVersion}</Typography>
-                </VersionTag>
+                <VersionDiv>
+                  <VersionText>v{cardVersion}</VersionText>
+                </VersionDiv>
               )}
             </CardBack>
           )}
