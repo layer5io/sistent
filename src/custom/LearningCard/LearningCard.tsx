@@ -30,7 +30,7 @@ interface Props {
   courseType: string;
 }
 
-const OptionalLink: React.PropsWithChildren<{ path?: string }> = ({ path, children }) => {
+const OptionalLink: React.FC<React.PropsWithChildren<{ path?: string }>> = ({ path, children }) => {
   if (!path) {
     return <>{children}</>;
   }
@@ -65,7 +65,7 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType
           </CardParent>
         </Card2>
       ) : (
-        <OptionalLink href={path}>
+        <OptionalLink path={path}>
           <CardActive>
             <CardParent style={{ borderTop: `5px solid ${tutorial.frontmatter.themeColor}` }}>
               <div>
