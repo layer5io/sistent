@@ -30,13 +30,13 @@ interface Props {
   courseType: string;
 }
 
-const OptionalLink: React.PropsWithChildren<{path?: string}> = ({ path, children }) => {
+const OptionalLink: React.PropsWithChildren<{ path?: string }> = ({ path, children }) => {
   if (!path) {
-    return <>{children}</>
+    return <>{children}</>;
   }
-  
-  return <CardLink href={path}>{children}</CardLink>
-}
+
+  return <CardLink href={path}>{children}</CardLink>;
+};
 
 const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType }) => {
   return (
