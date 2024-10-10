@@ -212,6 +212,31 @@ export const VersionTag = styled('div')(({ theme }) => ({
   maxWidth: 'fit-content'
 }));
 
+export const VersionDiv = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '4px',
+  fontSize: '0.75',
+  color: theme.palette.text.constant?.white,
+  position: 'absolute',
+  bottom: '16px',
+  left: '16px',
+  borderRadius: '4px',
+  background: theme.palette.background.supplementary,
+  justifyContent: 'center'
+}));
+
+export const VersionText = styled('p')(({ theme }) => ({
+  fontSize: '0.75rem',
+  margin: '0',
+  padding: '0.25rem .5rem',
+  lineHeight: '1.5',
+  textTransform: 'lowercase',
+  fontWeight: '600',
+  borderRadius: '4.05px',
+  color: theme.palette.text.constant?.white
+}));
+
 export const FlipCard = styled('div')(() => ({
   perspective: '1000px',
   '&:hover .flipper': {
@@ -281,7 +306,6 @@ export const ProfileSection = styled('div')({
 });
 
 export const TechnologiesSection = styled('div')(() => ({
-  marginBottom: '16px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
