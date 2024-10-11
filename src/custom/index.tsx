@@ -3,6 +3,7 @@ import { BookmarkNotification } from './BookmarkNotification';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ChapterCard } from './ChapterCard';
 import { ConnectionChip } from './ConnectionChip';
+import { CustomCatalogCard } from './CustomCatalog';
 import {
   CustomColumn,
   CustomColumnVisibilityControl,
@@ -43,8 +44,10 @@ import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 export { CatalogCard } from './CatalogCard';
+export { CatalogFilterSidebar } from './CatalogFilterSection';
 export { StyledChartDialog } from './ChartDialog';
 export { LearningContent } from './LearningContent';
+export { NavigationNavbar } from './NavigationNavbar';
 export { Note } from './Note';
 export { SetupPreReq } from './SetupPrerequisite';
 export { StyledChapter } from './StyledChapter';
@@ -58,6 +61,7 @@ export {
   CatalogFilter,
   ChapterCard,
   ConnectionChip,
+  CustomCatalogCard,
   CustomColumnVisibilityControl,
   CustomDialog,
   CustomImage,
