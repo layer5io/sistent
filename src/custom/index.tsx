@@ -3,6 +3,7 @@ import { BookmarkNotification } from './BookmarkNotification';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ChapterCard } from './ChapterCard';
 import { ConnectionChip } from './ConnectionChip';
+import { CustomCatalogCard } from './CustomCatalog';
 import {
   CustomColumn,
   CustomColumnVisibilityControl,
@@ -60,6 +61,7 @@ export {
   CatalogFilter,
   ChapterCard,
   ConnectionChip,
+  CustomCatalogCard,
   CustomColumnVisibilityControl,
   CustomDialog,
   CustomImage,
