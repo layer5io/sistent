@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Box, Button, InputAdornment, ListItemButton } from '../../base';
+import { Box, Button, ListItemButton } from '../../base';
 import { StyleProps } from './CatalogFilterSidebar';
 
 export const FiltersCardDiv = styled(Box)<{ styleProps: StyleProps }>(({ styleProps }) => ({
@@ -66,13 +66,8 @@ export const FilterTitleButton = styled(ListItemButton)(({ theme }) => ({
   justifyContent: 'space-between'
 }));
 
-export const InputAdornmentEnd = styled(InputAdornment)(({ theme }) => ({
-  borderLeft: `1px solid ${theme.palette.text.disabled}`,
-  height: '30px',
-  paddingLeft: '10px',
-  '@media (max-width: 590px)': {
-    paddingLeft: '0px'
-  }
+export const EndAdornmentText = styled('p')(({ theme }) => ({
+  color: theme.palette.text.tertiary
 }));
 
 export const FilterText = styled('span')(() => ({
