@@ -72,7 +72,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           }}
         >
           {showSearch && (
-            <Box px={'0.5rem'} mb={'1rem'}>
+            <Box px={'0.5rem'} mb={'0.5rem'}>
               <StyledSearchBar
                 value={searchQuery}
                 onChange={handleTextFieldChange}
