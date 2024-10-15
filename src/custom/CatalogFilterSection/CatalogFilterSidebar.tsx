@@ -3,6 +3,7 @@ import { useTheme } from '@mui/material/styles';
 import { useCallback, useState } from 'react';
 import { Box, Drawer, Typography } from '../../base';
 import { CloseIcon } from '../../icons';
+import { darkTeal } from '../../theme';
 import { CloseBtn } from '../Modal';
 import CatalogFilterSidebarState from './CatalogFilterSidebarState';
 import {
@@ -69,8 +70,12 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
   }, []);
 
   const styleProps: StyleProps = {
-    backgroundColor: theme.palette.background.default,
-    sectionTitleBackgroundColor: theme.palette.background.surfaces
+    backgroundColor:
+      theme.palette.mode === 'light'
+        ? theme.palette.background.default
+        : theme.palette.background.secondary,
+    sectionTitleBackgroundColor:
+      theme.palette.mode === 'light' ? theme.palette.background.surfaces : darkTeal.main
   };
 
   return (
@@ -89,7 +94,13 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
           <FilterText>Filters</FilterText>
         </FilterButton>
 
-        <Drawer anchor="bottom" open={openDrawer} variant="temporary" onClose={handleDrawerClose}>
+        <Drawer
+          anchor="bottom"
+          open={openDrawer}
+          variant="temporary"
+          onClose={handleDrawerClose}
+          style={{ zIndex: '1399' }}
+        >
           <Box sx={{ overflowY: 'hidden', height: '90vh' }}>
             <FiltersDrawerHeader>
               <Typography variant="h6" sx={{ color: theme.palette.text.default }} component="div">

@@ -65,13 +65,8 @@ type CatalogCardProps = {
   cardHeight: string;
   cardWidth: string;
   cardStyles: React.CSSProperties;
-  type: string;
   version?: string;
   avatarUrl: string;
-  compatibility: string[];
-  userName: string;
-  technologies: string[];
-  updatedAt: string;
   shouldFlip?: boolean;
   cardTechnologies?: boolean;
   isDetailed?: boolean;
@@ -82,7 +77,9 @@ type CatalogCardProps = {
   children?: React.ReactNode; // catalogImage
   TechnologyComponent?: React.ReactNode;
   basePath?: string; // path of meshmodel img stored
+  subBasePath?: string; // path of meshmodel img stored
   getHostUrl?: () => string;
+  onCardClick?: () => void;
 };
 
 export const ClassToIconMap = {
@@ -109,7 +106,6 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   cardHeight,
   cardWidth,
   cardStyles,
-  cardLink,
   shouldFlip,
   isDetailed,
   cardTechnologies,
@@ -118,7 +114,9 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   UserName,
   children,
   basePath,
-  getHostUrl
+  subBasePath,
+  getHostUrl,
+  onCardClick
 }) => {
   const outerStyles = {
     height: cardHeight,
@@ -153,7 +151,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   const handleImage = async () => {
     const validSvgPaths = [];
     for (const technology of technologies) {
-      const svgIconPath = `${basePath}/${technology.toLowerCase()}/icons/color/${technology.toLowerCase()}-color.svg`;
+      const svgIconPath = `${basePath}/${technology.toLowerCase()}/${subBasePath}/${technology.toLowerCase()}-color.svg`;
       const isSvgPathValid = await checkImageUrlValidity(svgIconPath as string);
       if (isSvgPathValid) {
         validSvgPaths.push(technology);
@@ -180,178 +178,181 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   }
 
   return (
-    <DesignCardUrl href={cardLink} target="_blank" rel="noreferrer">
-      <DesignCard shouldFlip={shouldFlip} isDetailed={isDetailed} outerStyles={outerStyles}>
-        <DesignInnerCard shouldFlip={shouldFlip} className="innerCard">
-          <CardFront shouldFlip={shouldFlip} isDetailed={isDetailed}>
-            {isDetailed && (
-              <>
-                <ClassWrap catalogClassName={pattern?.catalog_data?.content_class ?? ''} />
-                <DesignType>{patternType}</DesignType>
+    <DesignCard
+      shouldFlip={shouldFlip}
+      isDetailed={isDetailed}
+      outerStyles={outerStyles}
+      onClick={onCardClick}
+    >
+      <DesignInnerCard shouldFlip={shouldFlip} className="innerCard">
+        <CardFront shouldFlip={shouldFlip} isDetailed={isDetailed}>
+          {isDetailed && (
+            <>
+              <ClassWrap catalogClassName={pattern?.catalog_data?.content_class ?? ''} />
+              <DesignType>{patternType}</DesignType>
 
-                <DesignName
-                  style={{
-                    color: '#000D12',
-                    margin: '3rem 0 1.59rem 0',
-                    textAlign: 'center'
-                  }}
-                >
-                  {pattern.name}
-                </DesignName>
-              </>
-            )}
-            <DesignDetailsDiv>
-              <div
+              <DesignName
                 style={{
-                  background: 'rgba(231, 239, 243, 0.40)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '0.5rem',
-                  width: '100%',
-                  borderRadius: '0.5rem'
+                  color: '#000D12',
+                  margin: '3rem 0 1.59rem 0',
+                  textAlign: 'center'
                 }}
               >
-                {children}
-              </div>
-            </DesignDetailsDiv>
-            {isDetailed && (
-              <MetricsContainerFront isDetailed={isDetailed}>
-                <MetricsDiv>
-                  <DownloadIcon width={18} height={18} />
-                  <MetricsCount>{pattern.download_count}</MetricsCount>
-                </MetricsDiv>
-                <MetricsDiv>
-                  <CloneIcon width={18} height={18} fill={'#51636B'} />
-                  <MetricsCount>{pattern.clone_count}</MetricsCount>
-                </MetricsDiv>
-                <MetricsDiv>
-                  <OpenIcon width={18} height={18} fill={'#51636B'} />
-                  <MetricsCount>{pattern.view_count}</MetricsCount>
-                </MetricsDiv>
-                <MetricsDiv>
-                  <DeploymentsIcon width={18} height={18} />
-                  <MetricsCount>{pattern.deployment_count}</MetricsCount>
-                </MetricsDiv>
-                <MetricsDiv>
-                  <ShareIcon width={18} height={18} fill={'#51636B'} />
-                  <MetricsCount>{pattern.share_count}</MetricsCount>
-                </MetricsDiv>
-              </MetricsContainerFront>
-            )}
-          </CardFront>
-          {shouldFlip && (
-            <CardBack isCatalog={true}>
-              <ProfileSection>
-                <Avatar
-                  alt="Design Author"
-                  src={avatarUrl}
-                  sx={{ width: '32px', height: '32px', color: '#293B43' }}
-                />
-                <DesignAuthorName>{UserName}</DesignAuthorName>
-              </ProfileSection>
+                {pattern.name}
+              </DesignName>
+            </>
+          )}
+          <DesignDetailsDiv>
+            <div
+              style={{
+                background: 'rgba(231, 239, 243, 0.40)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '0.5rem',
+                width: '100%',
+                borderRadius: '0.5rem'
+              }}
+            >
+              {children}
+            </div>
+          </DesignDetailsDiv>
+          {isDetailed && (
+            <MetricsContainerFront isDetailed={isDetailed}>
+              <MetricsDiv>
+                <DownloadIcon width={18} height={18} />
+                <MetricsCount>{pattern.download_count}</MetricsCount>
+              </MetricsDiv>
+              <MetricsDiv>
+                <CloneIcon width={18} height={18} fill={'#51636B'} />
+                <MetricsCount>{pattern.clone_count}</MetricsCount>
+              </MetricsDiv>
+              <MetricsDiv>
+                <OpenIcon width={18} height={18} fill={'#51636B'} />
+                <MetricsCount>{pattern.view_count}</MetricsCount>
+              </MetricsDiv>
+              <MetricsDiv>
+                <DeploymentsIcon width={18} height={18} />
+                <MetricsCount>{pattern.deployment_count}</MetricsCount>
+              </MetricsDiv>
+              <MetricsDiv>
+                <ShareIcon width={18} height={18} fill={'#51636B'} />
+                <MetricsCount>{pattern.share_count}</MetricsCount>
+              </MetricsDiv>
+            </MetricsContainerFront>
+          )}
+        </CardFront>
+        {shouldFlip && (
+          <CardBack isCatalog={true}>
+            <ProfileSection>
+              <Avatar
+                alt="Design Author"
+                src={avatarUrl}
+                sx={{ width: '32px', height: '32px', color: '#293B43' }}
+              />
+              <DesignAuthorName>{UserName}</DesignAuthorName>
+            </ProfileSection>
 
-              <DesignDetailsDiv style={{ marginTop: '0.7rem', gap: '5px' }}>
-                {cardTechnologies && (
-                  <TechnologiesSection>
-                    <TechnologyText>Technologies</TechnologyText>
-                    <Grid
-                      container
-                      style={{ gap: '4px', alignItems: 'flex-start', flexWrap: 'nowrap' }}
-                    >
-                      {technologies.length < 1 || availableTechnologies.length < 1 ? (
-                        <NoTechnologyText>No technologies</NoTechnologyText>
-                      ) : (
-                        <>
-                          {availableTechnologies.slice(0, techlimit).map((technology, index) => {
-                            const svgPath =
-                              (getHostUrl ? getHostUrl() : '') +
-                              `${basePath}/${technology.toLowerCase()}/icons/color/${technology.toLowerCase()}-color.svg`;
-                            return (
-                              <Grid item key={index}>
-                                <CustomTooltip key={index} title={technology.toLowerCase()}>
-                                  <img
-                                    height="24px"
-                                    width="24px"
-                                    alt={technology.toLowerCase()}
-                                    src={svgPath}
-                                  />
-                                </CustomTooltip>
-                              </Grid>
-                            );
-                          })}
-                          {availableTechnologies.length > techlimit && (
-                            <Grid
-                              item
-                              sx={{
-                                padding: '0 8px 0 4px',
-                                borderRadius: '16px',
-                                border: '1px solid #C9DBE3',
-                                background: '#E7EFF3',
-                                color: '#3C494E',
-                                fontSize: '14px',
-                                lineHeight: '1.5',
-                                fontWeight: '600'
-                              }}
-                            >
-                              +{availableTechnologies.length - techlimit}
+            <DesignDetailsDiv style={{ marginTop: '0.7rem', gap: '5px' }}>
+              {cardTechnologies && (
+                <TechnologiesSection>
+                  <TechnologyText>Technologies</TechnologyText>
+                  <Grid
+                    container
+                    style={{ gap: '4px', alignItems: 'flex-start', flexWrap: 'nowrap' }}
+                  >
+                    {technologies.length < 1 || availableTechnologies.length < 1 ? (
+                      <NoTechnologyText>No technologies</NoTechnologyText>
+                    ) : (
+                      <>
+                        {availableTechnologies.slice(0, techlimit).map((technology, index) => {
+                          const svgPath =
+                            (getHostUrl ? getHostUrl() : '') +
+                            `${basePath}/${technology.toLowerCase()}/${subBasePath}/${technology.toLowerCase()}-color.svg`;
+                          return (
+                            <Grid item key={index}>
+                              <CustomTooltip key={index} title={technology.toLowerCase()}>
+                                <img
+                                  height="24px"
+                                  width="24px"
+                                  alt={technology.toLowerCase()}
+                                  src={svgPath}
+                                />
+                              </CustomTooltip>
                             </Grid>
-                          )}
-                        </>
-                      )}
-                    </Grid>
-                  </TechnologiesSection>
-                )}
-              </DesignDetailsDiv>
+                          );
+                        })}
+                        {availableTechnologies.length > techlimit && (
+                          <Grid
+                            item
+                            sx={{
+                              padding: '0 8px 0 4px',
+                              borderRadius: '16px',
+                              border: '1px solid #C9DBE3',
+                              background: '#E7EFF3',
+                              color: '#3C494E',
+                              fontSize: '14px',
+                              lineHeight: '1.5',
+                              fontWeight: '600'
+                            }}
+                          >
+                            +{availableTechnologies.length - techlimit}
+                          </Grid>
+                        )}
+                      </>
+                    )}
+                  </Grid>
+                </TechnologiesSection>
+              )}
+            </DesignDetailsDiv>
 
-              {isDetailed && (
-                <DesignDetailsDiv style={{ marginTop: '50px' }}>
-                  <Grid container style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Grid
-                      item
+            {isDetailed && (
+              <DesignDetailsDiv style={{ marginTop: '50px' }}>
+                <Grid container style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Grid
+                    item
+                    style={{
+                      width: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between'
+                    }}
+                  >
+                    <div
                       style={{
-                        width: '100%',
                         display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
+                        flexDirection: 'row',
+                        gap: '0.2rem',
+                        alignItems: 'center'
                       }}
                     >
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          gap: '0.2rem',
-                          alignItems: 'center'
-                        }}
-                      >
-                        <CalendarMonthIcon width={18} height={18} />
-                        <DateType>Updated At</DateType>
-                      </div>
-                      <DateText>
-                        {' '}
-                        {new Date(pattern.updated_at.toString().slice(0, 10)).toLocaleDateString(
-                          'en-US',
-                          {
-                            day: 'numeric',
-                            month: 'long',
-                            year: 'numeric'
-                          }
-                        )}
-                      </DateText>
-                    </Grid>
+                      <CalendarMonthIcon width={18} height={18} />
+                      <DateType>Updated At</DateType>
+                    </div>
+                    <DateText>
+                      {' '}
+                      {new Date(pattern.updated_at.toString().slice(0, 10)).toLocaleDateString(
+                        'en-US',
+                        {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric'
+                        }
+                      )}
+                    </DateText>
                   </Grid>
-                </DesignDetailsDiv>
-              )}
-              {cardVersion && (
-                <VersionDiv>
-                  <VersionText>v{cardVersion}</VersionText>
-                </VersionDiv>
-              )}
-            </CardBack>
-          )}
-        </DesignInnerCard>
-      </DesignCard>
-    </DesignCardUrl>
+                </Grid>
+              </DesignDetailsDiv>
+            )}
+            {cardVersion && (
+              <VersionDiv>
+                <VersionText>v{cardVersion}</VersionText>
+              </VersionDiv>
+            )}
+          </CardBack>
+        )}
+      </DesignInnerCard>
+    </DesignCard>
   );
 };
 

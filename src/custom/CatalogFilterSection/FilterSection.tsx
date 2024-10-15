@@ -1,20 +1,11 @@
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useCallback, useState } from 'react';
-import {
-  Box,
-  Checkbox,
-  Collapse,
-  InputAdornment,
-  List,
-  OutlinedInput,
-  Stack,
-  Typography
-} from '../../base';
-import { SearchIcon } from '../../icons';
+import { Box, Checkbox, Collapse, List, Stack, Typography } from '../../base';
 import { InfoTooltip } from '../CustomTooltip';
+import { StyledSearchBar } from '../StyledSearchBar';
 import { FilterOption, FilterValues, StyleProps } from './CatalogFilterSidebar';
-import { FilterTitleButton, InputAdornmentEnd } from './style';
+import { EndAdornmentText, FilterTitleButton } from './style';
 
 interface FilterSectionProps {
   filterKey: string;
@@ -81,22 +72,13 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           }}
         >
           {showSearch && (
-            <Box px={'0.5rem'}>
-              <OutlinedInput
-                type="search"
-                fullWidth
-                placeholder="Search "
+            <Box px={'0.5rem'} mb={'0.5rem'}>
+              <StyledSearchBar
                 value={searchQuery}
                 onChange={handleTextFieldChange}
-                startAdornment={
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                }
+                placeholder="Search"
                 endAdornment={
-                  <InputAdornmentEnd position="end">
-                    Total: {searchedOptions.length}
-                  </InputAdornmentEnd>
+                  <EndAdornmentText> Total : {searchedOptions.length ?? 0}</EndAdornmentText>
                 }
               />
             </Box>
