@@ -1,5 +1,6 @@
 import { SxProps, Theme, useTheme } from '@mui/material';
-import React from 'react';
+import { debounce } from 'lodash';
+import React, { useCallback, useState } from 'react';
 import { InputAdornment } from '../../base';
 import { SearchIcon } from '../../icons';
 import { InputAdornmentEnd, StyledSearchInput } from './style';
@@ -36,14 +37,31 @@ function StyledSearchBar({
   endAdornment
 }: SearchBarProps): JSX.Element {
   const theme = useTheme();
+  const [inputValue, setInputValue] = useState(value);
+
+  const debouncedOnChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      debounce(() => {
+        if (onChange) {
+          onChange(event);
+        }
+      }, 300)();
+    },
+    [onChange]
+  );
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+    debouncedOnChange(event);
+  };
 
   return (
     <StyledSearchInput
       type="search"
       label={label}
       fullWidth
-      value={value}
-      onChange={onChange}
+      value={inputValue}
+      onChange={handleChange}
       sx={sx}
       placeholder={placeholder ?? 'Search'}
       startAdornment={
