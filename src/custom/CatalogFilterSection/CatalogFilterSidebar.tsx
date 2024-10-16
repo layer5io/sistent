@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react';
 import { Box, Drawer, Typography } from '../../base';
 import { CloseIcon } from '../../icons';
 import { darkTeal } from '../../theme';
+import { SLIGHT_BLUE } from '../../theme/colors/colors';
 import { CloseBtn } from '../Modal';
 import CatalogFilterSidebarState from './CatalogFilterSidebarState';
 import {
@@ -103,7 +104,11 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
         >
           <Box sx={{ overflowY: 'hidden', height: '90vh' }}>
             <FiltersDrawerHeader>
-              <Typography variant="h6" sx={{ color: theme.palette.text.default }} component="div">
+              <Typography
+                variant="h6"
+                sx={{ color: theme.palette.text.constant?.white }}
+                component="div"
+              >
                 Filters
               </Typography>
               <CloseBtn onClick={handleDrawerClose}>
@@ -114,7 +119,7 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
               style={{
                 height: '75vh',
                 overflowY: 'auto',
-                background: theme.palette.background.default
+                background: theme.palette.background.surfaces
               }}
             >
               <CatalogFilterSidebarState
@@ -124,8 +129,7 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
                 styleProps={styleProps}
               />
             </Box>
-            <Box sx={{ backgroundColor: theme.palette.border.strong, height: '5vh' }} />
-            {/* Use theme-aware color */}
+            <Box sx={{ backgroundColor: SLIGHT_BLUE, height: '5vh' }} />
           </Box>
         </Drawer>
       </FilterDrawerDiv>
