@@ -134,20 +134,23 @@ export const MetricsCount = styled('p')(({ theme }) => ({
   color: theme.palette.text.secondary,
   fontWeight: '600'
 }));
-export const DesignName = styled(Typography)(({ theme }) => ({
+export const DesignName = styled(Typography)(() => ({
   fontWeight: 'bold',
   textTransform: 'capitalize',
-  color: theme.palette.text.default,
+  color: '#000D12',
   fontSize: '1.125rem',
   marginTop: '2rem',
-  padding: '0rem 1rem', // "0rem 1.5rem"
+  padding: '0rem 1rem',
   position: 'relative',
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
   textAlign: 'center',
-  width: '100%'
+  width: '100%',
+  margin: '3rem 0 1.59rem 0',
+  fontFamily: 'inherit'
 }));
+
 export const MetricsContainerFront = styled('div')<MetricsProps>(({ isDetailed }) => ({
   display: 'flex',
   justifyContent: 'space-around',

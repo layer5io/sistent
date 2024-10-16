@@ -55,9 +55,11 @@ const FilterSection: React.FC<FilterSectionProps> = ({
     <>
       <FilterTitleButton
         onClick={() => onSectionToggle(filterKey)}
-        style={{ backgroundColor: styleProps.sectionTitleBackgroundColor }}
+        style={{
+          backgroundColor: styleProps.sectionTitleBackgroundColor
+        }}
       >
-        <Typography variant="h6" fontWeight="bold">
+        <Typography variant="h6" fontWeight="bold" fontFamily={styleProps.fontFamily}>
           {(sectionDisplayName || filterKey).toUpperCase()}
         </Typography>
         {openSections[filterKey] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -105,7 +107,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
                 {option.Icon && <option.Icon width="20px" height="20px" />}
 
-                <Typography>{option.label}</Typography>
+                <Typography fontFamily={styleProps.fontFamily}>{option.label}</Typography>
               </Stack>
               <Stack direction="row" alignItems="center" gap="0.35rem">
                 {option.totalCount !== undefined && `(${option.totalCount || 0})`}

@@ -190,16 +190,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
             <>
               <ClassWrap catalogClassName={pattern?.catalog_data?.content_class ?? ''} />
               <DesignType>{patternType}</DesignType>
-
-              <DesignName
-                style={{
-                  color: '#000D12',
-                  margin: '3rem 0 1.59rem 0',
-                  textAlign: 'center'
-                }}
-              >
-                {pattern.name}
-              </DesignName>
+              <DesignName>{pattern.name}</DesignName>
             </>
           )}
           <DesignDetailsDiv>
