@@ -15,7 +15,8 @@ export const FiltersCardDiv = styled(Box)<{ styleProps: StyleProps }>(({ stylePr
   backgroundColor: styleProps.backgroundColor,
   ['@media (max-width:900px)']: {
     display: 'none'
-  }
+  },
+  fontFamily: styleProps.fontFamily
 }));
 
 export const FilterDrawerDiv = styled('div')(() => ({

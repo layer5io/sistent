@@ -38,6 +38,7 @@ export interface CatalogFilterSidebarProps {
   setData: (callback: (prevFilters: FilterValues) => FilterValues) => void;
   lists: FilterList[];
   value?: FilterValues;
+  styleProps?: StyleProps;
 }
 
 export type FilterValues = Record<string, string | string[]>;
@@ -45,6 +46,7 @@ export type FilterValues = Record<string, string | string[]>;
 export interface StyleProps {
   backgroundColor?: string;
   sectionTitleBackgroundColor?: string;
+  fontFamily?: string;
 }
 
 /**
@@ -57,7 +59,8 @@ export interface StyleProps {
 const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
   lists,
   setData,
-  value = {}
+  value = {},
+  styleProps
 }) => {
   const theme = useTheme(); // Get the current theme
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
@@ -70,23 +73,29 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
     setOpenDrawer(false);
   }, []);
 
-  const styleProps: StyleProps = {
+  const defaultStyleProps: StyleProps = {
     backgroundColor:
       theme.palette.mode === 'light'
         ? theme.palette.background.default
         : theme.palette.background.secondary,
     sectionTitleBackgroundColor:
-      theme.palette.mode === 'light' ? theme.palette.background.surfaces : darkTeal.main
+      theme.palette.mode === 'light' ? theme.palette.background.surfaces : darkTeal.main,
+    fontFamily: theme.typography.fontFamily
+  };
+
+  const appliedStyleProps = {
+    ...defaultStyleProps,
+    ...styleProps
   };
 
   return (
     <>
-      <FiltersCardDiv styleProps={styleProps}>
+      <FiltersCardDiv styleProps={appliedStyleProps}>
         <CatalogFilterSidebarState
           lists={lists}
           onApplyFilters={setData}
           value={value}
-          styleProps={styleProps}
+          styleProps={appliedStyleProps}
         />
       </FiltersCardDiv>
       <FilterDrawerDiv>
@@ -126,7 +135,7 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
                 lists={lists}
                 onApplyFilters={setData}
                 value={value}
-                styleProps={styleProps}
+                styleProps={appliedStyleProps}
               />
             </Box>
             <Box sx={{ backgroundColor: SLIGHT_BLUE, height: '5vh' }} />
