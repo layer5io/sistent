@@ -160,6 +160,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
 
     setAvailableTechnologies(validSvgPaths);
   };
+
   useEffect(() => {
     handleImage();
     // eslint-disable-next-line react-hooks/exhaustive-deps

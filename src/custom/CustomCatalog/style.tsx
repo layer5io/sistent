@@ -398,3 +398,30 @@ export const DesignAuthorName = styled('div')(() => ({
     height: 'max-content'
   }
 }));
+
+export const CatalogEmptyStateDiv = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.common.white,
+  textAlign: 'center',
+  borderRadius: '1rem',
+  width: '15rem',
+  height: '18rem',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  [theme.breakpoints.down('lg')]: {
+    height: '18.75rem'
+  }
+}));
+
+export const EmptyStateDiv = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.common.white,
+  textAlign: 'center',
+  borderRadius: '1rem',
+  width: '100%',
+  padding: '1.5rem',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center'
+}));
