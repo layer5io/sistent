@@ -1,11 +1,13 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import { Avatar, styled } from '@mui/material';
+import { Avatar, styled, useTheme } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Grid } from '../../base';
 import { CloneIcon, CommunityClassIcon, OfficialClassIcon, OpenIcon, ShareIcon } from '../../icons';
 import VerificationClassIcon from '../../icons/ContentClassIcons/VerificationClassIcon';
 import DeploymentsIcon from '../../icons/Deployments/DeploymentsIcon';
 import { DownloadIcon } from '../../icons/Download';
+import { DARK_TEAL } from '../../theme';
+import { SNOW_WHITE } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
 import {
   CardBack,
@@ -123,6 +125,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
     width: cardWidth,
     ...cardStyles
   };
+  const theme = useTheme();
 
   const technologies = pattern.catalog_data?.compatibility || []; // an array
   const techlimit = 5;
@@ -197,7 +200,8 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
           <DesignDetailsDiv>
             <div
               style={{
-                background: 'rgba(231, 239, 243, 0.40)',
+                background:
+                  theme.palette.mode === 'light' ? 'rgba(231, 239, 243, 0.4)' : 'transparent',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -211,26 +215,22 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
           </DesignDetailsDiv>
           {isDetailed && (
             <MetricsContainerFront isDetailed={isDetailed}>
-              <MetricsDiv>
-                <DownloadIcon width={18} height={18} />
-                <MetricsCount>{pattern.download_count}</MetricsCount>
-              </MetricsDiv>
-              <MetricsDiv>
-                <CloneIcon width={18} height={18} fill={'#51636B'} />
-                <MetricsCount>{pattern.clone_count}</MetricsCount>
-              </MetricsDiv>
-              <MetricsDiv>
-                <OpenIcon width={18} height={18} fill={'#51636B'} />
-                <MetricsCount>{pattern.view_count}</MetricsCount>
-              </MetricsDiv>
-              <MetricsDiv>
-                <DeploymentsIcon width={18} height={18} />
-                <MetricsCount>{pattern.deployment_count}</MetricsCount>
-              </MetricsDiv>
-              <MetricsDiv>
-                <ShareIcon width={18} height={18} fill={'#51636B'} />
-                <MetricsCount>{pattern.share_count}</MetricsCount>
-              </MetricsDiv>
+              {[
+                { Icon: DownloadIcon, count: pattern.download_count },
+                { Icon: CloneIcon, count: pattern.clone_count },
+                { Icon: OpenIcon, count: pattern.view_count },
+                { Icon: DeploymentsIcon, count: pattern.deployment_count },
+                { Icon: ShareIcon, count: pattern.share_count }
+              ].map(({ Icon, count }, index) => (
+                <MetricsDiv key={index}>
+                  <Icon
+                    width={18}
+                    height={18}
+                    fill={theme.palette.mode === 'light' ? DARK_TEAL : SNOW_WHITE}
+                  />
+                  <MetricsCount>{count}</MetricsCount>
+                </MetricsDiv>
+              ))}
             </MetricsContainerFront>
           )}
         </CardFront>
