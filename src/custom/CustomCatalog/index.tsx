@@ -1,3 +1,5 @@
-import CustomCatalogCard from './custom-card';
+import CatalogCardDesignLogo from './CatalogCardDesignLogo';
+import CustomCatalogCard from './CustomCard';
+import EmptyStateCard from './EmptyStateCard';
 
-export { CustomCatalogCard };
+export { CatalogCardDesignLogo, CustomCatalogCard, EmptyStateCard };
