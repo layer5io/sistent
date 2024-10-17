@@ -31,7 +31,7 @@ import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
 import { ColView, updateVisibleColumns } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { LearningCard } from './LearningCard';
-import { RenderMarkdown } from './Markdown';
+import { BasicMarkdown, RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
 import PromptComponent from './Prompt';
@@ -108,7 +108,7 @@ export {
 
 // Markdown
 export { StyledMarkdown } from './Markdown/style';
-export { RenderMarkdown };
+export { BasicMarkdown, RenderMarkdown };
 
 // Stepper
 export { CustomizedStepper, useStepper } from './Stepper';
