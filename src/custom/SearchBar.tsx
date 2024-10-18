@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
-import { Theme, ThemeProvider, createTheme, useTheme } from '@mui/material/styles';
+import { Theme, ThemeProvider, createTheme } from '@mui/material/styles';
 import debounce from 'lodash/debounce';
 import React, { useCallback } from 'react';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { TextField } from '../base/TextField';
 import { CloseIcon, SearchIcon } from '../icons';
+import { useTheme } from '../theme';
 import TooltipIcon from './TooltipIcon';
 
 const customTheme = (theme: Theme) =>

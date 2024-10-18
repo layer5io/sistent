@@ -1,8 +1,9 @@
-import { SxProps, Theme, useTheme } from '@mui/material';
+import { SxProps, Theme } from '@mui/material';
 import { debounce } from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { InputAdornment } from '../../base';
 import { SearchIcon } from '../../icons';
+import { useTheme } from '../../theme';
 import { InputAdornmentEnd, StyledSearchInput } from './style';
 
 interface SearchBarProps {

@@ -6,7 +6,10 @@ import { CloneIcon, CommunityClassIcon, OfficialClassIcon, OpenIcon, ShareIcon }
 import VerificationClassIcon from '../../icons/ContentClassIcons/VerificationClassIcon';
 import DeploymentsIcon from '../../icons/Deployments/DeploymentsIcon';
 import { DownloadIcon } from '../../icons/Download';
+import { DARK_TEAL, useTheme } from '../../theme';
+import { SNOW_WHITE } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
+import { getVersion, handleImage } from './Helper';
 import {
   CardBack,
   CardFront,
@@ -35,7 +38,10 @@ export const DesignCardUrl = styled('a')(() => ({
   textDecoration: 'none'
 }));
 
-interface Pattern {
+export interface Pattern {
+  id: string;
+  user_id: string;
+  pattern_file: string;
   name: string;
   download_count: number;
   clone_count: number;
@@ -51,8 +57,10 @@ interface Pattern {
   };
   catalog_data?: {
     content_class?: string;
-    imageURL?: string;
+    imageURL?: string[];
     compatibility?: string[];
+    published_version?: string;
+    type?: string;
   };
   visibility: string;
   updated_at: Date;
@@ -61,21 +69,15 @@ interface Pattern {
 type CatalogCardProps = {
   pattern: Pattern;
   patternType: string;
-  cardLink: string;
   cardHeight: string;
   cardWidth: string;
   cardStyles: React.CSSProperties;
-  version?: string;
   avatarUrl: string;
   shouldFlip?: boolean;
   cardTechnologies?: boolean;
   isDetailed?: boolean;
-  cardAvatarUrl?: boolean;
-  date?: boolean;
-  cardVersion?: boolean;
   UserName?: string;
   children?: React.ReactNode; // catalogImage
-  TechnologyComponent?: React.ReactNode;
   basePath?: string; // path of meshmodel img stored
   subBasePath?: string; // path of meshmodel img stored
   getHostUrl?: () => string;
@@ -109,7 +111,6 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   shouldFlip,
   isDetailed,
   cardTechnologies,
-  cardVersion,
   avatarUrl,
   UserName,
   children,
@@ -123,45 +124,15 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
     width: cardWidth,
     ...cardStyles
   };
+  const theme = useTheme();
 
-  const technologies = pattern.catalog_data?.compatibility || []; // an array
+  const technologies = pattern.catalog_data?.compatibility || [];
   const techlimit = 5;
   const [availableTechnologies, setAvailableTechnologies] = useState<string[]>([]);
-  const checkImageUrlValidity = async (url: string, appendHostUrl = true) => {
-    return new Promise((resolve) => {
-      const img = new Image();
-      // Only append host if the URL does not start with "http" or "https"
-      if (appendHostUrl && !url.startsWith('http')) {
-        img.src = (getHostUrl ? getHostUrl() : '') + url;
-      } else {
-        img.src = url;
-      }
-      img.onload = () => {
-        // Check if the image loaded successfully
-        resolve(true);
-      };
+  const version = getVersion(pattern);
 
-      img.onerror = () => {
-        // Handle the case where the image could not be loaded
-        resolve(false);
-      };
-    });
-  };
-
-  const handleImage = async () => {
-    const validSvgPaths = [];
-    for (const technology of technologies) {
-      const svgIconPath = `${basePath}/${technology.toLowerCase()}/${subBasePath}/${technology.toLowerCase()}-color.svg`;
-      const isSvgPathValid = await checkImageUrlValidity(svgIconPath as string);
-      if (isSvgPathValid) {
-        validSvgPaths.push(technology);
-      }
-    }
-
-    setAvailableTechnologies(validSvgPaths);
-  };
   useEffect(() => {
-    handleImage();
+    handleImage(technologies, basePath, subBasePath, setAvailableTechnologies);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -196,7 +167,8 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
           <DesignDetailsDiv>
             <div
               style={{
-                background: 'rgba(231, 239, 243, 0.40)',
+                background:
+                  theme.palette.mode === 'light' ? 'rgba(231, 239, 243, 0.4)' : 'transparent',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -210,26 +182,22 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
           </DesignDetailsDiv>
           {isDetailed && (
             <MetricsContainerFront isDetailed={isDetailed}>
-              <MetricsDiv>
-                <DownloadIcon width={18} height={18} />
-                <MetricsCount>{pattern.download_count}</MetricsCount>
-              </MetricsDiv>
-              <MetricsDiv>
-                <CloneIcon width={18} height={18} fill={'#51636B'} />
-                <MetricsCount>{pattern.clone_count}</MetricsCount>
-              </MetricsDiv>
-              <MetricsDiv>
-                <OpenIcon width={18} height={18} fill={'#51636B'} />
-                <MetricsCount>{pattern.view_count}</MetricsCount>
-              </MetricsDiv>
-              <MetricsDiv>
-                <DeploymentsIcon width={18} height={18} />
-                <MetricsCount>{pattern.deployment_count}</MetricsCount>
-              </MetricsDiv>
-              <MetricsDiv>
-                <ShareIcon width={18} height={18} fill={'#51636B'} />
-                <MetricsCount>{pattern.share_count}</MetricsCount>
-              </MetricsDiv>
+              {[
+                { Icon: DownloadIcon, count: pattern.download_count },
+                { Icon: CloneIcon, count: pattern.clone_count },
+                { Icon: OpenIcon, count: pattern.view_count },
+                { Icon: DeploymentsIcon, count: pattern.deployment_count },
+                { Icon: ShareIcon, count: pattern.share_count }
+              ].map(({ Icon, count }, index) => (
+                <MetricsDiv key={index}>
+                  <Icon
+                    width={18}
+                    height={18}
+                    fill={theme.palette.mode === 'light' ? DARK_TEAL : SNOW_WHITE}
+                  />
+                  <MetricsCount>{count}</MetricsCount>
+                </MetricsDiv>
+              ))}
             </MetricsContainerFront>
           )}
         </CardFront>
@@ -335,9 +303,9 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
                 </Grid>
               </DesignDetailsDiv>
             )}
-            {cardVersion && (
+            {version && (
               <VersionDiv>
-                <VersionText>v{cardVersion}</VersionText>
+                <VersionText>v{version}</VersionText>
               </VersionDiv>
             )}
           </CardBack>
