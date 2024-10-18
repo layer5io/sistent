@@ -1,6 +1,6 @@
 import { SxProps, Theme } from '@mui/material';
 import { debounce } from 'lodash';
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { InputAdornment } from '../../base';
 import { SearchIcon } from '../../icons';
 import { useTheme } from '../../theme';
@@ -14,6 +14,7 @@ interface SearchBarProps {
   placeholder?: string;
   sx?: SxProps<Theme>;
   endAdornment?: React.ReactNode;
+  debounceTime?: number;
 }
 
 /**
@@ -26,6 +27,7 @@ interface SearchBarProps {
  * @param {string} [props.placeholder] - The placeholder text for the search input.
  * @param {Object} [props.sx] - The style object for the search input.
  * @param {React.ReactNode} [props.endAdornment] - The element to display at the end of the search input.
+ * @param {number} [props.debounceTime] - The debounce time for the input change handler.
  *
  * @returns {JSX.Element} The rendered StyledSearchBar component.
  */
@@ -35,25 +37,40 @@ function StyledSearchBar({
   label,
   sx,
   placeholder,
-  endAdornment
+  endAdornment,
+  debounceTime = 300
 }: SearchBarProps): JSX.Element {
   const theme = useTheme();
-  const [inputValue, setInputValue] = useState(value);
+  const [inputValue, setInputValue] = useState(value ?? '');
 
-  const debouncedOnChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      debounce(() => {
-        if (onChange) {
-          onChange(event);
-        }
-      }, 300)();
-    },
-    [onChange]
-  );
+  useEffect(() => {
+    if (value !== undefined && value !== inputValue) {
+      setInputValue(value);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  useEffect(() => {
+    const handler = debounce((newValue: string) => {
+      if (onChange) {
+        const syntheticEvent = {
+          target: { value: newValue },
+          persist: () => {}
+        } as React.ChangeEvent<HTMLInputElement>;
+
+        onChange(syntheticEvent);
+      }
+    }, debounceTime);
+
+    handler(inputValue);
+
+    return () => {
+      handler.cancel();
+    };
+  }, [inputValue, onChange, debounceTime]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
-    debouncedOnChange(event);
   };
 
   return (
