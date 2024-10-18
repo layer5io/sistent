@@ -1,6 +1,6 @@
-import { useTheme } from '@mui/material';
 import { FC } from 'react';
 import { EmptyStyleIcon } from '../../icons/EmptyStyle';
+import { useTheme } from '../../theme';
 import { CatalogEmptyStateDiv } from './style';
 
 const EmptyStateCard: FC = () => {
