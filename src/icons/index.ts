@@ -45,6 +45,7 @@ export * from './Design';
 export * from './Done';
 export * from './Download';
 export * from './Edit';
+export * from './EmptyStyle';
 export * from './Environment';
 export * from './ExternalLink';
 export * from './Feedback';

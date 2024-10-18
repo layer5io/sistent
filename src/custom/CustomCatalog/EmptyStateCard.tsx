@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { EmptyStyleIcon } from '../../icons/EmptyStyle';
+import { EmptyStyleIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { CatalogEmptyStateDiv } from './style';
 
