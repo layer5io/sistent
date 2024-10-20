@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface ExpandAllProps {
+interface ExpandAllIconProps {
   height?: string;
   width?: string;
   fill?: string;
@@ -8,7 +8,7 @@ interface ExpandAllProps {
   style?: React.CSSProperties;
 }
 
-const ExpandAll: React.FC<ExpandAllProps> = ({
+const ExpandAllIcon: React.FC<ExpandAllIconProps> = ({
   height = '24',
   width = '24',
   fill = 'none',
@@ -41,4 +41,4 @@ const ExpandAll: React.FC<ExpandAllProps> = ({
   </svg>
 );
 
-export default ExpandAll;
+export default ExpandAllIcon;

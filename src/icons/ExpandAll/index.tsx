@@ -1,1 +1,1 @@
-export { default as ExpandAll } from './ExpandAllIcon';
+export { default as ExpandAllIcon } from './ExpandAllIcon';

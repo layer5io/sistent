@@ -1,1 +1,1 @@
-export { default as CollapseAll } from './CollapseAllIcon';
+export { default as CollapseAllIcon } from './CollapseAllIcon';
