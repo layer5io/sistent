@@ -349,7 +349,7 @@ export const CardBack = styled('div')<CatalogProps>(({ isCatalog }) => ({
 }));
 
 const getBackground = (isLightMode: boolean) => {
-  const lightGradient = `linear-gradient(to left bottom, ${WHITESMOKE}, ${GRAY97},white, white, white, white, white, white, white,white, $, ${WHITESMOKE}, ${GRAY97})`;
+  const lightGradient = `linear-gradient(to left bottom, ${WHITESMOKE}, ${GRAY97},white, white, white, white, white, white, white, white, ${WHITESMOKE}, ${GRAY97})`;
   const darkGradient = `linear-gradient(to right top, ${DARK_PRIMARY_COLOR}, ${accentGrey[30]}, ${accentGrey[20]}, ${accentGrey[10]}, ${accentGrey[10]}, ${accentGrey[10]}, ${accentGrey[10]}, ${accentGrey[10]}, ${accentGrey[10]}, ${charcoal[20]}, ${charcoal[10]}, black)`;
 
   return isLightMode ? lightGradient : darkGradient;
