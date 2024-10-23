@@ -7,8 +7,6 @@ export const ListItemStyle = styled('div')(({ theme }) => ({
 }));
 
 export const MenuListStyle = styled(MenuList)({
-  minHeight: '31rem',
-  width: '13rem',
   overflowY: 'auto',
   scrollbarWidth: 'none',
   '&::-webkit-scrollbar': {
@@ -18,7 +16,7 @@ export const MenuListStyle = styled(MenuList)({
 
 export const MenuItemList = styled(ListItem)(() => ({
   pointerEvents: 'auto',
-  margin: '0.5rem 0rem 0.5rem 0.5rem',
+  margin: '0.5rem 0rem 0.5rem 0rem',
   fontSize: '0.1rem',
   padding: '0'
 }));
@@ -30,7 +28,8 @@ export const MenuItemSubList = styled(ListItem)(() => ({
 }));
 
 export const IconWrapper = styled('div')({
-  marginRight: '0.75rem'
+  marginRight: '0.75rem',
+  marginLeft: '0.5rem'
 });
 
 export const SubIconWrapper = styled('div')({
