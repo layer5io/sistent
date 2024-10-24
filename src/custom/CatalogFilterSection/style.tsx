@@ -37,7 +37,7 @@ export const FilterButton = styled(Button)(({ theme }) => ({
   '&:hover': {
     backgroundColor: theme.palette.background.default
   },
-  height: '3.5rem',
+  height: '3.75rem',
   ['@media (max-width:450px)']: {
     minWidth: '0px'
   }
