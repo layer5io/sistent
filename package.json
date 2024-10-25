@@ -87,7 +87,7 @@
     "mui-datatables": "*",
     "react": ">=17",
     "react-dom": ">=17",
-    "xstate": "^5.13.0"
+    "xstate": "^5.18.2"
   },
   "peerDependenciesMeta": {
     "lodash": {
