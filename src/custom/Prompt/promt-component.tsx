@@ -1,6 +1,6 @@
-import { useTheme } from '@mui/material';
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { Typography } from '../../base';
+import { useTheme } from '../../theme';
 import { Modal, ModalBody, ModalButtonPrimary, ModalButtonSecondary, ModalFooter } from '../Modal';
 import { ActionComponent, Subtitle } from './style';
 

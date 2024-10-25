@@ -1,4 +1,3 @@
-import { useTheme } from '@mui/material';
 import React from 'react';
 import { Box } from '../../base/Box';
 import { Card } from '../../base/Card';
@@ -6,6 +5,7 @@ import { Checkbox } from '../../base/Checkbox';
 import { ClickAwayListener } from '../../base/ClickAwayListener';
 import { FormControlLabel } from '../../base/FormControlLabel';
 import { ColumnIcon } from '../../icons';
+import { useTheme } from '../../theme';
 import PopperListener from '../PopperListener';
 import TooltipIcon from '../TooltipIcon';
 

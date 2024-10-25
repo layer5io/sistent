@@ -1,4 +1,3 @@
-import { useTheme } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
 import { Button } from '../base/Button';
@@ -8,6 +7,7 @@ import { MenuItem } from '../base/MenuItem';
 import { Paper } from '../base/Paper';
 import { Select } from '../base/Select';
 import { FilterIcon } from '../icons';
+import { useTheme } from '../theme';
 import PopperListener from './PopperListener';
 import TooltipIcon from './TooltipIcon';
 

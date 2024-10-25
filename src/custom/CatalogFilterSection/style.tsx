@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
-import { Box, Button, InputAdornment, ListItemButton } from '../../base';
+import { Box, Button, ListItemButton } from '../../base';
+import { SLIGHT_BLUE } from '../../theme/colors/colors';
 import { StyleProps } from './CatalogFilterSidebar';
 
 export const FiltersCardDiv = styled(Box)<{ styleProps: StyleProps }>(({ styleProps }) => ({
@@ -14,7 +15,8 @@ export const FiltersCardDiv = styled(Box)<{ styleProps: StyleProps }>(({ stylePr
   backgroundColor: styleProps.backgroundColor,
   ['@media (max-width:900px)']: {
     display: 'none'
-  }
+  },
+  fontFamily: styleProps.fontFamily
 }));
 
 export const FilterDrawerDiv = styled('div')(() => ({
@@ -35,21 +37,19 @@ export const FilterButton = styled(Button)(({ theme }) => ({
   '&:hover': {
     backgroundColor: theme.palette.background.default
   },
-  height: '3.5rem',
+  height: '3.75rem',
   ['@media (max-width:450px)']: {
     minWidth: '0px'
   }
 }));
 
-export const FiltersDrawerHeader = styled(Box)(({ theme }) => ({
+export const FiltersDrawerHeader = styled(Box)(() => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '0.5rem 1rem',
-  backgroundColor: theme.palette.border.strong,
-  height: '10vh',
-  boxShadow: '0px 4px 4px rgba(0, 179, 159, 0.4)',
-  marginBottom: '0.625rem'
+  backgroundColor: SLIGHT_BLUE,
+  height: '10vh'
 }));
 
 export const CheckBoxButton = styled(ListItemButton)(({ theme }) => ({
@@ -66,13 +66,8 @@ export const FilterTitleButton = styled(ListItemButton)(({ theme }) => ({
   justifyContent: 'space-between'
 }));
 
-export const InputAdornmentEnd = styled(InputAdornment)(({ theme }) => ({
-  borderLeft: `1px solid ${theme.palette.text.disabled}`,
-  height: '30px',
-  paddingLeft: '10px',
-  '@media (max-width: 590px)': {
-    paddingLeft: '0px'
-  }
+export const EndAdornmentText = styled('p')(({ theme }) => ({
+  color: theme.palette.text.tertiary
 }));
 
 export const FilterText = styled('span')(() => ({

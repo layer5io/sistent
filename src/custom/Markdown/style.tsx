@@ -10,6 +10,15 @@ export const StyledMarkdown = styled('a')(({ theme }) => ({
   cursor: 'pointer'
 }));
 
+// anchor style for notifications markdown content
+export const BasicAnchorMarkdown = styled('a')(() => ({
+  textDecoration: 'none',
+  '&:hover': {
+    textDecoration: 'underline'
+  },
+  cursor: 'pointer'
+}));
+
 export const StyledMarkdownP = styled('p')(({ theme }) => ({
   color: theme.palette.text.default,
   marginBlock: '0px',

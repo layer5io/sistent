@@ -33,7 +33,6 @@ type CatalogCardProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   pattern: any;
   patternType: string;
-  cardLink: string;
   cardHeight: string;
   cardWidth: string;
   cardStyles: React.CSSProperties;
@@ -64,7 +63,6 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
   cardHeight,
   cardWidth,
   cardStyles,
-  cardLink,
   onCardClick
 }) => {
   const outerStyles = {
@@ -73,49 +71,47 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
     ...cardStyles
   };
   return (
-    <DesignCardUrl href={cardLink} onClick={onCardClick} target="_blank" rel="noreferrer">
-      <DesignCard outerStyles={outerStyles}>
-        <DesignInnerCard className="innerCard">
-          <ClassWrap catalogClassName={pattern?.catalog_data?.content_class} />
-          <DesignType>{patternType}</DesignType>
-          <DesignDetailsDiv>
-            <DesignName
-              style={{
-                margin: '3rem 0 1.59rem 0',
-                textAlign: 'center'
-              }}
-            >
-              {pattern.name}
-            </DesignName>
-            <ImageWrapper>
-              <DesignIcon height={'118'} width={'120'} />
-            </ImageWrapper>
-          </DesignDetailsDiv>
-          <MetricsContainerFront>
-            <MetricsDiv>
-              <DownloadIcon width={18} height={18} />
-              <MetricsCount>{pattern.download_count}</MetricsCount>
-            </MetricsDiv>
-            <MetricsDiv>
-              <CloneIcon width={18} height={18} fill={'#51636B'} />
-              <MetricsCount>{pattern.clone_count}</MetricsCount>
-            </MetricsDiv>
-            <MetricsDiv>
-              <OpenIcon width={18} height={18} fill={'#51636B'} />
-              <MetricsCount>{pattern.view_count}</MetricsCount>
-            </MetricsDiv>
-            <MetricsDiv>
-              <DeploymentsIcon width={18} height={18} />
-              <MetricsCount>{pattern.deployment_count}</MetricsCount>
-            </MetricsDiv>
-            <MetricsDiv>
-              <ShareIcon width={18} height={18} fill={'#51636B'} />
-              <MetricsCount>{pattern.share_count}</MetricsCount>
-            </MetricsDiv>
-          </MetricsContainerFront>
-        </DesignInnerCard>
-      </DesignCard>
-    </DesignCardUrl>
+    <DesignCard outerStyles={outerStyles} onClick={onCardClick}>
+      <DesignInnerCard className="innerCard">
+        <ClassWrap catalogClassName={pattern?.catalog_data?.content_class} />
+        <DesignType>{patternType}</DesignType>
+        <DesignDetailsDiv>
+          <DesignName
+            style={{
+              margin: '3rem 0 1.59rem 0',
+              textAlign: 'center'
+            }}
+          >
+            {pattern.name}
+          </DesignName>
+          <ImageWrapper>
+            <DesignIcon height={'118'} width={'120'} />
+          </ImageWrapper>
+        </DesignDetailsDiv>
+        <MetricsContainerFront>
+          <MetricsDiv>
+            <DownloadIcon width={18} height={18} />
+            <MetricsCount>{pattern.download_count}</MetricsCount>
+          </MetricsDiv>
+          <MetricsDiv>
+            <CloneIcon width={18} height={18} fill={'#51636B'} />
+            <MetricsCount>{pattern.clone_count}</MetricsCount>
+          </MetricsDiv>
+          <MetricsDiv>
+            <OpenIcon width={18} height={18} fill={'#51636B'} />
+            <MetricsCount>{pattern.view_count}</MetricsCount>
+          </MetricsDiv>
+          <MetricsDiv>
+            <DeploymentsIcon width={18} height={18} />
+            <MetricsCount>{pattern.deployment_count}</MetricsCount>
+          </MetricsDiv>
+          <MetricsDiv>
+            <ShareIcon width={18} height={18} fill={'#51636B'} />
+            <MetricsCount>{pattern.share_count}</MetricsCount>
+          </MetricsDiv>
+        </MetricsContainerFront>
+      </DesignInnerCard>
+    </DesignCard>
   );
 };
 

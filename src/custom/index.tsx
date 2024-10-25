@@ -3,7 +3,7 @@ import { BookmarkNotification } from './BookmarkNotification';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ChapterCard } from './ChapterCard';
 import { ConnectionChip } from './ConnectionChip';
-import { CustomCatalogCard } from './CustomCatalog';
+import { CatalogCardDesignLogo, CustomCatalogCard, EmptyStateCard } from './CustomCatalog';
 import {
   CustomColumn,
   CustomColumnVisibilityControl,
@@ -31,7 +31,7 @@ import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
 import { ColView, updateVisibleColumns } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { LearningCard } from './LearningCard';
-import { RenderMarkdown } from './Markdown';
+import { BasicMarkdown, RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
 import PromptComponent from './Prompt';
@@ -45,6 +45,7 @@ import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
+export type { FilterList } from './CatalogFilterSection';
 export { StyledChartDialog } from './ChartDialog';
 export { LearningContent } from './LearningContent';
 export { NavigationNavbar } from './NavigationNavbar';
@@ -58,6 +59,7 @@ export { Terminal } from './Terminal';
 export {
   ActionButton,
   BookmarkNotification,
+  CatalogCardDesignLogo,
   CatalogFilter,
   ChapterCard,
   ConnectionChip,
@@ -68,6 +70,7 @@ export {
   CustomTooltip,
   DataTableEllipsisMenu,
   EmptyState,
+  EmptyStateCard,
   ErrorBoundary,
   Fallback,
   FeedbackButton,
@@ -108,7 +111,7 @@ export {
 
 // Markdown
 export { StyledMarkdown } from './Markdown/style';
-export { RenderMarkdown };
+export { BasicMarkdown, RenderMarkdown };
 
 // Stepper
 export { CustomizedStepper, useStepper } from './Stepper';

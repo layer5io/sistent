@@ -1,4 +1,6 @@
 import { styled, Typography } from '@mui/material';
+import { accentGrey, DARK_PRIMARY_COLOR, GRAY97, slateGray, WHITESMOKE } from '../../theme';
+import { charcoal, DARK_TEAL, SNOW_WHITE } from '../../theme/colors/colors';
 
 type DesignCardProps = {
   outerStyles: React.CSSProperties;
@@ -45,12 +47,13 @@ export const NoTechnologyText = styled('div')(() => ({
 }));
 
 export const StyledInnerClassWrapper = styled('div')<StyledInnerClassWrapperProps>(({
-  catalogClassName
+  catalogClassName,
+  theme
 }) => {
   const mapToColor: Record<string, string> = {
-    community: 'rgba(122,132,142,.8)',
-    official: '#EBC017',
-    verified: '#00B39F'
+    community: slateGray.main,
+    official: theme.palette.background.cta?.default || '#EBC017',
+    verified: theme.palette.background.brand?.default || '#00B39F'
   };
   return {
     font: 'bold 10px sans-serif',
@@ -67,7 +70,7 @@ export const StyledInnerClassWrapper = styled('div')<StyledInnerClassWrapperProp
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: mapToColor[catalogClassName],
-    color: '#fff'
+    color: catalogClassName === 'official' ? theme.palette.common.black : theme.palette.common.white
   };
 });
 
@@ -122,7 +125,7 @@ export const DesignType = styled('span')(({ theme }) => ({
   fontSize: '0.875rem',
   textTransform: 'capitalize',
   background: theme.palette.background.brand?.default,
-  color: theme.palette.text.inverse,
+  color: theme.palette.background.constant?.white,
   borderRadius: '0 1rem 0 2rem'
 }));
 export const MetricsCount = styled('p')(({ theme }) => ({
@@ -131,7 +134,7 @@ export const MetricsCount = styled('p')(({ theme }) => ({
   margin: '0rem',
   lineHeight: '1.5',
   textAlign: 'center',
-  color: theme.palette.text.secondary,
+  color: theme.palette.mode === 'light' ? DARK_TEAL : SNOW_WHITE,
   fontWeight: '600'
 }));
 export const DesignName = styled(Typography)(({ theme }) => ({
@@ -140,23 +143,24 @@ export const DesignName = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.default,
   fontSize: '1.125rem',
   marginTop: '2rem',
-  padding: '0rem 1rem', // "0rem 1.5rem"
+  padding: '0rem 1rem',
   position: 'relative',
   overflow: 'hidden',
   whiteSpace: 'nowrap',
   textOverflow: 'ellipsis',
   textAlign: 'center',
-  width: '100%'
+  width: '100%',
+  margin: '3rem 0 1.59rem 0',
+  fontFamily: 'inherit'
 }));
-export const MetricsContainerFront = styled('div')<MetricsProps>(({ isDetailed }) => ({
+
+export const MetricsContainerFront = styled('div')<MetricsProps>(({ isDetailed, theme }) => ({
   display: 'flex',
   justifyContent: 'space-around',
-  // borderTop: "0.851px solid #C9DBE3",
   fontSize: '0.2rem',
-  color: 'rgba(26, 26, 26, .8)',
-  // margin: "-0.8rem 0.7rem 0",
+  color: theme.palette.mode === 'light' ? 'rgba(26, 26, 26, .8)' : theme.palette.text.default,
   padding: '0.9rem 0.1rem',
-  background: '#E7EFF3',
+  background: theme.palette.mode === 'light' ? '#E7EFF3' : DARK_TEAL,
   ...(isDetailed && {
     position: 'absolute',
     bottom: '0px'
@@ -191,7 +195,7 @@ export const DesignDetailsDiv = styled('div')(() => ({
 }));
 
 export const ImageWrapper = styled('div')(({ theme }) => ({
-  background: theme.palette.mode === 'light' ? 'rgba(231, 239, 243, 0.40)' : '#212121',
+  background: theme.palette.background.surfaces,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -344,22 +348,34 @@ export const CardBack = styled('div')<CatalogProps>(({ isCatalog }) => ({
   })
 }));
 
-export const CardFront = styled('div')<DesignCardDivProps>(({ shouldFlip, isDetailed, theme }) => ({
-  ...(shouldFlip && {
-    position: 'absolute',
-    boxShadow: `2px 2px 3px 0px ${theme.palette.background.brand?.default}`,
-    background: `linear-gradient(to left bottom, #EBEFF1, #f4f5f7, #f7f7f9, white, white, white, white, white, white, #f7f7f9, #f4f5f7, #EBEFF1);`
-  }),
-  ...(isDetailed && {
-    boxShadow: `2px 2px 3px 0px ${theme.palette.background.brand?.default}`,
-    background: `linear-gradient(to left bottom, #EBEFF1, #f4f5f7, #f7f7f9, white, white, white, white, white, white, #f7f7f9, #f4f5f7, #EBEFF1);`
-  }),
-  width: '100%',
-  height: '100%',
-  WebkitBackfaceVisibility: 'hidden',
-  borderRadius: '0.9375rem',
-  backfaceVisibility: 'hidden'
-}));
+const getBackground = (isLightMode: boolean) => {
+  const lightGradient = `linear-gradient(to left bottom, ${WHITESMOKE}, ${GRAY97},white, white, white, white, white, white, white, white, ${WHITESMOKE}, ${GRAY97})`;
+  const darkGradient = `linear-gradient(to right top, ${DARK_PRIMARY_COLOR}, ${accentGrey[30]}, ${accentGrey[20]}, ${accentGrey[10]}, ${accentGrey[10]}, ${accentGrey[10]}, ${accentGrey[10]}, ${accentGrey[10]}, ${accentGrey[10]}, ${charcoal[20]}, ${charcoal[10]}, black)`;
+
+  return isLightMode ? lightGradient : darkGradient;
+};
+export const CardFront = styled('div')<DesignCardDivProps>(({ shouldFlip, isDetailed, theme }) => {
+  const isLightMode = theme.palette.mode === 'light';
+  const background = getBackground(isLightMode);
+  const boxShadow = `2px 2px 3px 0px ${theme.palette.background.brand?.default}`;
+
+  return {
+    ...(shouldFlip && {
+      position: 'absolute',
+      boxShadow,
+      background
+    }),
+    ...(isDetailed && {
+      boxShadow,
+      background
+    }),
+    width: '100%',
+    height: '100%',
+    WebkitBackfaceVisibility: 'hidden',
+    borderRadius: '0.9375rem',
+    backfaceVisibility: 'hidden'
+  };
+});
 
 export const DateText = styled('div')(() => ({
   fontSize: '0.875rem',
@@ -395,3 +411,25 @@ export const DesignAuthorName = styled('div')(() => ({
     height: 'max-content'
   }
 }));
+
+export const CatalogEmptyStateDiv = styled('div')(({ theme }) => {
+  const isLightMode = theme.palette.mode === 'light';
+  const background = getBackground(isLightMode);
+  const boxShadow = `2px 2px 3px 0px ${theme.palette.background.brand?.default}`;
+
+  return {
+    background: background,
+    boxShadow: boxShadow,
+    textAlign: 'center',
+    borderRadius: '1rem',
+    width: '15rem',
+    height: '18rem',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    [theme.breakpoints.down('lg')]: {
+      height: '18.75rem'
+    }
+  };
+});

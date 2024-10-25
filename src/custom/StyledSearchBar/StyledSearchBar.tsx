@@ -1,7 +1,9 @@
-import { SxProps, Theme, useTheme } from '@mui/material';
-import React from 'react';
+import { SxProps, Theme } from '@mui/material';
+import { debounce } from 'lodash';
+import React, { useEffect, useMemo, useState } from 'react';
 import { InputAdornment } from '../../base';
 import { SearchIcon } from '../../icons';
+import { useTheme } from '../../theme';
 import { InputAdornmentEnd, StyledSearchInput } from './style';
 
 interface SearchBarProps {
@@ -12,6 +14,7 @@ interface SearchBarProps {
   placeholder?: string;
   sx?: SxProps<Theme>;
   endAdornment?: React.ReactNode;
+  debounceTime?: number;
 }
 
 /**
@@ -24,26 +27,71 @@ interface SearchBarProps {
  * @param {string} [props.placeholder] - The placeholder text for the search input.
  * @param {Object} [props.sx] - The style object for the search input.
  * @param {React.ReactNode} [props.endAdornment] - The element to display at the end of the search input.
+ * @param {number} [props.debounceTime] - The debounce time for the input change handler.
  *
  * @returns {JSX.Element} The rendered StyledSearchBar component.
  */
 function StyledSearchBar({
   onChange,
-  value,
+  value = '',
   label,
   sx,
   placeholder,
-  endAdornment
+  endAdornment,
+  debounceTime = 300
 }: SearchBarProps): JSX.Element {
   const theme = useTheme();
+  const [inputValue, setInputValue] = useState(value);
+
+  // Update local state when controlled value changes
+  useEffect(() => {
+    if (value !== inputValue) {
+      setInputValue(value);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  // Create synthetic event helper
+  const createSyntheticEvent = (value: string): React.ChangeEvent<HTMLInputElement> =>
+    ({
+      target: { value },
+      persist: () => {}
+    }) as React.ChangeEvent<HTMLInputElement>;
+
+  // Memoize the debounced handler
+  const debouncedOnChange = useMemo(
+    () =>
+      debounce((newValue: string) => {
+        onChange?.(createSyntheticEvent(newValue));
+      }, debounceTime),
+    [onChange, debounceTime]
+  );
+
+  useEffect(() => {
+    if (!onChange) return;
+    if (inputValue === '') {
+      onChange(createSyntheticEvent(inputValue));
+    } else {
+      debouncedOnChange(inputValue);
+    }
+
+    return () => {
+      debouncedOnChange.cancel();
+    };
+  }, [inputValue, onChange, debouncedOnChange]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    setInputValue(newValue);
+  };
 
   return (
     <StyledSearchInput
       type="search"
       label={label}
       fullWidth
-      value={value}
-      onChange={onChange}
+      value={inputValue}
+      onChange={handleChange}
       sx={sx}
       placeholder={placeholder ?? 'Search'}
       startAdornment={
