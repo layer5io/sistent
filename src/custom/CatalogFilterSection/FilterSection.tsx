@@ -10,12 +10,13 @@ import { EndAdornmentText, FilterTitleButton } from './style';
 interface FilterSectionProps {
   filterKey: string;
   sectionDisplayName?: string;
-  options: FilterOption[];
+  options?: FilterOption[];
   filters: FilterValues;
   openSections: Record<string, boolean>;
-  onCheckboxChange: (filterKey: string, value: string, checked: boolean) => void;
+  onCheckboxChange?: (filterKey: string, value: string, checked: boolean) => void;
   onSectionToggle: (filterKey: string) => void;
   styleProps: StyleProps;
+  customComponent?: React.ComponentType;
 }
 
 /**
@@ -33,12 +34,13 @@ interface FilterSectionProps {
 const FilterSection: React.FC<FilterSectionProps> = ({
   filterKey,
   sectionDisplayName,
-  options,
+  options = [],
   filters,
   openSections,
   onCheckboxChange,
   onSectionToggle,
-  styleProps
+  styleProps,
+  customComponent: CustomComponent
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
 
@@ -47,9 +49,10 @@ const FilterSection: React.FC<FilterSectionProps> = ({
   }, []);
 
   const showSearch = options.length > 10;
-  const searchedOptions = searchQuery
-    ? options.filter((option) => option.label.toLowerCase().includes(searchQuery.toLowerCase()))
-    : options;
+  const searchedOptions =
+    searchQuery && options.length
+      ? options.filter((option) => option.label.toLowerCase().includes(searchQuery.toLowerCase()))
+      : options;
 
   return (
     <>
@@ -65,59 +68,66 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         {openSections[filterKey] ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       </FilterTitleButton>
       <Collapse in={openSections[filterKey]} timeout="auto" unmountOnExit>
-        <List
-          component="div"
-          sx={{
-            overflowY: 'auto',
-            maxHeight: '25rem',
-            backgroundColor: styleProps.backgroundColor
-          }}
-        >
-          {showSearch && (
-            <Box px={'0.5rem'} mb={'0.5rem'}>
-              <StyledSearchBar
-                value={searchQuery}
-                onChange={handleTextFieldChange}
-                placeholder="Search"
-                endAdornment={
-                  <EndAdornmentText> Total : {searchedOptions.length ?? 0}</EndAdornmentText>
-                }
-              />
-            </Box>
-          )}
-          {searchedOptions.map((option, index) => (
-            <Stack
-              key={`${option.value}-${index}`}
-              direction="row"
-              alignItems="center"
-              px={'0.5rem'}
-              justifyContent="space-between"
-            >
-              <Stack direction="row" alignItems="center" gap="0.35rem">
-                <Checkbox
-                  id={`checkbox-${option.label}`}
-                  checked={
-                    Array.isArray(filters[filterKey])
-                      ? (filters[filterKey] as string[]).includes(option.value)
-                      : filters[filterKey] === option.value
+        {CustomComponent ? (
+          <CustomComponent />
+        ) : (
+          <List
+            component="div"
+            sx={{
+              overflowY: 'auto',
+              maxHeight: '25rem',
+              backgroundColor: styleProps.backgroundColor
+            }}
+          >
+            {showSearch && (
+              <Box px={'0.5rem'} mb={'0.5rem'}>
+                <StyledSearchBar
+                  value={searchQuery}
+                  onChange={handleTextFieldChange}
+                  placeholder="Search"
+                  endAdornment={
+                    <EndAdornmentText>Total : {searchedOptions.length ?? 0}</EndAdornmentText>
                   }
-                  onChange={(e) => onCheckboxChange(filterKey, option.value, e.target.checked)}
-                  value={option.value}
                 />
+              </Box>
+            )}
+            {searchedOptions.map((option, index) => (
+              <Stack
+                key={`${option.value}-${index}`}
+                direction="row"
+                alignItems="center"
+                px={'0.5rem'}
+                justifyContent="space-between"
+              >
+                <Stack direction="row" alignItems="center" gap="0.35rem">
+                  <Checkbox
+                    id={`checkbox-${option.label}`}
+                    checked={
+                      Array.isArray(filters[filterKey])
+                        ? (filters[filterKey] as string[]).includes(option.value)
+                        : filters[filterKey] === option.value
+                    }
+                    onChange={(e) =>
+                      onCheckboxChange &&
+                      onCheckboxChange(filterKey, option.value, e.target.checked)
+                    }
+                    value={option.value}
+                  />
 
-                {option.Icon && <option.Icon width="20px" height="20px" />}
+                  {option.Icon && <option.Icon width="20px" height="20px" />}
 
-                <Typography fontFamily={styleProps.fontFamily}>{option.label}</Typography>
+                  <Typography fontFamily={styleProps.fontFamily}>{option.label}</Typography>
+                </Stack>
+                <Stack direction="row" alignItems="center" gap="0.35rem">
+                  {option.totalCount !== undefined && `(${option.totalCount || 0})`}
+                  {option.description && (
+                    <InfoTooltip variant="standard" helpText={option.description} />
+                  )}
+                </Stack>
               </Stack>
-              <Stack direction="row" alignItems="center" gap="0.35rem">
-                {option.totalCount !== undefined && `(${option.totalCount || 0})`}
-                {option.description && (
-                  <InfoTooltip variant="standard" helpText={option.description} />
-                )}
-              </Stack>
-            </Stack>
-          ))}
-        </List>
+            ))}
+          </List>
+        )}
       </Collapse>
     </>
   );

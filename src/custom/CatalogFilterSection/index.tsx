@@ -1,4 +1,4 @@
-import CatalogFilterSidebar, { FilterList } from './CatalogFilterSidebar';
+import CatalogFilterSidebar, { FilterListType } from './CatalogFilterSidebar';
 
 export { CatalogFilterSidebar };
-export type { FilterList };
+export type { FilterListType };
