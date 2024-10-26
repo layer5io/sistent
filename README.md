@@ -67,6 +67,9 @@ build:
 
 ```
 attach sistent to your project:
+	npm install [path to sistent repo]
+
+alternative:
   npm pack (in sistent repo)
 	npm install /path/to/file.tgz (in another repo)
 ```
