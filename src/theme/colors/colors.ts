@@ -7,6 +7,7 @@ export const KEPPEL = '#00B39F';
 export const DARK_KEPPEL = '#00A18F';
 export const CARIBBEAN_GREEN = '#00D3A9';
 export const TEAL_BLUE = '#477E96';
+export const DARK_TEAL_BLUE = '#3B687B';
 export const CHARCOAL = '#3C494F';
 export const BLACK = '#000000';
 export const MIDNIGHT_BLACK = '#111111';
@@ -324,6 +325,15 @@ export const buttonDelete = {
   hover: redDelete.light
 };
 
+export const darkModalGradient = {
+  header: `linear-gradient(90deg, ${charcoal[30]} 0%, ${accentGrey[30]} 100%)`,
+  fotter: `linear-gradient(90deg, ${accentGrey[30]} 0%, ${charcoal[30]} 100%)`
+};
+
+export const lightModalGradient = {
+  header: `linear-gradient(90deg, ${TEAL_BLUE} 0%, ${DARK_TEAL_BLUE} 100%)`,
+  fotter: `linear-gradient(90deg, ${DARK_TEAL_BLUE} 0%, ${TEAL_BLUE} 100%)`
+};
 /**
  * Notification Colors
  */

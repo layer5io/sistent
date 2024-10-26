@@ -4,6 +4,7 @@ import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
 import { iconLarge, iconMedium } from '../../constants/iconsSizes';
 import { CloseIcon, InfoCircleIcon } from '../../icons';
+import { darkModalGradient, lightModalGradient } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
 
 interface ModalProps extends DialogProps {
@@ -54,8 +55,8 @@ const StyledDialog = styled(Dialog)`
   }
 `;
 
-export const ModalStyledHeader = styled('div')(() => ({
-  background: 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)',
+export const ModalStyledHeader = styled('div')(({ theme }) => ({
+  background: theme.palette.mode === 'light' ? lightModalGradient.header : darkModalGradient.header,
   color: '#eee',
   display: 'flex',
   justifyContent: 'space-between',
@@ -108,7 +109,11 @@ const StyledFooter = styled('div', {
   shouldForwardProp: (prop) => prop !== 'variant'
 })<ModalFooterProps>(({ theme, variant, hasHelpText }) => ({
   background:
-    variant == 'filled' ? 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)' : 'transparent',
+    variant === 'filled'
+      ? theme.palette.mode === 'light'
+        ? lightModalGradient.fotter
+        : darkModalGradient.fotter
+      : 'transparent',
   display: 'flex',
   alignItems: 'center',
   justifyContent: hasHelpText ? 'space-between' : 'end',
@@ -116,7 +121,8 @@ const StyledFooter = styled('div', {
   gap: '1rem',
 
   '&& .InfoCircleIcon': {
-    color: variant == 'filled' ? theme.palette.common.white : theme.palette.background.info?.default
+    color:
+      variant === 'filled' ? theme.palette.common.white : theme.palette.background.info?.default
   }
 }));
 
