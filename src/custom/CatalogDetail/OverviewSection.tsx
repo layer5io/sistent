@@ -1,5 +1,5 @@
-import { Grid } from '@mui/material';
 import React from 'react';
+import { Grid } from '../../base';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import ContentClassInfo from './ContentClassInfo';
 import MetricsDisplay from './MetricsDisplay';

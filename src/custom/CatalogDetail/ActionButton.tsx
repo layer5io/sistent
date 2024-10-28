@@ -1,11 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
 import { CircularProgress } from '../../base';
+import { CopyIcon, KanvasIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { charcoal } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
-import CopyIcon from './Icons/CopyIcon';
-import KanvasIcon from './Icons/Kanvas';
 import { downloadFilter, downloadYaml, slugify } from './helper';
 import { ActionButton, LinkUrl, StyledActionWrapper } from './style';
 import { RESOURCE_TYPES } from './types';

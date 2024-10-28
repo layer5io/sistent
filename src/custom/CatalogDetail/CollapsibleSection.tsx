@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Collapse, List, ListItemText } from '@mui/material';
+import { Collapse, List, ListItemText } from '../../base';
 import { InfoTooltip } from '../CustomTooltip';
 import { SideContainer, SideTitleButton } from './style';
 

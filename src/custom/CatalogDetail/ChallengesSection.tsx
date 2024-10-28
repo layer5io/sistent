@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ListItemIcon } from '../../base';
+import { ChallengesIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import CollapsibleSection from './CollapsibleSection';
-import ChallengesIcon from './Icons/ChallengesIcon';
 import { slugify } from './helper';
 import { LabelDiv } from './style';
 import { FilteredAcademyData } from './types';

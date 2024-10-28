@@ -1,18 +1,10 @@
-import {
-  ClickAwayListener,
-  Fade,
-  IconButton,
-  Paper,
-  Popper,
-  Tooltip,
-  useTheme
-} from '@mui/material';
+import { Fade } from '@mui/material';
 import React from 'react';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
-import { ShareIcon } from '../../icons';
+import { ClickAwayListener, IconButton, Paper, Popper, Tooltip } from '../../base';
+import { ChainIcon, FacebookIcon, LinkedinIcon, ShareIcon, TwitterIcon } from '../../icons';
+import { useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
-import ChainIcon from './Icons/ChainIcon';
-import { FacebookIcon, LinkedinIcon, TwitterIcon } from './Icons/SocialMediaIcon';
 import { CopyShareIconWrapper, VisibilityChip } from './style';
 
 interface SocialSharePopperProps {

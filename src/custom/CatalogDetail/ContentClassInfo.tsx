@@ -1,5 +1,5 @@
-import { Box } from '@mui/material';
 import React from 'react';
+import { Box } from '../../base';
 import { InfoTooltip } from '../CustomTooltip';
 import { ContentDetailsPoints, ContentDetailsText } from '../Typography';
 import { CONTENT_CLASS, formatToTitleCase } from './helper';
