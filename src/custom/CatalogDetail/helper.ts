@@ -1,6 +1,4 @@
 import jsyaml from 'js-yaml';
-import { CommunityClassIcon, OfficialClassIcon, VerificationClassIcon } from '../../icons';
-import { ContentClassType } from './types';
 
 export const downloadYaml = (filteredData: string, itemName: string): void => {
   const yamlData = Array.isArray(filteredData)
@@ -47,18 +45,6 @@ export const downloadFilter = (id: string, name: string): void => {
   linkElement.setAttribute('download', fileNameWithExtension);
   linkElement.click();
   linkElement.remove();
-};
-
-export const CONTENT_CLASS: ContentClassType = {
-  community: {
-    icon: CommunityClassIcon
-  },
-  official: {
-    icon: OfficialClassIcon
-  },
-  verified: {
-    icon: VerificationClassIcon
-  }
 };
 
 export const formatToTitleCase = (value: string): string => {

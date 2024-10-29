@@ -40,11 +40,20 @@ export const RESOURCE_TYPES = {
 export type ContentClassType = {
   community: {
     icon: React.ComponentType;
+    color: string;
   };
   official: {
     icon: React.ComponentType;
+    color: string;
   };
   verified: {
     icon: React.ComponentType;
+    color: string;
   };
+};
+
+export type UserProfile = {
+  first_name: string;
+  last_name: string;
+  avatar_url: string;
 };
