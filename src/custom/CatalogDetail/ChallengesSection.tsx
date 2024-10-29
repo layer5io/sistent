@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ListItemIcon } from '../../base';
+import { Link, ListItemIcon } from '../../base';
 import { ChallengesIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import CollapsibleSection from './CollapsibleSection';
@@ -27,21 +27,24 @@ const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyDa
     setAutoUpdate(false);
   };
 
-  const navigateToChallenge = (item: string) => {
-    window.location.href = `/academy/challenges/${slugify('' + item)}`;
-  };
-
   const renderChallengeItem = (item: string, index: number) => (
-    <LabelDiv key={index} clickable={true} onClick={() => navigateToChallenge(item)}>
-      <ListItemIcon sx={{ minWidth: '1.5rem', marginRight: 1 }}>
-        <ChallengesIcon
-          primaryFill={theme.palette.icon.default}
-          secondaryFill={theme.palette.icon.secondary}
-          brandFill={theme.palette.icon.secondary}
-        />
-      </ListItemIcon>
-      {item}
-    </LabelDiv>
+    <Link
+      href={`https://meshery.layer5.io/academy/challenges/${slugify('' + item)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ textDecoration: 'none', color: 'inherit' }}
+    >
+      <LabelDiv key={index} clickable={true}>
+        <ListItemIcon sx={{ minWidth: '1.5rem', marginRight: 1 }}>
+          <ChallengesIcon
+            primaryFill={theme.palette.icon.default}
+            secondaryFill={theme.palette.icon.secondary}
+            brandFill={theme.palette.icon.secondary}
+          />
+        </ListItemIcon>
+        {item}
+      </LabelDiv>
+    </Link>
   );
 
   return (

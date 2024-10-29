@@ -13,34 +13,31 @@ interface OverviewSectionProps {
   details: Pattern;
   type: string;
   cardId: string;
-  handleClick: (event: React.MouseEvent) => void;
   title: string;
-  id: string;
-  anchorEl: HTMLElement | null;
-  handleClose: () => void;
   getUrl: (type: string, id: string) => string;
   showContentDetails: boolean;
   ViewsComponent?: React.ReactNode;
   showVersion: boolean;
   classes: Class[];
   handleCopyUrl: (type: string, name: string, id: string) => void;
+  fontFamily?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  userProfile?: any;
 }
 
 const OverviewSection: React.FC<OverviewSectionProps> = ({
   details,
   type,
   cardId,
-  handleClick,
   title,
-  id,
-  anchorEl,
-  handleClose,
   getUrl,
   showContentDetails,
   ViewsComponent,
   showVersion,
   classes,
-  handleCopyUrl
+  handleCopyUrl,
+  fontFamily,
+  userProfile
 }) => {
   return (
     <OverviewContainer>
@@ -49,7 +46,8 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           display: 'flex',
           flexDirection: 'row',
           width: '100%',
-          flexWrap: 'wrap'
+          flexWrap: 'wrap',
+          fontFamily: fontFamily || 'inherit'
         }}
       >
         <DesignHeading>{details?.name}</DesignHeading>
@@ -57,11 +55,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           details={details}
           type={type}
           cardId={cardId}
-          handleClick={handleClick}
           title={title}
-          id={id}
-          anchorEl={anchorEl}
-          handleClose={handleClose}
           getUrl={getUrl}
           handleCopyUrl={handleCopyUrl}
         />
@@ -69,7 +63,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
       <Grid container spacing={2}>
         <Grid item lg={4} md={4} sm={12} xs={12}>
           <Grid container>
-            <Grid item lg={12} md={12} sm={6} xs={6}>
+            <Grid item lg={12} md={12} sm={6} xs={6} style={{ fontFamily: fontFamily }}>
               {details?.catalog_data?.content_class && (
                 <ContentRow>
                   <ContentClassInfo
@@ -78,7 +72,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
                   />
                 </ContentRow>
               )}
-              <UserInfo details={details} showVersion={showVersion} />
+              <UserInfo details={details} showVersion={showVersion} userProfile={userProfile} />
             </Grid>
           </Grid>
         </Grid>

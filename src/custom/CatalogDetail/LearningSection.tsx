@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ListItemIcon } from '../../base';
+import { Link, ListItemIcon } from '../../base';
 import { LearningIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import CollapsibleSection from './CollapsibleSection';
@@ -27,20 +27,23 @@ const LearningSection: React.FC<LearningSectionProps> = ({ filteredAcademyData }
     setAutoUpdate(false);
   };
 
-  const navigateToLearningPath = (item: string): void => {
-    window.location.href = `/academy/learning-paths/${slugify('' + item)}`;
-  };
-
   const renderLearningItem = (item: string, index: number) => (
-    <LabelDiv key={index} clickable={true} onClick={() => navigateToLearningPath(item)}>
-      <ListItemIcon sx={{ minWidth: '1.5rem', marginRight: 1 }}>
-        <LearningIcon
-          primaryFill={theme.palette.icon.default}
-          secondaryFill={theme.palette.icon.secondary}
-        />
-      </ListItemIcon>
-      {item}
-    </LabelDiv>
+    <Link
+      href={`https://meshery.layer5.io/academy/learning-paths/${slugify('' + item)}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ textDecoration: 'none', color: 'inherit' }}
+    >
+      <LabelDiv key={index} clickable={true}>
+        <ListItemIcon sx={{ minWidth: '1.5rem', marginRight: 1 }}>
+          <LearningIcon
+            primaryFill={theme.palette.icon.default}
+            secondaryFill={theme.palette.icon.secondary}
+          />
+        </ListItemIcon>
+        {item}
+      </LabelDiv>
+    </Link>
   );
 
   return (

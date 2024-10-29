@@ -8,12 +8,8 @@ import { Class } from './types';
 interface RightPanelProps {
   details: Pattern;
   type: string;
-  cardId: string;
-  handleClick: (event: React.MouseEvent) => void;
+  cardId?: string;
   title: string;
-  id?: string;
-  anchorEl: HTMLElement | null;
-  handleClose: () => void;
   getUrl: (type: string, id: string) => string;
   showContentDetails: boolean;
   ViewsComponent?: React.ReactNode;
@@ -21,19 +17,18 @@ interface RightPanelProps {
   showCaveats: boolean;
   classes: Class[];
   patternsPerUser: PatternsPerUser;
+  onSuggestedPatternClick: (pattern: Pattern) => void;
   handleCopyUrl: (type: string, name: string, id: string) => void;
   fontFamily?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  useGetUserProfileByIdQuery: any;
 }
 
 const RightPanel: React.FC<RightPanelProps> = ({
   details,
   type,
-  cardId,
-  handleClick,
+  cardId = details.id,
   title,
-  id = '',
-  anchorEl,
-  handleClose,
   getUrl,
   showContentDetails,
   ViewsComponent,
@@ -41,10 +36,15 @@ const RightPanel: React.FC<RightPanelProps> = ({
   showCaveats,
   classes,
   patternsPerUser,
+  onSuggestedPatternClick,
   handleCopyUrl,
-  fontFamily
+  fontFamily,
+  useGetUserProfileByIdQuery
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
+  const { data: userProfile } = useGetUserProfileByIdQuery({
+    id: details.user_id
+  });
 
   return (
     <div style={{ fontFamily }}>
@@ -52,20 +52,24 @@ const RightPanel: React.FC<RightPanelProps> = ({
         details={details}
         type={cleanedType}
         cardId={cardId}
-        handleClick={handleClick}
         title={title}
-        id={id}
-        anchorEl={anchorEl}
-        handleClose={handleClose}
         getUrl={getUrl}
         showContentDetails={showContentDetails}
         ViewsComponent={ViewsComponent}
         showVersion={showVersion}
         classes={classes}
         handleCopyUrl={handleCopyUrl}
+        fontFamily={fontFamily}
+        userProfile={userProfile}
       />
       {showCaveats && <CaveatsSection details={details} />}
-      <RelatedDesigns details={details} type={type} patternsPerUser={patternsPerUser} />
+      <RelatedDesigns
+        details={details}
+        type={type}
+        patternsPerUser={patternsPerUser}
+        onSuggestedPatternClick={onSuggestedPatternClick}
+        userProfile={userProfile}
+      />
     </div>
   );
 };
