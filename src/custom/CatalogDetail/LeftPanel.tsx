@@ -15,9 +15,6 @@ interface LeftPanelProps {
   isCloneLoading: boolean;
   handleClone: (name: string, id: string) => void;
   showTechnologies?: boolean;
-  openTechnologies: boolean;
-  availableTechnologies: string[];
-  handleOpenTechnologies: () => void;
   mode: string;
   filteredAcademyData: FilteredAcademyData;
   isCloneDisabled: boolean;
@@ -34,9 +31,6 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   isCloneLoading,
   handleClone,
   showTechnologies = true,
-  openTechnologies,
-  availableTechnologies,
-  handleOpenTechnologies,
   mode,
   filteredAcademyData,
   isCloneDisabled,
@@ -45,6 +39,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   fontFamily
 }) => {
   const theme = useTheme();
+
   return (
     <div style={{ fontFamily }}>
       <CustomCatalogCard
@@ -85,11 +80,9 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
       />
       {showTechnologies && (
         <TechnologySection
-          availableTechnologies={availableTechnologies}
-          openTechnologies={openTechnologies}
-          handleOpenTechnologies={handleOpenTechnologies}
           technologySVGPath={technologySVGPath}
           technologySVGSubpath={technologySVGSubpath}
+          technologies={details.catalog_data?.compatibility || []}
         />
       )}
       <LearningSection filteredAcademyData={filteredAcademyData} />

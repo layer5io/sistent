@@ -33,8 +33,7 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
     <AdditionalContainer>
       <ContentHeading>
         <h2 style={{ margin: '0', textTransform: 'uppercase' }}>
-          Other published design by
-          {formatToTitleCase(userProfile?.first_name ?? '')}
+          Other published design by {formatToTitleCase(userProfile?.first_name ?? '')}
         </h2>
       </ContentHeading>
       <DesignCardContainer>

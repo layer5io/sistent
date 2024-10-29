@@ -138,7 +138,12 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   const version = getVersion(pattern);
 
   useEffect(() => {
-    handleImage(technologies, basePath, subBasePath, setAvailableTechnologies);
+    handleImage({
+      technologies,
+      basePath,
+      subBasePath,
+      setAvailableTechnologies
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

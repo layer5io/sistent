@@ -44,7 +44,7 @@ export const ContentDetailsText = styled(Typography)(({ theme }) => ({
   fontSize: '1rem',
   color: theme.palette.text.default,
   ['@media (min-width:1200px)']: {
-    fontSize: '1.3rem'
+    fontSize: '1'
   }
 }));
 

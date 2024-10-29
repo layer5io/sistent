@@ -1,24 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ListItemIcon } from '../../base';
 import { useTheme } from '../../theme';
 import CollapsibleSection from './CollapsibleSection';
 import { LabelDiv } from './style';
 
 interface TechnologySectionProps {
-  availableTechnologies: string[];
-  openTechnologies: boolean;
-  handleOpenTechnologies: () => void;
+  technologies: string[];
   technologySVGPath: string;
   technologySVGSubpath: string;
 }
 
 const TechnologySection: React.FC<TechnologySectionProps> = ({
-  availableTechnologies,
-  openTechnologies,
-  handleOpenTechnologies,
   technologySVGPath,
-  technologySVGSubpath
+  technologySVGSubpath,
+  technologies
 }) => {
+  const [openTechnologies, setOpenTechnologies] = useState(true);
+
   const theme = useTheme();
 
   const renderTechnologyItem = (item: string, index: number) => {
@@ -47,8 +45,8 @@ const TechnologySection: React.FC<TechnologySectionProps> = ({
       <CollapsibleSection
         title="TECHNOLOGY"
         isOpen={openTechnologies}
-        onToggle={handleOpenTechnologies}
-        items={availableTechnologies}
+        onToggle={() => setOpenTechnologies((prev) => !prev)}
+        items={technologies}
         renderItem={renderTechnologyItem}
         emptyState={'No technologies assigned to this design'}
         tooltip={'Technologies used in this design'}
