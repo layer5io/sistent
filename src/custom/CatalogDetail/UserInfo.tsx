@@ -2,21 +2,27 @@ import { Pattern } from '../CustomCatalog/CustomCard';
 import { getVersion } from '../CustomCatalog/Helper';
 import { formatDate } from './helper';
 import { ContentDetailsPoints, ContentDetailsText, ContentRow, RedirectLink } from './style';
+import { UserProfile } from './types';
 
 interface UserInfoProps {
   details: Pattern;
   showVersion?: boolean;
+  userProfile?: UserProfile;
 }
 
-const UserInfo: React.FC<UserInfoProps> = ({ details, showVersion = true }) => {
+const UserInfo: React.FC<UserInfoProps> = ({ details, showVersion = true, userProfile }) => {
   return (
     <>
       <ContentRow>
         <ContentDetailsPoints>CREATED BY</ContentDetailsPoints>
         <ContentDetailsText>
-          <RedirectLink href={`/user/${details?.user_id}`} rel="noreferrer">
+          <RedirectLink
+            href={`https://meshery.layer5.io/user/${details?.user_id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <span style={{ fontWeight: 'normal' }}>
-              {details.user.first_name} {details?.user?.last_name}
+              {userProfile?.first_name} {userProfile?.last_name}
             </span>
           </RedirectLink>
         </ContentDetailsText>
