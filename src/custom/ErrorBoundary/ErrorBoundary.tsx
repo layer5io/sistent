@@ -20,6 +20,8 @@ const StyledLink = styled(Link)(({ theme }) => ({
 }));
 
 const CodeMessage = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
   backgroundColor: theme.palette.background.code,
   color: theme.palette.text.tertiary,
   padding: '.85rem',
@@ -30,14 +32,25 @@ const CodeMessage = styled('div')(({ theme }) => ({
 interface FallbackComponentProps extends FallbackProps {
   resetErrorBoundary: () => void;
   children?: React.ReactNode;
+  pageUrl?: string;
+  timestamp?: string;
 }
 
 export function Fallback({ error, children }: FallbackComponentProps): JSX.Element {
+  const pageUrl = window.location.href;
+  const timestamp = new Date().toLocaleString();
   return (
     <div role="alert">
       <h2>Uh-oh!😔 Please pardon the mesh.</h2>
       <CodeMessage>
-        <code>{(error as Error).message}</code>
+        <code>
+          <strong>Error: </strong>
+          {(error as Error).message}
+        </code>
+        <br />
+        <strong> URL: </strong> {pageUrl}
+        <br />
+        <strong>Logged at:</strong> {timestamp}
       </CodeMessage>
       <ErrorMessage>
         We apologize for the inconvenience. The issue may be on our end. If troubleshooting doesn't
@@ -56,18 +69,50 @@ export function Fallback({ error, children }: FallbackComponentProps): JSX.Eleme
 }
 
 const reportError = (error: Error, info: React.ErrorInfo): void => {
+  const pageUrl = window.location.href;
+  const timestamp = new Date().toLocaleString();
   // This is where you'd send the error to Sentry, etc
-  console.log('Error Caught Inside Boundary --reportError', error, 'Info', info);
+  console.log(
+    'Error Caught Inside Boundary --reportError',
+    error,
+    'Info',
+    info,
+    'Page URL:',
+    pageUrl,
+    'Timestamp:',
+    timestamp
+  );
 };
 
 interface ErrorBoundaryProps {
   customFallback?: React.ComponentType<FallbackProps>;
   children: React.ReactNode;
+  onErrorCaught?: (error: string) => void;
 }
 
-export const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ customFallback, children }) => {
+export const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({
+  customFallback,
+  children,
+  onErrorCaught
+}) => {
+  const pageUrl = window.location.href;
+  const timestamp = new Date().toLocaleString();
+
+  const handleError = (error: Error, info: React.ErrorInfo) => {
+    // Pass error message to onErrorCaught
+    onErrorCaught?.(error.message);
+    reportError(error, info);
+  };
+
   return (
-    <ReactErrorBoundary FallbackComponent={customFallback ?? Fallback} onError={reportError}>
+    <ReactErrorBoundary
+      FallbackComponent={
+        customFallback
+          ? customFallback
+          : (props) => <Fallback {...props} pageUrl={pageUrl} timestamp={timestamp} />
+      }
+      onError={handleError}
+    >
       {children}
     </ReactErrorBoundary>
   );
