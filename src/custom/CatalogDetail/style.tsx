@@ -1,4 +1,4 @@
-import { ListItemButton, Paper, Typography } from '../../base';
+import { Link, ListItemButton, Paper, Typography } from '../../base';
 import { styled } from '../../theme';
 import { Theme } from './types';
 
@@ -40,6 +40,7 @@ export const ActionButton = styled('div')<ActionButtonProps>(({ disabled = false
 }));
 
 export const ContentDetailsText = styled(Typography)(({ theme }) => ({
+  fontFamily: 'inherit',
   fontSize: '1rem',
   color: theme.palette.text.default,
   ['@media (min-width:1200px)']: {
@@ -122,7 +123,8 @@ export const ContentDetailsPoints = styled(Typography)(() => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: '1rem'
+  gap: '1rem',
+  fontFamily: 'inherit'
 }));
 
 export const MetricsSection = styled('div')(() => ({
@@ -194,7 +196,8 @@ export const DesignHeading = styled('h1')(({ theme }) => ({
 
 export const ContentRow = styled('div')(() => ({
   padding: '0.5rem 0',
-  overflowWrap: 'anywhere'
+  overflowWrap: 'anywhere',
+  fontFamily: 'inherit'
 }));
 
 export const ShowToggleBtn = styled('span')(({ theme }) => ({
@@ -245,7 +248,7 @@ export const VisibilityChip = styled('div')(() => ({
   width: 'fit-content'
 }));
 
-export const RedirectLink = styled('a')(({ theme }) => ({
+export const RedirectLink = styled(Link)(({ theme }) => ({
   color: theme.palette.background.brand?.default,
   textDecoration: 'none',
   cursor: 'pointer'
