@@ -55,6 +55,7 @@ export * from './Paper';
 export * from './Popper';
 export * from './RadioGroup';
 export * from './Select';
+export * from './Skeleton';
 export * from './Slide';
 export * from './Stack';
 export * from './Switch';

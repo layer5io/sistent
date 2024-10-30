@@ -3,6 +3,7 @@ import { BookmarkNotification } from './BookmarkNotification';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ChapterCard } from './ChapterCard';
 import { ConnectionChip } from './ConnectionChip';
+import { CatalogCardDesignLogo, CustomCatalogCard, EmptyStateCard } from './CustomCatalog';
 import {
   CustomColumn,
   CustomColumnVisibilityControl,
@@ -30,9 +31,10 @@ import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
 import { ColView, updateVisibleColumns } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { LearningCard } from './LearningCard';
-import { RenderMarkdown } from './Markdown';
+import { BasicMarkdown, RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
+import PromptComponent from './Prompt';
 import ResponsiveDataTable, {
   DataTableEllipsisMenu,
   ResponsiveDataTableProps
@@ -42,8 +44,11 @@ import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 export { CatalogCard } from './CatalogCard';
+export { CatalogFilterSidebar } from './CatalogFilterSection';
+export type { FilterList } from './CatalogFilterSection';
 export { StyledChartDialog } from './ChartDialog';
 export { LearningContent } from './LearningContent';
+export { NavigationNavbar } from './NavigationNavbar';
 export { Note } from './Note';
 export { SetupPreReq } from './SetupPrerequisite';
 export { StyledChapter } from './StyledChapter';
@@ -54,15 +59,18 @@ export { Terminal } from './Terminal';
 export {
   ActionButton,
   BookmarkNotification,
+  CatalogCardDesignLogo,
   CatalogFilter,
   ChapterCard,
   ConnectionChip,
+  CustomCatalogCard,
   CustomColumnVisibilityControl,
   CustomDialog,
   CustomImage,
   CustomTooltip,
   DataTableEllipsisMenu,
   EmptyState,
+  EmptyStateCard,
   ErrorBoundary,
   Fallback,
   FeedbackButton,
@@ -71,6 +79,7 @@ export {
   LearningCard,
   ModalCard,
   PopperListener,
+  PromptComponent,
   ResponsiveDataTable,
   SearchBar,
   StyledDialogActions,
@@ -87,6 +96,7 @@ export {
 
 //Custom Modal
 export {
+  CloseBtn,
   Modal,
   ModalBody,
   ModalButtonDanger,
@@ -94,13 +104,14 @@ export {
   ModalButtonSecondary,
   ModalButtonTertiary,
   ModalFooter,
+  ModalStyledHeader,
   PrimaryActionButtons,
   useModal
 } from './Modal';
 
 // Markdown
 export { StyledMarkdown } from './Markdown/style';
-export { RenderMarkdown };
+export { BasicMarkdown, RenderMarkdown };
 
 // Stepper
 export { CustomizedStepper, useStepper } from './Stepper';
@@ -119,4 +130,6 @@ export type {
   UniversalFilterProps
 };
 
+export * from './CatalogDetail';
 export * from './Dialog';
+export * from './permissions';
