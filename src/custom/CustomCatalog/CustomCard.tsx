@@ -1,12 +1,11 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import { Avatar, styled } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { Grid } from '../../base';
+import { Avatar, Grid } from '../../base';
 import { CloneIcon, CommunityClassIcon, OfficialClassIcon, OpenIcon, ShareIcon } from '../../icons';
 import VerificationClassIcon from '../../icons/ContentClassIcons/VerificationClassIcon';
 import DeploymentsIcon from '../../icons/Deployments/DeploymentsIcon';
 import { DownloadIcon } from '../../icons/Download';
-import { DARK_TEAL, useTheme } from '../../theme';
+import { DARK_TEAL, styled, useTheme } from '../../theme';
 import { SNOW_WHITE } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
 import { getVersion, handleImage } from './Helper';
@@ -42,6 +41,10 @@ export interface Pattern {
   id: string;
   user_id: string;
   pattern_file: string;
+  user: {
+    first_name: string;
+    last_name: string;
+  };
   name: string;
   download_count: number;
   clone_count: number;
@@ -61,18 +64,21 @@ export interface Pattern {
     compatibility?: string[];
     published_version?: string;
     type?: string;
+    pattern_info?: string;
+    pattern_caveats?: string;
   };
   visibility: string;
   updated_at: Date;
+  created_at: Date;
 }
 
 type CatalogCardProps = {
   pattern: Pattern;
   patternType: string;
-  cardHeight: string;
-  cardWidth: string;
-  cardStyles: React.CSSProperties;
-  avatarUrl: string;
+  cardHeight?: string;
+  cardWidth?: string;
+  cardStyles?: React.CSSProperties;
+  avatarUrl?: string;
   shouldFlip?: boolean;
   cardTechnologies?: boolean;
   isDetailed?: boolean;
@@ -105,12 +111,12 @@ const ClassWrap = ({ catalogClassName }: { catalogClassName: string }) => {
 const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   pattern,
   patternType,
-  cardHeight,
-  cardWidth,
+  cardHeight = '18rem',
+  cardWidth = '15rem',
   cardStyles,
-  shouldFlip,
-  isDetailed,
-  cardTechnologies,
+  shouldFlip = true,
+  isDetailed = true,
+  cardTechnologies = true,
   avatarUrl,
   UserName,
   children,
@@ -132,7 +138,12 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   const version = getVersion(pattern);
 
   useEffect(() => {
-    handleImage(technologies, basePath, subBasePath, setAvailableTechnologies);
+    handleImage({
+      technologies,
+      basePath,
+      subBasePath,
+      setAvailableTechnologies
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -266,7 +277,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
             </DesignDetailsDiv>
 
             {isDetailed && (
-              <DesignDetailsDiv style={{ marginTop: '50px' }}>
+              <DesignDetailsDiv style={{ marginTop: '40px' }}>
                 <Grid container style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <Grid
                     item

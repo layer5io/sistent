@@ -140,7 +140,7 @@ export const ContentDetailsPoints = styled(TextB3Regular)(({ theme }) => ({
 export const ContentDetailsText = styled(TextB1Regular)(({ theme }) => ({
   ...commonTypographyStyles(theme),
   ['@media (min-width:1200px)']: {
-    fontSize: '1.3rem'
+    fontSize: '1'
   }
 }));
 
