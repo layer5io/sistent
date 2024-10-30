@@ -17,11 +17,11 @@ interface RightPanelProps {
   showCaveats: boolean;
   classes: Class[];
   patternsPerUser: PatternsPerUser;
-  onSuggestedPatternClick: (pattern: Pattern) => void;
   handleCopyUrl: (type: string, name: string, id: string) => void;
-  fontFamily?: string;
+  onSuggestedPatternClick: (pattern: Pattern) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useGetUserProfileByIdQuery: any;
+  fontFamily?: string;
 }
 
 const RightPanel: React.FC<RightPanelProps> = ({

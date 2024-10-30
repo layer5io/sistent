@@ -21,7 +21,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ details, showVersion = true, userPr
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span style={{ fontWeight: 'normal' }}>
+            <span style={{ fontWeight: 'normal', fontSize: '1.2rem' }}>
               {userProfile?.first_name} {userProfile?.last_name}
             </span>
           </RedirectLink>
