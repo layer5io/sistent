@@ -8,7 +8,8 @@ export const StyledSearchInput = styled(OutlinedInput)(({ style, theme }) => ({
     paddingLeft: '0.25rem'
   },
   display: 'flex',
-  backgroundColor: theme.palette.background.surfaces,
+  backgroundColor:
+    theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.background.surfaces,
   ...style
 }));
 

@@ -43,7 +43,7 @@ const CatalogCardDesignLogo: React.FC<CatalogCardDesignLogoProps> = ({
   return (
     <>
       {imgURL && imgURL.length > 0 ? (
-        <div style={{ width: '100%', height: '7.5rem', position: 'relative' }}>
+        <div style={{ width: '100%', height: '100%', position: 'relative' }}>
           {!imgError ? (
             <>
               <img
