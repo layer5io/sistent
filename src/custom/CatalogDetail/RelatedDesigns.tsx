@@ -14,6 +14,8 @@ interface RelatedDesignsProps {
   patternsPerUser: PatternsPerUser;
   onSuggestedPatternClick: (pattern: Pattern) => void;
   userProfile?: UserProfile;
+  technologySVGPath: string;
+  technologySVGSubpath: string;
 }
 
 const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
@@ -21,7 +23,9 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
   type,
   patternsPerUser,
   onSuggestedPatternClick,
-  userProfile
+  userProfile,
+  technologySVGPath,
+  technologySVGSubpath
 }) => {
   const filteredPatternsPerUser = patternsPerUser?.patterns?.filter(
     (pattern) => pattern.id !== details.id
@@ -45,8 +49,8 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
             onCardClick={() => onSuggestedPatternClick(pattern)}
             UserName={`${userProfile?.first_name ?? ''} ${userProfile?.last_name ?? ''}`}
             avatarUrl={userProfile?.avatar_url}
-            basePath="/static/img/meshmodels"
-            subBasePath="color"
+            basePath={technologySVGPath}
+            subBasePath={technologySVGSubpath}
             cardTechnologies={true}
           >
             <CatalogCardDesignLogo

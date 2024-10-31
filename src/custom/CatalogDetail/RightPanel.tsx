@@ -22,6 +22,8 @@ interface RightPanelProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useGetUserProfileByIdQuery: any;
   fontFamily?: string;
+  technologySVGPath: string;
+  technologySVGSubpath: string;
 }
 
 const RightPanel: React.FC<RightPanelProps> = ({
@@ -39,7 +41,9 @@ const RightPanel: React.FC<RightPanelProps> = ({
   onSuggestedPatternClick,
   handleCopyUrl,
   fontFamily,
-  useGetUserProfileByIdQuery
+  useGetUserProfileByIdQuery,
+  technologySVGPath,
+  technologySVGSubpath
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const { data: userProfile } = useGetUserProfileByIdQuery({
@@ -69,6 +73,8 @@ const RightPanel: React.FC<RightPanelProps> = ({
         patternsPerUser={patternsPerUser}
         onSuggestedPatternClick={onSuggestedPatternClick}
         userProfile={userProfile}
+        technologySVGPath={technologySVGPath}
+        technologySVGSubpath={technologySVGSubpath}
       />
     </div>
   );

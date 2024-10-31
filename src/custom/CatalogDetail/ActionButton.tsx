@@ -18,6 +18,7 @@ interface ActionButtonsProps {
   handleClone: (name: string, id: string) => void;
   mode: string;
   isCloneDisabled: boolean;
+  showOpenPlaygroundButton: boolean;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -28,7 +29,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   isCloneLoading,
   handleClone,
   mode,
-  isCloneDisabled
+  isCloneDisabled,
+  showOpenPlaygroundButton
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const resourcePlaygroundType = Object.values({
@@ -51,7 +53,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           <ActionButton
             sx={{
               borderRadius: '0.2rem',
-              backgroundColor: 'background.inverse',
+              backgroundColor: charcoal[10],
               gap: '10px',
               color: charcoal[100]
             }}
@@ -87,27 +89,29 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           )}
         </div>
       )}
-      <LinkUrl
-        style={{ width: '100%' }}
-        href={`https://playground.meshery.io/extension/meshmap?mode=${mode}&type=${resourcePlaygroundType}&id=${cardId}&name=${slugify(
-          details.name
-        )}`}
-        target="_blank"
-        rel="noreferrer"
-      >
-        <ActionButton
-          sx={{
-            borderRadius: '0.2rem',
-            backgroundColor: 'background.cta.default',
-            color: charcoal[10],
-            gap: '10px',
-            width: '100%'
-          }}
+      {showOpenPlaygroundButton && (
+        <LinkUrl
+          style={{ width: '100%' }}
+          href={`https://playground.meshery.io/extension/meshmap?mode=${mode}&type=${resourcePlaygroundType}&id=${cardId}&name=${slugify(
+            details.name
+          )}`}
+          target="_blank"
+          rel="noreferrer"
         >
-          <KanvasIcon width={24} height={24} primaryFill={charcoal[10]} fill={charcoal[10]} />
-          Open in Playground
-        </ActionButton>
-      </LinkUrl>
+          <ActionButton
+            sx={{
+              borderRadius: '0.2rem',
+              backgroundColor: 'background.cta.default',
+              color: charcoal[10],
+              gap: '10px',
+              width: '100%'
+            }}
+          >
+            <KanvasIcon width={24} height={24} primaryFill={charcoal[10]} fill={charcoal[10]} />
+            Open in Playground
+          </ActionButton>
+        </LinkUrl>
+      )}
     </StyledActionWrapper>
   );
 };

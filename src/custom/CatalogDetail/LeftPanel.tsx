@@ -21,6 +21,7 @@ interface LeftPanelProps {
   technologySVGPath: string;
   technologySVGSubpath: string;
   fontFamily?: string;
+  showOpenPlaygroundButton?: boolean;
 }
 
 const LeftPanel: React.FC<LeftPanelProps> = ({
@@ -36,7 +37,8 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   isCloneDisabled,
   technologySVGPath,
   technologySVGSubpath,
-  fontFamily
+  fontFamily,
+  showOpenPlaygroundButton = true
 }) => {
   const theme = useTheme();
 
@@ -77,6 +79,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
         handleClone={handleClone}
         mode={mode}
         isCloneDisabled={isCloneDisabled}
+        showOpenPlaygroundButton={showOpenPlaygroundButton}
       />
       {showTechnologies && (
         <TechnologySection
