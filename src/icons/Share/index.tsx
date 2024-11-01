@@ -1,2 +1,3 @@
 import ShareIcon from './ShareIcon';
-export { ShareIcon };
+import ShareLineIcon from './ShareLineIcon';
+export { ShareIcon, ShareLineIcon };

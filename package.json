@@ -74,7 +74,6 @@
     "rehype-raw": "^6.1.1",
     "remark-gfm": "^3.0.1",
     "ts-jest": "^29.1.1",
-    "@types/lodash": "^4.17.7",
     "tsup": "^8.2.4",
     "typescript": "^5.3.3"
   },
@@ -88,7 +87,7 @@
     "mui-datatables": "*",
     "react": ">=17",
     "react-dom": ">=17",
-    "xstate": "^5.13.0"
+    "xstate": "^5.18.2"
   },
   "peerDependenciesMeta": {
     "lodash": {
@@ -117,6 +116,8 @@
     "access": "public"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21",
+    "react-share": "^5.1.0"
   }
 }
