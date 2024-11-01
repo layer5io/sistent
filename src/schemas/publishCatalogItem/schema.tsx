@@ -25,7 +25,7 @@ const publishCatalogItemSchema = {
         'Specific stipulations to consider and known behaviors to be aware of when using this design.',
       format: 'textarea',
       'x-rjsf-grid-area': 12,
-      "x-encode-in-uri": true
+      'x-encode-in-uri': true
     },
     pattern_info: {
       type: 'string',
@@ -33,7 +33,7 @@ const publishCatalogItemSchema = {
       description: 'Purpose of the design along with its intended and unintended uses.',
       format: 'textarea',
       'x-rjsf-grid-area': 12,
-      "x-encode-in-uri": true
+      'x-encode-in-uri': true
     },
     type: {
       type: 'string',
