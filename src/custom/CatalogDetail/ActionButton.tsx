@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import React from 'react';
 import { CircularProgress } from '../../base';
-import { CopyIcon, KanvasIcon } from '../../icons';
+import { CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { charcoal } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { downloadFilter, downloadYaml, slugify } from './helper';
-import { ActionButton, LinkUrl, StyledActionWrapper } from './style';
+import { ActionButton, LinkUrl, StyledActionWrapper, UnpublishAction } from './style';
 import { RESOURCE_TYPES } from './types';
 
 interface ActionButtonsProps {
@@ -17,8 +17,10 @@ interface ActionButtonsProps {
   isCloneLoading: boolean;
   handleClone: (name: string, id: string) => void;
   mode: string;
+  handleUnpublish?: () => void;
   isCloneDisabled: boolean;
   showOpenPlaygroundButton: boolean;
+  showUnpublishAction: boolean;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -30,7 +32,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   handleClone,
   mode,
   isCloneDisabled,
-  showOpenPlaygroundButton
+  showOpenPlaygroundButton,
+  showUnpublishAction,
+  handleUnpublish
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const resourcePlaygroundType = Object.values({
@@ -110,6 +114,25 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             <KanvasIcon width={24} height={24} primaryFill={charcoal[10]} fill={charcoal[10]} />
             Open in Playground
           </ActionButton>
+        </LinkUrl>
+      )}
+      {showUnpublishAction && (
+        <LinkUrl
+          style={{ width: '100%' }}
+          onClick={handleUnpublish}
+          target="_blank"
+          rel="noreferrer"
+        >
+          <UnpublishAction
+            sx={{
+              borderRadius: '0.2rem',
+              gap: '10px',
+              width: '100%'
+            }}
+          >
+            <PublishIcon width={24} height={24} fill={charcoal[10]} />
+            Unpublish
+          </UnpublishAction>
         </LinkUrl>
       )}
     </StyledActionWrapper>

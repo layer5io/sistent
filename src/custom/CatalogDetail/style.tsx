@@ -39,6 +39,22 @@ export const ActionButton = styled('div')<ActionButtonProps>(({ disabled = false
   flex: '1'
 }));
 
+export const UnpublishAction = styled('div')<ActionButtonProps>(({ disabled = false, theme }) => ({
+  cursor: disabled ? 'not-allowed' : 'pointer',
+  opacity: disabled ? '0.5' : '1',
+  textAlign: 'center',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: '0.5rem',
+  backgroundColor: 'transparent',
+  border: theme.palette.border.default,
+  padding: '0.5rem',
+  color: theme.palette.text.default,
+  gap: '0.625rem',
+  flex: '1'
+}));
+
 export const ContentDetailsText = styled(Typography)(({ theme }) => ({
   fontFamily: 'inherit',
   fontSize: '1rem',
