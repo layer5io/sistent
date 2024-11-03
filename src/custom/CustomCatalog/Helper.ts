@@ -42,16 +42,22 @@ const getValidSvgPaths = async (
   return validSvgPaths;
 };
 
-export const handleImage = async (
-  technologies: string[],
-  basePath: string = '',
-  subBasePath: string = '',
-  setAvailableTechnologies: (technologies: string[]) => void
-) => {
+interface HandleImageProps {
+  technologies: string[];
+  basePath?: string;
+  subBasePath?: string;
+  setAvailableTechnologies: (technologies: string[]) => void;
+}
+
+export const handleImage = async ({
+  technologies,
+  basePath = '',
+  subBasePath = '',
+  setAvailableTechnologies
+}: HandleImageProps) => {
   const validSvgPaths = await getValidSvgPaths(technologies, basePath, subBasePath);
   setAvailableTechnologies(validSvgPaths);
 };
-
 export const DEFAULT_DESIGN_VERSION = '0.0.0';
 
 export const getVersion = (design: Pattern) => {

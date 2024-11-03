@@ -130,5 +130,6 @@ export type {
   UniversalFilterProps
 };
 
+export * from './CatalogDetail';
 export * from './Dialog';
 export * from './permissions';

@@ -1,11 +1,13 @@
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH, KEPPEL_GREEN_FILL } from '../../constants/constants';
-import { IconProps } from '../types';
+import { CustomIconProps } from '../types';
 
 export const WorkspaceIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
+  secondaryFill = KEPPEL_GREEN_FILL,
+  opacity = 0.8,
   ...props
-}: IconProps): JSX.Element => {
+}: CustomIconProps): JSX.Element => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,8 +21,9 @@ export const WorkspaceIcon = ({
         fill={props.fill}
       />
       <path
+        opacity={opacity}
         d="M2.25 1.625C1.65326 1.625 1.08097 1.86205 0.65901 2.28401C0.237053 2.70597 0 3.27826 0 3.875L0 14.5625C0 15.0101 0.17779 15.4393 0.494257 15.7557C0.810725 16.0722 1.23995 16.25 1.6875 16.25H2.42213C2.65735 15.4233 3.0662 14.6562 3.62138 14H1.125V3.875C1.125 3.57663 1.24353 3.29048 1.4545 3.0795C1.66548 2.86853 1.95163 2.75 2.25 2.75H15.75C16.0484 2.75 16.3345 2.86853 16.5455 3.0795C16.7565 3.29048 16.875 3.57663 16.875 3.875V14H14.3786C15.0019 14.7358 15.3799 15.5446 15.5779 16.25H16.3125C16.7601 16.25 17.1893 16.0722 17.5057 15.7557C17.8222 15.4393 18 15.0101 18 14.5625V3.875C18 3.27826 17.7629 2.70597 17.341 2.28401C16.919 1.86205 16.3467 1.625 15.75 1.625H2.25Z"
-        fill={KEPPEL_GREEN_FILL || props.fill}
+        fill={secondaryFill || KEPPEL_GREEN_FILL || props.fill}
       />
     </svg>
   );

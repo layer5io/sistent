@@ -307,7 +307,7 @@ export const lightModePalette: PaletteOptions = {
 export const darkModePalette: PaletteOptions = {
   background: {
     default: Colors.charcoal[10],
-    secondary: Colors.accentGrey[10],
+    secondary: Colors.accentGrey[20],
     tertiary: Colors.accentGrey[30],
     hover: Colors.charcoal[20],
     supplementary: Colors.accentGrey[40],
