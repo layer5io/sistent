@@ -22,6 +22,8 @@ interface LeftPanelProps {
   technologySVGSubpath: string;
   fontFamily?: string;
   showOpenPlaygroundButton?: boolean;
+  handleUnpublish: () => void;
+  showUnpublishAction?: boolean;
 }
 
 const LeftPanel: React.FC<LeftPanelProps> = ({
@@ -31,6 +33,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   actionItems = true,
   isCloneLoading,
   handleClone,
+  handleUnpublish,
   showTechnologies = true,
   mode,
   filteredAcademyData,
@@ -38,6 +41,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   technologySVGPath,
   technologySVGSubpath,
   fontFamily,
+  showUnpublishAction = false,
   showOpenPlaygroundButton = true
 }) => {
   const theme = useTheme();
@@ -77,6 +81,8 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
         cardId={cardId}
         isCloneLoading={isCloneLoading}
         handleClone={handleClone}
+        showUnpublishAction={showUnpublishAction}
+        handleUnpublish={handleUnpublish}
         mode={mode}
         isCloneDisabled={isCloneDisabled}
         showOpenPlaygroundButton={showOpenPlaygroundButton}
