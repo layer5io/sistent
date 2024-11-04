@@ -34,11 +34,16 @@ interface FallbackComponentProps extends FallbackProps {
   children?: React.ReactNode;
   pageUrl?: string;
   timestamp?: string;
+  showPackageInfo?: boolean;
+  version?: string;
 }
 
-export function Fallback({ error, children }: FallbackComponentProps): JSX.Element {
-  const pageUrl = window.location.href;
-  const timestamp = new Date().toLocaleString();
+export function Fallback({
+  error,
+  children,
+  showPackageInfo,
+  version
+}: FallbackComponentProps): JSX.Element {
   return (
     <div role="alert">
       <h2>Uh-oh!😔 Please pardon the mesh.</h2>
@@ -48,9 +53,11 @@ export function Fallback({ error, children }: FallbackComponentProps): JSX.Eleme
           {(error as Error).message}
         </code>
         <br />
-        <strong> URL: </strong> {pageUrl}
-        <br />
-        <strong>Logged at:</strong> {timestamp}
+        {showPackageInfo && (
+          <>
+            <strong>Version:</strong> {version}
+          </>
+        )}
       </CodeMessage>
       <ErrorMessage>
         We apologize for the inconvenience. The issue may be on our end. If troubleshooting doesn't
