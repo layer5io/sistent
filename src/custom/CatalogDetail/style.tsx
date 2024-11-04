@@ -48,7 +48,7 @@ export const UnpublishAction = styled('div')<ActionButtonProps>(({ disabled = fa
   alignItems: 'center',
   borderRadius: '0.5rem',
   backgroundColor: 'transparent',
-  border: theme.palette.border.default,
+  border: `1px solid ${theme.palette.border.normal}`,
   padding: '0.5rem',
   color: theme.palette.text.default,
   gap: '0.625rem',
