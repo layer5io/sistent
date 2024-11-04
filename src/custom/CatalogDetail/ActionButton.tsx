@@ -17,7 +17,7 @@ interface ActionButtonsProps {
   isCloneLoading: boolean;
   handleClone: (name: string, id: string) => void;
   mode: string;
-  handleUnpublish?: () => void;
+  handleUnpublish: () => void;
   isCloneDisabled: boolean;
   showOpenPlaygroundButton: boolean;
   showUnpublishAction: boolean;
@@ -117,23 +117,17 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         </LinkUrl>
       )}
       {showUnpublishAction && (
-        <LinkUrl
-          style={{ width: '100%' }}
+        <UnpublishAction
+          sx={{
+            borderRadius: '0.2rem',
+            gap: '10px',
+            width: '100%'
+          }}
           onClick={handleUnpublish}
-          target="_blank"
-          rel="noreferrer"
         >
-          <UnpublishAction
-            sx={{
-              borderRadius: '0.2rem',
-              gap: '10px',
-              width: '100%'
-            }}
-          >
-            <PublishIcon width={24} height={24} fill={charcoal[10]} />
-            Unpublish
-          </UnpublishAction>
-        </LinkUrl>
+          <PublishIcon width={24} height={24} fill={charcoal[10]} />
+          Unpublish
+        </UnpublishAction>
       )}
     </StyledActionWrapper>
   );
