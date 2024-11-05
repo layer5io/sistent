@@ -29,14 +29,24 @@ export interface FilterOption {
 export interface FilterList {
   filterKey: string;
   sectionDisplayName?: string;
-  options: FilterOption[];
   defaultOpen?: boolean;
   isMultiSelect?: boolean;
+  options?: FilterOption[];
+  customComponent?: React.ComponentType;
 }
+
+type FilterListWithOptions = FilterList & { options: FilterOption[]; customComponent?: never };
+
+type FilterListWithCustomComponent = FilterList & {
+  customComponent: React.ComponentType;
+  options?: never;
+};
+
+export type FilterListType = FilterListWithOptions | FilterListWithCustomComponent;
 
 export interface CatalogFilterSidebarProps {
   setData: (callback: (prevFilters: FilterValues) => FilterValues) => void;
-  lists: FilterList[];
+  lists: FilterListType[];
   value?: FilterValues;
   styleProps?: StyleProps;
 }
