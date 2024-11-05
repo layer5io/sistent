@@ -45,7 +45,7 @@ import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
-export type { FilterList } from './CatalogFilterSection';
+export type { FilterListType } from './CatalogFilterSection';
 export { StyledChartDialog } from './ChartDialog';
 export { InputSearchField } from './InputSearchField';
 export { LearningContent } from './LearningContent';
