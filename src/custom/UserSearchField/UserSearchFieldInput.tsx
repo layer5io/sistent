@@ -1,6 +1,5 @@
-import { Autocomplete, AutocompleteRenderInputParams } from '@mui/material';
-import { debounce } from 'lodash';
-import React, { SyntheticEvent, useMemo, useState } from 'react';
+import { Autocomplete } from '@mui/material';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -18,7 +17,7 @@ import { iconSmall } from '../../constants/iconsSizes';
 import { CloseIcon, PersonIcon } from '../../icons';
 
 interface User {
-  user_id: string;
+  id: string;
   first_name: string;
   last_name: string;
   email: string;
@@ -37,12 +36,10 @@ interface UserSearchFieldProps {
   isCreate?: boolean;
   searchType?: string;
   disabled?: boolean;
-  org_id?: string;
-  currentUserData: User;
+  currentUserData: User | null;
   searchedUsers: User[];
   isUserSearchLoading: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  fetchSearchedUsers: any;
+  fetchSearchedUsers: (value: string) => void;
   usersSearch: string;
   setUsersSearch: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -50,7 +47,7 @@ interface UserSearchFieldProps {
 const UserSearchField: React.FC<UserSearchFieldProps> = ({
   usersData,
   setUsersData,
-  label,
+  label = 'Add User',
   setDisableSave,
   handleNotifyPref,
   notifyUpdate,
@@ -58,183 +55,187 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
   searchType,
   disabled = false,
   currentUserData,
-  searchedUsers,
+  searchedUsers = [],
   isUserSearchLoading,
   fetchSearchedUsers,
   usersSearch,
   setUsersSearch
 }) => {
   const [error, setError] = useState('');
-  const [inputValue, setInputValue] = useState('');
   const [open, setOpen] = useState(false);
   const [showAllUsers, setShowAllUsers] = useState(false);
   const [hasInitialFocus, setHasInitialFocus] = useState(true);
-  // Combine current user with search results
-  const displayOptions = useMemo(() => {
-    if (!searchedUsers) return [];
+  const [inputValue, setInputValue] = useState('');
+  const [localUsersData, setLocalUsersData] = useState<User[]>(usersData || []);
 
-    // Filter out current user from search results
-    const filteredResults = searchedUsers.filter(
-      (user: User) => user.user_id !== currentUserData?.user_id
-    );
-    // Show only current user on initial focus
+  useEffect(() => {
+    setLocalUsersData(usersData || []);
+  }, [usersData]);
+
+  // Combine current user with search results and filter appropriately
+  const displayOptions = useMemo(() => {
     if (hasInitialFocus && !usersSearch && currentUserData) {
       return [currentUserData];
     }
-    // If there's no search query, add current user at the top
+
+    const filteredResults = searchedUsers.filter(
+      (user: User) =>
+        user.id !== currentUserData?.id &&
+        !localUsersData.some((selectedUser) => selectedUser.id === user.id) &&
+        !user.deleted_at?.Valid
+    );
+
     if (!usersSearch && currentUserData) {
       return [currentUserData, ...filteredResults];
     }
+
     return filteredResults;
-  }, [searchedUsers, currentUserData, usersSearch, hasInitialFocus]);
+  }, [searchedUsers, currentUserData, usersSearch, hasInitialFocus, localUsersData]);
 
-  const fetchSuggestions = debounce((value: string) => {
-    setHasInitialFocus(false);
-    setUsersSearch(value);
-    fetchSearchedUsers();
-  }, 300);
+  const handleDelete = useCallback(
+    (idToDelete: string, event: React.MouseEvent) => {
+      event.stopPropagation();
 
-  const handleDelete = (email: string) => {
-    const usersDataSet = new Set(usersData);
-    usersDataSet.forEach((avatarObj: User) => {
-      if (avatarObj.email === email) {
-        usersDataSet.delete(avatarObj);
+      const updatedUsers = localUsersData.filter((user) => user.id !== idToDelete);
+      setLocalUsersData(updatedUsers);
+      setUsersData(updatedUsers);
+
+      if (setDisableSave) {
+        setDisableSave(false);
       }
-    });
-    setUsersData(Array.from(usersDataSet));
-    if (setDisableSave) {
-      setDisableSave(false);
-    }
-  };
+    },
+    [localUsersData, setUsersData, setDisableSave, fetchSearchedUsers, inputValue]
+  );
 
-  const handleAdd = (event: SyntheticEvent<Element, Event>, value: User) => {
-    if (!value) return;
+  const handleAdd = useCallback(
+    (event: React.SyntheticEvent<Element, Event>, value: User | null) => {
+      if (!value) return;
 
-    setUsersData((prevData: User[]) => {
-      prevData = prevData || [];
-      const isDuplicate = prevData?.some((user) => user.user_id === value.user_id);
+      const isDuplicate = localUsersData.some((user) => user.id === value.id);
       const isDeleted = value.deleted_at?.Valid === true;
 
       if (isDuplicate || isDeleted) {
         setError(isDuplicate ? 'User already selected' : 'User does not exist');
-        return prevData;
+        return;
       }
-
-      setError('');
-      return [...prevData, value];
-    });
-
-    // Reset UI state after updating users
-    setInputValue('');
-    setOpen(false);
-    setUsersSearch('');
-
-    if (setDisableSave) {
-      setDisableSave(false);
-    }
-  };
-
-  const handleInputChange = (event: SyntheticEvent<Element, Event>, value: string) => {
-    if (value === '') {
-      setOpen(true);
+      setInputValue('');
       setUsersSearch('');
-      setHasInitialFocus(true);
-    } else {
-      const encodedValue = encodeURIComponent(value);
-      fetchSuggestions(encodedValue);
       setError('');
-      setOpen(true);
-    }
-  };
+      setOpen(false);
 
-  const handleFocus = () => {
-    setOpen(true);
-    if (!usersSearch) {
-      setHasInitialFocus(true);
-    }
-  };
+      setLocalUsersData((prev) => [...prev, value]);
+      setUsersData((prev) => [...prev, value]);
 
-  const handleBlur = () => {
-    setOpen(false);
-    setUsersSearch('');
-    // Reset initial focus state when field is blurred
-    setHasInitialFocus(true);
-  };
+      if (setDisableSave) {
+        setDisableSave(false);
+      }
+    },
+    [localUsersData, setUsersData, setDisableSave, setUsersSearch]
+  );
+
+  const handleInputChange = useCallback(
+    (event: React.SyntheticEvent<Element, Event>, newValue: string) => {
+      setInputValue(newValue);
+
+      if (newValue === '') {
+        setOpen(true);
+        setUsersSearch('');
+        setHasInitialFocus(true);
+      } else {
+        const encodedValue = encodeURIComponent(newValue);
+        fetchSearchedUsers(encodedValue);
+        setError('');
+        setOpen(true);
+        setHasInitialFocus(false);
+      }
+    },
+    [fetchSearchedUsers]
+  );
 
   return (
     <>
       <Autocomplete
         id="user-search-field"
-        style={{ width: 'auto' }}
-        filterOptions={(x: User) => x}
-        options={displayOptions}
-        disableClearable
-        includeInputInList
-        filterSelectedOptions
-        disableListWrap
-        disabled={disabled}
+        style={{ width: '100%' }}
         open={open}
-        loading={isUserSearchLoading}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        value={inputValue}
-        getOptionLabel={() => ''}
-        noOptionsText={isUserSearchLoading ? 'Loading...' : 'No users found'}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        inputValue={inputValue}
         onChange={handleAdd}
         onInputChange={handleInputChange}
-        isOptionEqualToValue={(option: User, value: User) => option.user_id === value.user_id}
-        clearOnBlur
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        renderInput={(params: AutocompleteRenderInputParams) => (
+        options={displayOptions}
+        getOptionLabel={() => inputValue}
+        isOptionEqualToValue={(option, value) => option.id === value.id}
+        ffilterOptions={(options, { inputValue }) => {
+          return options.filter((option) => {
+            const searchStr = inputValue.toLowerCase();
+            return (
+              option.first_name.toLowerCase().includes(searchStr) ||
+              option.last_name.toLowerCase().includes(searchStr) ||
+              option.email.toLowerCase().includes(searchStr)
+            );
+          });
+        }}
+        loading={isUserSearchLoading}
+        disabled={disabled}
+        disableClearable
+        value={undefined}
+        selectOnFocus={false}
+        blurOnSelect={true}
+        clearOnBlur={true}
+        popupIcon={null}
+        noOptionsText={isUserSearchLoading ? 'Loading...' : 'No users found'}
+        renderInput={(params) => (
           <TextField
             {...params}
-            label={label || 'Add User'}
+            label={label}
             error={!!error}
             helperText={error}
-            fullWidth
             InputProps={{
               ...params.InputProps,
               endAdornment: (
                 <React.Fragment>
                   {isUserSearchLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                  {params.InputProps.endAdornment}
                 </React.Fragment>
               )
             }}
           />
         )}
         renderOption={(props, option: User) => (
-          <li {...props}>
-            <Grid container alignItems="center">
-              <Grid item>
-                <Box sx={{ color: 'text.secondary', mr: 2 }}>
-                  <Avatar alt={option.first_name} src={option.avatar_url}>
-                    {option.avatar_url ? '' : <PersonIcon />}
-                  </Avatar>
-                </Box>
-              </Grid>
-              <Grid item xs>
-                {option.deleted ? (
-                  <Typography variant="body2" color="text.secondary">
-                    {option.email} (deleted)
-                  </Typography>
-                ) : (
-                  <>
-                    <Typography variant="body2">
-                      {option.first_name} {option.last_name}
-                    </Typography>
+          <li {...props} id={option.id}>
+            <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
+              {' '}
+              <Grid container alignItems="center">
+                <Grid item>
+                  <Box sx={{ color: 'text.secondary', mr: 2 }}>
+                    <Avatar alt={option.first_name} src={option.avatar_url}>
+                      {option.avatar_url ? '' : <PersonIcon />}
+                    </Avatar>
+                  </Box>
+                </Grid>
+                <Grid item xs>
+                  {option.deleted ? (
                     <Typography variant="body2" color="text.secondary">
-                      {option.email}
+                      {option.email} (deleted)
                     </Typography>
-                  </>
-                )}
+                  ) : (
+                    <>
+                      <Typography variant="body2">
+                        {option.first_name} {option.last_name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {option.email}
+                      </Typography>
+                    </>
+                  )}
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </li>
         )}
       />
 
-      {/* TODO: Remove dependancy of this checkbox in this component, it should be defined on parent component. We should keep this component reusable and should not add checkbox specific to some component */}
       {!isCreate && (
         <FormGroup row={true}>
           <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
@@ -260,49 +261,46 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
           mt: usersData?.length > 0 ? '0.5rem' : ''
         }}
       >
-        {!showAllUsers && usersData?.length > 0 && (
+        {!showAllUsers && localUsersData?.[0] && (
           <Chip
-            key={usersData[usersData.length - 1]?.user_id}
+            key={localUsersData[0].id}
             avatar={
-              <Avatar
-                alt={usersData[usersData.length - 1]?.first_name}
-                src={usersData[usersData.length - 1]?.avatar_url}
-              >
-                {usersData[usersData.length - 1]?.avatar_url
-                  ? ''
-                  : usersData[usersData.length - 1]?.first_name?.charAt(0)}
+              <Avatar alt={localUsersData[0].first_name} src={localUsersData[0].avatar_url}>
+                {!localUsersData[0].avatar_url && localUsersData[0].first_name?.[0]}
               </Avatar>
             }
-            label={usersData[usersData.length - 1]?.email}
-            size="small"
-            onDelete={() => handleDelete(usersData[usersData.length - 1]?.email)}
+            label={localUsersData[0].email}
+            onDelete={(e) => handleDelete(localUsersData[0].id, e)}
             deleteIcon={
-              <Tooltip title="Remove member">
+              <Tooltip title="Remove user">
                 <CloseIcon style={iconSmall} />
               </Tooltip>
             }
+            size="small"
           />
         )}
+
         {showAllUsers &&
-          usersData?.map((avatarObj: User) => (
+          localUsersData?.map((user) => (
             <Chip
-              key={avatarObj.user_id}
+              key={user.id}
               avatar={
-                <Avatar alt={avatarObj.first_name} src={avatarObj.avatar_url}>
-                  {avatarObj.avatar_url ? '' : avatarObj.first_name?.charAt(0)}
+                <Avatar alt={user.first_name} src={user.avatar_url}>
+                  {!user.avatar_url && user.first_name?.[0]}
                 </Avatar>
               }
-              label={avatarObj.email}
-              size="small"
-              onDelete={() => handleDelete(avatarObj.email)}
+              label={user.email}
+              onDelete={(e) => handleDelete(user.id, e)}
               deleteIcon={
-                <Tooltip title="Remove member">
+                <Tooltip title="Remove user">
                   <CloseIcon style={iconSmall} />
                 </Tooltip>
               }
+              size="small"
             />
           ))}
-        {usersData?.length > 1 && (
+
+        {localUsersData?.length > 1 && (
           <Typography
             onClick={() => setShowAllUsers(!showAllUsers)}
             sx={{
@@ -314,7 +312,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
               }
             }}
           >
-            {showAllUsers ? '(hide)' : `(+${usersData.length - 1})`}
+            {showAllUsers ? '(hide)' : `(+${localUsersData.length - 1})`}
           </Typography>
         )}
       </Box>
