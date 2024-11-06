@@ -1,6 +1,6 @@
 import { Autocomplete } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
-import { Box, Chip, Grid, TextField, Tooltip, Typography } from '../../base';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Box, Chip, CircularProgress, Grid, TextField, Tooltip, Typography } from '../../base';
 import { iconLarge, iconSmall } from '../../constants/iconsSizes';
 import { CloseIcon, OrgIcon } from '../../icons';
 
@@ -10,95 +10,112 @@ interface Option {
 }
 
 interface InputFieldSearchProps {
-  defaultData?: Option[];
+  data: Option[];
+  setFilterData: (data: Option[]) => void;
   label?: string;
   fetchSuggestions: (value: string) => void;
-  setFilterData: (data: Option[]) => void;
   isLoading: boolean;
   type: string;
   disabled?: boolean;
+  selectedData: Option[];
+  searchValue: string;
+  setSearchValue: (value: string) => void;
 }
 
 const InputFieldSearch: React.FC<InputFieldSearchProps> = ({
-  defaultData = [],
+  data,
   label,
   fetchSuggestions,
   setFilterData,
   isLoading,
   type,
-  disabled
+  disabled,
+  selectedData,
+  searchValue,
+  setSearchValue
 }) => {
-  const [data, setData] = useState<Option[]>([]);
   const [error, setError] = useState('');
-  const [inputValue, setInputValue] = useState('');
   const [open, setOpen] = useState(false);
-  const [showAllUsers, setShowAllUsers] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<Option | undefined>(undefined);
-  const isFirstRender = useRef(true);
+  const [showAllItems, setShowAllItems] = useState(false);
+  const [localSelectedData, setLocalSelectedData] = useState<Option[]>(selectedData);
 
+  // Sync local state with prop changes
   useEffect(() => {
-    if (!isFirstRender.current) {
-      setFilterData(data);
-    } else {
-      isFirstRender.current = false;
-    }
-  }, [data, setFilterData]);
+    setLocalSelectedData(selectedData);
+  }, [selectedData]);
 
-  const handleDelete = (id: string) => {
-    setData((prevData) => prevData.filter((item) => item.id !== id));
-  };
+  const handleDelete = useCallback(
+    (id: string) => {
+      const newData = localSelectedData.filter((item) => item.id !== id);
+      setLocalSelectedData(newData);
+      setFilterData(newData);
+    },
+    [localSelectedData, setFilterData]
+  );
 
-  const handleAdd = (event: React.SyntheticEvent, value: Option | null) => {
-    if (!value) return;
+  const handleAdd = useCallback(
+    (_event: React.SyntheticEvent, value: Option | null) => {
+      if (!value) return;
 
-    setData((prevData) => {
-      const isDuplicate = prevData.some((item) => item.id === value.id);
+      // Check for duplicates
+      const isDuplicate = localSelectedData.some((item) => item.id === value.id);
       if (isDuplicate) {
         setError(`${type} already selected`);
-        return prevData;
+        return;
       }
 
+      // Update both local and parent state
+      const newData = [...localSelectedData, value];
+      setLocalSelectedData(newData);
+      setFilterData(newData);
       setError('');
-      return [...prevData, value];
-    });
-    setSelectedOption(undefined);
-    setInputValue('');
-  };
-
-  const handleInputChange = (event: React.SyntheticEvent, value: string) => {
-    setInputValue(value);
-    if (value === '') {
+      setSearchValue('');
       setOpen(false);
-    } else {
-      const encodedValue = encodeURIComponent(value);
-      fetchSuggestions(encodedValue);
-      setError('');
-      setOpen(true);
-    }
-  };
+    },
+    [localSelectedData, setFilterData, type, setSearchValue]
+  );
+
+  const handleInputChange = useCallback(
+    (_event: React.SyntheticEvent, value: string) => {
+      setSearchValue(value);
+      if (value === '') {
+        setOpen(false);
+      } else {
+        const encodedValue = encodeURIComponent(value);
+        fetchSuggestions(encodedValue);
+        setError('');
+        setOpen(true);
+      }
+    },
+    [fetchSuggestions, setSearchValue]
+  );
 
   return (
-    <>
-      <Autocomplete<Option, false, true, false>
+    <Box sx={{ width: '100%' }}>
+      <Autocomplete
         id={`${type}-search-field`}
-        sx={{ width: 'auto' }}
-        options={defaultData}
-        getOptionLabel={(option: Option) => option.name}
+        style={{ width: '100%' }}
+        options={data}
+        getOptionLabel={() => searchValue}
         isOptionEqualToValue={(option: Option, value: Option) => option.id === value.id}
         noOptionsText={isLoading ? 'Loading...' : `No ${type} found`}
         loading={isLoading}
         open={open}
+        onClose={() => setOpen(false)}
         disabled={disabled}
-        value={selectedOption}
-        inputValue={inputValue}
+        value={undefined}
+        inputValue={searchValue}
         onChange={handleAdd}
         onInputChange={handleInputChange}
-        ffilterOptions={(options) => options}
+        ffilterOptions={(x) => x}
         disableClearable
         includeInputInList
         filterSelectedOptions
         disableListWrap
         clearOnBlur
+        popupIcon={null}
+        blurOnSelect
+        forcePopupIcon={false}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -109,50 +126,55 @@ const InputFieldSearch: React.FC<InputFieldSearchProps> = ({
             InputProps={{
               ...params.InputProps,
               endAdornment: (
-                <React.Fragment>{isLoading ? <div color="inherit" /> : null}</React.Fragment>
+                <React.Fragment>
+                  {isLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                </React.Fragment>
               )
             }}
           />
         )}
         renderOption={(props, option: Option) => (
-          <li {...props}>
-            <Grid container alignItems="center">
-              <Grid item>
-                <Box sx={{ color: 'text.secondary', mr: 2 }}>
-                  <OrgIcon {...iconLarge} />
-                </Box>
+          <li {...props} key={option.id}>
+            <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
+              <Grid container alignItems="center">
+                <Grid item>
+                  <Box sx={{ color: 'text.secondary', mr: 2 }}>
+                    <OrgIcon {...iconLarge} />
+                  </Box>
+                </Grid>
+                <Grid item xs>
+                  <Typography variant="body2">{option.name}</Typography>
+                </Grid>
               </Grid>
-              <Grid item xs>
-                <Typography variant="body2">{option.name}</Typography>
-              </Grid>
-            </Grid>
+            </Box>
           </li>
         )}
       />
+
       <Box
         sx={{
           display: 'flex',
           flexWrap: 'wrap',
           gap: 0.5,
-          mt: data?.length > 0 ? '0.5rem' : ''
+          mt: localSelectedData?.length > 0 ? '0.5rem' : ''
         }}
       >
-        {!showAllUsers && data?.length > 0 && (
+        {!showAllItems && localSelectedData?.length > 0 && (
           <Chip
-            key={data[data.length - 1]?.id}
+            key={localSelectedData[localSelectedData.length - 1]?.id}
             avatar={<OrgIcon {...iconSmall} />}
-            label={data[data.length - 1]?.name}
+            label={localSelectedData[localSelectedData.length - 1]?.name}
             size="small"
-            onDelete={() => handleDelete(data[data.length - 1]?.id)}
+            onDelete={() => handleDelete(localSelectedData[localSelectedData.length - 1]?.id)}
             deleteIcon={
-              <Tooltip title="Remove member">
+              <Tooltip title={`Remove ${type}`}>
                 <CloseIcon style={iconSmall} />
               </Tooltip>
             }
           />
         )}
-        {showAllUsers &&
-          data?.map((obj) => (
+        {showAllItems &&
+          localSelectedData?.map((obj) => (
             <Chip
               key={obj.id}
               avatar={<OrgIcon {...iconSmall} />}
@@ -166,23 +188,23 @@ const InputFieldSearch: React.FC<InputFieldSearchProps> = ({
               }
             />
           ))}
-        {data?.length > 1 && (
+        {localSelectedData?.length > 1 && (
           <Typography
-            onClick={() => setShowAllUsers(!showAllUsers)}
+            onClick={() => setShowAllItems(!showAllItems)}
             sx={{
               cursor: 'pointer',
-              color: 'white',
+              color: 'primary.main',
               fontWeight: '600',
               '&:hover': {
-                color: 'black'
+                color: 'primary.dark'
               }
             }}
           >
-            {showAllUsers ? '(hide)' : `(+${data?.length - 1})`}
+            {showAllItems ? '(hide)' : `(+${localSelectedData?.length - 1})`}
           </Typography>
         )}
       </Box>
-    </>
+    </Box>
   );
 };
 
