@@ -107,7 +107,9 @@ const InputFieldSearch: React.FC<InputFieldSearchProps> = ({
         inputValue={searchValue}
         onChange={handleAdd}
         onInputChange={handleInputChange}
-        ffilterOptions={(x) => x}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        filterOptions={(x) => x}
         disableClearable
         includeInputInList
         filterSelectedOptions

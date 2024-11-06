@@ -167,8 +167,10 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         options={displayOptions}
         getOptionLabel={() => inputValue}
         isOptionEqualToValue={(option, value) => option.id === value.id}
-        ffilterOptions={(options, { inputValue }) => {
-          return options.filter((option) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        filterOptions={(options, { inputValue }) => {
+          return options.filter((option: User) => {
             const searchStr = inputValue.toLowerCase();
             return (
               option.first_name.toLowerCase().includes(searchStr) ||
