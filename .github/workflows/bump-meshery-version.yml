@@ -1,10 +1,27 @@
 name: Bump Meshery, Meshery Extensions and Meshery Cloud
 
 on:
-  release:
-    types: [published]
+  workflow_run:
+    workflows: [Publish Node.js Package]
+    types:
+      - completed
 
 jobs:
+  versions-check:
+    runs-on: ubuntu-latest
+    outputs:
+      current: ${{ steps.current.outputs.VERSION }}
+    steps:
+      - name: Download Version
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          name: e2e-test-reporter
+          github-token: ${{ secrets.GH_ACCESS_TOKEN }}
+          run-id: ${{ github.event.workflow_run.id }}
+      - name: Retrieve Version
+        run: |
+          echo "VERSION=$(cat ./version/number)" >> $GITHUB_OUTPUT
+        id: current
   bump-meshery:
     runs-on: ubuntu-latest
     steps:
@@ -21,7 +38,7 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
       - name: Make changes to pull request
         working-directory: ui
-        run: npm install @layer5/sistent@latest
+        run: npm install @layer5/sistent@${{job.status}}
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v7
