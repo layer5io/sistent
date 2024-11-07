@@ -9,7 +9,7 @@ interface Option {
   name: string;
 }
 
-interface InputFieldSearchProps {
+interface InputSearchFieldProps {
   data: Option[];
   setFilterData: (data: Option[]) => void;
   label?: string;
@@ -22,7 +22,7 @@ interface InputFieldSearchProps {
   setSearchValue: (value: string) => void;
 }
 
-const InputFieldSearch: React.FC<InputFieldSearchProps> = ({
+const InputSearchField: React.FC<InputSearchFieldProps> = ({
   data,
   label,
   fetchSuggestions,
@@ -194,12 +194,7 @@ const InputFieldSearch: React.FC<InputFieldSearchProps> = ({
           <Typography
             onClick={() => setShowAllItems(!showAllItems)}
             sx={{
-              cursor: 'pointer',
-              color: 'primary.main',
-              fontWeight: '600',
-              '&:hover': {
-                color: 'primary.dark'
-              }
+              cursor: 'pointer'
             }}
           >
             {showAllItems ? '(hide)' : `(+${localSelectedData?.length - 1})`}
@@ -210,4 +205,4 @@ const InputFieldSearch: React.FC<InputFieldSearchProps> = ({
   );
 };
 
-export default InputFieldSearch;
+export default InputSearchField;

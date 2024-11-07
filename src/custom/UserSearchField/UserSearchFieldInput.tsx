@@ -73,7 +73,6 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
     setLocalUsersData(usersData || []);
   }, [usersData]);
 
-  // Combine current user with search results and filter appropriately
   const displayOptions = useMemo(() => {
     if (hasInitialFocus && !usersSearch && currentUserData) {
       return [currentUserData];
@@ -159,23 +158,23 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         id="user-search-field"
         style={{ width: '100%' }}
         open={open}
+        options={displayOptions}
+        getOptionLabel={() => inputValue}
+        isOptionEqualToValue={(option, value) => option.id === value.id}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         inputValue={inputValue}
         onChange={handleAdd}
         onInputChange={handleInputChange}
-        options={displayOptions}
-        getOptionLabel={() => inputValue}
-        isOptionEqualToValue={(option, value) => option.id === value.id}
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         filterOptions={(options, { inputValue }) => {
           return options.filter((option: User) => {
             const searchStr = inputValue.toLowerCase();
             return (
-              option.first_name.toLowerCase().includes(searchStr) ||
-              option.last_name.toLowerCase().includes(searchStr) ||
-              option.email.toLowerCase().includes(searchStr)
+              option.first_name?.toLowerCase().includes(searchStr) ||
+              option.last_name?.toLowerCase().includes(searchStr) ||
+              option.email?.toLowerCase().includes(searchStr)
             );
           });
         }}
@@ -187,6 +186,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         blurOnSelect={true}
         clearOnBlur={true}
         popupIcon={null}
+        forcePopupIcon={false}
         noOptionsText={isUserSearchLoading ? 'Loading...' : 'No users found'}
         renderInput={(params) => (
           <TextField
@@ -199,7 +199,6 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
               endAdornment: (
                 <React.Fragment>
                   {isUserSearchLoading ? <CircularProgress color="inherit" size={20} /> : null}
-                  {params.InputProps.endAdornment}
                 </React.Fragment>
               )
             }}
@@ -307,12 +306,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
           <Typography
             onClick={() => setShowAllUsers(!showAllUsers)}
             sx={{
-              cursor: 'pointer',
-              color: 'white',
-              fontWeight: '600',
-              '&:hover': {
-                color: 'black'
-              }
+              cursor: 'pointer'
             }}
           >
             {showAllUsers ? '(hide)' : `(+${localUsersData.length - 1})`}
