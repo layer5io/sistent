@@ -47,6 +47,7 @@ export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
 export type { FilterListType } from './CatalogFilterSection';
 export { StyledChartDialog } from './ChartDialog';
+export { InputSearchField } from './InputSearchField';
 export { LearningContent } from './LearningContent';
 export { NavigationNavbar } from './NavigationNavbar';
 export { Note } from './Note';
@@ -56,6 +57,7 @@ export { StyledSearchBar } from './StyledSearchBar';
 export { TOC } from './TOCChapter';
 export { TOCLearning } from './TOCLearning';
 export { Terminal } from './Terminal';
+export { UserSearchField } from './UserSearchField';
 export {
   ActionButton,
   BookmarkNotification,
