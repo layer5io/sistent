@@ -70,7 +70,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
           imgURL={details?.catalog_data?.imageURL}
           height={'100%'}
           width={'100%'}
-          zoomEffect={false}
+          zoomEffect={true}
           type={{ type: type }}
         />
       </CustomCatalogCard>

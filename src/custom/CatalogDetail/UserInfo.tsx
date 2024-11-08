@@ -1,3 +1,4 @@
+import { Avatar } from '../../base';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { getVersion } from '../CustomCatalog/Helper';
 import { formatDate } from './helper';
@@ -15,7 +16,21 @@ const UserInfo: React.FC<UserInfoProps> = ({ details, showVersion = true, userPr
     <>
       <ContentRow>
         <ContentDetailsPoints>CREATED BY</ContentDetailsPoints>
-        <ContentDetailsText>
+        <ContentDetailsText
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '7px'
+          }}
+        >
+          <Avatar
+            src={userProfile?.avatar_url}
+            alt={`${userProfile?.first_name} ${userProfile?.last_name}`}
+            style={{
+              height: '28px',
+              width: '28px'
+            }}
+          />
           <RedirectLink
             href={`https://meshery.layer5.io/user/${details?.user_id}`}
             target="_blank"
