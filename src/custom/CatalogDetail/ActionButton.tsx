@@ -1,48 +1,37 @@
-import _ from 'lodash';
 import React from 'react';
 import { CircularProgress } from '../../base';
 import { CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { charcoal } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
-import { downloadFilter, downloadYaml, slugify } from './helper';
-import { ActionButton, LinkUrl, StyledActionWrapper, UnpublishAction } from './style';
+import { downloadFilter, downloadYaml } from './helper';
+import { ActionButton, StyledActionWrapper, UnpublishAction } from './style';
 import { RESOURCE_TYPES } from './types';
 
 interface ActionButtonsProps {
   actionItems: boolean;
   details: Pattern;
   type: string;
-  cardId: string;
   isCloneLoading: boolean;
   handleClone: (name: string, id: string) => void;
-  mode: string;
   handleUnpublish: () => void;
   isCloneDisabled: boolean;
-  showOpenPlaygroundButton: boolean;
   showUnpublishAction: boolean;
+  onOpenPlaygroundClick: (designId: string, name: string) => void;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
   actionItems,
   details,
   type,
-  cardId,
   isCloneLoading,
   handleClone,
-  mode,
   isCloneDisabled,
-  showOpenPlaygroundButton,
   showUnpublishAction,
-  handleUnpublish
+  handleUnpublish,
+  onOpenPlaygroundClick
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
-  const resourcePlaygroundType = Object.values({
-    ..._.omit(RESOURCE_TYPES, ['FILTERS']),
-    CATALOG: 'catalog'
-  }).includes(cleanedType)
-    ? cleanedType
-    : 'design';
   return (
     <StyledActionWrapper>
       {actionItems && (
@@ -93,29 +82,21 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           )}
         </div>
       )}
-      {showOpenPlaygroundButton && (
-        <LinkUrl
-          style={{ width: '100%' }}
-          href={`https://playground.meshery.io/extension/meshmap?mode=${mode}&type=${resourcePlaygroundType}&id=${cardId}&name=${slugify(
-            details.name
-          )}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          <ActionButton
-            sx={{
-              borderRadius: '0.2rem',
-              backgroundColor: 'background.cta.default',
-              color: charcoal[10],
-              gap: '10px',
-              width: '100%'
-            }}
-          >
-            <KanvasIcon width={24} height={24} primaryFill={charcoal[10]} fill={charcoal[10]} />
-            Open in Playground
-          </ActionButton>
-        </LinkUrl>
-      )}
+
+      <ActionButton
+        sx={{
+          borderRadius: '0.2rem',
+          backgroundColor: 'background.cta.default',
+          color: charcoal[10],
+          gap: '10px',
+          width: '100%'
+        }}
+        onClick={() => onOpenPlaygroundClick(details.id, details.name)}
+      >
+        <KanvasIcon width={24} height={24} primaryFill={charcoal[10]} fill={charcoal[10]} />
+        Open in Playground
+      </ActionButton>
+
       {showUnpublishAction && (
         <UnpublishAction
           sx={{

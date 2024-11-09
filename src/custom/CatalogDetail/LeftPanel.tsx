@@ -10,39 +10,35 @@ import { FilteredAcademyData } from './types';
 interface LeftPanelProps {
   details: Pattern;
   type: string;
-  cardId?: string;
   actionItems?: boolean;
   isCloneLoading: boolean;
   handleClone: (name: string, id: string) => void;
   showTechnologies?: boolean;
-  mode: string;
   filteredAcademyData: FilteredAcademyData;
   isCloneDisabled: boolean;
   technologySVGPath: string;
   technologySVGSubpath: string;
   fontFamily?: string;
-  showOpenPlaygroundButton?: boolean;
   handleUnpublish: () => void;
   showUnpublishAction?: boolean;
+  onOpenPlaygroundClick: (designId: string, name: string) => void;
 }
 
 const LeftPanel: React.FC<LeftPanelProps> = ({
   details,
   type,
-  cardId = details.id,
   actionItems = true,
   isCloneLoading,
   handleClone,
   handleUnpublish,
   showTechnologies = true,
-  mode,
   filteredAcademyData,
   isCloneDisabled,
   technologySVGPath,
   technologySVGSubpath,
   fontFamily,
   showUnpublishAction = false,
-  showOpenPlaygroundButton = true
+  onOpenPlaygroundClick
 }) => {
   const theme = useTheme();
 
@@ -78,14 +74,12 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
         actionItems={actionItems}
         details={details}
         type={type}
-        cardId={cardId}
         isCloneLoading={isCloneLoading}
         handleClone={handleClone}
         showUnpublishAction={showUnpublishAction}
         handleUnpublish={handleUnpublish}
-        mode={mode}
         isCloneDisabled={isCloneDisabled}
-        showOpenPlaygroundButton={showOpenPlaygroundButton}
+        onOpenPlaygroundClick={onOpenPlaygroundClick}
       />
       {showTechnologies && (
         <TechnologySection
