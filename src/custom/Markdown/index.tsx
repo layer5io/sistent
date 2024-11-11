@@ -2,6 +2,7 @@ import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
 import {
+  BasicAnchorMarkdown,
   StyledMarkdown,
   StyledMarkdownBlockquote,
   StyledMarkdownH1,
@@ -91,6 +92,30 @@ export const RenderMarkdownTooltip: React.FC<RenderMarkdownProps> = ({ content }
         li: ({ ...props }) => <StyledMarkdownLi>{props.children}</StyledMarkdownLi>,
         th: ({ ...props }) => <StyledMarkdownTh>{props.children}</StyledMarkdownTh>,
         td: ({ ...props }) => <StyledMarkdownTd>{props.children}</StyledMarkdownTd>
+      }}
+    >
+      {content}
+    </ReactMarkdown>
+  );
+};
+
+// Markdown support for notifications markdown content
+export const BasicMarkdown: React.FC<RenderMarkdownProps> = ({ content }) => {
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        a: ({ ...props }) => (
+          <BasicAnchorMarkdown
+            onClick={(e) => {
+              window.open(props.href, '_blank');
+              e.stopPropagation();
+            }}
+            as="a"
+          >
+            {props.children}
+          </BasicAnchorMarkdown>
+        )
       }}
     >
       {content}

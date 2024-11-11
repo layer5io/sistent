@@ -1,9 +1,10 @@
-import { Box, Stack, Step, StepConnector, StepLabel, Stepper, useTheme } from '@mui/material';
+import { Box, Stack, Step, StepConnector, StepLabel, Stepper } from '@mui/material';
 import { stepConnectorClasses } from '@mui/material/StepConnector';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { styled } from '@mui/system';
 import React, { useMemo, useState } from 'react';
 import { IconProps } from '../../icons/types';
+import { useTheme } from '../../theme';
 
 interface ColorlibStepIconPropsI extends StepIconProps {
   icons: React.ComponentType<IconProps>[];
