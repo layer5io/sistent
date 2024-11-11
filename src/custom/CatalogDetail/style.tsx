@@ -15,10 +15,6 @@ export const StyledActionWrapper = styled(Paper)(() => ({
   alignItems: 'center'
 }));
 
-export const LinkUrl = styled('a')(() => ({
-  textDecoration: 'none'
-}));
-
 interface ActionButtonProps {
   disabled?: boolean;
   theme?: Theme;
