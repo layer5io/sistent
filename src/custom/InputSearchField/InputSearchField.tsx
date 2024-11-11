@@ -20,6 +20,7 @@ interface InputSearchFieldProps {
   selectedData: Option[];
   searchValue: string;
   setSearchValue: (value: string) => void;
+  iconComponent?: React.ReactElement;
 }
 
 const InputSearchField: React.FC<InputSearchFieldProps> = ({
@@ -32,7 +33,8 @@ const InputSearchField: React.FC<InputSearchFieldProps> = ({
   disabled,
   selectedData,
   searchValue,
-  setSearchValue
+  setSearchValue,
+  iconComponent = (<OrgIcon {...iconLarge} />) as React.ReactElement
 }) => {
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
@@ -140,9 +142,7 @@ const InputSearchField: React.FC<InputSearchFieldProps> = ({
             <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
               <Grid container alignItems="center">
                 <Grid item>
-                  <Box sx={{ color: 'text.secondary', mr: 2 }}>
-                    <OrgIcon {...iconLarge} />
-                  </Box>
+                  <Box sx={{ color: 'text.secondary', mr: 2 }}>{iconComponent}</Box>
                 </Grid>
                 <Grid item xs>
                   <Typography variant="body2">{option.name}</Typography>
@@ -164,7 +164,7 @@ const InputSearchField: React.FC<InputSearchFieldProps> = ({
         {!showAllItems && localSelectedData?.length > 0 && (
           <Chip
             key={localSelectedData[localSelectedData.length - 1]?.id}
-            avatar={<OrgIcon {...iconSmall} />}
+            avatar={iconComponent}
             label={localSelectedData[localSelectedData.length - 1]?.name}
             size="small"
             onDelete={() => handleDelete(localSelectedData[localSelectedData.length - 1]?.id)}
