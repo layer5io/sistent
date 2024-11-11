@@ -2,7 +2,7 @@ import React from 'react';
 import { CircularProgress } from '../../base';
 import { CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
-import { charcoal } from '../../theme';
+import { charcoal, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { downloadFilter, downloadYaml } from './helper';
 import { ActionButton, StyledActionWrapper, UnpublishAction } from './style';
@@ -32,6 +32,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   onOpenPlaygroundClick
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
+  const theme = useTheme();
   return (
     <StyledActionWrapper>
       {actionItems && (
@@ -46,7 +47,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           <ActionButton
             sx={{
               borderRadius: '0.2rem',
-              backgroundColor: charcoal[10],
+              backgroundColor: theme.palette.background.brand?.default,
               gap: '10px',
               color: charcoal[100]
             }}
@@ -65,7 +66,8 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
               sx={{
                 borderRadius: '0.2rem',
                 gap: '10px',
-                color: charcoal[100]
+                color: charcoal[100],
+                backgroundColor: theme.palette.background.cta?.default
               }}
               onClick={() => handleClone(details?.name, details?.id)}
               disabled={isCloneDisabled}
@@ -86,14 +88,20 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
       <ActionButton
         sx={{
           borderRadius: '0.2rem',
-          backgroundColor: 'background.cta.default',
-          color: charcoal[10],
+          backgroundColor: 'transparent',
+          border: `1px solid ${theme.palette.border.normal}`,
+          color: theme.palette.text.default,
           gap: '10px',
           width: '100%'
         }}
         onClick={() => onOpenPlaygroundClick(details.id, details.name)}
       >
-        <KanvasIcon width={24} height={24} primaryFill={charcoal[10]} fill={charcoal[10]} />
+        <KanvasIcon
+          width={24}
+          height={24}
+          primaryFill={theme.palette.icon.default}
+          fill={theme.palette.icon.default}
+        />
         Open in Playground
       </ActionButton>
 
