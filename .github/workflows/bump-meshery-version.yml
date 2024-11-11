@@ -20,7 +20,7 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
       - name: Retrieve Version
         run: |
-          echo "VERSION=$(cat ./version/number)" >> $GITHUB_OUTPUT
+          echo "VERSION=$(cat ./number)" >> $GITHUB_OUTPUT
         id: current
   bump-meshery:
     runs-on: ubuntu-latest
