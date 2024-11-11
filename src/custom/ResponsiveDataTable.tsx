@@ -17,7 +17,8 @@ export const IconWrapper = styled('div')<{ disabled?: boolean }>(({ disabled = f
 
 export const DataTableEllipsisMenu: React.FC<{
   actionsList: NonNullable<Column['options']>['actionsList'];
-}> = ({ actionsList }) => {
+  theme?: Theme;
+}> = ({ actionsList, theme }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isSocialShareOpen, setIsSocialShareOpen] = React.useState(false);
 
@@ -43,13 +44,59 @@ export const DataTableEllipsisMenu: React.FC<{
 
   return (
     <>
-      <TooltipIcon title="View Actions" onClick={handleClick} icon={<EllipsisIcon />} arrow />
-      <Menu id="basic-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
+      <TooltipIcon
+        title="View Actions"
+        onClick={handleClick}
+        icon={<EllipsisIcon fill={theme?.palette.text.primary ?? 'black'} />}
+        arrow
+      />
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleClose}
+        sx={{
+          '& .MuiPaper-root': {
+            backgroundColor: theme?.palette.background.default ?? 'white'
+          }
+        }}
+      >
         {actionsList &&
-          actionsList.map((action, index) => (
-            <React.Fragment key={index}>
-              {action.type === 'share-social' ? (
-                <>
+          actionsList.map((action, index) => {
+            if (action.type === 'share-social') {
+              return [
+                <MenuItem
+                  key={`${index}-menuitem`}
+                  sx={{
+                    width: '-webkit-fill-available'
+                    // background: theme.palette.background.surfaces
+                  }}
+                  onClick={() => handleActionClick(action)}
+                  disabled={action.disabled}
+                >
+                  <ListItemIcon>
+                    <ShareIcon
+                      width={24}
+                      height={24}
+                      fill={theme?.palette.text.primary ?? 'black'}
+                    />
+                  </ListItemIcon>
+                  <ListItemText sx={{ color: theme?.palette.text.primary ?? 'black' }}>
+                    {action.title}
+                  </ListItemText>
+                </MenuItem>,
+                <Collapse
+                  key={`${index}-collapse`}
+                  variant="submenu"
+                  in={isSocialShareOpen}
+                  unmountOnExit
+                >
+                  {action.customComponent}
+                </Collapse>
+              ];
+            } else {
+              return (
+                <IconWrapper key={index} disabled={action.disabled}>
                   <MenuItem
                     sx={{
                       width: '-webkit-fill-available'
@@ -58,43 +105,31 @@ export const DataTableEllipsisMenu: React.FC<{
                     onClick={() => handleActionClick(action)}
                     disabled={action.disabled}
                   >
-                    <ListItemIcon>
-                      <ShareIcon width={24} height={24} />
-                    </ListItemIcon>
-                    <ListItemText>{action.title}</ListItemText>
+                    <ListItemIcon>{action.icon}</ListItemIcon>
+                    <ListItemText sx={{ color: theme?.palette.text.primary ?? 'black' }}>
+                      {action.title}
+                    </ListItemText>
                   </MenuItem>
-                  <Collapse variant="submenu" in={isSocialShareOpen} unmountOnExit>
-                    {action.customComponent}
-                  </Collapse>
-                </>
-              ) : (
-                <>
-                  <IconWrapper key={index} disabled={action.disabled}>
-                    <MenuItem
-                      sx={{
-                        width: '-webkit-fill-available'
-                        // background: theme.palette.background.surfaces
-                      }}
-                      key={index}
-                      onClick={() => handleActionClick(action)}
-                      disabled={action.disabled}
-                    >
-                      <ListItemIcon>{action.icon}</ListItemIcon>
-                      <ListItemText>{action.title}</ListItemText>
-                    </MenuItem>
-                  </IconWrapper>
-                </>
-              )}
-            </React.Fragment>
-          ))}
+                </IconWrapper>
+              );
+            }
+          })}
       </Menu>
     </>
   );
 };
 
-const dataTableTheme = (theme: Theme) =>
+const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
   createTheme({
     components: {
+      MUIDataTable: {
+        styleOverrides: {
+          paper: {
+            background: backgroundColor || theme.palette.background.default,
+            maxWidth: '-moz-available'
+          }
+        }
+      },
       MuiTable: {
         styleOverrides: {
           root: {
@@ -103,7 +138,7 @@ const dataTableTheme = (theme: Theme) =>
             '@media (max-width: 500px)': {
               wordWrap: 'break-word'
             },
-            background: theme.palette.background.constant?.table,
+            background: backgroundColor || theme.palette.background.constant?.table,
             color: theme.palette.text.default
           }
         }
@@ -118,7 +153,8 @@ const dataTableTheme = (theme: Theme) =>
           root: {
             fontWeight: 'bold',
             textTransform: 'uppercase',
-            color: theme.palette.text.default
+            color: theme.palette.text.default,
+            backgroundColor: backgroundColor || theme.palette.background.constant?.table
           }
         }
       },
@@ -187,7 +223,7 @@ const dataTableTheme = (theme: Theme) =>
       MUIDataTableSelectCell: {
         styleOverrides: {
           headerCell: {
-            background: theme.palette.background.constant?.table
+            background: backgroundColor || theme.palette.background.constant?.table
           }
         }
       },
@@ -249,8 +285,8 @@ export interface ResponsiveDataTableProps {
   theme?: object;
   colViews?: Record<string, boolean> | undefined;
   rowsPerPageOptions?: number[] | undefined;
+  backgroundColor?: string;
 }
-
 const ResponsiveDataTable = ({
   data,
   columns,
@@ -258,7 +294,9 @@ const ResponsiveDataTable = ({
   tableCols,
   updateCols,
   columnVisibility,
-  rowsPerPageOptions = [10, 25, 50, 100], // Default and standard page size options
+  rowsPerPageOptions = [10, 25, 50, 100],
+  theme,
+  backgroundColor,
   ...props
 }: ResponsiveDataTableProps): JSX.Element => {
   const formatDate = (date: Date): string => {
@@ -347,9 +385,7 @@ const ResponsiveDataTable = ({
       }
     });
     updateCols && updateCols([...columns]);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columnVisibility, updateCols]);
+  }, [columnVisibility, updateCols, columns]);
 
   React.useEffect(() => {
     updateColumnsEffect();
@@ -360,8 +396,16 @@ const ResponsiveDataTable = ({
     Checkbox: Checkbox
   };
 
+  const finalTheme = (baseTheme: Theme) => {
+    const defaultTheme = dataTableTheme(baseTheme, backgroundColor);
+    if (theme) {
+      return createTheme(defaultTheme, typeof theme === 'function' ? theme(baseTheme) : theme);
+    }
+    return defaultTheme;
+  };
+
   return (
-    <ThemeProvider theme={dataTableTheme}>
+    <ThemeProvider theme={finalTheme}>
       <MUIDataTable
         columns={tableCols ?? []}
         data={data || []}

@@ -27,7 +27,8 @@ export interface CustomColumn {
 export function CustomColumnVisibilityControl({
   columns,
   id,
-  customToolsProps
+  customToolsProps,
+  style
 }: CustomColumnVisibilityControlProps): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -60,6 +61,7 @@ export function CustomColumnVisibilityControl({
           arrow
         />
         <PopperListener
+          style={style}
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
           placement="bottom-end"
