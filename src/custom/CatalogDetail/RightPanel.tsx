@@ -24,6 +24,8 @@ interface RightPanelProps {
   fontFamily?: string;
   technologySVGPath: string;
   technologySVGSubpath: string;
+  orgName: string;
+  fetchingOrgError: boolean;
 }
 
 const RightPanel: React.FC<RightPanelProps> = ({
@@ -43,7 +45,9 @@ const RightPanel: React.FC<RightPanelProps> = ({
   fontFamily,
   useGetUserProfileByIdQuery,
   technologySVGPath,
-  technologySVGSubpath
+  technologySVGSubpath,
+  orgName,
+  fetchingOrgError
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const { data: userProfile } = useGetUserProfileByIdQuery({
@@ -69,6 +73,8 @@ const RightPanel: React.FC<RightPanelProps> = ({
       {showCaveats && <CaveatsSection details={details} />}
       <RelatedDesigns
         details={details}
+        orgName={orgName}
+        fetchingOrgError={fetchingOrgError}
         type={type}
         patternsPerUser={patternsPerUser}
         onSuggestedPatternClick={onSuggestedPatternClick}

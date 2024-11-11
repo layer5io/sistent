@@ -55,13 +55,14 @@ export const UnpublishAction = styled('div')<ActionButtonProps>(({ disabled = fa
   flex: '1'
 }));
 
-export const ContentDetailsText = styled(Typography)(({ theme }) => ({
+export const ContentDetailsText = styled(Typography)(({ theme, style }) => ({
   fontFamily: 'inherit',
   fontSize: '1rem',
   color: theme.palette.text.default,
   ['@media (min-width:1200px)']: {
     fontSize: '1'
-  }
+  },
+  ...style
 }));
 
 export const ContentHeading = styled('div')(() => ({
