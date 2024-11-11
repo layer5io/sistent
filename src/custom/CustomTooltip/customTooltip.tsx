@@ -57,7 +57,7 @@ function CustomTooltip({
       onClick={onClick}
       {...props}
     >
-      {children}
+      <span>{children}</span>
     </Tooltip>
   );
 }

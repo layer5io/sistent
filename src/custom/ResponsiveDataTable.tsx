@@ -4,7 +4,6 @@ import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { ShareIcon } from '../icons';
 import { EllipsisIcon } from '../icons/Ellipsis';
-import { useTheme } from '../theme';
 import TooltipIcon from './TooltipIcon';
 
 export const IconWrapper = styled('div')<{ disabled?: boolean }>(({ disabled = false }) => ({
@@ -18,7 +17,8 @@ export const IconWrapper = styled('div')<{ disabled?: boolean }>(({ disabled = f
 
 export const DataTableEllipsisMenu: React.FC<{
   actionsList: NonNullable<Column['options']>['actionsList'];
-}> = ({ actionsList }) => {
+  theme?: Theme;
+}> = ({ actionsList, theme }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isSocialShareOpen, setIsSocialShareOpen] = React.useState(false);
 
@@ -41,13 +41,13 @@ export const DataTableEllipsisMenu: React.FC<{
       handleClose();
     }
   };
-  const theme = useTheme();
+
   return (
     <>
       <TooltipIcon
         title="View Actions"
         onClick={handleClick}
-        icon={<EllipsisIcon fill={theme.palette.text.default} />}
+        icon={<EllipsisIcon fill={theme?.palette.text.primary ?? 'black'} />}
         arrow
       />
       <Menu
@@ -57,7 +57,7 @@ export const DataTableEllipsisMenu: React.FC<{
         onClose={handleClose}
         sx={{
           '& .MuiPaper-root': {
-            backgroundColor: theme.palette.background.surfaces
+            backgroundColor: theme?.palette.background.default ?? 'white'
           }
         }}
       >
@@ -75,9 +75,15 @@ export const DataTableEllipsisMenu: React.FC<{
                   disabled={action.disabled}
                 >
                   <ListItemIcon>
-                    <ShareIcon width={24} height={24} />
+                    <ShareIcon
+                      width={24}
+                      height={24}
+                      fill={theme?.palette.text.primary ?? 'black'}
+                    />
                   </ListItemIcon>
-                  <ListItemText>{action.title}</ListItemText>
+                  <ListItemText sx={{ color: theme?.palette.text.primary ?? 'black' }}>
+                    {action.title}
+                  </ListItemText>
                 </MenuItem>,
                 <Collapse
                   key={`${index}-collapse`}
@@ -100,7 +106,9 @@ export const DataTableEllipsisMenu: React.FC<{
                     disabled={action.disabled}
                   >
                     <ListItemIcon>{action.icon}</ListItemIcon>
-                    <ListItemText>{action.title}</ListItemText>
+                    <ListItemText sx={{ color: theme?.palette.text.primary ?? 'black' }}>
+                      {action.title}
+                    </ListItemText>
                   </MenuItem>
                 </IconWrapper>
               );

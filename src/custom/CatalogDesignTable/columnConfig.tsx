@@ -84,7 +84,6 @@ export const createDesignColumns = ({
 }: ColumnConfigProps): MUIDataTableColumn[] => {
   const cleanedType = type?.replace('my-', '').replace(/s$/, '');
   const getColumnValue = (tableMeta: MUIDataTableMeta, targetColumn: string): any => {
-    console.log('amitas targetColumn', tableMeta);
     //@ts-ignore
     const rowData = tableMeta.tableData[tableMeta.rowIndex] as Pattern;
     return (rowData as any)[targetColumn] || '';
@@ -290,13 +289,12 @@ export const createDesignColumns = ({
               }'s design "${rowData?.name}" on Layer5's Catalog`;
             }
           }
-
           const baseActions: ActionItem[] = [
             {
               title: 'Clone',
               onClick: () => handleCloneClick(rowData),
               disabled: isCloneDisabled,
-              icon: <CopyIcon width={24} height={24} fill={theme.palette.charcoal} />
+              icon: <CopyIcon width={24} height={24} fill={theme.palette.text.primary} />
             },
             {
               title: 'Download',
@@ -305,12 +303,12 @@ export const createDesignColumns = ({
                   ? downloadFilter(rowData.id, rowData.name)
                   : downloadYaml(rowData.pattern_file, rowData.name);
               },
-              icon: <DownloadIcon width={24} height={24} fill={theme.palette.charcoal} />
+              icon: <DownloadIcon width={24} height={24} fill={theme.palette.text.primary} />
             },
             {
               title: 'Copy Link',
               onClick: () => handleCopyUrl(rowData),
-              icon: <ChainIcon width={'24'} height={'24'} fill={theme.palette.charcoal} />
+              icon: <ChainIcon width={'24'} height={'24'} fill={theme.palette.text.primary} />
             },
             {
               title: 'Share Design via Socials',
@@ -348,7 +346,7 @@ export const createDesignColumns = ({
             {
               title: 'Open in playground',
               onClick: () => handleOpenPlayground(rowData),
-              icon: <KanvasIcon width={24} height={24} primaryFill={theme.palette.charcoal} />
+              icon: <KanvasIcon width={24} height={24} primaryFill={theme.palette.text.primary} />
             }
           ];
           // TODO: make this unbpublish action work for playgroud
@@ -359,14 +357,14 @@ export const createDesignColumns = ({
                   title: 'Unpublish',
                   onClick: () => handleUnpublish(rowData),
                   disabled: isUnpublishDisabled,
-                  icon: <PublishIcon width={24} height={24} fill={theme.palette.charcoal} />
+                  icon: <PublishIcon width={24} height={24} fill={theme.palette.text.primary} />
                 },
                 ...baseActions.slice(2)
               ]
             : baseActions;
 
           //@ts-ignore
-          return <DataTableEllipsisMenu actionsList={actionsList} />;
+          return <DataTableEllipsisMenu actionsList={actionsList} theme={theme} />;
         }
       }
     }
