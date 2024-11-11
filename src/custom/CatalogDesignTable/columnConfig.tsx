@@ -44,9 +44,9 @@ export const colViews: ColView[] = [
 
 interface ColumnConfigProps {
   handleShowDetails: (design: Pattern) => void;
-  handleCloneClick: (design: Pattern) => void;
-  handleCopyUrl: (design: Pattern) => void;
-  handleOpenPlayground: (design: Pattern) => void;
+  handleClone: (designId: string, name: string) => void;
+  handleCopyUrl: (designId: string, name: string) => void;
+  handleOpenPlayground: (designId: string, name: string) => void;
   handleUnpublish?: (design: Pattern) => void;
   maxWidth?: boolean;
   getCatalogUrl: (type: string, name: string) => string;
@@ -69,7 +69,7 @@ interface ActionItem {
 
 export const createDesignColumns = ({
   handleShowDetails,
-  handleCloneClick,
+  handleClone,
   handleCopyUrl,
   handleOpenPlayground,
   handleUnpublish = () => {},
@@ -292,7 +292,7 @@ export const createDesignColumns = ({
           const baseActions: ActionItem[] = [
             {
               title: 'Clone',
-              onClick: () => handleCloneClick(rowData),
+              onClick: () => handleClone(rowData.id, rowData.name),
               disabled: isCloneDisabled,
               icon: <CopyIcon width={24} height={24} fill={theme.palette.text.primary} />
             },
@@ -307,7 +307,7 @@ export const createDesignColumns = ({
             },
             {
               title: 'Copy Link',
-              onClick: () => handleCopyUrl(rowData),
+              onClick: () => handleCopyUrl(rowData.id, rowData.name),
               icon: <ChainIcon width={'24'} height={'24'} fill={theme.palette.text.primary} />
             },
             {
@@ -345,11 +345,11 @@ export const createDesignColumns = ({
             },
             {
               title: 'Open in playground',
-              onClick: () => handleOpenPlayground(rowData),
+              onClick: () => handleOpenPlayground(rowData.id, rowData.name),
               icon: <KanvasIcon width={24} height={24} primaryFill={theme.palette.text.primary} />
             }
           ];
-          // TODO: make this unbpublish action work for playgroud
+
           const actionsList = showUnpublish
             ? [
                 ...baseActions.slice(0, 2),
