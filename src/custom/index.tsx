@@ -44,7 +44,6 @@ import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 export { CatalogCard } from './CatalogCard';
-export { CatalogDesignsTable, colViews, createDesignColumns } from './CatalogDesignTable';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
 export type { FilterListType } from './CatalogFilterSection';
 export { StyledChartDialog } from './ChartDialog';
@@ -133,6 +132,7 @@ export type {
   UniversalFilterProps
 };
 
+export * from './CatalogDesignTable';
 export * from './CatalogDetail';
 export * from './Dialog';
 export * from './permissions';
