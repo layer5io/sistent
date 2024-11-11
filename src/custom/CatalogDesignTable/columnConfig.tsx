@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useTheme } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
 import { Avatar, Box, Grid, Typography } from '../../base';
@@ -10,17 +9,23 @@ import {
   CopyIcon,
   DownloadIcon,
   FacebookIcon,
+  KanvasIcon,
   LinkedinIcon,
   PersonIcon,
   PublishIcon,
   TwitterIcon
 } from '../../icons';
+import { downloadFilter, downloadYaml } from '../CatalogDetail/helper';
+import { RESOURCE_TYPES } from '../CatalogDetail/types';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { CustomTooltip } from '../CustomTooltip';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
+import { NameDiv } from './style';
 
-export const colViews = [
+export type ColView = [string, 'na' | 'xs' | 'l'];
+
+export const colViews: ColView[] = [
   ['id', 'na'],
   ['name', 'xs'],
   ['first_name', 'xs'],
@@ -39,10 +44,18 @@ export const colViews = [
 
 interface ColumnConfigProps {
   handleShowDetails: (design: Pattern) => void;
-  handleCardClick: (design: Pattern) => void;
+  handleCloneClick: (design: Pattern) => void;
   handleCopyUrl: (design: Pattern) => void;
+  handleOpenPlayground: (design: Pattern) => void;
+  handleUnpublish?: (design: Pattern) => void;
   maxWidth?: boolean;
   getCatalogUrl: (type: string, name: string) => string;
+  type?: string;
+  theme?: any;
+  showUnpublish?: boolean;
+  currentUserId?: string;
+  isCloneDisabled?: boolean;
+  isUnpublishDisabled?: boolean;
 }
 
 interface ActionItem {
@@ -54,17 +67,25 @@ interface ActionItem {
   type?: string;
 }
 
-export const createColumns = (
-  {
-    handleShowDetails,
-    handleCardClick,
-    handleCopyUrl,
-    maxWidth = true,
-    getCatalogUrl
-  }: ColumnConfigProps,
-  theme: any
-): MUIDataTableColumn[] => {
+export const createDesignColumns = ({
+  handleShowDetails,
+  handleCloneClick,
+  handleCopyUrl,
+  handleOpenPlayground,
+  handleUnpublish = () => {},
+  maxWidth = true,
+  getCatalogUrl,
+  type,
+  theme,
+  showUnpublish,
+  currentUserId,
+  isCloneDisabled,
+  isUnpublishDisabled
+}: ColumnConfigProps): MUIDataTableColumn[] => {
+  const cleanedType = type?.replace('my-', '').replace(/s$/, '');
   const getColumnValue = (tableMeta: MUIDataTableMeta, targetColumn: string): any => {
+    console.log('amitas targetColumn', tableMeta);
+    //@ts-ignore
     const rowData = tableMeta.tableData[tableMeta.rowIndex] as Pattern;
     return (rowData as any)[targetColumn] || '';
   };
@@ -86,12 +107,9 @@ export const createColumns = (
         sort: true,
         searchable: true,
         customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => {
+          //@ts-ignore
           const design = tableMeta.tableData[tableMeta.rowIndex] as Pattern;
-          return (
-            <div onClick={() => handleShowDetails(design)} style={{ cursor: 'pointer' }}>
-              {value}
-            </div>
-          );
+          return <NameDiv onClick={() => handleShowDetails(design)}>{value}</NameDiv>;
         }
       }
     },
@@ -256,32 +274,38 @@ export const createColumns = (
         filter: false,
         sort: false,
         searchable: false,
-        setCellHeaderProps: () => ({ align: 'center' as const }),
-        setCellProps: () => ({ align: 'center' as const }),
+        setCellHeaderProps: () => ({ align: 'center' }),
+        setCellProps: () => ({ align: 'center' }),
         customBodyRender: (_: any, tableMeta: MUIDataTableMeta) => {
+          //@ts-ignore
           const rowData = tableMeta.tableData[tableMeta.rowIndex] as Pattern;
 
-          const constructMessage = () => {
-            return `Check out ${rowData.first_name} ${rowData.last_name}'s design "${rowData.name}" on Layer5's Catalog`;
-          };
+          function constructMessage() {
+            const currentUser = rowData?.user_id === currentUserId;
+            if (currentUser) {
+              return `Check out my design "${rowData?.name}" on Layer5's Catalog`;
+            } else {
+              return `Check out ${
+                rowData?.first_name + ' ' + rowData.last_name
+              }'s design "${rowData?.name}" on Layer5's Catalog`;
+            }
+          }
 
-          const actionsList: ActionItem[] = [
+          const baseActions: ActionItem[] = [
             {
               title: 'Clone',
-              onClick: () => handleCardClick(rowData),
-              disabled: false,
-              icon: <CopyIcon width={24} height={24} fill={theme.palette.secondary.iconMain} />
+              onClick: () => handleCloneClick(rowData),
+              disabled: isCloneDisabled,
+              icon: <CopyIcon width={24} height={24} fill={theme.palette.charcoal} />
             },
             {
               title: 'Download',
-              onClick: () => {},
+              onClick: () => {
+                cleanedType === RESOURCE_TYPES.FILTERS
+                  ? downloadFilter(rowData.id, rowData.name)
+                  : downloadYaml(rowData.pattern_file, rowData.name);
+              },
               icon: <DownloadIcon width={24} height={24} fill={theme.palette.charcoal} />
-            },
-            {
-              title: 'Unpublish',
-              onClick: () => {},
-              disabled: false,
-              icon: <PublishIcon width={24} height={24} fill={theme.palette.charcoal} />
             },
             {
               title: 'Copy Link',
@@ -320,8 +344,27 @@ export const createColumns = (
                   </FacebookShareButton>
                 </div>
               )
+            },
+            {
+              title: 'Open in playground',
+              onClick: () => handleOpenPlayground(rowData),
+              icon: <KanvasIcon width={24} height={24} primaryFill={theme.palette.charcoal} />
             }
           ];
+          // TODO: make this unbpublish action work for playgroud
+          const actionsList = showUnpublish
+            ? [
+                ...baseActions.slice(0, 2),
+                {
+                  title: 'Unpublish',
+                  onClick: () => handleUnpublish(rowData),
+                  disabled: isUnpublishDisabled,
+                  icon: <PublishIcon width={24} height={24} fill={theme.palette.charcoal} />
+                },
+                ...baseActions.slice(2)
+              ]
+            : baseActions;
+
           //@ts-ignore
           return <DataTableEllipsisMenu actionsList={actionsList} />;
         }
@@ -329,11 +372,3 @@ export const createColumns = (
     }
   ];
 };
-
-//@ts-ignore
-const ColumnConfig: React.FC<ColumnConfigProps> = (props) => {
-  const theme = useTheme();
-  return createColumns(props, theme);
-};
-
-export default ColumnConfig;
