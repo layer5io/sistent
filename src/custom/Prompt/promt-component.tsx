@@ -35,7 +35,7 @@ interface ShowParams {
   showInfoIcon?: string;
 }
 
-interface PromptRef {
+export interface PromptRef {
   show: (params: ShowParams) => Promise<string>;
 }
 
