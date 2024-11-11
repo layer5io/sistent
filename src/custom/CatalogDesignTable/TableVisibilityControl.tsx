@@ -5,7 +5,7 @@ import { ViewSwitch } from './ViewSwitch';
 
 type TypeView = 'grid' | 'table';
 
-interface CatalogTableVisibilityControlProps {
+interface TableVisibilityControlProps {
   viewType: TypeView;
   setViewType: (view: TypeView) => void;
   filteredColumns: CustomColumn[];
@@ -14,7 +14,7 @@ interface CatalogTableVisibilityControlProps {
   viewSwitchDisabled?: boolean;
 }
 
-export const CatalogTableVisibilityControl: React.FC<CatalogTableVisibilityControlProps> = ({
+export const TableVisibilityControl: React.FC<TableVisibilityControlProps> = ({
   viewType,
   setViewType,
   filteredColumns,
