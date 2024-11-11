@@ -1,3 +1,3 @@
 import CatalogDesignsTable from './CatalogDesignTable';
-import ColumnConfig from './columnConfig';
-export { CatalogDesignsTable, ColumnConfig };
+import { colViews, createDesignColumns } from './columnConfig';
+export { CatalogDesignsTable, colViews, createDesignColumns };
