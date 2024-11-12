@@ -17,6 +17,7 @@ interface ActionButtonsProps {
   handleUnpublish: () => void;
   isCloneDisabled: boolean;
   showUnpublishAction: boolean;
+  showOpenPlaygroundAction: boolean;
   onOpenPlaygroundClick: (designId: string, name: string) => void;
 }
 
@@ -29,6 +30,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   isCloneDisabled,
   showUnpublishAction,
   handleUnpublish,
+  showOpenPlaygroundAction,
   onOpenPlaygroundClick
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
@@ -84,26 +86,27 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           )}
         </div>
       )}
-
-      <ActionButton
-        sx={{
-          borderRadius: '0.2rem',
-          backgroundColor: 'transparent',
-          border: `1px solid ${theme.palette.border.normal}`,
-          color: theme.palette.text.default,
-          gap: '10px',
-          width: '100%'
-        }}
-        onClick={() => onOpenPlaygroundClick(details.id, details.name)}
-      >
-        <KanvasIcon
-          width={24}
-          height={24}
-          primaryFill={theme.palette.icon.default}
-          fill={theme.palette.icon.default}
-        />
-        Open in Playground
-      </ActionButton>
+      {showOpenPlaygroundAction && (
+        <ActionButton
+          sx={{
+            borderRadius: '0.2rem',
+            backgroundColor: 'transparent',
+            border: `1px solid ${theme.palette.border.normal}`,
+            color: theme.palette.text.default,
+            gap: '10px',
+            width: '100%'
+          }}
+          onClick={() => onOpenPlaygroundClick(details.id, details.name)}
+        >
+          <KanvasIcon
+            width={24}
+            height={24}
+            primaryFill={theme.palette.icon.default}
+            fill={theme.palette.icon.default}
+          />
+          Open in Playground
+        </ActionButton>
+      )}
 
       {showUnpublishAction && (
         <UnpublishAction
