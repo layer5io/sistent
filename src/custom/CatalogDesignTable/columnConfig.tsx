@@ -53,6 +53,7 @@ interface ColumnConfigProps {
   type?: string;
   theme?: any;
   showUnpublish?: boolean;
+  showOpenPlayground?: boolean;
   currentUserId?: string;
   isCloneDisabled?: boolean;
   isUnpublishDisabled?: boolean;
@@ -80,7 +81,8 @@ export const createDesignColumns = ({
   showUnpublish,
   currentUserId,
   isCloneDisabled,
-  isUnpublishDisabled
+  isUnpublishDisabled,
+  showOpenPlayground
 }: ColumnConfigProps): MUIDataTableColumn[] => {
   const cleanedType = type?.replace('my-', '').replace(/s$/, '');
   const getColumnValue = (tableMeta: MUIDataTableMeta, targetColumn: string): any => {
@@ -342,27 +344,27 @@ export const createDesignColumns = ({
                   </FacebookShareButton>
                 </div>
               )
-            },
-            {
+            }
+          ];
+          // Conditionally add playground and unpublish buttons
+          const actionsList = [...baseActions];
+
+          if (showUnpublish) {
+            actionsList.splice(2, 0, {
+              title: 'Unpublish',
+              onClick: () => handleUnpublish(rowData),
+              disabled: isUnpublishDisabled,
+              icon: <PublishIcon width={24} height={24} fill={theme.palette.text.primary} />
+            });
+          }
+
+          if (showOpenPlayground) {
+            actionsList.splice(2, 0, {
               title: 'Open in playground',
               onClick: () => handleOpenPlayground(rowData.id, rowData.name),
               icon: <KanvasIcon width={24} height={24} primaryFill={theme.palette.text.primary} />
-            }
-          ];
-
-          const actionsList = showUnpublish
-            ? [
-                ...baseActions.slice(0, 2),
-                {
-                  title: 'Unpublish',
-                  onClick: () => handleUnpublish(rowData),
-                  disabled: isUnpublishDisabled,
-                  icon: <PublishIcon width={24} height={24} fill={theme.palette.text.primary} />
-                },
-                ...baseActions.slice(2)
-              ]
-            : baseActions;
-
+            });
+          }
           //@ts-ignore
           return <DataTableEllipsisMenu actionsList={actionsList} theme={theme} />;
         }
