@@ -1,7 +1,5 @@
 import jsyaml from 'js-yaml';
 
-export const CLOUD_URL = 'https://cloud.layer5.io';
-
 export const downloadYaml = (filteredData: string, itemName: string): void => {
   const yamlData = Array.isArray(filteredData)
     ? jsyaml.dump(filteredData.find((item) => item.name === itemName))

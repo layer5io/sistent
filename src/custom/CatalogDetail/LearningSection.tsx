@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, ListItemIcon } from '../../base';
+import { CLOUD_URL } from '../../constants/constants';
 import { LearningIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import CollapsibleSection from './CollapsibleSection';
-import { CLOUD_URL, slugify } from './helper';
+import { slugify } from './helper';
 import { LabelDiv } from './style';
 import { FilteredAcademyData } from './types';
 

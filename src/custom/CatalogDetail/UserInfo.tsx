@@ -1,7 +1,8 @@
 import { Avatar } from '../../base';
+import { CLOUD_URL } from '../../constants/constants';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { getVersion } from '../CustomCatalog/Helper';
-import { CLOUD_URL, formatDate } from './helper';
+import { formatDate } from './helper';
 import { ContentDetailsPoints, ContentDetailsText, ContentRow, RedirectLink } from './style';
 import { UserProfile } from './types';
 
