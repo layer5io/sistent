@@ -1,4 +1,5 @@
 import { Avatar } from '../../base';
+import { CLOUD_URL } from '../../constants/constants';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { getVersion } from '../CustomCatalog/Helper';
 import { formatDate } from './helper';
@@ -32,7 +33,7 @@ const UserInfo: React.FC<UserInfoProps> = ({ details, showVersion = true, userPr
             }}
           />
           <RedirectLink
-            href={`https://meshery.layer5.io/user/${details?.user_id}`}
+            href={`${CLOUD_URL}/user/${details?.user_id}`}
             target="_blank"
             rel="noopener noreferrer"
           >
