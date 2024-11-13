@@ -3,7 +3,7 @@ import { Link, ListItemIcon } from '../../base';
 import { LearningIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import CollapsibleSection from './CollapsibleSection';
-import { slugify } from './helper';
+import { CLOUD_URL, slugify } from './helper';
 import { LabelDiv } from './style';
 import { FilteredAcademyData } from './types';
 
@@ -29,7 +29,7 @@ const LearningSection: React.FC<LearningSectionProps> = ({ filteredAcademyData }
 
   const renderLearningItem = (item: string, index: number) => (
     <Link
-      href={`https://meshery.layer5.io/academy/learning-paths/${slugify('' + item)}`}
+      href={`${CLOUD_URL}/academy/learning-paths/${slugify('' + item)}`}
       target="_blank"
       rel="noopener noreferrer"
       style={{ textDecoration: 'none', color: 'inherit' }}
