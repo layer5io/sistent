@@ -122,11 +122,12 @@ export const DataTableEllipsisMenu: React.FC<{
 const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
   createTheme({
     components: {
-      MUIDataTable: {
+      MuiPaper: {
         styleOverrides: {
-          paper: {
+          root: {
             background: backgroundColor || theme.palette.background.default,
-            maxWidth: '-moz-available'
+            maxWidth: '-moz-available',
+            width: '-moz-available'
           }
         }
       },
@@ -386,7 +387,7 @@ const ResponsiveDataTable = ({
     });
     updateCols && updateCols([...columns]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columnVisibility, updateCols]);
+  }, [columnVisibility, updateCols, data]);
 
   React.useEffect(() => {
     updateColumnsEffect();

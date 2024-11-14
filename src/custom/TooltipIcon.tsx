@@ -20,21 +20,23 @@ export function TooltipIcon({
 }: TooltipIconProps): JSX.Element {
   return (
     <CustomTooltip title={title} arrow={arrow}>
-      <IconButton
-        onClick={onClick}
-        sx={{
-          '&:hover': {
-            '& svg': {
-              fill: '#00d3a9'
+      <div>
+        <IconButton
+          onClick={onClick}
+          sx={{
+            '&:hover': {
+              '& svg': {
+                fill: '#00d3a9'
+              },
+              borderRadius: '4px'
             },
-            borderRadius: '4px'
-          },
-          ...(style as SxProps)
-        }}
-        disableRipple
-      >
-        {icon}
-      </IconButton>
+            ...(style as SxProps)
+          }}
+          disableRipple
+        >
+          {icon}
+        </IconButton>
+      </div>
     </CustomTooltip>
   );
 }
