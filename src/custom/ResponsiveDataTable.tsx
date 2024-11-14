@@ -387,7 +387,7 @@ const ResponsiveDataTable = ({
     });
     updateCols && updateCols([...columns]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columnVisibility, updateCols]);
+  }, [columnVisibility, updateCols, data]);
 
   React.useEffect(() => {
     updateColumnsEffect();
