@@ -3,6 +3,7 @@
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
 import { Avatar, Box, Grid, Typography } from '../../base';
+import { CLOUD_URL } from '../../constants/constants';
 import { iconMedium } from '../../constants/iconsSizes';
 import {
   ChainIcon,
@@ -165,7 +166,7 @@ export const createDesignColumns = ({
                           alt={displayName}
                           src={avatar_url}
                           onClick={() => {
-                            window.location.href = `/user/${user_id}`;
+                            window.open(`${CLOUD_URL}/user/${user_id}`, '_blank');
                           }}
                         >
                           {!avatar_url && <PersonIcon />}
