@@ -126,8 +126,7 @@ const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
         styleOverrides: {
           root: {
             background: backgroundColor || theme.palette.background.default,
-            maxWidth: '-moz-available',
-            width: '-moz-available'
+            maxWidth: '-moz-available'
           }
         }
       },
