@@ -51,7 +51,7 @@ jobs:
           signoff: true
           branch: bump-sistent-bot
           delete-branch: true
-          title: '[Chore]: Bump v${{ needs.versions-check.outputs.current }}'
+          title: '[Chore]: Bump Sistent v${{ needs.versions-check.outputs.current }}'
           add-paths: |
             ui/package.json
             ui/package-lock.json
@@ -90,7 +90,7 @@ jobs:
           signoff: true
           branch: bump-sistent-bot
           delete-branch: true
-          title: '[Chore]: Bump v${{needs.versions-check.outputs.current }}'
+          title: '[Chore]: Bump Sistent v${{needs.versions-check.outputs.current }}'
           add-paths: |
             meshmap/package.json
             meshmap/package-lock.json
@@ -129,7 +129,7 @@ jobs:
           signoff: true
           branch: bump-sistent-bot
           delete-branch: true
-          title: '[Chore]: Bump v${{ needs.versions-check.outputs.current }}'
+          title: '[Chore]: Bump Sistent v${{ needs.versions-check.outputs.current }}'
           add-paths: |
             ui/package.json
             ui/package-lock.json
