@@ -310,42 +310,39 @@ const ResponsiveDataTable = ({
     return new Intl.DateTimeFormat('en-US', dateOptions).format(date);
   };
 
-  const updatedOptions = React.useMemo(
-    () => ({
-      ...options,
-      print: false,
-      download: false,
-      search: false,
-      filter: false,
-      viewColumns: false,
-      rowsPerPageOptions: rowsPerPageOptions,
-      onViewColumnsChange: (column: string, action: string) => {
-        switch (action) {
-          case 'add': {
-            const colToAdd = columns.find((obj) => obj.name === column);
-            if (colToAdd) {
-              if (colToAdd.options) {
-                colToAdd.options.display = true;
-                updateCols && updateCols([...columns]);
-              }
+  const updatedOptions = {
+    ...options,
+    print: false,
+    download: false,
+    search: false,
+    filter: false,
+    viewColumns: false,
+    rowsPerPageOptions: rowsPerPageOptions,
+    onViewColumnsChange: (column: string, action: string) => {
+      switch (action) {
+        case 'add': {
+          const colToAdd = columns.find((obj) => obj.name === column);
+          if (colToAdd) {
+            if (colToAdd.options) {
+              colToAdd.options.display = true;
+              updateCols && updateCols([...columns]);
             }
-            break;
           }
-          case 'remove': {
-            const colToRemove = columns.find((obj) => obj.name === column);
-            if (colToRemove) {
-              if (colToRemove.options) {
-                colToRemove.options.display = false;
-                updateCols && updateCols([...columns]);
-              }
+          break;
+        }
+        case 'remove': {
+          const colToRemove = columns.find((obj) => obj.name === column);
+          if (colToRemove) {
+            if (colToRemove.options) {
+              colToRemove.options.display = false;
+              updateCols && updateCols([...columns]);
             }
-            break;
           }
+          break;
         }
       }
-    }),
-    [options, rowsPerPageOptions, columns, updateCols]
-  );
+    }
+  };
 
   const updateColumnsEffect = useCallback(() => {
     columns?.forEach((col) => {
@@ -388,7 +385,8 @@ const ResponsiveDataTable = ({
       }
     });
     updateCols && updateCols([...columns]);
-  }, [columnVisibility, updateCols, columns]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columnVisibility, updateCols]);
 
   React.useEffect(() => {
     updateColumnsEffect();
