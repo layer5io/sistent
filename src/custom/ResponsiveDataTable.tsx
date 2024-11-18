@@ -307,7 +307,7 @@ const ResponsiveDataTable = ({
       year: 'numeric'
     };
 
-    return new Intl.DateTimeFormat('un-US', dateOptions).format(date);
+    return new Intl.DateTimeFormat('en-US', dateOptions).format(date);
   };
 
   const updatedOptions = {
@@ -386,7 +386,7 @@ const ResponsiveDataTable = ({
     });
     updateCols && updateCols([...columns]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columnVisibility, updateCols, data]);
+  }, [columnVisibility, updateCols]);
 
   React.useEffect(() => {
     updateColumnsEffect();

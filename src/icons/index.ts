@@ -94,6 +94,7 @@ export * from './TerminalIcon';
 export * from './Toolkit';
 export * from './Touch';
 export * from './Triangle';
+export * from './Tropy';
 export * from './Undeploy';
 export * from './Undo';
 export * from './Validate';
