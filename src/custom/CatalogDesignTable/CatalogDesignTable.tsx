@@ -4,7 +4,7 @@ import { useCallback, useMemo, useRef } from 'react';
 import { PublishIcon } from '../../icons';
 import { CHARCOAL, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
-import { useWindowDimensions } from '../Helpers/Dimension';
+import { ErrorBoundary } from '../ErrorBoundary';
 import PromptComponent from '../Prompt';
 import { PromptRef } from '../Prompt/promt-component';
 import ResponsiveDataTable from '../ResponsiveDataTable';
@@ -47,8 +47,6 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
   handleBulkDeleteModal,
   handleBulkpatternsDataUnpublishModal
 }) => {
-  const { width } = useWindowDimensions();
-  const smallScreen = width <= 360;
   const theme = useTheme();
   const modalRef = useRef<PromptRef>(null);
 
@@ -133,7 +131,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
       selectableRows: _.isNil(filter) ? 'none' : 'multiple',
       serverSide: true,
       filterType: 'multiselect',
-      responsive: smallScreen ? 'vertical' : 'standard',
+      responsive: 'standard',
       count: totalCount,
       rowsPerPage: pageSize,
       page,
@@ -163,7 +161,6 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
     }),
     [
       filter,
-      smallScreen,
       totalCount,
       pageSize,
       page,
@@ -179,7 +176,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
   }
 
   return (
-    <>
+    <ErrorBoundary>
       <PromptComponent ref={modalRef} />
       <ResponsiveDataTable
         columns={processedColumns}
@@ -196,7 +193,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
             : theme.palette.background.secondary
         }
       />
-    </>
+    </ErrorBoundary>
   );
 };
 
