@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { PublishIcon } from '../../icons';
 import { CHARCOAL, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
@@ -47,28 +47,54 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
   handleBulkDeleteModal,
   handleBulkpatternsDataUnpublishModal
 }) => {
-  const [tableCols, updateCols] = useState<Array<any>>([]);
   const { width } = useWindowDimensions();
   const smallScreen = width <= 360;
   const theme = useTheme();
   const modalRef = useRef<PromptRef>(null);
 
-  useEffect(() => {
-    if (Array.isArray(columns) && columns.length > 0) {
-      updateCols(columns);
-    }
-  }, [columns]);
+  const formatDate = useCallback((date: string | Date): string => {
+    const dateOptions: Intl.DateTimeFormatOptions = {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    };
+    return new Date(date).toLocaleDateString('en-US', dateOptions);
+  }, []);
 
-  const options: any = {
-    selectableRows: _.isNil(filter) ? 'none' : 'multiple',
-    serverSide: true,
-    filterType: 'multiselect',
-    responsive: smallScreen ? 'vertical' : 'standard',
-    count: totalCount,
-    rowsPerPage: pageSize,
-    page,
-    elevation: 0,
-    onTableChange: (action: string, tableState: any) => {
+  const processedColumns = useMemo(() => {
+    return columns.map((col) => {
+      const newCol = { ...col };
+      if (!newCol.options) newCol.options = {};
+      newCol.options.display = columnVisibility[col.name];
+      if (
+        [
+          'updated_at',
+          'created_at',
+          'deleted_at',
+          'last_login_time',
+          'joined_at',
+          'last_run',
+          'next_run'
+        ].includes(col.name)
+      ) {
+        newCol.options.customBodyRender = (value: any) => {
+          if (!value || value === 'NA') return <>NA</>;
+          if (typeof value === 'object' && 'Valid' in value) {
+            if (value.Valid && value.Time) {
+              return <>{formatDate(value.Time)}</>;
+            }
+            return <>NA</>;
+          }
+          return <>{formatDate(value)}</>;
+        };
+      }
+      return newCol;
+    });
+  }, [columns, columnVisibility, formatDate]);
+
+  const handleTableChange = useCallback(
+    (action: string, tableState: any) => {
       const sortInfo = tableState.announceText ? tableState.announceText.split(' : ') : [];
       let order = '';
       if (tableState.activeColumn) {
@@ -98,29 +124,57 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
           }
           break;
       }
-    }
-  };
+    },
+    [columns, setPage, setPageSize, setSortOrder, sortOrder]
+  );
 
-  if (_.isNil(filter)) {
-    options.customToolbarSelect = (selected: any) => (
-      <UnpublishTooltipIcon
-        title="Unpublish"
-        onClick={() => handleBulkpatternsDataUnpublishModal(selected, patterns, modalRef)}
-        iconType="publish"
-        id={'unpublish-button'}
-      >
-        <PublishIcon width={28.8} height={28.8} fill={CHARCOAL} />
-      </UnpublishTooltipIcon>
-    );
-  } else {
-    options.onRowsDelete = (rowsDeleted: any) => {
-      const selectedPatterns = rowsDeleted.data.map(({ dataIndex }: any) => patterns[dataIndex]);
-      handleBulkDeleteModal(selectedPatterns, modalRef);
-      return false;
-    };
-  }
+  const options = useMemo(
+    () => ({
+      selectableRows: _.isNil(filter) ? 'none' : 'multiple',
+      serverSide: true,
+      filterType: 'multiselect',
+      responsive: smallScreen ? 'vertical' : 'standard',
+      count: totalCount,
+      rowsPerPage: pageSize,
+      page,
+      elevation: 0,
+      onTableChange: handleTableChange,
+      customToolbarSelect: _.isNil(filter)
+        ? (selected: any) => (
+            <UnpublishTooltipIcon
+              title="Unpublish"
+              onClick={() => handleBulkpatternsDataUnpublishModal(selected, patterns, modalRef)}
+              iconType="publish"
+              id={'unpublish-button'}
+            >
+              <PublishIcon width={28.8} height={28.8} fill={CHARCOAL} />
+            </UnpublishTooltipIcon>
+          )
+        : undefined,
+      onRowsDelete: !_.isNil(filter)
+        ? (rowsDeleted: any) => {
+            const selectedPatterns = rowsDeleted.data.map(
+              ({ dataIndex }: any) => patterns[dataIndex]
+            );
+            handleBulkDeleteModal(selectedPatterns, modalRef);
+            return false;
+          }
+        : undefined
+    }),
+    [
+      filter,
+      smallScreen,
+      totalCount,
+      pageSize,
+      page,
+      handleTableChange,
+      patterns,
+      handleBulkDeleteModal,
+      handleBulkpatternsDataUnpublishModal
+    ]
+  );
 
-  if (!Array.isArray(tableCols) || tableCols.length === 0) {
+  if (!processedColumns.length) {
     return null;
   }
 
@@ -128,14 +182,13 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
     <>
       <PromptComponent ref={modalRef} />
       <ResponsiveDataTable
-        columns={columns}
+        columns={processedColumns}
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
         data={patterns || []}
         options={options}
         colViews={colViews}
-        tableCols={tableCols}
-        updateCols={updateCols}
+        tableCols={processedColumns}
         columnVisibility={columnVisibility}
         backgroundColor={
           theme.palette.mode === 'light'
