@@ -2,8 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
-import { Avatar, Box, Grid, Typography } from '../../base';
-import { CLOUD_URL } from '../../constants/constants';
 import { iconMedium } from '../../constants/iconsSizes';
 import {
   ChainIcon,
@@ -12,16 +10,15 @@ import {
   FacebookIcon,
   KanvasIcon,
   LinkedinIcon,
-  PersonIcon,
   PublishIcon,
   TwitterIcon
 } from '../../icons';
 import { downloadFilter, downloadYaml } from '../CatalogDetail/helper';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
 import { Pattern } from '../CustomCatalog/CustomCard';
-import { CustomTooltip } from '../CustomTooltip';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
+import AuthorCell from './AuthorCell';
 import { NameDiv } from './style';
 
 export type ColView = [string, 'na' | 'xs' | 'l'];
@@ -141,47 +138,15 @@ export const createDesignColumns = ({
           const lastName = getColumnValue(tableMeta, 'last_name');
           const avatar_url = getColumnValue(tableMeta, 'avatar_url');
           const user_id = getColumnValue(tableMeta, 'user_id');
-          const displayName =
-            firstName && lastName
-              ? `${firstName} ${lastName}`
-              : firstName
-              ? firstName
-              : lastName
-              ? lastName
-              : '';
 
           return (
-            <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
-              <Grid
-                container
-                alignItems="center"
-                style={maxWidth ? { width: 'max-content' } : { width: '' }}
-              >
-                <Grid item>
-                  <Box sx={{ color: 'text.secondary', mr: 1 }}>
-                    <CustomTooltip title={`View ${displayName}'s Profile`}>
-                      <div>
-                        <Avatar
-                          style={{ cursor: 'pointer' }}
-                          alt={displayName}
-                          src={avatar_url}
-                          onClick={() => {
-                            window.open(`${CLOUD_URL}/user/${user_id}`, '_blank');
-                          }}
-                        >
-                          {!avatar_url && <PersonIcon />}
-                        </Avatar>
-                      </div>
-                    </CustomTooltip>
-                  </Box>
-                </Grid>
-                {maxWidth && (
-                  <Grid item>
-                    <Typography variant="body2">{displayName}</Typography>
-                  </Grid>
-                )}
-              </Grid>
-            </Box>
+            <AuthorCell
+              firstName={firstName}
+              lastName={lastName}
+              avatarUrl={avatar_url}
+              userId={user_id}
+              maxWidth={maxWidth}
+            />
           );
         }
       }
