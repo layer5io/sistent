@@ -172,13 +172,13 @@ export const MetricsType = styled('div')(({ theme }) => ({
   letterSpacing: '0.15px',
   lineHeight: '1.5',
   textTransform: 'lowercase',
-  color: theme.palette.background.supplementary,
+  color: theme.palette.icon.secondary,
   [' @media (max-width: 285px)']: {
     fontSize: '0.86rem'
   }
 }));
 export const MetricsData = styled('div')(({ theme }) => ({
-  color: theme.palette.background.supplementary,
+  color: theme.palette.icon.secondary,
   fontSize: '1.2rem',
   fontWeight: 'bold',
   lineHeight: '1.5'
