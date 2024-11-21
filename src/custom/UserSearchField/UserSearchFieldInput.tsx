@@ -194,6 +194,11 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
             label={label}
             error={!!error}
             helperText={error}
+            InputLabelProps={{
+              style: {
+                fontFamily: 'inherit'
+              }
+            }}
             InputProps={{
               ...params.InputProps,
               endAdornment: (
