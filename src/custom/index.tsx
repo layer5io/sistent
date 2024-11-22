@@ -136,4 +136,5 @@ export type {
 export * from './CatalogDesignTable';
 export * from './CatalogDetail';
 export * from './Dialog';
+export * from './Workspaces';
 export * from './permissions';
