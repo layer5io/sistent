@@ -5,6 +5,7 @@ import { PublishIcon } from '../../icons';
 import { CHARCOAL, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ErrorBoundary } from '../ErrorBoundary';
+import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
 import PromptComponent from '../Prompt';
 import { PromptRef } from '../Prompt/promt-component';
 import ResponsiveDataTable from '../ResponsiveDataTable';
@@ -22,7 +23,7 @@ interface CatalogDesignsTableProps {
   page: number;
   setPage: (page: number) => void;
   columnVisibility: Record<string, boolean>;
-  colViews: Record<string, boolean> | undefined;
+  colViews: ColView[];
   handleBulkDeleteModal: (patterns: Pattern[], modalRef: React.RefObject<PromptRef>) => void;
   handleBulkpatternsDataUnpublishModal: (
     selected: any,
@@ -43,7 +44,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
   page = 0,
   setPage,
   columnVisibility = {},
-  colViews = {},
+  colViews = [],
   handleBulkDeleteModal,
   handleBulkpatternsDataUnpublishModal
 }) => {

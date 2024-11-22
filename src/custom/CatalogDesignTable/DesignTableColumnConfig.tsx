@@ -7,6 +7,7 @@ import { downloadYaml, slugify } from '../CatalogDetail/helper';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
+import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
 import AuthorCell from './AuthorCell';
 import { getColumnValue } from './helper';
@@ -31,7 +32,7 @@ interface ColumnConfigProps {
   isUnpublishDisabled: boolean;
 }
 
-export const colViews: [string, string][] = [
+export const colViews: ColView[] = [
   ['id', 'na'],
   ['name', 'xs'],
   ['first_name', 'xs'],
