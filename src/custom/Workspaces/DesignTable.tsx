@@ -20,6 +20,7 @@ import AssignmentModal from './AssignmentModal';
 import EditButton from './EditButton';
 import useDesignAssignment from './hooks/useDesignAssignment';
 import { TableHeader, TableRightActionHeader } from './styles';
+import { ColumnVisibility } from './types';
 
 export interface DesignTableProps {
   workspaceId: string;
@@ -62,9 +63,6 @@ export interface PublishModalState {
   pattern: Partial<Pattern>;
 }
 
-export interface ColumnVisibility {
-  [key: string]: boolean;
-}
 export interface TableColumn {
   name: string;
   label: string;
