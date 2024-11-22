@@ -1,3 +1,4 @@
+import { MUIDataTableColumn } from 'mui-datatables';
 import React from 'react';
 import { Box } from '../../base/Box';
 import { Card } from '../../base/Card';
@@ -10,7 +11,7 @@ import PopperListener from '../PopperListener';
 import TooltipIcon from '../TooltipIcon';
 
 export interface CustomColumnVisibilityControlProps {
-  columns: CustomColumn[];
+  columns: MUIDataTableColumn[];
   customToolsProps: {
     columnVisibility: Record<string, boolean>;
     setColumnVisibility: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;

@@ -1,6 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Modal, ModalBody, ModalButtonPrimary, ModalButtonSecondary, ModalFooter } from '../Modal';
 import { TransferList } from '../TransferModal/TransferList';
-import { ListItemType } from '../TransferModal/TransferList/TransferList';
 import { ModalActionDiv } from './styles';
 
 interface AssignmentModalProps {
@@ -9,9 +9,9 @@ interface AssignmentModalProps {
   title: string;
   headerIcon: JSX.Element;
   name: string;
-  assignableData: ListItemType[];
-  handleAssignedData: (data: ListItemType[]) => void;
-  originalAssignedData: ListItemType[];
+  assignableData: any[];
+  handleAssignedData: (data: any) => void;
+  originalAssignedData: any[];
   emptyStateIcon: JSX.Element;
   handleAssignablePage: () => void;
   handleAssignedPage: () => void;

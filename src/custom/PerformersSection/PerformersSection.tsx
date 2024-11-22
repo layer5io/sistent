@@ -184,7 +184,7 @@ interface PageArgs {
   [key: string]: any;
 }
 
-const withDefaultPageArgs = (args: PageArgs = {}): PageArgs => ({
+export const withDefaultPageArgs = (args: PageArgs = {}): PageArgs => ({
   search: args.search ?? '',
   order: args.order ?? '',
   pagesize: args.pagesize ?? 0,

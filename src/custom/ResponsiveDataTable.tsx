@@ -4,6 +4,7 @@ import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { ShareIcon } from '../icons';
 import { EllipsisIcon } from '../icons/Ellipsis';
+import { ColView } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import TooltipIcon from './TooltipIcon';
 
 export const IconWrapper = styled('div')<{ disabled?: boolean }>(({ disabled = false }) => ({
@@ -283,7 +284,7 @@ export interface ResponsiveDataTableProps {
   updateCols?: ((columns: Column[]) => void) | undefined;
   columnVisibility: Record<string, boolean> | undefined;
   theme?: object;
-  colViews?: Record<string, boolean> | undefined;
+  colViews?: ColView[];
   rowsPerPageOptions?: number[] | undefined;
   backgroundColor?: string;
 }
