@@ -32,3 +32,16 @@ export const L5EditIcon = styled(EditIcon)<ExtendedEditIconProps>(
     ...style
   })
 );
+
+export const TableHeader = styled('div')({
+  display: 'flex',
+  justifyContent: 'space-between',
+  width: '100%',
+  alignItems: 'center'
+});
+
+export const TableRightActionHeader = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  marginRight: '1rem'
+});
