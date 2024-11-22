@@ -1,4 +1,4 @@
 import AssignmentModal from './AssignmentModal';
-import DesignTable from './designs-table';
-
-export { AssignmentModal, DesignTable };
+import DesignTable from './DesignTable';
+import EnvironmentTable from './EnvironmentTable';
+export { AssignmentModal, DesignTable, EnvironmentTable };

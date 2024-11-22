@@ -1,6 +1,6 @@
 import EditIcon from '@mui/icons-material/Edit';
 import { buttonDisabled, styled } from '../../theme';
-import { HOVER_DELETE } from '../../theme/colors/colors';
+import { KEPPEL } from '../../theme/colors/colors';
 
 export const ModalActionDiv = styled('div')({
   display: 'flex',
@@ -20,9 +20,9 @@ export const L5EditIcon = styled(EditIcon)<ExtendedEditIconProps>(
     width: bulk ? '32' : '28.8',
     height: bulk ? '32' : '28.8',
     '&:hover': {
-      color: disabled ? buttonDisabled : HOVER_DELETE,
+      color: disabled ? buttonDisabled : KEPPEL,
       '& svg': {
-        color: disabled ? buttonDisabled : HOVER_DELETE
+        color: disabled ? buttonDisabled : KEPPEL
       }
     },
     '& svg': {
@@ -44,4 +44,22 @@ export const TableRightActionHeader = styled('div')({
   display: 'flex',
   alignItems: 'center',
   marginRight: '1rem'
+});
+
+export const CellStyle = styled('div')({
+  boxSizing: 'border-box',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap'
+});
+
+export const CustomBodyRenderStyle = styled('div')({
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
+  boxSizing: 'border-box',
+  display: 'block',
+  width: '100%'
 });

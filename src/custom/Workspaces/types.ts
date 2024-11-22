@@ -32,6 +32,10 @@ export interface Environment {
   updated_at: string;
 }
 
+export interface ColumnVisibility {
+  [key: string]: boolean;
+}
+
 export interface Team {
   id: string;
   name: string;
