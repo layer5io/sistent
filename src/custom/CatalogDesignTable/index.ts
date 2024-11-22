@@ -4,7 +4,7 @@ import { colViews, createDesignColumns } from './columnConfig';
 import {
   createDesignsColumnsConfig,
   colViews as designColumnsColViews
-} from './DesignColumnConfig';
+} from './DesignTableColumnConfig';
 export { TableVisibilityControl } from './TableVisibilityControl';
 export { ViewSwitch } from './ViewSwitch';
 export {

@@ -46,7 +46,7 @@ export interface TransferListProps {
   leftPermission: boolean;
 }
 
-interface ListItemType {
+export interface ListItemType {
   id: number;
   name: string;
   kind: string | undefined;
