@@ -25,6 +25,7 @@ interface CatalogDesignsTableProps {
   columnVisibility: Record<string, boolean>;
   colViews: ColView[];
   handleBulkDeleteModal: (patterns: Pattern[], modalRef: React.RefObject<PromptRef>) => void;
+  setSearch?: (search: string) => void;
   handleBulkpatternsDataUnpublishModal: (
     selected: any,
     patterns: Pattern[],
@@ -46,6 +47,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
   columnVisibility = {},
   colViews = [],
   handleBulkDeleteModal,
+  setSearch,
   handleBulkpatternsDataUnpublishModal
 }) => {
   const theme = useTheme();
@@ -106,6 +108,9 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
         case 'changeRowsPerPage':
           setPageSize(tableState.rowsPerPage);
           break;
+        case 'search':
+          setSearch && setSearch(tableState.searchText !== null ? tableState.searchText : '');
+          break;
         case 'sort':
           if (
             sortInfo.length === 2 &&
@@ -124,7 +129,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
           break;
       }
     },
-    [columns, setPage, setPageSize, setSortOrder, sortOrder]
+    [columns, setPage, setSearch, setPageSize, setSortOrder, sortOrder]
   );
 
   const options = useMemo(
@@ -137,6 +142,11 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
       rowsPerPage: pageSize,
       page,
       elevation: 0,
+      sortOrder: {
+        name: 'updated_at At',
+        direction: 'desc'
+      },
+
       onTableChange: handleTableChange,
       customToolbarSelect: _.isNil(filter)
         ? (selected: any) => (

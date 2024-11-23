@@ -7,7 +7,7 @@ import { ClickAwayListener } from '../base/ClickAwayListener';
 import { TextField } from '../base/TextField';
 import { CloseIcon, SearchIcon } from '../icons';
 import { useTheme } from '../theme';
-import TooltipIcon from './TooltipIcon';
+import { TooltipIcon } from './TooltipIconButton';
 
 const customTheme = (theme: Theme) =>
   createTheme({
@@ -92,7 +92,8 @@ function SearchBar({
     debouncedOnSearch(value);
   };
 
-  const handleClearIconClick = (): void => {
+  const handleClearIconClick = (e: React.MouseEvent): void => {
+    e.stopPropagation();
     debouncedOnSearch('');
     setSearchText('');
     setExpanded(false);
@@ -101,7 +102,8 @@ function SearchBar({
     }
   };
 
-  const handleSearchIconClick = (): void => {
+  const handleSearchIconClick = (e: React.MouseEvent): void => {
+    e.stopPropagation();
     if (expanded) {
       debouncedOnSearch('');
       setSearchText('');
@@ -119,17 +121,18 @@ function SearchBar({
   return (
     <ClickAwayListener
       onClickAway={(event) => {
+        event.stopPropagation();
         const isTable = (event.target as HTMLElement)?.closest('#ref');
 
         if (searchText !== '') {
           return;
         }
         if (isTable) {
-          handleClearIconClick(); // Close the search bar as needed
+          handleClearIconClick(event as unknown as React.MouseEvent);
         }
       }}
     >
-      <div>
+      <>
         <ThemeProvider theme={customTheme(theme)}>
           <TextField
             variant="standard"
@@ -159,7 +162,7 @@ function SearchBar({
             arrow
           />
         )}
-      </div>
+      </>
     </ClickAwayListener>
   );
 }
