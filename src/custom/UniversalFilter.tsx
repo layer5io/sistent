@@ -9,7 +9,7 @@ import { Select } from '../base/Select';
 import { FilterIcon } from '../icons';
 import { useTheme } from '../theme';
 import PopperListener from './PopperListener';
-import TooltipIcon from './TooltipIcon';
+import { TooltipIcon } from './TooltipIconButton';
 
 export interface FilterColumn {
   name: string;

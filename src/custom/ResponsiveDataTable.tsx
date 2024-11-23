@@ -5,7 +5,7 @@ import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '
 import { ShareIcon } from '../icons';
 import { EllipsisIcon } from '../icons/Ellipsis';
 import { ColView } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
-import TooltipIcon from './TooltipIcon';
+import { TooltipIcon } from './TooltipIconButton';
 
 export const IconWrapper = styled('div')<{ disabled?: boolean }>(({ disabled = false }) => ({
   cursor: disabled ? 'not-allowed' : 'pointer',

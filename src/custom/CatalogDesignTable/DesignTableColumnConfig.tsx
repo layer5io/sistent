@@ -25,11 +25,14 @@ interface ColumnConfigProps {
   handleCopyUrl: (type: string, name: string, id: string) => void;
   handleClone: (name: string, id: string) => void;
   handleShowDetails: (designId: string, designName: string) => void;
-  isDownloadDisabled: boolean;
-  isCopyLinkDisabled: boolean;
-  isDeleteDisabled: boolean;
-  isPublishDisabled: boolean;
-  isUnpublishDisabled: boolean;
+  isDownloadAllowed: boolean;
+  isCopyLinkAllowed: boolean;
+  isDeleteAllowed: boolean;
+  isPublishAllowed: boolean;
+  isUnpublishAllowed: boolean;
+  // for workspace designs table page only
+  isFromWorkspaceTable?: boolean;
+  isRemoveAllowed?: boolean;
 }
 
 export const colViews: ColView[] = [
@@ -49,11 +52,13 @@ export const createDesignsColumnsConfig = ({
   handleCopyUrl,
   handleClone,
   handleShowDetails,
-  isUnpublishDisabled,
-  isCopyLinkDisabled,
-  isDeleteDisabled,
-  isPublishDisabled,
-  isDownloadDisabled
+  isUnpublishAllowed,
+  isCopyLinkAllowed,
+  isDeleteAllowed,
+  isPublishAllowed,
+  isDownloadAllowed,
+  isRemoveAllowed,
+  isFromWorkspaceTable = false
 }: ColumnConfigProps): MUIDataTableColumn[] => {
   return [
     {
@@ -153,12 +158,12 @@ export const createDesignsColumnsConfig = ({
             {
               title: 'Download',
               onClick: () => downloadYaml(rowData?.pattern_file, rowData?.name),
-              disabled: isDownloadDisabled,
+              disabled: !isDownloadAllowed,
               icon: <Download width={24} height={24} fill={CHARCOAL} />
             },
             {
               title: 'Copy Link',
-              disabled: rowData.visibility === 'private' || isCopyLinkDisabled,
+              disabled: rowData.visibility === 'private' || !isCopyLinkAllowed,
               onClick: () => {
                 handleCopyUrl(RESOURCE_TYPES.DESIGNS, rowData?.name, rowData?.id);
               },
@@ -179,8 +184,8 @@ export const createDesignsColumnsConfig = ({
               icon: <KanvasIcon width={24} height={24} primaryFill={CHARCOAL} />
             },
             {
-              title: 'Delete',
-              disabled: isDeleteDisabled,
+              title: isFromWorkspaceTable ? 'Remove Design' : 'Delete',
+              disabled: isFromWorkspaceTable ? !isRemoveAllowed : !isDeleteAllowed,
               onClick: () => handleDeleteModal(rowData)(),
               icon: <L5DeleteIcon />
             }
@@ -188,7 +193,7 @@ export const createDesignsColumnsConfig = ({
 
           const publishAction = {
             title: 'Publish',
-            disabled: isPublishDisabled,
+            disabled: !isPublishAllowed,
             onClick: () => handlePublishModal(rowData),
             icon: <PublishIcon width={24} height={24} fill={CHARCOAL} />
           };
@@ -196,7 +201,7 @@ export const createDesignsColumnsConfig = ({
           const unpublishAction = {
             title: 'Unpublish',
             onClick: () => handleUnpublishModal(rowData)(),
-            disabled: isUnpublishDisabled,
+            disabled: !isUnpublishAllowed,
             icon: <PublishIcon width={24} height={24} fill={CHARCOAL} />
           };
 

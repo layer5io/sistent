@@ -8,7 +8,7 @@ import { FormControlLabel } from '../../base/FormControlLabel';
 import { ColumnIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import PopperListener from '../PopperListener';
-import TooltipIcon from '../TooltipIcon';
+import { TooltipIcon } from '../TooltipIconButton';
 
 export interface CustomColumnVisibilityControlProps {
   columns: MUIDataTableColumn[];
