@@ -1,40 +1,58 @@
-import { SxProps } from '@mui/material/styles';
+import { IconButton } from '@mui/material';
 import React from 'react';
-import { IconButton } from '../base/IconButton';
+import { useTheme } from '../theme';
 import { CustomTooltip } from './CustomTooltip';
+import { IconWrapper } from './ResponsiveDataTable';
 
 interface TooltipIconProps {
   title: string;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   arrow?: boolean;
   style?: React.CSSProperties;
+  iconType?: string;
+  id?: string;
+  placement?: 'bottom' | 'top' | 'left' | 'right';
+  disabled?: boolean;
+  children?: React.ReactNode;
 }
 
 export function TooltipIcon({
+  children,
   title,
   onClick,
   icon,
   style,
-  arrow = false
+  arrow = false,
+  disabled = false,
+  iconType,
+  id,
+  placement
 }: TooltipIconProps): JSX.Element {
+  const theme = useTheme();
+
   return (
-    <CustomTooltip title={title} arrow={arrow}>
-      <IconButton
-        onClick={onClick}
-        sx={{
-          '&:hover': {
-            '& svg': {
-              fill: '#00d3a9'
+    <CustomTooltip title={title} arrow={arrow} placement={placement} id={id}>
+      <IconWrapper disabled={disabled}>
+        <IconButton
+          disabled={disabled}
+          onClick={onClick}
+          sx={{
+            '&:hover': {
+              '& svg': {
+                fill:
+                  iconType === 'delete'
+                    ? theme.palette.error.main
+                    : theme.palette.primary.brand?.default
+              }
             },
-            borderRadius: '4px'
-          },
-          ...(style as SxProps)
-        }}
-        disableRipple
-      >
-        {icon}
-      </IconButton>
+            ...style
+          }}
+          disableRipple
+        >
+          {icon || children}
+        </IconButton>
+      </IconWrapper>
     </CustomTooltip>
   );
 }
