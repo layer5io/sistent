@@ -107,22 +107,24 @@ const useDesignAssignment = ({
   const handleAssignDesigns = async (): Promise<void> => {
     const { addedDesignsIds, removedDesignsIds } = getAddedAndRemovedDesigns(assignedDesigns);
 
-    for (const id of addedDesignsIds) {
-      await assignDesignToWorkspace({
+    addedDesignsIds.map((id) =>
+      assignDesignToWorkspace({
         workspaceId,
         designId: id
-      }).unwrap();
-    }
+      }).unwrap()
+    );
 
-    for (const id of removedDesignsIds) {
-      await unassignDesignFromWorkspace({
+    removedDesignsIds.map((id) =>
+      unassignDesignFromWorkspace({
         workspaceId,
         designId: id
-      }).unwrap();
-    }
+      }).unwrap()
+    );
 
     setDesignsData([]);
     setWorkspaceDesignsData([]);
+    setDesignsPage(0);
+    setDesignsOfWorkspacePage(0);
     handleAssignDesignModalClose();
   };
 

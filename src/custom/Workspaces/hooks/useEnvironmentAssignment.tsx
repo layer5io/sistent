@@ -23,6 +23,8 @@ const useEnvironmentAssignment = ({
   const [workspaceEnvironmentsData, setWorkspaceEnvironmentsData] = useState<Environment[]>([]);
   const [assignEnvironmentModal, setAssignEnvironmentModal] = useState<boolean>(false);
   const [skipEnvironments, setSkipEnvironments] = useState<boolean>(true);
+  const [disableTransferButton, setDisableTransferButton] = useState<boolean>(true);
+  const [assignedEnvironments, setAssignedEnvironments] = useState<Environment[]>([]);
 
   const { data: environments } = useGetEnvironmentsOfWorkspaceQuery(
     withDefaultPageArgs({
@@ -49,8 +51,6 @@ const useEnvironmentAssignment = ({
 
   const [assignEnvironmentToWorkspace] = useAssignEnvironmentToWorkspaceMutation();
   const [unassignEnvironmentFromWorkspace] = useUnassignEnvironmentFromWorkspaceMutation();
-  const [disableTransferButton, setDisableTransferButton] = useState<boolean>(true);
-  const [assignedEnvironments, setAssignedEnvironments] = useState<Environment[]>([]);
 
   useEffect(() => {
     const environmentsDataRtk = environments?.environments ? environments.environments : [];
@@ -92,29 +92,6 @@ const useEnvironmentAssignment = ({
     }
   };
 
-  const handleAssignEnvironments = async () => {
-    const { addedEnvironmentsIds, removedEnvironmentsIds } =
-      getAddedAndRemovedEnvironments(assignedEnvironments);
-
-    for (const id of addedEnvironmentsIds) {
-      await assignEnvironmentToWorkspace({
-        workspaceId,
-        environmentId: id
-      }).unwrap();
-    }
-
-    for (const id of removedEnvironmentsIds) {
-      await unassignEnvironmentFromWorkspace({
-        workspaceId,
-        environmentId: id
-      }).unwrap();
-    }
-
-    setEnvironmentsData([]);
-    setWorkspaceEnvironmentsData([]);
-    handleAssignEnvironmentModalClose();
-  };
-
   const getAddedAndRemovedEnvironments = (allAssignedEnvironments: Environment[]) => {
     const originalEnvironmentsIds = workspaceEnvironmentsData.map((env) => env.id);
     const updatedEnvironmentsIds = allAssignedEnvironments.map((env) => env.id);
@@ -129,12 +106,38 @@ const useEnvironmentAssignment = ({
     return { addedEnvironmentsIds, removedEnvironmentsIds };
   };
 
+  const handleAssignEnvironments = async () => {
+    const { addedEnvironmentsIds, removedEnvironmentsIds } =
+      getAddedAndRemovedEnvironments(assignedEnvironments);
+
+    addedEnvironmentsIds.map((id) =>
+      assignEnvironmentToWorkspace({
+        workspaceId,
+        environmentId: id
+      }).unwrap()
+    );
+
+    removedEnvironmentsIds.map((id) =>
+      unassignEnvironmentFromWorkspace({
+        workspaceId,
+        environmentId: id
+      }).unwrap()
+    );
+
+    setEnvironmentsData([]);
+    setWorkspaceEnvironmentsData([]);
+    setEnvironmentsPage(0);
+    setEnvironmentsOfWorkspacePage(0);
+    handleAssignEnvironmentModalClose();
+  };
+
   const handleAssignEnvironmentsData = (updatedAssignedData: Environment[]) => {
     const { addedEnvironmentsIds, removedEnvironmentsIds } =
       getAddedAndRemovedEnvironments(updatedAssignedData);
     addedEnvironmentsIds.length > 0 || removedEnvironmentsIds.length > 0
       ? setDisableTransferButton(false)
       : setDisableTransferButton(true);
+
     setAssignedEnvironments(updatedAssignedData);
   };
 
