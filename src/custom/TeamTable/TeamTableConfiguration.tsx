@@ -288,6 +288,10 @@ export default function TeamTableConfiguration({
         backgroundColor: '#f3f1f1'
       }
     },
+    sortOrder: {
+      name: 'created_at',
+      direction: 'desc'
+    },
     viewColumns: false,
     search: false,
     rowsExpanded: [ExpandedRowIdx],

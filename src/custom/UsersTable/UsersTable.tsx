@@ -174,6 +174,10 @@ const UsersTable: React.FC<UsersTableProps> = ({
     download: false,
     elevation: 0,
     serverSide: true,
+    sortOrder: {
+      name: 'last_login_time',
+      direction: 'desc'
+    },
     onTableChange: (action: string, tableState: any) => {
       const sortInfo = tableState.announceText ? tableState.announceText.split(' : ') : [];
       let order = '';

@@ -143,7 +143,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
       page,
       elevation: 0,
       sortOrder: {
-        name: 'updated_at At',
+        name: 'updated_at',
         direction: 'desc'
       },
 
