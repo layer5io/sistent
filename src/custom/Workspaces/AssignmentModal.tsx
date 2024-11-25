@@ -19,8 +19,8 @@ interface AssignmentModalProps {
   originalRightCount: number;
   onAssign: () => void;
   disableTransfer: boolean;
-  isAssignDisabled: boolean;
-  isRemoveDisabled: boolean;
+  isAssignAllowed: boolean;
+  isRemoveAllowed: boolean;
   helpText: string;
 }
 
@@ -40,8 +40,8 @@ const AssignmentModal: React.FC<AssignmentModalProps> = ({
   originalRightCount,
   onAssign,
   disableTransfer,
-  isAssignDisabled,
-  isRemoveDisabled,
+  isAssignAllowed,
+  isRemoveAllowed,
   helpText
 }) => {
   return (
@@ -67,8 +67,8 @@ const AssignmentModal: React.FC<AssignmentModalProps> = ({
           assignedPage={handleAssignedPage}
           originalLeftCount={originalLeftCount}
           originalRightCount={originalRightCount}
-          leftPermission={isAssignDisabled}
-          rightPermission={isRemoveDisabled}
+          leftPermission={isAssignAllowed}
+          rightPermission={isRemoveAllowed}
           transferComponentType={''}
         />
       </ModalBody>
