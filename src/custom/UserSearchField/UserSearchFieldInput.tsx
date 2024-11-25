@@ -62,23 +62,6 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
   usersSearch,
   setUsersSearch
 }) => {
-  console.log('amit usersearchfield', {
-    usersData,
-    setUsersData,
-    label,
-    setDisableSave,
-    handleNotifyPref,
-    notifyUpdate,
-    isCreate,
-    searchType,
-    disabled,
-    currentUserData,
-    searchedUsers,
-    isUserSearchLoading,
-    fetchSearchedUsers,
-    usersSearch,
-    setUsersSearch
-  });
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
   const [showAllUsers, setShowAllUsers] = useState(false);
