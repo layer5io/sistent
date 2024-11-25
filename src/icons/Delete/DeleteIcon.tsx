@@ -4,6 +4,8 @@ import { IconProps } from '../types';
 export const DeleteIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
+  fill = '#455a64',
+  style,
   ...props
 }: IconProps): JSX.Element => {
   return (
@@ -12,6 +14,8 @@ export const DeleteIcon = ({
       viewBox="0 0 24 24"
       width={width}
       height={height}
+      fill={fill}
+      style={style}
       {...props}
     >
       <path d="M0 0h24v24H0z" fill="none" />
