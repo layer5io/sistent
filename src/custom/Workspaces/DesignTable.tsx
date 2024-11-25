@@ -16,11 +16,11 @@ import { CustomColumnVisibilityControl } from '../CustomColumnVisibilityControl'
 import { useWindowDimensions } from '../Helpers/Dimension';
 import { updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
 import PromptComponent from '../Prompt';
+import SearchBar from '../SearchBar';
 import AssignmentModal from './AssignmentModal';
 import EditButton from './EditButton';
 import useDesignAssignment from './hooks/useDesignAssignment';
 import { TableHeader, TableRightActionHeader } from './styles';
-import { ColumnVisibility } from './types';
 
 export interface DesignTableProps {
   workspaceId: string;
@@ -48,14 +48,15 @@ export interface DesignTableProps {
     modalRef: React.RefObject<any>
   ) => void;
   handleShowDetails: (designId: string, designName: string) => void;
-  isDownloadDisabled: boolean;
-  isCopyLinkDisabled: boolean;
-  isDeleteDisabled: boolean;
-  isPublishDisabled: boolean;
-  isUnpublishDisabled: boolean;
   GenericRJSFModal: any;
-  isAssignDisabled: boolean;
-  isRemoveDisabled: boolean;
+  isDownloadAllowed: boolean;
+  isCopyLinkAllowed: boolean;
+  isDeleteAllowed: boolean;
+  isPublishAllowed: boolean;
+  isUnpublishAllowed: boolean;
+  isAssignAllowed: boolean;
+  isRemoveAllowed: boolean;
+  setDesignSearch: (value: string) => void;
 }
 
 export interface PublishModalState {
@@ -83,17 +84,18 @@ const DesignTable: React.FC<DesignTableProps> = ({
   handleUnpublishModal,
   handleWorkspaceDesignDeleteModal,
   publishModalHandler,
-  isCopyLinkDisabled,
-  isDeleteDisabled,
-  isDownloadDisabled,
-  isPublishDisabled,
-  isUnpublishDisabled,
+  isCopyLinkAllowed,
+  isDeleteAllowed,
+  isDownloadAllowed,
+  isPublishAllowed,
+  isUnpublishAllowed,
   useAssignDesignToWorkspaceMutation,
   useUnassignDesignFromWorkspaceMutation,
   GenericRJSFModal,
-  isAssignDisabled,
-  isRemoveDisabled,
-  useGetWorkspaceDesignsQuery
+  isAssignAllowed,
+  isRemoveAllowed,
+  useGetWorkspaceDesignsQuery,
+  setDesignSearch
 }) => {
   const [publishModal, setPublishModal] = useState<PublishModalState>({
     open: false,
@@ -103,6 +105,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [sortOrder, setSortOrder] = useState<string>('');
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   const handlePublishModal = (pattern: Pattern): void => {
     const result = publishModalHandler(pattern);
@@ -119,11 +122,13 @@ const DesignTable: React.FC<DesignTableProps> = ({
     handleCopyUrl,
     handleClone,
     handleShowDetails,
-    isDownloadDisabled,
-    isCopyLinkDisabled,
-    isDeleteDisabled,
-    isPublishDisabled,
-    isUnpublishDisabled
+    isCopyLinkAllowed,
+    isDeleteAllowed,
+    isDownloadAllowed,
+    isPublishAllowed,
+    isUnpublishAllowed,
+    isFromWorkspaceTable: true,
+    isRemoveAllowed
   });
 
   const [publishSchema, setPublishSchema] = useState<{
@@ -135,9 +140,9 @@ const DesignTable: React.FC<DesignTableProps> = ({
   });
 
   const { width } = useWindowDimensions();
-  const [columnVisibility, setColumnVisibility] = useState<ColumnVisibility>(() => {
+  const [columnVisibility, setColumnVisibility] = useState<Record<string, boolean>>(() => {
     const showCols = updateVisibleColumns(designColumnsColViews, width);
-    const initialVisibility: ColumnVisibility = {};
+    const initialVisibility: Record<string, boolean> = {};
     columns.forEach((col) => {
       initialVisibility[col.name] = showCols[col.name];
     });
@@ -167,19 +172,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
     fetchSchema();
   }, [meshModelModelsData]);
 
-  const {
-    disableTransferButton,
-    assignModal,
-    handleAssignModalClose,
-    handleAssignModal,
-    assignedItems,
-    data,
-    workspaceData,
-    handleAssignablePage,
-    handleAssignedPage,
-    handleAssign,
-    handleAssignData
-  } = useDesignAssignment({
+  const designAssignment = useDesignAssignment({
     workspaceId,
     useAssignDesignToWorkspaceMutation,
     useUnassignDesignFromWorkspaceMutation,
@@ -192,6 +185,17 @@ const DesignTable: React.FC<DesignTableProps> = ({
         Assigned Designs
       </Typography>
       <TableRightActionHeader>
+        <SearchBar
+          onSearch={(value) => {
+            setDesignSearch(value);
+          }}
+          onClear={() => {
+            setDesignSearch('');
+          }}
+          expanded={isSearchExpanded}
+          setExpanded={setIsSearchExpanded}
+          placeholder="Search designs..."
+        />
         <CustomColumnVisibilityControl
           columns={columns}
           customToolsProps={{
@@ -200,7 +204,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
           }}
           id={'catalog-table'}
         />
-        <EditButton onClick={handleAssignModal} disabled={!isAssignDisabled} />
+        <EditButton onClick={designAssignment.handleAssignModal} disabled={!isAssignAllowed} />
       </TableRightActionHeader>
     </TableHeader>
   );
@@ -234,28 +238,29 @@ const DesignTable: React.FC<DesignTableProps> = ({
               handleBulkWorkspaceDesignDeleteModal(designs, modalRef, workspaceName, workspaceId)
             }
             filter={'my-designs'}
+            setSearch={setDesignSearch}
           />
         </AccordionDetails>
       </Accordion>
       <AssignmentModal
-        open={assignModal}
-        onClose={handleAssignModalClose}
+        open={designAssignment.assignModal}
+        onClose={designAssignment.handleAssignModalClose}
         title={`Assign Designs to ${workspaceName}`}
         headerIcon={<DesignIcon height="40" width="40" secondaryFill="white" />}
         name="Designs"
-        assignableData={data}
-        handleAssignedData={handleAssignData}
-        originalAssignedData={workspaceData}
+        assignableData={designAssignment.data}
+        handleAssignedData={designAssignment.handleAssignData}
+        originalAssignedData={designAssignment.workspaceData}
         emptyStateIcon={<DesignIcon height="5rem" width="5rem" secondaryFill={'#808080'} />}
-        handleAssignablePage={handleAssignablePage}
-        handleAssignedPage={handleAssignedPage}
-        originalLeftCount={data?.length}
-        originalRightCount={assignedItems?.length}
-        onAssign={handleAssign}
-        disableTransfer={disableTransferButton}
+        handleAssignablePage={designAssignment.handleAssignablePage}
+        handleAssignedPage={designAssignment.handleAssignedPage}
+        originalLeftCount={designAssignment.data?.length}
+        originalRightCount={designAssignment.assignedItems?.length}
+        onAssign={designAssignment.handleAssign}
+        disableTransfer={designAssignment.disableTransferButton}
         helpText={`Assign Designs to ${workspaceName}`}
-        isAssignDisabled={isAssignDisabled}
-        isRemoveDisabled={isRemoveDisabled}
+        isAssignAllowed={isAssignAllowed}
+        isRemoveAllowed={isRemoveAllowed}
       />
       <GenericRJSFModal
         open={publishModal.open}

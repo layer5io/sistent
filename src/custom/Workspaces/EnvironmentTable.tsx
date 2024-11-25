@@ -14,12 +14,12 @@ import {
   updateVisibleColumns
 } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
 import ResponsiveDataTable, { IconWrapper } from '../ResponsiveDataTable';
+import SearchBar from '../SearchBar';
+import { TooltipIcon } from '../TooltipIconButton';
 import AssignmentModal from './AssignmentModal';
 import EditButton from './EditButton';
-import TooltipIcon from './TooltipIcon';
 import useEnvironmentAssignment from './hooks/useEnvironmentAssignment';
 import { CellStyle, CustomBodyRenderStyle, TableHeader, TableRightActionHeader } from './styles';
-import { ColumnVisibility } from './types';
 
 interface EnvironmentTableProps {
   workspaceId: string;
@@ -27,8 +27,8 @@ interface EnvironmentTableProps {
   useGetEnvironmentsOfWorkspaceQuery: any;
   useUnassignEnvironmentFromWorkspaceMutation: any;
   useAssignEnvironmentToWorkspaceMutation: any;
-  isRemoveDisabled: boolean;
-  isAssignDisabled: boolean;
+  isRemoveAllowed: boolean;
+  isAssignAllowed: boolean;
 }
 
 const colViews: ColView[] = [
@@ -56,16 +56,18 @@ export const ResizableDescriptionCell = ({ value }: { value: string }) => (
 const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
   workspaceId,
   workspaceName,
-  isRemoveDisabled,
+  isRemoveAllowed,
   useGetEnvironmentsOfWorkspaceQuery,
   useUnassignEnvironmentFromWorkspaceMutation,
   useAssignEnvironmentToWorkspaceMutation,
-  isAssignDisabled
+  isAssignAllowed
 }) => {
   const [expanded, setExpanded] = useState<boolean>(true);
   const handleAccordionChange = () => {
     setExpanded(!expanded);
   };
+  const [search, setSearch] = useState('');
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [sortOrder, setSortOrder] = useState<string>('');
@@ -73,6 +75,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
     workspaceId,
     page: page,
     pageSize: pageSize,
+    search: search,
     order: sortOrder
   });
   const { width } = useWindowDimensions();
@@ -148,12 +151,12 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
         sort: false,
         searchable: false,
         customBodyRender: (_: any, tableMeta: MUIDataTableMeta) => (
-          <IconWrapper disabled={isRemoveDisabled}>
+          <IconWrapper disabled={!isRemoveAllowed}>
             <TooltipIcon
               id={`delete_team-${tableMeta.rowIndex}`}
               title="Remove Environment"
               onClick={() => {
-                !isRemoveDisabled &&
+                isRemoveAllowed &&
                   unassignEnvironmentFromWorkspace({
                     workspaceId,
                     environmentId: tableMeta.rowData[0]
@@ -161,13 +164,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
               }}
               iconType="delete"
             >
-              <DeleteIcon
-                height={28}
-                width={28}
-                style={{
-                  color: CHARCOAL
-                }}
-              />
+              <DeleteIcon height={28} width={28} fill={CHARCOAL} />
             </TooltipIcon>
           </IconWrapper>
         )
@@ -182,9 +179,9 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
     useAssignEnvironmentToWorkspaceMutation
   });
 
-  const [columnVisibility, setColumnVisibility] = useState<ColumnVisibility>(() => {
+  const [columnVisibility, setColumnVisibility] = useState<Record<string, boolean>>(() => {
     const showCols = updateVisibleColumns(colViews, width);
-    const initialVisibility: ColumnVisibility = {};
+    const initialVisibility: Record<string, boolean> = {};
     columns.forEach((col) => {
       initialVisibility[col.name] = showCols[col.name];
     });
@@ -213,6 +210,9 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
           break;
         case 'changeRowsPerPage':
           setPageSize(tableState.rowsPerPage);
+          break;
+        case 'search':
+          setSearch(tableState.searchText !== null ? tableState.searchText : '');
           break;
         case 'sort':
           if (sortInfo.length == 2) {
@@ -245,6 +245,17 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
               Assigned Environments
             </Typography>
             <TableRightActionHeader>
+              <SearchBar
+                onSearch={(value) => {
+                  setSearch(value);
+                }}
+                onClear={() => {
+                  setSearch('');
+                }}
+                expanded={isSearchExpanded}
+                setExpanded={setIsSearchExpanded}
+                placeholder="Search workspaces..."
+              />
               <CustomColumnVisibilityControl
                 columns={columns}
                 customToolsProps={{
@@ -255,7 +266,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
               />
               <EditButton
                 onClick={environmentAssignment.handleAssignModal}
-                disabled={isAssignDisabled}
+                disabled={!isAssignAllowed}
               />
             </TableRightActionHeader>
           </TableHeader>
@@ -290,8 +301,8 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
         onAssign={environmentAssignment.handleAssign}
         disableTransfer={environmentAssignment.disableTransferButton}
         helpText={`Assign Environments to ${workspaceName}`}
-        isAssignDisabled={!isAssignDisabled}
-        isRemoveDisabled={!isRemoveDisabled}
+        isAssignAllowed={isAssignAllowed}
+        isRemoveAllowed={isRemoveAllowed}
       />
     </SistentThemeProvider>
   );
