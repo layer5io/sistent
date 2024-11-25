@@ -196,6 +196,10 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
     rowsPerPage: pageSize,
     page,
     elevation: 0,
+    sortOrder: {
+      name: 'updated_at',
+      direction: 'desc'
+    },
     serverSide: true,
     onTableChange: (action: string, tableState: any) => {
       const sortInfo = tableState.announceText ? tableState.announceText.split(' : ') : [];
