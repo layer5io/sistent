@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { useState } from 'react';
 import { DeleteIcon, EditIcon } from '../../icons';
 import LogoutIcon from '../../icons/Logout/LogOutIcon';
@@ -17,11 +18,12 @@ import {
   TableTopIcon,
   TableTopIconsWrapper
 } from '../Workspaces/styles';
+import { Team } from '../Workspaces/types';
 
 // currently team does not support bulk team delete
 interface DeleteTeamsBtnProps {
   selected: any;
-  teams: any[];
+  teams: Team[];
   deleteTeamsModalHandler: (deleteTeams: { team_ids: string[]; team_names: string[] }) => void;
 }
 
@@ -55,7 +57,7 @@ function DeleteTeamsBtn({ selected, teams, deleteTeamsModalHandler }: DeleteTeam
 }
 
 interface TeamTableConfigurationProps {
-  teams: any[];
+  teams: Team[];
   count: number;
   page: number;
   pageSize: number;
@@ -65,9 +67,9 @@ interface TeamTableConfigurationProps {
   setSortOrder: (sortOrder: string) => void;
   bulkSelect: boolean;
   setBulkSelect: (bulkSelect: boolean) => void;
-  handleTeamView: (ev: any, rowData: any) => void;
-  handleDeleteTeam: (ev: any, rowData: any) => void;
-  handleleaveTeam: (ev: any, rowData: any) => void;
+  handleTeamView: (ev: React.MouseEvent, rowData: any) => void;
+  handleDeleteTeam: (ev: React.MouseEvent, rowData: any) => void;
+  handleleaveTeam: (ev: React.MouseEvent, rowData: any) => void;
   handleRemoveTeamFromWorkspace?: (rowData: any) => void;
   teamId: string;
   workspace?: boolean;
@@ -114,7 +116,7 @@ export default function TeamTableConfiguration({
     ['actions', 'xs']
   ];
 
-  const columns = [
+  const columns: MUIDataTableColumn[] = [
     {
       name: 'id',
       label: 'ID',
@@ -122,7 +124,7 @@ export default function TeamTableConfiguration({
         filter: false,
         sort: false,
         searchable: false,
-        customBodyRender: (value: any) => <FormatId id={value} />
+        customBodyRender: (value: string) => <FormatId id={value} />
       }
     },
     {
@@ -141,7 +143,7 @@ export default function TeamTableConfiguration({
         filter: false,
         sort: true,
         searchable: false,
-        customBodyRender: (value: any) => <ConditionalTooltip value={value} maxLength={30} />
+        customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={30} />
       }
     },
     {
@@ -171,10 +173,10 @@ export default function TeamTableConfiguration({
         sort: true,
         searchable: false,
         sortDescFirst: true,
-        customBodyRender: (v: any) => JSON.stringify(v),
+        customBodyRender: (v: string) => JSON.stringify(v),
         filterOptions: {
           names: ['Deleted', 'Not Deleted'],
-          logic: (val: any, filters: any) => {
+          logic: (val: string, filters: any) => {
             if (val != 'NA' && filters.indexOf('Deleted') >= 0) return true;
             else if (val == 'NA' && filters.indexOf('Not Deleted') >= 0) return true;
             return false;
@@ -190,7 +192,7 @@ export default function TeamTableConfiguration({
         filter: false,
         sort: false,
         searchable: false,
-        customBodyRender: (_: any, tableMeta: any) => {
+        customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => {
           if (bulkSelect || tableMeta.rowData[4].Valid) {
             return (
               <TableIconsDisabledContainer>
@@ -251,7 +253,7 @@ export default function TeamTableConfiguration({
                   <TooltipIcon
                     id={`delete_team-${tableMeta.rowIndex}`}
                     title={'Delete Team'}
-                    onClick={(ev: any) => {
+                    onClick={(ev: React.MouseEvent) => {
                       isDeleteTeamAllowed && handleDeleteTeam(ev, tableMeta.rowData);
                     }}
                     iconType="delete"

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash';
+import { MUIDataTableColumn } from 'mui-datatables';
 import { useCallback, useMemo, useRef } from 'react';
 import { PublishIcon } from '../../icons';
 import { CHARCOAL, useTheme } from '../../theme';
@@ -14,7 +15,7 @@ import UnpublishTooltipIcon from './UnpublishTooltipIcon';
 interface CatalogDesignsTableProps {
   patterns: Pattern[];
   filter: any;
-  columns: Array<any>;
+  columns: MUIDataTableColumn[];
   totalCount: number;
   sortOrder: string;
   setSortOrder: (order: string) => void;
@@ -63,7 +64,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
     return new Date(date).toLocaleDateString('en-US', dateOptions);
   }, []);
 
-  const processedColumns = useMemo(() => {
+  const processedColumns: MUIDataTableColumn[] = useMemo(() => {
     return columns.map((col) => {
       const newCol = { ...col };
       if (!newCol.options) newCol.options = {};

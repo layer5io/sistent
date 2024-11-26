@@ -35,4 +35,10 @@ export interface Environment {
 export interface Team {
   id: string;
   name: string;
+  team_id: string;
+  description?: string;
+  team_name: string;
+  deleted_at: {
+    Valid: boolean;
+  };
 }

@@ -1,5 +1,5 @@
 import { Theme, ThemeProvider, createTheme, styled } from '@mui/material';
-import MUIDataTable from 'mui-datatables';
+import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { ShareIcon } from '../icons';
@@ -278,10 +278,10 @@ export interface Column {
 
 export interface ResponsiveDataTableProps {
   data: string[][];
-  columns: Column[];
+  columns: MUIDataTableColumn[];
   options?: object;
-  tableCols?: Column[];
-  updateCols?: ((columns: Column[]) => void) | undefined;
+  tableCols?: MUIDataTableColumn[];
+  updateCols?: ((columns: MUIDataTableColumn[]) => void) | undefined;
   columnVisibility: Record<string, boolean> | undefined;
   theme?: object;
   colViews?: ColView[];

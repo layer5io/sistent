@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Grid, TableCell } from '@mui/material';
+import { MUIDataTableColumn } from 'mui-datatables';
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary.js';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/index.js';
 import ResponsiveDataTable from '../ResponsiveDataTable.js';
@@ -11,7 +12,7 @@ interface TeamTableProps {
   columnVisibility: Record<string, boolean>;
   colViews: ColView[];
   tableCols: any[];
-  columns: any[];
+  columns: MUIDataTableColumn[];
   updateCols: (cols: any) => void;
   isRemoveFromTeamAllowed: boolean;
   org_id: string;
