@@ -43,10 +43,9 @@ export const UnpublishAction = styled('div')<ActionButtonProps>(({ disabled = fa
   justifyContent: 'center',
   alignItems: 'center',
   borderRadius: '0.5rem',
-  backgroundColor: 'transparent',
-  border: `1px solid ${theme.palette.border.normal}`,
+  backgroundColor: theme.palette.background.error?.default,
   padding: '0.5rem',
-  color: theme.palette.text.default,
+  color: theme.palette.text.inverse,
   gap: '0.625rem',
   flex: '1'
 }));

@@ -23,6 +23,8 @@ interface LeftPanelProps {
   showUnpublishAction?: boolean;
   showOpenPlaygroundAction?: boolean;
   onOpenPlaygroundClick: (designId: string, name: string) => void;
+  showInfoAction?: boolean;
+  handleInfoClick?: () => void;
 }
 
 const LeftPanel: React.FC<LeftPanelProps> = ({
@@ -40,7 +42,9 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   fontFamily,
   showUnpublishAction = false,
   showOpenPlaygroundAction = true,
-  onOpenPlaygroundClick
+  onOpenPlaygroundClick,
+  showInfoAction = false,
+  handleInfoClick
 }) => {
   const theme = useTheme();
 
@@ -83,6 +87,8 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
         isCloneDisabled={isCloneDisabled}
         showOpenPlaygroundAction={showOpenPlaygroundAction}
         onOpenPlaygroundClick={onOpenPlaygroundClick}
+        showInfoAction={showInfoAction}
+        handleInfoClick={handleInfoClick}
       />
       {showTechnologies && (
         <TechnologySection
