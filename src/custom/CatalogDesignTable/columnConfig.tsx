@@ -17,11 +17,11 @@ import { downloadFilter, downloadYaml } from '../CatalogDetail/helper';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
+import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
 import AuthorCell from './AuthorCell';
+import { getColumnValue } from './helper';
 import { NameDiv } from './style';
-
-export type ColView = [string, 'na' | 'xs' | 'l'];
 
 export const colViews: ColView[] = [
   ['id', 'na'],
@@ -83,12 +83,6 @@ export const createDesignColumns = ({
   showOpenPlayground
 }: ColumnConfigProps): MUIDataTableColumn[] => {
   const cleanedType = type?.replace('my-', '').replace(/s$/, '');
-  const getColumnValue = (tableMeta: MUIDataTableMeta, targetColumn: string): any => {
-    //@ts-ignore
-    const rowData = tableMeta.tableData[tableMeta.rowIndex] as Pattern;
-    return (rowData as any)[targetColumn] || '';
-  };
-
   return [
     {
       name: 'id',

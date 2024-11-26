@@ -1,8 +1,8 @@
-import { IconButton } from '@mui/material';
 import React from 'react';
-import { useTheme } from '../theme';
-import { CustomTooltip } from './CustomTooltip';
-import { IconWrapper } from './ResponsiveDataTable';
+import { IconButton } from '../../base/IconButton';
+import { useTheme } from '../../theme';
+import { CustomTooltip } from '../CustomTooltip';
+import { IconWrapper } from '../ResponsiveDataTable';
 
 interface TooltipIconProps {
   title: string;
@@ -23,7 +23,7 @@ export function TooltipIcon({
   onClick,
   icon,
   style,
-  arrow = false,
+  arrow = true,
   disabled = false,
   iconType,
   id,

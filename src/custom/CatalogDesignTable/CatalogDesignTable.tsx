@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash';
+import { MUIDataTableColumn } from 'mui-datatables';
 import { useCallback, useMemo, useRef } from 'react';
 import { PublishIcon } from '../../icons';
 import { CHARCOAL, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ErrorBoundary } from '../ErrorBoundary';
+import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
 import PromptComponent from '../Prompt';
 import { PromptRef } from '../Prompt/promt-component';
 import ResponsiveDataTable from '../ResponsiveDataTable';
@@ -13,7 +15,7 @@ import UnpublishTooltipIcon from './UnpublishTooltipIcon';
 interface CatalogDesignsTableProps {
   patterns: Pattern[];
   filter: any;
-  columns: Array<any>;
+  columns: MUIDataTableColumn[];
   totalCount: number;
   sortOrder: string;
   setSortOrder: (order: string) => void;
@@ -22,8 +24,9 @@ interface CatalogDesignsTableProps {
   page: number;
   setPage: (page: number) => void;
   columnVisibility: Record<string, boolean>;
-  colViews: Record<string, boolean> | undefined;
+  colViews: ColView[];
   handleBulkDeleteModal: (patterns: Pattern[], modalRef: React.RefObject<PromptRef>) => void;
+  setSearch?: (search: string) => void;
   handleBulkpatternsDataUnpublishModal: (
     selected: any,
     patterns: Pattern[],
@@ -43,8 +46,9 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
   page = 0,
   setPage,
   columnVisibility = {},
-  colViews = {},
+  colViews = [],
   handleBulkDeleteModal,
+  setSearch,
   handleBulkpatternsDataUnpublishModal
 }) => {
   const theme = useTheme();
@@ -60,7 +64,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
     return new Date(date).toLocaleDateString('en-US', dateOptions);
   }, []);
 
-  const processedColumns = useMemo(() => {
+  const processedColumns: MUIDataTableColumn[] = useMemo(() => {
     return columns.map((col) => {
       const newCol = { ...col };
       if (!newCol.options) newCol.options = {};
@@ -105,6 +109,9 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
         case 'changeRowsPerPage':
           setPageSize(tableState.rowsPerPage);
           break;
+        case 'search':
+          setSearch && setSearch(tableState.searchText !== null ? tableState.searchText : '');
+          break;
         case 'sort':
           if (
             sortInfo.length === 2 &&
@@ -123,7 +130,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
           break;
       }
     },
-    [columns, setPage, setPageSize, setSortOrder, sortOrder]
+    [columns, setPage, setSearch, setPageSize, setSortOrder, sortOrder]
   );
 
   const options = useMemo(
@@ -136,6 +143,11 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
       rowsPerPage: pageSize,
       page,
       elevation: 0,
+      sortOrder: {
+        name: 'updated_at',
+        direction: 'desc'
+      },
+
       onTableChange: handleTableChange,
       customToolbarSelect: _.isNil(filter)
         ? (selected: any) => (

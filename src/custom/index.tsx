@@ -27,6 +27,7 @@ import {
 } from './ErrorBoundary';
 import { FeedbackButton } from './Feedback';
 import { FlipCard, FlipCardProps } from './FlipCard';
+import { FormatId } from './FormatId';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
 import { ColView, updateVisibleColumns } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
@@ -40,9 +41,12 @@ import ResponsiveDataTable, {
   ResponsiveDataTableProps
 } from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
+import { TeamTable, TeamTableConfiguration } from './TeamTable';
+import { TooltipIcon } from './TooltipIconButton';
 import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
+import { UsersTable } from './UsersTable';
 export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
 export type { FilterListType } from './CatalogFilterSection';
@@ -59,6 +63,7 @@ export { TOC } from './TOCChapter';
 export { TOCLearning } from './TOCLearning';
 export { Terminal } from './Terminal';
 export { UserSearchField } from './UserSearchField';
+
 export {
   ActionButton,
   BookmarkNotification,
@@ -78,6 +83,7 @@ export {
   Fallback,
   FeedbackButton,
   FlipCard,
+  FormatId,
   InfoTooltip,
   LearningCard,
   ModalCard,
@@ -88,8 +94,12 @@ export {
   StyledDialogActions,
   StyledDialogContent,
   StyledDialogTitle,
+  TeamTable,
+  TeamTableConfiguration,
+  TooltipIcon,
   TransferList,
   UniversalFilter,
+  UsersTable,
   updateVisibleColumns,
   useNotificationHandler,
   useWindowDimensions,
@@ -136,4 +146,5 @@ export type {
 export * from './CatalogDesignTable';
 export * from './CatalogDetail';
 export * from './Dialog';
+export * from './Workspaces';
 export * from './permissions';
