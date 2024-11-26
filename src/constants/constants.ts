@@ -9,5 +9,5 @@ export const DEFAULT_STROKE_WIDTH = '2';
 export const CLOUD_URL = 'https://cloud.layer5.io';
 export const PLAYGROUND_MODES = {
   DESIGNER: 'design',
-  VISUALIZER: 'visualize'
+  OPERATOR: 'operator'
 } as const;

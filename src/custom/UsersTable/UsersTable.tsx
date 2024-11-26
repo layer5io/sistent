@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { useRef, useState } from 'react';
 import { Avatar, Box, Grid, Tooltip, Typography } from '../../base';
 import { EditIcon, PersonIcon } from '../../icons';
@@ -18,7 +19,7 @@ import { parseDeletionTimestamp } from '../Workspaces/helper';
 import { TableIconsContainer, TableIconsDisabledContainer } from '../Workspaces/styles';
 
 interface ActionButtonsProps {
-  tableMeta: any;
+  tableMeta: MUIDataTableMeta;
   isRemoveFromTeamAllowed: boolean;
   handleRemoveFromTeam: (data: any[]) => () => void;
 }
@@ -121,7 +122,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
     }
   };
 
-  const getValidColumnValue = (rowData: any, columnName: string, columns: any) => {
+  const getValidColumnValue = (rowData: any, columnName: string, columns: MUIDataTableColumn[]) => {
     const columnIndex = columns.findIndex((column: any) => column.name === columnName);
     return rowData[columnIndex];
   };
@@ -233,7 +234,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
     // ["actions", "xs"]
   ];
 
-  const columns: any[] = [
+  const columns: MUIDataTableColumn[] = [
     {
       name: 'user_id',
       label: 'User ID',
@@ -250,7 +251,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
         filter: false,
         sort: false,
         searchable: false,
-        customBodyRender: (value: string, tableMeta: any) => (
+        customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => (
           <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
             <Grid container alignItems="center">
               <Grid item>
@@ -295,7 +296,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
         filter: false,
         sort: true,
         searchable: true,
-        customBodyRender: (value: string, tableMeta: any) => (
+        customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => (
           <div style={{ display: 'flex' }}>
             {value}
 
@@ -408,7 +409,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
           },
           fullWidth: true
         },
-        customBodyRender: (value: any, tableMeta: any) => {
+        customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => {
           const rowData = users[tableMeta.rowIndex];
           return parseDeletionTimestamp(rowData);
         }
@@ -421,7 +422,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
         filter: false,
         sort: false,
         searchable: false,
-        customBodyRender: (_: any, tableMeta: any) =>
+        customBodyRender: (_: string, tableMeta: MUIDataTableMeta) =>
           getValidColumnValue(tableMeta.rowData, 'deleted_at', columns).Valid !== false ? (
             <TableIconsDisabledContainer>
               <EditIcon
@@ -445,7 +446,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
     }
   ];
 
-  const [tableCols, updateCols] = useState<any[]>(columns);
+  const [tableCols, updateCols] = useState<MUIDataTableColumn[]>(columns);
 
   const [columnVisibility] = useState<Record<string, boolean>>(() => {
     const showCols: Record<string, boolean> = updateVisibleColumns(colViews, width);
