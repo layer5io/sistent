@@ -48,6 +48,7 @@ interface BaseQueryParams {
 
 interface StatCardProps {
   label: string;
+  countKey: string;
   count: number;
   patternName: string;
   pattern: Pattern;
@@ -57,7 +58,7 @@ interface StatCardProps {
   status: string;
   id: string;
   onCardClick: (pattern: Pattern) => void;
-  onIconClick: () => void;
+  onIconClick: (sortOrder: string) => void;
   onAuthorClick: (userId: string) => void;
   onStatusClick: (status: string) => void;
 }
@@ -121,6 +122,7 @@ const createQueryParams = (metric: MetricType): BaseQueryParams => ({
 
 const StatCardComponent: React.FC<StatCardProps> = ({
   label,
+  countKey,
   count,
   patternName,
   pattern,
@@ -138,9 +140,9 @@ const StatCardComponent: React.FC<StatCardProps> = ({
     onCardClick(pattern);
   };
 
-  const handleIconClick = (e: React.MouseEvent) => {
+  const handleIconClick = (e: React.MouseEvent, sortOrder: string) => {
     e.stopPropagation();
-    onIconClick();
+    onIconClick(sortOrder);
   };
 
   const handleAuthorClick = (e: React.MouseEvent) => {
@@ -157,10 +159,10 @@ const StatCardComponent: React.FC<StatCardProps> = ({
     <StyledCard elevation={0} status={status} onClick={handleCardClick}>
       <ContentWrapper cardId={id}>
         <HeaderSection>
-          <HeaderTitle>{label}</HeaderTitle>
-          <IconContainer onClick={handleIconClick}>
+          <IconContainer onClick={(e) => handleIconClick(e, `${countKey}+desc`)}>
             <Icon className={id} />
           </IconContainer>
+          <HeaderTitle>{label}</HeaderTitle>
         </HeaderSection>
 
         <StatsValue>{count}</StatsValue>
@@ -238,6 +240,7 @@ const processQueryData = (
 
   return {
     label: config.label,
+    countKey: config.countKey,
     count: pattern[config.countKey],
     patternName: pattern.name || 'Unknown',
     pattern: pattern,
