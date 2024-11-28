@@ -76,7 +76,10 @@ const FilterSection: React.FC<FilterSectionProps> = ({
             sx={{
               overflowY: 'auto',
               maxHeight: '25rem',
-              backgroundColor: styleProps.backgroundColor
+              backgroundColor: styleProps.backgroundColor,
+              '&::-webkit-scrollbar': {
+                width: '6px'
+              }
             }}
           >
             {showSearch && (

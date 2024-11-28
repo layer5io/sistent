@@ -73,7 +73,6 @@ export const MainContainer = styled(Box)(({ theme }) => ({
       : theme.palette.background.secondary,
   paddingTop: theme.spacing(2),
   borderRadius: '1rem',
-  marginBottom: theme.spacing(4),
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column'
@@ -181,7 +180,7 @@ export const StatsValue = styled(Typography)(({ theme }) => ({
 }));
 
 export const RepoSection = styled(Box)(({ theme }) => ({
-  marginBlock: '.35rem',
+  marginBottom: '1rem',
   padding: '8px',
   borderRadius: '8px',
   background: theme.palette.mode === 'light' ? '#f8fafc' : DARK_TEAL,
@@ -203,7 +202,8 @@ export const RepoTitle = styled(Typography)(({ theme }) => ({
   WebkitBoxOrient: 'vertical',
   overflow: 'hidden',
   textOverflow: 'ellipsis',
-  height: '2.6em'
+  minHeight: 'fit-content',
+  maxHeight: '2.6em'
 }));
 
 export const UserNameText = styled(Typography)(({ theme }) => ({
