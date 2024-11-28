@@ -25,6 +25,7 @@ interface State {
   primaryOption: string;
   showInfoIcon?: string;
   variant?: PromptVariant;
+  headerIcon?: React.ReactNode;
 }
 
 interface ShowParams {
@@ -33,6 +34,7 @@ interface ShowParams {
   primaryOption: string;
   variant: PromptVariant;
   showInfoIcon?: string;
+  headerIcon?: React.ReactNode;
 }
 
 export interface PromptRef {
@@ -46,7 +48,8 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
     subtitle: '',
     primaryOption: '',
     showInfoIcon: '',
-    variant
+    variant,
+    headerIcon: undefined
   });
 
   /* This ref is used to store the resolve and reject functions of the promise returned by the show method */
@@ -78,7 +81,7 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
     show
   }));
 
-  const { isOpen, primaryOption, title, subtitle, showInfoIcon } = state;
+  const { isOpen, primaryOption, title, subtitle, showInfoIcon, headerIcon } = state;
   const { resolve } = promiseInfoRef.current;
 
   return (
@@ -87,7 +90,7 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
       closeModal={hide}
       title={title}
       id="searchClick"
-      headerIcon={undefined}
+      headerIcon={headerIcon}
       reactNode={undefined}
     >
       {subtitle && (

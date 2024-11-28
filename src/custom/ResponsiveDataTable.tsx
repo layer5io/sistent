@@ -1,10 +1,11 @@
 import { Theme, ThemeProvider, createTheme, styled } from '@mui/material';
-import MUIDataTable from 'mui-datatables';
+import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { ShareIcon } from '../icons';
 import { EllipsisIcon } from '../icons/Ellipsis';
-import TooltipIcon from './TooltipIcon';
+import { ColView } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
+import { TooltipIcon } from './TooltipIconButton';
 
 export const IconWrapper = styled('div')<{ disabled?: boolean }>(({ disabled = false }) => ({
   cursor: disabled ? 'not-allowed' : 'pointer',
@@ -277,13 +278,13 @@ export interface Column {
 
 export interface ResponsiveDataTableProps {
   data: string[][];
-  columns: Column[];
+  columns: MUIDataTableColumn[];
   options?: object;
-  tableCols?: Column[];
-  updateCols?: ((columns: Column[]) => void) | undefined;
+  tableCols?: MUIDataTableColumn[];
+  updateCols?: ((columns: MUIDataTableColumn[]) => void) | undefined;
   columnVisibility: Record<string, boolean> | undefined;
   theme?: object;
-  colViews?: Record<string, boolean> | undefined;
+  colViews?: ColView[];
   rowsPerPageOptions?: number[] | undefined;
   backgroundColor?: string;
 }
