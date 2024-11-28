@@ -137,14 +137,13 @@ export const IconContainer = styled(Box)(() => ({
   }
 }));
 
-export const ContentWrapper = styled(CardContent)<ContentWrapperProps>(({ cardId, theme }) => ({
+export const ContentWrapper = styled(CardContent)<ContentWrapperProps>(() => ({
   height: '100%',
   display: 'flex',
   flexDirection: 'column',
-  padding: theme.spacing(2),
-  paddingInline: cardId === 'download-icon' ? '12px' : theme.spacing(2),
+  padding: '12px',
   '&:last-child': {
-    paddingBottom: theme.spacing(2)
+    paddingBottom: '12px'
   }
 }));
 
@@ -152,7 +151,7 @@ export const HeaderSection = styled(Box)({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'flex-start',
-  marginBottom: '1rem',
+  marginBottom: '0.5rem',
   gap: '0.6rem'
 });
 
@@ -163,7 +162,14 @@ export const HeaderTitle = styled(Typography)(({ theme }) => ({
   lineHeight: 1.2,
   marginTop: '4px',
   textTransform: 'uppercase',
-  letterSpacing: '0.5px'
+  letterSpacing: '0.5px',
+  display: '-webkit-box',
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical',
+  overflow: 'hidden',
+  textOverflow: 'clip',
+  maxWidth: '70%',
+  height: '2.4em'
 }));
 
 export const StatsValue = styled(Typography)(({ theme }) => ({
