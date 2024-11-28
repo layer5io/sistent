@@ -65,7 +65,7 @@ interface StatCardProps {
 interface PerformersSectionProps {
   useGetCatalogFilters: (params: any) => any;
   onCardClick: (pattern: Pattern) => void;
-  onIconClick: () => void;
+  onIconClick: (sortOrder: string) => void;
   onAuthorClick: (userId: string) => void;
   onStatusClick: (status: string) => void;
 }
