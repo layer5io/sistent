@@ -159,10 +159,10 @@ const StatCardComponent: React.FC<StatCardProps> = ({
     <StyledCard elevation={0} status={status} onClick={handleCardClick}>
       <ContentWrapper cardId={id}>
         <HeaderSection>
+          <HeaderTitle>{label}</HeaderTitle>
           <IconContainer onClick={(e) => handleIconClick(e, `${countKey}+desc`)}>
             <Icon className={id} />
           </IconContainer>
-          <HeaderTitle>{label}</HeaderTitle>
         </HeaderSection>
 
         <StatsValue>{count}</StatsValue>
