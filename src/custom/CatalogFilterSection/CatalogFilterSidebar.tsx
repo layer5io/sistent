@@ -57,15 +57,9 @@ export interface StyleProps {
   backgroundColor?: string;
   sectionTitleBackgroundColor?: string;
   fontFamily?: string;
+  scrollbarWidth?: string;
 }
 
-/**
- * @function CatalogFilterSidebar
- * @description A functional component that renders the filter sidebar.
- * @param {Array} value - The data to be filtered.
- * @param {Function} setData - A function to set the filtered data.
- * @param {Array} lists - An array of filter sections and its options lists.
- */
 const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
   lists,
   setData,
