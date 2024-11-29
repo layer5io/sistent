@@ -6,7 +6,7 @@ import { useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { CustomTooltip } from '../CustomTooltip';
 import { ErrorBoundary } from '../ErrorBoundary';
-import { CopyShareIconWrapper, VisibilityChip } from './style';
+import { ActionButton, CopyShareIconWrapper, VisibilityChip } from './style';
 
 interface SocialSharePopperProps {
   details: Pattern;
@@ -15,6 +15,8 @@ interface SocialSharePopperProps {
   title: string;
   getUrl: (type: string, id: string) => string;
   handleCopyUrl: (type: string, name: string, id: string) => void;
+  showShareAction: boolean;
+  handleShare: () => void;
 }
 
 const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
@@ -23,7 +25,9 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
   cardId,
   title,
   getUrl,
-  handleCopyUrl
+  handleCopyUrl,
+  showShareAction,
+  handleShare
 }) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -50,15 +54,26 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
           {details?.visibility}
         </VisibilityChip>
 
-        {details?.visibility !== 'private' && (
-          <CustomTooltip title="Copy Link" placement="top" arrow>
-            <IconButton
-              sx={{ borderRadius: '0.1rem', padding: '0.5rem' }}
-              onClick={() => handleCopyUrl(cleanedType, details?.name, details?.id)}
-            >
+        {showShareAction ? (
+          <CustomTooltip title="Share" placement="top" arrow>
+            <ActionButton sx={{ borderRadius: '0.1rem', padding: '0.5rem' }} onClick={handleShare}>
               <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.secondary} />
-            </IconButton>
+              Share
+            </ActionButton>
           </CustomTooltip>
+        ) : (
+          <>
+            {details?.visibility !== 'private' && (
+              <CustomTooltip title="Copy Link" placement="top" arrow>
+                <IconButton
+                  sx={{ borderRadius: '0.1rem', padding: '0.5rem' }}
+                  onClick={() => handleCopyUrl(cleanedType, details?.name, details?.id)}
+                >
+                  <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.secondary} />
+                </IconButton>
+              </CustomTooltip>
+            )}
+          </>
         )}
 
         {(details?.visibility === 'published' || details?.visibility === 'public') && (

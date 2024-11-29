@@ -41,7 +41,7 @@ interface UserSearchFieldProps {
   fetchSuggestions: (value: string) => Promise<User[]>;
 }
 
-const UserSearchField: React.FC<UserSearchFieldProps> = ({
+const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   usersData,
   setUsersData,
   label,
@@ -234,4 +234,4 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
   );
 };
 
-export default UserSearchField;
+export default UserShareSearch;

@@ -15,7 +15,7 @@ import { ChainIcon, DeleteIcon, LockIcon, PublicIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { BLACK, WHITE } from '../../theme/colors';
 import { Modal, ModalBody, ModalButtonPrimary, ModalButtonSecondary, ModalFooter } from '../Modal';
-import { UserSearchField } from '../UserSearchField';
+import UserShareSearch from '../UserSearchField/UserSearchField';
 import {
   CustomDialogContentText,
   CustomListItemText,
@@ -224,7 +224,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
         title={`Share ${dataName} "${selectedResource?.name}"`}
       >
         <ModalBody>
-          <UserSearchField
+          <UserShareSearch
             setUsersData={setShareUserData}
             usersData={shareUserData}
             label="Search Users"
@@ -293,7 +293,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
             style={{ marginRight: '1rem', padding: '7px 16px' }}
           >
             <IconButtonWrapper>
-              <ChainIcon width={24} height={24} fill={theme.palette.text.constant?.white} />
+              <ChainIcon width="24" height="24" fill={theme.palette.text.constant?.white} />
             </IconButtonWrapper>
             <Typography>Copy Link</Typography>
           </ModalButtonSecondary>
