@@ -286,25 +286,36 @@ const ShareModal: React.FC<ShareModalProps> = ({
           </CustomDialogContentText>
         </ModalBody>
 
-        <ModalFooter variant="filled">
-          <ModalButtonSecondary
-            variant="outlined"
-            onClick={handleCopy}
-            style={{ marginRight: '1rem', padding: '7px 16px' }}
+        <ModalFooter
+          variant="filled"
+          helpText="You can share your designs or designs for which you have permission to share with other members of your organization and teams, and you can control access permissions."
+        >
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'end',
+              gap: '1rem'
+            }}
           >
-            <IconButtonWrapper>
-              <ChainIcon width="24" height="24" fill={theme.palette.text.constant?.white} />
-            </IconButtonWrapper>
-            <Typography>Copy Link</Typography>
-          </ModalButtonSecondary>
-          <ModalButtonPrimary
-            disabled={isShareDisabled()}
-            variant="contained"
-            color="primary"
-            onClick={() => handleShare(shareUserData, selectedOption)}
-          >
-            Share
-          </ModalButtonPrimary>
+            <ModalButtonSecondary
+              variant="outlined"
+              onClick={handleCopy}
+              style={{ marginRight: '1rem', padding: '7px 16px' }}
+            >
+              <IconButtonWrapper>
+                <ChainIcon width="24" height="24" fill={theme.palette.text.constant?.white} />
+              </IconButtonWrapper>
+              <Typography>Copy Link</Typography>
+            </ModalButtonSecondary>
+            <ModalButtonPrimary
+              disabled={isShareDisabled()}
+              variant="contained"
+              color="primary"
+              onClick={() => handleShare(shareUserData, selectedOption)}
+            >
+              Share
+            </ModalButtonPrimary>
+          </div>
         </ModalFooter>
       </Modal>
     </div>

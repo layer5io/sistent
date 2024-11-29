@@ -56,8 +56,8 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
 
         {showShareAction ? (
           <CustomTooltip title="Share" placement="top" arrow>
-            <ActionButton sx={{ borderRadius: '0.1rem', padding: '0.5rem' }} onClick={handleShare}>
-              <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.secondary} />
+            <ActionButton sx={{ borderRadius: '0.2rem', padding: '0.4rem' }} onClick={handleShare}>
+              <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.inverse} />
               Share
             </ActionButton>
           </CustomTooltip>
