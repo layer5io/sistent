@@ -15,10 +15,6 @@ export const StyledActionWrapper = styled(Paper)(() => ({
   alignItems: 'center'
 }));
 
-export const LinkUrl = styled('a')(() => ({
-  textDecoration: 'none'
-}));
-
 interface ActionButtonProps {
   disabled?: boolean;
   theme?: Theme;
@@ -39,13 +35,29 @@ export const ActionButton = styled('div')<ActionButtonProps>(({ disabled = false
   flex: '1'
 }));
 
-export const ContentDetailsText = styled(Typography)(({ theme }) => ({
+export const UnpublishAction = styled('div')<ActionButtonProps>(({ disabled = false, theme }) => ({
+  cursor: disabled ? 'not-allowed' : 'pointer',
+  opacity: disabled ? '0.5' : '1',
+  textAlign: 'center',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderRadius: '0.5rem',
+  backgroundColor: theme.palette.background.error?.default,
+  padding: '0.5rem',
+  color: theme.palette.text.inverse,
+  gap: '0.625rem',
+  flex: '1'
+}));
+
+export const ContentDetailsText = styled(Typography)(({ theme, style }) => ({
   fontFamily: 'inherit',
   fontSize: '1rem',
   color: theme.palette.text.default,
   ['@media (min-width:1200px)']: {
     fontSize: '1'
-  }
+  },
+  ...style
 }));
 
 export const ContentHeading = styled('div')(() => ({
@@ -159,13 +171,13 @@ export const MetricsType = styled('div')(({ theme }) => ({
   letterSpacing: '0.15px',
   lineHeight: '1.5',
   textTransform: 'lowercase',
-  color: theme.palette.background.supplementary,
+  color: theme.palette.icon.secondary,
   [' @media (max-width: 285px)']: {
     fontSize: '0.86rem'
   }
 }));
 export const MetricsData = styled('div')(({ theme }) => ({
-  color: theme.palette.background.supplementary,
+  color: theme.palette.icon.secondary,
   fontSize: '1.2rem',
   fontWeight: 'bold',
   lineHeight: '1.5'

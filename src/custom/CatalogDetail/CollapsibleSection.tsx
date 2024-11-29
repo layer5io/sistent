@@ -38,7 +38,12 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
         <InfoTooltip helpText={tooltip} />
         {isOpen ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       </SideTitleButton>
-      <Collapse sx={{ width: '100%' }} in={isOpen} timeout="auto" unmountOnExit>
+      <Collapse
+        sx={{ width: '100%', fontFamily: 'inherit' }}
+        in={isOpen}
+        timeout="auto"
+        unmountOnExit
+      >
         {items && items.length > 0 ? (
           <List component="div" sx={{ width: '100%', padding: '0.5rem' }} disablePadding>
             {items?.map(renderItem)}
@@ -49,6 +54,9 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
               textAlign: 'center',
               opacity: 0.8,
               padding: '7px'
+            }}
+            primaryTypographyProps={{
+              fontFamily: 'inherit'
             }}
             primary={emptyState}
           />

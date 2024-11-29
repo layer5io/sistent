@@ -45,6 +45,9 @@ export interface Pattern {
     first_name: string;
     last_name: string;
   };
+  first_name?: string;
+  last_name?: string;
+  avatar_url: string;
   name: string;
   download_count: number;
   clone_count: number;

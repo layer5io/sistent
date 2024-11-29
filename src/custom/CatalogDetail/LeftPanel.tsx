@@ -10,35 +10,41 @@ import { FilteredAcademyData } from './types';
 interface LeftPanelProps {
   details: Pattern;
   type: string;
-  cardId?: string;
   actionItems?: boolean;
   isCloneLoading: boolean;
   handleClone: (name: string, id: string) => void;
   showTechnologies?: boolean;
-  mode: string;
   filteredAcademyData: FilteredAcademyData;
   isCloneDisabled: boolean;
   technologySVGPath: string;
   technologySVGSubpath: string;
   fontFamily?: string;
-  showOpenPlaygroundButton?: boolean;
+  handleUnpublish: () => void;
+  showUnpublishAction?: boolean;
+  showOpenPlaygroundAction?: boolean;
+  onOpenPlaygroundClick: (designId: string, name: string) => void;
+  showInfoAction?: boolean;
+  handleInfoClick?: () => void;
 }
 
 const LeftPanel: React.FC<LeftPanelProps> = ({
   details,
   type,
-  cardId = details.id,
   actionItems = true,
   isCloneLoading,
   handleClone,
+  handleUnpublish,
   showTechnologies = true,
-  mode,
   filteredAcademyData,
   isCloneDisabled,
   technologySVGPath,
   technologySVGSubpath,
   fontFamily,
-  showOpenPlaygroundButton = true
+  showUnpublishAction = false,
+  showOpenPlaygroundAction = true,
+  onOpenPlaygroundClick,
+  showInfoAction = false,
+  handleInfoClick
 }) => {
   const theme = useTheme();
 
@@ -66,7 +72,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
           imgURL={details?.catalog_data?.imageURL}
           height={'100%'}
           width={'100%'}
-          zoomEffect={false}
+          zoomEffect={true}
           type={{ type: type }}
         />
       </CustomCatalogCard>
@@ -74,12 +80,15 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
         actionItems={actionItems}
         details={details}
         type={type}
-        cardId={cardId}
         isCloneLoading={isCloneLoading}
         handleClone={handleClone}
-        mode={mode}
+        showUnpublishAction={showUnpublishAction}
+        handleUnpublish={handleUnpublish}
         isCloneDisabled={isCloneDisabled}
-        showOpenPlaygroundButton={showOpenPlaygroundButton}
+        showOpenPlaygroundAction={showOpenPlaygroundAction}
+        onOpenPlaygroundClick={onOpenPlaygroundClick}
+        showInfoAction={showInfoAction}
+        handleInfoClick={handleInfoClick}
       />
       {showTechnologies && (
         <TechnologySection

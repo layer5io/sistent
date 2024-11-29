@@ -1,3 +1,4 @@
+import { MUIDataTableColumn } from 'mui-datatables';
 import React from 'react';
 import { Box } from '../../base/Box';
 import { Card } from '../../base/Card';
@@ -7,10 +8,10 @@ import { FormControlLabel } from '../../base/FormControlLabel';
 import { ColumnIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import PopperListener from '../PopperListener';
-import TooltipIcon from '../TooltipIcon';
+import { TooltipIcon } from '../TooltipIconButton';
 
 export interface CustomColumnVisibilityControlProps {
-  columns: CustomColumn[];
+  columns: MUIDataTableColumn[];
   customToolsProps: {
     columnVisibility: Record<string, boolean>;
     setColumnVisibility: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
@@ -27,7 +28,8 @@ export interface CustomColumn {
 export function CustomColumnVisibilityControl({
   columns,
   id,
-  customToolsProps
+  customToolsProps,
+  style
 }: CustomColumnVisibilityControlProps): JSX.Element {
   const [open, setOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -60,6 +62,7 @@ export function CustomColumnVisibilityControl({
           arrow
         />
         <PopperListener
+          style={style}
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
           placement="bottom-end"
