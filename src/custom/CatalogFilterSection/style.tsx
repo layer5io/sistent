@@ -16,6 +16,8 @@ export const FiltersCardDiv = styled(Box)<{ styleProps: StyleProps }>(({ stylePr
   ['@media (max-width:900px)']: {
     display: 'none'
   },
+  position: styleProps.position ? styleProps.position : 'relative',
+  top: styleProps.top ? styleProps.top : styleProps.position === 'sticky' ? '5rem' : '',
   fontFamily: styleProps.fontFamily,
   '&::-webkit-scrollbar': {
     width: '6px'

@@ -92,9 +92,7 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
         : theme.palette.background.secondary,
     sectionTitleBackgroundColor:
       theme.palette.mode === 'light' ? theme.palette.background.surfaces : darkTeal.main,
-    fontFamily: theme.typography.fontFamily,
-    position: styleProps?.position || 'relative',
-    top: styleProps?.top ? styleProps.top : styleProps?.position === 'sticky' ? '6rem' : ''
+    fontFamily: theme.typography.fontFamily
   };
 
   const appliedStyleProps = {
