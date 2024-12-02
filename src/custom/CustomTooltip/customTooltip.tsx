@@ -1,4 +1,6 @@
 import { Tooltip, type TooltipProps } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
 import React from 'react';
 import { WHITE } from '../../theme';
 import { RenderMarkdownTooltip } from '../Markdown';
@@ -12,6 +14,10 @@ type CustomTooltipProps = {
   variant?: 'standard' | 'small';
   bgColor?: string;
 } & Omit<TooltipProps, 'title' | 'onClick'>;
+
+const StyledFontWrapper = styled(Typography)(() => ({
+  fontFamily: ['Qanelas Soft Regular'].join(',')
+}));
 
 function CustomTooltip({
   title,
@@ -51,7 +57,15 @@ function CustomTooltip({
           }
         }
       }}
-      title={typeof title === 'string' ? <RenderMarkdownTooltip content={title} /> : title}
+      title={
+        typeof title === 'string' ? (
+          <StyledFontWrapper>
+            <RenderMarkdownTooltip content={title} />
+          </StyledFontWrapper>
+        ) : (
+          title
+        )
+      }
       placement={placement}
       arrow
       onClick={onClick}
