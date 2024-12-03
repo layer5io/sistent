@@ -1,4 +1,4 @@
-import { Link, ListItemButton, Paper, Typography } from '../../base';
+import { Button, ButtonGroup, Link, ListItemButton, Paper, Typography } from '../../base';
 import { styled } from '../../theme';
 import { Theme } from './types';
 
@@ -264,4 +264,25 @@ export const RedirectLink = styled(Link)(({ theme }) => ({
   color: theme.palette.background.brand?.default,
   textDecoration: 'none',
   cursor: 'pointer'
+}));
+
+export const ShareButtonGroup = styled(ButtonGroup)({
+  boxShadow: 'none',
+  border: 'none',
+  outline: 'none',
+  height: '76%'
+});
+
+export const ShareButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.background.brand?.default,
+  color: 'white',
+  border: 'none',
+  borderRadius: '0.5rem 0px 0px 0.5rem'
+}));
+
+export const ShareSideButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.background.brand?.default,
+  color: 'white',
+  border: 'none',
+  borderRadius: '0px 0.5rem  0.5rem 0px'
 }));

@@ -1,12 +1,19 @@
 import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
+import { Typography } from '../../base';
 import { ChainIcon, FacebookIcon, LinkedinIcon, ShareIcon, TwitterIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { CustomTooltip } from '../CustomTooltip';
 import { ErrorBoundary } from '../ErrorBoundary';
-import { ActionButton, CopyShareIconWrapper, VisibilityChip } from './style';
+import {
+  CopyShareIconWrapper,
+  ShareButton,
+  ShareButtonGroup,
+  ShareSideButton,
+  VisibilityChip
+} from './style';
 
 interface SocialSharePopperProps {
   details: Pattern;
@@ -55,12 +62,22 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
         </VisibilityChip>
 
         {showShareAction ? (
-          <CustomTooltip title="Share" placement="top" arrow>
-            <ActionButton sx={{ borderRadius: '0.2rem', padding: '0.4rem' }} onClick={handleShare}>
-              <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.inverse} />
-              Share
-            </ActionButton>
-          </CustomTooltip>
+          <ShareButtonGroup variant="contained">
+            <CustomTooltip title="Change access and visibility">
+              <ShareButton variant="contained" onClick={handleShare}>
+                <Typography>Share</Typography>
+              </ShareButton>
+            </CustomTooltip>
+            <CustomTooltip title="Copy link to design">
+              <ShareSideButton
+                variant="contained"
+                size="small"
+                onClick={() => handleCopyUrl(cleanedType, details?.name, details?.id)}
+              >
+                <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.inverse} />
+              </ShareSideButton>
+            </CustomTooltip>
+          </ShareButtonGroup>
         ) : (
           <>
             {details?.visibility !== 'private' && (
