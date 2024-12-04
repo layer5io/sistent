@@ -348,15 +348,16 @@ export const CardBack = styled('div')<CatalogProps>(({ isCatalog }) => ({
   })
 }));
 
-const getBackground = (isLightMode: boolean) => {
+export const getCatalogCardBackground = (isLightMode: boolean) => {
   const lightGradient = `linear-gradient(to left bottom, ${WHITESMOKE}, ${GRAY97},white, white, white, white, white, white, white, white, ${WHITESMOKE}, ${GRAY97})`;
   const darkGradient = `linear-gradient(to right top, ${DARK_PRIMARY_COLOR}, ${accentGrey[30]}, ${accentGrey[20]}, ${accentGrey[10]}, ${accentGrey[10]}, ${accentGrey[10]}, ${accentGrey[10]}, ${accentGrey[10]}, ${accentGrey[10]}, ${charcoal[20]}, ${charcoal[10]}, black)`;
 
   return isLightMode ? lightGradient : darkGradient;
 };
+
 export const CardFront = styled('div')<DesignCardDivProps>(({ shouldFlip, isDetailed, theme }) => {
   const isLightMode = theme.palette.mode === 'light';
-  const background = getBackground(isLightMode);
+  const background = getCatalogCardBackground(isLightMode);
   const boxShadow = `2px 2px 3px 0px ${theme.palette.background.brand?.default}`;
 
   return {
@@ -414,7 +415,7 @@ export const DesignAuthorName = styled('div')(() => ({
 
 export const CatalogEmptyStateDiv = styled('div')(({ theme }) => {
   const isLightMode = theme.palette.mode === 'light';
-  const background = getBackground(isLightMode);
+  const background = getCatalogCardBackground(isLightMode);
   const boxShadow = `2px 2px 3px 0px ${theme.palette.background.brand?.default}`;
 
   return {

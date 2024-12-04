@@ -14,6 +14,10 @@ interface RelatedDesignsProps {
   patternsPerUser: PatternsPerUser;
   onSuggestedPatternClick: (pattern: Pattern) => void;
   userProfile?: UserProfile;
+  technologySVGPath: string;
+  technologySVGSubpath: string;
+  orgName: string;
+  fetchingOrgError: boolean;
 }
 
 const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
@@ -21,7 +25,11 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
   type,
   patternsPerUser,
   onSuggestedPatternClick,
-  userProfile
+  userProfile,
+  technologySVGPath,
+  technologySVGSubpath,
+  orgName,
+  fetchingOrgError
 }) => {
   const filteredPatternsPerUser = patternsPerUser?.patterns?.filter(
     (pattern) => pattern.id !== details.id
@@ -33,7 +41,8 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
     <AdditionalContainer>
       <ContentHeading>
         <h2 style={{ margin: '0', textTransform: 'uppercase' }}>
-          Other published design by {formatToTitleCase(userProfile?.first_name ?? '')}
+          Other published design by {formatToTitleCase(userProfile?.first_name ?? '')}{' '}
+          {fetchingOrgError ? '' : `under ${orgName}`}
         </h2>
       </ContentHeading>
       <DesignCardContainer>
@@ -45,8 +54,8 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
             onCardClick={() => onSuggestedPatternClick(pattern)}
             UserName={`${userProfile?.first_name ?? ''} ${userProfile?.last_name ?? ''}`}
             avatarUrl={userProfile?.avatar_url}
-            basePath="/static/img/meshmodels"
-            subBasePath="color"
+            basePath={technologySVGPath}
+            subBasePath={technologySVGSubpath}
             cardTechnologies={true}
           >
             <CatalogCardDesignLogo

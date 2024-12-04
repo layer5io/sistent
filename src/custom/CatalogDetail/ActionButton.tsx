@@ -1,44 +1,66 @@
-import _ from 'lodash';
 import React from 'react';
 import { CircularProgress } from '../../base';
-import { CopyIcon, KanvasIcon } from '../../icons';
+import { CopyIcon, EditIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
-import { charcoal } from '../../theme';
+import { charcoal, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
-import { downloadFilter, downloadYaml, slugify } from './helper';
-import { ActionButton, LinkUrl, StyledActionWrapper } from './style';
+import { downloadFilter, downloadYaml } from './helper';
+import { ActionButton, StyledActionWrapper, UnpublishAction } from './style';
 import { RESOURCE_TYPES } from './types';
 
 interface ActionButtonsProps {
   actionItems: boolean;
   details: Pattern;
   type: string;
-  cardId: string;
   isCloneLoading: boolean;
   handleClone: (name: string, id: string) => void;
-  mode: string;
+  handleUnpublish: () => void;
   isCloneDisabled: boolean;
+  showUnpublishAction: boolean;
+  showOpenPlaygroundAction: boolean;
+  onOpenPlaygroundClick: (designId: string, name: string) => void;
+  showInfoAction?: boolean;
+  handleInfoClick?: () => void;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
   actionItems,
   details,
   type,
-  cardId,
   isCloneLoading,
   handleClone,
-  mode,
-  isCloneDisabled
+  isCloneDisabled,
+  showUnpublishAction,
+  handleUnpublish,
+  showOpenPlaygroundAction,
+  onOpenPlaygroundClick,
+  showInfoAction,
+  handleInfoClick
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
-  const resourcePlaygroundType = Object.values({
-    ..._.omit(RESOURCE_TYPES, ['FILTERS']),
-    CATALOG: 'catalog'
-  }).includes(cleanedType)
-    ? cleanedType
-    : 'design';
+  const theme = useTheme();
   return (
     <StyledActionWrapper>
+      {showOpenPlaygroundAction && (
+        <ActionButton
+          sx={{
+            borderRadius: '0.2rem',
+            backgroundColor: theme.palette.background.cta?.default,
+            color: theme.palette.text.inverse,
+            gap: '10px',
+            width: '100%'
+          }}
+          onClick={() => onOpenPlaygroundClick(details.id, details.name)}
+        >
+          <KanvasIcon
+            width={24}
+            height={24}
+            primaryFill={theme.palette.icon.inverse}
+            fill={theme.palette.icon.default}
+          />
+          Open in Playground
+        </ActionButton>
+      )}
       {actionItems && (
         <div
           style={{
@@ -51,9 +73,10 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           <ActionButton
             sx={{
               borderRadius: '0.2rem',
-              backgroundColor: 'background.inverse',
+              backgroundColor: 'transparent',
+              border: `1px solid ${theme.palette.border.normal}`,
               gap: '10px',
-              color: charcoal[100]
+              color: charcoal[10]
             }}
             onClick={() =>
               cleanedType === RESOURCE_TYPES.FILTERS
@@ -61,7 +84,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
                 : downloadYaml(details.pattern_file, details.name)
             }
           >
-            <Download width={24} height={24} fill={charcoal[100]} />
+            <Download width={24} height={24} fill={charcoal[10]} />
             Download
           </ActionButton>
 
@@ -70,7 +93,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
               sx={{
                 borderRadius: '0.2rem',
                 gap: '10px',
-                color: charcoal[100]
+                color: theme.palette.text.default,
+                backgroundColor: 'transparent',
+                border: `1px solid ${theme.palette.border.normal}`
               }}
               onClick={() => handleClone(details?.name, details?.id)}
               disabled={isCloneDisabled}
@@ -79,7 +104,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
                 <CircularProgress size={24} color={'inherit'} />
               ) : (
                 <>
-                  <CopyIcon width={24} height={24} fill={charcoal[100]} />
+                  <CopyIcon width={24} height={24} fill={charcoal[10]} />
                   Clone
                 </>
               )}
@@ -87,27 +112,43 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           )}
         </div>
       )}
-      <LinkUrl
-        style={{ width: '100%' }}
-        href={`https://playground.meshery.io/extension/meshmap?mode=${mode}&type=${resourcePlaygroundType}&id=${cardId}&name=${slugify(
-          details.name
-        )}`}
-        target="_blank"
-        rel="noreferrer"
+
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '0.75rem',
+          width: '100%'
+        }}
       >
-        <ActionButton
-          sx={{
-            borderRadius: '0.2rem',
-            backgroundColor: 'background.cta.default',
-            color: charcoal[10],
-            gap: '10px',
-            width: '100%'
-          }}
-        >
-          <KanvasIcon width={24} height={24} primaryFill={charcoal[10]} fill={charcoal[10]} />
-          Open in Playground
-        </ActionButton>
-      </LinkUrl>
+        {showInfoAction && (
+          <ActionButton
+            sx={{
+              borderRadius: '0.2rem',
+              backgroundColor: 'transparent',
+              border: `1px solid ${theme.palette.border.normal}`,
+              gap: '10px',
+              color: charcoal[10]
+            }}
+            onClick={handleInfoClick}
+          >
+            <EditIcon width={24} height={24} fill={charcoal[10]} />
+            Edit
+          </ActionButton>
+        )}
+        {showUnpublishAction && (
+          <UnpublishAction
+            sx={{
+              borderRadius: '0.2rem',
+              gap: '10px'
+            }}
+            onClick={handleUnpublish}
+          >
+            <PublishIcon width={24} height={24} fill={charcoal[100]} />
+            Unpublish
+          </UnpublishAction>
+        )}
+      </div>
     </StyledActionWrapper>
   );
 };

@@ -23,6 +23,8 @@ interface OverviewSectionProps {
   fontFamily?: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   userProfile?: any;
+  showShareAction: boolean;
+  handleShare: () => void;
 }
 
 const OverviewSection: React.FC<OverviewSectionProps> = ({
@@ -37,7 +39,9 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
   classes,
   handleCopyUrl,
   fontFamily,
-  userProfile
+  userProfile,
+  showShareAction,
+  handleShare
 }) => {
   return (
     <OverviewContainer>
@@ -58,6 +62,8 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           title={title}
           getUrl={getUrl}
           handleCopyUrl={handleCopyUrl}
+          showShareAction={showShareAction}
+          handleShare={handleShare}
         />
       </div>
       <Grid container spacing={2}>

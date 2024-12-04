@@ -22,6 +22,12 @@ interface RightPanelProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useGetUserProfileByIdQuery: any;
   fontFamily?: string;
+  technologySVGPath: string;
+  technologySVGSubpath: string;
+  orgName: string;
+  fetchingOrgError: boolean;
+  showShareAction: boolean;
+  handleShare: () => void;
 }
 
 const RightPanel: React.FC<RightPanelProps> = ({
@@ -39,7 +45,13 @@ const RightPanel: React.FC<RightPanelProps> = ({
   onSuggestedPatternClick,
   handleCopyUrl,
   fontFamily,
-  useGetUserProfileByIdQuery
+  useGetUserProfileByIdQuery,
+  technologySVGPath,
+  technologySVGSubpath,
+  orgName,
+  fetchingOrgError,
+  showShareAction,
+  handleShare
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const { data: userProfile } = useGetUserProfileByIdQuery({
@@ -61,14 +73,20 @@ const RightPanel: React.FC<RightPanelProps> = ({
         handleCopyUrl={handleCopyUrl}
         fontFamily={fontFamily}
         userProfile={userProfile}
+        showShareAction={showShareAction}
+        handleShare={handleShare}
       />
       {showCaveats && <CaveatsSection details={details} />}
       <RelatedDesigns
         details={details}
+        orgName={orgName}
+        fetchingOrgError={fetchingOrgError}
         type={type}
         patternsPerUser={patternsPerUser}
         onSuggestedPatternClick={onSuggestedPatternClick}
         userProfile={userProfile}
+        technologySVGPath={technologySVGPath}
+        technologySVGSubpath={technologySVGSubpath}
       />
     </div>
   );

@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import {
   CatalogFilterSidebarProps,
-  FilterList,
+  FilterListType,
   FilterValues,
   StyleProps
 } from './CatalogFilterSidebar';
@@ -16,7 +16,7 @@ import FilterSection from './FilterSection';
  * @param {Object} styleProps - The style properties for the component.
  */
 const CatalogFilterSidebarState: React.FC<{
-  lists: FilterList[];
+  lists: FilterListType[];
   onApplyFilters: CatalogFilterSidebarProps['setData'];
   value: FilterValues;
   styleProps: StyleProps;
@@ -78,19 +78,36 @@ const CatalogFilterSidebarState: React.FC<{
 
   return (
     <>
-      {lists.map((list) => (
-        <FilterSection
-          key={list.filterKey}
-          filterKey={list.filterKey}
-          sectionDisplayName={list.sectionDisplayName}
-          options={list.options}
-          filters={value}
-          openSections={openSections}
-          onCheckboxChange={handleCheckboxChange}
-          onSectionToggle={handleSectionToggle}
-          styleProps={styleProps}
-        />
-      ))}
+      {lists.map((list) => {
+        if (list.customComponent) {
+          return (
+            <FilterSection
+              key={list.filterKey}
+              filterKey={list.filterKey}
+              filters={value}
+              sectionDisplayName={list.sectionDisplayName}
+              onSectionToggle={handleSectionToggle}
+              styleProps={styleProps}
+              openSections={openSections}
+              customComponent={list.customComponent}
+            />
+          );
+        }
+
+        return (
+          <FilterSection
+            key={list.filterKey}
+            filterKey={list.filterKey}
+            sectionDisplayName={list.sectionDisplayName}
+            options={list.options}
+            filters={value}
+            openSections={openSections}
+            onCheckboxChange={handleCheckboxChange}
+            onSectionToggle={handleSectionToggle}
+            styleProps={styleProps}
+          />
+        );
+      })}
     </>
   );
 };
