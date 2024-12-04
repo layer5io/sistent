@@ -27,7 +27,7 @@ function CustomTooltip({
   fontSize,
   fontWeight = 400,
   variant = 'standard',
-  bgColor = '#333333',
+  bgColor = '#141414',
   ...props
 }: CustomTooltipProps): JSX.Element {
   return (
