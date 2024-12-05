@@ -1,3 +1,4 @@
+import UserShareSearch from './UserSearchField';
 import UserSearchField from './UserSearchFieldInput';
 
-export { UserSearchField };
+export { UserSearchField, UserShareSearch };
