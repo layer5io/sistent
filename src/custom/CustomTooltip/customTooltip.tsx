@@ -21,7 +21,7 @@ function CustomTooltip({
   fontSize,
   fontWeight = 400,
   variant = 'standard',
-  bgColor = '#333333',
+  bgColor = '#141414',
   ...props
 }: CustomTooltipProps): JSX.Element {
   return (
@@ -35,8 +35,7 @@ function CustomTooltip({
             fontWeight: { fontWeight },
             borderRadius: '0.5rem',
             padding: variant === 'standard' ? '0.9rem' : '0.5rem 0.75rem',
-            boxShadow:
-              'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px'
+            boxShadow: 'rgba(0, 0, 0, 0.6) 0px 4px 10px, rgba(0, 0, 0, 0.5) 0px 2px 4px'
           }
         },
         popper: {
