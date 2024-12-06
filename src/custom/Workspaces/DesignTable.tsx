@@ -20,6 +20,7 @@ import SearchBar from '../SearchBar';
 import AssignmentModal from './AssignmentModal';
 import EditButton from './EditButton';
 import useDesignAssignment from './hooks/useDesignAssignment';
+import useViewAssignment from './hooks/useViewsAssignment';
 import { TableHeader, TableRightActionHeader } from './styles';
 
 export interface DesignTableProps {
@@ -57,6 +58,10 @@ export interface DesignTableProps {
   isAssignAllowed: boolean;
   isRemoveAllowed: boolean;
   setDesignSearch: (value: string) => void;
+  showViews: boolean;
+  useGetWorkspaceViewsQuery: any;
+  useAssignviewToWorkspaceMutation: any;
+  useUnassignviewFromWorkspaceMutation: any;
 }
 
 export interface PublishModalState {
@@ -95,7 +100,11 @@ const DesignTable: React.FC<DesignTableProps> = ({
   isAssignAllowed,
   isRemoveAllowed,
   useGetWorkspaceDesignsQuery,
-  setDesignSearch
+  useGetWorkspaceViewsQuery,
+  setDesignSearch,
+  showViews,
+  useAssignviewToWorkspaceMutation,
+  useUnassignviewFromWorkspaceMutation
 }) => {
   const [publishModal, setPublishModal] = useState<PublishModalState>({
     open: false,
@@ -179,6 +188,13 @@ const DesignTable: React.FC<DesignTableProps> = ({
     useGetDesignsOfWorkspaceQuery: useGetWorkspaceDesignsQuery
   });
 
+  const viewsAssignment = useViewAssignment({
+    workspaceId,
+    useAssignviewToWorkspaceMutation,
+    useUnassignviewFromWorkspaceMutation,
+    useGetviewsOfWorkspaceQuery: useGetWorkspaceViewsQuery
+  });
+
   const tableHeaderContent = (
     <TableHeader>
       <Typography variant="h6" fontWeight={'bold'}>
@@ -256,11 +272,25 @@ const DesignTable: React.FC<DesignTableProps> = ({
         handleAssignedPage={designAssignment.handleAssignedPage}
         originalLeftCount={designAssignment.data?.length}
         originalRightCount={designAssignment.assignedItems?.length}
-        onAssign={designAssignment.handleAssign}
+        onAssign={designAssignment.handleAssign || viewsAssignment.handleAssign}
         disableTransfer={designAssignment.disableTransferButton}
         helpText={`Assign Designs to ${workspaceName}`}
         isAssignAllowed={isAssignAllowed}
         isRemoveAllowed={isRemoveAllowed}
+        showViews={showViews}
+        nameViews="Views"
+        assignableViewsData={viewsAssignment.data}
+        handleAssignedViewsData={viewsAssignment.handleAssignData}
+        originalAssignedViewsData={viewsAssignment.workspaceData}
+        emptyStateViewsIcon={<DesignIcon height="5rem" width="5rem" secondaryFill={'#808080'} />}
+        handleAssignableViewsPage={viewsAssignment.handleAssignablePage}
+        handleAssignedViewsPage={viewsAssignment.handleAssignedPage}
+        originalLeftViewsCount={viewsAssignment.data?.length}
+        originalRightViewsCount={viewsAssignment.assignedItems?.length}
+        onAssignViews={viewsAssignment.handleAssign}
+        disableTransferViews={viewsAssignment.disableTransferButton}
+        // isAssignAllowedViews={isAssignAllowed}
+        // isRemoveAllowedViews={isRemoveAllowed}
       />
       <GenericRJSFModal
         open={publishModal.open}

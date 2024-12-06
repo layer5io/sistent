@@ -29,7 +29,7 @@ export function getFallbackImageBasedOnKind(kind: string | undefined): JSX.Eleme
 }
 
 export interface TransferListProps {
-  name: string;
+  name?: string;
   assignableData: ListItemType[];
   assignedData: (data: ListItemType[]) => void;
   originalAssignedData: ListItemType[];
