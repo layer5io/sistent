@@ -34,6 +34,19 @@ export function slugify(str: string): string {
   return str;
 }
 
+export const downloadFilter = (id: string, name: string): void => {
+  const dataUri = `${process.env.API_ENDPOINT_PREFIX}/api/content/filters/download/${id}`;
+
+  // Add the .wasm extension to the filename
+  const fileNameWithExtension = name + '.wasm';
+
+  const linkElement = document.createElement('a');
+  linkElement.setAttribute('href', dataUri);
+  linkElement.setAttribute('download', fileNameWithExtension);
+  linkElement.click();
+  linkElement.remove();
+};
+
 export const downloadPattern = (id: string, name: string, type: string): void => {
   const pattern = type == 'design' ? 'patterns' : 'filters';
   const dataUri = `${process.env.API_ENDPOINT_PREFIX}/api/content/${pattern}/download/${id}`;
