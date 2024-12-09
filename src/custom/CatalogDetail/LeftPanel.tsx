@@ -25,6 +25,8 @@ interface LeftPanelProps {
   onOpenPlaygroundClick: (designId: string, name: string) => void;
   showInfoAction?: boolean;
   handleInfoClick?: () => void;
+  showDeleteAction: boolean;
+  handleDelete: () => void;
 }
 
 const LeftPanel: React.FC<LeftPanelProps> = ({
@@ -44,7 +46,9 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   showOpenPlaygroundAction = true,
   onOpenPlaygroundClick,
   showInfoAction = false,
-  handleInfoClick
+  handleInfoClick,
+  showDeleteAction = false,
+  handleDelete
 }) => {
   const theme = useTheme();
 
@@ -89,6 +93,8 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
         onOpenPlaygroundClick={onOpenPlaygroundClick}
         showInfoAction={showInfoAction}
         handleInfoClick={handleInfoClick}
+        showDeletAction={showDeleteAction}
+        handleDelete={handleDelete}
       />
       {showTechnologies && (
         <TechnologySection
