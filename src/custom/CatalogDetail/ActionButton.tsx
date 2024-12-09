@@ -1,11 +1,11 @@
 import React from 'react';
 import { CircularProgress } from '../../base';
-import { CopyIcon, EditIcon, KanvasIcon, PublishIcon } from '../../icons';
+import { CopyIcon, DeleteIcon, EditIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { charcoal, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { downloadFilter, downloadYaml } from './helper';
-import { ActionButton, StyledActionWrapper, UnpublishAction } from './style';
+import { ActionButton, DangerActionButton, StyledActionWrapper } from './style';
 import { RESOURCE_TYPES } from './types';
 
 interface ActionButtonsProps {
@@ -21,6 +21,8 @@ interface ActionButtonsProps {
   onOpenPlaygroundClick: (designId: string, name: string) => void;
   showInfoAction?: boolean;
   handleInfoClick?: () => void;
+  showDeletAction: boolean;
+  handleDelete: () => void;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -35,7 +37,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   showOpenPlaygroundAction,
   onOpenPlaygroundClick,
   showInfoAction,
-  handleInfoClick
+  handleInfoClick,
+  showDeletAction,
+  handleDelete
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const theme = useTheme();
@@ -137,7 +141,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           </ActionButton>
         )}
         {showUnpublishAction && (
-          <UnpublishAction
+          <DangerActionButton
             sx={{
               borderRadius: '0.2rem',
               gap: '10px'
@@ -146,7 +150,19 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           >
             <PublishIcon width={24} height={24} fill={charcoal[100]} />
             Unpublish
-          </UnpublishAction>
+          </DangerActionButton>
+        )}
+        {showDeletAction && (
+          <DangerActionButton
+            sx={{
+              borderRadius: '0.2rem',
+              gap: '10px'
+            }}
+            onClick={handleDelete}
+          >
+            <DeleteIcon width={24} height={24} fill={charcoal[100]} />
+            Delete
+          </DangerActionButton>
         )}
       </div>
     </StyledActionWrapper>
