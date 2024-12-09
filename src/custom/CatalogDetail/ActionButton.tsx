@@ -4,7 +4,7 @@ import { CopyIcon, DeleteIcon, EditIcon, KanvasIcon, PublishIcon } from '../../i
 import Download from '../../icons/Download/Download';
 import { charcoal, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
-import { downloadFilter, downloadYaml } from './helper';
+import { downloadPattern, downloadYaml } from './helper';
 import { ActionButton, DangerActionButton, StyledActionWrapper } from './style';
 import { RESOURCE_TYPES } from './types';
 
@@ -83,9 +83,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
               color: theme.palette.text.default
             }}
             onClick={() =>
-              cleanedType === RESOURCE_TYPES.FILTERS
-                ? downloadFilter(details.id, details.name)
-                : downloadYaml(details.pattern_file, details.name)
+              cleanedType === RESOURCE_TYPES.VIEWS
+                ? downloadYaml(details.pattern_file, details.name)
+                : downloadPattern(details.id, details.name, cleanedType)
             }
           >
             <Download width={24} height={24} fill={theme.palette.icon.default} />
