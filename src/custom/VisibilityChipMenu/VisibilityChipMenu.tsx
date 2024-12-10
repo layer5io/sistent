@@ -3,7 +3,7 @@ import { Theme } from '@mui/material';
 import { MouseEvent, useState } from 'react';
 import { Button, Menu, MenuItem } from '../../base';
 import { iconSmall } from '../../constants/iconsSizes';
-import { styled } from '../../theme';
+import { ALICE_BLUE, CHINESE_SILVER, NOT_FOUND, styled } from '../../theme';
 
 interface VisibilityChipMenuProps {
   value: string;
@@ -14,7 +14,8 @@ interface VisibilityChipMenuProps {
 
 const StyledMenu = styled(Menu)(({ theme }) => ({
   '& .MuiPaper-root': {
-    backgroundColor: theme.palette.mode === 'light' ? '#EBEFF1' : '#363636',
+    backgroundColor:
+      theme.palette.mode === 'light' ? ALICE_BLUE : theme.palette.background.constant?.table,
     color: theme.palette.text.secondary,
     border: `1px solid ${theme.palette.border.default}`,
     borderRadius: '0.25rem',
@@ -24,12 +25,12 @@ const StyledMenu = styled(Menu)(({ theme }) => ({
     fontSize: '.9rem',
     padding: '0.5rem',
     '&:hover': {
-      backgroundColor: theme.palette.mode === 'light' ? '#CCCCCC' : 'rgba(0, 179, 159, 0.25)'
+      backgroundColor: theme.palette.mode === 'light' ? CHINESE_SILVER : 'rgba(0, 179, 159, 0.25)'
     }
   },
   //selected
   '& .Mui-selected': {
-    backgroundColor: theme.palette.mode === 'light' ? '#CCCCCC' : 'rgba(0, 179, 159, 0.25)'
+    backgroundColor: theme.palette.mode === 'light' ? CHINESE_SILVER : 'rgba(0, 179, 159, 0.25)'
   },
   '& .MuiList-padding': {
     padding: '0px'
@@ -45,8 +46,10 @@ const StyledDiv = styled('div')(({ theme, enabled }: { theme?: Theme; enabled: b
   paddingLeft: '0.5rem',
   paddingRight: enabled ? '0' : '0.5rem',
   borderRadius: '0.25rem',
-  border: '1px solid #666',
-  background: theme?.palette.mode === 'light' ? '#EBEFF1' : '#363636',
+  border: `1px solid ${NOT_FOUND}`,
+  background:
+    theme?.palette.mode === 'light' ? ALICE_BLUE : theme?.palette.background.constant?.table,
+
   textTransform: 'uppercase',
   color: theme?.palette.text.default,
   display: 'flex',
