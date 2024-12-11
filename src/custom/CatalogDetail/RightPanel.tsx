@@ -26,6 +26,8 @@ interface RightPanelProps {
   technologySVGSubpath: string;
   orgName: string;
   fetchingOrgError: boolean;
+  showShareAction: boolean;
+  handleShare: () => void;
 }
 
 const RightPanel: React.FC<RightPanelProps> = ({
@@ -47,7 +49,9 @@ const RightPanel: React.FC<RightPanelProps> = ({
   technologySVGPath,
   technologySVGSubpath,
   orgName,
-  fetchingOrgError
+  fetchingOrgError,
+  showShareAction,
+  handleShare
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const { data: userProfile } = useGetUserProfileByIdQuery({
@@ -69,6 +73,8 @@ const RightPanel: React.FC<RightPanelProps> = ({
         handleCopyUrl={handleCopyUrl}
         fontFamily={fontFamily}
         userProfile={userProfile}
+        showShareAction={showShareAction}
+        handleShare={handleShare}
       />
       {showCaveats && <CaveatsSection details={details} />}
       <RelatedDesigns
