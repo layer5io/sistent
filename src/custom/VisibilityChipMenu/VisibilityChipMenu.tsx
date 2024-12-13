@@ -2,7 +2,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Theme } from '@mui/material';
 import { MouseEvent, useState } from 'react';
 import { Button, Menu, MenuItem } from '../../base';
-import { iconSmall } from '../../constants/iconsSizes';
+import { iconXSmall } from '../../constants/iconsSizes';
 import { ALICE_BLUE, CHINESE_SILVER, NOT_FOUND, styled } from '../../theme';
 
 interface VisibilityChipMenuProps {
@@ -43,8 +43,9 @@ const StyledButton = styled(Button)(() => ({
 }));
 
 const StyledDiv = styled('div')(({ theme, enabled }: { theme?: Theme; enabled: boolean }) => ({
-  paddingLeft: '0.5rem',
-  paddingRight: enabled ? '0' : '0.5rem',
+  paddingLeft: '0.3rem',
+  height: '1.5rem',
+  paddingRight: enabled ? '0' : '0.3rem',
   borderRadius: '0.25rem',
   border: `1px solid ${NOT_FOUND}`,
   background:
@@ -55,7 +56,7 @@ const StyledDiv = styled('div')(({ theme, enabled }: { theme?: Theme; enabled: b
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  width: '4.5rem',
+  width: '3.8rem',
   fontSize: '0.75rem',
   fontFamily: theme?.typography.fontFamily
 }));
@@ -99,8 +100,8 @@ const VisibilityChipMenu: React.FC<VisibilityChipMenuProps> = ({
         data-testid={`design-visibility-${value.toLowerCase()}`}
       >
         <StyledDiv enabled={enabled}>
-          <span>{value}</span>
-          {enabled && <ArrowDropDownIcon {...iconSmall} />}
+          <span style={{ fontSize: '0.7rem' }}>{value}</span>
+          {enabled && <ArrowDropDownIcon style={{ ...iconXSmall }} />}
         </StyledDiv>
       </StyledButton>
 
