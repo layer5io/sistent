@@ -136,6 +136,8 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
       <Autocomplete
         id="user-search-field"
         sx={{ width: 'auto' }}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         filterOptions={(x) => x}
         options={options}
         disableClearable
