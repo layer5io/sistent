@@ -194,8 +194,8 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
         columns={processedColumns}
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
-        rowsPerPageOptions={[15, 30, 45, 60, 75]}
         data={patterns || []}
+        rowsPerPageOptions={[15, 30, 45, 60, 75]}
         options={options}
         colViews={colViews}
         tableCols={processedColumns}
