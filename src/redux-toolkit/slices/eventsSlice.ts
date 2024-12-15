@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { MesheryRootState } from '../store';
-// State interface
+
 export interface EventsState {
-  [key: string]: any;
+  items: any[];
 }
-// Initial state
-const initialState: EventsState = [];
-// Slice
+
+const initialState: EventsState = { items: [] };
+
 const eventsSlice = createSlice({
   name: 'events',
   initialState,
@@ -16,8 +16,10 @@ const eventsSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setEvents } = eventsSlice.actions;
+
 // Selectors
 export const selectEvents = (state: MesheryRootState) => state.events;
 export default eventsSlice.reducer;

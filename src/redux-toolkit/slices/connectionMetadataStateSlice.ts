@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { MesheryRootState } from '../store';
-// State interface
+
 export interface ConnectionMetadataStateState {
-  [key: string]: any;
+  value: any;
 }
-// Initial state
-const initialState: ConnectionMetadataStateState = null;
-// Slice
+
+const initialState: ConnectionMetadataStateState = { value: null };
+
 const connectionMetadataStateSlice = createSlice({
   name: 'connectionMetadataState',
   initialState,
@@ -28,6 +28,7 @@ const connectionMetadataStateSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const {
   setConnectionMetadataState,
@@ -35,6 +36,7 @@ export const {
   setControllerState,
   setConnectionMetadata
 } = connectionMetadataStateSlice.actions;
+
 // Selectors
 export const selectConnectionMetadataState = (state: MesheryRootState) =>
   state.connectionMetadataState;

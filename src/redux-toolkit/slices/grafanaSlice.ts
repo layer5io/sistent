@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
-// State interface
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
+
 export interface GrafanaState {
   [key: string]: any;
 }
-// Initial state
+
 const initialState: GrafanaState = [];
-// Slice
+
 const grafanaSlice = createSlice({
   name: 'grafana',
   initialState,
@@ -20,8 +20,15 @@ const grafanaSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setGrafana, updateGrafanaConfig } = grafanaSlice.actions;
+
+// Thunk action creator
+export const updateGrafana = (payload: GrafanaState) => (dispatch: MesheryReduxAppDispatch) => {
+  dispatch(setGrafana(payload));
+};
+
 // Selectors
 export const selectGrafana = (state: MesheryRootState) => state.grafana;
 export default grafanaSlice.reducer;

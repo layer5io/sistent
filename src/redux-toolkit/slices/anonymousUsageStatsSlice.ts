@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
-// State interface
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
+
 export interface AnonymousUsageStatsState {
-  [key: string]: any;
+  value: boolean;
 }
-// Initial state
-const initialState: AnonymousUsageStatsState = true;
-// Slice
+
+const initialState: AnonymousUsageStatsState = { value: false };
+
 const anonymousUsageStatsSlice = createSlice({
   name: 'anonymousUsageStats',
   initialState,
@@ -30,9 +30,16 @@ const anonymousUsageStatsSlice = createSlice({
 // Actions
 export const {
   setAnonymousUsageStats,
-  updateAnonymousUsageStats,
+  // updateAnonymousUsageStats,
   updateAnonymousPerformanceResults
 } = anonymousUsageStatsSlice.actions;
+
+// Thunk action creator
+export const updateAnonymousUsageStats =
+  (payload: AnonymousUsageStatsState) => (dispatch: MesheryReduxAppDispatch) => {
+    dispatch(setAnonymousUsageStats(payload));
+  };
+
 // Selectors
 export const selectAnonymousUsageStats = (state: MesheryRootState) => state.anonymousUsageStats;
 export default anonymousUsageStatsSlice.reducer;

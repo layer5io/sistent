@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
-// State interface
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
+
 export interface ExtensionTypeState {
-  [key: string]: any;
+  value: string;
 }
-// Initial state
-const initialState: ExtensionTypeState = '';
-// Slice
+
+const initialState: ExtensionTypeState = { value: '' };
+
 const extensionTypeSlice = createSlice({
   name: 'extensionType',
   initialState,
@@ -20,8 +20,16 @@ const extensionTypeSlice = createSlice({
     }
   }
 });
+
 // Actions
-export const { setExtensionType, updateExtensionType } = extensionTypeSlice.actions;
+export const { setExtensionType } = extensionTypeSlice.actions;
+
+// Thunk action creator
+export const updateExtensionType =
+  (payload: ExtensionTypeState) => (dispatch: MesheryReduxAppDispatch) => {
+    dispatch(setExtensionType(payload));
+  };
+
 // Selectors
 export const selectExtensionType = (state: MesheryRootState) => state.extensionType;
 export default extensionTypeSlice.reducer;

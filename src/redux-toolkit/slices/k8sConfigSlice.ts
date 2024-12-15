@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
 
 export interface K8sConfigState {
   [key: string]: any;
@@ -50,6 +50,11 @@ export const {
   updateStaticBoardConfig,
   updateLoadGenConfig
 } = k8sConfigSlice.actions;
+
+// Thunk action creator
+export const updateK8sConfig = (payload: K8sConfigState) => (dispatch: MesheryReduxAppDispatch) => {
+  dispatch(setK8sConfig(payload));
+};
 
 // Selectors
 export const selectK8sConfig = (state: MesheryRootState) => state.k8sConfig;

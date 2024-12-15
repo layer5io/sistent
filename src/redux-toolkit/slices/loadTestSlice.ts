@@ -1,10 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
-// State interface
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
+
 export interface LoadTestState {
-  [key: string]: any;
+  testName: string;
+  meshName: string;
+  url: string;
+  qps: number;
+  c: number;
+  t: string;
+  result: {};
 }
-// Initial state
+
 const initialState: LoadTestState = {
   testName: '',
   meshName: '',
@@ -14,7 +20,7 @@ const initialState: LoadTestState = {
   t: '30s',
   result: {}
 };
-// Slice
+
 const loadTestSlice = createSlice({
   name: 'loadTest',
   initialState,
@@ -32,8 +38,15 @@ const loadTestSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setLoadTest, updateLoadTestData, updateLoadGenConfig } = loadTestSlice.actions;
+
+// Thunk action creator
+export const updateLoadTest = (payload: LoadTestState) => (dispatch: MesheryReduxAppDispatch) => {
+  dispatch(setLoadTest(payload));
+};
+
 // Selectors
 export const selectLoadTest = (state: MesheryRootState) => state.loadTest;
 export default loadTestSlice.reducer;

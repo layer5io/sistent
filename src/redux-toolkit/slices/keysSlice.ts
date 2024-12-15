@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
-// State interface
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
+
 export interface KeysState {
   [key: string]: any;
 }
-// Initial state
+
 const initialState: KeysState = null;
-// Slice
+
 const keysSlice = createSlice({
   name: 'keys',
   initialState,
@@ -22,8 +22,15 @@ const keysSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setKeys } = keysSlice.actions;
+
+// Thunk action creator
+export const updateKeys = (payload: KeysState) => (dispatch: MesheryReduxAppDispatch) => {
+  dispatch(setKeys(payload));
+};
+
 // Selectors
 export const selectKeys = (state: MesheryRootState) => state.keys;
 export default keysSlice.reducer;

@@ -1,12 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { MesheryRootState } from '../store';
-// State interface
 export interface CatalogVisibilityState {
-  [key: string]: any;
+  value: boolean;
 }
-// Initial state
-const initialState: CatalogVisibilityState = true;
-// Slice
+
+const initialState: CatalogVisibilityState = { value: false };
+
 const catalogVisibilitySlice = createSlice({
   name: 'catalogVisibility',
   initialState,
@@ -20,8 +19,10 @@ const catalogVisibilitySlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setCatalogVisibility, setCatalogContent } = catalogVisibilitySlice.actions;
+
 // Selectors
 export const selectCatalogVisibility = (state: MesheryRootState) => state.catalogVisibility;
 export default catalogVisibilitySlice.reducer;

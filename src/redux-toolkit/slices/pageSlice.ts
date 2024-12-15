@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
 
 export interface PageState {
-  [key: string]: any;
+  path: string;
+  title: string;
+  isBeta: boolean;
 }
 
 const initialState: PageState = {
@@ -25,7 +27,12 @@ const pageSlice = createSlice({
   }
 });
 
-export const { setPage, updatePage } = pageSlice.actions;
+export const { setPage } = pageSlice.actions;
+
+// Thunk action creator
+export const updatePage = (payload: PageState) => (dispatch: MesheryReduxAppDispatch) => {
+  dispatch(setPage(payload));
+};
 
 // Selectors
 export const selectPage = (state: MesheryRootState) => state.page;

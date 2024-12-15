@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { MesheryRootState } from '../store';
-// State interface
+
 export interface IsBetaState {
   [key: string]: any;
 }
-// Initial state
+
 const initialState: IsBetaState = false;
-// Slice
+
 const isBetaSlice = createSlice({
   name: 'isBeta',
   initialState,
@@ -20,8 +20,10 @@ const isBetaSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setIsBeta, updateBetaBadge } = isBetaSlice.actions;
+
 // Selectors
 export const selectIsBeta = (state: MesheryRootState) => state.isBeta;
 export default isBetaSlice.reducer;

@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { MesheryRootState } from '../store';
-// State interface
+
 export interface GrafanaBoardsState {
   [key: string]: any;
 }
-// Initial state
+
 const initialState: GrafanaBoardsState = [];
-// Slice
+
 const grafanaBoardsSlice = createSlice({
   name: 'grafanaBoards',
   initialState,
@@ -24,9 +24,11 @@ const grafanaBoardsSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setGrafanaBoards, updateGrafanaConfig, updateStaticBoardConfig } =
   grafanaBoardsSlice.actions;
+
 // Selectors
 export const selectGrafanaBoards = (state: MesheryRootState) => state.grafanaBoards;
 export default grafanaBoardsSlice.reducer;

@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { MesheryRootState } from '../store';
-// State interface
+
 export interface MeshAdapterstsState {
-  [key: string]: any;
+  value: Date;
 }
-// Initial state
-const initialState: MeshAdapterstsState = new Date();
-// Slice
+
+const initialState: MeshAdapterstsState = { value: new Date() };
+
 const meshAdapterstsSlice = createSlice({
   name: 'meshAdaptersts',
   initialState,
@@ -24,8 +24,10 @@ const meshAdapterstsSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setMeshAdaptersts, updateAdaptersInfo, setAdapter } = meshAdapterstsSlice.actions;
+
 // Selectors
 export const selectMeshAdaptersts = (state: MesheryRootState) => state.meshAdaptersts;
 export default meshAdapterstsSlice.reducer;

@@ -1,12 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
-// State interface
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
+
 export interface PrometheusState {
-  [key: string]: any;
+  prometheusURL: string;
+  selectedPrometheusBoardsConfigs: any[];
+  ts: Date;
 }
-// Initial state
-const initialState: PrometheusState = [];
-// Slice
+
+const initialState: PrometheusState = {
+  prometheusURL: '',
+  selectedPrometheusBoardsConfigs: [],
+  ts: new Date()
+};
+
 const prometheusSlice = createSlice({
   name: 'prometheus',
   initialState,
@@ -20,8 +26,16 @@ const prometheusSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setPrometheus, updatePrometheusConfig } = prometheusSlice.actions;
+
+// Thunk action creator
+export const updatePrometheus =
+  (payload: PrometheusState) => (dispatch: MesheryReduxAppDispatch) => {
+    dispatch(setPrometheus(payload));
+  };
+
 // Selectors
 export const selectPrometheus = (state: MesheryRootState) => state.prometheus;
 export default prometheusSlice.reducer;

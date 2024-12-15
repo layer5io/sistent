@@ -1,12 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { MesheryRootState } from '../store';
-// State interface
 export interface AnonymousPerfResultsState {
-  [key: string]: any;
+  value: boolean;
 }
-// Initial state
-const initialState: AnonymousPerfResultsState = true;
-// Slice
+
+const initialState: AnonymousPerfResultsState = { value: false };
+
 const anonymousPerfResultsSlice = createSlice({
   name: 'anonymousPerfResults',
   initialState,
@@ -35,6 +34,7 @@ const anonymousPerfResultsSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const {
   setAnonymousPerfResults,
@@ -43,6 +43,7 @@ export const {
   updateAnonymousUsageStats,
   updateAnonymousPerformanceResults
 } = anonymousPerfResultsSlice.actions;
+
 // Selectors
 export const selectAnonymousPerfResults = (state: MesheryRootState) => state.anonymousPerfResults;
 export default anonymousPerfResultsSlice.reducer;

@@ -1,12 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
-// State interface
-export interface StaticPrometheusBoardConfigState {
-  [key: string]: any;
-}
-// Initial state
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
+
+export interface StaticPrometheusBoardConfigState {}
+
 const initialState: StaticPrometheusBoardConfigState = {};
-// Slice
+
 const staticPrometheusBoardConfigSlice = createSlice({
   name: 'staticPrometheusBoardConfig',
   initialState,
@@ -45,6 +43,7 @@ const staticPrometheusBoardConfigSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const {
   setStaticPrometheusBoardConfig,
@@ -54,6 +53,13 @@ export const {
   updateStaticBoardConfig,
   updateLoadGenConfig
 } = staticPrometheusBoardConfigSlice.actions;
+
+// Thunk action creator
+export const updateStaticPrometheusBoardConfig =
+  (payload: StaticPrometheusBoardConfigState) => (dispatch: MesheryReduxAppDispatch) => {
+    dispatch(setStaticPrometheusBoardConfig(payload));
+  };
+
 // Selectors
 export const selectStaticPrometheusBoardConfig = (state: MesheryRootState) =>
   state.staticPrometheusBoardConfig;

@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
-// State interface
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
+
 export interface LoadTestPrefState {
   [key: string]: any;
 }
-// Initial state
+
 const initialState: LoadTestPrefState = {
   qps: 0,
   t: '30s',
@@ -12,7 +12,7 @@ const initialState: LoadTestPrefState = {
   gen: 'fortio',
   ts: new Date()
 };
-// Slice
+
 const loadTestPrefSlice = createSlice({
   name: 'loadTestPref',
   initialState,
@@ -30,9 +30,17 @@ const loadTestPrefSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setLoadTestPref, updateLoadTestData, updateLoadGenConfig } =
   loadTestPrefSlice.actions;
+
+// Thunk action creator
+export const updateLoadTestPref =
+  (payload: LoadTestPrefState) => (dispatch: MesheryReduxAppDispatch) => {
+    dispatch(setLoadTestPref(payload));
+  };
+
 // Selectors
 export const selectLoadTestPref = (state: MesheryRootState) => state.loadTestPref;
 export default loadTestPrefSlice.reducer;

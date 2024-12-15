@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { MesheryRootState } from '../store';
-// State interface
+
 export interface IsDrawerCollapsedState {
   [key: string]: any;
 }
-// Initial state
+
 const initialState: IsDrawerCollapsedState = false;
-// Slice
+
 const isDrawerCollapsedSlice = createSlice({
   name: 'isDrawerCollapsed',
   initialState,
@@ -20,8 +20,10 @@ const isDrawerCollapsedSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setIsDrawerCollapsed, toogleDrawer } = isDrawerCollapsedSlice.actions;
+
 // Selectors
 export const selectIsDrawerCollapsed = (state: MesheryRootState) => state.isDrawerCollapsed;
 export default isDrawerCollapsedSlice.reducer;

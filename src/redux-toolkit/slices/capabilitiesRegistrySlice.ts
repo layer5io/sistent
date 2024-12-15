@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { MesheryRootState } from '../store';
-// State interface
+
 export interface CapabilitiesRegistryState {
-  [key: string]: any;
+  value: any;
 }
-// Initial state
-const initialState: CapabilitiesRegistryState = null;
-// Slice
+
+const initialState: CapabilitiesRegistryState = { value: null };
+
 const capabilitiesRegistrySlice = createSlice({
   name: 'capabilitiesRegistry',
   initialState,
@@ -20,9 +20,11 @@ const capabilitiesRegistrySlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setCapabilitiesRegistry, updateCapabilityRegistry } =
   capabilitiesRegistrySlice.actions;
+
 // Selectors
 export const selectCapabilitiesRegistry = (state: MesheryRootState) => state.capabilitiesRegistry;
 export default capabilitiesRegistrySlice.reducer;

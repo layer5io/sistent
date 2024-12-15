@@ -1,9 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
 
-export interface UserState {
-  [key: string]: any;
-}
+export interface UserState {}
 
 const initialState: UserState = {};
 
@@ -21,7 +19,12 @@ const userSlice = createSlice({
   }
 });
 
-export const { setUser, updateUser } = userSlice.actions;
+export const { setUser } = userSlice.actions;
+
+// Thunk action creator
+export const updateUser = (payload: UserState) => (dispatch: MesheryReduxAppDispatch) => {
+  dispatch(setUser(payload));
+};
 
 // Selectors
 export const selectUser = (state: MesheryRootState) => state.user;

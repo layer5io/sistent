@@ -1,12 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
-// State interface
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
+
 export interface ResultsState {
-  [key: string]: any;
+  startKey: string;
+  results: any[];
 }
-// Initial state
-const initialState: ResultsState = [];
-// Slice
+
+const initialState: ResultsState = {
+  startKey: '',
+  results: []
+};
+
 const resultsSlice = createSlice({
   name: 'results',
   initialState,
@@ -28,6 +32,7 @@ const resultsSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const {
   setResults,
@@ -35,6 +40,12 @@ export const {
   clearResultsSelection,
   updateAnonymousPerformanceResults
 } = resultsSlice.actions;
+
+// Thunk action creator
+export const updateResults = (payload: ResultsState) => (dispatch: MesheryReduxAppDispatch) => {
+  dispatch(setResults(payload));
+};
+
 // Selectors
 export const selectResults = (state: MesheryRootState) => state.results;
 export default resultsSlice.reducer;

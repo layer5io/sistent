@@ -1,15 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { MesheryRootState } from '../store';
-// State interface
+import type { MesheryReduxAppDispatch, MesheryRootState } from '../store';
+
 export interface NotificationCenterState {
-  [key: string]: any;
+  openEventId: any;
+  showFullNotificationCenter: boolean;
 }
-// Initial state
+
 const initialState: NotificationCenterState = {
   openEventId: null,
   showFullNotificationCenter: false
 };
-// Slice
+
 const notificationCenterSlice = createSlice({
   name: 'notificationCenter',
   initialState,
@@ -19,8 +20,16 @@ const notificationCenterSlice = createSlice({
     }
   }
 });
+
 // Actions
 export const { setNotificationCenter } = notificationCenterSlice.actions;
+
+// Thunk action creator
+export const updateNotificationCenter =
+  (payload: NotificationCenterState) => (dispatch: MesheryReduxAppDispatch) => {
+    dispatch(setNotificationCenter(payload));
+  };
+
 // Selectors
 export const selectNotificationCenter = (state: MesheryRootState) => state.notificationCenter;
 export default notificationCenterSlice.reducer;
