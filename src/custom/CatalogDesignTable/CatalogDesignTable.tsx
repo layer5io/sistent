@@ -144,10 +144,9 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
       page,
       elevation: 0,
       sortOrder: {
-        name: 'updated_at',
-        direction: 'desc'
+        name: sortOrder.split(' ')[0],
+        direction: sortOrder.split(' ')[1]
       },
-
       onTableChange: handleTableChange,
       customToolbarSelect: _.isNil(filter)
         ? (selected: any) => (
@@ -175,6 +174,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
       filter,
       totalCount,
       pageSize,
+      sortOrder,
       page,
       handleTableChange,
       patterns,
@@ -194,6 +194,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
         columns={processedColumns}
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
+        rowsPerPageOptions={[15, 30, 45, 60, 75]}
         data={patterns || []}
         options={options}
         colViews={colViews}
