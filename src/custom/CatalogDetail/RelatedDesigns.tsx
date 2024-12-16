@@ -36,13 +36,13 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
   );
 
   if (!filteredPatternsPerUser?.length) return null;
-
+  const organizationName = fetchingOrgError || !orgName ? 'Unknown Organization' : orgName;
   return (
     <AdditionalContainer>
       <ContentHeading>
         <h2 style={{ margin: '0', textTransform: 'uppercase' }}>
           Other published design by {formatToTitleCase(userProfile?.first_name ?? '')}{' '}
-          {fetchingOrgError ? '' : `under ${orgName}`}
+          {fetchingOrgError ? '' : `under ${organizationName}`}
         </h2>
       </ContentHeading>
       <DesignCardContainer>

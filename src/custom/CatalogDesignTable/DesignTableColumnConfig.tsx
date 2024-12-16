@@ -72,7 +72,7 @@ export const createDesignsColumnsConfig = ({
     },
     {
       name: 'name',
-      label: 'Pattern Name',
+      label: 'Name',
       options: {
         filter: false,
         sort: true,

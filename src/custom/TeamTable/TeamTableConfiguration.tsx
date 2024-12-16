@@ -111,7 +111,8 @@ export default function TeamTableConfiguration({
     ['name', 'xs'],
     ['description', 'm'],
     ['owner', 'l'],
-    ['created_at', 'xl'],
+    ['created_at', 'na'],
+    ['updated_at', 'xl'],
     ['deleted_at', 'na'],
     ['actions', 'xs']
   ];
@@ -158,6 +159,16 @@ export default function TeamTableConfiguration({
     {
       name: 'created_at',
       label: 'Created At',
+      options: {
+        filter: false,
+        sort: true,
+        searchable: false,
+        sortDescFirst: true
+      }
+    },
+    {
+      name: 'updated_at',
+      label: 'Updated At',
       options: {
         filter: false,
         sort: true,
@@ -290,10 +301,7 @@ export default function TeamTableConfiguration({
         backgroundColor: '#f3f1f1'
       }
     },
-    sortOrder: {
-      name: 'created_at',
-      direction: 'desc'
-    },
+
     viewColumns: false,
     search: false,
     rowsExpanded: [ExpandedRowIdx],

@@ -104,7 +104,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
   const modalRef = useRef(null);
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   const handlePublishModal = (pattern: Pattern): void => {
