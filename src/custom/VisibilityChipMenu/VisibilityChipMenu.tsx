@@ -1,12 +1,20 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { Theme } from '@mui/material';
+import { Theme, useTheme } from '@mui/material';
 import { MouseEvent, useState } from 'react';
 import { Button, Menu, MenuItem } from '../../base';
 import { iconXSmall } from '../../constants/iconsSizes';
 import { ALICE_BLUE, CHINESE_SILVER, NOT_FOUND, styled } from '../../theme';
 
+export const VIEW_VISIBILITY = {
+  PUBLIC: 'public',
+  PRIVATE: 'private',
+  PUBLISHED: 'published'
+} as const;
+
+export type VIEW_VISIBILITY = (typeof VIEW_VISIBILITY)[keyof typeof VIEW_VISIBILITY];
+
 interface VisibilityChipMenuProps {
-  value: string;
+  value: VIEW_VISIBILITY;
   onChange: (value: string) => void;
   options: [string, React.ElementType][];
   enabled: boolean;
@@ -42,24 +50,25 @@ const StyledButton = styled(Button)(() => ({
   width: '100%'
 }));
 
-const StyledDiv = styled('div')(({ theme, enabled }: { theme?: Theme; enabled: boolean }) => ({
-  paddingLeft: '0.3rem',
-  height: '1.5rem',
-  paddingRight: enabled ? '0' : '0.3rem',
-  borderRadius: '0.25rem',
-  border: `1px solid ${NOT_FOUND}`,
-  background:
-    theme?.palette.mode === 'light' ? ALICE_BLUE : theme?.palette.background.constant?.table,
-
-  textTransform: 'uppercase',
-  color: theme?.palette.text.default,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  width: '3.8rem',
-  fontSize: '0.75rem',
-  fontFamily: theme?.typography.fontFamily
-}));
+const StyledDiv = styled('div')(
+  ({ theme, enabled, type }: { theme: Theme; enabled: boolean; type: VIEW_VISIBILITY }) => ({
+    paddingLeft: '0.3rem',
+    height: '1.5rem',
+    paddingRight: enabled ? '0' : '0.3rem',
+    borderRadius: '0.25rem',
+    border: `1px solid ${NOT_FOUND}`,
+    background:
+      theme?.palette.mode === 'light' ? ALICE_BLUE : theme?.palette.background.constant?.table,
+    textTransform: 'uppercase',
+    color: theme?.palette.text.default,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: type !== 'published' ? '3.8rem' : 'auto',
+    fontSize: '0.75rem',
+    fontFamily: theme?.typography.fontFamily
+  })
+);
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   textTransform: 'capitalize',
@@ -92,6 +101,7 @@ const VisibilityChipMenu: React.FC<VisibilityChipMenuProps> = ({
     onChange(value);
     close(e);
   };
+  const theme = useTheme();
   return (
     <>
       <StyledButton
@@ -99,7 +109,7 @@ const VisibilityChipMenu: React.FC<VisibilityChipMenuProps> = ({
         onClick={handleOpen}
         data-testid={`design-visibility-${value.toLowerCase()}`}
       >
-        <StyledDiv enabled={enabled}>
+        <StyledDiv theme={theme} enabled={enabled} type={value}>
           <span style={{ fontSize: '0.7rem' }}>{value}</span>
           {enabled && <ArrowDropDownIcon style={{ ...iconXSmall }} />}
         </StyledDiv>

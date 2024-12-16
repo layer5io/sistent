@@ -25,6 +25,7 @@ interface CatalogDesignsTableProps {
   setPage: (page: number) => void;
   columnVisibility: Record<string, boolean>;
   colViews: ColView[];
+  rowsPerPageOptions?: number[];
   handleBulkDeleteModal: (patterns: Pattern[], modalRef: React.RefObject<PromptRef>) => void;
   setSearch?: (search: string) => void;
   handleBulkpatternsDataUnpublishModal: (
@@ -49,6 +50,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
   colViews = [],
   handleBulkDeleteModal,
   setSearch,
+  rowsPerPageOptions = [10, 25, 50, 100],
   handleBulkpatternsDataUnpublishModal
 }) => {
   const theme = useTheme();
@@ -144,10 +146,9 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
       page,
       elevation: 0,
       sortOrder: {
-        name: 'updated_at',
-        direction: 'desc'
+        name: sortOrder.split(' ')[0],
+        direction: sortOrder.split(' ')[1]
       },
-
       onTableChange: handleTableChange,
       customToolbarSelect: _.isNil(filter)
         ? (selected: any) => (
@@ -175,6 +176,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
       filter,
       totalCount,
       pageSize,
+      sortOrder,
       page,
       handleTableChange,
       patterns,
@@ -195,6 +197,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
         data={patterns || []}
+        rowsPerPageOptions={rowsPerPageOptions}
         options={options}
         colViews={colViews}
         tableCols={processedColumns}

@@ -70,7 +70,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
   const { data: environmentsOfWorkspace } = useGetEnvironmentsOfWorkspaceQuery({
     workspaceId,
     page: page,
@@ -197,8 +197,8 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
     page,
     elevation: 0,
     sortOrder: {
-      name: 'updated_at',
-      direction: 'desc'
+      name: sortOrder.split(' ')[0],
+      direction: sortOrder.split(' ')[1]
     },
     serverSide: true,
     onTableChange: (action: string, tableState: any) => {
