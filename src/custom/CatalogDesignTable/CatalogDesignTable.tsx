@@ -25,6 +25,7 @@ interface CatalogDesignsTableProps {
   setPage: (page: number) => void;
   columnVisibility: Record<string, boolean>;
   colViews: ColView[];
+  rowsPerPageOptions?: number[];
   handleBulkDeleteModal: (patterns: Pattern[], modalRef: React.RefObject<PromptRef>) => void;
   setSearch?: (search: string) => void;
   handleBulkpatternsDataUnpublishModal: (
@@ -49,6 +50,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
   colViews = [],
   handleBulkDeleteModal,
   setSearch,
+  rowsPerPageOptions = [10, 25, 50, 100],
   handleBulkpatternsDataUnpublishModal
 }) => {
   const theme = useTheme();
@@ -195,7 +197,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
         data={patterns || []}
-        rowsPerPageOptions={[15, 30, 45, 60, 75]}
+        rowsPerPageOptions={rowsPerPageOptions}
         options={options}
         colViews={colViews}
         tableCols={processedColumns}
