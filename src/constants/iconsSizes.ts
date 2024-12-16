@@ -1,5 +1,10 @@
 // icon styles, setting general height and width properties to solves scaling and consistency problems
 
+export const iconXSmall = {
+  height: 16,
+  width: 16
+};
+
 export const iconSmall = {
   height: 20,
   width: 20
