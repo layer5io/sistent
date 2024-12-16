@@ -57,6 +57,7 @@ export const DataTableEllipsisMenu: React.FC<{
         open={Boolean(anchorEl)}
         onClose={handleClose}
         sx={{
+          fontFamily: theme?.typography.fontFamily,
           '& .MuiPaper-root': {
             backgroundColor: theme?.palette.background.default ?? 'white'
           }
@@ -122,6 +123,9 @@ export const DataTableEllipsisMenu: React.FC<{
 
 const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
   createTheme({
+    typography: {
+      fontFamily: theme.typography.fontFamily
+    },
     components: {
       MuiPaper: {
         styleOverrides: {
@@ -134,7 +138,6 @@ const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
       MuiTable: {
         styleOverrides: {
           root: {
-            // border: `2px solid ${theme.palette.border.normal}`,
             width: '-webkit-fill-available',
             '@media (max-width: 500px)': {
               wordWrap: 'break-word'

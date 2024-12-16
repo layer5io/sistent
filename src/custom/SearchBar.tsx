@@ -11,6 +11,9 @@ import { TooltipIcon } from './TooltipIconButton';
 
 const customTheme = (theme: Theme) =>
   createTheme({
+    typography: {
+      fontFamily: theme.typography.fontFamily
+    },
     components: {
       MuiTextField: {
         styleOverrides: {

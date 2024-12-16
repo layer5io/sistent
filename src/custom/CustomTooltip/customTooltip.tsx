@@ -1,5 +1,5 @@
-import { Tooltip, type TooltipProps } from '@mui/material';
 import React from 'react';
+import { Tooltip, TooltipProps } from '../../base';
 import { WHITE } from '../../theme';
 import { RenderMarkdownTooltip } from '../Markdown';
 
