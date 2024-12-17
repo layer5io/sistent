@@ -49,7 +49,7 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
 }) => {
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
   const [bulkSelect, setBulkSelect] = useState<boolean>(false);
   const [expanded, setExpanded] = useState<boolean>(true);
   const handleAccordionChange = () => {

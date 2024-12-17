@@ -47,6 +47,7 @@ import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 import { UsersTable } from './UsersTable';
+import { VisibilityChipMenu } from './VisibilityChipMenu';
 export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
 export type { FilterListType } from './CatalogFilterSection';
@@ -100,6 +101,7 @@ export {
   TransferList,
   UniversalFilter,
   UsersTable,
+  VisibilityChipMenu,
   updateVisibleColumns,
   useNotificationHandler,
   useWindowDimensions,

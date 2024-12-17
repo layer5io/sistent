@@ -70,7 +70,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
 }) => {
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<string>('last_login_time desc');
   const [search, setSearch] = useState<string>('');
   const availableRoles: string[] = [];
   const { handleError, handleSuccess, handleInfo } = useNotificationHandlers();
@@ -176,8 +176,8 @@ const UsersTable: React.FC<UsersTableProps> = ({
     elevation: 0,
     serverSide: true,
     sortOrder: {
-      name: 'last_login_time',
-      direction: 'desc'
+      name: sortOrder.split(' ')[0],
+      direction: sortOrder.split(' ')[1]
     },
     onTableChange: (action: string, tableState: any) => {
       const sortInfo = tableState.announceText ? tableState.announceText.split(' : ') : [];

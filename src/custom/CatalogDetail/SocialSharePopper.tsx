@@ -1,12 +1,24 @@
 import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
-import { ChainIcon, FacebookIcon, LinkedinIcon, ShareIcon, TwitterIcon } from '../../icons';
+
+import {
+  ChainIcon,
+  FacebookIcon,
+  LinkedinIcon,
+  LockIcon,
+  PublicIcon,
+  ShareIcon,
+  TwitterIcon
+} from '../../icons';
 import { useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { CustomTooltip } from '../CustomTooltip';
 import { ErrorBoundary } from '../ErrorBoundary';
-import { CopyShareIconWrapper, VisibilityChip } from './style';
+
+import { VisibilityChipMenu } from '../VisibilityChipMenu';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
+import { CopyShareIconWrapper } from './style';
 
 interface SocialSharePopperProps {
   details: Pattern;
@@ -44,13 +56,15 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
   return (
     <ErrorBoundary>
       <CopyShareIconWrapper style={{ marginBottom: '2rem' }}>
-        <VisibilityChip
-          style={{
-            color: theme.palette.text.default
-          }}
-        >
-          {details?.visibility}
-        </VisibilityChip>
+        <VisibilityChipMenu
+          value={details?.visibility as VIEW_VISIBILITY}
+          onChange={() => {}}
+          enabled={false}
+          options={[
+            [VIEW_VISIBILITY.PUBLIC, PublicIcon],
+            [VIEW_VISIBILITY.PRIVATE, LockIcon]
+          ]}
+        />
 
         <CustomTooltip title="Copy Link" placement="top" arrow>
           <IconButton

@@ -80,7 +80,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
               backgroundColor: 'transparent',
               border: `1px solid ${theme.palette.border.normal}`,
               gap: '10px',
-              color: charcoal[10]
+              color: theme.palette.text.default
             }}
             onClick={() =>
               cleanedType === RESOURCE_TYPES.FILTERS
@@ -88,7 +88,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
                 : downloadYaml(details.pattern_file, details.name)
             }
           >
-            <Download width={24} height={24} fill={charcoal[10]} />
+            <Download width={24} height={24} fill={theme.palette.icon.default} />
             Download
           </ActionButton>
 
@@ -108,7 +108,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
                 <CircularProgress size={24} color={'inherit'} />
               ) : (
                 <>
-                  <CopyIcon width={24} height={24} fill={charcoal[10]} />
+                  <CopyIcon width={24} height={24} fill={theme.palette.icon.default} />
                   Clone
                 </>
               )}
@@ -136,7 +136,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             }}
             onClick={handleInfoClick}
           >
-            <EditIcon width={24} height={24} fill={charcoal[10]} />
+            <EditIcon width={24} height={24} fill={theme.palette.icon.default} />
             Edit
           </ActionButton>
         )}
@@ -151,7 +151,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             }}
             onClick={handleShare}
           >
-            <ShareLineIcon width="24" height="24" fill={charcoal[10]} />
+            <ShareLineIcon width="24" height="24" fill={theme.palette.icon.default} />
             Share
           </ActionButton>
         )}
