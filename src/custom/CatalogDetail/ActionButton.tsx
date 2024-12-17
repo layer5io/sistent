@@ -1,6 +1,6 @@
 import React from 'react';
 import { CircularProgress } from '../../base';
-import { CopyIcon, EditIcon, KanvasIcon, PublishIcon, ShareIcon } from '../../icons';
+import { CopyIcon, EditIcon, KanvasIcon, PublishIcon, ShareLineIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { charcoal, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
@@ -151,7 +151,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             }}
             onClick={handleShare}
           >
-            <ShareIcon width={24} height={24} fill={charcoal[10]} />
+            <ShareLineIcon width="24" height="24" fill={charcoal[10]} />
             Share
           </ActionButton>
         )}
