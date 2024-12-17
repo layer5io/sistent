@@ -6,7 +6,7 @@ import { useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { CustomTooltip } from '../CustomTooltip';
 import { ErrorBoundary } from '../ErrorBoundary';
-import { ActionButton, CopyShareIconWrapper, VisibilityChip } from './style';
+import { CopyShareIconWrapper, VisibilityChip } from './style';
 
 interface SocialSharePopperProps {
   details: Pattern;
@@ -25,9 +25,7 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
   cardId,
   title,
   getUrl,
-  handleCopyUrl,
-  showShareAction,
-  handleShare
+  handleCopyUrl
 }) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -54,27 +52,14 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
           {details?.visibility}
         </VisibilityChip>
 
-        {showShareAction ? (
-          <CustomTooltip title="Share" placement="top" arrow>
-            <ActionButton sx={{ borderRadius: '0.2rem', padding: '0.4rem' }} onClick={handleShare}>
-              <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.inverse} />
-              Share
-            </ActionButton>
-          </CustomTooltip>
-        ) : (
-          <>
-            {details?.visibility !== 'private' && (
-              <CustomTooltip title="Copy Link" placement="top" arrow>
-                <IconButton
-                  sx={{ borderRadius: '0.1rem', padding: '0.5rem' }}
-                  onClick={() => handleCopyUrl(cleanedType, details?.name, details?.id)}
-                >
-                  <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.secondary} />
-                </IconButton>
-              </CustomTooltip>
-            )}
-          </>
-        )}
+        <CustomTooltip title="Copy Link" placement="top" arrow>
+          <IconButton
+            sx={{ borderRadius: '0.1rem', padding: '0.5rem' }}
+            onClick={() => handleCopyUrl(cleanedType, details?.name, details?.id)}
+          >
+            <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.secondary} />
+          </IconButton>
+        </CustomTooltip>
 
         {(details?.visibility === 'published' || details?.visibility === 'public') && (
           <>

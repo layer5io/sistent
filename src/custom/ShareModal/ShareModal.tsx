@@ -14,6 +14,7 @@ import {
 import { ChainIcon, DeleteIcon, LockIcon, PublicIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { BLACK, WHITE } from '../../theme/colors';
+import { CustomTooltip } from '../CustomTooltip';
 import { Modal, ModalBody, ModalButtonPrimary, ModalButtonSecondary, ModalFooter } from '../Modal';
 import UserShareSearch from '../UserSearchField/UserSearchField';
 import {
@@ -97,13 +98,15 @@ const AccessList: React.FC<AccessListProps> = ({
                 {ownerData.id === actorData.id ? (
                   <div>Owner</div>
                 ) : (
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    onClick={() => handleDelete(actorData.email)}
-                  >
-                    <DeleteIcon fill={theme.palette.background.neutral?.default} />
-                  </IconButton>
+                  <CustomTooltip title="Remove Access" placement="top" arrow>
+                    <IconButton
+                      edge="end"
+                      aria-label="delete"
+                      onClick={() => handleDelete(actorData.email)}
+                    >
+                      <DeleteIcon fill={theme.palette.background.neutral?.default} />
+                    </IconButton>
+                  </CustomTooltip>
                 )}
               </ListItemSecondaryAction>
             </ListItem>
@@ -185,6 +188,9 @@ const ShareModal: React.FC<ShareModalProps> = ({
   const handleMenuClose = () => setMenu(false);
 
   const isShareDisabled = () => {
+    // Ensure at least one user other than the owner is selected
+    const otherUsersSelected = shareUserData.some((user) => user.id !== ownerData.id);
+
     const existingAccessIds = shareUserData.map((user) => user.id);
     const ownerDataId = ownerData?.id;
 
@@ -195,10 +201,10 @@ const ShareModal: React.FC<ShareModalProps> = ({
     const hasMismatchedUsers = !shareUserData.every((user) => existingAccessIds.includes(user.id));
 
     return (
-      shareUserData.length === existingAccessIds.length &&
-      !hasMismatchedUsers &&
-      (selectedOption === selectedResource?.visibility ||
-        shareUserData.length !== existingAccessIds.length)
+      !otherUsersSelected || // Disable if no other users are selected
+      (shareUserData.length === existingAccessIds.length &&
+        !hasMismatchedUsers &&
+        selectedOption === selectedResource?.visibility)
     );
   };
 
@@ -215,6 +221,18 @@ const ShareModal: React.FC<ShareModalProps> = ({
       setOption(selectedResource?.visibility);
     }
   }, [selectedResource]);
+
+  useEffect(() => {
+    if (selectedResource?.visibility === 'published') {
+      setOption(SHARE_MODE.PRIVATE); // Force set to private if published
+    } else {
+      setOption(selectedResource?.visibility);
+    }
+  }, [selectedResource]);
+
+  // Filter options dynamically to exclude PUBLIC when visibility is published
+  const filteredOptions =
+    selectedResource?.visibility === 'published' ? [SHARE_MODE.PRIVATE] : Object.values(SHARE_MODE);
 
   return (
     <div style={{ marginBottom: '1rem' }}>
@@ -271,7 +289,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                     onChange={handleOptionClick}
                     disabled={isVisibilitySelectorDisabled}
                   >
-                    {Object.values(SHARE_MODE).map((option) => (
+                    {filteredOptions.map((option) => (
                       <MenuItem key={option} selected={option === selectedOption} value={option}>
                         {option.charAt(0).toUpperCase() + option.slice(1)}
                       </MenuItem>
