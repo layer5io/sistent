@@ -1,6 +1,13 @@
 import React from 'react';
 import { CircularProgress } from '../../base';
-import { CopyIcon, EditIcon, KanvasIcon, PublishIcon, ShareLineIcon } from '../../icons';
+import {
+  CopyIcon,
+  DeleteIcon,
+  EditIcon,
+  KanvasIcon,
+  PublishIcon,
+  ShareLineIcon
+} from '../../icons';
 import Download from '../../icons/Download/Download';
 import { charcoal, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
@@ -23,6 +30,8 @@ interface ActionButtonsProps {
   handleInfoClick?: () => void;
   showShareAction?: boolean;
   handleShare: () => void;
+  showDeleteAction?: boolean;
+  handleDelete: () => void;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -39,7 +48,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   showInfoAction,
   handleInfoClick,
   showShareAction,
-  handleShare
+  handleShare,
+  showDeleteAction,
+  handleDelete
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const theme = useTheme();
@@ -155,7 +166,20 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             Share
           </ActionButton>
         )}
+        {showDeleteAction && (
+          <UnpublishAction
+            sx={{
+              borderRadius: '0.2rem',
+              gap: '10px'
+            }}
+            onClick={handleDelete}
+          >
+            <DeleteIcon width={24} height={24} fill={charcoal[100]} />
+            Delete
+          </UnpublishAction>
+        )}
       </div>
+
       {showUnpublishAction && (
         <UnpublishAction
           sx={{

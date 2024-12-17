@@ -27,6 +27,8 @@ interface LeftPanelProps {
   handleInfoClick?: () => void;
   showShareAction?: boolean;
   handleShare: () => void;
+  showDeleteAction?: boolean;
+  handleDelete: () => void;
 }
 
 const LeftPanel: React.FC<LeftPanelProps> = ({
@@ -48,7 +50,9 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   showInfoAction = false,
   handleInfoClick,
   showShareAction = false,
-  handleShare
+  handleShare,
+  showDeleteAction = false,
+  handleDelete
 }) => {
   const theme = useTheme();
 
@@ -95,6 +99,8 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
         handleInfoClick={handleInfoClick}
         showShareAction={showShareAction}
         handleShare={handleShare}
+        showDeleteAction={showDeleteAction}
+        handleDelete={handleDelete}
       />
       {showTechnologies && (
         <TechnologySection
