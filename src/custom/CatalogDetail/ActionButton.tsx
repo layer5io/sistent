@@ -1,13 +1,6 @@
 import React from 'react';
 import { CircularProgress } from '../../base';
-import {
-  CopyIcon,
-  DeleteIcon,
-  EditIcon,
-  KanvasIcon,
-  PublishIcon,
-  ShareLineIcon
-} from '../../icons';
+import { CopyIcon, DeleteIcon, EditIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { charcoal, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
@@ -47,8 +40,6 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   onOpenPlaygroundClick,
   showInfoAction,
   handleInfoClick,
-  showShareAction,
-  handleShare,
   showDeleteAction,
   handleDelete
 }) => {
@@ -151,21 +142,6 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             Edit
           </ActionButton>
         )}
-        {showShareAction && (
-          <ActionButton
-            sx={{
-              borderRadius: '0.2rem',
-              backgroundColor: 'transparent',
-              border: `1px solid ${theme.palette.border.normal}`,
-              gap: '10px',
-              color: charcoal[10]
-            }}
-            onClick={handleShare}
-          >
-            <ShareLineIcon width="24" height="24" fill={theme.palette.icon.default} />
-            Share
-          </ActionButton>
-        )}
         {showDeleteAction && (
           <UnpublishAction
             sx={{
@@ -178,20 +154,19 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             Delete
           </UnpublishAction>
         )}
+        {showUnpublishAction && (
+          <UnpublishAction
+            sx={{
+              borderRadius: '0.2rem',
+              gap: '10px'
+            }}
+            onClick={handleUnpublish}
+          >
+            <PublishIcon width={24} height={24} fill={charcoal[100]} />
+            Unpublish
+          </UnpublishAction>
+        )}
       </div>
-
-      {showUnpublishAction && (
-        <UnpublishAction
-          sx={{
-            borderRadius: '0.2rem',
-            gap: '10px'
-          }}
-          onClick={handleUnpublish}
-        >
-          <PublishIcon width={24} height={24} fill={charcoal[100]} />
-          Unpublish
-        </UnpublishAction>
-      )}
     </StyledActionWrapper>
   );
 };
