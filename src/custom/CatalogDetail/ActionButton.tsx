@@ -21,8 +21,6 @@ interface ActionButtonsProps {
   onOpenPlaygroundClick: (designId: string, name: string) => void;
   showInfoAction?: boolean;
   handleInfoClick?: () => void;
-  showShareAction?: boolean;
-  handleShare: () => void;
   showDeleteAction?: boolean;
   handleDelete: () => void;
 }

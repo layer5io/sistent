@@ -25,8 +25,6 @@ interface LeftPanelProps {
   onOpenPlaygroundClick: (designId: string, name: string) => void;
   showInfoAction?: boolean;
   handleInfoClick?: () => void;
-  showShareAction?: boolean;
-  handleShare: () => void;
   showDeleteAction?: boolean;
   handleDelete: () => void;
 }
@@ -49,8 +47,6 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   onOpenPlaygroundClick,
   showInfoAction = false,
   handleInfoClick,
-  showShareAction = false,
-  handleShare,
   showDeleteAction = false,
   handleDelete
 }) => {
@@ -97,8 +93,6 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
         onOpenPlaygroundClick={onOpenPlaygroundClick}
         showInfoAction={showInfoAction}
         handleInfoClick={handleInfoClick}
-        showShareAction={showShareAction}
-        handleShare={handleShare}
         showDeleteAction={showDeleteAction}
         handleDelete={handleDelete}
       />
