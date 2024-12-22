@@ -28,6 +28,8 @@ interface RightPanelProps {
   fetchingOrgError: boolean;
   showShareAction: boolean;
   handleShare: () => void;
+  isVisibilityEnabled: boolean;
+  handleVisibilityChange: () => void;
 }
 
 const RightPanel: React.FC<RightPanelProps> = ({
@@ -51,7 +53,9 @@ const RightPanel: React.FC<RightPanelProps> = ({
   orgName,
   fetchingOrgError,
   showShareAction,
-  handleShare
+  handleShare,
+  isVisibilityEnabled = false,
+  handleVisibilityChange
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const { data: userProfile } = useGetUserProfileByIdQuery({
@@ -75,6 +79,8 @@ const RightPanel: React.FC<RightPanelProps> = ({
         userProfile={userProfile}
         showShareAction={showShareAction}
         handleShare={handleShare}
+        isVisibilityEnabled={isVisibilityEnabled}
+        handleVisibilityChange={handleVisibilityChange}
       />
       {showCaveats && <CaveatsSection details={details} />}
       <RelatedDesigns

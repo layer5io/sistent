@@ -25,6 +25,8 @@ interface OverviewSectionProps {
   userProfile?: any;
   showShareAction: boolean;
   handleShare: () => void;
+  isVisibilityEnabled: boolean;
+  handleVisibilityChange: () => void;
 }
 
 const OverviewSection: React.FC<OverviewSectionProps> = ({
@@ -41,7 +43,9 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
   fontFamily,
   userProfile,
   showShareAction,
-  handleShare
+  handleShare,
+  isVisibilityEnabled,
+  handleVisibilityChange
 }) => {
   return (
     <OverviewContainer>
@@ -64,6 +68,8 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           handleCopyUrl={handleCopyUrl}
           showShareAction={showShareAction}
           handleShare={handleShare}
+          isVisibilityEnabled={isVisibilityEnabled}
+          handleVisibilityChange={handleVisibilityChange}
         />
       </div>
       <Grid container spacing={2}>
