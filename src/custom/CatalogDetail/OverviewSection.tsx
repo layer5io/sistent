@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid } from '../../base';
 import { Pattern } from '../CustomCatalog/CustomCard';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import ContentClassInfo from './ContentClassInfo';
 import MetricsDisplay from './MetricsDisplay';
 import PatternInfo from './PatternInfo';
@@ -25,6 +26,8 @@ interface OverviewSectionProps {
   userProfile?: any;
   showShareAction: boolean;
   handleShare: () => void;
+  isVisibilityEnabled: boolean;
+  handleVisibilityChange: (visibility: VIEW_VISIBILITY) => void;
 }
 
 const OverviewSection: React.FC<OverviewSectionProps> = ({
@@ -41,7 +44,9 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
   fontFamily,
   userProfile,
   showShareAction,
-  handleShare
+  handleShare,
+  isVisibilityEnabled,
+  handleVisibilityChange
 }) => {
   return (
     <OverviewContainer>
@@ -64,6 +69,8 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           handleCopyUrl={handleCopyUrl}
           showShareAction={showShareAction}
           handleShare={handleShare}
+          isVisibilityEnabled={isVisibilityEnabled}
+          handleVisibilityChange={handleVisibilityChange}
         />
       </div>
       <Grid container spacing={2}>

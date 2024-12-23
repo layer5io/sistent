@@ -1,6 +1,6 @@
 import React from 'react';
 import { CircularProgress } from '../../base';
-import { CopyIcon, EditIcon, KanvasIcon, PublishIcon } from '../../icons';
+import { CopyIcon, DeleteIcon, EditIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { charcoal, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
@@ -21,6 +21,8 @@ interface ActionButtonsProps {
   onOpenPlaygroundClick: (designId: string, name: string) => void;
   showInfoAction?: boolean;
   handleInfoClick?: () => void;
+  showDeleteAction?: boolean;
+  handleDelete: () => void;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -35,7 +37,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   showOpenPlaygroundAction,
   onOpenPlaygroundClick,
   showInfoAction,
-  handleInfoClick
+  handleInfoClick,
+  showDeleteAction,
+  handleDelete
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const theme = useTheme();
@@ -132,9 +136,21 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             }}
             onClick={handleInfoClick}
           >
-            <EditIcon width={24} height={24} fill={charcoal[10]} />
+            <EditIcon width={24} height={24} fill={theme.palette.icon.default} />
             Edit
           </ActionButton>
+        )}
+        {showDeleteAction && (
+          <UnpublishAction
+            sx={{
+              borderRadius: '0.2rem',
+              gap: '10px'
+            }}
+            onClick={handleDelete}
+          >
+            <DeleteIcon width={24} height={24} fill={charcoal[100]} />
+            Delete
+          </UnpublishAction>
         )}
         {showUnpublishAction && (
           <UnpublishAction
