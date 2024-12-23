@@ -30,7 +30,7 @@ interface SocialSharePopperProps {
   showShareAction: boolean;
   handleShare: () => void;
   isVisibilityEnabled: boolean;
-  handleVisibilityChange: () => void;
+  handleVisibilityChange: (visibility: VIEW_VISIBILITY) => void;
 }
 
 const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
@@ -63,7 +63,7 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
       <CopyShareIconWrapper style={{ marginBottom: '2rem' }}>
         <VisibilityChipMenu
           value={details?.visibility as VIEW_VISIBILITY}
-          onChange={handleVisibilityChange}
+          onChange={(value) => handleVisibilityChange(value as VIEW_VISIBILITY)}
           enabled={isVisibilityEnabled}
           options={[
             [VIEW_VISIBILITY.PUBLIC, PublicIcon],
