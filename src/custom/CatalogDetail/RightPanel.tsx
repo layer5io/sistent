@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pattern } from '../CustomCatalog/CustomCard';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import CaveatsSection from './CaveatsSection';
 import OverviewSection from './OverviewSection';
 import RelatedDesigns, { PatternsPerUser } from './RelatedDesigns';
@@ -29,7 +30,7 @@ interface RightPanelProps {
   showShareAction: boolean;
   handleShare: () => void;
   isVisibilityEnabled: boolean;
-  handleVisibilityChange: () => void;
+  handleVisibilityChange: (visibility: VIEW_VISIBILITY) => void;
 }
 
 const RightPanel: React.FC<RightPanelProps> = ({
