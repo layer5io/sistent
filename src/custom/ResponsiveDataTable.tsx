@@ -412,7 +412,7 @@ const ResponsiveDataTable = ({
   return (
     <ThemeProvider theme={finalTheme}>
       <MUIDataTable
-        columns={tableCols ?? []}
+        columns={(tableCols || columns) ?? []}
         data={data || []}
         title={undefined}
         components={components}
