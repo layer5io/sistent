@@ -1,7 +1,8 @@
 import { CardHeader as MuiCardHeader, CardHeaderProps as MuiCardHeaderProps } from '@mui/material';
+import React from 'react';
 
-export function CardHeader(props: MuiCardHeaderProps): JSX.Element {
-  return <MuiCardHeader {...props} />;
-}
+const CardHeader = React.forwardRef<HTMLDivElement, MuiCardHeaderProps>((props, ref) => {
+  return <MuiCardHeader {...props} ref={ref} />;
+});
 
 export default CardHeader;

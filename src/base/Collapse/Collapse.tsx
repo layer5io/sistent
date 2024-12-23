@@ -1,5 +1,8 @@
 import { Collapse as MuiCollapse, CollapseProps as MuiCollapseProps } from '@mui/material';
+import React from 'react';
 
-export function Collapse(props: MuiCollapseProps): JSX.Element {
-  return <MuiCollapse {...props} />;
-}
+const Collapse = React.forwardRef<HTMLDivElement, MuiCollapseProps>((props, ref) => {
+  return <MuiCollapse {...props} ref={ref} />;
+});
+
+export { Collapse };

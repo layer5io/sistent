@@ -1,7 +1,8 @@
 import { AppBar as MuiAppBar, type AppBarProps as MuiAppBarProps } from '@mui/material';
+import React from 'react';
 
-export function AppBar(props: MuiAppBarProps): JSX.Element {
-  return <MuiAppBar {...props} />;
-}
+const AppBar = React.forwardRef<HTMLDivElement, MuiAppBarProps>((props, ref) => {
+  return <MuiAppBar {...props} ref={ref} />;
+});
 
 export default AppBar;

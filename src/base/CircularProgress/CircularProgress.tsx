@@ -2,9 +2,12 @@ import {
   CircularProgress as MuiCircularProgress,
   CircularProgressProps as MuiCircularProgressProps
 } from '@mui/material';
+import React from 'react';
 
-export function CircularProgress(props: MuiCircularProgressProps): JSX.Element {
-  return <MuiCircularProgress {...props} />;
-}
+const CircularProgress = React.forwardRef<HTMLDivElement, MuiCircularProgressProps>(
+  (props, ref) => {
+    return <MuiCircularProgress {...props} ref={ref} />;
+  }
+);
 
 export default CircularProgress;

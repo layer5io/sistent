@@ -1,7 +1,8 @@
 import { Dialog as MuiDialog, type DialogProps as MuiDialogProps } from '@mui/material';
+import React from 'react';
 
-export function Dialog(props: MuiDialogProps): JSX.Element {
-  return <MuiDialog {...props} />;
-}
+const Dialog = React.forwardRef<HTMLDivElement, MuiDialogProps>((props, ref) => {
+  return <MuiDialog {...props} ref={ref} />;
+});
 
 export default Dialog;

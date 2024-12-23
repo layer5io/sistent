@@ -2,9 +2,10 @@ import {
   CardContent as MuiCardContent,
   CardContentProps as MuiCardContentProps
 } from '@mui/material';
+import React from 'react';
 
-export function CardContent(props: MuiCardContentProps): JSX.Element {
-  return <MuiCardContent {...props} />;
-}
+const CardContent = React.forwardRef<HTMLDivElement, MuiCardContentProps>((props, ref) => {
+  return <MuiCardContent {...props} ref={ref} />;
+});
 
 export default CardContent;

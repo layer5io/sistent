@@ -1,7 +1,8 @@
 import { Badge as MuiBadge, type BadgeProps as MuiBadgeProps } from '@mui/material';
+import React from 'react';
 
-export function Badge(props: MuiBadgeProps): JSX.Element {
-  return <MuiBadge {...props} />;
-}
+const Badge = React.forwardRef<HTMLDivElement, MuiBadgeProps>((props, ref) => {
+  return <MuiBadge {...props} ref={ref} />;
+});
 
 export default Badge;

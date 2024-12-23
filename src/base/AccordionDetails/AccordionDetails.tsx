@@ -3,8 +3,12 @@ import {
   type AccordionDetailsProps as MuiAccordionDetailsProps
 } from '@mui/material';
 
-export function AccordionDetails(props: MuiAccordionDetailsProps): JSX.Element {
-  return <MuiAccordionDetails {...props} />;
-}
+import React from 'react';
+
+const AccordionDetails = React.forwardRef<HTMLDivElement, MuiAccordionDetailsProps>(
+  (props, ref) => {
+    return <MuiAccordionDetails {...props} ref={ref} />;
+  }
+);
 
 export default AccordionDetails;
