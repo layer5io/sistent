@@ -2,9 +2,10 @@ import {
   DialogActions as MuiDialogActions,
   type DialogActionsProps as MuiDialogActionsProps
 } from '@mui/material';
+import React from 'react';
 
-export function DialogActions(props: MuiDialogActionsProps): JSX.Element {
-  return <MuiDialogActions {...props} />;
-}
+const DialogActions = React.forwardRef<HTMLDivElement, MuiDialogActionsProps>((props, ref) => {
+  return <MuiDialogActions {...props} ref={ref} />;
+});
 
 export default DialogActions;
