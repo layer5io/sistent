@@ -1,5 +1,6 @@
 import React from 'react';
 import { Pattern } from '../CustomCatalog/CustomCard';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import CaveatsSection from './CaveatsSection';
 import OverviewSection from './OverviewSection';
 import RelatedDesigns, { PatternsPerUser } from './RelatedDesigns';
@@ -28,6 +29,8 @@ interface RightPanelProps {
   fetchingOrgError: boolean;
   showShareAction: boolean;
   handleShare: () => void;
+  isVisibilityEnabled: boolean;
+  handleVisibilityChange: (visibility: VIEW_VISIBILITY) => void;
 }
 
 const RightPanel: React.FC<RightPanelProps> = ({
@@ -51,7 +54,9 @@ const RightPanel: React.FC<RightPanelProps> = ({
   orgName,
   fetchingOrgError,
   showShareAction,
-  handleShare
+  handleShare,
+  isVisibilityEnabled = false,
+  handleVisibilityChange
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const { data: userProfile } = useGetUserProfileByIdQuery({
@@ -75,6 +80,8 @@ const RightPanel: React.FC<RightPanelProps> = ({
         userProfile={userProfile}
         showShareAction={showShareAction}
         handleShare={handleShare}
+        isVisibilityEnabled={isVisibilityEnabled}
+        handleVisibilityChange={handleVisibilityChange}
       />
       {showCaveats && <CaveatsSection details={details} />}
       <RelatedDesigns
