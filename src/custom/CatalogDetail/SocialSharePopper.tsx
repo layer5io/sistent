@@ -1,6 +1,4 @@
-import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
-import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
 
 import {
   ChainIcon,
@@ -16,9 +14,11 @@ import { Pattern } from '../CustomCatalog/CustomCard';
 import { CustomTooltip } from '../CustomTooltip';
 import { ErrorBoundary } from '../ErrorBoundary';
 
+import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
+import { Box, IconButton, Menu, MenuItem, Typography } from '../../base';
 import { VisibilityChipMenu } from '../VisibilityChipMenu';
 import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
-import { CopyShareIconWrapper } from './style';
+import { CopyShareIconWrapper, ShareButton, ShareButtonGroup, ShareSideButton } from './style';
 
 interface SocialSharePopperProps {
   details: Pattern;
@@ -29,6 +29,8 @@ interface SocialSharePopperProps {
   handleCopyUrl: (type: string, name: string, id: string) => void;
   showShareAction: boolean;
   handleShare: () => void;
+  isVisibilityEnabled: boolean;
+  handleVisibilityChange: (visibility: VIEW_VISIBILITY) => void;
 }
 
 const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
@@ -37,7 +39,10 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
   cardId,
   title,
   getUrl,
-  handleCopyUrl
+  handleCopyUrl,
+  handleShare,
+  isVisibilityEnabled,
+  handleVisibilityChange
 }) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -58,22 +63,30 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
       <CopyShareIconWrapper style={{ marginBottom: '2rem' }}>
         <VisibilityChipMenu
           value={details?.visibility as VIEW_VISIBILITY}
-          onChange={() => {}}
-          enabled={false}
+          onChange={(value) => handleVisibilityChange(value as VIEW_VISIBILITY)}
+          enabled={isVisibilityEnabled}
           options={[
             [VIEW_VISIBILITY.PUBLIC, PublicIcon],
             [VIEW_VISIBILITY.PRIVATE, LockIcon]
           ]}
         />
 
-        <CustomTooltip title="Copy Link" placement="top" arrow>
-          <IconButton
-            sx={{ borderRadius: '0.1rem', padding: '0.5rem' }}
-            onClick={() => handleCopyUrl(cleanedType, details?.name, details?.id)}
-          >
-            <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.secondary} />
-          </IconButton>
-        </CustomTooltip>
+        <ShareButtonGroup variant="contained">
+          <CustomTooltip title="Change access and visibility">
+            <ShareButton variant="contained" onClick={handleShare}>
+              <Typography>Share</Typography>
+            </ShareButton>
+          </CustomTooltip>
+          <CustomTooltip title="Copy link to design">
+            <ShareSideButton
+              variant="contained"
+              size="small"
+              onClick={() => handleCopyUrl(cleanedType, details?.name, details?.id)}
+            >
+              <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.inverse} />
+            </ShareSideButton>
+          </CustomTooltip>
+        </ShareButtonGroup>
 
         {(details?.visibility === 'published' || details?.visibility === 'public') && (
           <>
