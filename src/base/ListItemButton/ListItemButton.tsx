@@ -8,4 +8,4 @@ const ListItemButton = React.forwardRef<HTMLDivElement, MuiListItemButtonProps>(
   return <MuiListItemButton {...props} ref={ref} />;
 });
 
-export default ListItemButton;
+export { ListItemButton };
