@@ -8,4 +8,4 @@ const ListItemIcon = React.forwardRef<HTMLDivElement, MuiListItemIconProps>((pro
   return <MuiListItemIcon {...props} ref={ref} />;
 });
 
-export default ListItemIcon;
+export { ListItemIcon };
