@@ -2,9 +2,10 @@ import {
   ListItemButton as MuiListItemButton,
   ListItemButtonProps as MuiListItemButtonProps
 } from '@mui/material';
+import React from 'react';
 
-export function ListItemButton(props: MuiListItemButtonProps): JSX.Element {
-  return <MuiListItemButton {...props} />;
-}
+const ListItemButton = React.forwardRef<HTMLDivElement, MuiListItemButtonProps>((props, ref) => {
+  return <MuiListItemButton {...props} ref={ref} />;
+});
 
 export default ListItemButton;
