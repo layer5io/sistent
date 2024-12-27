@@ -1,7 +1,8 @@
 import { Switch as MuiSwitch, type SwitchProps as MuiSwitchProps } from '@mui/material';
+import React from 'react';
 
-export function Switch(props: MuiSwitchProps): JSX.Element {
-  return <MuiSwitch {...props} />;
-}
+const Switch = React.forwardRef<HTMLButtonElement, MuiSwitchProps>((props, ref) => {
+  return <MuiSwitch {...props} ref={ref} />;
+});
 
 export default Switch;

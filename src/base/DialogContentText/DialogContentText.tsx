@@ -2,9 +2,12 @@ import {
   DialogContentText as MuiDialogContentText,
   type DialogContentTextProps as MuiDialogContentTextProps
 } from '@mui/material';
+import React from 'react';
 
-export function DialogContentText(props: MuiDialogContentTextProps): JSX.Element {
-  return <MuiDialogContentText {...props} />;
-}
+const DialogContentText = React.forwardRef<HTMLDivElement, MuiDialogContentTextProps>(
+  (props, ref) => {
+    return <MuiDialogContentText {...props} ref={ref} />;
+  }
+);
 
 export default DialogContentText;

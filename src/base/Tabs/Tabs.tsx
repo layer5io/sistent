@@ -1,7 +1,8 @@
 import { Tabs as MuiTabs, type TabsProps as MuiTabsProps } from '@mui/material';
+import React from 'react';
 
-export function Tabs(props: MuiTabsProps): JSX.Element {
-  return <MuiTabs {...props} />;
-}
+const Tabs = React.forwardRef<HTMLDivElement, MuiTabsProps>((props, ref) => {
+  return <MuiTabs {...props} ref={ref} />;
+});
 
 export default Tabs;

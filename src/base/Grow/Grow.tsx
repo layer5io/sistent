@@ -1,5 +1,8 @@
 import { Grow as MuiGrow, GrowProps as MuiGrowProps } from '@mui/material';
+import React from 'react';
 
-export function Grow(props: MuiGrowProps): JSX.Element {
-  return <MuiGrow {...props} />;
-}
+const Grow = React.forwardRef<HTMLDivElement, MuiGrowProps>((props, ref) => {
+  return <MuiGrow {...props} ref={ref} />;
+});
+
+export { Grow };
