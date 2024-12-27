@@ -4,7 +4,7 @@ import { IconProps } from '../types';
 export const PanelDragHandleIcon: FC<IconProps> = ({
   height = 24,
   width = 24,
-  fill = 'currentColor',
+  fill = '#E8EFF3',
   ...props
 }) => {
   return (
