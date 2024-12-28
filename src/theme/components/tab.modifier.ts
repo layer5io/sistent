@@ -14,8 +14,8 @@ export const MuiTab: Components<Theme>['MuiTab'] = {
           color: defaultText,
           backgroundColor: defaultBackground
         },
-        backgroundColor: defaultText,
-        color: defaultBackground
+        backgroundColor: 'none',
+        color: defaultText
       };
     }
   }
