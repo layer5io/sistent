@@ -1,6 +1,7 @@
 import { ListItemProps } from '@mui/material';
 import { Box, ListItem } from '../../base';
 import { styled } from '../../theme';
+import { PanelProps } from './Panel';
 
 export const ListHeader = styled(ListItem)(({ theme }) => ({
   padding: theme.spacing(0.5, 0.5),
@@ -77,4 +78,40 @@ export const ResizableContent = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   minHeight: '3rem'
+});
+
+export const PanelContainer = styled(Box)<{ intitialPosition: PanelProps['intitialPosition'] }>(
+  ({ theme, intitialPosition }) => ({
+    borderRadius: '8px',
+    overflow: 'hidden',
+    flexShrink: 0,
+    zIndex: 99999,
+    position: 'absolute',
+    backgroundColor: theme.palette.background.blur?.light,
+    boxShadow: '0 4px 16px #05003812',
+    maxHeight: '80%',
+    display: 'flex',
+    boxSizing: 'border-box',
+    ...intitialPosition
+  })
+);
+
+export const DragHandle = styled('div')({
+  position: 'absolute',
+  top: '-3rem',
+  left: '50%'
+});
+
+export const HeaderActionsContainer = styled('div')({
+  display: 'flex',
+  gap: '1rem',
+  justifyContent: 'flex-end',
+  alignItems: 'center'
+});
+
+export const HeaderContainer = styled('div')({
+  display: 'flex',
+  justifyContent: 'end',
+  alignItems: 'center',
+  flex: '1'
 });

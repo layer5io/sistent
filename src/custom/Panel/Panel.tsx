@@ -6,9 +6,17 @@ import { CloseIcon, CollapseAllIcon, ExpandAllIcon } from '../../icons';
 import { PanelDragHandleIcon } from '../../icons/PanelDragHandle';
 import { useTheme } from '../../theme';
 import { ErrorBoundary } from '../ErrorBoundary';
-import { DrawerHeader, PanelBody, ResizableContent } from './style';
+import {
+  DragHandle,
+  DrawerHeader,
+  HeaderActionsContainer,
+  HeaderContainer,
+  PanelBody,
+  PanelContainer,
+  ResizableContent
+} from './style';
 
-type PanelProps = {
+export type PanelProps = {
   isOpen: boolean;
   children: React.ReactNode;
   areAllExpanded?: boolean;
@@ -38,25 +46,7 @@ const Panel_: React.FC<PanelProps> = ({
   if (!isOpen) return null;
   return (
     <Draggable handle=".drag-handle">
-      <Box
-        sx={{
-          borderRadius: '8px',
-          overflow: 'hidden',
-          flexShrink: 0,
-          zIndex: 99999,
-          position: 'absolute',
-          backgroundColor: theme.palette.background.blur?.light,
-          boxShadow: '0 4px 16px #05003812',
-          maxHeight: '80%',
-          display: 'flex',
-          boxSizing: 'border-box',
-          ...(intitialPosition || {
-            top: '6rem',
-            right: '2rem'
-          }),
-          ...(sx || {})
-        }}
-      >
+      <PanelContainer theme={theme} intitialPosition={intitialPosition} sx={sx}>
         <Resizable
           defaultSize={{ width: '18rem', height: 'auto' }}
           onResize={() => {
@@ -86,37 +76,24 @@ const Panel_: React.FC<PanelProps> = ({
                       </Tooltip>
                     )}
                   </Box>
-                  <PanelDragHandleIcon
-                    style={{ marginTop: '-3rem', position: 'absolute', left: '50%' }}
-                  />
-                  <div
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'end',
-                      alignItems: 'center',
-                      flex: 1
-                    }}
-                  >
-                    <div
+                  <DragHandle>
+                    <PanelDragHandleIcon />
+                  </DragHandle>
+                  <HeaderContainer>
+                    <HeaderActionsContainer
                       id={`${id}-panel-header-actions-container`}
-                      style={{
-                        display: 'flex',
-                        gap: '1rem',
-                        justifyContent: 'flex-end',
-                        alignItems: 'center'
-                      }}
-                    ></div>
+                    ></HeaderActionsContainer>
                     <IconButton onClick={handleClose}>
                       <CloseIcon />
                     </IconButton>
-                  </div>
+                  </HeaderContainer>
                 </DrawerHeader>
               </div>
               <PanelBody className="panel-body">{children}</PanelBody>
             </ErrorBoundary>
           </ResizableContent>
         </Resizable>
-      </Box>
+      </PanelContainer>
     </Draggable>
   );
 };
