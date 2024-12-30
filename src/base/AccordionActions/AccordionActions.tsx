@@ -3,8 +3,12 @@ import {
   type AccordionActionsProps as MuiAccordionActionsProps
 } from '@mui/material';
 
-export function AccordionActions(props: MuiAccordionActionsProps): JSX.Element {
-  return <MuiAccordionActions {...props} />;
-}
+import React from 'react';
+
+const AccordionActions = React.forwardRef<HTMLDivElement, MuiAccordionActionsProps>(
+  (props, ref) => {
+    return <MuiAccordionActions {...props} ref={ref} />;
+  }
+);
 
 export default AccordionActions;

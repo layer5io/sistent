@@ -1,7 +1,8 @@
 import { Backdrop as MuiBackdrop, type BackdropProps as MuiBackdropProps } from '@mui/material';
+import React from 'react';
 
-export function Backdrop(props: MuiBackdropProps): JSX.Element {
-  return <MuiBackdrop {...props} />;
-}
+const Backdrop = React.forwardRef<HTMLDivElement, MuiBackdropProps>((props, ref) => {
+  return <MuiBackdrop {...props} ref={ref} />;
+});
 
 export default Backdrop;

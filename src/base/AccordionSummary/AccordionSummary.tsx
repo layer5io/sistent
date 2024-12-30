@@ -2,9 +2,12 @@ import {
   AccordionSummary as MuiAccordionSummary,
   type AccordionSummaryProps as MuiAccordionSummaryProps
 } from '@mui/material';
+import React from 'react';
 
-export function AccordionSummary(props: MuiAccordionSummaryProps): JSX.Element {
-  return <MuiAccordionSummary {...props} />;
-}
+const AccordionSummary = React.forwardRef<HTMLDivElement, MuiAccordionSummaryProps>(
+  (props, ref) => {
+    return <MuiAccordionSummary {...props} ref={ref} />;
+  }
+);
 
 export default AccordionSummary;

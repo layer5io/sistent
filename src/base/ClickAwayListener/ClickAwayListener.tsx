@@ -2,9 +2,10 @@ import {
   ClickAwayListener as MuiClickAwayListener,
   type ClickAwayListenerProps
 } from '@mui/material';
+import React from 'react';
 
-export function ClickAwayListener(props: ClickAwayListenerProps): JSX.Element {
-  return <MuiClickAwayListener {...props} />;
-}
+const ClickAwayListener = React.forwardRef<HTMLDivElement, ClickAwayListenerProps>((props, ref) => {
+  return <MuiClickAwayListener {...props} ref={ref} />;
+});
 
 export default ClickAwayListener;

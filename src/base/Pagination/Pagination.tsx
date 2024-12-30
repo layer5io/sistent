@@ -1,7 +1,8 @@
 import { Pagination as MuiPagination, PaginationProps as MuiPaginationProps } from '@mui/material';
+import React from 'react';
 
-export function Pagination(props: MuiPaginationProps): JSX.Element {
-  return <MuiPagination {...props} />;
-}
+const Pagination = React.forwardRef<HTMLDivElement, MuiPaginationProps>((props, ref) => {
+  return <MuiPagination {...props} ref={ref} />;
+});
 
 export default Pagination;
