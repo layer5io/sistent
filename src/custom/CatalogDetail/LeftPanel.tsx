@@ -27,6 +27,7 @@ interface LeftPanelProps {
   handleInfoClick?: () => void;
   showDeleteAction?: boolean;
   handleDelete: () => void;
+  getDownloadUrl: (sorceType: string, id: string) => string;
 }
 
 const LeftPanel: React.FC<LeftPanelProps> = ({
@@ -48,7 +49,8 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
   showInfoAction = false,
   handleInfoClick,
   showDeleteAction = false,
-  handleDelete
+  handleDelete,
+  getDownloadUrl
 }) => {
   const theme = useTheme();
 
@@ -95,6 +97,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
         handleInfoClick={handleInfoClick}
         showDeleteAction={showDeleteAction}
         handleDelete={handleDelete}
+        getDownloadUrl={getDownloadUrl}
       />
       {showTechnologies && (
         <TechnologySection
