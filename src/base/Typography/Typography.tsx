@@ -2,9 +2,10 @@ import {
   Typography as MuiTypography,
   type TypographyProps as MuiTypographyProps
 } from '@mui/material';
+import React from 'react';
 
-export function Typography(props: MuiTypographyProps): JSX.Element {
-  return <MuiTypography {...props} />;
-}
+const Typography = React.forwardRef<HTMLDivElement, MuiTypographyProps>((props, ref) => {
+  return <MuiTypography {...props} ref={ref} />;
+});
 
 export default Typography;

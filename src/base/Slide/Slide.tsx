@@ -1,7 +1,8 @@
 import { Slide as MuiSlide, type SlideProps as MuiSlideProps } from '@mui/material';
+import React from 'react';
 
-export function Slide(props: MuiSlideProps): JSX.Element {
-  return <MuiSlide {...props} />;
-}
+const Slide = React.forwardRef<HTMLDivElement, MuiSlideProps>((props, ref) => {
+  return <MuiSlide {...props} ref={ref} />;
+});
 
 export default Slide;

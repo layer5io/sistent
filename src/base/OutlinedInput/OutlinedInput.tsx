@@ -2,7 +2,10 @@ import {
   OutlinedInput as MuiOutlinedInput,
   OutlinedInputProps as MuiOutlinedInputProps
 } from '@mui/material';
+import React from 'react';
 
-export function OutlinedInput(props: MuiOutlinedInputProps): JSX.Element {
-  return <MuiOutlinedInput {...props} />;
-}
+const OutlinedInput = React.forwardRef<HTMLDivElement, MuiOutlinedInputProps>((props, ref) => {
+  return <MuiOutlinedInput {...props} ref={ref} />;
+});
+
+export { OutlinedInput };

@@ -1,7 +1,8 @@
 import { ListItem as MuiListItem, ListItemProps as MuiListItemProps } from '@mui/material';
+import React from 'react';
 
-export function ListItem(props: MuiListItemProps): JSX.Element {
-  return <MuiListItem {...props} />;
-}
+const ListItem = React.forwardRef<HTMLLIElement, MuiListItemProps>((props, ref) => {
+  return <MuiListItem {...props} ref={ref} />;
+});
 
 export default ListItem;

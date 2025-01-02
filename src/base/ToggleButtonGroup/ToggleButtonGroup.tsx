@@ -2,9 +2,12 @@ import {
   ToggleButtonGroup as MuiToggleButtonGroup,
   type ToggleButtonGroupProps as MuiToggleButtonGroupProps
 } from '@mui/material';
+import React from 'react';
 
-export function ToggleButtonGroup(props: MuiToggleButtonGroupProps): JSX.Element {
-  return <MuiToggleButtonGroup {...props} />;
-}
+const ToggleButtonGroup = React.forwardRef<HTMLDivElement, MuiToggleButtonGroupProps>(
+  (props, ref) => {
+    return <MuiToggleButtonGroup {...props} ref={ref} />;
+  }
+);
 
 export default ToggleButtonGroup;
