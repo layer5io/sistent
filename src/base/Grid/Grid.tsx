@@ -1,5 +1,8 @@
 import { Grid as MuiGrid, GridProps as MuiGridProps } from '@mui/material';
+import React from 'react';
 
-export function Grid(props: MuiGridProps): JSX.Element {
-  return <MuiGrid {...props} />;
-}
+const Grid = React.forwardRef<HTMLDivElement, MuiGridProps>((props, ref) => {
+  return <MuiGrid {...props} ref={ref} />;
+});
+
+export { Grid };
