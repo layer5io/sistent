@@ -151,9 +151,6 @@ const importDesignSchema = {
         ],
         required: ['uploadType']
       }
-    },
-    {
-      required: ['designType']
     }
   ]
 };
