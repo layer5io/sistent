@@ -37,6 +37,8 @@ export const RESOURCE_TYPES = {
   VIEWS: 'view'
 };
 
+export const PATTERNS = 'patterns';
+
 export type ContentClassType = {
   community: {
     icon: React.ComponentType;

@@ -34,14 +34,17 @@ export function slugify(str: string): string {
   return str;
 }
 
-export const downloadFilter = (id: string, name: string): void => {
-  const dataUri = `${process.env.API_ENDPOINT_PREFIX}/api/content/filters/download/${id}`;
+export const downloadPattern = (
+  id: string,
+  name: string,
+  sorceType: string,
+  getDownloadUrl: (sorceType: string, id: string) => string
+): void => {
+  const downloadUrl = getDownloadUrl(sorceType, id);
 
-  // Add the .wasm extension to the filename
-  const fileNameWithExtension = name + '.wasm';
-
+  const fileNameWithExtension = `${name}.yaml`;
   const linkElement = document.createElement('a');
-  linkElement.setAttribute('href', dataUri);
+  linkElement.setAttribute('href', downloadUrl);
   linkElement.setAttribute('download', fileNameWithExtension);
   linkElement.click();
   linkElement.remove();
@@ -58,4 +61,17 @@ export const formatDate = (date: Date) => {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
   const formattedDate = new Date(date).toLocaleDateString('en-US', options);
   return formattedDate;
+};
+
+export const getValidSorceType = (type: string): string => {
+  if (type === 'my-designs' || type === 'catalog') {
+    return 'patterns';
+  }
+  if (type === 'my-filters') {
+    return 'filters';
+  }
+  if (type === 'my-views') {
+    return 'views';
+  }
+  return '';
 };

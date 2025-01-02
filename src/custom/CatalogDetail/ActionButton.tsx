@@ -4,7 +4,7 @@ import { CopyIcon, DeleteIcon, EditIcon, KanvasIcon, PublishIcon } from '../../i
 import Download from '../../icons/Download/Download';
 import { charcoal, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
-import { downloadFilter, downloadYaml } from './helper';
+import { downloadPattern, downloadYaml, getValidSorceType } from './helper';
 import { ActionButton, StyledActionWrapper, UnpublishAction } from './style';
 import { RESOURCE_TYPES } from './types';
 
@@ -13,6 +13,7 @@ interface ActionButtonsProps {
   details: Pattern;
   type: string;
   isCloneLoading: boolean;
+  getDownloadUrl: (sorceType: string, id: string) => string;
   handleClone: (name: string, id: string) => void;
   handleUnpublish: () => void;
   isCloneDisabled: boolean;
@@ -34,6 +35,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   isCloneDisabled,
   showUnpublishAction,
   handleUnpublish,
+  getDownloadUrl,
   showOpenPlaygroundAction,
   onOpenPlaygroundClick,
   showInfoAction,
@@ -42,6 +44,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   handleDelete
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
+  const sorceType = getValidSorceType(type);
   const theme = useTheme();
   return (
     <StyledActionWrapper>
@@ -83,9 +86,9 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
               color: theme.palette.text.default
             }}
             onClick={() =>
-              cleanedType === RESOURCE_TYPES.FILTERS
-                ? downloadFilter(details.id, details.name)
-                : downloadYaml(details.pattern_file, details.name)
+              cleanedType === RESOURCE_TYPES.VIEWS
+                ? downloadYaml(details.pattern_file, details.name)
+                : downloadPattern(details.id, details.name, sorceType, getDownloadUrl)
             }
           >
             <Download width={24} height={24} fill={theme.palette.icon.default} />
