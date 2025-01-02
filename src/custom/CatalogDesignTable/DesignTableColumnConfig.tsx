@@ -4,7 +4,7 @@ import { ChainIcon, CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { CHARCOAL } from '../../theme';
 import { downloadPattern, slugify } from '../CatalogDetail/helper';
-import { PATTERNS, RESOURCE_TYPES } from '../CatalogDetail/types';
+import { RESOURCE_TYPES } from '../CatalogDetail/types';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
@@ -25,7 +25,7 @@ interface ColumnConfigProps {
   handleCopyUrl: (type: string, name: string, id: string) => void;
   handleClone: (name: string, id: string) => void;
   handleShowDetails: (designId: string, designName: string) => void;
-  getDownloadUrl: (sorceType: string, id: string) => string;
+  getDownloadUrl: (id: string) => string;
   isDownloadAllowed: boolean;
   isCopyLinkAllowed: boolean;
   isDeleteAllowed: boolean;
@@ -169,7 +169,7 @@ export const createDesignsColumnsConfig = ({
           const actionsList = [
             {
               title: 'Download',
-              onClick: () => downloadPattern(rowData.id, rowData.name, PATTERNS, getDownloadUrl),
+              onClick: () => downloadPattern(rowData.id, rowData.name, getDownloadUrl),
               disabled: !isDownloadAllowed,
               icon: <Download width={24} height={24} fill={CHARCOAL} />
             },
@@ -177,7 +177,7 @@ export const createDesignsColumnsConfig = ({
               title: 'Copy Link',
               disabled: rowData.visibility === 'private' || !isCopyLinkAllowed,
               onClick: () => {
-                handleCopyUrl(RESOURCE_TYPES.DESIGNS, rowData?.name, rowData?.id);
+                handleCopyUrl(RESOURCE_TYPES.DESIGN, rowData?.name, rowData?.id);
               },
               icon: <ChainIcon width={'24'} height={'24'} fill={CHARCOAL} />
             },
@@ -187,9 +187,7 @@ export const createDesignsColumnsConfig = ({
                 window.open(
                   `https://playground.meshery.io/extension/meshmap?mode=${
                     PLAYGROUND_MODES.DESIGNER
-                  }&type=${RESOURCE_TYPES.DESIGNS}&id=${rowData?.id}&name=${slugify(
-                    rowData?.name
-                  )}`,
+                  }&type=${RESOURCE_TYPES.DESIGN}&id=${rowData?.id}&name=${slugify(rowData?.name)}`,
                   '_blank'
                 );
               },

@@ -39,7 +39,7 @@ export interface DesignTableProps {
     workspaceName: string,
     workspaceId: string
   ) => void;
-  getDownloadUrl: (sorceType: string, id: string) => string;
+  getDownloadUrl: (id: string) => string;
   handlePublish: (publishModal: PublishModalState, data: any) => void;
   publishModalHandler: any;
   handleUnpublishModal: (design: Pattern, modalRef: React.RefObject<any>) => void;

@@ -14,7 +14,6 @@ import {
   TwitterIcon
 } from '../../icons';
 import { downloadPattern } from '../CatalogDetail/helper';
-import { PATTERNS } from '../CatalogDetail/types';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
@@ -54,7 +53,7 @@ interface ColumnConfigProps {
   currentUserId?: string;
   isCloneDisabled?: boolean;
   isUnpublishDisabled?: boolean;
-  getDownloadUrl: (sorceType: string, id: string) => string;
+  getDownloadUrl: (id: string) => string;
 }
 
 interface ActionItem {
@@ -259,7 +258,7 @@ export const createDesignColumns = ({
             },
             {
               title: 'Download',
-              onClick: () => downloadPattern(rowData.id, rowData.name, PATTERNS, getDownloadUrl),
+              onClick: () => downloadPattern(rowData.id, rowData.name, getDownloadUrl),
               icon: <DownloadIcon width={24} height={24} fill={theme.palette.text.primary} />
             },
             {

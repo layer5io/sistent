@@ -37,10 +37,9 @@ export function slugify(str: string): string {
 export const downloadPattern = (
   id: string,
   name: string,
-  sorceType: string,
-  getDownloadUrl: (sorceType: string, id: string) => string
+  getDownloadUrl: (id: string) => string
 ): void => {
-  const downloadUrl = getDownloadUrl(sorceType, id);
+  const downloadUrl = getDownloadUrl(id);
 
   const fileNameWithExtension = `${name}.yaml`;
   const linkElement = document.createElement('a');
@@ -61,17 +60,4 @@ export const formatDate = (date: Date) => {
   const options = { year: 'numeric', month: 'short', day: 'numeric' };
   const formattedDate = new Date(date).toLocaleDateString('en-US', options);
   return formattedDate;
-};
-
-export const getValidSorceType = (type: string): string => {
-  if (type === 'my-designs' || type === 'catalog') {
-    return 'patterns';
-  }
-  if (type === 'my-filters') {
-    return 'filters';
-  }
-  if (type === 'my-views') {
-    return 'views';
-  }
-  return '';
 };

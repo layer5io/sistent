@@ -27,7 +27,7 @@ interface LeftPanelProps {
   handleInfoClick?: () => void;
   showDeleteAction?: boolean;
   handleDelete: () => void;
-  getDownloadUrl: (sorceType: string, id: string) => string;
+  getDownloadUrl: (id: string) => string;
 }
 
 const LeftPanel: React.FC<LeftPanelProps> = ({

@@ -32,12 +32,14 @@ export interface Theme {
 }
 
 export const RESOURCE_TYPES = {
-  DESIGNS: 'design',
-  FILTERS: 'filter',
-  VIEWS: 'view'
+  DESIGN: 'design',
+  FILTER: 'filter',
+  VIEW: 'view'
 };
 
 export const PATTERNS = 'patterns';
+export const FILTERS = 'filters';
+export const VIEWS = 'views';
 
 export type ContentClassType = {
   community: {

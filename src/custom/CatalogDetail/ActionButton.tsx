@@ -4,16 +4,16 @@ import { CopyIcon, DeleteIcon, EditIcon, KanvasIcon, PublishIcon } from '../../i
 import Download from '../../icons/Download/Download';
 import { charcoal, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
-import { downloadPattern, downloadYaml, getValidSorceType } from './helper';
+import { downloadPattern, downloadYaml } from './helper';
 import { ActionButton, StyledActionWrapper, UnpublishAction } from './style';
-import { RESOURCE_TYPES } from './types';
+import { FILTERS, VIEWS } from './types';
 
 interface ActionButtonsProps {
   actionItems: boolean;
   details: Pattern;
   type: string;
   isCloneLoading: boolean;
-  getDownloadUrl: (sorceType: string, id: string) => string;
+  getDownloadUrl: (id: string) => string;
   handleClone: (name: string, id: string) => void;
   handleUnpublish: () => void;
   isCloneDisabled: boolean;
@@ -44,7 +44,6 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   handleDelete
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
-  const sorceType = getValidSorceType(type);
   const theme = useTheme();
   return (
     <StyledActionWrapper>
@@ -86,16 +85,16 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
               color: theme.palette.text.default
             }}
             onClick={() =>
-              cleanedType === RESOURCE_TYPES.VIEWS
+              cleanedType === VIEWS
                 ? downloadYaml(details.pattern_file, details.name)
-                : downloadPattern(details.id, details.name, sorceType, getDownloadUrl)
+                : downloadPattern(details.id, details.name, getDownloadUrl)
             }
           >
             <Download width={24} height={24} fill={theme.palette.icon.default} />
             Download
           </ActionButton>
 
-          {cleanedType !== RESOURCE_TYPES.FILTERS && (
+          {cleanedType !== FILTERS && (
             <ActionButton
               sx={{
                 borderRadius: '0.2rem',
