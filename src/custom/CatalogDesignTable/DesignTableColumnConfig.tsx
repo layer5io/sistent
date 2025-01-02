@@ -3,8 +3,8 @@ import { PLAYGROUND_MODES } from '../../constants/constants';
 import { ChainIcon, CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { CHARCOAL } from '../../theme';
-import { downloadYaml, slugify } from '../CatalogDetail/helper';
-import { RESOURCE_TYPES } from '../CatalogDetail/types';
+import { downloadPattern, slugify } from '../CatalogDetail/helper';
+import { PATTERNS, RESOURCE_TYPES } from '../CatalogDetail/types';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
@@ -25,6 +25,7 @@ interface ColumnConfigProps {
   handleCopyUrl: (type: string, name: string, id: string) => void;
   handleClone: (name: string, id: string) => void;
   handleShowDetails: (designId: string, designName: string) => void;
+  getDownloadUrl: (sorceType: string, id: string) => string;
   isDownloadAllowed: boolean;
   isCopyLinkAllowed: boolean;
   isDeleteAllowed: boolean;
@@ -53,6 +54,7 @@ export const createDesignsColumnsConfig = ({
   handleCopyUrl,
   handleClone,
   handleShowDetails,
+  getDownloadUrl,
   isUnpublishAllowed,
   isCopyLinkAllowed,
   isDeleteAllowed,
@@ -167,7 +169,7 @@ export const createDesignsColumnsConfig = ({
           const actionsList = [
             {
               title: 'Download',
-              onClick: () => downloadYaml(rowData?.pattern_file, rowData?.name),
+              onClick: () => downloadPattern(rowData.id, rowData.name, PATTERNS, getDownloadUrl),
               disabled: !isDownloadAllowed,
               icon: <Download width={24} height={24} fill={CHARCOAL} />
             },
