@@ -56,6 +56,7 @@ export { InputSearchField } from './InputSearchField';
 export { LearningContent } from './LearningContent';
 export { NavigationNavbar } from './NavigationNavbar';
 export { Note } from './Note';
+export { Panel } from './Panel';
 export { PerformersSection, PerformersSectionButton } from './PerformersSection';
 export { SetupPreReq } from './SetupPrerequisite';
 export { StyledChapter } from './StyledChapter';
