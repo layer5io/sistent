@@ -135,7 +135,7 @@ function SearchBar({
         }
       }}
     >
-      <div>
+      <div style={{ display: 'flex' }}>
         <ThemeProvider theme={customTheme(theme)}>
           <TextField
             variant="standard"
