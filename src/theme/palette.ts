@@ -18,6 +18,7 @@ declare module '@mui/material/styles' {
     graphics?: {
       default: string;
     };
+    tabs?: string;
     tertiary?: string;
     hover?: string;
     blur?: {
@@ -194,6 +195,7 @@ export const lightModePalette: PaletteOptions = {
     default: Colors.charcoal[100],
     secondary: Colors.accentGrey[90],
     tertiary: Colors.accentGrey[80],
+    tabs: Colors.charcoal[70],
     hover: Colors.charcoal[90],
     supplementary: Colors.accentGrey[40],
     blur: {
@@ -309,6 +311,7 @@ export const darkModePalette: PaletteOptions = {
     default: Colors.charcoal[10],
     secondary: Colors.accentGrey[20],
     tertiary: Colors.accentGrey[30],
+    tabs: Colors.charcoal[110],
     hover: Colors.charcoal[20],
     supplementary: Colors.accentGrey[40],
     blur: {
