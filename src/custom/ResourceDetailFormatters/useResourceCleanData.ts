@@ -38,7 +38,8 @@ export const useResourceCleanData = () => {
     return numberStates;
   };
 
-  const getAge = (creationTimestamp: string): string => {
+  const getAge = (creationTimestamp?: string): string | undefined => {
+    if (!creationTimestamp) return undefined;
     const creationTime = moment(creationTimestamp);
     const currentTime = moment();
     const ageInHours = currentTime.diff(creationTime, 'hours');
@@ -71,10 +72,9 @@ export const useResourceCleanData = () => {
     const parsedStatus = resource?.status?.attribute && JSON.parse(resource?.status?.attribute);
     const parsedSpec = resource?.spec?.attribute && JSON.parse(resource?.spec.attribute);
     const numberStates = structureNumberStates(parsedStatus, parsedSpec);
-
-    const kind = resource?.kind;
+    const kind = resource?.kind ?? resource?.component?.kind;
     const cleanData = {
-      age: getAge(resource?.metadata?.creationTimestamp || ''),
+      age: getAge(resource?.metadata?.creationTimestamp),
       kind: kind,
       status: showStatus && getStatus(parsedStatus),
       kubeletVersion: parsedStatus?.nodeInfo?.kubeletVersion,
@@ -157,7 +157,7 @@ export const useResourceCleanData = () => {
         const value = annotation?.value !== undefined ? annotation?.value : '';
         return `${annotation?.key}=${value}`;
       }),
-      secret: resource?.data,
+      // secret: resource?.data, //TODO: show it when we have the role based access control for secrets
       initContainers: parsedSpec?.initContainers &&
         parsedStatus?.initContainerStatuses && {
           spec: parsedSpec?.initContainers,

@@ -247,6 +247,9 @@ export interface Resource {
     annotations?: Array<{ key?: string; value?: string }>;
   };
   kind?: string;
+  component?: {
+    kind?: string;
+  };
   apiVersion?: string;
   configuration?: {
     spec?: { strategy?: { type?: string } };
