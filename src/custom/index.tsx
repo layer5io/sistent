@@ -1,4 +1,5 @@
 import { ActionButton } from './ActionButton';
+import { BBChart } from './BBChart';
 import { BookmarkNotification } from './BookmarkNotification';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ChapterCard } from './ChapterCard';
@@ -67,6 +68,7 @@ export { UserSearchField } from './UserSearchField';
 
 export {
   ActionButton,
+  BBChart,
   BookmarkNotification,
   CatalogCardDesignLogo,
   CatalogFilter,
@@ -148,6 +150,7 @@ export type {
 export * from './CatalogDesignTable';
 export * from './CatalogDetail';
 export * from './Dialog';
+export * from './ResourceDetailFormatters';
 export * from './ShareModal';
 export * from './UserSearchField';
 export * from './Workspaces';
