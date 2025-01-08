@@ -324,6 +324,9 @@ export const LabelFormatter: React.FC<LabelFormatterProps> = ({
               size="small"
               onClickCapture={() => handleClick(item)}
               clickable={onClick !== undefined && true}
+              style={{
+                backgroundColor: selectedLabels.includes(item) ? KEPPEL : undefined
+              }}
             />
           </ElementData>
         );
@@ -580,7 +583,7 @@ export const ContainerFormatter: React.FC<ContainerFormatterProps> = ({
   const stateValues = Object.values(containerStatus.state)[0];
   const startedAt = stateValues ? stateValues?.startedAt : null;
   return (
-    <Box display="flex" flexDirection="column">
+    <Box display="flex" flexDirection="column" gap={'0.5rem'}>
       <KeyValueInRow
         Key={'Status'}
         Value={<StatusFormatter status={status} rightPosition="1rem" />}

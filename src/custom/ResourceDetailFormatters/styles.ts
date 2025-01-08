@@ -1,6 +1,6 @@
 import { alpha, Theme } from '@mui/material';
 import { Box, Chip, Grid, IconButton, Typography } from '../../base';
-import { charcoal, KEPPEL, styled, TRANSPARENT_WHITE } from '../../theme';
+import { charcoal, KEPPEL, styled } from '../../theme';
 
 interface StyledProps {
   noPadding?: boolean;
@@ -154,8 +154,8 @@ export const CollapsibleSectionContent = styled(Box)({
 });
 
 export const StyledEnvironmentVariablesCode = styled('code')(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'light' ? TRANSPARENT_WHITE : '#253137',
-  color: 'white',
+  backgroundColor: theme.palette.mode === 'light' ? '#e9eff1' : '#253137',
+  color: theme.palette.text.primary,
   width: '100%',
   display: 'flex',
   flexDirection: 'column',
@@ -163,8 +163,8 @@ export const StyledEnvironmentVariablesCode = styled('code')(({ theme }) => ({
 }));
 
 export const StyledEnvironmentVariablesPre = styled('pre')(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'light' ? TRANSPARENT_WHITE : '#253137',
-  color: 'white',
+  backgroundColor: theme.palette.mode === 'light' ? '#e9eff1' : '#253137',
+  color: theme.palette.text.primary,
   padding: '0.5rem',
   margin: '0',
   width: '100%'
@@ -182,8 +182,8 @@ export const EnvironmentVariableValue = styled('span')({
 });
 
 export const CodeFormatterPre = styled('pre')(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'light' ? TRANSPARENT_WHITE : '#212121',
-  color: 'white',
+  backgroundColor: theme.palette.mode === 'light' ? '#e9eff1' : '#212121',
+  color: theme.palette.text.primary,
   width: '100%',
   wordWrap: 'break-word',
   overflowWrap: 'break-word',
@@ -193,8 +193,8 @@ export const CodeFormatterPre = styled('pre')(({ theme }) => ({
 }));
 
 export const CodeFormatterCode = styled('code')(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'light' ? TRANSPARENT_WHITE : '#212121',
-  color: 'white',
+  backgroundColor: theme.palette.mode === 'light' ? '#e9eff1' : '#212121',
+  color: theme.palette.text.primary,
   fontFamily: theme.typography.fontFamily
 }));
 
@@ -290,7 +290,7 @@ export const OperatorDataContainer = styled('div')({
 
 export const KeyValueGrid = styled(Grid)(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
-  paddingBlock: '0.3rem'
+  paddingBlock: '0.5rem'
 }));
 
 export const KeyValueGridTitle = styled(Typography)({

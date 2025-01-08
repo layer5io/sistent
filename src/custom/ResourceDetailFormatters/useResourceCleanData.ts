@@ -66,7 +66,7 @@ export const useResourceCleanData = () => {
     resource,
     activeLabels,
     dispatchMsgToEditor,
-    showStatus
+    showStatus = true
   }: GetResourceCleanDataProps) => {
     const parsedStatus = resource?.status?.attribute && JSON.parse(resource?.status?.attribute);
     const parsedSpec = resource?.spec?.attribute && JSON.parse(resource?.spec.attribute);
