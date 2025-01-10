@@ -18,7 +18,6 @@ declare module '@mui/material/styles' {
     graphics?: {
       default: string;
     };
-    tabs?: string;
     tertiary?: string;
     hover?: string;
     blur?: {
@@ -137,6 +136,7 @@ declare module '@mui/material/styles' {
 
   /* Defines the palette containing border and icon color options.
     To define any additional custom color options, you can extend the interface here.
+    component option has been added to allow more colors for various components
   */
   interface Palette {
     border: {
@@ -160,6 +160,10 @@ declare module '@mui/material/styles' {
         default: string;
         alt: string;
       };
+    };
+    //Defines the extended component color options used in the palette.
+    component: {
+      tabs?: string;
     };
   }
 
@@ -187,6 +191,9 @@ declare module '@mui/material/styles' {
         alt: string;
       };
     };
+    component: {
+      tabs?: string;
+    };
   }
 }
 
@@ -195,7 +202,6 @@ export const lightModePalette: PaletteOptions = {
     default: Colors.charcoal[100],
     secondary: Colors.accentGrey[90],
     tertiary: Colors.accentGrey[80],
-    tabs: Colors.charcoal[70],
     hover: Colors.charcoal[90],
     supplementary: Colors.accentGrey[40],
     blur: {
@@ -282,6 +288,9 @@ export const lightModePalette: PaletteOptions = {
       disabled: Colors.charcoal[50]
     }
   },
+  component: {
+    tabs: Colors.charcoal[70]
+  },
   border: {
     default: Colors.charcoal[90],
     strong: Colors.charcoal[30],
@@ -311,7 +320,6 @@ export const darkModePalette: PaletteOptions = {
     default: Colors.charcoal[10],
     secondary: Colors.accentGrey[20],
     tertiary: Colors.accentGrey[30],
-    tabs: Colors.charcoal[110],
     hover: Colors.charcoal[20],
     supplementary: Colors.accentGrey[40],
     blur: {
@@ -376,6 +384,9 @@ export const darkModePalette: PaletteOptions = {
       table: '#363636'
     },
     surfaces: Colors.accentGrey[10]
+  },
+  component: {
+    tabs: Colors.charcoal[70]
   },
   text: {
     default: Colors.charcoal[100],
