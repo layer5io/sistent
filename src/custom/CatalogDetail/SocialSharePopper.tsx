@@ -83,7 +83,7 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
               size="small"
               onClick={() => handleCopyUrl(cleanedType, details?.name, details?.id)}
             >
-              <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.inverse} />
+              <ChainIcon height={'24'} width={'24'} fill={theme.palette.text.constant?.white} />
             </ShareSideButton>
           </CustomTooltip>
         </ShareButtonGroup>

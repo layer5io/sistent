@@ -34,14 +34,16 @@ export function slugify(str: string): string {
   return str;
 }
 
-export const downloadFilter = (id: string, name: string): void => {
-  const dataUri = `${process.env.API_ENDPOINT_PREFIX}/api/content/filters/download/${id}`;
+export const downloadPattern = (
+  id: string,
+  name: string,
+  getDownloadUrl: (id: string) => string
+): void => {
+  const downloadUrl = getDownloadUrl(id);
 
-  // Add the .wasm extension to the filename
-  const fileNameWithExtension = name + '.wasm';
-
+  const fileNameWithExtension = `${name}.yaml`;
   const linkElement = document.createElement('a');
-  linkElement.setAttribute('href', dataUri);
+  linkElement.setAttribute('href', downloadUrl);
   linkElement.setAttribute('download', fileNameWithExtension);
   linkElement.click();
   linkElement.remove();

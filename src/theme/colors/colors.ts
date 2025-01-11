@@ -89,6 +89,7 @@ export const saffron = {
  * Grayscale Colors
  */
 export const charcoal = {
+  110: '#525252',
   100: '#FDFDFD',
   90: '#EAEDEE',
   80: '#D2D8DA',

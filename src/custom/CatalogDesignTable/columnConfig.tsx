@@ -13,8 +13,7 @@ import {
   PublishIcon,
   TwitterIcon
 } from '../../icons';
-import { downloadFilter, downloadYaml } from '../CatalogDetail/helper';
-import { RESOURCE_TYPES } from '../CatalogDetail/types';
+import { downloadPattern } from '../CatalogDetail/helper';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
@@ -48,13 +47,13 @@ interface ColumnConfigProps {
   handleUnpublish?: (design: Pattern) => void;
   maxWidth?: boolean;
   getCatalogUrl: (type: string, name: string) => string;
-  type?: string;
   theme?: any;
   showUnpublish?: boolean;
   showOpenPlayground?: boolean;
   currentUserId?: string;
   isCloneDisabled?: boolean;
   isUnpublishDisabled?: boolean;
+  getDownloadUrl: (id: string) => string;
 }
 
 interface ActionItem {
@@ -74,7 +73,7 @@ export const createDesignColumns = ({
   handleUnpublish = () => {},
   maxWidth = true,
   getCatalogUrl,
-  type,
+  getDownloadUrl,
   theme,
   showUnpublish,
   currentUserId,
@@ -82,7 +81,6 @@ export const createDesignColumns = ({
   isUnpublishDisabled,
   showOpenPlayground
 }: ColumnConfigProps): MUIDataTableColumn[] => {
-  const cleanedType = type?.replace('my-', '').replace(/s$/, '');
   return [
     {
       name: 'id',
@@ -260,11 +258,7 @@ export const createDesignColumns = ({
             },
             {
               title: 'Download',
-              onClick: () => {
-                cleanedType === RESOURCE_TYPES.FILTERS
-                  ? downloadFilter(rowData.id, rowData.name)
-                  : downloadYaml(rowData.pattern_file, rowData.name);
-              },
+              onClick: () => downloadPattern(rowData.id, rowData.name, getDownloadUrl),
               icon: <DownloadIcon width={24} height={24} fill={theme.palette.text.primary} />
             },
             {

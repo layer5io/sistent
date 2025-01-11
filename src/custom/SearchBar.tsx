@@ -135,7 +135,7 @@ function SearchBar({
         }
       }}
     >
-      <>
+      <div style={{ display: 'flex' }}>
         <ThemeProvider theme={customTheme(theme)}>
           <TextField
             variant="standard"
@@ -165,7 +165,7 @@ function SearchBar({
             arrow
           />
         )}
-      </>
+      </div>
     </ClickAwayListener>
   );
 }
