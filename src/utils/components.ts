@@ -1,4 +1,12 @@
-export const componentIcon = ({ kind, model, color }) => {
+export const componentIcon = ({
+  kind,
+  model,
+  color
+}: {
+  kind: string;
+  model: string;
+  color: 'white' | 'color' | 'complete';
+}) => {
   if (!kind || !model || !color) {
     return null;
   }
