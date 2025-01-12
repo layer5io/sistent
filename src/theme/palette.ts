@@ -255,6 +255,7 @@ export const lightModePalette: PaletteOptions = {
       tertiary: Colors.red[70]
     },
     code: Colors.charcoal[90],
+
     constant: {
       white: Colors.accentGrey[100],
       disabled: Colors.charcoal[70],
@@ -369,7 +370,7 @@ export const darkModePalette: PaletteOptions = {
       secondary: Colors.red[20],
       tertiary: Colors.red[10]
     },
-    code: Colors.accentGrey[90],
+    code: Colors.charcoal[10],
     constant: {
       white: Colors.accentGrey[100],
       disabled: Colors.charcoal[70],
