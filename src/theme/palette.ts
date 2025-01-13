@@ -326,7 +326,7 @@ export const darkModePalette: PaletteOptions = {
     brand: {
       default: Colors.keppel[40],
       hover: Colors.keppel[50],
-      disabled: Colors.charcoal[20],
+      disabled: Colors.charcoal[30],
       pressed: Colors.keppel[60],
       secondary: Colors.keppel[20],
       tertiary: Colors.keppel[10]
