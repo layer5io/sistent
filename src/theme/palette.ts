@@ -255,6 +255,7 @@ export const lightModePalette: PaletteOptions = {
       tertiary: Colors.red[70]
     },
     code: Colors.charcoal[90],
+
     constant: {
       white: Colors.accentGrey[100],
       disabled: Colors.charcoal[70],
@@ -326,7 +327,7 @@ export const darkModePalette: PaletteOptions = {
     brand: {
       default: Colors.keppel[40],
       hover: Colors.keppel[50],
-      disabled: Colors.charcoal[20],
+      disabled: Colors.charcoal[30],
       pressed: Colors.keppel[60],
       secondary: Colors.keppel[20],
       tertiary: Colors.keppel[10]
@@ -369,7 +370,7 @@ export const darkModePalette: PaletteOptions = {
       secondary: Colors.red[20],
       tertiary: Colors.red[10]
     },
-    code: Colors.accentGrey[90],
+    code: Colors.charcoal[10],
     constant: {
       white: Colors.accentGrey[100],
       disabled: Colors.charcoal[70],
