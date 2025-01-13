@@ -1,4 +1,4 @@
-name: Checks
+name: Node.js Compatibility Checks
 on:
   pull_request:
     types: [opened, synchronize]
@@ -11,31 +11,34 @@ on:
       - '*.md'
 
 jobs:
-  checks:
+  compatibility-check:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16, 18, 20]
     steps:
-      - name: Checkout Repo
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-        
-      - name: Setup and install deps
+
+      - name: Install Dependencies
         run: npm install
 
-      - name: Lint check
+      - name: Lint Check
         run: npm run lint
 
-      - name: Prettier check
+      - name: Prettier Check
         run: npm run format:check
-    
-      - name: Build
+
+      - name: Build Project
         run: npm run build
 
-      - name: Test
+      - name: Run Tests
         run: npm run test
+
+      - name: Log Node.js Version
+        run: echo "Tested on Node.js version ${{ matrix.node-version }}"
