@@ -98,3 +98,12 @@ export const StyledMarkdownPre = styled('pre')(({ theme }) => ({
   whiteSpace: 'pre-line',
   fontFamily: 'inherit'
 }));
+
+export const StyledMarkdownCode = styled('code')(({ theme }) => ({
+  background: theme.palette.background.code,
+  whiteSpace: 'pre-line',
+  padding: '1.5px',
+  paddingInline: '5px',
+  fontFamily: 'inherit',
+  borderRadius: 3
+}));
