@@ -40,6 +40,7 @@ const publishCatalogItemSchema = {
       title: 'Type',
       enum: [
         'Deployment',
+        'Getting-started',
         'Observability',
         'Resiliency',
         'Scaling',
