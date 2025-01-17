@@ -92,7 +92,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
                 <CircularProgress size={24} color={'inherit'} />
               ) : (
                 <>
-                  <CopyIcon width={24} height={24} fill={theme.palette.text.default} />
+                  <CopyIcon width={24} height={24} fill={theme.palette.icon.default} />
                   Clone
                 </>
               )}
