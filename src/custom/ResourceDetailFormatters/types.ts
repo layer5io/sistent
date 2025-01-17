@@ -264,4 +264,5 @@ export interface GetResourceCleanDataProps {
   dispatchMsgToEditor?: (msg: any) => void;
   activeLabels?: string[];
   showStatus?: boolean;
+  container?: any;
 }

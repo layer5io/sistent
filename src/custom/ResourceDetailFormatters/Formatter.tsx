@@ -35,6 +35,7 @@ import {
   StyledEnvironmentVariablesCode,
   StyledEnvironmentVariablesPre,
   StyledTitle,
+  TextValue,
   Wrap
 } from './styles';
 import {
@@ -201,7 +202,7 @@ export const OperatorDynamicFormatter: React.FC<OperatorDynamicFormatterProps> =
     return (
       <>
         <ElementData>
-          {data}
+          <TextValue>{data}</TextValue>
           {regex.test(data) && <CopyToClipboard data={data} />}
         </ElementData>
       </>

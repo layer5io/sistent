@@ -6,3 +6,4 @@ export * from './icons';
 export * from './redux-persist';
 export * from './schemas';
 export * from './theme';
+export * from './utils';
