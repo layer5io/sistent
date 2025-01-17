@@ -67,13 +67,15 @@ export const useResourceCleanData = () => {
     resource,
     activeLabels,
     dispatchMsgToEditor,
-    showStatus = true
+    showStatus = true,
+    container
   }: GetResourceCleanDataProps) => {
     const parsedStatus = resource?.status?.attribute && JSON.parse(resource?.status?.attribute);
     const parsedSpec = resource?.spec?.attribute && JSON.parse(resource?.spec.attribute);
     const numberStates = structureNumberStates(parsedStatus, parsedSpec);
     const kind = resource?.kind ?? resource?.component?.kind;
     const cleanData = {
+      container: container,
       age: getAge(resource?.metadata?.creationTimestamp),
       kind: kind,
       status: showStatus && getStatus(parsedStatus),
