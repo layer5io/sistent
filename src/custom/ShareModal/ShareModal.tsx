@@ -167,7 +167,6 @@ const ShareModal: React.FC<ShareModalProps> = ({
   handleShare,
   hostURL = null,
   handleCopy,
-
   isVisibilitySelectorDisabled = false,
   fetchSuggestions
 }: ShareModalProps): JSX.Element => {
@@ -221,7 +220,6 @@ const ShareModal: React.FC<ShareModalProps> = ({
       setOption(selectedResource?.visibility);
     }
   }, [selectedResource]);
-
   return (
     <div style={{ marginBottom: '1rem' }}>
       <Modal
@@ -257,12 +255,14 @@ const ShareModal: React.FC<ShareModalProps> = ({
                         <PublicIcon
                           width={24}
                           height={24}
+                          fill={theme.palette.icon.default}
                           stroke={theme.palette.mode === 'dark' ? WHITE : BLACK}
                         />
                       ) : (
                         <LockIcon
                           width={24}
                           height={24}
+                          fill={theme.palette.icon.default}
                           stroke={theme.palette.mode === 'dark' ? WHITE : BLACK}
                         />
                       )}
@@ -289,7 +289,13 @@ const ShareModal: React.FC<ShareModalProps> = ({
                           </MenuItem>
                         ))}
                       </CustomSelect>
-                      <Typography component="span" variant="body2">
+                      <Typography
+                        sx={{
+                          color: theme.palette.text.secondary
+                        }}
+                        component="span"
+                        variant="body2"
+                      >
                         {selectedOption === SHARE_MODE.PRIVATE ? options.PRIVATE : options.PUBLIC}
                       </Typography>
                     </div>
