@@ -2,6 +2,7 @@ import { styled } from '@mui/material';
 import { InputAdornment, OutlinedInput } from '../../base';
 
 export const StyledSearchInput = styled(OutlinedInput)(({ style, theme }) => ({
+  fontFamily: theme.typography.fontFamily,
   width: '100%',
   '@media (max-width: 590px)': {
     marginLeft: '0.25rem',

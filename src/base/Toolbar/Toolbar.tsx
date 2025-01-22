@@ -1,7 +1,8 @@
 import { Toolbar as MuiToolbar, type ToolbarProps as MuiToolbarProps } from '@mui/material';
+import React from 'react';
 
-export function Toolbar(props: MuiToolbarProps): JSX.Element {
-  return <MuiToolbar {...props} />;
-}
+const Toolbar = React.forwardRef<HTMLDivElement, MuiToolbarProps>((props, ref) => {
+  return <MuiToolbar {...props} ref={ref} />;
+});
 
 export default Toolbar;

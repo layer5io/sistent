@@ -57,6 +57,7 @@ export const DataTableEllipsisMenu: React.FC<{
         open={Boolean(anchorEl)}
         onClose={handleClose}
         sx={{
+          fontFamily: theme?.typography.fontFamily,
           '& .MuiPaper-root': {
             backgroundColor: theme?.palette.background.default ?? 'white'
           }
@@ -122,11 +123,32 @@ export const DataTableEllipsisMenu: React.FC<{
 
 const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
   createTheme({
+    typography: {
+      fontFamily: theme.typography.fontFamily
+    },
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-ignore
+    palette: {
+      text: {
+        primary: theme.palette.text.default,
+        secondary: theme.palette.text.secondary
+      },
+      background: {
+        default: backgroundColor || theme.palette.background.constant?.table,
+        paper: backgroundColor || theme.palette.background.constant?.table
+      }
+    },
     components: {
+      MuiTableCell: {
+        styleOverrides: {
+          root: {
+            borderBottom: `1px solid ${theme.palette.border.default}`
+          }
+        }
+      },
       MuiPaper: {
         styleOverrides: {
           root: {
-            background: backgroundColor || theme.palette.background.default,
             maxWidth: '-moz-available'
           }
         }
@@ -134,13 +156,10 @@ const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
       MuiTable: {
         styleOverrides: {
           root: {
-            // border: `2px solid ${theme.palette.border.normal}`,
             width: '-webkit-fill-available',
             '@media (max-width: 500px)': {
               wordWrap: 'break-word'
-            },
-            background: backgroundColor || theme.palette.background.constant?.table,
-            color: theme.palette.text.default
+            }
           }
         }
       },
@@ -148,14 +167,11 @@ const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
         styleOverrides: {
           data: {
             fontWeight: 'bold',
-            textTransform: 'uppercase',
-            color: theme.palette.text.default
+            textTransform: 'uppercase'
           },
           root: {
             fontWeight: 'bold',
-            textTransform: 'uppercase',
-            color: theme.palette.text.default,
-            backgroundColor: backgroundColor || theme.palette.background.constant?.table
+            textTransform: 'uppercase'
           }
         }
       },
@@ -174,7 +190,6 @@ const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
             intermediate: false,
             color: 'transparent',
             '&.Mui-checked': {
-              color: theme.palette.text.default,
               '& .MuiSvgIcon-root': {
                 width: '1.25rem',
                 height: '1.25rem',
@@ -201,30 +216,6 @@ const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
                 cursor: 'not-allowed'
               }
             }
-          }
-        }
-      },
-      MuiTableCell: {
-        styleOverrides: {
-          body: {
-            color: theme.palette.text.default
-          },
-          root: {
-            borderBottom: `1px solid ${theme.palette.border.default}`
-          }
-        }
-      },
-      MUIDataTablePagination: {
-        styleOverrides: {
-          toolbar: {
-            color: theme.palette.text.default
-          }
-        }
-      },
-      MUIDataTableSelectCell: {
-        styleOverrides: {
-          headerCell: {
-            background: backgroundColor || theme.palette.background.constant?.table
           }
         }
       },

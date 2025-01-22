@@ -14,6 +14,7 @@ import {
 import { ChainIcon, DeleteIcon, LockIcon, PublicIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { BLACK, WHITE } from '../../theme/colors';
+import { CustomTooltip } from '../CustomTooltip';
 import { Modal, ModalBody, ModalButtonPrimary, ModalButtonSecondary, ModalFooter } from '../Modal';
 import UserShareSearch from '../UserSearchField/UserSearchField';
 import {
@@ -97,13 +98,15 @@ const AccessList: React.FC<AccessListProps> = ({
                 {ownerData.id === actorData.id ? (
                   <div>Owner</div>
                 ) : (
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    onClick={() => handleDelete(actorData.email)}
-                  >
-                    <DeleteIcon fill={theme.palette.background.neutral?.default} />
-                  </IconButton>
+                  <CustomTooltip title="Remove Access" placement="top" arrow>
+                    <IconButton
+                      edge="end"
+                      aria-label="delete"
+                      onClick={() => handleDelete(actorData.email)}
+                    >
+                      <DeleteIcon fill={theme.palette.background.neutral?.default} />
+                    </IconButton>
+                  </CustomTooltip>
                 )}
               </ListItemSecondaryAction>
             </ListItem>
@@ -185,6 +188,9 @@ const ShareModal: React.FC<ShareModalProps> = ({
   const handleMenuClose = () => setMenu(false);
 
   const isShareDisabled = () => {
+    // Ensure at least one user other than the owner is selected
+    const otherUsersSelected = shareUserData.some((user) => user.id !== ownerData.id);
+
     const existingAccessIds = shareUserData.map((user) => user.id);
     const ownerDataId = ownerData?.id;
 
@@ -195,10 +201,10 @@ const ShareModal: React.FC<ShareModalProps> = ({
     const hasMismatchedUsers = !shareUserData.every((user) => existingAccessIds.includes(user.id));
 
     return (
-      shareUserData.length === existingAccessIds.length &&
-      !hasMismatchedUsers &&
-      (selectedOption === selectedResource?.visibility ||
-        shareUserData.length !== existingAccessIds.length)
+      !otherUsersSelected || // Disable if no other users are selected
+      (shareUserData.length === existingAccessIds.length &&
+        !hasMismatchedUsers &&
+        selectedOption === selectedResource?.visibility)
     );
   };
 
@@ -238,52 +244,68 @@ const ShareModal: React.FC<ShareModalProps> = ({
             }
             fetchSuggestions={fetchSuggestions}
           />
-          <CustomListItemText>
-            <Typography variant="h6">General Access</Typography>
-          </CustomListItemText>
-          <CustomDialogContentText>
-            <FormControlWrapper size="small">
-              <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>
-                <VisibilityIconWrapper>
-                  {selectedOption === SHARE_MODE.PUBLIC ? (
-                    <PublicIcon
-                      width={24}
-                      height={24}
-                      stroke={theme.palette.mode === 'dark' ? WHITE : BLACK}
-                    />
-                  ) : (
-                    <LockIcon
-                      width={24}
-                      height={24}
-                      stroke={theme.palette.mode === 'dark' ? WHITE : BLACK}
-                    />
-                  )}
-                </VisibilityIconWrapper>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <CustomSelect
-                    variant="outlined"
-                    defaultValue={selectedOption}
-                    labelId="share-menu-select"
-                    id="share-menu"
-                    open={openMenu}
-                    onClose={handleMenuClose}
-                    onOpen={() => setMenu(true)}
-                    onChange={handleOptionClick}
-                    disabled={isVisibilitySelectorDisabled}
-                  >
-                    {Object.values(SHARE_MODE).map((option) => (
-                      <MenuItem key={option} selected={option === selectedOption} value={option}>
-                        {option.charAt(0).toUpperCase() + option.slice(1)}
-                      </MenuItem>
-                    ))}
-                  </CustomSelect>
-                  <Typography component="span" variant="body2">
-                    {selectedOption === SHARE_MODE.PRIVATE ? options.PRIVATE : options.PUBLIC}
-                  </Typography>
-                </div>
-              </div>
-            </FormControlWrapper>
-          </CustomDialogContentText>
+          {selectedResource?.visibility !== 'published' && (
+            <>
+              <CustomListItemText>
+                <Typography variant="h6">General Access</Typography>
+              </CustomListItemText>
+              <CustomDialogContentText>
+                <FormControlWrapper size="small">
+                  <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>
+                    <VisibilityIconWrapper>
+                      {selectedOption === SHARE_MODE.PUBLIC ? (
+                        <PublicIcon
+                          width={24}
+                          height={24}
+                          fill={theme.palette.icon.default}
+                          stroke={theme.palette.mode === 'dark' ? WHITE : BLACK}
+                        />
+                      ) : (
+                        <LockIcon
+                          width={24}
+                          height={24}
+                          fill={theme.palette.icon.default}
+                          stroke={theme.palette.mode === 'dark' ? WHITE : BLACK}
+                        />
+                      )}
+                    </VisibilityIconWrapper>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      <CustomSelect
+                        variant="outlined"
+                        defaultValue={selectedOption}
+                        labelId="share-menu-select"
+                        id="share-menu"
+                        open={openMenu}
+                        onClose={handleMenuClose}
+                        onOpen={() => setMenu(true)}
+                        onChange={handleOptionClick}
+                        disabled={isVisibilitySelectorDisabled}
+                      >
+                        {Object.values(SHARE_MODE).map((option) => (
+                          <MenuItem
+                            key={option}
+                            selected={option === selectedOption}
+                            value={option}
+                          >
+                            {option.charAt(0).toUpperCase() + option.slice(1)}
+                          </MenuItem>
+                        ))}
+                      </CustomSelect>
+                      <Typography
+                        sx={{
+                          color: theme.palette.text.secondary
+                        }}
+                        component="span"
+                        variant="body2"
+                      >
+                        {selectedOption === SHARE_MODE.PRIVATE ? options.PRIVATE : options.PUBLIC}
+                      </Typography>
+                    </div>
+                  </div>
+                </FormControlWrapper>
+              </CustomDialogContentText>
+            </>
+          )}
         </ModalBody>
 
         <ModalFooter

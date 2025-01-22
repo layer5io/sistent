@@ -1,7 +1,8 @@
 import { Container as MuiContainer, ContainerProps as MuiContainerProps } from '@mui/material';
+import React from 'react';
 
-export function Container(props: MuiContainerProps): JSX.Element {
-  return <MuiContainer {...props} />;
-}
+const Container = React.forwardRef<HTMLDivElement, MuiContainerProps>((props, ref) => {
+  return <MuiContainer {...props} ref={ref} />;
+});
 
 export default Container;

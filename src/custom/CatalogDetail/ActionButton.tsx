@@ -1,18 +1,19 @@
 import React from 'react';
 import { CircularProgress } from '../../base';
-import { CopyIcon, EditIcon, KanvasIcon, PublishIcon } from '../../icons';
+import { CopyIcon, DeleteIcon, EditIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { charcoal, useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
-import { downloadFilter, downloadYaml } from './helper';
+import { downloadPattern, downloadYaml } from './helper';
 import { ActionButton, StyledActionWrapper, UnpublishAction } from './style';
-import { RESOURCE_TYPES } from './types';
+import { FILTERS, VIEWS } from './types';
 
 interface ActionButtonsProps {
   actionItems: boolean;
   details: Pattern;
   type: string;
   isCloneLoading: boolean;
+  getDownloadUrl: (id: string) => string;
   handleClone: (name: string, id: string) => void;
   handleUnpublish: () => void;
   isCloneDisabled: boolean;
@@ -21,6 +22,8 @@ interface ActionButtonsProps {
   onOpenPlaygroundClick: (designId: string, name: string) => void;
   showInfoAction?: boolean;
   handleInfoClick?: () => void;
+  showDeleteAction?: boolean;
+  handleDelete: () => void;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
@@ -32,10 +35,13 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
   isCloneDisabled,
   showUnpublishAction,
   handleUnpublish,
+  getDownloadUrl,
   showOpenPlaygroundAction,
   onOpenPlaygroundClick,
   showInfoAction,
-  handleInfoClick
+  handleInfoClick,
+  showDeleteAction,
+  handleDelete
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const theme = useTheme();
@@ -70,31 +76,13 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             width: '100%'
           }}
         >
-          <ActionButton
-            sx={{
-              borderRadius: '0.2rem',
-              backgroundColor: 'transparent',
-              border: `1px solid ${theme.palette.border.normal}`,
-              gap: '10px',
-              color: charcoal[10]
-            }}
-            onClick={() =>
-              cleanedType === RESOURCE_TYPES.FILTERS
-                ? downloadFilter(details.id, details.name)
-                : downloadYaml(details.pattern_file, details.name)
-            }
-          >
-            <Download width={24} height={24} fill={charcoal[10]} />
-            Download
-          </ActionButton>
-
-          {cleanedType !== RESOURCE_TYPES.FILTERS && (
+          {cleanedType !== FILTERS && (
             <ActionButton
               sx={{
+                backgroundColor: showOpenPlaygroundAction ? 'transparent' : undefined,
+                color: theme.palette.text.default,
                 borderRadius: '0.2rem',
                 gap: '10px',
-                color: theme.palette.text.default,
-                backgroundColor: 'transparent',
                 border: `1px solid ${theme.palette.border.normal}`
               }}
               onClick={() => handleClone(details?.name, details?.id)}
@@ -104,12 +92,29 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
                 <CircularProgress size={24} color={'inherit'} />
               ) : (
                 <>
-                  <CopyIcon width={24} height={24} fill={charcoal[10]} />
+                  <CopyIcon width={24} height={24} fill={theme.palette.icon.default} />
                   Clone
                 </>
               )}
             </ActionButton>
           )}
+          <ActionButton
+            sx={{
+              borderRadius: '0.2rem',
+              backgroundColor: 'transparent',
+              border: `1px solid ${theme.palette.border.normal}`,
+              gap: '10px',
+              color: theme.palette.text.default
+            }}
+            onClick={() =>
+              cleanedType === VIEWS
+                ? downloadYaml(details.pattern_file, details.name)
+                : downloadPattern(details.id, details.name, getDownloadUrl)
+            }
+          >
+            <Download width={24} height={24} fill={theme.palette.icon.default} />
+            Download
+          </ActionButton>
         </div>
       )}
 
@@ -132,9 +137,21 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             }}
             onClick={handleInfoClick}
           >
-            <EditIcon width={24} height={24} fill={charcoal[10]} />
+            <EditIcon width={24} height={24} fill={theme.palette.icon.default} />
             Edit
           </ActionButton>
+        )}
+        {showDeleteAction && (
+          <UnpublishAction
+            sx={{
+              borderRadius: '0.2rem',
+              gap: '10px'
+            }}
+            onClick={handleDelete}
+          >
+            <DeleteIcon width={24} height={24} fill={charcoal[100]} />
+            Delete
+          </UnpublishAction>
         )}
         {showUnpublishAction && (
           <UnpublishAction

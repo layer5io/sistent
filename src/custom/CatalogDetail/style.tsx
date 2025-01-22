@@ -1,8 +1,8 @@
-import { Link, ListItemButton, Paper, Typography } from '../../base';
+import { Button, ButtonGroup, Link, ListItemButton, Typography } from '../../base';
 import { styled } from '../../theme';
 import { Theme } from './types';
 
-export const StyledActionWrapper = styled(Paper)(() => ({
+export const StyledActionWrapper = styled('div')(({ theme }) => ({
   boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
   justifyContent: 'center',
   width: '100%',
@@ -12,7 +12,8 @@ export const StyledActionWrapper = styled(Paper)(() => ({
   flexDirection: 'column',
   gap: '1rem',
   padding: '0.6rem',
-  alignItems: 'center'
+  alignItems: 'center',
+  backgroundColor: theme.palette.background.default
 }));
 
 interface ActionButtonProps {
@@ -139,7 +140,8 @@ export const ContentDetailsPoints = styled(Typography)(() => ({
   fontFamily: 'inherit'
 }));
 
-export const MetricsSection = styled('div')(() => ({
+export const MetricsSection = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
   padding: '1.1rem',
   marginTop: '0.5rem',
   display: 'flex',
@@ -152,7 +154,8 @@ export const MetricsSection = styled('div')(() => ({
   }
 }));
 
-export const MetricsContainer = styled('div')(() => ({
+export const MetricsContainer = styled('div')(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
@@ -236,13 +239,14 @@ export const AdditionalContainer = styled('div')(({ theme }) => ({
   borderRadius: '0.4rem'
 }));
 
-export const DesignCardContainer = styled('div')(() => ({
+export const DesignCardContainer = styled('div')(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   flex: '0 0 75%',
   gap: '2rem',
   justifyContent: 'space-around',
-  height: 'fit-content'
+  height: 'fit-content',
+  backgroundColor: theme.palette.background.default
 }));
 
 export const CopyShareIconWrapper = styled(ContentHeading)(() => ({
@@ -251,17 +255,28 @@ export const CopyShareIconWrapper = styled(ContentHeading)(() => ({
   width: 'fit-content'
 }));
 
-export const VisibilityChip = styled('div')(() => ({
-  borderRadius: '0.5rem',
-  border: '1px solid gray',
-  padding: '0.2rem 0.5rem',
-  textTransform: 'capitalize',
-  color: '#1a1a1acc',
-  width: 'fit-content'
-}));
-
 export const RedirectLink = styled(Link)(({ theme }) => ({
   color: theme.palette.background.brand?.default,
   textDecoration: 'none',
   cursor: 'pointer'
+}));
+
+export const ShareButtonGroup = styled(ButtonGroup)({
+  boxShadow: 'none',
+  border: 'none',
+  outline: 'none'
+});
+
+export const ShareButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.background.brand?.default,
+  color: 'white',
+  border: 'none',
+  borderRadius: '0.5rem 0px 0px 0.5rem'
+}));
+
+export const ShareSideButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.background.brand?.default,
+  color: 'white',
+  border: 'none',
+  borderRadius: '0px 0.5rem  0.5rem 0px'
 }));

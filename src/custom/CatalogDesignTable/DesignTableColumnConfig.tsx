@@ -3,7 +3,7 @@ import { PLAYGROUND_MODES } from '../../constants/constants';
 import { ChainIcon, CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { CHARCOAL } from '../../theme';
-import { downloadYaml, slugify } from '../CatalogDetail/helper';
+import { downloadPattern, slugify } from '../CatalogDetail/helper';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
@@ -25,6 +25,7 @@ interface ColumnConfigProps {
   handleCopyUrl: (type: string, name: string, id: string) => void;
   handleClone: (name: string, id: string) => void;
   handleShowDetails: (designId: string, designName: string) => void;
+  getDownloadUrl: (id: string) => string;
   isDownloadAllowed: boolean;
   isCopyLinkAllowed: boolean;
   isDeleteAllowed: boolean;
@@ -53,6 +54,7 @@ export const createDesignsColumnsConfig = ({
   handleCopyUrl,
   handleClone,
   handleShowDetails,
+  getDownloadUrl,
   isUnpublishAllowed,
   isCopyLinkAllowed,
   isDeleteAllowed,
@@ -72,7 +74,7 @@ export const createDesignsColumnsConfig = ({
     },
     {
       name: 'name',
-      label: 'Pattern Name',
+      label: 'Name',
       options: {
         filter: false,
         sort: true,
@@ -167,7 +169,7 @@ export const createDesignsColumnsConfig = ({
           const actionsList = [
             {
               title: 'Download',
-              onClick: () => downloadYaml(rowData?.pattern_file, rowData?.name),
+              onClick: () => downloadPattern(rowData.id, rowData.name, getDownloadUrl),
               disabled: !isDownloadAllowed,
               icon: <Download width={24} height={24} fill={CHARCOAL} />
             },
@@ -175,7 +177,7 @@ export const createDesignsColumnsConfig = ({
               title: 'Copy Link',
               disabled: rowData.visibility === 'private' || !isCopyLinkAllowed,
               onClick: () => {
-                handleCopyUrl(RESOURCE_TYPES.DESIGNS, rowData?.name, rowData?.id);
+                handleCopyUrl(RESOURCE_TYPES.DESIGN, rowData?.name, rowData?.id);
               },
               icon: <ChainIcon width={'24'} height={'24'} fill={CHARCOAL} />
             },
@@ -185,9 +187,7 @@ export const createDesignsColumnsConfig = ({
                 window.open(
                   `https://playground.meshery.io/extension/meshmap?mode=${
                     PLAYGROUND_MODES.DESIGNER
-                  }&type=${RESOURCE_TYPES.DESIGNS}&id=${rowData?.id}&name=${slugify(
-                    rowData?.name
-                  )}`,
+                  }&type=${RESOURCE_TYPES.DESIGN}&id=${rowData?.id}&name=${slugify(rowData?.name)}`,
                   '_blank'
                 );
               },

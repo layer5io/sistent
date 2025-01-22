@@ -5,6 +5,7 @@ import {
   BasicAnchorMarkdown,
   StyledMarkdown,
   StyledMarkdownBlockquote,
+  StyledMarkdownCode,
   StyledMarkdownH1,
   StyledMarkdownH2,
   StyledMarkdownH3,
@@ -54,7 +55,8 @@ export const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ content }) => {
         li: ({ ...props }) => <StyledMarkdownLi>{props.children}</StyledMarkdownLi>,
         th: ({ ...props }) => <StyledMarkdownTh>{props.children}</StyledMarkdownTh>,
         td: ({ ...props }) => <StyledMarkdownTd>{props.children}</StyledMarkdownTd>,
-        pre: ({ ...props }) => <StyledMarkdownPre>{props.children}</StyledMarkdownPre>
+        pre: ({ ...props }) => <StyledMarkdownPre>{props.children}</StyledMarkdownPre>,
+        code: ({ ...props }) => <StyledMarkdownCode>{props.children}</StyledMarkdownCode>
       }}
     >
       {content}

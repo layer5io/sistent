@@ -11,6 +11,9 @@ import { TooltipIcon } from './TooltipIconButton';
 
 const customTheme = (theme: Theme) =>
   createTheme({
+    typography: {
+      fontFamily: theme.typography.fontFamily
+    },
     components: {
       MuiTextField: {
         styleOverrides: {
@@ -132,7 +135,7 @@ function SearchBar({
         }
       }}
     >
-      <>
+      <div style={{ display: 'flex' }}>
         <ThemeProvider theme={customTheme(theme)}>
           <TextField
             variant="standard"
@@ -162,7 +165,7 @@ function SearchBar({
             arrow
           />
         )}
-      </>
+      </div>
     </ClickAwayListener>
   );
 }

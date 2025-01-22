@@ -2,9 +2,12 @@ import {
   ListItemSecondaryAction as MuiListItemSecondaryAction,
   ListItemSecondaryActionProps as MuiListItemSecondaryActionProps
 } from '@mui/material';
+import React from 'react';
 
-export function ListItemSecondaryAction(props: MuiListItemSecondaryActionProps): JSX.Element {
-  return <MuiListItemSecondaryAction {...props} />;
-}
+const ListItemSecondaryAction = React.forwardRef<HTMLDivElement, MuiListItemSecondaryActionProps>(
+  (props, ref) => {
+    return <MuiListItemSecondaryAction {...props} ref={ref} />;
+  }
+);
 
 export default ListItemSecondaryAction;

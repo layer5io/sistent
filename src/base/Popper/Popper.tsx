@@ -1,7 +1,8 @@
 import { Popper as MuiPopper, type PopperProps as MuiPopperProps } from '@mui/material';
+import React from 'react';
 
-export function Popper(props: MuiPopperProps): JSX.Element {
-  return <MuiPopper {...props} />;
-}
+const Popper = React.forwardRef<HTMLDivElement, MuiPopperProps>((props, ref) => {
+  return <MuiPopper {...props} ref={ref} />;
+});
 
 export default Popper;

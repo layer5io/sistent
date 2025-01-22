@@ -40,6 +40,7 @@ export interface DesignTableProps {
     workspaceName: string,
     workspaceId: string
   ) => void;
+  getDownloadUrl: (id: string) => string;
   handlePublish: (publishModal: PublishModalState, data: any) => void;
   publishModalHandler: any;
   handleUnpublishModal: (design: Pattern, modalRef: React.RefObject<any>) => void;
@@ -88,6 +89,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
   handleShowDetails,
   handleUnpublishModal,
   handleWorkspaceDesignDeleteModal,
+  getDownloadUrl,
   publishModalHandler,
   isCopyLinkAllowed,
   isDeleteAllowed,
@@ -113,7 +115,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
   const modalRef = useRef(null);
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   const handlePublishModal = (pattern: Pattern): void => {
@@ -131,6 +133,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
     handleCopyUrl,
     handleClone,
     handleShowDetails,
+    getDownloadUrl,
     isCopyLinkAllowed,
     isDeleteAllowed,
     isDownloadAllowed,

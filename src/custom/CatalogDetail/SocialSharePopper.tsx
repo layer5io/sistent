@@ -1,12 +1,24 @@
-import { Box, IconButton, Menu, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
-import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
-import { ChainIcon, FacebookIcon, LinkedinIcon, ShareIcon, TwitterIcon } from '../../icons';
+
+import {
+  ChainIcon,
+  FacebookIcon,
+  LinkedinIcon,
+  LockIcon,
+  PublicIcon,
+  ShareIcon,
+  TwitterIcon
+} from '../../icons';
 import { useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { CustomTooltip } from '../CustomTooltip';
 import { ErrorBoundary } from '../ErrorBoundary';
-import { ActionButton, CopyShareIconWrapper, VisibilityChip } from './style';
+
+import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
+import { Box, IconButton, Menu, MenuItem, Typography } from '../../base';
+import { VisibilityChipMenu } from '../VisibilityChipMenu';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
+import { CopyShareIconWrapper, ShareButton, ShareButtonGroup, ShareSideButton } from './style';
 
 interface SocialSharePopperProps {
   details: Pattern;
@@ -17,6 +29,8 @@ interface SocialSharePopperProps {
   handleCopyUrl: (type: string, name: string, id: string) => void;
   showShareAction: boolean;
   handleShare: () => void;
+  isVisibilityEnabled: boolean;
+  handleVisibilityChange: (visibility: VIEW_VISIBILITY) => void;
 }
 
 const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
@@ -26,8 +40,9 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
   title,
   getUrl,
   handleCopyUrl,
-  showShareAction,
-  handleShare
+  handleShare,
+  isVisibilityEnabled,
+  handleVisibilityChange
 }) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -46,35 +61,32 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
   return (
     <ErrorBoundary>
       <CopyShareIconWrapper style={{ marginBottom: '2rem' }}>
-        <VisibilityChip
-          style={{
-            color: theme.palette.text.default
-          }}
-        >
-          {details?.visibility}
-        </VisibilityChip>
+        <VisibilityChipMenu
+          value={details?.visibility as VIEW_VISIBILITY}
+          onChange={(value) => handleVisibilityChange(value as VIEW_VISIBILITY)}
+          enabled={isVisibilityEnabled}
+          options={[
+            [VIEW_VISIBILITY.PUBLIC, PublicIcon],
+            [VIEW_VISIBILITY.PRIVATE, LockIcon]
+          ]}
+        />
 
-        {showShareAction ? (
-          <CustomTooltip title="Share" placement="top" arrow>
-            <ActionButton sx={{ borderRadius: '0.2rem', padding: '0.4rem' }} onClick={handleShare}>
-              <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.inverse} />
-              Share
-            </ActionButton>
+        <ShareButtonGroup variant="contained">
+          <CustomTooltip title="Change access and visibility">
+            <ShareButton variant="contained" onClick={handleShare}>
+              <Typography>Share</Typography>
+            </ShareButton>
           </CustomTooltip>
-        ) : (
-          <>
-            {details?.visibility !== 'private' && (
-              <CustomTooltip title="Copy Link" placement="top" arrow>
-                <IconButton
-                  sx={{ borderRadius: '0.1rem', padding: '0.5rem' }}
-                  onClick={() => handleCopyUrl(cleanedType, details?.name, details?.id)}
-                >
-                  <ChainIcon height={'24'} width={'24'} fill={theme.palette.icon.secondary} />
-                </IconButton>
-              </CustomTooltip>
-            )}
-          </>
-        )}
+          <CustomTooltip title="Copy link to design">
+            <ShareSideButton
+              variant="contained"
+              size="small"
+              onClick={() => handleCopyUrl(cleanedType, details?.name, details?.id)}
+            >
+              <ChainIcon height={'24'} width={'24'} fill={theme.palette.text.constant?.white} />
+            </ShareSideButton>
+          </CustomTooltip>
+        </ShareButtonGroup>
 
         {(details?.visibility === 'published' || details?.visibility === 'public') && (
           <>

@@ -1,4 +1,5 @@
 import { ActionButton } from './ActionButton';
+import { BBChart } from './BBChart';
 import { BookmarkNotification } from './BookmarkNotification';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ChapterCard } from './ChapterCard';
@@ -47,6 +48,7 @@ import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 import { UsersTable } from './UsersTable';
+import { VisibilityChipMenu } from './VisibilityChipMenu';
 export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
 export type { FilterListType } from './CatalogFilterSection';
@@ -66,6 +68,7 @@ export { UserSearchField } from './UserSearchField';
 
 export {
   ActionButton,
+  BBChart,
   BookmarkNotification,
   CatalogCardDesignLogo,
   CatalogFilter,
@@ -100,6 +103,7 @@ export {
   TransferList,
   UniversalFilter,
   UsersTable,
+  VisibilityChipMenu,
   updateVisibleColumns,
   useNotificationHandler,
   useWindowDimensions,
@@ -146,6 +150,7 @@ export type {
 export * from './CatalogDesignTable';
 export * from './CatalogDetail';
 export * from './Dialog';
+export * from './ResourceDetailFormatters';
 export * from './ShareModal';
 export * from './UserSearchField';
 export * from './Workspaces';
