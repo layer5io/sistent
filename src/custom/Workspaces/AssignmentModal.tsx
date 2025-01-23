@@ -130,7 +130,7 @@ const AssignmentModal: React.FC<AssignmentModalProps> = ({
       <ModalFooter variant="filled" helpText={helpText}>
         <ModalActionDiv>
           <ModalButtonSecondary onClick={onClose}>Cancel</ModalButtonSecondary>
-          <ModalButtonPrimary onClick={onAssign} disabled={disableTransfer || disableTransferViews}>
+          <ModalButtonPrimary onClick={onAssign} disabled={disableTransfer}>
             Save
           </ModalButtonPrimary>
         </ModalActionDiv>
