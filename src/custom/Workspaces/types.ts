@@ -8,6 +8,7 @@ export interface AssignmentHookResult<T> {
   handleAssignedPage: () => void;
   handleAssign: () => void;
   handleAssignData: (data: T[]) => void;
+  isActivityOccurred?: (allItems: T[]) => boolean;
   disableTransferButton: boolean;
   assignedItems: T[];
 }
