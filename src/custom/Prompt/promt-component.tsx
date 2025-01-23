@@ -96,7 +96,13 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
       {subtitle && (
         <ModalBody>
           <Subtitle id="alert-dialog-description" variant="body1" component="div">
-            <Typography variant="body1" component="div">
+            <Typography
+              variant="body1"
+              component="div"
+              style={{
+                color: theme.palette.text.primary
+              }}
+            >
               {subtitle}
             </Typography>
           </Subtitle>
