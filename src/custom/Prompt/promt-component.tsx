@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
-import { Typography } from '../../base';
+import { Checkbox, FormControlLabel, Typography } from '../../base';
 import { useTheme } from '../../theme';
 import { Modal, ModalBody, ModalButtonPrimary, ModalButtonSecondary, ModalFooter } from '../Modal';
 import { ActionComponent, Subtitle } from './style';
@@ -26,6 +26,8 @@ interface State {
   showInfoIcon?: string;
   variant?: PromptVariant;
   headerIcon?: React.ReactNode;
+  showCheckbox?: boolean;
+  isChecked?: boolean;
 }
 
 interface ShowParams {
@@ -34,11 +36,13 @@ interface ShowParams {
   primaryOption: string;
   variant: PromptVariant;
   showInfoIcon?: string;
+  showCheckbox?: boolean;
   headerIcon?: React.ReactNode;
 }
 
 export interface PromptRef {
   show: (params: ShowParams) => Promise<string>;
+  getCheckboxState: () => boolean;
 }
 
 const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) => {
@@ -49,7 +53,9 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
     primaryOption: '',
     showInfoIcon: '',
     variant,
-    headerIcon: undefined
+    headerIcon: undefined,
+    isChecked: false,
+    showCheckbox: false
   });
 
   /* This ref is used to store the resolve and reject functions of the promise returned by the show method */
@@ -67,7 +73,8 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
       setState({
         ...params,
         isOpen: true,
-        showInfoIcon: params.showInfoIcon || ''
+        showInfoIcon: params.showInfoIcon || '',
+        showCheckbox: !!params.showCheckbox
       });
     });
   };
@@ -77,11 +84,20 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
     setState((prevState) => ({ ...prevState, isOpen: false }));
   };
 
+  const handleCheckboxChange = () => {
+    setState((prevState) => ({ ...prevState, isChecked: !prevState.isChecked }));
+  };
+
+  const getCheckboxState = () => {
+    return !!state.isChecked;
+  };
+
   useImperativeHandle(ref, () => ({
-    show
+    show,
+    getCheckboxState
   }));
 
-  const { isOpen, primaryOption, title, subtitle, showInfoIcon, headerIcon } = state;
+  const { isOpen, primaryOption, title, subtitle, showInfoIcon, headerIcon, showCheckbox } = state;
   const { resolve } = promiseInfoRef.current;
 
   return (
@@ -106,6 +122,18 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
               {subtitle}
             </Typography>
           </Subtitle>
+          {showCheckbox && (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={getCheckboxState()}
+                  onChange={handleCheckboxChange}
+                  color="primary"
+                />
+              }
+              label={<span style={{ fontSize: '1rem' }}>Do not show again</span>}
+            />
+          )}
         </ModalBody>
       )}
       <ModalFooter variant="filled" helpText={showInfoIcon}>
