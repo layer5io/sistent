@@ -353,7 +353,7 @@ export const darkModePalette: PaletteOptions = {
       tertiary: Colors.blue[10]
     },
     success: {
-      default: Colors.green[40],
+      default: Colors.KEPPEL,
       hover: Colors.green[50],
       pressed: Colors.green[60],
       secondary: Colors.green[20],
