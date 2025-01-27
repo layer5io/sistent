@@ -36,7 +36,7 @@ import { LearningCard } from './LearningCard';
 import { BasicMarkdown, RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
-import PromptComponent from './Prompt';
+import { PROMPT_VARIANTS, PromptComponent } from './Prompt';
 import ResponsiveDataTable, {
   DataTableEllipsisMenu,
   ResponsiveDataTableProps
@@ -91,6 +91,7 @@ export {
   InfoTooltip,
   LearningCard,
   ModalCard,
+  PROMPT_VARIANTS,
   PopperListener,
   PromptComponent,
   ResponsiveDataTable,

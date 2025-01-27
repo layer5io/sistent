@@ -104,6 +104,11 @@ const useDesignAssignment = ({
     return { addedDesignsIds, removedDesignsIds };
   };
 
+  const isDesignsActivityOccurred = (allAssignedDesigns: Pattern[]): boolean => {
+    const { addedDesignsIds, removedDesignsIds } = getAddedAndRemovedDesigns(allAssignedDesigns);
+    return addedDesignsIds.length > 0 || removedDesignsIds.length > 0;
+  };
+
   const handleAssignDesigns = async (): Promise<void> => {
     const { addedDesignsIds, removedDesignsIds } = getAddedAndRemovedDesigns(assignedDesigns);
 
@@ -144,6 +149,7 @@ const useDesignAssignment = ({
     handleAssignedPage: handleAssignedPageDesign,
     handleAssign: handleAssignDesigns,
     handleAssignData: handleAssignDesignsData,
+    isActivityOccurred: isDesignsActivityOccurred,
     disableTransferButton,
     assignedItems: assignedDesigns
   };

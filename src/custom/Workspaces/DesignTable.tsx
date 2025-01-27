@@ -264,6 +264,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
         helpText={`Assign Designs to ${workspaceName}`}
         isAssignAllowed={isAssignAllowed}
         isRemoveAllowed={isRemoveAllowed}
+        showViews={false}
       />
       <GenericRJSFModal
         open={publishModal.open}
