@@ -19,6 +19,7 @@ declare module '@mui/material/styles' {
       default: string;
     };
     tabs?: string;
+    card?: string;
     tertiary?: string;
     hover?: string;
     blur?: {
@@ -196,6 +197,7 @@ export const lightModePalette: PaletteOptions = {
     secondary: Colors.accentGrey[90],
     tertiary: Colors.accentGrey[80],
     tabs: Colors.accentGrey[100], // TODO: Make this name or token to more genric
+    card: Colors.charcoal[100],
     hover: Colors.charcoal[90],
     supplementary: Colors.accentGrey[40],
     blur: {
@@ -313,6 +315,7 @@ export const darkModePalette: PaletteOptions = {
     secondary: Colors.accentGrey[20],
     tertiary: Colors.accentGrey[30],
     tabs: Colors.gray[10], // TODO: Make this name or token to more genric
+    card: Colors.gray[20],
     hover: Colors.charcoal[20],
     supplementary: Colors.accentGrey[40],
     blur: {
