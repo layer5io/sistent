@@ -8,7 +8,7 @@ on:
 
 jobs:
   versions-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       current: ${{ steps.current.outputs.VERSION }}
     steps:
@@ -23,7 +23,7 @@ jobs:
           echo "VERSION=$(cat ./number)" >> $GITHUB_OUTPUT
         id: current
   bump-meshery:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: versions-check
     steps:
       - name: Checkout Meshery code
@@ -62,7 +62,7 @@ jobs:
           assignees: l5io
           draft: false
   bump-meshery-extensions:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: versions-check
     steps:
       - name: Checkout Meshery Extensions code
@@ -101,7 +101,7 @@ jobs:
           assignees: l5io
           draft: false
   bump-layer5:
-            runs-on: ubuntu-latest
+            runs-on: ubuntu-24.04
             needs: versions-check
             steps:
               - name: Checkout Layer5 code
@@ -139,7 +139,7 @@ jobs:
                   assignees: l5io
                   draft: false
   bump-meshery-cloud:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: versions-check
     steps:
       - name: Checkout Meshery Extensions code
