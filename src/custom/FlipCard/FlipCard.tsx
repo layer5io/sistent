@@ -7,8 +7,16 @@ export type FlipCardProps = {
   onClick?: () => void;
   onShow?: () => void;
   children: [React.ReactNode, React.ReactNode];
+  disableFlip?: boolean;
 };
 
+/**
+ * Helper function to get the front or back child component from the children array
+ * @param children Array containing exactly two child components
+ * @param key Index to retrieve (0 for front, 1 for back)
+ * @throws Error if children is undefined or doesn't contain exactly two components
+ * @returns The selected child component
+ */
 function GetChild(children: [React.ReactNode, React.ReactNode], key: number) {
   if (!children) throw Error('FlipCard requires exactly two child components');
   if (children.length != 2) throw Error('FlipCard requires exactly two child components');
@@ -42,7 +50,31 @@ const BackContent = styled('div')({
   wordBreak: 'break-word'
 });
 
-export function FlipCard({ duration = 500, onClick, onShow, children }: FlipCardProps) {
+/**
+ * A card component that provides a flipping animation between two content faces
+ *
+ * @component
+ * @param props.duration - Animation duration in milliseconds (default: 500)
+ * @param props.onClick - Callback function triggered on card click
+ * @param props.onShow - Additional callback function triggered when card shows new face
+ * @param props.children - Array of exactly two child components (front and back)
+ * @param props.disableFlip - When true, prevents the card from flipping (default: false)
+ *
+ * @example
+ * ```tsx
+ * <FlipCard>
+ *   <div>Front Content</div>
+ *   <div>Back Content</div>
+ * </FlipCard>
+ * ```
+ */
+export function FlipCard({
+  duration = 500,
+  onClick,
+  onShow,
+  children,
+  disableFlip = false
+}: FlipCardProps) {
   const [flipped, setFlipped] = React.useState(false);
   const [activeBack, setActiveBack] = React.useState(false);
 
@@ -72,6 +104,7 @@ export function FlipCard({ duration = 500, onClick, onShow, children }: FlipCard
   return (
     <Card
       onClick={() => {
+        if (disableFlip) return;
         setFlipped((flipped) => !flipped);
         onClick && onClick();
         onShow && onShow();
