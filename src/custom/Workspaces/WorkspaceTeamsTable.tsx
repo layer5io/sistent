@@ -181,8 +181,8 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
         }
         handleAssignablePage={teamAssignment.handleAssignablePage}
         handleAssignedPage={teamAssignment.handleAssignedPage}
-        originalLeftCount={teamAssignment.data?.length}
-        originalRightCount={teamsOfWorkspace?.total_count}
+        originalLeftCount={teamAssignment.data?.length || 0}
+        originalRightCount={teamsOfWorkspace?.total_count || 0}
         onAssign={teamAssignment.handleAssign}
         disableTransfer={teamAssignment.disableTransferButton}
         helpText={`Assign Teams to ${workspaceName}`}
