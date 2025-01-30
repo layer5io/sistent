@@ -1,4 +1,4 @@
-name: Node.js Compatibility Checks
+name: Node version and Lint Check
 on:
   pull_request:
     types: [opened, synchronize]
