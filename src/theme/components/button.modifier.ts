@@ -5,7 +5,7 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
     root: ({ theme }) => {
       const {
         palette: {
-          background: { brand, neutral: BgNeutral },
+          background: { brand, hover },
           text: { disabled, constant, neutral: TextNeutral },
           border: { neutral }
         },
@@ -24,7 +24,7 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
         '&.MuiButton-outlined': {
           border: `1px solid ${neutral?.default}`,
           '&:hover': {
-            backgroundColor: BgNeutral?.pressed,
+            backgroundColor: hover,
             color: TextNeutral?.default
           }
         },

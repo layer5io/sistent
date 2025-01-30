@@ -257,13 +257,14 @@ const DesignTable: React.FC<DesignTableProps> = ({
         emptyStateIcon={<DesignIcon height="5rem" width="5rem" secondaryFill={'#808080'} />}
         handleAssignablePage={designAssignment.handleAssignablePage}
         handleAssignedPage={designAssignment.handleAssignedPage}
-        originalLeftCount={designAssignment.data?.length}
-        originalRightCount={designAssignment.assignedItems?.length}
+        originalLeftCount={designAssignment.data?.length || 0}
+        originalRightCount={designAssignment.assignedItems?.length || 0}
         onAssign={designAssignment.handleAssign}
         disableTransfer={designAssignment.disableTransferButton}
         helpText={`Assign Designs to ${workspaceName}`}
         isAssignAllowed={isAssignAllowed}
         isRemoveAllowed={isRemoveAllowed}
+        showViews={false}
       />
       <GenericRJSFModal
         open={publishModal.open}

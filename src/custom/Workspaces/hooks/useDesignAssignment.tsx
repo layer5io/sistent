@@ -95,6 +95,9 @@ const useDesignAssignment = ({
   };
 
   const getAddedAndRemovedDesigns = (allAssignedDesigns: Pattern[]): AddedAndRemovedDesigns => {
+    if (Array.isArray(workspaceDesignsData) && workspaceDesignsData.length === 0) {
+      return { addedDesignsIds: [], removedDesignsIds: [] };
+    }
     const originalDesignsIds = workspaceDesignsData.map((design) => design.id);
     const updatedDesignsIds = allAssignedDesigns.map((design) => design.id);
 
@@ -102,6 +105,11 @@ const useDesignAssignment = ({
     const removedDesignsIds = originalDesignsIds.filter((id) => !updatedDesignsIds.includes(id));
 
     return { addedDesignsIds, removedDesignsIds };
+  };
+
+  const isDesignsActivityOccurred = (allAssignedDesigns: Pattern[]): boolean => {
+    const { addedDesignsIds, removedDesignsIds } = getAddedAndRemovedDesigns(allAssignedDesigns);
+    return addedDesignsIds.length > 0 || removedDesignsIds.length > 0;
   };
 
   const handleAssignDesigns = async (): Promise<void> => {
@@ -144,6 +152,7 @@ const useDesignAssignment = ({
     handleAssignedPage: handleAssignedPageDesign,
     handleAssign: handleAssignDesigns,
     handleAssignData: handleAssignDesignsData,
+    isActivityOccurred: isDesignsActivityOccurred,
     disableTransferButton,
     assignedItems: assignedDesigns
   };
