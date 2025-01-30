@@ -1,33 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Theme } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { useRef, useState } from 'react';
-import { Avatar, Box, Grid, Tooltip, Typography } from '../../base';
-import { EditIcon, PersonIcon } from '../../icons';
+import { Box, Tooltip } from '../../base';
+import { EditIcon } from '../../icons';
 import Github from '../../icons/Github/GithubIcon';
 import Google from '../../icons/Google/GoogleIcon';
 import LogoutIcon from '../../icons/Logout/LogOutIcon';
-import { CHARCOAL, SistentThemeProvider } from '../../theme';
+import { CHARCOAL, SistentThemeProviderWithoutBaseLine } from '../../theme';
 import { useWindowDimensions } from '../Helpers/Dimension';
 import {
   ColView,
   updateVisibleColumns
 } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
-import PromptComponent from '../Prompt';
+import PromptComponent, { PROMPT_VARIANTS } from '../Prompt';
 import ResponsiveDataTable from '../ResponsiveDataTable';
 import { TooltipIcon } from '../TooltipIconButton';
 import { parseDeletionTimestamp } from '../Workspaces/helper';
 import { TableIconsContainer, TableIconsDisabledContainer } from '../Workspaces/styles';
-
+import UserTableAvatarInfo from './UserTableAvatarInfo';
 interface ActionButtonsProps {
   tableMeta: MUIDataTableMeta;
   isRemoveFromTeamAllowed: boolean;
   handleRemoveFromTeam: (data: any[]) => () => void;
+  theme?: Theme;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
   tableMeta,
   handleRemoveFromTeam,
-  isRemoveFromTeamAllowed
+  isRemoveFromTeamAllowed,
+  theme
 }) => {
   return (
     <div>
@@ -39,12 +42,12 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             title="Remove user membership from team"
             iconType="delete"
           >
-            <LogoutIcon fill={CHARCOAL} secondaryFill={CHARCOAL} />
+            <LogoutIcon fill={theme?.palette.icon.default} />
           </TooltipIcon>
         </TableIconsContainer>
       ) : (
         <TableIconsDisabledContainer>
-          <LogoutIcon fill={CHARCOAL} secondaryFill={CHARCOAL} />
+          <LogoutIcon fill={theme?.palette.icon.disabled} secondaryFill={CHARCOAL} />
         </TableIconsDisabledContainer>
       )}
     </div>
@@ -58,6 +61,7 @@ interface UsersTableProps {
   useRemoveUserFromTeamMutation: any;
   useNotificationHandlers: any;
   isRemoveFromTeamAllowed: boolean;
+  theme?: Theme;
 }
 
 const UsersTable: React.FC<UsersTableProps> = ({
@@ -66,7 +70,8 @@ const UsersTable: React.FC<UsersTableProps> = ({
   org_id,
   useRemoveUserFromTeamMutation,
   useNotificationHandlers,
-  isRemoveFromTeamAllowed
+  isRemoveFromTeamAllowed,
+  theme
 }) => {
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
@@ -75,7 +80,6 @@ const UsersTable: React.FC<UsersTableProps> = ({
   const availableRoles: string[] = [];
   const { handleError, handleSuccess, handleInfo } = useNotificationHandlers();
   const ref: any = useRef(null);
-
   const { width } = useWindowDimensions();
 
   const { data: userData } = useGetUsersForOrgQuery({
@@ -98,7 +102,8 @@ const UsersTable: React.FC<UsersTableProps> = ({
     const response = await ref.current?.show({
       title: `Remove User From Team ?`,
       subtitle: removeUserFromTeamModalContent(data[3], data[2]),
-      primaryOption: 'Proceed'
+      primaryOption: 'Proceed',
+      variant: PROMPT_VARIANTS.DANGER
     });
     if (response === 'Proceed') {
       removeUserFromTeam({
@@ -126,20 +131,6 @@ const UsersTable: React.FC<UsersTableProps> = ({
     const columnIndex = columns.findIndex((column: any) => column.name === columnName);
     return rowData[columnIndex];
   };
-
-  // const fetchAvailableRoles = () => {
-  //   axios
-  //     .get(process.env.API_ENDPOINT_PREFIX + `/api/identity/orgs/${org_id}/roles?all=true`)
-  //     .then((res) => {
-  //       let roles = [];
-  //       res?.data?.roles?.forEach((role) => roles.push(role?.role_name));
-  //       setAvailableRoles(roles);
-  //     })
-  //     .catch((err) => {
-  //       let error = err.response?.data?.message || 'Failed to fetch roles';
-  //       handleError(error);
-  //     });
-  // };
 
   const removeUserFromTeamModalContent = (user: string, email: string) => (
     <>
@@ -253,29 +244,12 @@ const UsersTable: React.FC<UsersTableProps> = ({
         searchable: false,
         customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => (
           <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
-            <Grid container alignItems="center">
-              <Grid item>
-                <Box sx={{ color: 'text.secondary', mr: 2 }}>
-                  <Avatar
-                    onClick={() => {
-                      window.open(
-                        `/user/${getValidColumnValue(tableMeta.rowData, 'user_id', columns)}`
-                      );
-                    }}
-                    alt={getValidColumnValue(tableMeta.rowData, 'first_name', columns)}
-                    src={value}
-                  >
-                    {value ? '' : <PersonIcon />}
-                  </Avatar>
-                </Box>
-              </Grid>
-              <Grid item xs>
-                {tableMeta.rowData[4]} {tableMeta.rowData[5]}
-                <Typography variant="body2" color="text.secondary">
-                  {tableMeta.rowData[2]}
-                </Typography>
-              </Grid>
-            </Grid>
+            <UserTableAvatarInfo
+              userId={getValidColumnValue(tableMeta.rowData, 'user_id', columns)}
+              userName={`${tableMeta.rowData[4]} ${tableMeta.rowData[5]}`}
+              userEmail={tableMeta.rowData[2]}
+              profileUrl={value}
+            />
           </Box>
         )
       }
@@ -440,6 +414,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
               tableMeta={tableMeta}
               handleRemoveFromTeam={handleRemoveFromTeam}
               isRemoveFromTeamAllowed={isRemoveFromTeamAllowed}
+              theme={theme}
             />
           )
       }
@@ -457,9 +432,8 @@ const UsersTable: React.FC<UsersTableProps> = ({
     });
     return initialVisibility;
   });
-
   return (
-    <SistentThemeProvider>
+    <SistentThemeProviderWithoutBaseLine initialMode={theme?.palette.mode}>
       <div style={{ margin: 'auto', width: '100%' }}>
         <ResponsiveDataTable
           columns={columns}
@@ -469,10 +443,11 @@ const UsersTable: React.FC<UsersTableProps> = ({
           tableCols={tableCols}
           updateCols={updateCols}
           columnVisibility={columnVisibility}
+          backgroundColor={theme?.palette.background.tabs}
         />
       </div>
       <PromptComponent ref={ref} />
-    </SistentThemeProvider>
+    </SistentThemeProviderWithoutBaseLine>
   );
 };
 
