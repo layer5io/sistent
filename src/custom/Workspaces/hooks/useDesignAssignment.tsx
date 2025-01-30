@@ -95,6 +95,9 @@ const useDesignAssignment = ({
   };
 
   const getAddedAndRemovedDesigns = (allAssignedDesigns: Pattern[]): AddedAndRemovedDesigns => {
+    if (Array.isArray(workspaceDesignsData) && workspaceDesignsData.length === 0) {
+      return { addedDesignsIds: [], removedDesignsIds: [] };
+    }
     const originalDesignsIds = workspaceDesignsData.map((design) => design.id);
     const updatedDesignsIds = allAssignedDesigns.map((design) => design.id);
 
