@@ -291,7 +291,6 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
             tableCols={tableCols}
             updateCols={updateCols}
             columnVisibility={columnVisibility}
-            // backgroundColor={theme.palette.background.card}
           />
         </AccordionDetails>
       </Accordion>

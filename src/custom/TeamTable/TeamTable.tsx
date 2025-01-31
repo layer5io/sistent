@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Grid, TableCell } from '@mui/material';
+import { TableCell } from '@mui/material';
 import { MUIDataTableColumn } from 'mui-datatables';
-import { useTheme } from '../../theme';
+import { Grid } from '../../base';
+import { styled, useTheme } from '../../theme';
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary.js';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/index.js';
 import ResponsiveDataTable from '../ResponsiveDataTable.js';
@@ -21,6 +22,14 @@ interface TeamTableProps {
   useNotificationHandlers: any;
   useRemoveUserFromTeamMutation: any;
 }
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  display: 'grid',
+  margin: 'auto',
+  paddingLeft: '0.5rem',
+  borderRadius: '0.25rem',
+  width: 'inherit',
+  gap: theme.spacing(1)
+}));
 
 const TeamTable: React.FC<TeamTableProps> = ({
   teams,
@@ -51,21 +60,9 @@ const TeamTable: React.FC<TeamTableProps> = ({
                 colSpan={6}
                 sx={{
                   padding: '0.5rem'
-                  // backgroundColor: 'rgba(0, 0, 0, 0.05)'
                 }}
               >
-                <Grid
-                  container
-                  xs={12}
-                  spacing={1}
-                  sx={{
-                    margin: 'auto',
-                    // backgroundColor: '#f3f1f1',
-                    paddingLeft: '0.5rem',
-                    borderRadius: '0.25rem',
-                    width: 'inherit'
-                  }}
-                >
+                <StyledGrid container xs={12}>
                   <UsersTable
                     teamID={teamID}
                     isRemoveFromTeamAllowed={isRemoveFromTeamAllowed}
@@ -75,7 +72,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                     useRemoveUserFromTeamMutation={useRemoveUserFromTeamMutation}
                     theme={theme}
                   />
-                </Grid>
+                </StyledGrid>
               </TableCell>
             );
           }
