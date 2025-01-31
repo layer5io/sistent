@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { TOCWrapper } from './style';
 import { IoMdClose } from '@react-icons/all-files/io/IoMdClose';
 import { IoIosArrowDropdownCircle } from '@react-icons/all-files/io/IoIosArrowDropdownCircle';
-import { Link } from "@mui/material/";
 
 interface TOCProps {
     availableChapters: string[];
