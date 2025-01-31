@@ -76,6 +76,28 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             width: '100%'
           }}
         >
+          {cleanedType !== FILTERS && (
+            <ActionButton
+              sx={{
+                backgroundColor: showOpenPlaygroundAction ? 'transparent' : undefined,
+                color: theme.palette.text.default,
+                borderRadius: '0.2rem',
+                gap: '10px',
+                border: `1px solid ${theme.palette.border.normal}`
+              }}
+              onClick={() => handleClone(details?.name, details?.id)}
+              disabled={isCloneDisabled}
+            >
+              {isCloneLoading ? (
+                <CircularProgress size={24} color={'inherit'} />
+              ) : (
+                <>
+                  <CopyIcon width={24} height={24} fill={theme.palette.icon.default} />
+                  Clone
+                </>
+              )}
+            </ActionButton>
+          )}
           <ActionButton
             sx={{
               borderRadius: '0.2rem',
@@ -93,29 +115,6 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             <Download width={24} height={24} fill={theme.palette.icon.default} />
             Download
           </ActionButton>
-
-          {cleanedType !== FILTERS && (
-            <ActionButton
-              sx={{
-                borderRadius: '0.2rem',
-                gap: '10px',
-                color: theme.palette.text.default,
-                backgroundColor: 'transparent',
-                border: `1px solid ${theme.palette.border.normal}`
-              }}
-              onClick={() => handleClone(details?.name, details?.id)}
-              disabled={isCloneDisabled}
-            >
-              {isCloneLoading ? (
-                <CircularProgress size={24} color={'inherit'} />
-              ) : (
-                <>
-                  <CopyIcon width={24} height={24} fill={theme.palette.icon.default} />
-                  Clone
-                </>
-              )}
-            </ActionButton>
-          )}
         </div>
       )}
 

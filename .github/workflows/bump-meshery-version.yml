@@ -116,7 +116,7 @@ jobs:
                   cache: "npm"
                   cache-dependency-path: '**/package-lock.json'
               - name: Make changes to pull request
-                run: npm install @layer5/sistent@${{needs.versions-check.outputs.current}}
+                run: npm install @layer5/sistent@${{needs.versions-check.outputs.current}} --legacy-peer-deps
               - name: Create Pull Request
                 id: cpr
                 uses: peter-evans/create-pull-request@v7

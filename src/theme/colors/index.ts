@@ -57,6 +57,7 @@ export {
   darkSlateGray,
   darkTeal,
   eerieBlack,
+  gray,
   green,
   jungleGreen,
   keppel,

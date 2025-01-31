@@ -1,5 +1,6 @@
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
+import { debounce } from 'lodash';
 import React, { useState } from 'react';
 import { Avatar, Box, Chip, Grid, TextField, Tooltip, Typography } from '../../base';
 import { iconSmall } from '../../constants/iconsSizes';
@@ -88,21 +89,22 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
     }
   };
 
-  const handleInputChange = (_event: React.SyntheticEvent<Element, Event>, value: string) => {
-    if (value === '') {
-      setOptions([]);
-      setOpen(false);
-    } else {
-      setSearchUserLoading(true);
-      fetchSuggestions(value).then((filteredData) => {
-        setOptions(filteredData);
+  const handleInputChange = debounce(
+    async (_event: React.SyntheticEvent<Element, Event>, value: string) => {
+      if (value === '') {
+        setOptions([]);
+        setOpen(false);
+      } else {
+        setSearchUserLoading(true);
+        const suggestions = await fetchSuggestions(value);
+        setOptions(suggestions);
         setSearchUserLoading(false);
-      });
-      setError(false);
-      setOpen(true);
-    }
-  };
-
+        setError(false);
+        setOpen(true);
+      }
+    },
+    300
+  );
   /**
    * Clone customUsersList component to pass necessary props
    */
