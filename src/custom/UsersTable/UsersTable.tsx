@@ -116,7 +116,6 @@ const UsersTable: React.FC<UsersTableProps> = ({
           handleSuccess(`${data[4] ? data[4] : ''} ${data[5] ? data[5] : ''} removed from team`);
         })
         .catch((err: any) => {
-          console.log('heya err', err);
           const error = err.response?.data?.message || 'Failed to remove user from team';
           if (err.response.status === 404) {
             handleInfo(error);

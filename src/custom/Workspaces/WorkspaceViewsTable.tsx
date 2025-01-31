@@ -94,7 +94,6 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     order: sortOrder,
     expandUser: true
   });
-  console.log('kutrond', viewsOfWorkspace);
   const { width } = useWindowDimensions();
   const [unassignviewFromWorkspace] = useUnassignViewFromWorkspaceMutation();
   const columns: MUIDataTableColumn[] = [
@@ -132,7 +131,6 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
         sort: false,
         searchable: false,
         customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => {
-          console.log('tableMeta', tableMeta);
           const getValidColumnValue = (
             rowData: any,
             columnName: string,
