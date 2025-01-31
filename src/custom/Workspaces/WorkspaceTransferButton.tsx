@@ -101,7 +101,8 @@ export const RecordRow: React.FC<RecordRowProps> = ({ title, name, date }) => {
               fontSize: 14,
               fontStyle: 'italic',
               color: `${theme.palette.text.disabled}`,
-              paddingRight: '12px'
+              paddingRight: '12px',
+              textAlign: 'end'
             }}
           >
             {date ? formatShortDate(date) : '-'}

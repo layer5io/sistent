@@ -37,7 +37,6 @@ export interface DesignTableProps {
     workspaceName: string,
     workspaceId: string
   ) => void;
-  getDownloadUrl: (id: string) => string;
   handlePublish: (publishModal: PublishModalState, data: any) => void;
   publishModalHandler: any;
   handleUnpublishModal: (design: Pattern, modalRef: React.RefObject<any>) => void;
@@ -84,7 +83,6 @@ const DesignTable: React.FC<DesignTableProps> = ({
   handleShowDetails,
   handleUnpublishModal,
   handleWorkspaceDesignDeleteModal,
-  getDownloadUrl,
   publishModalHandler,
   isCopyLinkAllowed,
   isDeleteAllowed,
@@ -124,7 +122,6 @@ const DesignTable: React.FC<DesignTableProps> = ({
     handleCopyUrl,
     handleClone,
     handleShowDetails,
-    getDownloadUrl,
     handleDownload,
     isCopyLinkAllowed,
     isDeleteAllowed,

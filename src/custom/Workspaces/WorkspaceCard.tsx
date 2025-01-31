@@ -1,18 +1,28 @@
 import { useTheme } from '@mui/material';
-import { Backdrop, CircularProgress, Grid, Typography } from '../../base';
+import { Backdrop, CircularProgress, Grid } from '../../base';
 import { FlipCard } from '../FlipCard';
 import { RecordRow, RedirectButton, TransferButton } from './WorkspaceTransferButton';
 import { formattoLongDate } from './helper';
 import {
+  AllocationColumnGrid,
   AllocationWorkspace,
   BulkSelectCheckbox,
+  CardBackActionsGrid,
+  CardBackTitleGrid,
+  CardBackTopGrid,
+  CardBackWrapper,
+  CardFrontWrapper,
   CardTitle,
-  CardWrapper,
+  DateColumnGrid,
+  DateGrid,
   DateLabel,
   DescriptionLabel,
   EmptyDescription,
   L5DeleteIcon,
-  L5EditIcon
+  L5EditIcon,
+  RecentActivityGrid,
+  RecentActivityTitle,
+  WorkspaceCardGrid
 } from './styles';
 
 interface WorkspaceDetails {
@@ -138,7 +148,10 @@ const WorkspaceCard = ({
 }: WorkspaceCardProps) => {
   const deleted = workspaceDetails.deleted_at.Valid;
   return (
-    <FlipCard disableFlip={selectedWorkspaces.includes(workspaceDetails.id) ? true : false}>
+    <FlipCard
+      disableFlip={selectedWorkspaces.includes(workspaceDetails.id) ? true : false}
+      padding={'0'}
+    >
       <CardFront
         onFlip={onFlip}
         name={workspaceDetails?.name}
@@ -190,22 +203,14 @@ const CardFront = ({
   isTeamAllowed,
   isDesignAndViewAllowed
 }: CardFrontProps) => {
-  const theme = useTheme();
   return (
-    <CardWrapper
-      elevation={2}
-      sx={{
-        minHeight: { xs: '520px', sm: '400px' },
-        background: theme.palette.background.card
-      }}
-      onClick={onFlip}
-    >
-      <Grid sx={{ display: 'flex', flexDirection: 'row' }}>
+    <CardFrontWrapper elevation={2} onClick={onFlip}>
+      <WorkspaceCardGrid>
         <CardTitle variant="body2" onClick={(e) => e.stopPropagation()}>
           {name}
         </CardTitle>
-      </Grid>
-      <Grid sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+      </WorkspaceCardGrid>
+      <Grid>
         {description ? (
           <DescriptionLabel onClick={(e) => e.stopPropagation()} sx={{ maxHeight: '105px' }}>
             {description}
@@ -222,7 +227,7 @@ const CardFront = ({
           gap: 1
         }}
       >
-        <Grid xs={12} sm={4}>
+        <AllocationColumnGrid xs={12} sm={4}>
           <AllocationWorkspace onClick={(e) => e.stopPropagation()}>
             {isEnvironmentAllowed ? (
               <TransferButton
@@ -236,8 +241,9 @@ const CardFront = ({
             )}
             <RedirectButton title="Connections" count={0} />
           </AllocationWorkspace>
-        </Grid>
-        <Grid xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'center' }}>
+        </AllocationColumnGrid>
+
+        <AllocationColumnGrid xs={12} sm={4}>
           <AllocationWorkspace onClick={(e) => e.stopPropagation()}>
             {isTeamAllowed ? (
               <TransferButton
@@ -251,8 +257,8 @@ const CardFront = ({
             )}
             <RedirectButton title="Users" count={0} />
           </AllocationWorkspace>
-        </Grid>
-        <Grid xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        </AllocationColumnGrid>
+        <AllocationColumnGrid xs={12} sm={4}>
           <AllocationWorkspace onClick={(e) => e.stopPropagation()}>
             {isDesignAndViewAllowed ? (
               <TransferButton
@@ -266,9 +272,9 @@ const CardFront = ({
             )}
             <RedirectButton title="Deploys" count={0} />
           </AllocationWorkspace>
-        </Grid>
+        </AllocationColumnGrid>
       </Grid>
-    </CardWrapper>
+    </CardFrontWrapper>
   );
 };
 
@@ -294,74 +300,41 @@ const CardBack = ({
 
   const theme = useTheme();
   return (
-    <CardWrapper
-      elevation={2}
-      sx={{
-        minHeight: { xs: '520px', sm: '400px' },
-        background: 'linear-gradient(180deg, #007366 0%, #000 100%)'
-      }}
-      onClick={onFlipBack}
-    >
-      <Grid xs={12}>
-        <Grid xs={12} sx={{ display: 'flex', flexDirection: 'row' }}>
-          <Grid xs={6} sx={{ display: 'flex', alignItems: 'flex-start' }}>
-            <BulkSelectCheckbox
-              onClick={(e) => e.stopPropagation()}
-              onChange={onSelect}
-              disabled={deleted ? true : !isDeleteWorkspaceAllowed}
-            />
-            <CardTitle
-              sx={{ color: theme.palette.background.constant?.white }}
-              variant="body2"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {name}
-            </CardTitle>
-          </Grid>
-          <Grid
-            xs={6}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end'
-            }}
+    <CardBackWrapper elevation={2} onClick={onFlipBack}>
+      <CardBackTopGrid xs={12}>
+        <CardBackTitleGrid xs={6}>
+          <BulkSelectCheckbox
+            onClick={(e) => e.stopPropagation()}
+            onChange={onSelect}
+            disabled={deleted ? true : !isDeleteWorkspaceAllowed}
+          />
+          <CardTitle
+            sx={{ color: theme.palette.background.constant?.white }}
+            variant="body2"
+            onClick={(e) => e.stopPropagation()}
           >
-            <L5EditIcon
-              onClick={onEdit}
-              disabled={isEditButtonDisabled}
-              style={{ fill: theme.palette.background.constant?.white }}
-              bulk={true}
-            />
-            <L5DeleteIcon
-              onClick={onDelete}
-              style={{ fill: theme.palette.background.constant?.white }}
-              disabled={isDeleteButtonDisabled}
-              bulk={true}
-            />
-          </Grid>
-        </Grid>
-      </Grid>
+            {name}
+          </CardTitle>
+        </CardBackTitleGrid>
+        <CardBackActionsGrid xs={6}>
+          <L5EditIcon
+            onClick={onEdit}
+            disabled={isEditButtonDisabled}
+            style={{ fill: theme.palette.background.constant?.white }}
+            bulk={true}
+          />
+          <L5DeleteIcon
+            onClick={onDelete}
+            style={{ fill: theme.palette.background.constant?.white }}
+            disabled={isDeleteButtonDisabled}
+            bulk={true}
+          />
+        </CardBackActionsGrid>
+      </CardBackTopGrid>
       <Grid sx={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
-        <Typography
-          sx={{
-            fontSize: '1.25rem',
-            fontWeight: 600,
-            padding: '0.5rem 0',
-            color: theme.palette.background.constant?.white
-          }}
-          variant="body2"
-        >
-          Recent Activity
-        </Typography>
+        <RecentActivityTitle variant="body2">Recent Activity</RecentActivityTitle>
       </Grid>
-      <Grid
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          maxHeight: '14.5rem',
-          overflowY: 'scroll'
-        }}
-      >
+      <RecentActivityGrid>
         {loadingEvents ? (
           <Backdrop sx={{ zIndex: '2010' }} open={loadingEvents}>
             <CircularProgress
@@ -381,28 +354,19 @@ const CardBack = ({
             );
           })
         )}
-      </Grid>
-      <Grid
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          position: 'absolute',
-          bottom: '20px',
-          width: '100%',
-          color: `${theme.palette.background.constant?.white}99`
-        }}
-      >
-        <Grid xs={6} sx={{ textAlign: 'left' }}>
+      </RecentActivityGrid>
+      <DateGrid xs={12}>
+        <DateColumnGrid xs={6}>
           <DateLabel onClick={(e) => e.stopPropagation()}>
             Updated At: {formattoLongDate(updatedDate)}
           </DateLabel>
-        </Grid>
-        <Grid xs={6} sx={{ textAlign: 'left' }}>
+        </DateColumnGrid>
+        <DateColumnGrid xs={6}>
           <DateLabel onClick={(e) => e.stopPropagation()}>
             Created At: {formattoLongDate(createdDate)}
           </DateLabel>
-        </Grid>
-      </Grid>
-    </CardWrapper>
+        </DateColumnGrid>
+      </DateGrid>
+    </CardBackWrapper>
   );
 };

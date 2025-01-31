@@ -8,6 +8,7 @@ export type FlipCardProps = {
   onShow?: () => void;
   children: [React.ReactNode, React.ReactNode];
   disableFlip?: boolean;
+  padding?: string;
 };
 
 /**
@@ -73,7 +74,8 @@ export function FlipCard({
   onClick,
   onShow,
   children,
-  disableFlip = false
+  disableFlip = false,
+  padding
 }: FlipCardProps) {
   const [flipped, setFlipped] = React.useState(false);
   const [activeBack, setActiveBack] = React.useState(false);
@@ -113,7 +115,8 @@ export function FlipCard({
       <InnerCard
         style={{
           transform: flipped ? 'scale(-1,1)' : undefined,
-          transition: `transform ${duration}ms`
+          transition: `transform ${duration}ms`,
+          padding: padding
         }}
       >
         {!activeBack ? (

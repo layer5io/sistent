@@ -94,17 +94,6 @@ export const TableIconsContainer = styled('div')(() => ({
   }
 }));
 
-export const CardWrapper = styled(Card)(({ theme }) => ({
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: theme.palette.background.card,
-  padding: '20px',
-  '&:hover': {
-    cursor: 'pointer'
-  }
-}));
-
 export const BulkSelectCheckbox = styled(Checkbox)({
   padding: 0,
   marginRight: '0.5rem',
@@ -171,10 +160,7 @@ export const DescriptionLabel = styled(EmptyDescription)({
 });
 
 export const AllocationButton = styled(Box)(({ theme }) => ({
-  background:
-    theme.palette.mode === 'dark'
-      ? theme.palette.background.brand?.default
-      : theme.palette.icon.weather,
+  background: theme.palette.background.brand?.default,
   padding: '10px 10px 1px 10px',
   borderRadius: '4px',
   height: '100%',
@@ -257,7 +243,7 @@ export const IconWrapper = styled('div')<IconWrapperProps>(({ disabled = false }
 }));
 
 export const Record = styled(Grid)(({ theme }) => ({
-  borderBottom: `1px solid ${theme.palette.border.default}`,
+  borderBottom: `1px solid ${theme.palette.divider}`,
   display: 'flex',
   flexDirection: 'row',
   padding: '5px 0'
@@ -336,3 +322,85 @@ export const L5EditIcon = ({ onClick, disabled, bulk, style }: ExtendedEditIconP
     </CustomTooltip>
   );
 };
+
+export const WorkspaceCardGrid = styled(Grid)({
+  display: 'flex',
+  flexDirection: 'row'
+});
+
+export const DescriptionGrid = styled(Grid)({
+  display: 'flex',
+  alignItems: 'center',
+  marginTop: 1
+});
+
+export const AllocationColumnGrid = styled(Grid)({
+  width: '-moz-available'
+});
+
+export const CardWrapper = styled(Card)(({ theme }) => ({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: theme.palette.background.paper,
+  padding: theme.spacing(2.5),
+  cursor: 'pointer'
+}));
+
+export const CardBackWrapper = styled(CardWrapper)(({ theme }) => ({
+  minHeight: theme.spacing(50),
+  background: 'linear-gradient(180deg, #007366 0%, #000 100%)'
+}));
+
+export const CardFrontWrapper = styled(CardWrapper)(({ theme }) => ({
+  minHeight: theme.spacing(50),
+
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: 'none'
+}));
+
+export const CardBackTopGrid = styled(Grid)({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between'
+});
+
+export const CardBackTitleGrid = styled(Grid)({
+  display: 'flex',
+  alignItems: 'flex-start'
+});
+
+export const CardBackActionsGrid = styled(Grid)({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end'
+});
+
+export const RecentActivityTitle = styled(Typography)(({ theme }) => ({
+  fontSize: '1.25rem',
+  fontWeight: 600,
+  padding: '0.5rem 0',
+  color: theme.palette.background.constant?.white
+}));
+
+export const RecentActivityGrid = styled(Grid)({
+  display: 'flex',
+  flexDirection: 'column',
+  maxHeight: '14.5rem',
+  overflowY: 'scroll'
+});
+
+export const DateGrid = styled(Grid)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  position: 'absolute',
+  bottom: '20px',
+  width: '100%',
+  color: `${theme.palette.background.constant?.white}99`,
+  justifyContent: 'space-between',
+  paddingRight: '40px'
+}));
+
+export const DateColumnGrid = styled(Grid)({
+  textAlign: 'left'
+});

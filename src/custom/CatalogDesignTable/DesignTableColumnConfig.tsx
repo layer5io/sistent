@@ -25,7 +25,6 @@ interface ColumnConfigProps {
   handleCopyUrl: (type: string, name: string, id: string) => void;
   handleClone: (name: string, id: string) => void;
   handleShowDetails: (designId: string, designName: string) => void;
-  getDownloadUrl: (id: string) => string;
   handleDownload: (design: Pattern) => void;
   isDownloadAllowed: boolean;
   isCopyLinkAllowed: boolean;
@@ -56,7 +55,6 @@ export const createDesignsColumnsConfig = ({
   handleCopyUrl,
   handleClone,
   handleShowDetails,
-  // getDownloadUrl,
   handleDownload,
   isUnpublishAllowed,
   isCopyLinkAllowed,
