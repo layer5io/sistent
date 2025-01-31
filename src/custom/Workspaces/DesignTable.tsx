@@ -40,13 +40,14 @@ export interface DesignTableProps {
   handlePublish: (publishModal: PublishModalState, data: any) => void;
   publishModalHandler: any;
   handleUnpublishModal: (design: Pattern, modalRef: React.RefObject<any>) => void;
-  handleDownload: (design: Pattern) => void;
+  handleDownload?: (design: Pattern) => void;
   handleBulkUnpublishModal: (
     selected: any,
     designs: Pattern[],
     modalRef: React.RefObject<any>
   ) => void;
   handleShowDetails: (designId: string, designName: string) => void;
+  getDownloadUrl?: (id: string) => string;
   GenericRJSFModal: any;
   isDownloadAllowed: boolean;
   isCopyLinkAllowed: boolean;
@@ -80,6 +81,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
   handleCopyUrl,
   handlePublish,
   handleDownload,
+  getDownloadUrl,
   handleShowDetails,
   handleUnpublishModal,
   handleWorkspaceDesignDeleteModal,
@@ -123,6 +125,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
     handleClone,
     handleShowDetails,
     handleDownload,
+    getDownloadUrl,
     isCopyLinkAllowed,
     isDeleteAllowed,
     isDownloadAllowed,
@@ -206,7 +209,11 @@ const DesignTable: React.FC<DesignTableProps> = ({
           }}
           id={'catalog-table'}
         />
-        <L5EditIcon onClick={designAssignment.handleAssignModal} disabled={!isAssignAllowed} />
+        <L5EditIcon
+          onClick={designAssignment.handleAssignModal}
+          disabled={!isAssignAllowed}
+          title="Assign Designs"
+        />
       </TableRightActionHeader>
     </TableHeader>
   );

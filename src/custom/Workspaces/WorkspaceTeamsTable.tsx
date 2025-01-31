@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Launch } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from '../../base';
+import { Accordion, AccordionDetails, AccordionSummary, IconButton, Typography } from '../../base';
+import { CLOUD_URL } from '../../constants/constants';
 import { TeamsIcon } from '../../icons';
+import { useTheme } from '../../theme';
 import { CustomColumnVisibilityControl } from '../CustomColumnVisibilityControl';
+import { CustomTooltip } from '../CustomTooltip';
 import SearchBar from '../SearchBar';
 import { TeamTableConfiguration } from '../TeamTable';
 import TeamTable from '../TeamTable/TeamTable';
@@ -102,7 +106,7 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
     isDeleteTeamAllowed: isDeleteTeamAllowed,
     setSearch
   });
-
+  const theme = useTheme();
   return (
     <>
       <Accordion expanded={expanded} onChange={handleAccordionChange} style={{ margin: 0 }}>
@@ -137,7 +141,19 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
               <L5EditIcon
                 onClick={teamAssignment.handleAssignModal}
                 disabled={!isAssignTeamAllowed}
+                title="Assign Teams"
               />
+              <CustomTooltip title={'Manage Teams'}>
+                <div>
+                  <IconButton
+                    onClick={() => {
+                      window.open(`${CLOUD_URL}/identity/teams`, '_blank');
+                    }}
+                  >
+                    <Launch />
+                  </IconButton>
+                </div>
+              </CustomTooltip>
             </TableRightActionHeader>
           </TableHeader>
         </AccordionSummary>
@@ -163,7 +179,14 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
         open={teamAssignment.assignModal}
         onClose={teamAssignment.handleAssignModalClose}
         title={`Assign Teams to ${workspaceName}`}
-        headerIcon={<TeamsIcon height="40" width="40" primaryFill={'white'} fill={'gray'} />}
+        headerIcon={
+          <TeamsIcon
+            height="40"
+            width="40"
+            primaryFill={theme.palette.common.white}
+            fill={theme.palette.icon.disabled}
+          />
+        }
         name="Teams"
         assignableData={teamAssignment.data}
         handleAssignedData={teamAssignment.handleAssignData}
@@ -173,7 +196,7 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
             height="5rem"
             width="5rem"
             primaryFill={'#808080'}
-            secondaryFill={'gray'}
+            secondaryFill={theme.palette.icon.disabled}
             fill={'#808080'}
           />
         }

@@ -3,7 +3,7 @@ import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { PLAYGROUND_MODES } from '../../constants/constants';
 import { ChainIcon, CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
-import { slugify } from '../CatalogDetail/helper';
+import { downloadPattern, slugify } from '../CatalogDetail/helper';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
@@ -25,7 +25,8 @@ interface ColumnConfigProps {
   handleCopyUrl: (type: string, name: string, id: string) => void;
   handleClone: (name: string, id: string) => void;
   handleShowDetails: (designId: string, designName: string) => void;
-  handleDownload: (design: Pattern) => void;
+  handleDownload?: (design: Pattern) => void;
+  getDownloadUrl?: (id: string) => string;
   isDownloadAllowed: boolean;
   isCopyLinkAllowed: boolean;
   isDeleteAllowed: boolean;
@@ -55,6 +56,7 @@ export const createDesignsColumnsConfig = ({
   handleCopyUrl,
   handleClone,
   handleShowDetails,
+  getDownloadUrl,
   handleDownload,
   isUnpublishAllowed,
   isCopyLinkAllowed,
@@ -182,8 +184,9 @@ export const createDesignsColumnsConfig = ({
           const actionsList = [
             {
               title: 'Download',
-              // onClick: () => downloadPattern(rowData.id, rowData.name, getDownloadUrl),
-              onClick: () => handleDownload(rowData),
+              onClick: getDownloadUrl
+                ? () => downloadPattern(rowData.id, rowData.name, getDownloadUrl)
+                : () => handleDownload && handleDownload(rowData),
               disabled: !isDownloadAllowed,
               icon: <Download width={24} height={24} fill={theme?.palette.icon.secondary} />
             },

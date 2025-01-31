@@ -335,7 +335,11 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
                 }}
                 id={'views-table'}
               />
-              <L5EditIcon onClick={viewAssignment.handleAssignModal} disabled={!isAssignAllowed} />
+              <L5EditIcon
+                onClick={viewAssignment.handleAssignModal}
+                disabled={!isAssignAllowed}
+                title="Assign Views"
+              />
             </TableRightActionHeader>
           </TableHeader>
         </AccordionSummary>

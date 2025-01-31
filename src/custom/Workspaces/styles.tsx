@@ -14,6 +14,7 @@ interface ExtendedEditIconProps {
   disabled?: boolean;
   bulk?: boolean;
   style?: React.CSSProperties;
+  title?: string;
 }
 
 export const TableHeader = styled('div')({
@@ -292,10 +293,16 @@ export const L5DeleteIcon = ({
   );
 };
 
-export const L5EditIcon = ({ onClick, disabled, bulk, style }: ExtendedEditIconProps) => {
+export const L5EditIcon = ({
+  onClick,
+  disabled,
+  bulk,
+  style,
+  title = 'Edit'
+}: ExtendedEditIconProps) => {
   const theme = useTheme();
   return (
-    <CustomTooltip title="Edit" arrow>
+    <CustomTooltip title={title} arrow>
       <div>
         <IconButton
           onClick={onClick}

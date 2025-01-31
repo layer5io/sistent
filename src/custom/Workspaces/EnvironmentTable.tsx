@@ -278,6 +278,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
               <L5EditIcon
                 onClick={environmentAssignment.handleAssignModal}
                 disabled={!isAssignAllowed}
+                title="Assign Environments"
               />
             </TableRightActionHeader>
           </TableHeader>
