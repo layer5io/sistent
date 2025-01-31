@@ -1,13 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Launch } from '@mui/icons-material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, IconButton, Typography } from '../../base';
-import { CLOUD_URL } from '../../constants/constants';
+import { Accordion, AccordionDetails, AccordionSummary, Typography } from '../../base';
 import { TeamsIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { CustomColumnVisibilityControl } from '../CustomColumnVisibilityControl';
-import { CustomTooltip } from '../CustomTooltip';
 import SearchBar from '../SearchBar';
 import { TeamTableConfiguration } from '../TeamTable';
 import TeamTable from '../TeamTable/TeamTable';
@@ -143,17 +140,6 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
                 disabled={!isAssignTeamAllowed}
                 title="Assign Teams"
               />
-              <CustomTooltip title={'Manage Teams'}>
-                <div>
-                  <IconButton
-                    onClick={() => {
-                      window.open(`${CLOUD_URL}/identity/teams`, '_blank');
-                    }}
-                  >
-                    <Launch />
-                  </IconButton>
-                </div>
-              </CustomTooltip>
             </TableRightActionHeader>
           </TableHeader>
         </AccordionSummary>

@@ -279,6 +279,7 @@ export const L5DeleteIcon = ({
             ...style
           }}
           disableRipple
+          disabled={disabled}
           onClick={onClick}
         >
           <DeleteIcon
@@ -317,6 +318,7 @@ export const L5EditIcon = ({
             ...style
           }}
           disableRipple
+          disabled={disabled}
         >
           <EditIcon
             fill={disabled ? theme.palette.icon.disabled : theme.palette.icon.default}
