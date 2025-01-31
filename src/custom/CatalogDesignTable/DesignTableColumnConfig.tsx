@@ -1,15 +1,15 @@
+import { Theme } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { PLAYGROUND_MODES } from '../../constants/constants';
 import { ChainIcon, CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
-import { CHARCOAL } from '../../theme';
-import { downloadPattern, slugify } from '../CatalogDetail/helper';
+import { slugify } from '../CatalogDetail/helper';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
-import AuthorCell from './AuthorCell';
+import { UserTableAvatarInfo } from '../UsersTable';
 import { getColumnValue } from './helper';
 import { L5DeleteIcon, NameDiv } from './style';
 
@@ -26,6 +26,7 @@ interface ColumnConfigProps {
   handleClone: (name: string, id: string) => void;
   handleShowDetails: (designId: string, designName: string) => void;
   getDownloadUrl: (id: string) => string;
+  handleDownload: (design: Pattern) => void;
   isDownloadAllowed: boolean;
   isCopyLinkAllowed: boolean;
   isDeleteAllowed: boolean;
@@ -34,6 +35,7 @@ interface ColumnConfigProps {
   // for workspace designs table page only
   isFromWorkspaceTable?: boolean;
   isRemoveAllowed?: boolean;
+  theme?: Theme;
 }
 
 export const colViews: ColView[] = [
@@ -54,13 +56,15 @@ export const createDesignsColumnsConfig = ({
   handleCopyUrl,
   handleClone,
   handleShowDetails,
-  getDownloadUrl,
+  // getDownloadUrl,
+  handleDownload,
   isUnpublishAllowed,
   isCopyLinkAllowed,
   isDeleteAllowed,
   isPublishAllowed,
   isDownloadAllowed,
   isRemoveAllowed,
+  theme,
   isFromWorkspaceTable = false
 }: ColumnConfigProps): MUIDataTableColumn[] => {
   return [
@@ -99,13 +103,14 @@ export const createDesignsColumnsConfig = ({
           const lastName = getColumnValue(tableMeta as TableMeta, 'last_name');
           const avatar_url = getColumnValue(tableMeta as TableMeta, 'avatar_url');
           const user_id = getColumnValue(tableMeta as TableMeta, 'user_id');
+          const userEmail = getColumnValue(tableMeta as TableMeta, 'email');
 
           return (
-            <AuthorCell
-              firstName={firstName}
-              lastName={lastName}
-              avatarUrl={avatar_url}
+            <UserTableAvatarInfo
+              userEmail={userEmail}
               userId={user_id}
+              userName={`${firstName} ${lastName}`}
+              profileUrl={avatar_url}
             />
           );
         }
@@ -153,6 +158,17 @@ export const createDesignsColumnsConfig = ({
         searchable: false
       }
     },
+
+    {
+      name: 'email',
+      label: 'email',
+      options: {
+        filter: false,
+        sort: false,
+        searchable: false
+      }
+    },
+
     {
       name: 'actions',
       label: 'Actions',
@@ -165,13 +181,13 @@ export const createDesignsColumnsConfig = ({
         customBodyRender: function CustomBody(_, tableMeta: MUIDataTableMeta) {
           const rowIndex = (tableMeta as TableMeta).rowIndex;
           const rowData = (tableMeta as TableMeta).tableData[rowIndex];
-
           const actionsList = [
             {
               title: 'Download',
-              onClick: () => downloadPattern(rowData.id, rowData.name, getDownloadUrl),
+              // onClick: () => downloadPattern(rowData.id, rowData.name, getDownloadUrl),
+              onClick: () => handleDownload(rowData),
               disabled: !isDownloadAllowed,
-              icon: <Download width={24} height={24} fill={CHARCOAL} />
+              icon: <Download width={24} height={24} fill={theme?.palette.icon.secondary} />
             },
             {
               title: 'Copy Link',
@@ -179,7 +195,7 @@ export const createDesignsColumnsConfig = ({
               onClick: () => {
                 handleCopyUrl(RESOURCE_TYPES.DESIGN, rowData?.name, rowData?.id);
               },
-              icon: <ChainIcon width={'24'} height={'24'} fill={CHARCOAL} />
+              icon: <ChainIcon width={'24'} height={'24'} fill={theme?.palette.icon.secondary} />
             },
             {
               title: 'Open in playground',
@@ -191,7 +207,9 @@ export const createDesignsColumnsConfig = ({
                   '_blank'
                 );
               },
-              icon: <KanvasIcon width={24} height={24} primaryFill={CHARCOAL} />
+              icon: (
+                <KanvasIcon width={24} height={24} primaryFill={theme?.palette.icon.secondary} />
+              )
             },
             {
               title: isFromWorkspaceTable ? 'Remove Design' : 'Delete',
@@ -205,20 +223,20 @@ export const createDesignsColumnsConfig = ({
             title: 'Publish',
             disabled: !isPublishAllowed,
             onClick: () => handlePublishModal(rowData),
-            icon: <PublishIcon width={24} height={24} fill={CHARCOAL} />
+            icon: <PublishIcon width={24} height={24} fill={theme?.palette.icon.secondary} />
           };
 
           const unpublishAction = {
             title: 'Unpublish',
             onClick: () => handleUnpublishModal(rowData)(),
             disabled: !isUnpublishAllowed,
-            icon: <PublishIcon width={24} height={24} fill={CHARCOAL} />
+            icon: <PublishIcon width={24} height={24} fill={theme?.palette.icon.secondary} />
           };
 
           const cloneAction = {
             title: 'Clone',
             onClick: () => handleClone(rowData?.name, rowData?.id),
-            icon: <CopyIcon width={24} height={24} fill={CHARCOAL} />
+            icon: <CopyIcon width={24} height={24} fill={theme?.palette.icon.secondary} />
           };
 
           if (rowData.visibility === 'published') {
@@ -228,7 +246,7 @@ export const createDesignsColumnsConfig = ({
             actionsList.splice(1, 0, publishAction);
           }
 
-          return <DataTableEllipsisMenu actionsList={actionsList} />;
+          return <DataTableEllipsisMenu actionsList={actionsList} theme={theme} />;
         }
       }
     }
