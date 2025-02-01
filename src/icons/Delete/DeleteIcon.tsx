@@ -8,14 +8,15 @@ export const DeleteIcon = ({
   style,
   ...props
 }: IconProps): JSX.Element => {
+  const _finalFill = style?.fill || fill;
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       width={width}
       height={height}
-      fill={fill}
-      style={style}
+      fill={_finalFill}
       {...props}
     >
       <path d="M0 0h24v24H0z" fill="none" />

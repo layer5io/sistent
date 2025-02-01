@@ -48,7 +48,7 @@ export const DataTableEllipsisMenu: React.FC<{
       <TooltipIcon
         title="View Actions"
         onClick={handleClick}
-        icon={<EllipsisIcon fill={theme?.palette.text.primary ?? 'black'} />}
+        icon={<EllipsisIcon fill={theme?.palette.icon.default ?? 'black'} />}
         arrow
       />
       <Menu
@@ -59,7 +59,7 @@ export const DataTableEllipsisMenu: React.FC<{
         sx={{
           fontFamily: theme?.typography.fontFamily,
           '& .MuiPaper-root': {
-            backgroundColor: theme?.palette.background.default ?? 'white'
+            backgroundColor: theme?.palette.background.card ?? 'white'
           }
         }}
       >
