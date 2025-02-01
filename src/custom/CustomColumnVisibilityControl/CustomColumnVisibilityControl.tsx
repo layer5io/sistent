@@ -36,8 +36,13 @@ export function CustomColumnVisibilityControl({
   const theme = useTheme();
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    setOpen((prev) => !prev);
+    if (anchorEl) {
+      setAnchorEl(null);
+      return;
+    }
     setAnchorEl(event.currentTarget);
-    setOpen(true);
   };
 
   const handleClose = () => {

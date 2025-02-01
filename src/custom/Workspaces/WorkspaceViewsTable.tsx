@@ -2,9 +2,9 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import React, { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from '../../base';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '../../base';
 import { DeleteIcon, EnvironmentIcon } from '../../icons';
-import { CHARCOAL, SistentThemeProvider } from '../../theme';
+import { useTheme } from '../../theme';
 import { NameDiv } from '../CatalogDesignTable/style';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
 import { CustomColumnVisibilityControl } from '../CustomColumnVisibilityControl';
@@ -18,10 +18,16 @@ import {
 import ResponsiveDataTable, { IconWrapper } from '../ResponsiveDataTable';
 import SearchBar from '../SearchBar';
 import { TooltipIcon } from '../TooltipIconButton';
+import { UserTableAvatarInfo } from '../UsersTable';
 import AssignmentModal from './AssignmentModal';
-import EditButton from './EditButton';
 import useViewAssignment from './hooks/useViewsAssignment';
-import { CellStyle, CustomBodyRenderStyle, TableHeader, TableRightActionHeader } from './styles';
+import {
+  CellStyle,
+  CustomBodyRenderStyle,
+  L5EditIcon,
+  TableHeader,
+  TableRightActionHeader
+} from './styles';
 
 interface ViewsTableProps {
   workspaceId: string;
@@ -36,10 +42,13 @@ interface ViewsTableProps {
 
 const colViews: ColView[] = [
   ['id', 'na'],
+  ['avatar_url', 'xs'],
+  ['email', 'na'],
   ['name', 'xs'],
-  ['description', 'm'],
-  ['organization_id', 'l'],
-  ['created_at', 'xl'],
+  ['first_name', 'na'],
+  ['last_name', 'na'],
+  ['organization_id', 'xl'],
+  ['created_at', 'na'],
   ['updated_at', 'xl'],
   ['visibility', 'l'],
   ['actions', 'xs']
@@ -67,7 +76,8 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   isAssignAllowed,
   handleShowDetails
 }) => {
-  const [expanded, setExpanded] = useState<boolean>(true);
+  const theme = useTheme();
+  const [expanded, setExpanded] = useState<boolean>(false);
   const handleAccordionChange = () => {
     setExpanded(!expanded);
   };
@@ -81,7 +91,8 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     page: page,
     pageSize: pageSize,
     search: search,
-    order: sortOrder
+    order: sortOrder,
+    expandUser: true
   });
   const { width } = useWindowDimensions();
   const [unassignviewFromWorkspace] = useUnassignViewFromWorkspaceMutation();
@@ -110,6 +121,62 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
             </NameDiv>
           );
         }
+      }
+    },
+    {
+      name: 'avatar_url',
+      label: 'Owner',
+      options: {
+        filter: false,
+        sort: false,
+        searchable: false,
+        customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => {
+          const getValidColumnValue = (
+            rowData: any,
+            columnName: string,
+            columns: MUIDataTableColumn[]
+          ) => {
+            const columnIndex = columns.findIndex((column: any) => column.name === columnName);
+            return rowData[columnIndex];
+          };
+          return (
+            <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
+              <UserTableAvatarInfo
+                userId={getValidColumnValue(tableMeta.rowData, 'user_id', columns)}
+                userName={`${tableMeta.rowData[4]} ${tableMeta.rowData[5]}`}
+                userEmail={tableMeta.rowData[3]}
+                profileUrl={value}
+              />
+            </Box>
+          );
+        }
+      }
+    },
+    {
+      name: 'email',
+      label: 'Email',
+      options: {
+        filter: false,
+        sort: true,
+        searchable: true
+      }
+    },
+    {
+      name: 'first_name',
+      label: 'First Name',
+      options: {
+        filter: false,
+        sort: true,
+        searchable: true
+      }
+    },
+    {
+      name: 'last_name',
+      label: 'Last Name',
+      options: {
+        filter: false,
+        sort: true,
+        searchable: true
       }
     },
     {
@@ -169,7 +236,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
               }}
               iconType="delete"
             >
-              <DeleteIcon height={28} width={28} fill={CHARCOAL} />
+              <DeleteIcon height={28} width={28} fill={theme.palette.icon.default} />
             </TooltipIcon>
           </IconWrapper>
         )
@@ -236,7 +303,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   const [tableCols, updateCols] = useState(columns);
 
   return (
-    <SistentThemeProvider>
+    <>
       <Accordion expanded={expanded} onChange={handleAccordionChange} style={{ margin: 0 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -245,7 +312,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
           }}
         >
           <TableHeader>
-            <Typography variant="h6" fontWeight={'bold'}>
+            <Typography variant="body1" fontWeight={'bold'}>
               Assigned Views
             </Typography>
             <TableRightActionHeader>
@@ -268,7 +335,11 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
                 }}
                 id={'views-table'}
               />
-              <EditButton onClick={viewAssignment.handleAssignModal} disabled={!isAssignAllowed} />
+              <L5EditIcon
+                onClick={viewAssignment.handleAssignModal}
+                disabled={!isAssignAllowed}
+                title="Assign Views"
+              />
             </TableRightActionHeader>
           </TableHeader>
         </AccordionSummary>
@@ -305,7 +376,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
         isAssignAllowed={isAssignAllowed}
         isRemoveAllowed={isRemoveAllowed}
       />
-    </SistentThemeProvider>
+    </>
   );
 };
 
