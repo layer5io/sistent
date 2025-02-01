@@ -41,7 +41,8 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
     <AdditionalContainer>
       <ContentHeading>
         <h2 style={{ margin: '0', textTransform: 'uppercase' }}>
-          Other public design by {formatToTitleCase(userProfile?.first_name ?? '')}{' '}
+          Other {type.toLowerCase() == 'my-designs' ? 'public' : 'published'} design by{' '}
+          {formatToTitleCase(userProfile?.first_name ?? '')}{' '}
           {fetchingOrgError ? '' : `under ${organizationName}`}
         </h2>
       </ContentHeading>
