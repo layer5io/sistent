@@ -2,7 +2,7 @@ const importDesignUiSchema = {
   uploadType: {
     'ui:widget': 'radio'
   },
-  'ui:order': ['name', 'designType', 'uploadType', 'file', 'url']
+  'ui:order': ['name', 'uploadType', 'file', 'url']
 };
 
 export default importDesignUiSchema;
