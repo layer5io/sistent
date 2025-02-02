@@ -1,6 +1,6 @@
 import { CatalogCardDesignLogo } from '../CustomCatalog';
 import CustomCatalogCard, { Pattern } from '../CustomCatalog/CustomCard';
-import { formatToTitleCase } from './helper';
+import { getHeadingText } from './helper';
 import { AdditionalContainer, ContentHeading, DesignCardContainer } from './style';
 import { UserProfile } from './types';
 
@@ -41,8 +41,7 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
     <AdditionalContainer>
       <ContentHeading>
         <h2 style={{ margin: '0', textTransform: 'uppercase' }}>
-          Other published design by {formatToTitleCase(userProfile?.first_name ?? '')}{' '}
-          {fetchingOrgError ? '' : `under ${organizationName}`}
+          {getHeadingText({ type, userProfile, organizationName, fetchingOrgError })}
         </h2>
       </ContentHeading>
       <DesignCardContainer>
