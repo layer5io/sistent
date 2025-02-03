@@ -104,7 +104,8 @@ export const charcoal = {
 
 export const gray = {
   10: '#1A1A1A',
-  20: '#212121'
+  20: '#212121',
+  30: '#303030'
 };
 
 export const accentGrey = {
