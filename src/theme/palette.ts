@@ -18,6 +18,8 @@ declare module '@mui/material/styles' {
     graphics?: {
       default: string;
     };
+    tabs?: string;
+    card?: string;
     tertiary?: string;
     hover?: string;
     blur?: {
@@ -194,6 +196,8 @@ export const lightModePalette: PaletteOptions = {
     default: Colors.charcoal[100],
     secondary: Colors.accentGrey[90],
     tertiary: Colors.accentGrey[80],
+    tabs: Colors.accentGrey[100], // TODO: Make this name or token to more genric
+    card: Colors.charcoal[100],
     hover: Colors.charcoal[90],
     supplementary: Colors.accentGrey[40],
     blur: {
@@ -253,6 +257,7 @@ export const lightModePalette: PaletteOptions = {
       tertiary: Colors.red[70]
     },
     code: Colors.charcoal[90],
+
     constant: {
       white: Colors.accentGrey[100],
       disabled: Colors.charcoal[70],
@@ -309,6 +314,8 @@ export const darkModePalette: PaletteOptions = {
     default: Colors.charcoal[10],
     secondary: Colors.accentGrey[20],
     tertiary: Colors.accentGrey[30],
+    tabs: Colors.gray[10], // TODO: Make this name or token to more genric
+    card: Colors.gray[20],
     hover: Colors.charcoal[20],
     supplementary: Colors.accentGrey[40],
     blur: {
@@ -323,7 +330,7 @@ export const darkModePalette: PaletteOptions = {
     brand: {
       default: Colors.keppel[40],
       hover: Colors.keppel[50],
-      disabled: Colors.charcoal[20],
+      disabled: Colors.charcoal[30],
       pressed: Colors.keppel[60],
       secondary: Colors.keppel[20],
       tertiary: Colors.keppel[10]
@@ -346,7 +353,7 @@ export const darkModePalette: PaletteOptions = {
       tertiary: Colors.blue[10]
     },
     success: {
-      default: Colors.green[40],
+      default: Colors.KEPPEL,
       hover: Colors.green[50],
       pressed: Colors.green[60],
       secondary: Colors.green[20],
@@ -366,7 +373,7 @@ export const darkModePalette: PaletteOptions = {
       secondary: Colors.red[20],
       tertiary: Colors.red[10]
     },
-    code: Colors.accentGrey[90],
+    code: Colors.charcoal[10],
     constant: {
       white: Colors.accentGrey[100],
       disabled: Colors.charcoal[70],

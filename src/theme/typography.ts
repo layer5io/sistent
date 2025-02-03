@@ -97,7 +97,7 @@ export const typography = (mode: PaletteMode): TypographyOptions => {
       }
     },
     textB2SemiBold: {
-      fontFamily: ['"Open Sans"', 'sans-serif'].join(','),
+      fontFamily: ['Qanelas Soft Regular'].join(','),
       color: mode === 'light' ? common.black : common.white,
       fontSize: '1rem',
       fontWeight: 600,

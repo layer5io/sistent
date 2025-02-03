@@ -256,7 +256,7 @@ export default function TeamTableConfiguration({
                     }}
                     iconType="delete"
                   >
-                    <DeleteIcon height={28} width={28} fill={CHARCOAL} />
+                    <DeleteIcon height={28} width={28} fill={theme.palette.icon.default} />
                   </TooltipIcon>
                 </IconWrapper>
               ) : (
@@ -296,12 +296,6 @@ export default function TeamTableConfiguration({
     download: false,
     elevation: 0,
     serverSide: true,
-    tableBody: {
-      style: {
-        backgroundColor: '#f3f1f1'
-      }
-    },
-
     viewColumns: false,
     search: false,
     rowsExpanded: [ExpandedRowIdx],
@@ -392,7 +386,7 @@ export default function TeamTableConfiguration({
 
       return {
         style: {
-          backgroundColor: theme.palette.background.paper
+          backgroundColor: theme.palette.background.constant?.table
         }
       };
     }

@@ -6,7 +6,7 @@ export const MuiTab: Components<Theme>['MuiTab'] = {
       const {
         palette: {
           text: { default: defaultText },
-          background: { default: defaultBackground }
+          background: { tabs: defaultBackground }
         }
       } = theme;
       return {

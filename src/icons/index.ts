@@ -104,6 +104,7 @@ export * from './Tropy';
 export * from './Undeploy';
 export * from './Undo';
 export * from './Validate';
+export * from './View';
 export * from './Visibility';
 export * from './Visualizer';
 export * from './Workspace';

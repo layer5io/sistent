@@ -61,3 +61,25 @@ export const formatDate = (date: Date) => {
   const formattedDate = new Date(date).toLocaleDateString('en-US', options);
   return formattedDate;
 };
+
+interface HeadingProps {
+  type: string;
+  userProfile?: {
+    first_name?: string;
+  };
+  organizationName?: string;
+  fetchingOrgError: boolean;
+}
+
+export const getHeadingText = ({
+  type,
+  userProfile,
+  organizationName,
+  fetchingOrgError
+}: HeadingProps): string => {
+  const designType = type.toLowerCase() === 'my-designs' ? 'public' : 'published';
+  const firstName = formatToTitleCase(userProfile?.first_name ?? '');
+  const orgText = fetchingOrgError ? '' : `under ${organizationName}`;
+
+  return `Other ${designType} design by ${firstName} ${orgText}`;
+};

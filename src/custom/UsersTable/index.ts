@@ -1,3 +1,3 @@
 import UsersTable from './UsersTable';
-
-export { UsersTable };
+import UserTableAvatarInfo from './UserTableAvatarInfo';
+export { UsersTable, UserTableAvatarInfo };
