@@ -119,9 +119,9 @@
     "billboard.js": "^3.14.3",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
+    "moment": "^2.30.1",
     "re-resizable": "^6.10.3",
     "react-draggable": "^4.4.6",
-    "moment": "^2.30.1",
     "react-share": "^5.1.0"
   }
 }

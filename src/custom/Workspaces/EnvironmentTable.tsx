@@ -4,7 +4,7 @@ import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import React, { useState } from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '../../base';
 import { DeleteIcon, EnvironmentIcon } from '../../icons';
-import { CHARCOAL, SistentThemeProvider } from '../../theme';
+import { useTheme } from '../../theme';
 import { CustomColumnVisibilityControl } from '../CustomColumnVisibilityControl';
 import { CustomTooltip } from '../CustomTooltip';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
@@ -17,9 +17,14 @@ import ResponsiveDataTable, { IconWrapper } from '../ResponsiveDataTable';
 import SearchBar from '../SearchBar';
 import { TooltipIcon } from '../TooltipIconButton';
 import AssignmentModal from './AssignmentModal';
-import EditButton from './EditButton';
 import useEnvironmentAssignment from './hooks/useEnvironmentAssignment';
-import { CellStyle, CustomBodyRenderStyle, TableHeader, TableRightActionHeader } from './styles';
+import {
+  CellStyle,
+  CustomBodyRenderStyle,
+  L5EditIcon,
+  TableHeader,
+  TableRightActionHeader
+} from './styles';
 
 interface EnvironmentTableProps {
   workspaceId: string;
@@ -62,8 +67,9 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
   useAssignEnvironmentToWorkspaceMutation,
   isAssignAllowed
 }) => {
-  const [expanded, setExpanded] = useState<boolean>(true);
-  const handleAccordionChange = () => {
+  const [expanded, setExpanded] = useState<boolean>(false);
+  const handleAccordionChange = (e: React.SyntheticEvent) => {
+    e.stopPropagation();
     setExpanded(!expanded);
   };
   const [search, setSearch] = useState('');
@@ -79,6 +85,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
     order: sortOrder
   });
   const { width } = useWindowDimensions();
+  const theme = useTheme();
   const [unassignEnvironmentFromWorkspace] = useUnassignEnvironmentFromWorkspaceMutation();
   const columns: MUIDataTableColumn[] = [
     {
@@ -164,7 +171,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
               }}
               iconType="delete"
             >
-              <DeleteIcon height={28} width={28} fill={CHARCOAL} />
+              <DeleteIcon height={28} width={28} fill={theme.palette.icon.default} />
             </TooltipIcon>
           </IconWrapper>
         )
@@ -236,7 +243,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
   const [tableCols, updateCols] = useState(columns);
 
   return (
-    <SistentThemeProvider>
+    <>
       <Accordion expanded={expanded} onChange={handleAccordionChange} style={{ margin: 0 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -245,7 +252,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
           }}
         >
           <TableHeader>
-            <Typography variant="h6" fontWeight={'bold'}>
+            <Typography variant="body1" fontWeight={'bold'}>
               Assigned Environments
             </Typography>
             <TableRightActionHeader>
@@ -268,9 +275,10 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
                 }}
                 id={'environments-table'}
               />
-              <EditButton
+              <L5EditIcon
                 onClick={environmentAssignment.handleAssignModal}
                 disabled={!isAssignAllowed}
+                title="Assign Environments"
               />
             </TableRightActionHeader>
           </TableHeader>
@@ -308,7 +316,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
         isAssignAllowed={isAssignAllowed}
         isRemoveAllowed={isRemoveAllowed}
       />
-    </SistentThemeProvider>
+    </>
   );
 };
 

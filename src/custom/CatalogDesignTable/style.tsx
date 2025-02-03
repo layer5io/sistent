@@ -19,7 +19,7 @@ interface DeleteIconProps {
 }
 
 export const L5DeleteIcon = styled(DeleteIcon)<DeleteIconProps>(({ disabled, bulk, theme }) => ({
-  color: disabled ? theme.palette.icon.disabled : theme.palette.text.secondary,
+  color: disabled ? theme.palette.icon.disabled : theme.palette.text.default,
   cursor: disabled ? 'not-allowed' : 'pointer',
   width: bulk ? '32' : '28.8',
   height: bulk ? '32' : '28.8',

@@ -1,0 +1,44 @@
+name: Node version and Lint Check
+on:
+  pull_request:
+    types: [opened, synchronize]
+  push:
+    branches:
+      - '*'
+    paths-ignore:
+      - 'system/**/*'
+      - '.github/**/*'
+      - '*.md'
+
+jobs:
+  compatibility-check:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Lint Check
+        run: npm run lint
+
+      - name: Prettier Check
+        run: npm run format:check
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Run Tests
+        run: npm run test
+
+      - name: Log Node.js Version
+        run: echo "Tested on Node.js version ${{ matrix.node-version }}"

@@ -47,7 +47,7 @@ import { TooltipIcon } from './TooltipIconButton';
 import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
-import { UsersTable } from './UsersTable';
+import { UserTableAvatarInfo, UsersTable } from './UsersTable';
 import { VisibilityChipMenu } from './VisibilityChipMenu';
 export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
@@ -104,6 +104,7 @@ export {
   TooltipIcon,
   TransferList,
   UniversalFilter,
+  UserTableAvatarInfo,
   UsersTable,
   VisibilityChipMenu,
   updateVisibleColumns,
