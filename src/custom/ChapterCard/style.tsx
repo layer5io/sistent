@@ -5,7 +5,7 @@ import { ALABASTER_WHITE, MIDNIGHT_BLACK } from '../../theme';
 export const ChapterCardWrapper = styled('div')(({ theme }) => ({
   transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)',
   padding: '1rem 1.25rem',
-  width: '64rem',
+  width: '100%',
   backgroundColor: theme.palette.mode === 'light' ? ALABASTER_WHITE : MIDNIGHT_BLACK,
   display: 'flex',
   border: `1px solid ${
@@ -53,7 +53,7 @@ export const ChapterDescription = styled('div')({
   },
   '@media screen and (max-width: 650px) and (min-width: 300px)': {
     p: {
-      width: '68vw'
+      width: '9rem'
     }
   }
 });
