@@ -3,15 +3,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '../../base';
 import { TeamsIcon } from '../../icons';
-import { SistentThemeProvider } from '../../theme';
+import { useTheme } from '../../theme';
 import { CustomColumnVisibilityControl } from '../CustomColumnVisibilityControl';
 import SearchBar from '../SearchBar';
 import { TeamTableConfiguration } from '../TeamTable';
 import TeamTable from '../TeamTable/TeamTable';
 import AssignmentModal from './AssignmentModal';
-import EditButton from './EditButton';
 import useTeamAssignment from './hooks/useTeamAssignment';
-import { TableHeader, TableRightActionHeader } from './styles';
+import { L5EditIcon, TableHeader, TableRightActionHeader } from './styles';
 
 export interface TeamsTableProps {
   workspaceId: string;
@@ -51,7 +50,7 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
   const [pageSize, setPageSize] = useState<number>(10);
   const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
   const [bulkSelect, setBulkSelect] = useState<boolean>(false);
-  const [expanded, setExpanded] = useState<boolean>(true);
+  const [expanded, setExpanded] = useState<boolean>(false);
   const handleAccordionChange = () => {
     setExpanded(!expanded);
   };
@@ -104,16 +103,16 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
     isDeleteTeamAllowed: isDeleteTeamAllowed,
     setSearch
   });
-
+  const theme = useTheme();
   return (
-    <SistentThemeProvider>
+    <>
       <Accordion expanded={expanded} onChange={handleAccordionChange} style={{ margin: 0 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           sx={{ backgroundColor: 'background.paper' }}
         >
           <TableHeader>
-            <Typography variant="h6" fontWeight={'bold'}>
+            <Typography variant="body1" fontWeight={'bold'}>
               Assigned Teams
             </Typography>
             <TableRightActionHeader>
@@ -136,9 +135,10 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
                 }}
                 id={'teams-table'}
               />
-              <EditButton
+              <L5EditIcon
                 onClick={teamAssignment.handleAssignModal}
                 disabled={!isAssignTeamAllowed}
+                title="Assign Teams"
               />
             </TableRightActionHeader>
           </TableHeader>
@@ -165,7 +165,14 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
         open={teamAssignment.assignModal}
         onClose={teamAssignment.handleAssignModalClose}
         title={`Assign Teams to ${workspaceName}`}
-        headerIcon={<TeamsIcon height="40" width="40" primaryFill={'white'} fill={'gray'} />}
+        headerIcon={
+          <TeamsIcon
+            height="40"
+            width="40"
+            primaryFill={theme.palette.common.white}
+            fill={theme.palette.icon.disabled}
+          />
+        }
         name="Teams"
         assignableData={teamAssignment.data}
         handleAssignedData={teamAssignment.handleAssignData}
@@ -175,7 +182,7 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
             height="5rem"
             width="5rem"
             primaryFill={'#808080'}
-            secondaryFill={'gray'}
+            secondaryFill={theme.palette.icon.disabled}
             fill={'#808080'}
           />
         }
@@ -189,7 +196,7 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
         isAssignAllowed={isAssignTeamAllowed}
         isRemoveAllowed={isRemoveTeamFromWorkspaceAllowed}
       />
-    </SistentThemeProvider>
+    </>
   );
 };
 
