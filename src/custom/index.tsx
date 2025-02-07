@@ -62,9 +62,9 @@ export { PerformersSection, PerformersSectionButton } from './PerformersSection'
 export { SetupPreReq } from './SetupPrerequisite';
 export { StyledChapter } from './StyledChapter';
 export { StyledSearchBar } from './StyledSearchBar';
+export { Terminal } from './Terminal';
 export { TOC } from './TOCChapter';
 export { TOCLearning } from './TOCLearning';
-export { Terminal } from './Terminal';
 export { UserSearchField } from './UserSearchField';
 
 export {
@@ -153,8 +153,8 @@ export type {
 export * from './CatalogDesignTable';
 export * from './CatalogDetail';
 export * from './Dialog';
+export * from './permissions';
 export * from './ResourceDetailFormatters';
 export * from './ShareModal';
 export * from './UserSearchField';
 export * from './Workspaces';
-export * from './permissions';
