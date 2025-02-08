@@ -68,7 +68,7 @@ export const DrawerHeader = styled('div')(({ theme }) => ({
 
 export const PanelBody = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
-  backgroundColor: accentGrey[10],
+  backgroundColor: theme.palette.mode === 'light' ? accentGrey[10] : accentGrey[100],
   overflow: 'auto',
   flex: 1,
   minHeight: 0
