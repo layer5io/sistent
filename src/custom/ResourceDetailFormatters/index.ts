@@ -21,8 +21,6 @@ export {
   CodeFormatter,
   CollapsibleSectionFormatter,
   ContainerFormatter,
-  convertToReadableUnit,
-  extractPodVolumnTables,
   KeyValueInRow,
   LabelFormatter,
   ListFormatter,
@@ -32,9 +30,11 @@ export {
   OperatorDataFormatter,
   OperatorDynamicFormatter,
   SecretFormatter,
-  splitCamelCaseString,
   StatusFormatter,
   TableDataFormatter,
   TextWithLinkFormatter,
+  convertToReadableUnit,
+  extractPodVolumnTables,
+  splitCamelCaseString,
   useResourceCleanData
 };

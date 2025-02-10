@@ -16,11 +16,11 @@ export {
   EnvironmentTable,
   L5DeleteIcon,
   L5EditIcon,
+  WorkspaceCard,
+  WorkspaceTeamsTable,
+  WorkspaceViewsTable,
   useDesignAssignment,
   useEnvironmentAssignment,
   useTeamAssignment,
-  useViewAssignment,
-  WorkspaceCard,
-  WorkspaceTeamsTable,
-  WorkspaceViewsTable
+  useViewAssignment
 };
