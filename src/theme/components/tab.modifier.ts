@@ -7,9 +7,11 @@ export const MuiTab: Components<Theme>['MuiTab'] = {
         palette: {
           text: { default: defaultText },
           background: { tabs: defaultBackground }
-        }
+        },
+        typography: { textB1Regular }
       } = theme;
       return {
+        ...textB1Regular,
         '&.Mui-selected': {
           color: defaultText,
           backgroundColor: defaultBackground
