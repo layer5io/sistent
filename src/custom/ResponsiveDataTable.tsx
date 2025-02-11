@@ -1,4 +1,4 @@
-import { Theme, ThemeProvider, createTheme, styled } from '@mui/material';
+import { Theme, ThemeProvider, createTheme, styled } from '@mui/material/styles';
 import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
@@ -7,7 +7,9 @@ import { EllipsisIcon } from '../icons/Ellipsis';
 import { ColView } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { TooltipIcon } from './TooltipIconButton';
 
-export const IconWrapper = styled('div')<{ disabled?: boolean }>(({ disabled = false }) => ({
+export const IconWrapper = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'disabled'
+})<{ disabled?: boolean }>(({ disabled = false }) => ({
   cursor: disabled ? 'not-allowed' : 'pointer',
   opacity: disabled ? '0.5' : '1',
   display: 'flex',
@@ -126,17 +128,18 @@ const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
     typography: {
       fontFamily: theme.typography.fontFamily
     },
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
     palette: {
+      mode: theme.palette.mode,
       text: {
         primary: theme.palette.text.default,
         secondary: theme.palette.text.secondary
       },
       background: {
-        default: backgroundColor || theme.palette.background.constant?.table,
-        paper: backgroundColor || theme.palette.background.constant?.table
-      }
+        default: backgroundColor || theme.palette.background?.constant?.table,
+        paper: backgroundColor || theme.palette.background?.constant?.table
+      },
+      border: { ...theme.palette.border },
+      icon: { ...theme.palette.icon }
     },
     components: {
       MuiTableCell: {
@@ -190,6 +193,7 @@ const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
             intermediate: false,
             color: 'transparent',
             '&.Mui-checked': {
+              color: theme.palette.primary.main,
               '& .MuiSvgIcon-root': {
                 width: '1.25rem',
                 height: '1.25rem',
@@ -287,7 +291,7 @@ const ResponsiveDataTable = ({
   updateCols,
   columnVisibility,
   rowsPerPageOptions = [10, 25, 50, 100],
-  theme,
+  theme: customTheme,
   backgroundColor,
   ...props
 }: ResponsiveDataTableProps): JSX.Element => {
@@ -391,8 +395,11 @@ const ResponsiveDataTable = ({
 
   const finalTheme = (baseTheme: Theme) => {
     const defaultTheme = dataTableTheme(baseTheme, backgroundColor);
-    if (theme) {
-      return createTheme(defaultTheme, typeof theme === 'function' ? theme(baseTheme) : theme);
+    if (customTheme) {
+      return createTheme(
+        defaultTheme,
+        typeof customTheme === 'function' ? customTheme(baseTheme) : customTheme
+      );
     }
     return defaultTheme;
   };
@@ -404,7 +411,11 @@ const ResponsiveDataTable = ({
         data={data || []}
         title={undefined}
         components={components}
-        options={updatedOptions}
+        options={{
+          ...updatedOptions,
+          elevation: 0,
+          enableNestedDataAccess: '.'
+        }}
         {...props}
       />
     </ThemeProvider>

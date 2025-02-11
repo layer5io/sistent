@@ -8,13 +8,15 @@ interface UseTeamAssignmentProps {
   useGetTeamsOfWorkspaceQuery: any;
   useAssignTeamToWorkspaceMutation: any;
   useUnassignTeamFromWorkspaceMutation: any;
+  isTeamsVisible?: boolean;
 }
 
 const useTeamAssignment = ({
   workspaceId,
   useGetTeamsOfWorkspaceQuery,
   useAssignTeamToWorkspaceMutation,
-  useUnassignTeamFromWorkspaceMutation
+  useUnassignTeamFromWorkspaceMutation,
+  isTeamsVisible
 }: UseTeamAssignmentProps): AssignmentHookResult<Team> => {
   const [teamsPage, setTeamsPage] = useState<number>(0);
   const [teamsData, setTeamsData] = useState<Team[]>([]);
@@ -36,7 +38,7 @@ const useTeamAssignment = ({
       filter: '{"assigned":false}'
     }),
     {
-      skip: skipTeams
+      skip: skipTeams || !isTeamsVisible
     }
   );
 
@@ -47,7 +49,7 @@ const useTeamAssignment = ({
       pagesize: teamsPageSize
     }),
     {
-      skip: skipTeams
+      skip: skipTeams || !isTeamsVisible
     }
   );
 

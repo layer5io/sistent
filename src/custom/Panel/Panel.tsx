@@ -1,18 +1,19 @@
 import { Resizable } from 're-resizable';
 import React from 'react';
 import Draggable from 'react-draggable';
-import { Box, BoxProps, IconButton, Tooltip } from '../../base';
-import { CloseIcon, CollapseAllIcon, ExpandAllIcon } from '../../icons';
-import { PanelDragHandleIcon } from '../../icons/PanelDragHandle';
-import { useTheme } from '../../theme';
+import { Box, BoxProps, Tooltip } from '../../base';
+import { CloseIcon, CollapseAllIcon, ExpandAllIcon, FullScreenIcon } from '../../icons';
+import { SistentThemeProviderWithoutBaseLine, useTheme } from '../../theme';
 import { ErrorBoundary } from '../ErrorBoundary';
 import {
+  CustomIconButton,
   DragHandle,
   DrawerHeader,
   HeaderActionsContainer,
   HeaderContainer,
   PanelBody,
   PanelContainer,
+  PanelTitle,
   ResizableContent
 } from './style';
 
@@ -30,6 +31,8 @@ export type PanelProps = {
     top?: string | number;
     bottom?: string | number;
   };
+  minimizePanel?: () => void;
+  title?: string;
 };
 
 const Panel_: React.FC<PanelProps> = ({
@@ -40,7 +43,9 @@ const Panel_: React.FC<PanelProps> = ({
   toggleExpandAll,
   handleClose,
   intitialPosition,
-  sx
+  sx,
+  minimizePanel,
+  title = 'Debug Panel'
 }) => {
   const theme = useTheme();
   if (!isOpen) return null;
@@ -70,22 +75,26 @@ const Panel_: React.FC<PanelProps> = ({
                   <Box display="flex" justifyContent="flex-end" padding="8px">
                     {toggleExpandAll && (
                       <Tooltip title={areAllExpanded ? 'Collapse All' : 'Expand All'}>
-                        <IconButton onClick={toggleExpandAll}>
+                        <CustomIconButton onClick={toggleExpandAll}>
                           {areAllExpanded ? <CollapseAllIcon /> : <ExpandAllIcon />}
-                        </IconButton>
+                        </CustomIconButton>
                       </Tooltip>
                     )}
                   </Box>
-                  <DragHandle>
-                    <PanelDragHandleIcon />
-                  </DragHandle>
+                  <DragHandle />
                   <HeaderContainer>
                     <HeaderActionsContainer
                       id={`${id}-panel-header-actions-container`}
                     ></HeaderActionsContainer>
-                    <IconButton onClick={handleClose}>
-                      <CloseIcon />
-                    </IconButton>
+                    <PanelTitle>{title}</PanelTitle>
+                    {minimizePanel && (
+                      <CustomIconButton onClick={minimizePanel}>
+                        <FullScreenIcon fill={theme.palette.common.white} />
+                      </CustomIconButton>
+                    )}
+                    <CustomIconButton onClick={handleClose}>
+                      <CloseIcon fill={theme.palette.common.white} />
+                    </CustomIconButton>
                   </HeaderContainer>
                 </DrawerHeader>
               </div>
@@ -99,5 +108,9 @@ const Panel_: React.FC<PanelProps> = ({
 };
 
 export const Panel: React.FC<PanelProps> = ({ ...props }) => {
-  return <Panel_ {...props} />;
+  return (
+    <SistentThemeProviderWithoutBaseLine>
+      <Panel_ {...props} />;
+    </SistentThemeProviderWithoutBaseLine>
+  );
 };
