@@ -299,7 +299,7 @@ const CardFront = ({
                   disabled={!isDesignAllowed}
                 />
               ) : (
-                <RedirectButton title="Designs/Views" count={designAndViewOfWorkspaceCount} />
+                <RedirectButton title="Designs" count={designAndViewOfWorkspaceCount} />
               )}
               <RedirectButton title="Deploys" count={0} />
             </AllocationWorkspace>
