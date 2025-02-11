@@ -52,7 +52,12 @@ interface CardFrontProps {
   onAssignDesign: () => void;
   isEnvironmentAllowed: boolean;
   isTeamAllowed: boolean;
-  isDesignAndViewAllowed: boolean;
+  isDesignAllowed: boolean;
+  isViewAllowed: boolean;
+  isViewsVisible: boolean;
+  isDesignsVisible: boolean;
+  isTeamsVisible: boolean;
+  isEnvironmentsVisible: boolean;
 }
 
 interface CardBackProps {
@@ -90,9 +95,14 @@ interface WorkspaceCardProps {
   designAndViewOfWorkspaceCount: number;
   isEnvironmentAllowed: boolean;
   isTeamAllowed: boolean;
-  isDesignAndViewAllowed: boolean;
+  isDesignAllowed: boolean;
+  isViewAllowed: boolean;
   isDeleteWorkspaceAllowed: boolean;
   isEditWorkspaceAllowed: boolean;
+  isViewsVisible: boolean;
+  isDesignsVisible: boolean;
+  isTeamsVisible: boolean;
+  isEnvironmentsVisible: boolean;
 }
 
 /**
@@ -142,9 +152,14 @@ const WorkspaceCard = ({
   designAndViewOfWorkspaceCount,
   isEnvironmentAllowed,
   isTeamAllowed,
-  isDesignAndViewAllowed,
+  isDesignAllowed,
+  isViewAllowed,
   isDeleteWorkspaceAllowed,
-  isEditWorkspaceAllowed
+  isEditWorkspaceAllowed,
+  isViewsVisible,
+  isDesignsVisible,
+  isEnvironmentsVisible,
+  isTeamsVisible
 }: WorkspaceCardProps) => {
   const deleted = workspaceDetails.deleted_at.Valid;
   return (
@@ -164,7 +179,12 @@ const WorkspaceCard = ({
         onAssignDesign={onAssignDesign}
         isEnvironmentAllowed={isEnvironmentAllowed}
         isTeamAllowed={isTeamAllowed}
-        isDesignAndViewAllowed={isDesignAndViewAllowed}
+        isDesignAllowed={isDesignAllowed}
+        isViewAllowed={isViewAllowed}
+        isViewsVisible={isViewsVisible}
+        isDesignsVisible={isDesignsVisible}
+        isEnvironmentsVisible={isEnvironmentsVisible}
+        isTeamsVisible={isTeamsVisible}
       />
 
       <CardBack
@@ -201,7 +221,12 @@ const CardFront = ({
   onAssignDesign,
   isEnvironmentAllowed,
   isTeamAllowed,
-  isDesignAndViewAllowed
+  isDesignAllowed,
+  isViewAllowed,
+  isViewsVisible,
+  isDesignsVisible,
+  isEnvironmentsVisible,
+  isTeamsVisible
 }: CardFrontProps) => {
   return (
     <CardFrontWrapper elevation={2} onClick={onFlip}>
@@ -227,52 +252,77 @@ const CardFront = ({
           gap: 1
         }}
       >
-        <AllocationColumnGrid xs={12} sm={4}>
-          <AllocationWorkspace onClick={(e) => e.stopPropagation()}>
-            {isEnvironmentAllowed ? (
-              <TransferButton
-                title="Environments"
-                count={environmentsCount}
-                onAssign={onAssignEnvironment}
-                disabled={!isEnvironmentAllowed}
-              />
-            ) : (
-              <RedirectButton title="Environment" count={environmentsCount} />
-            )}
-            <RedirectButton title="Connections" count={0} />
-          </AllocationWorkspace>
-        </AllocationColumnGrid>
+        {isEnvironmentsVisible && (
+          <AllocationColumnGrid>
+            <AllocationWorkspace onClick={(e) => e.stopPropagation()}>
+              {isEnvironmentAllowed ? (
+                <TransferButton
+                  title="Environments"
+                  count={environmentsCount}
+                  onAssign={onAssignEnvironment}
+                  disabled={!isEnvironmentAllowed}
+                />
+              ) : (
+                <RedirectButton title="Environment" count={environmentsCount} />
+              )}
+              <RedirectButton title="Connections" count={0} />
+            </AllocationWorkspace>
+          </AllocationColumnGrid>
+        )}
 
-        <AllocationColumnGrid xs={12} sm={4}>
-          <AllocationWorkspace onClick={(e) => e.stopPropagation()}>
-            {isTeamAllowed ? (
-              <TransferButton
-                title="Teams"
-                count={teamsCount}
-                onAssign={onAssignTeam}
-                disabled={!isTeamAllowed}
-              />
-            ) : (
-              <RedirectButton title="Teams" count={teamsCount} />
-            )}
-            <RedirectButton title="Users" count={0} />
-          </AllocationWorkspace>
-        </AllocationColumnGrid>
-        <AllocationColumnGrid xs={12} sm={4}>
-          <AllocationWorkspace onClick={(e) => e.stopPropagation()}>
-            {isDesignAndViewAllowed ? (
-              <TransferButton
-                title="Designs/Views"
-                count={designAndViewOfWorkspaceCount}
-                onAssign={onAssignDesign}
-                disabled={!isDesignAndViewAllowed}
-              />
-            ) : (
-              <RedirectButton title="Designs/Views" count={designAndViewOfWorkspaceCount} />
-            )}
-            <RedirectButton title="Deploys" count={0} />
-          </AllocationWorkspace>
-        </AllocationColumnGrid>
+        {isTeamsVisible && (
+          <AllocationColumnGrid>
+            <AllocationWorkspace onClick={(e) => e.stopPropagation()}>
+              {isTeamAllowed ? (
+                <TransferButton
+                  title="Teams"
+                  count={teamsCount}
+                  onAssign={onAssignTeam}
+                  disabled={!isTeamAllowed}
+                />
+              ) : (
+                <RedirectButton title="Teams" count={teamsCount} />
+              )}
+              <RedirectButton title="Users" count={0} />
+            </AllocationWorkspace>
+          </AllocationColumnGrid>
+        )}
+
+        {isDesignsVisible && !isViewsVisible && (
+          <AllocationColumnGrid>
+            <AllocationWorkspace onClick={(e) => e.stopPropagation()}>
+              {isDesignAllowed ? (
+                <TransferButton
+                  title="Designs"
+                  count={designAndViewOfWorkspaceCount}
+                  onAssign={onAssignDesign}
+                  disabled={!isDesignAllowed}
+                />
+              ) : (
+                <RedirectButton title="Designs" count={designAndViewOfWorkspaceCount} />
+              )}
+              <RedirectButton title="Deploys" count={0} />
+            </AllocationWorkspace>
+          </AllocationColumnGrid>
+        )}
+
+        {isDesignsVisible && isViewsVisible && (
+          <AllocationColumnGrid>
+            <AllocationWorkspace onClick={(e) => e.stopPropagation()}>
+              {isDesignAllowed && isViewAllowed ? (
+                <TransferButton
+                  title="Designs/Views"
+                  count={designAndViewOfWorkspaceCount}
+                  onAssign={onAssignDesign}
+                  disabled={!(isDesignAllowed && isViewAllowed)}
+                />
+              ) : (
+                <RedirectButton title="Designs/Views" count={designAndViewOfWorkspaceCount} />
+              )}
+              <RedirectButton title="Deploys" count={0} />
+            </AllocationWorkspace>
+          </AllocationColumnGrid>
+        )}
       </Grid>
     </CardFrontWrapper>
   );

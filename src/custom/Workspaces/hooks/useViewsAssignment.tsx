@@ -14,13 +14,15 @@ interface useViewAssignmentProps {
   useGetViewsOfWorkspaceQuery: any;
   useAssignViewToWorkspaceMutation: any;
   useUnassignViewFromWorkspaceMutation: any;
+  isEnvironmentsVisible?: boolean;
 }
 
 const useViewAssignment = ({
   workspaceId,
   useGetViewsOfWorkspaceQuery,
   useAssignViewToWorkspaceMutation,
-  useUnassignViewFromWorkspaceMutation
+  useUnassignViewFromWorkspaceMutation,
+  isEnvironmentsVisible
 }: useViewAssignmentProps): AssignmentHookResult<Pattern> => {
   const [viewsPage, setviewsPage] = useState<number>(0);
   const [viewsData, setviewsData] = useState<Pattern[]>([]);
@@ -40,7 +42,7 @@ const useViewAssignment = ({
       filter: '{"assigned":false}'
     }),
     {
-      skip: skipviews
+      skip: skipviews || !isEnvironmentsVisible
     }
   );
 
@@ -51,7 +53,7 @@ const useViewAssignment = ({
       pagesize: viewsPageSize
     }),
     {
-      skip: skipviews
+      skip: skipviews || !isEnvironmentsVisible
     }
   );
 
