@@ -54,7 +54,6 @@ interface CardFrontProps {
   isTeamAllowed: boolean;
   isDesignAllowed: boolean;
   isViewAllowed: boolean;
-  isEditWorkspaceAllowed: boolean;
   isViewsVisible: boolean;
   isDesignsVisible: boolean;
   isTeamsVisible: boolean;
@@ -186,7 +185,6 @@ const WorkspaceCard = ({
         isDesignsVisible={isDesignsVisible}
         isEnvironmentsVisible={isEnvironmentsVisible}
         isTeamsVisible={isTeamsVisible}
-        isEditWorkspaceAllowed={isEditWorkspaceAllowed}
       />
 
       <CardBack
