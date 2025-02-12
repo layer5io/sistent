@@ -20,11 +20,9 @@ export const MuiListItem: Components<Theme>['MuiListItem'] = {
             text: { default: defaultText },
             icon: { default: defaultIcon },
             background: { brand }
-          },
-          typography: { fontFamily }
+          }
         } = theme;
         return {
-          fontFamily,
           textTransform: 'none',
           margin: '.5rem 0rem .5rem .5rem',
           padding: '0rem',

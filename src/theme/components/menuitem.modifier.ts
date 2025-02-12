@@ -6,11 +6,9 @@ export const MuiMenuItem: Components<Theme>['MuiMenuItem'] = {
       const {
         palette: {
           text: { tertiary }
-        },
-        typography: { fontFamily }
+        }
       } = theme;
       return {
-        fontFamily: fontFamily,
         '&:hover': {
           '& li': {
             color: tertiary,

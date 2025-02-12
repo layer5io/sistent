@@ -6,11 +6,9 @@ export const MuiAppBar: Components<Theme>['MuiAppBar'] = {
       const {
         palette: {
           background: { default: defaultBackground }
-        },
-        typography: { fontFamily }
+        }
       } = theme;
       return {
-        fontFamily,
         elevation: 2,
         background: defaultBackground
       };

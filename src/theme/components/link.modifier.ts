@@ -7,11 +7,9 @@ export const MuiLink: Components<Theme>['MuiLink'] = {
         palette: {
           text: { default: defaultText },
           background: { brand }
-        },
-        typography: { fontFamily }
+        }
       } = theme;
       return {
-        fontFamily: fontFamily,
         fontWeight: '600',
         textDecoration: 'none',
         color: defaultText,
