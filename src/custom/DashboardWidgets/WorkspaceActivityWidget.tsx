@@ -92,7 +92,7 @@ const StyledListItemText = styled(ListItemText)({
 
 const EmptyStateTypography = styled(Typography)(({ theme }) => ({
   margin: '0.5rem',
-  color: theme.palette.text.disabled
+  color: theme.palette.background.neutral?.pressed
 }));
 
 const WorkspaceActivityCard: React.FC<WorkspaceActivityCardProps> = ({

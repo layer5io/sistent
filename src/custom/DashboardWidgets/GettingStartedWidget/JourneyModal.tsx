@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
 import MesheryDesignEmbedUmd from '@layer5/meshery-design-embed';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
@@ -159,7 +161,6 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
           <MesheryDesignEmbedUmd
             embedId="embedded-design-d429e684-c42a-4c14-816b-b4dddb4b6d40"
             embedScriptSrc={embedDesignPath}
-            // embedScriptSrc={`/static/embedded-design-edge-stack.js`}
             style={{
               height: '20rem'
             }}
