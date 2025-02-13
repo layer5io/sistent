@@ -108,7 +108,15 @@ const ActionButtonCard = ({
   if (title === 'CLOUD NATIVE PLAYGROUND') {
     return (
       <BoxContainer playgroundCardBackgroundImgSrc={playgroundCardBackgroundImgSrc}>
-        <CardContent sx={{ zIndex: 2, position: 'relative' }}>
+        <CardContent
+          style={{
+            zIndex: 2,
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1rem'
+          }}
+        >
           <IconTitleWrapper>
             {icon}
             <Typography variant="h6" fontWeight="700">
@@ -148,7 +156,15 @@ const ActionButtonCard = ({
 
   return (
     <StyledCard>
-      <CardContent>
+      <CardContent
+        style={{
+          zIndex: 2,
+          position: 'relative',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem'
+        }}
+      >
         <IconTitleWrapper>
           {icon}
           <Typography variant="h6" fontWeight="700" component="div" sx={{ mx: 1 }}>
