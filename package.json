@@ -116,6 +116,7 @@
     "access": "public"
   },
   "dependencies": {
+    "@layer5/meshery-design-embed": "^0.4.0",
     "billboard.js": "^3.14.3",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
