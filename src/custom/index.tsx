@@ -152,6 +152,7 @@ export type {
 
 export * from './CatalogDesignTable';
 export * from './CatalogDetail';
+export * from './DashboardWidgets';
 export * from './Dialog';
 export * from './ResourceDetailFormatters';
 export * from './ShareModal';
