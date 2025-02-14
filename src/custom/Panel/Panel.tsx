@@ -3,7 +3,7 @@ import React from 'react';
 import Draggable from 'react-draggable';
 import { Box, BoxProps, Tooltip } from '../../base';
 import { CloseIcon, CollapseAllIcon, ExpandAllIcon, FullScreenIcon } from '../../icons';
-import { SistentThemeProviderWithoutBaseLine, useTheme } from '../../theme';
+import { useTheme } from '../../theme';
 import { ErrorBoundary } from '../ErrorBoundary';
 import {
   CustomIconButton,
@@ -31,6 +31,10 @@ export type PanelProps = {
     top?: string | number;
     bottom?: string | number;
   };
+  defaultSize?: {
+    width?: string | number;
+    height?: string | number;
+  };
   minimizePanel?: () => void;
   title?: string;
 };
@@ -42,10 +46,11 @@ const Panel_: React.FC<PanelProps> = ({
   areAllExpanded,
   toggleExpandAll,
   handleClose,
+  defaultSize,
   intitialPosition,
   sx,
   minimizePanel,
-  title = 'Debug Panel'
+  title = ''
 }) => {
   const theme = useTheme();
   if (!isOpen) return null;
@@ -53,7 +58,10 @@ const Panel_: React.FC<PanelProps> = ({
     <Draggable handle=".drag-handle">
       <PanelContainer theme={theme} intitialPosition={intitialPosition} sx={sx}>
         <Resizable
-          defaultSize={{ width: '18rem', height: 'auto' }}
+          defaultSize={{
+            width: defaultSize?.width || '18rem',
+            height: defaultSize?.height || 'auto'
+          }}
           onResize={() => {
             window.dispatchEvent(new Event('panel-resize'));
           }}
@@ -98,7 +106,9 @@ const Panel_: React.FC<PanelProps> = ({
                   </HeaderContainer>
                 </DrawerHeader>
               </div>
-              <PanelBody className="panel-body">{children}</PanelBody>
+              <PanelBody className="panel-body" theme={theme}>
+                {children}
+              </PanelBody>
             </ErrorBoundary>
           </ResizableContent>
         </Resizable>
@@ -108,9 +118,5 @@ const Panel_: React.FC<PanelProps> = ({
 };
 
 export const Panel: React.FC<PanelProps> = ({ ...props }) => {
-  return (
-    <SistentThemeProviderWithoutBaseLine>
-      <Panel_ {...props} />;
-    </SistentThemeProviderWithoutBaseLine>
-  );
+  return <Panel_ {...props} />;
 };
