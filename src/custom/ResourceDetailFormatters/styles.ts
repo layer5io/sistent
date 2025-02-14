@@ -306,5 +306,6 @@ export const KeyValueGridTitle = styled(Typography)({
 });
 
 export const KeyValueGridCell = styled(Grid)({
-  placeSelf: 'center'
+  placeSelf: 'center',
+  alignItems: 'center'
 });
