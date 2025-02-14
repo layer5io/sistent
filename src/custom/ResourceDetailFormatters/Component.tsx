@@ -1,6 +1,8 @@
-import React from 'react';
+import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
+import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
+import React, { useState } from 'react';
 import { Grid, IconButton, Typography } from '../../base';
-import { iconSmall } from '../../constants/iconsSizes';
+import { iconSmall, iconXSmall } from '../../constants/iconsSizes';
 import { CopyIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { CustomTooltip } from './../CustomTooltip';
@@ -29,7 +31,7 @@ import {
   PrimaryDetailsProps,
   SectionHeadingProps
 } from './types';
-import { splitCamelCaseString } from './utils.js';
+import { splitCamelCaseString } from './utils';
 
 export const PrimaryDetails: React.FC<PrimaryDetailsProps> = ({ title, value, hide = false }) => {
   const titleFormatted = splitCamelCaseString(title);
@@ -151,16 +153,39 @@ export const ActionIconButton: React.FC<ActionIconButtonProps> = ({ title, Icon,
   );
 };
 
-export const KeyValueInRow: React.FC<KeyValueProps> = ({ Key, Value }) => {
+export const KeyValueInRow: React.FC<KeyValueProps> = ({ Key, Value, showFold = false }) => {
+  const [isFolded, setIsFolded] = useState(true);
+
   if (!Value || !Key) return null;
+
+  const handleToggleFold = () => {
+    setIsFolded(!isFolded);
+  };
+
   return (
     <KeyValueGrid container>
       <React.Fragment key={Key}>
-        <KeyValueGridCell item xs={3}>
+        <KeyValueGridCell container xs={3} spacing={1}>
           <KeyValueGridTitle>{Key}</KeyValueGridTitle>
+          {showFold && (
+            <IconButton onClick={handleToggleFold}>
+              {isFolded ? (
+                <UnfoldMoreIcon style={iconXSmall} />
+              ) : (
+                <UnfoldLessIcon style={iconXSmall} />
+              )}
+            </IconButton>
+          )}
         </KeyValueGridCell>
         <Grid item xs={9}>
-          <div>{React.isValidElement(Value) ? Value : String(Value)}</div>
+          <div
+            style={{
+              maxHeight: showFold && isFolded ? '200px' : 'none',
+              overflow: showFold ? 'auto' : 'none'
+            }}
+          >
+            {React.isValidElement(Value) ? Value : String(Value)}
+          </div>
         </Grid>
       </React.Fragment>
     </KeyValueGrid>
