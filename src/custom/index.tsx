@@ -36,7 +36,7 @@ import { LearningCard } from './LearningCard';
 import { BasicMarkdown, RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
-import PromptComponent from './Prompt';
+import { PROMPT_VARIANTS, PromptComponent } from './Prompt';
 import ResponsiveDataTable, {
   DataTableEllipsisMenu,
   ResponsiveDataTableProps
@@ -47,7 +47,7 @@ import { TooltipIcon } from './TooltipIconButton';
 import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
-import { UsersTable } from './UsersTable';
+import { UserTableAvatarInfo, UsersTable } from './UsersTable';
 import { VisibilityChipMenu } from './VisibilityChipMenu';
 export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
@@ -57,6 +57,7 @@ export { InputSearchField } from './InputSearchField';
 export { LearningContent } from './LearningContent';
 export { NavigationNavbar } from './NavigationNavbar';
 export { Note } from './Note';
+export { Panel } from './Panel';
 export { PerformersSection, PerformersSectionButton } from './PerformersSection';
 export { SetupPreReq } from './SetupPrerequisite';
 export { StyledChapter } from './StyledChapter';
@@ -90,6 +91,7 @@ export {
   InfoTooltip,
   LearningCard,
   ModalCard,
+  PROMPT_VARIANTS,
   PopperListener,
   PromptComponent,
   ResponsiveDataTable,
@@ -102,6 +104,7 @@ export {
   TooltipIcon,
   TransferList,
   UniversalFilter,
+  UserTableAvatarInfo,
   UsersTable,
   VisibilityChipMenu,
   updateVisibleColumns,
@@ -149,6 +152,7 @@ export type {
 
 export * from './CatalogDesignTable';
 export * from './CatalogDetail';
+export * from './DashboardWidgets';
 export * from './Dialog';
 export * from './ResourceDetailFormatters';
 export * from './ShareModal';

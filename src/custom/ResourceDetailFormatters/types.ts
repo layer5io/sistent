@@ -266,4 +266,5 @@ export interface GetResourceCleanDataProps {
   activeLabels?: string[];
   showStatus?: boolean;
   router?: any;
+  container?: any;
 }

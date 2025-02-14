@@ -320,7 +320,7 @@ export const createDesignColumns = ({
             });
           }
           //@ts-ignore
-          return <DataTableEllipsisMenu actionsList={actionsList} theme={theme} />;
+          return <DataTableEllipsisMenu actionsList={actionsList} />;
         }
       }
     }

@@ -1,5 +1,5 @@
 import { PaginationProps } from '@mui/material';
-import Pagination from './Pagination';
+import Pagination, { PaginationItem } from './Pagination';
 
-export { Pagination };
+export { Pagination, PaginationItem };
 export type { PaginationProps };

@@ -15,7 +15,7 @@ import {
   TextWithLinkFormatter
 } from './Formatter';
 import { useResourceCleanData } from './useResourceCleanData';
-import { extractPodVolumnTables, splitCamelCaseString } from './utils';
+import { convertToReadableUnit, extractPodVolumnTables, splitCamelCaseString } from './utils';
 
 export {
   CodeFormatter,
@@ -33,6 +33,7 @@ export {
   StatusFormatter,
   TableDataFormatter,
   TextWithLinkFormatter,
+  convertToReadableUnit,
   extractPodVolumnTables,
   splitCamelCaseString,
   useResourceCleanData

@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '../../base';
 import { DesignIcon } from '../../icons';
 import { publishCatalogItemSchema } from '../../schemas';
-import { SistentThemeProvider } from '../../theme';
+import { useTheme } from '../../theme';
 import {
   CatalogDesignsTable,
   createDesignsColumnsConfig,
@@ -18,10 +18,8 @@ import { updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-co
 import PromptComponent from '../Prompt';
 import SearchBar from '../SearchBar';
 import AssignmentModal from './AssignmentModal';
-import EditButton from './EditButton';
 import useDesignAssignment from './hooks/useDesignAssignment';
-import { TableHeader, TableRightActionHeader } from './styles';
-
+import { L5EditIcon, TableHeader, TableRightActionHeader } from './styles';
 export interface DesignTableProps {
   workspaceId: string;
   workspaceName: string;
@@ -39,16 +37,17 @@ export interface DesignTableProps {
     workspaceName: string,
     workspaceId: string
   ) => void;
-  getDownloadUrl: (id: string) => string;
   handlePublish: (publishModal: PublishModalState, data: any) => void;
   publishModalHandler: any;
   handleUnpublishModal: (design: Pattern, modalRef: React.RefObject<any>) => void;
+  handleDownload?: (design: Pattern) => void;
   handleBulkUnpublishModal: (
     selected: any,
     designs: Pattern[],
     modalRef: React.RefObject<any>
   ) => void;
   handleShowDetails: (designId: string, designName: string) => void;
+  getDownloadUrl?: (id: string) => string;
   GenericRJSFModal: any;
   isDownloadAllowed: boolean;
   isCopyLinkAllowed: boolean;
@@ -81,10 +80,11 @@ const DesignTable: React.FC<DesignTableProps> = ({
   handleClone,
   handleCopyUrl,
   handlePublish,
+  handleDownload,
+  getDownloadUrl,
   handleShowDetails,
   handleUnpublishModal,
   handleWorkspaceDesignDeleteModal,
-  getDownloadUrl,
   publishModalHandler,
   isCopyLinkAllowed,
   isDeleteAllowed,
@@ -116,7 +116,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
       pattern: result
     });
   };
-
+  const theme = useTheme();
   const columns = createDesignsColumnsConfig({
     handleDeleteModal: (design) => () => handleWorkspaceDesignDeleteModal(design.id, workspaceId),
     handlePublishModal,
@@ -124,6 +124,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
     handleCopyUrl,
     handleClone,
     handleShowDetails,
+    handleDownload,
     getDownloadUrl,
     isCopyLinkAllowed,
     isDeleteAllowed,
@@ -131,7 +132,8 @@ const DesignTable: React.FC<DesignTableProps> = ({
     isPublishAllowed,
     isUnpublishAllowed,
     isFromWorkspaceTable: true,
-    isRemoveAllowed
+    isRemoveAllowed,
+    theme
   });
 
   const [publishSchema, setPublishSchema] = useState<{
@@ -152,7 +154,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
     return initialVisibility;
   });
 
-  const [expanded, setExpanded] = useState<boolean>(true);
+  const [expanded, setExpanded] = useState<boolean>(false);
   const handleAccordionChange = () => {
     setExpanded(!expanded);
   };
@@ -184,7 +186,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
 
   const tableHeaderContent = (
     <TableHeader>
-      <Typography variant="h6" fontWeight={'bold'}>
+      <Typography variant="body1" fontWeight={'bold'}>
         Assigned Designs
       </Typography>
       <TableRightActionHeader>
@@ -207,13 +209,17 @@ const DesignTable: React.FC<DesignTableProps> = ({
           }}
           id={'catalog-table'}
         />
-        <EditButton onClick={designAssignment.handleAssignModal} disabled={!isAssignAllowed} />
+        <L5EditIcon
+          onClick={designAssignment.handleAssignModal}
+          disabled={!isAssignAllowed}
+          title="Assign Designs"
+        />
       </TableRightActionHeader>
     </TableHeader>
   );
 
   return (
-    <SistentThemeProvider>
+    <>
       <Accordion expanded={expanded} onChange={handleAccordionChange} style={{ margin: 0 }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -242,6 +248,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
             }
             filter={'my-designs'}
             setSearch={setDesignSearch}
+            tableBackgroundColor={theme.palette.background.constant?.table}
           />
         </AccordionDetails>
       </Accordion>
@@ -257,13 +264,14 @@ const DesignTable: React.FC<DesignTableProps> = ({
         emptyStateIcon={<DesignIcon height="5rem" width="5rem" secondaryFill={'#808080'} />}
         handleAssignablePage={designAssignment.handleAssignablePage}
         handleAssignedPage={designAssignment.handleAssignedPage}
-        originalLeftCount={designAssignment.data?.length}
-        originalRightCount={designAssignment.assignedItems?.length}
+        originalLeftCount={designAssignment.data?.length || 0}
+        originalRightCount={designAssignment.assignedItems?.length || 0}
         onAssign={designAssignment.handleAssign}
         disableTransfer={designAssignment.disableTransferButton}
         helpText={`Assign Designs to ${workspaceName}`}
         isAssignAllowed={isAssignAllowed}
         isRemoveAllowed={isRemoveAllowed}
+        showViews={false}
       />
       <GenericRJSFModal
         open={publishModal.open}
@@ -275,7 +283,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
         buttonTitle="Publish"
       />
       <PromptComponent ref={modalRef} />
-    </SistentThemeProvider>
+    </>
   );
 };
 

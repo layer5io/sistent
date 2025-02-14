@@ -102,6 +102,12 @@ export const charcoal = {
   10: '#000D12'
 };
 
+export const gray = {
+  10: '#1A1A1A',
+  20: '#212121',
+  30: '#303030'
+};
+
 export const accentGrey = {
   100: '#F6F8F8',
   90: '#E8EFF3',

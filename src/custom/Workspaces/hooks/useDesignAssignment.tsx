@@ -14,13 +14,15 @@ interface useDesignAssignmentProps {
   useGetDesignsOfWorkspaceQuery: any;
   useAssignDesignToWorkspaceMutation: any;
   useUnassignDesignFromWorkspaceMutation: any;
+  isDesignsVisible?: boolean;
 }
 
 const useDesignAssignment = ({
   workspaceId,
   useGetDesignsOfWorkspaceQuery,
   useAssignDesignToWorkspaceMutation,
-  useUnassignDesignFromWorkspaceMutation
+  useUnassignDesignFromWorkspaceMutation,
+  isDesignsVisible
 }: useDesignAssignmentProps): AssignmentHookResult<Pattern> => {
   const [designsPage, setDesignsPage] = useState<number>(0);
   const [designsData, setDesignsData] = useState<Pattern[]>([]);
@@ -40,7 +42,7 @@ const useDesignAssignment = ({
       filter: '{"assigned":false}'
     }),
     {
-      skip: skipDesigns
+      skip: skipDesigns || !isDesignsVisible
     }
   );
 
@@ -51,7 +53,7 @@ const useDesignAssignment = ({
       pagesize: designsPageSize
     }),
     {
-      skip: skipDesigns
+      skip: skipDesigns || !isDesignsVisible
     }
   );
 
@@ -104,6 +106,11 @@ const useDesignAssignment = ({
     return { addedDesignsIds, removedDesignsIds };
   };
 
+  const isDesignsActivityOccurred = (allAssignedDesigns: Pattern[]): boolean => {
+    const { addedDesignsIds, removedDesignsIds } = getAddedAndRemovedDesigns(allAssignedDesigns);
+    return addedDesignsIds.length > 0 || removedDesignsIds.length > 0;
+  };
+
   const handleAssignDesigns = async (): Promise<void> => {
     const { addedDesignsIds, removedDesignsIds } = getAddedAndRemovedDesigns(assignedDesigns);
 
@@ -144,6 +151,7 @@ const useDesignAssignment = ({
     handleAssignedPage: handleAssignedPageDesign,
     handleAssign: handleAssignDesigns,
     handleAssignData: handleAssignDesignsData,
+    isActivityOccurred: isDesignsActivityOccurred,
     disableTransferButton,
     assignedItems: assignedDesigns
   };

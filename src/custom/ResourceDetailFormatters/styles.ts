@@ -52,7 +52,7 @@ export const Title = styled('span')({
   fontFamily: 'Qanelas Soft, sans-serif'
 });
 
-export const ElementData = styled('span')({
+export const ElementData = styled('div')({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
@@ -184,13 +184,20 @@ export const EnvironmentVariableValue = styled('span')({
 export const CodeFormatterPre = styled('pre')(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'light' ? '#e9eff1' : '#212121',
   color: theme.palette.text.primary,
-  width: '100%',
   wordWrap: 'break-word',
   overflowWrap: 'break-word',
   wordBreak: 'break-all',
   margin: 0,
-  padding: '0.5rem'
+  padding: '0.5rem',
+  maxWidth: '-moz-available'
 }));
+
+export const TextValue = styled(Box)({
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
+  width: 'inherit',
+  overflow: 'hidden'
+});
 
 export const CodeFormatterCode = styled('code')(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'light' ? '#e9eff1' : '#212121',

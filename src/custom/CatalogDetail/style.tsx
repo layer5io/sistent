@@ -264,8 +264,7 @@ export const RedirectLink = styled(Link)(({ theme }) => ({
 export const ShareButtonGroup = styled(ButtonGroup)({
   boxShadow: 'none',
   border: 'none',
-  outline: 'none',
-  height: '76%'
+  outline: 'none'
 });
 
 export const ShareButton = styled(Button)(({ theme }) => ({
