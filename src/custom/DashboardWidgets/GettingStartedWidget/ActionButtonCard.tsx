@@ -55,11 +55,11 @@ const ContentWrapper = styled(Box)({
   flexDirection: 'column'
 });
 
-const DescriptionTypography = styled(Typography)<{ maxWidth?: string }>(({ maxWidth }) => ({
-  marginLeft: 8,
-  marginBottom: 8,
+const DescriptionTypography = styled(Typography)<{ maxWidth?: string }>(({ theme, maxWidth }) => ({
+  marginLeft: theme.spacing(1),
+  marginBottom: theme.spacing(1),
   minHeight: '4.5rem',
-  '@media (min-width: 475px) and (max-width: 1200px)': {
+  [theme.breakpoints.between('sm', 'lg')]: {
     maxWidth: maxWidth || '100%'
   }
 }));
