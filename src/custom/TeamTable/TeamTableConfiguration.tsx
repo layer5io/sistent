@@ -122,8 +122,8 @@ export default function TeamTableConfiguration({
       name: 'id',
       label: 'ID',
       options: {
-        filter: false,
-        sort: false,
+        filter: true,
+        sort: true,
         searchable: false,
         customBodyRender: (value: string) => <FormatId id={value} />
       }
@@ -132,7 +132,7 @@ export default function TeamTableConfiguration({
       name: 'name',
       label: 'Name',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true
       }
@@ -141,7 +141,7 @@ export default function TeamTableConfiguration({
       name: 'description',
       label: 'Description',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: false,
         customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={30} />
@@ -151,7 +151,7 @@ export default function TeamTableConfiguration({
       name: 'owner',
       label: 'Owner',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true
       }
@@ -160,7 +160,7 @@ export default function TeamTableConfiguration({
       name: 'created_at',
       label: 'Created At',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: false,
         sortDescFirst: true
@@ -170,7 +170,7 @@ export default function TeamTableConfiguration({
       name: 'updated_at',
       label: 'Updated At',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: false,
         sortDescFirst: true
@@ -404,7 +404,11 @@ export default function TeamTableConfiguration({
 
   return {
     columns,
-    tableOptions: options,
+    tableOptions: {
+      ...options,
+      filter: true,
+      sort: true
+    },
     tableCols,
     updateCols,
     columnVisibility,
