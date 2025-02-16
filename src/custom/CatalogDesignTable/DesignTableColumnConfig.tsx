@@ -74,7 +74,7 @@ export const createDesignsColumnsConfig = ({
       options: {
         filter: true,
         sort: true,
-        searchable: true,
+        searchable: false,
         customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={10} />
       }
     },
@@ -173,9 +173,9 @@ export const createDesignsColumnsConfig = ({
       name: 'actions',
       label: 'Actions',
       options: {
-        filter: false,
-        sort: false,
-        searchable: false,
+        filter: true,
+        sort: true,
+        searchable: true,
         setCellHeaderProps: () => ({ align: 'center' as const }),
         setCellProps: () => ({ align: 'center' as const }),
         customBodyRender: function CustomBody(_, tableMeta: MUIDataTableMeta) {

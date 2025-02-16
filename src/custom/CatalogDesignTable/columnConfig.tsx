@@ -86,7 +86,7 @@ export const createDesignColumns = ({
       name: 'id',
       label: 'ID',
       options: {
-        filter: false,
+        filter: true,
         customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={10} />
       }
     },
@@ -94,7 +94,7 @@ export const createDesignColumns = ({
       name: 'name',
       label: 'Name',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => {
@@ -122,7 +122,7 @@ export const createDesignColumns = ({
       name: 'first_name',
       label: 'Author',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => {
@@ -154,7 +154,7 @@ export const createDesignColumns = ({
       name: 'created_at',
       label: 'Created At',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true
       }
@@ -163,7 +163,7 @@ export const createDesignColumns = ({
       name: 'updated_at',
       label: 'Updated At',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true
       }
@@ -173,7 +173,7 @@ export const createDesignColumns = ({
       label: 'Type',
       options: {
         filter: true,
-        sort: false,
+        sort: true,
         searchable: true
       }
     },
@@ -182,7 +182,7 @@ export const createDesignColumns = ({
       label: 'Class',
       options: {
         filter: true,
-        sort: false,
+        sort: true,
         searchable: true
       }
     },
@@ -190,7 +190,7 @@ export const createDesignColumns = ({
       name: 'view_count',
       label: 'Opens',
       options: {
-        filter: false,
+        filter: true,
         sort: true
       }
     },
@@ -198,7 +198,7 @@ export const createDesignColumns = ({
       name: 'download_count',
       label: 'Downloads',
       options: {
-        filter: false,
+        filter: true,
         sort: true
       }
     },
@@ -206,7 +206,7 @@ export const createDesignColumns = ({
       name: 'clone_count',
       label: 'Clones',
       options: {
-        filter: false,
+        filter: true,
         sort: true
       }
     },
@@ -214,7 +214,7 @@ export const createDesignColumns = ({
       name: 'deployment_count',
       label: 'Deploys',
       options: {
-        filter: false,
+        filter: true,
         sort: true
       }
     },
@@ -222,7 +222,7 @@ export const createDesignColumns = ({
       name: 'share_count',
       label: 'Shares',
       options: {
-        filter: false,
+        filter: true,
         sort: true
       }
     },
@@ -230,8 +230,8 @@ export const createDesignColumns = ({
       name: 'actions',
       label: 'Actions',
       options: {
-        filter: false,
-        sort: false,
+        filter: true,
+        sort: true,
         searchable: false,
         setCellHeaderProps: () => ({ align: 'center' }),
         setCellProps: () => ({ align: 'center' }),

@@ -143,7 +143,7 @@ export default function TeamTableConfiguration({
       options: {
         filter: true,
         sort: true,
-        searchable: false,
+        searchable: true,
         customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={30} />
       }
     },
@@ -200,8 +200,8 @@ export default function TeamTableConfiguration({
       name: 'actions',
       label: 'Actions',
       options: {
-        filter: false,
-        sort: false,
+        filter: true,
+        sort: true,
         searchable: false,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => {
           if (bulkSelect || tableMeta.rowData[4].Valid) {
@@ -282,7 +282,7 @@ export default function TeamTableConfiguration({
   const ExpandedRowIdx = teams?.findIndex((team) => team.id === teamId);
 
   const options = {
-    filter: false,
+    filter: true,
     selectableRows: 'none' as const,
     filterType: 'dropdown' as const,
     expandableRows: true,

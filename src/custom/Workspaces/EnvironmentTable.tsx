@@ -92,7 +92,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       name: 'id',
       label: 'ID',
       options: {
-        filter: false,
+        filter: true,
         customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={10} />
       }
     },
@@ -196,7 +196,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
   });
 
   const options = {
-    filter: false,
+    filter: true,
     responsive: 'standard',
     selectableRows: 'none',
     count: environmentsOfWorkspace?.total_count,

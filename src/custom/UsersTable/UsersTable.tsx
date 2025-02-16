@@ -393,8 +393,8 @@ const UsersTable: React.FC<UsersTableProps> = ({
       name: 'actions',
       label: 'Actions',
       options: {
-        filter: false,
-        sort: false,
+        filter: true,
+        sort: true,
         searchable: false,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) =>
           getValidColumnValue(tableMeta.rowData, 'deleted_at', columns).Valid !== false ? (
