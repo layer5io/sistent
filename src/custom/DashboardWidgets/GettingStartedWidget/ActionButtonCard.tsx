@@ -59,8 +59,15 @@ const DescriptionTypography = styled(Typography)<{ maxWidth?: string }>(({ theme
   marginLeft: theme.spacing(1),
   marginBottom: theme.spacing(1),
   minHeight: '4.5rem',
-  [theme.breakpoints.between('sm', 'lg')]: {
+  maxWidth: '100%',
+  [theme.breakpoints.up('xs')]: {
+    maxWidth: '100%'
+  },
+  [theme.breakpoints.up('sm')]: {
     maxWidth: maxWidth || '100%'
+  },
+  [theme.breakpoints.up('lg')]: {
+    maxWidth: '100%'
   }
 }));
 
