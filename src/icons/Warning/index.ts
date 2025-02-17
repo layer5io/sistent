@@ -1,0 +1,1 @@
+export { WarningIcon } from './WarningIcon';
