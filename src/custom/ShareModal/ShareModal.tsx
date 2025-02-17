@@ -93,6 +93,11 @@ const AccessList: React.FC<AccessListProps> = ({
               <ListItemText
                 primary={`${actorData.first_name || ''} ${actorData.last_name || ''}`}
                 secondary={actorData.email}
+                secondaryTypographyProps={{
+                  sx: {
+                    color: theme.palette.background.neutral?.pressed
+                  }
+                }}
               />
               <ListItemSecondaryAction>
                 {ownerData.id === actorData.id ? (
@@ -293,7 +298,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                       </CustomSelect>
                       <Typography
                         sx={{
-                          color: theme.palette.text.secondary
+                          color: theme.palette.background.neutral?.pressed
                         }}
                         component="span"
                         variant="body2"
