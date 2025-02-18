@@ -110,27 +110,6 @@
     },
     "react-dom": {
       "optional": true
-    },
-    "@layer5/meshery-design-embed": {
-      "optional": true
-    },
-    "billboard.js": {
-      "optional": true
-    },
-    "js-yaml": {
-      "optional": true
-    },
-    "moment": {
-      "optional": true
-    },
-    "re-resizable": {
-      "optional": true
-    },
-    "react-draggable": {
-      "optional": true
-    },
-    "react-share": {
-      "optional": true
     }
   },
   "publishConfig": {
