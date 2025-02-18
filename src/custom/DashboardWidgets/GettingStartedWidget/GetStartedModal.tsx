@@ -65,7 +65,7 @@ interface GetStartedModalProps {
   handleOpen: () => void;
   stepsData: StepData[];
   profileData: ProfileData;
-  useUpdateUserPrefMutation: () => [(arg: { mapObject: any }) => void, any];
+  useUpdateUserPrefMutation: any;
   useGetOrgsQuery: any;
   currentOrgId: string;
   useGetUserOrgRolesQuery: any;
@@ -74,6 +74,7 @@ interface GetStartedModalProps {
   isAssignUserRolesAllowed: boolean;
   useLazyGetTeamsQuery: any;
   embedDesignPath: string;
+  isFromMeshery: boolean;
 }
 
 const Loading: React.FC<LoadingProps> = ({ showModal, handleClose, style }) => {
@@ -164,7 +165,8 @@ const GetStartedModal: React.FC<GetStartedModalProps> = ({
   useNotificationHandlers,
   isAssignUserRolesAllowed,
   useLazyGetTeamsQuery,
-  embedDesignPath
+  embedDesignPath,
+  isFromMeshery
 }) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [clicked, setClicked] = useState<number | undefined>(undefined);
@@ -191,9 +193,14 @@ const GetStartedModal: React.FC<GetStartedModalProps> = ({
           : [...completedSteps, id]
       }
     };
-    updatePref({
-      mapObject: completeWelcome
-    });
+    // different api use for the cloud and meshery
+    if (isFromMeshery) {
+      updatePref(completeWelcome);
+    } else {
+      updatePref({
+        mapObject: completeWelcome
+      });
+    }
     if (id === 3) {
       setInviteModal(true);
     } else {

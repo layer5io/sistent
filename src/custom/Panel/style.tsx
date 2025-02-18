@@ -1,7 +1,7 @@
 import { ListItemProps } from '@mui/material';
 import { Box, IconButton, ListItem } from '../../base';
 import { PanelDragHandleIcon } from '../../icons/PanelDragHandle';
-import { accentGrey, black, styled } from '../../theme';
+import { black, styled } from '../../theme';
 import { PanelProps } from './Panel';
 
 export const ListHeader = styled(ListItem)(({ theme }) => ({
@@ -68,7 +68,7 @@ export const DrawerHeader = styled('div')(({ theme }) => ({
 
 export const PanelBody = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
-  backgroundColor: theme.palette.mode === 'light' ? accentGrey[10] : accentGrey[100],
+  backgroundColor: theme.palette.background.surfaces,
   overflow: 'auto',
   flex: 1,
   minHeight: 0
