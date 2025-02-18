@@ -74,7 +74,7 @@ export const createDesignsColumnsConfig = ({
       options: {
         filter: true,
         sort: true,
-        searchable: false,
+        searchable: true,
         customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={10} />
       }
     },
