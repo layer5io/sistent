@@ -4,7 +4,11 @@ import {
 } from '@mui/material';
 import React from 'react';
 
-const Typography = React.forwardRef<HTMLDivElement, MuiTypographyProps>((props, ref) => {
+interface ExtendedTypographyProps extends MuiTypographyProps {
+  'data-testid'?: string;
+}
+
+const Typography = React.forwardRef<HTMLDivElement, ExtendedTypographyProps>((props, ref) => {
   return <MuiTypography {...props} ref={ref} />;
 });
 
