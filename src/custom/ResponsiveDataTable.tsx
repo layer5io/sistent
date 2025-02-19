@@ -311,7 +311,7 @@ const ResponsiveDataTable = ({
     print: false,
     download: false,
     search: false,
-    filter: false,
+    filter: true,
     viewColumns: false,
     rowsPerPageOptions: rowsPerPageOptions,
     onViewColumnsChange: (column: string, action: string) => {

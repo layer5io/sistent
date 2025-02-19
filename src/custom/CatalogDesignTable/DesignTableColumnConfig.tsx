@@ -72,7 +72,9 @@ export const createDesignsColumnsConfig = ({
       name: 'id',
       label: 'ID',
       options: {
-        filter: false,
+        filter: true,
+        sort: true,
+        searchable: true,
         customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={10} />
       }
     },
@@ -80,7 +82,7 @@ export const createDesignsColumnsConfig = ({
       name: 'name',
       label: 'Name',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => {
@@ -95,7 +97,7 @@ export const createDesignsColumnsConfig = ({
       name: 'first_name',
       label: 'Author',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         customBodyRender: (_, tableMeta: MUIDataTableMeta) => {
@@ -120,7 +122,7 @@ export const createDesignsColumnsConfig = ({
       name: 'created_at',
       label: 'Created At',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         setCellHeaderProps: () => {
@@ -132,7 +134,7 @@ export const createDesignsColumnsConfig = ({
       name: 'updated_at',
       label: 'Updated At',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         setCellHeaderProps: () => {
@@ -144,8 +146,8 @@ export const createDesignsColumnsConfig = ({
       name: 'visibility',
       label: 'Visibility',
       options: {
-        filter: false,
-        sort: false,
+        filter: true,
+        sort: true,
         searchable: true
       }
     },
@@ -153,29 +155,27 @@ export const createDesignsColumnsConfig = ({
       name: 'user_id',
       label: 'User ID',
       options: {
-        filter: false,
-        sort: false,
-        searchable: false
+        filter: true,
+        sort: true,
+        searchable: true
       }
     },
-
     {
       name: 'email',
-      label: 'email',
+      label: 'Email',
       options: {
-        filter: false,
-        sort: false,
-        searchable: false
+        filter: true,
+        sort: true,
+        searchable: true
       }
     },
-
     {
       name: 'actions',
       label: 'Actions',
       options: {
-        filter: false,
-        sort: false,
-        searchable: false,
+        filter: true,
+        sort: true,
+        searchable: true,
         setCellHeaderProps: () => ({ align: 'center' as const }),
         setCellProps: () => ({ align: 'center' as const }),
         customBodyRender: function CustomBody(_, tableMeta: MUIDataTableMeta) {

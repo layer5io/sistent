@@ -13,7 +13,7 @@ export function ResponsiveDataTable({ data, columns, options = {}, ...props }) {
       year: 'numeric'
     };
 
-    return new Intl.DateTimeFormat('un-US', dateOptions).format(date);
+    return new Intl.DateTimeFormat('en-US', dateOptions).format(date);
   };
 
   const updatedOptions = {
@@ -37,7 +37,11 @@ export function ResponsiveDataTable({ data, columns, options = {}, ...props }) {
           break;
         }
       }
-    }
+    },
+    filter: true,
+    sort: true,
+    responsive: 'standard',
+    serverSide: false,
   };
 
   useEffect(() => {
@@ -45,6 +49,9 @@ export function ResponsiveDataTable({ data, columns, options = {}, ...props }) {
       if (!col.options) {
         col.options = {};
       }
+
+      col.options.sort = true;
+      col.options.filter = true;
       col.options.display = columnVisibility[col.name];
 
       if (
