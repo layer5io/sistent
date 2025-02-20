@@ -101,7 +101,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       name: 'id',
       label: 'ID',
       options: {
-        filter: false,
+        filter: true,
         customBodyRender: (value) => <ConditionalTooltip value={value} maxLength={10} />
       }
     },
@@ -109,7 +109,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       name: 'name',
       label: 'Name',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         customBodyRender: (value, tableMeta) => {
@@ -127,8 +127,8 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       name: 'avatar_url',
       label: 'Owner',
       options: {
-        filter: false,
-        sort: false,
+        filter: true,
+        sort: true,
         searchable: false,
         customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => {
           const getValidColumnValue = (
@@ -156,7 +156,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       name: 'email',
       label: 'Email',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true
       }
@@ -165,7 +165,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       name: 'first_name',
       label: 'First Name',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true
       }
@@ -174,7 +174,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       name: 'last_name',
       label: 'Last Name',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true
       }
@@ -183,7 +183,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       name: 'created_at',
       label: 'Created At',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         setCellHeaderProps: () => {
@@ -195,7 +195,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       name: 'updated_at',
       label: 'Updated At',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         setCellHeaderProps: () => {
@@ -207,8 +207,8 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       name: 'visibility',
       label: 'Visibility',
       options: {
-        filter: false,
-        sort: false,
+        filter: true,
+        sort: true,
         searchable: true,
         setCellHeaderProps: () => {
           return { align: 'center' };
@@ -219,8 +219,8 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       name: 'actions',
       label: 'Actions',
       options: {
-        filter: false,
-        sort: false,
+        filter: true,
+        sort: true,
         searchable: false,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => (
           <IconWrapper disabled={!isRemoveAllowed}>
@@ -262,7 +262,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   });
 
   const options = {
-    filter: false,
+    filter: true,
     responsive: 'standard',
     selectableRows: 'none',
     count: viewsOfWorkspace?.total_count,
