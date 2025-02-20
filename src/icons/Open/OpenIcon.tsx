@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
+
 export const OpenIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,

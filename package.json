@@ -81,10 +81,8 @@
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.15.11",
-    "@types/mui-datatables": "*",
     "@xstate/react": "^4.1.1",
     "lodash": "^4.17.21",
-    "mui-datatables": "*",
     "react": ">=17",
     "react-dom": ">=17",
     "xstate": "^5.18.2"
@@ -102,9 +100,6 @@
     "@mui/material": {
       "optional": true
     },
-    "mui-datatables": {
-      "optional": true
-    },
     "react": {
       "optional": true
     },
@@ -116,12 +111,15 @@
     "access": "public"
   },
   "dependencies": {
+    "@layer5/meshery-design-embed": "^0.4.0",
     "billboard.js": "^3.14.3",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "re-resizable": "^6.10.3",
     "react-draggable": "^4.4.6",
-    "react-share": "^5.1.0"
+    "react-share": "^5.1.0",
+    "mui-datatables": "*",
+    "@types/mui-datatables": "*"
   }
 }

@@ -183,7 +183,8 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
     workspaceId,
     useGetEnvironmentsOfWorkspaceQuery,
     useUnassignEnvironmentFromWorkspaceMutation,
-    useAssignEnvironmentToWorkspaceMutation
+    useAssignEnvironmentToWorkspaceMutation,
+    isEnvironmentsVisible: isAssignAllowed || isRemoveAllowed
   });
 
   const [columnVisibility, setColumnVisibility] = useState<Record<string, boolean>>(() => {
