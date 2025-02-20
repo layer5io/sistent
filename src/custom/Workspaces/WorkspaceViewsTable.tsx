@@ -248,7 +248,8 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     workspaceId,
     useGetViewsOfWorkspaceQuery,
     useUnassignViewFromWorkspaceMutation,
-    useAssignViewToWorkspaceMutation
+    useAssignViewToWorkspaceMutation,
+    isViewsVisible: isAssignAllowed || isRemoveAllowed
   });
 
   const [columnVisibility, setColumnVisibility] = useState<Record<string, boolean>>(() => {
