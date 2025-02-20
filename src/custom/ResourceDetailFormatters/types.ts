@@ -64,6 +64,7 @@ export interface ActionIconButtonProps {
 export interface KeyValueProps {
   Key: string;
   Value: string | number | ReactNode;
+  showFold?: boolean;
 }
 
 export interface EnvironmentFormatterProps {
@@ -264,5 +265,6 @@ export interface GetResourceCleanDataProps {
   dispatchMsgToEditor?: (msg: any) => void;
   activeLabels?: string[];
   showStatus?: boolean;
+  router?: any;
   container?: any;
 }

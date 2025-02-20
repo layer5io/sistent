@@ -8,13 +8,15 @@ interface UseEnvironmentAssignmentProps {
   useGetEnvironmentsOfWorkspaceQuery: any;
   useAssignEnvironmentToWorkspaceMutation: any;
   useUnassignEnvironmentFromWorkspaceMutation: any;
+  isEnvironmentsVisible?: boolean;
 }
 
 const useEnvironmentAssignment = ({
   workspaceId,
   useGetEnvironmentsOfWorkspaceQuery,
   useAssignEnvironmentToWorkspaceMutation,
-  useUnassignEnvironmentFromWorkspaceMutation
+  useUnassignEnvironmentFromWorkspaceMutation,
+  isEnvironmentsVisible
 }: UseEnvironmentAssignmentProps): AssignmentHookResult<Environment> => {
   const [environmentsPage, setEnvironmentsPage] = useState<number>(0);
   const [environmentsData, setEnvironmentsData] = useState<Environment[]>([]);
@@ -34,7 +36,7 @@ const useEnvironmentAssignment = ({
       filter: '{"assigned":false}'
     }),
     {
-      skip: skipEnvironments
+      skip: skipEnvironments || !isEnvironmentsVisible
     }
   );
 
@@ -45,7 +47,7 @@ const useEnvironmentAssignment = ({
       pagesize: environmentsPageSize
     }),
     {
-      skip: skipEnvironments
+      skip: skipEnvironments || !isEnvironmentsVisible
     }
   );
 

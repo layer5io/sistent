@@ -1,0 +1,1 @@
+export { CheckCircleIcon } from './CheckCircleIcon';

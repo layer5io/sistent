@@ -1,18 +1,19 @@
 import { Resizable } from 're-resizable';
 import React from 'react';
 import Draggable from 'react-draggable';
-import { Box, BoxProps, IconButton, Tooltip } from '../../base';
-import { CloseIcon, CollapseAllIcon, ExpandAllIcon } from '../../icons';
-import { PanelDragHandleIcon } from '../../icons/PanelDragHandle';
+import { Box, BoxProps, Tooltip } from '../../base';
+import { CloseIcon, CollapseAllIcon, ExpandAllIcon, FullScreenIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { ErrorBoundary } from '../ErrorBoundary';
 import {
+  CustomIconButton,
   DragHandle,
   DrawerHeader,
   HeaderActionsContainer,
   HeaderContainer,
   PanelBody,
   PanelContainer,
+  PanelTitle,
   ResizableContent
 } from './style';
 
@@ -30,6 +31,12 @@ export type PanelProps = {
     top?: string | number;
     bottom?: string | number;
   };
+  defaultSize?: {
+    width?: string | number;
+    height?: string | number;
+  };
+  minimizePanel?: () => void;
+  title?: string;
 };
 
 const Panel_: React.FC<PanelProps> = ({
@@ -39,8 +46,11 @@ const Panel_: React.FC<PanelProps> = ({
   areAllExpanded,
   toggleExpandAll,
   handleClose,
+  defaultSize,
   intitialPosition,
-  sx
+  sx,
+  minimizePanel,
+  title = ''
 }) => {
   const theme = useTheme();
   if (!isOpen) return null;
@@ -48,7 +58,10 @@ const Panel_: React.FC<PanelProps> = ({
     <Draggable handle=".drag-handle">
       <PanelContainer theme={theme} intitialPosition={intitialPosition} sx={sx}>
         <Resizable
-          defaultSize={{ width: '18rem', height: 'auto' }}
+          defaultSize={{
+            width: defaultSize?.width || '18rem',
+            height: defaultSize?.height || 'auto'
+          }}
           onResize={() => {
             window.dispatchEvent(new Event('panel-resize'));
           }}
@@ -70,26 +83,32 @@ const Panel_: React.FC<PanelProps> = ({
                   <Box display="flex" justifyContent="flex-end" padding="8px">
                     {toggleExpandAll && (
                       <Tooltip title={areAllExpanded ? 'Collapse All' : 'Expand All'}>
-                        <IconButton onClick={toggleExpandAll}>
+                        <CustomIconButton onClick={toggleExpandAll}>
                           {areAllExpanded ? <CollapseAllIcon /> : <ExpandAllIcon />}
-                        </IconButton>
+                        </CustomIconButton>
                       </Tooltip>
                     )}
                   </Box>
-                  <DragHandle>
-                    <PanelDragHandleIcon />
-                  </DragHandle>
+                  <DragHandle />
                   <HeaderContainer>
                     <HeaderActionsContainer
                       id={`${id}-panel-header-actions-container`}
                     ></HeaderActionsContainer>
-                    <IconButton onClick={handleClose}>
-                      <CloseIcon />
-                    </IconButton>
+                    <PanelTitle>{title}</PanelTitle>
+                    {minimizePanel && (
+                      <CustomIconButton onClick={minimizePanel}>
+                        <FullScreenIcon fill={theme.palette.common.white} />
+                      </CustomIconButton>
+                    )}
+                    <CustomIconButton onClick={handleClose}>
+                      <CloseIcon fill={theme.palette.common.white} />
+                    </CustomIconButton>
                   </HeaderContainer>
                 </DrawerHeader>
               </div>
-              <PanelBody className="panel-body">{children}</PanelBody>
+              <PanelBody className="panel-body" theme={theme}>
+                {children}
+              </PanelBody>
             </ErrorBoundary>
           </ResizableContent>
         </Resizable>

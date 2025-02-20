@@ -14,13 +14,15 @@ interface useDesignAssignmentProps {
   useGetDesignsOfWorkspaceQuery: any;
   useAssignDesignToWorkspaceMutation: any;
   useUnassignDesignFromWorkspaceMutation: any;
+  isDesignsVisible?: boolean;
 }
 
 const useDesignAssignment = ({
   workspaceId,
   useGetDesignsOfWorkspaceQuery,
   useAssignDesignToWorkspaceMutation,
-  useUnassignDesignFromWorkspaceMutation
+  useUnassignDesignFromWorkspaceMutation,
+  isDesignsVisible
 }: useDesignAssignmentProps): AssignmentHookResult<Pattern> => {
   const [designsPage, setDesignsPage] = useState<number>(0);
   const [designsData, setDesignsData] = useState<Pattern[]>([]);
@@ -40,7 +42,7 @@ const useDesignAssignment = ({
       filter: '{"assigned":false}'
     }),
     {
-      skip: skipDesigns
+      skip: skipDesigns || !isDesignsVisible
     }
   );
 
@@ -51,7 +53,7 @@ const useDesignAssignment = ({
       pagesize: designsPageSize
     }),
     {
-      skip: skipDesigns
+      skip: skipDesigns || !isDesignsVisible
     }
   );
 
