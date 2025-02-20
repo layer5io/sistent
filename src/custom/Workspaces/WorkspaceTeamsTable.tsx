@@ -70,7 +70,8 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
     workspaceId,
     useGetTeamsOfWorkspaceQuery,
     useAssignTeamToWorkspaceMutation,
-    useUnassignTeamFromWorkspaceMutation
+    useUnassignTeamFromWorkspaceMutation,
+    isTeamsVisible: isAssignTeamAllowed || isRemoveTeamFromWorkspaceAllowed
   });
 
   const handleRemoveTeamFromWorkspace = (teamId: string): void => {

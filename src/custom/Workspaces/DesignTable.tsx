@@ -181,7 +181,8 @@ const DesignTable: React.FC<DesignTableProps> = ({
     workspaceId,
     useAssignDesignToWorkspaceMutation,
     useUnassignDesignFromWorkspaceMutation,
-    useGetDesignsOfWorkspaceQuery: useGetWorkspaceDesignsQuery
+    useGetDesignsOfWorkspaceQuery: useGetWorkspaceDesignsQuery,
+    isDesignsVisible: isAssignAllowed || isRemoveAllowed
   });
 
   const tableHeaderContent = (
