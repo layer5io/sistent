@@ -69,8 +69,6 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           handleCopyUrl={handleCopyUrl}
           showShareAction={showShareAction}
           handleShare={handleShare}
-          isVisibilityEnabled={isVisibilityEnabled}
-          handleVisibilityChange={handleVisibilityChange}
         />
       </div>
       <Grid container spacing={2}>
@@ -85,7 +83,13 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
                   />
                 </ContentRow>
               )}
-              <UserInfo details={details} showVersion={showVersion} userProfile={userProfile} />
+              <UserInfo
+                details={details}
+                showVersion={showVersion}
+                userProfile={userProfile}
+                isVisibilityEnabled={isVisibilityEnabled}
+                handleVisibilityChange={handleVisibilityChange}
+              />
             </Grid>
           </Grid>
         </Grid>

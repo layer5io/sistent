@@ -1,7 +1,10 @@
 import { Avatar } from '../../base';
 import { CLOUD_URL } from '../../constants/constants';
+import { LockIcon, PublicIcon } from '../../icons';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { getVersion } from '../CustomCatalog/Helper';
+import { VisibilityChipMenu } from '../VisibilityChipMenu';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import { formatDate } from './helper';
 import { ContentDetailsPoints, ContentDetailsText, ContentRow, RedirectLink } from './style';
 import { UserProfile } from './types';
@@ -10,9 +13,17 @@ interface UserInfoProps {
   details: Pattern;
   showVersion?: boolean;
   userProfile?: UserProfile;
+  isVisibilityEnabled: boolean;
+  handleVisibilityChange: (visibility: VIEW_VISIBILITY) => void;
 }
 
-const UserInfo: React.FC<UserInfoProps> = ({ details, showVersion = true, userProfile }) => {
+const UserInfo: React.FC<UserInfoProps> = ({
+  details,
+  showVersion = true,
+  userProfile,
+  isVisibilityEnabled,
+  handleVisibilityChange
+}) => {
   return (
     <>
       <ContentRow>
@@ -57,6 +68,18 @@ const UserInfo: React.FC<UserInfoProps> = ({ details, showVersion = true, userPr
           <ContentDetailsText>{getVersion(details)}</ContentDetailsText>
         </ContentRow>
       )}
+      <ContentRow>
+        <ContentDetailsPoints>VISIBILITY</ContentDetailsPoints>
+        <VisibilityChipMenu
+          value={details?.visibility as VIEW_VISIBILITY}
+          onChange={(value) => handleVisibilityChange(value as VIEW_VISIBILITY)}
+          enabled={isVisibilityEnabled}
+          options={[
+            [VIEW_VISIBILITY.PUBLIC, PublicIcon],
+            [VIEW_VISIBILITY.PRIVATE, LockIcon]
+          ]}
+        />
+      </ContentRow>
     </>
   );
 };
