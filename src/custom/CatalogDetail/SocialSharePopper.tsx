@@ -1,23 +1,11 @@
 import React, { useState } from 'react';
-
-import {
-  ChainIcon,
-  FacebookIcon,
-  LinkedinIcon,
-  LockIcon,
-  PublicIcon,
-  ShareIcon,
-  TwitterIcon
-} from '../../icons';
+import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
+import { Box, IconButton, Menu, MenuItem, Typography } from '../../base';
+import { ChainIcon, FacebookIcon, LinkedinIcon, ShareIcon, TwitterIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { CustomTooltip } from '../CustomTooltip';
 import { ErrorBoundary } from '../ErrorBoundary';
-
-import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
-import { Box, IconButton, Menu, MenuItem, Typography } from '../../base';
-import { VisibilityChipMenu } from '../VisibilityChipMenu';
-import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import { CopyShareIconWrapper, ShareButton, ShareButtonGroup, ShareSideButton } from './style';
 
 interface SocialSharePopperProps {
@@ -29,8 +17,6 @@ interface SocialSharePopperProps {
   handleCopyUrl: (type: string, name: string, id: string) => void;
   showShareAction: boolean;
   handleShare: () => void;
-  isVisibilityEnabled: boolean;
-  handleVisibilityChange: (visibility: VIEW_VISIBILITY) => void;
 }
 
 const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
@@ -40,9 +26,7 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
   title,
   getUrl,
   handleCopyUrl,
-  handleShare,
-  isVisibilityEnabled,
-  handleVisibilityChange
+  handleShare
 }) => {
   const theme = useTheme();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -61,16 +45,6 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
   return (
     <ErrorBoundary>
       <CopyShareIconWrapper style={{ marginBottom: '2rem' }}>
-        <VisibilityChipMenu
-          value={details?.visibility as VIEW_VISIBILITY}
-          onChange={(value) => handleVisibilityChange(value as VIEW_VISIBILITY)}
-          enabled={isVisibilityEnabled}
-          options={[
-            [VIEW_VISIBILITY.PUBLIC, PublicIcon],
-            [VIEW_VISIBILITY.PRIVATE, LockIcon]
-          ]}
-        />
-
         <ShareButtonGroup variant="contained">
           <CustomTooltip title="Change access and visibility">
             <ShareButton variant="contained" onClick={handleShare}>
