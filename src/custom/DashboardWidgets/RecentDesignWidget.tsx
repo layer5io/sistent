@@ -159,7 +159,6 @@ const DesignCard: React.FC<DesignCardProps> = ({
     <>
       <Card
         sx={{
-          minWidth: 275,
           height: '100%',
           backgroundColor:
             theme.palette.mode === 'dark'
