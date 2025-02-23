@@ -67,7 +67,7 @@ build:
 
 ```
 attach sistent to your project:
-	npm install [path to sistent repo ]
+	npm install <path-to-sistent-on-local-machine>
 ```
 
 > [!NOTE]
