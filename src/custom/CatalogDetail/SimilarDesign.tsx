@@ -2,7 +2,6 @@ import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { useRef } from 'react';
 import { CatalogCardDesignLogo } from '../CustomCatalog';
 import CustomCatalogCard, { Pattern } from '../CustomCatalog/CustomCard';
-import { getHeadingText } from './helper';
 import {
   AdditionalContainer,
   CarouselButton,
@@ -15,9 +14,12 @@ import { UserProfile } from './types';
 export interface PatternsPerUser {
   patterns: Pattern[];
 }
-
-interface RelatedDesignsProps {
+export interface DetailsByType {
+  patterns: Pattern[];
+}
+interface SimilarDesignProps {
   details: Pattern;
+  detailsByType: DetailsByType;
   type: string;
   patternsPerUser: PatternsPerUser;
   onSuggestedPatternClick: (pattern: Pattern) => void;
@@ -28,24 +30,21 @@ interface RelatedDesignsProps {
   fetchingOrgError: boolean;
 }
 
-const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
+const SimilarDesign: React.FC<SimilarDesignProps> = ({
   details,
+  detailsByType,
   type,
-  patternsPerUser,
   onSuggestedPatternClick,
   userProfile,
   technologySVGPath,
-  technologySVGSubpath,
-  orgName,
-  fetchingOrgError
+  technologySVGSubpath
 }) => {
   const carouselRef = useRef<HTMLDivElement>(null);
-  const filteredPatternsPerUser = patternsPerUser?.patterns?.filter(
-    (pattern) => pattern.id !== details.id
-  );
 
-  if (!filteredPatternsPerUser?.length) return null;
-  const organizationName = fetchingOrgError || !orgName ? 'Unknown Organization' : orgName;
+  const filteredPatterns = detailsByType?.patterns?.filter((pattern) => pattern.id !== details.id);
+
+  if (!filteredPatterns?.length) return null;
+  const organizationName = 'Similar Designs by Type';
 
   const scroll = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
@@ -56,19 +55,18 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
       });
     }
   };
+
   return (
     <AdditionalContainer>
       <ContentHeading>
-        <h2 style={{ margin: '0', textTransform: 'uppercase' }}>
-          {getHeadingText({ type, userProfile, organizationName, fetchingOrgError })}
-        </h2>
+        <h2 style={{ margin: '0', textTransform: 'uppercase' }}>{organizationName}</h2>
       </ContentHeading>
       <CarouselWrapper>
         <CarouselButton onClick={() => scroll('left')}>
           <ChevronLeft />
         </CarouselButton>
         <CarouselContainer ref={carouselRef}>
-          {filteredPatternsPerUser.map((pattern, index) => (
+          {filteredPatterns.map((pattern, index) => (
             <div key={`design-${index}`} className="carousel-item">
               <CustomCatalogCard
                 pattern={pattern}
@@ -82,7 +80,7 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
               >
                 <CatalogCardDesignLogo
                   imgURL={pattern?.catalog_data?.imageURL}
-                  height={'5.5rem'}
+                  height={'7.5rem'}
                   width={'100%'}
                   zoomEffect={false}
                   type={{ type: type }}
@@ -99,4 +97,4 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
   );
 };
 
-export default RelatedDesigns;
+export default SimilarDesign;

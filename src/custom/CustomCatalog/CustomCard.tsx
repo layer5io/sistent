@@ -114,7 +114,7 @@ const ClassWrap = ({ catalogClassName }: { catalogClassName: string }) => {
 const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   pattern,
   patternType,
-  cardHeight = '18rem',
+  cardHeight = '16.5rem',
   cardWidth = '15rem',
   cardStyles,
   shouldFlip = true,

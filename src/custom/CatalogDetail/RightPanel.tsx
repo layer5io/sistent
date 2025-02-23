@@ -4,10 +4,12 @@ import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import CaveatsSection from './CaveatsSection';
 import OverviewSection from './OverviewSection';
 import RelatedDesigns, { PatternsPerUser } from './RelatedDesigns';
+import SimilarDesign, { DetailsByType } from './SimilarDesign';
 import { Class } from './types';
 
 interface RightPanelProps {
   details: Pattern;
+  detailsByType: DetailsByType;
   type: string;
   cardId?: string;
   title: string;
@@ -35,6 +37,7 @@ interface RightPanelProps {
 
 const RightPanel: React.FC<RightPanelProps> = ({
   details,
+  detailsByType,
   type,
   cardId = details.id,
   title,
@@ -64,7 +67,7 @@ const RightPanel: React.FC<RightPanelProps> = ({
   });
 
   return (
-    <div style={{ fontFamily }}>
+    <div>
       <OverviewSection
         details={details}
         type={cleanedType}
@@ -86,6 +89,18 @@ const RightPanel: React.FC<RightPanelProps> = ({
       {showCaveats && <CaveatsSection details={details} />}
       <RelatedDesigns
         details={details}
+        orgName={orgName}
+        fetchingOrgError={fetchingOrgError}
+        type={type}
+        patternsPerUser={patternsPerUser}
+        onSuggestedPatternClick={onSuggestedPatternClick}
+        userProfile={userProfile}
+        technologySVGPath={technologySVGPath}
+        technologySVGSubpath={technologySVGSubpath}
+      />
+      <SimilarDesign
+        details={details}
+        detailsByType={detailsByType}
         orgName={orgName}
         fetchingOrgError={fetchingOrgError}
         type={type}
