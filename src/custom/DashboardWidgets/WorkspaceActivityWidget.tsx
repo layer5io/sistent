@@ -40,7 +40,6 @@ interface WorkspaceActivityCardProps {
 
 const StyledCard = styled(Card)(({ theme }) => ({
   padding: '1rem',
-  minWidth: 275,
   height: '100%',
   overflowY: 'auto',
   backgroundColor:
