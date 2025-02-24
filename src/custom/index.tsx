@@ -3,6 +3,7 @@ import { BBChart } from './BBChart';
 import { BookmarkNotification } from './BookmarkNotification';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ChapterCard } from './ChapterCard';
+import { CollaboratorAvatarGroup } from './CollaboratorAvatarGroup';
 import { ConnectionChip } from './ConnectionChip';
 import { CatalogCardDesignLogo, CustomCatalogCard, EmptyStateCard } from './CustomCatalog';
 import {
@@ -74,6 +75,7 @@ export {
   CatalogCardDesignLogo,
   CatalogFilter,
   ChapterCard,
+  CollaboratorAvatarGroup,
   ConnectionChip,
   CustomCatalogCard,
   CustomColumnVisibilityControl,
