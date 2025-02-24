@@ -344,7 +344,7 @@ export const DescriptionGrid = styled(Grid)({
 });
 
 export const AllocationColumnGrid = styled(Grid)({
-  width: '-moz-available'
+  width: '100%'
 });
 
 export const CardWrapper = styled(Card)(({ theme }) => ({
