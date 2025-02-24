@@ -100,9 +100,6 @@ const CollaboratorAvatarGroup = ({ users }: CollaboratorAvatarGroupProps): JSX.E
                 alt={user.name}
                 src={user.avatar_url}
                 borderColor={user.border_color}
-                style={{
-                  border: `1.25px solid ${user.border_color} !important`
-                }}
                 imgProps={{ referrerPolicy: 'no-referrer' }}
                 onClick={() => openInNewTab(`https://${CLOUD_URL}/user/${user.user_id}`)}
               />
@@ -145,9 +142,6 @@ const CollaboratorAvatarGroup = ({ users }: CollaboratorAvatarGroupProps): JSX.E
                     alt={user.name}
                     src={user.avatar_url}
                     borderColor={user.border_color}
-                    style={{
-                      border: `1.25px solid ${user.border_color} !important`
-                    }}
                     imgProps={{ referrerPolicy: 'no-referrer' }}
                   />
                   <UserName variant="body1">{user.name}</UserName>
