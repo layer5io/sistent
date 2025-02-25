@@ -280,7 +280,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
             </DesignDetailsDiv>
 
             {isDetailed && (
-              <DesignDetailsDiv style={{ marginTop: '40px' }}>
+              <DesignDetailsDiv style={{ marginTop: '20px' }}>
                 <Grid container style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <Grid
                     item
