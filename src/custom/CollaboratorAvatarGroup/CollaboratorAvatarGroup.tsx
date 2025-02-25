@@ -2,7 +2,8 @@ import { ExpandMore } from '@mui/icons-material';
 import { MouseEvent, useState } from 'react';
 import { Avatar, AvatarGroup, Popover, Typography } from '../../base';
 import { CLOUD_URL } from '../../constants/constants';
-import { styled } from '../../theme';
+import { iconSmall } from '../../constants/iconsSizes';
+import { styled, useTheme } from '../../theme';
 import { CustomTooltip } from '../CustomTooltip';
 
 interface User {
@@ -18,6 +19,7 @@ interface Users {
 
 interface CollaboratorAvatarGroupProps {
   users: Users;
+  providerUrl: string;
 }
 
 interface StyledAvatarProps {
@@ -28,7 +30,7 @@ const StyledAvatar = styled(Avatar)<StyledAvatarProps>(({ theme, borderColor }) 
     width: theme.spacing(4),
     height: theme.spacing(4),
     cursor: 'pointer',
-    border: `1.25px solid ${borderColor} !important`
+    border: `2px solid ${borderColor} !important`
   };
 });
 
@@ -70,7 +72,10 @@ const StyledPopover = styled(Popover)(() => ({
   }
 }));
 
-const CollaboratorAvatarGroup = ({ users }: CollaboratorAvatarGroupProps): JSX.Element => {
+const CollaboratorAvatarGroup = ({
+  users,
+  providerUrl
+}: CollaboratorAvatarGroupProps): JSX.Element => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const openInNewTab = (url: string): void => {
@@ -87,7 +92,7 @@ const CollaboratorAvatarGroup = ({ users }: CollaboratorAvatarGroupProps): JSX.E
 
   const totalUsers = Object.entries(users).length;
   const visibleAvatars = 4;
-
+  const theme = useTheme();
   return (
     <AvatarGroup max={visibleAvatars + 1}>
       {Object.entries(users)
@@ -101,7 +106,7 @@ const CollaboratorAvatarGroup = ({ users }: CollaboratorAvatarGroupProps): JSX.E
                 src={user.avatar_url}
                 borderColor={user.border_color}
                 imgProps={{ referrerPolicy: 'no-referrer' }}
-                onClick={() => openInNewTab(`https://${CLOUD_URL}/user/${user.user_id}`)}
+                onClick={() => openInNewTab(`${providerUrl}/user/${user.user_id}`)}
               />
             </CustomTooltip>
           );
@@ -110,9 +115,16 @@ const CollaboratorAvatarGroup = ({ users }: CollaboratorAvatarGroupProps): JSX.E
         <>
           <MoreAvatarButton onClick={handleClick} aria-describedby="user-popover">
             {anchorEl ? (
-              <ExpandMore fill="#fff" width={20} height={20} style={{ marginLeft: '4px' }} />
+              <ExpandMore
+                fill={theme.palette.common.white}
+                {...iconSmall}
+                style={{ marginLeft: '4px' }}
+              />
             ) : (
-              <Typography variant="body2" style={{ color: '#fff', fontSize: '12px' }}>
+              <Typography
+                variant="body2"
+                style={{ color: theme.palette.common.white, fontSize: '12px' }}
+              >
                 {`+${totalUsers - visibleAvatars}`}
               </Typography>
             )}
