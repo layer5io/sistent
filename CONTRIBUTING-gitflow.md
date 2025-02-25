@@ -14,10 +14,10 @@ While this isn't an absolutely necessary step, if you plan on doing anything mor
 ## Add 'upstream' repo to list of remotes
 
 ```
-git remote add upstream https://github.com/layer5io/meshery.git
+git remote add upstream https://github.com/layer5io/sistent.git
 ```
 
-("meshery" is used as the example repo. Be sure to reference the _actual_ repo you're contributing to e.g. "meshery-linkerd").
+Note: Replace "sistent" with the actual repository name if contributing to a different project under Layer5, such as "docs"
 
 ## Verify the new remote named 'upstream'
 
