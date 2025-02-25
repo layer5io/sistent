@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { ArrowBack, ArrowForward } from '@mui/icons-material';
 import { memo, useMemo } from 'react';
+import Carousel from 'react-material-ui-carousel';
 import {
   CloneIcon,
   DeploymentsIcon,
@@ -299,17 +301,20 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
         </Title>
         <CardsContainer>
           {isLoading && <StateCardSekeleton />}
-          {!isLoading &&
-            stats.map((stat, index) => (
-              <StatCard
-                key={`${stat.id}-${index}`}
-                {...stat}
-                onCardClick={onCardClick}
-                onIconClick={onIconClick}
-                onAuthorClick={onAuthorClick}
-                onStatusClick={onStatusClick}
-              />
-            ))}
+          {!isLoading && (
+            <Carousel PrevIcon={<ArrowBack />} NextIcon={<ArrowForward />} swipe>
+              {stats.map((stat, index) => (
+                <StatCard
+                  key={`${stat.id}-${index}`}
+                  {...stat}
+                  onCardClick={onCardClick}
+                  onIconClick={onIconClick}
+                  onAuthorClick={onAuthorClick}
+                  onStatusClick={onStatusClick}
+                />
+              ))}
+            </Carousel>
+          )}
         </CardsContainer>
       </MainContainer>
     </ErrorBoundary>

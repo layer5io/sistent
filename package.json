@@ -112,14 +112,16 @@
   },
   "dependencies": {
     "@layer5/meshery-design-embed": "^0.4.0",
+    "@rollup/rollup-darwin-arm64": "^4.34.8",
+    "@types/mui-datatables": "*",
     "billboard.js": "^3.14.3",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
+    "mui-datatables": "*",
     "re-resizable": "^6.10.3",
     "react-draggable": "^4.4.6",
-    "react-share": "^5.1.0",
-    "mui-datatables": "*",
-    "@types/mui-datatables": "*"
+    "react-material-ui-carousel": "^3.4.2",
+    "react-share": "^5.1.0"
   }
 }
