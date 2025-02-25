@@ -243,6 +243,12 @@ const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
           root: {
             '&.Mui-disabled': {
               cursor: 'not-allowed'
+            },
+            '&:nth-of-type(even)': {
+              backgroundColor: theme.palette.action.hover
+            },
+            '&:nth-of-type(odd)': {
+              backgroundColor: theme.palette.background.default
             }
           }
         }

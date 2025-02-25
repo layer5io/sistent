@@ -93,7 +93,7 @@ export const DesignCard = styled('div')<DesignCardProps>(
     }),
     ...(isDetailed && {
       [theme.breakpoints.down('lg')]: {
-        height: '18.75rem'
+        height: '16.75rem'
       }
     }),
     ...outerStyles
@@ -150,7 +150,7 @@ export const DesignName = styled(Typography)(({ theme }) => ({
   textOverflow: 'ellipsis',
   textAlign: 'center',
   width: '100%',
-  margin: '3rem 0 1.59rem 0',
+  margin: '2rem 0 1.59rem 0',
   fontFamily: 'inherit'
 }));
 

@@ -8,7 +8,7 @@ interface CopyIconProps {
   secondaryFill?: string;
 }
 
-const CopyIcon: React.FC<CopyIconProps> = ({ width, height, fill = 'white', style }) => (
+const CopyIcon: React.FC<CopyIconProps> = ({ width, height, fill = '#3C494F', style }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={width}
