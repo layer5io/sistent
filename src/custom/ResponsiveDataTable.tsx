@@ -152,7 +152,7 @@ const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
       MuiPaper: {
         styleOverrides: {
           root: {
-            maxWidth: '-moz-available'
+            maxWidth: '100%'
           }
         }
       },

@@ -3,7 +3,6 @@ import { OpenInNewIcon } from '../../icons';
 import { styled } from '../../theme';
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  minWidth: 275,
   height: '100%',
   backgroundColor:
     theme.palette.mode === 'dark' ? theme.palette.background.card : theme.palette.common.white

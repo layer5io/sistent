@@ -29,7 +29,6 @@ const BoxContainer = styled(Card)<{ playgroundCardBackgroundImgSrc?: string }>(
     backgroundPosition: 'right bottom',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
-    minWidth: 285,
     height: '100%',
     position: 'relative',
     backgroundColor:
@@ -38,7 +37,6 @@ const BoxContainer = styled(Card)<{ playgroundCardBackgroundImgSrc?: string }>(
 );
 
 const StyledCard = styled(Card)(({ theme }) => ({
-  minWidth: 275,
   height: '100%',
   backgroundColor:
     theme.palette.mode === 'dark' ? theme.palette.background.card : theme.palette.common.white
