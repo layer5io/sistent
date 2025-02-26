@@ -10,7 +10,7 @@ export default defineConfig({
   clean: true,
   dts: true,
   format: ['cjs', 'esm'],
-  external: ['react', 'xstate', '@xstate/react'],
+  external: ['react', 'xstate', '@xstate/react', 'react-dom'],
   minify: env === 'production',
   watch: env === 'development',
   sourcemap: env === 'development',
