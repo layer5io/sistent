@@ -6,6 +6,36 @@ import { iconSmall } from '../../constants/iconsSizes';
 import { styled, useTheme } from '../../theme';
 import { CustomTooltip } from '../CustomTooltip';
 
+/**
+ * CollaboratorAvatarGroup is a component that displays a group of user avatars with a popup for additional users.
+ *
+ * @component
+ * @example
+ * ```tsx
+ * const users = {
+ *   'client1': {
+ *     name: 'John Doe',
+ *     avatar_url: 'https://example.com/avatar1.jpg',
+ *     border_color: '#00B39F',
+ *     user_id: 'user123'
+ *   }
+ * };
+ *
+ * <CollaboratorAvatarGroup
+ *   users={users}
+ *   providerUrl="https://redirect.com"
+ * />
+ * ```
+ */
+
+/**
+ * User object structure representing a collaborator
+ * @interface User
+ * @property {string} name - Display name of the user
+ * @property {string} avatar_url - URL to the user's avatar image
+ * @property {string} border_color - Color code for the avatar border (e.g., '#00B39F')
+ * @property {string} user_id - Unique identifier for the user
+ */
 interface User {
   name: string;
   avatar_url: string;
@@ -13,10 +43,21 @@ interface User {
   user_id: string;
 }
 
+/**
+ * Collection of users mapped by their client IDs
+ * @interface Users
+ * @property {User} [clientID] - User object mapped to their client ID
+ */
 interface Users {
   [clientID: string]: User;
 }
 
+/**
+ * Props for the CollaboratorAvatarGroup component
+ * @interface CollaboratorAvatarGroupProps
+ * @property {Users} users - Object containing user information mapped by client IDs
+ * @property {string} providerUrl - Base URL of the provider (e.g., 'https://github.com')
+ */
 interface CollaboratorAvatarGroupProps {
   users: Users;
   providerUrl: string;
