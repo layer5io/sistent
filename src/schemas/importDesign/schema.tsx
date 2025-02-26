@@ -41,7 +41,7 @@ const importDesignSchema = {
           file: {
             type: 'string',
             format: 'file',
-            description: 'Browse the  file from your file system',
+            description: 'Browse the design file from your system. Make sure it is in a [supported format](https://docs.meshery.io/guides/configuration-management/importing-designs#supported-design-definition-formats).',
             'x-rjsf-grid-area': '12'
           }
         },
