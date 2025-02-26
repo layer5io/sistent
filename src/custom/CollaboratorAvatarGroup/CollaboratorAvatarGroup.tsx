@@ -1,7 +1,6 @@
 import { ExpandMore } from '@mui/icons-material';
 import { MouseEvent, useState } from 'react';
 import { Avatar, AvatarGroup, Popover, Typography } from '../../base';
-import { CLOUD_URL } from '../../constants/constants';
 import { iconSmall } from '../../constants/iconsSizes';
 import { styled, useTheme } from '../../theme';
 import { CustomTooltip } from '../CustomTooltip';
@@ -71,14 +70,14 @@ const StyledAvatar = styled(Avatar)<StyledAvatarProps>(({ theme, borderColor }) 
     width: theme.spacing(4),
     height: theme.spacing(4),
     cursor: 'pointer',
-    border: `2px solid ${borderColor} !important`
+    border: `2px solid ${borderColor || theme.palette.common.white} !important`
   };
 });
 
 const MoreAvatarButton = styled('div')(({ theme }) => ({
   width: theme.spacing(4.25),
   height: theme.spacing(4.25),
-  border: '1px solid #fff',
+  border: `1px solid ${theme.palette.common.white}`,
   borderRadius: '50%',
   background: 'rgba(57, 102, 121, .9)',
   display: 'flex',
@@ -189,7 +188,7 @@ const CollaboratorAvatarGroup = ({
               .map(([clientID, user]) => (
                 <PopupAvatarWrapper
                   key={clientID}
-                  onClick={() => openInNewTab(`https://${CLOUD_URL}/user/${user.user_id}`)}
+                  onClick={() => openInNewTab(`${providerUrl}/user/${user.user_id}`)}
                 >
                   <StyledAvatar
                     alt={user.name}
