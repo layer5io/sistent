@@ -3,6 +3,7 @@ import { MouseEvent, useState } from 'react';
 import { Avatar, AvatarGroup, Popover, Typography } from '../../base';
 import { iconSmall } from '../../constants/iconsSizes';
 import { styled, useTheme } from '../../theme';
+import { DARK_TEAL_BLUE } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
 
 /**
@@ -70,16 +71,16 @@ const StyledAvatar = styled(Avatar)<StyledAvatarProps>(({ theme, borderColor }) 
     width: theme.spacing(4),
     height: theme.spacing(4),
     cursor: 'pointer',
-    border: `2px solid ${borderColor || theme.palette.common.white} !important`
+    border: `1.5px solid ${borderColor || theme.palette.common.white} !important`
   };
 });
 
 const MoreAvatarButton = styled('div')(({ theme }) => ({
-  width: theme.spacing(4.25),
-  height: theme.spacing(4.25),
-  border: `1px solid ${theme.palette.common.white}`,
+  width: theme.spacing(4.5),
+  height: theme.spacing(4.5),
+  border: `1.5px solid ${theme.palette.common.white}`,
   borderRadius: '50%',
-  background: 'rgba(57, 102, 121, .9)',
+  background: DARK_TEAL_BLUE,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -101,8 +102,7 @@ const PopupAvatarWrapper = styled('div')({
 });
 
 const UserName = styled(Typography)({
-  marginLeft: '10px',
-  fontWeight: 600
+  marginLeft: '10px'
 });
 
 const StyledPopover = styled(Popover)(() => ({
