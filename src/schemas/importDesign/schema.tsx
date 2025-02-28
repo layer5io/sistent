@@ -42,7 +42,7 @@ const importDesignSchema = {
             type: 'string',
             format: 'file',
             description:
-              'Browse the design file from your system. Supported formats: Kubernetes Manifests, Helm Charts, Docker Compose, and Meshery Designs.',
+              'Supported formats: Kubernetes Manifests, Helm Charts, Docker Compose, and Meshery Designs.',
             'x-rjsf-grid-area': '12'
           }
         },
