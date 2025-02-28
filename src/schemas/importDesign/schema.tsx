@@ -64,7 +64,7 @@ const importDesignSchema = {
             format: 'uri',
             title: 'URL',
             description:
-              'Provide the URL of the file you want to import. This should be a direct URL to the file, for example: https://raw.github.com/your-design-file.yaml. Also, ensure that design is in a supported format: Kubernetes Manifest, Helm Chart, Docker Compose, or Meshery Design.',
+              'Provide the URL of the file you want to import. This should be a direct URL to a single file, for example: https://raw.github.com/your-design-file.yaml. Also, ensure that design is in a supported format: Kubernetes Manifest, Helm Chart, Docker Compose, or Meshery Design.',
             'x-rjsf-grid-area': '12'
           }
         },

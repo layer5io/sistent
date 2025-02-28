@@ -25,7 +25,7 @@ const importModelSchema = {
             type: 'string',
             format: 'file',
             description:
-              'Browse the model file from your file system. Ensure file is an OCI artifact in .tar, .tar.gz or .tgz formats',
+              'Supported model file formats are: .tar, .tar.gz, and .tgz',
             'x-rjsf-grid-area': '12'
           }
         },
@@ -47,7 +47,9 @@ const importModelSchema = {
             format: 'uri',
             title: 'URL',
             description:
-              'Provide the URL of the model you want to import. This should be a direct URL to the file, for example: https://raw.github.com/your-model-file.tar. Also, ensure file is an OCI artifact in .tar, .tar.gz or .tgz formats',
+              'A direct URL to a single model file, for example: https://raw.github.com/your-model-file.tar. Supported model file formats are: .tar, .tar.gz, and .tgz. 
+              
+              For bulk import of your model use the GitHub connection or CSV files.',
             'x-rjsf-grid-area': '12',
             disabled: true
           }
