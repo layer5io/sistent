@@ -23,10 +23,10 @@ const AuthorCell: React.FC<AuthorCellProps> = ({
     firstName && lastName
       ? `${firstName} ${lastName}`
       : firstName
-      ? firstName
-      : lastName
-      ? lastName
-      : '';
+        ? firstName
+        : lastName
+          ? lastName
+          : '';
 
   return (
     <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
