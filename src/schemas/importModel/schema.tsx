@@ -25,7 +25,7 @@ const importModelSchema = {
             type: 'string',
             format: 'file',
             description:
-              'Supported model file formats are: .tar, .tar.gz, and .tgz',
+              'Supported model file formats are: .tar, .tar.gz, and .tgz. See [Import Models Documentation](https://docs.meshery.io/guides/configuration-management/importing-models#import-models-using-meshery-ui) for details',
             'x-rjsf-grid-area': '12'
           }
         },
@@ -47,9 +47,7 @@ const importModelSchema = {
             format: 'uri',
             title: 'URL',
             description:
-              'A direct URL to a single model file, for example: https://raw.github.com/your-model-file.tar. Supported model file formats are: .tar, .tar.gz, and .tgz. 
-              
-              For bulk import of your model use the GitHub connection or CSV files.',
+              'A direct URL to a single model file, for example: https://raw.github.com/your-model-file.tar. Supported model file formats are: .tar, .tar.gz, and .tgz. \n\nFor bulk import of your model use the GitHub connection or CSV files. See [Import Models Documentation](https://docs.meshery.io/guides/configuration-management/importing-models#import-models-using-meshery-ui) for details',
             'x-rjsf-grid-area': '12',
             disabled: true
           }
