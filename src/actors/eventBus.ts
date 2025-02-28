@@ -11,9 +11,8 @@ export interface EventBusEvent<Type extends string, Data = unknown> {
 export type EventType<T> = T extends EventBusEvent<infer Type, any> ? Type : never;
 
 // Helper type to extract payload type for a given event type
-export type DataType<T, Type extends string> = T extends EventBusEvent<Type, infer Data>
-  ? Data
-  : never;
+export type DataType<T, Type extends string> =
+  T extends EventBusEvent<Type, infer Data> ? Data : never;
 
 // Generic EventBus class
 export class EventBus<T extends EventBusEvent<string, any>> {

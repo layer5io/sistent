@@ -53,8 +53,8 @@ export const extractPodVolumnTables = (data: TableData[] | null): TableStructure
               nestedKey === 'defaultMode'
                 ? value?.toString()
                 : nestedKey === 'sources' && _.isArray(value)
-                ? value?.length
-                : JSON.stringify(value);
+                  ? value?.length
+                  : JSON.stringify(value);
           });
         } else {
           baseData[key] = JSON.stringify(nestedData);
