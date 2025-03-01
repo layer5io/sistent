@@ -45,15 +45,9 @@ export const ChapterDescription = styled('div')({
   },
   '@media screen and (max-width: 650px)': {
     p: {
-      whiteSpace: 'nowrap',
+      whiteSpace: 'normal',
       overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      width: '75vw'
-    }
-  },
-  '@media screen and (max-width: 650px) and (min-width: 300px)': {
-    p: {
-      width: '9rem'
+      textOverflow: 'ellipsis'
     }
   }
 });
