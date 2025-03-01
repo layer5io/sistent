@@ -1,2 +1,2 @@
-export * from './PersistedStateProvider';
 export * from './initReduxPersist';
+export * from './PersistedStateProvider';

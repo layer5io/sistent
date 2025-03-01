@@ -163,9 +163,9 @@ export const KeyValueInRow: React.FC<KeyValueProps> = ({ Key, Value, showFold = 
   };
 
   return (
-    <KeyValueGrid container>
+    <KeyValueGrid container rowGap={0.5}>
       <React.Fragment key={Key}>
-        <KeyValueGridCell container xs={3} spacing={1}>
+        <KeyValueGridCell container xs={12} sm={3}>
           <KeyValueGridTitle>{Key}</KeyValueGridTitle>
           {showFold && (
             <IconButton onClick={handleToggleFold}>
@@ -177,7 +177,7 @@ export const KeyValueInRow: React.FC<KeyValueProps> = ({ Key, Value, showFold = 
             </IconButton>
           )}
         </KeyValueGridCell>
-        <Grid item xs={9}>
+        <Grid item xs={12} sm={9}>
           <div
             style={{
               maxHeight: showFold && isFolded ? '200px' : 'none',

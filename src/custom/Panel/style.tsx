@@ -1,7 +1,7 @@
 import { ListItemProps } from '@mui/material';
 import { Box, IconButton, ListItem } from '../../base';
 import { PanelDragHandleIcon } from '../../icons/PanelDragHandle';
-import { black, styled } from '../../theme';
+import { styled } from '../../theme';
 import { PanelProps } from './Panel';
 
 export const ListHeader = styled(ListItem)(({ theme }) => ({
@@ -86,10 +86,10 @@ export const PanelContainer = styled(Box)<{ intitialPosition: PanelProps['intiti
     borderRadius: '8px',
     overflow: 'hidden',
     flexShrink: 0,
-    zIndex: 99999,
+    zIndex: 100,
     position: 'absolute',
     backgroundColor: theme.palette.background.blur?.light,
-    boxShadow: `0 4px 16px ${black}`,
+    boxShadow: `0 4px 16px ${theme.palette.background.blur?.light}`,
     maxHeight: '80%',
     display: 'flex',
     boxSizing: 'border-box',
