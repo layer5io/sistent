@@ -121,6 +121,12 @@ make docker
 
 Layer5 uses ES-Lint to maintain code quality & consistency in our UI Code.
 
+Run the following command before commiting the changes:
+
+```
+make lint
+```
+
 # <a name="maintaining"> Reviews</a>
 
 All contributors are invited to review pull requests. See this short video on [how to review a pull request](https://www.youtube.com/watch?v=isLfo7jfE6g&feature=youtu.be).
