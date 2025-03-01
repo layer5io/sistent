@@ -71,6 +71,12 @@ To run Eslint:
 make lint
 ```
 
+To run tests:
+
+```
+make run-tests
+```
+
 To attach sistent to your project use:
 
 ```
