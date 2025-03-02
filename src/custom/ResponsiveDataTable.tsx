@@ -166,6 +166,15 @@ const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
           }
         }
       },
+      MuiTableSortLabel: {
+        styleOverrides: {
+          root: {
+            '&.Mui-active .MuiTableSortLabel-icon': {
+              color: theme.palette.text.default
+            }
+          }
+        }
+      },
       MUIDataTableHeadCell: {
         styleOverrides: {
           data: {
