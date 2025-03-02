@@ -41,18 +41,6 @@ To set up the project, run the following command to install dependencies:
 make setup
 ```
 
-To check if your code meets the formatting standards, you can run:
-
-```
-make format-check
-```
-
-To automatically fix formatting issues, you can run:
-
-```
-make format-fix
-```
-
 To test the sistent component locally, you can run:
 
 ```
@@ -62,7 +50,13 @@ make build
 If you wish to build in watch mode:
 
 ```
-make build-watch
+make watch-build
+```
+
+To check if your code meets the formatting standards, you can run:
+
+```
+make format-check
 ```
 
 To run Eslint:
@@ -74,7 +68,7 @@ make lint
 To run tests:
 
 ```
-make run-tests
+make test-run
 ```
 
 To attach sistent to your project use:

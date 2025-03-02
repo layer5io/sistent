@@ -11,23 +11,20 @@ build:
 	npm run build
 
 ## Buid Sistent in watch mode
-build-watch:
+watch-build:
 	npm run build:watch
 
 ## Check code formatting
 format-check:
 	npm run format:check
 
-## Fix code formatting
-format-fix:
-	npm run format:write
-
-## Run Eslint on your local machine
+## Fix formatting and run Eslint on your local machine
 lint:
+	npm run format:write
 	npm run lint
 
 ## Run tests
-run-tests:
+test-run:
 	npm run test
 
 .PHONY: version-patch version-minor version-major
