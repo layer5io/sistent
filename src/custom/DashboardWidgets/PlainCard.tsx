@@ -27,7 +27,10 @@ const ResourceListItem = styled('li')({
   listStyleType: 'none',
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'center'
+  alignItems: 'center',
+  '&:hover': {
+    filter: 'invert(50%) sepia(30%) saturate(1000%) hue-rotate(120deg)'
+  }
 });
 
 const StyledResourceIcon = styled('img')({
@@ -70,7 +73,7 @@ export const PlainCard = ({ title, icon, resources }: PlainCardProps): JSX.Eleme
           <StyledContentBox>
             <StyledResourceList>
               {resources.map((item) => (
-                <ResourceListItem key={item.link}>
+                <ResourceListItem key={item.link} className="Pranjal">
                   {item.icon && (
                     <StyledResourceIcon src={item.icon} alt={`Icon for ${item.name}`} />
                   )}
