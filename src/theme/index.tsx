@@ -1,12 +1,22 @@
-import { styled, useTheme } from '@mui/material';
-
+import {
+  Theme,
+  ThemeProvider,
+  alpha,
+  createTheme,
+  keyframes,
+  lighten,
+  styled,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
 export { darkModePalette, lightModePalette } from './palette';
 export { typography } from './typography';
 
+export * from './colors';
 export {
   default as SistentThemeProvider,
   SistentThemeProviderWithoutBaseLine
 } from './ThemeProvider';
-export * from './colors';
 
-export { styled, useTheme };
+export { ThemeProvider, alpha, createTheme, keyframes, lighten, styled, useMediaQuery, useTheme };
+export type { Theme };

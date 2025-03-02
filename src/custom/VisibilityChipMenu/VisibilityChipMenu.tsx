@@ -46,8 +46,7 @@ const StyledMenu = styled(Menu)(({ theme }) => ({
 }));
 
 const StyledButton = styled(Button)(() => ({
-  padding: '0px',
-  width: '100%'
+  padding: '0px'
 }));
 
 const StyledDiv = styled('div')(

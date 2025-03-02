@@ -67,6 +67,7 @@ export const useResourceCleanData = () => {
     resource,
     activeLabels,
     dispatchMsgToEditor,
+    router,
     showStatus = true,
     container
   }: GetResourceCleanDataProps) => {
@@ -110,8 +111,13 @@ export const useResourceCleanData = () => {
         links: [
           { nodeName: parsedSpec?.nodeName, label: 'Node' },
           { namespace: resource?.metadata?.namespace, label: 'Namespace' },
-          { serviceAccount: parsedSpec?.serviceAccountName, label: 'ServiceAccount' }
+          {
+            serviceAccount: parsedSpec?.serviceAccountName,
+            label: 'ServiceAccount',
+            resourceCategory: 'Security'
+          }
         ],
+        router: router,
         dispatchMsgToEditor: dispatchMsgToEditor
       },
       selector: parsedSpec?.selector?.matchLabels

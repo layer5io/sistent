@@ -92,7 +92,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       name: 'id',
       label: 'ID',
       options: {
-        filter: false,
+        filter: true,
         customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={10} />
       }
     },
@@ -100,7 +100,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       name: 'name',
       label: 'Name',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={10} />
@@ -110,8 +110,8 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       name: 'organization_id',
       label: 'Organization ID',
       options: {
-        filter: false,
-        sort: false,
+        filter: true,
+        sort: true,
         searchable: false
       }
     },
@@ -120,7 +120,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       name: 'description',
       label: 'Description',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         customBodyRender: (value: string) => <ResizableDescriptionCell value={value} />
@@ -130,7 +130,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       name: 'created_at',
       label: 'Created At',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         setCellHeaderProps: () => {
@@ -142,7 +142,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       name: 'updated_at',
       label: 'Updated At',
       options: {
-        filter: false,
+        filter: true,
         sort: true,
         searchable: true,
         setCellHeaderProps: () => {
@@ -154,8 +154,8 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       name: 'actions',
       label: 'Actions',
       options: {
-        filter: false,
-        sort: false,
+        filter: true,
+        sort: true,
         searchable: false,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => (
           <IconWrapper disabled={!isRemoveAllowed}>
@@ -183,7 +183,8 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
     workspaceId,
     useGetEnvironmentsOfWorkspaceQuery,
     useUnassignEnvironmentFromWorkspaceMutation,
-    useAssignEnvironmentToWorkspaceMutation
+    useAssignEnvironmentToWorkspaceMutation,
+    isEnvironmentsVisible: isAssignAllowed || isRemoveAllowed
   });
 
   const [columnVisibility, setColumnVisibility] = useState<Record<string, boolean>>(() => {
@@ -196,7 +197,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
   });
 
   const options = {
-    filter: false,
+    filter: true,
     responsive: 'standard',
     selectableRows: 'none',
     count: environmentsOfWorkspace?.total_count,

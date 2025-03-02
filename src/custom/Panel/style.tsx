@@ -1,5 +1,6 @@
 import { ListItemProps } from '@mui/material';
-import { Box, ListItem } from '../../base';
+import { Box, IconButton, ListItem } from '../../base';
+import { PanelDragHandleIcon } from '../../icons/PanelDragHandle';
 import { styled } from '../../theme';
 import { PanelProps } from './Panel';
 
@@ -85,10 +86,10 @@ export const PanelContainer = styled(Box)<{ intitialPosition: PanelProps['intiti
     borderRadius: '8px',
     overflow: 'hidden',
     flexShrink: 0,
-    zIndex: 99999,
+    zIndex: 100,
     position: 'absolute',
     backgroundColor: theme.palette.background.blur?.light,
-    boxShadow: '0 4px 16px #05003812',
+    boxShadow: `0 4px 16px ${theme.palette.background.blur?.light}`,
     maxHeight: '80%',
     display: 'flex',
     boxSizing: 'border-box',
@@ -96,11 +97,12 @@ export const PanelContainer = styled(Box)<{ intitialPosition: PanelProps['intiti
   })
 );
 
-export const DragHandle = styled('div')({
+export const DragHandle = styled(PanelDragHandleIcon)(({ theme }) => ({
+  fill: theme.palette.common.white,
   position: 'absolute',
-  top: '-3rem',
+  top: '-0.3rem',
   left: '50%'
-});
+}));
 
 export const HeaderActionsContainer = styled('div')({
   display: 'flex',
@@ -115,3 +117,15 @@ export const HeaderContainer = styled('div')({
   alignItems: 'center',
   flex: '1'
 });
+
+export const CustomIconButton = styled(IconButton)(({ theme }) => ({
+  color: theme.palette.common.white
+}));
+
+export const PanelTitle = styled('div')(() => ({
+  position: 'absolute',
+  left: '0',
+  right: '0',
+  marginInline: 'auto',
+  width: 'fit-content'
+}));

@@ -53,8 +53,8 @@ export const extractPodVolumnTables = (data: TableData[] | null): TableStructure
               nestedKey === 'defaultMode'
                 ? value?.toString()
                 : nestedKey === 'sources' && _.isArray(value)
-                ? value?.length
-                : JSON.stringify(value);
+                  ? value?.length
+                  : JSON.stringify(value);
           });
         } else {
           baseData[key] = JSON.stringify(nestedData);
@@ -89,3 +89,17 @@ export function isEmptyAtAllDepths(input: any): boolean {
     return _.isEmpty(input);
   }
 }
+
+export const convertToReadableUnit = (value: number): string => {
+  if (!value) return '0';
+
+  const units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB'];
+  let index = 0;
+
+  while (value >= 1024 && index < units.length - 1) {
+    value /= 1024;
+    index++;
+  }
+
+  return `${value.toFixed(2)} ${units[index]}`;
+};

@@ -189,7 +189,7 @@ export const CodeFormatterPre = styled('pre')(({ theme }) => ({
   wordBreak: 'break-all',
   margin: 0,
   padding: '0.5rem',
-  maxWidth: '-moz-available'
+  maxWidth: '100%'
 }));
 
 export const TextValue = styled(Box)({
@@ -306,5 +306,6 @@ export const KeyValueGridTitle = styled(Typography)({
 });
 
 export const KeyValueGridCell = styled(Grid)({
-  placeSelf: 'center'
+  placeSelf: 'center',
+  alignItems: 'center'
 });

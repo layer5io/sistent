@@ -157,7 +157,7 @@ export const PortsFormatter: React.FC<PortsFormatterProps> = ({ data }) => {
       {data?.map((item, index) => (
         <Details noPadding key={index}>
           <Box display="flex" alignItems="center">
-            <Typography variant="body1">{`${item.name}: `} </Typography>
+            {item.name && <Typography variant="body1">{`${item.name}: `} </Typography>}
             <ElementData>{`(${item.containerPort || item.port}/${item.protocol})`}</ElementData>
           </Box>
         </Details>
@@ -580,8 +580,9 @@ export const ContainerFormatter: React.FC<ContainerFormatterProps> = ({
   containerSpec,
   containerStatus
 }) => {
-  const status = _.capitalize(Object.keys(containerStatus.state)[0]);
-  const stateValues = Object.values(containerStatus.state)[0];
+  const state = containerStatus?.state || {};
+  const status = _.capitalize(Object.keys(state)?.[0] || 'unknown');
+  const stateValues = Object.values(state)?.[0] || {};
   const startedAt = stateValues ? stateValues?.startedAt : null;
   return (
     <Box display="flex" flexDirection="column" gap={'0.5rem'}>
@@ -601,30 +602,30 @@ export const ContainerFormatter: React.FC<ContainerFormatterProps> = ({
       />
       <DetailSection
         title="Image Pull Policy"
-        data={containerSpec.imagePullPolicy}
+        data={containerSpec?.imagePullPolicy}
         formatter={({ data }) => <Typography variant="body1">{data}</Typography>}
       />
 
       <DetailSection
         title="Total Restarts"
-        data={containerStatus.restartCount}
+        data={containerStatus?.restartCount}
         formatter={({ data }) => <NumberState value={data} quantity="times" />}
       />
 
       <DetailSection
         title="Image"
-        data={containerSpec.image}
+        data={containerSpec?.image}
         formatter={({ data }) => <StyledChip label={data} size="small" />}
       />
       <DetailSection
         title="Container"
-        data={containerStatus.containerID}
+        data={containerStatus?.containerID}
         formatter={({ data }) => <StyledChip label={data} size="small" />}
       />
 
       <DetailSection
         title="Environment Variables"
-        data={containerSpec.env}
+        data={containerSpec?.env}
         formatter={EnvironmentFormatter}
       />
 
@@ -632,15 +633,15 @@ export const ContainerFormatter: React.FC<ContainerFormatterProps> = ({
         Key="Volume Mounts"
         Value={
           <Box display={'flex'} flexDirection={'column'} gap={1}>
-            {containerSpec.volumeMounts?.map((item, index) => {
-              const roStatus = item.readOnly ? ' (RO)' : ' (RW)';
+            {containerSpec?.volumeMounts?.map((item, index) => {
+              const roStatus = item?.readOnly ? ' (RO)' : ' (RW)';
               return (
                 <Box display={'flex'} key={index} flexWrap={'wrap'} gap={'0.25rem 0.5rem'}>
                   <ElementData key={index}>
-                    <StyledChip label={item.mountPath} size="small" />
+                    <StyledChip label={item?.mountPath} size="small" />
                   </ElementData>
                   <ElementData>
-                    <Typography variant="body1">{`from ${item.name}${roStatus}`}</Typography>
+                    <Typography variant="body1">{`from ${item?.name}${roStatus}`}</Typography>
                   </ElementData>
                 </Box>
               );
@@ -648,42 +649,42 @@ export const ContainerFormatter: React.FC<ContainerFormatterProps> = ({
           </Box>
         }
       />
-      {containerSpec.command && (
+      {containerSpec?.command && (
         <DetailSection title="Command" data={containerSpec.command} formatter={CodeFormatter} />
       )}
-      {containerSpec.livenessProbe && (
+      {containerSpec?.livenessProbe && (
         <DetailSection
           title="Liveness Probe"
           data={containerSpec.livenessProbe}
           formatter={CodeFormatter}
         />
       )}
-      {containerSpec.readinessProbe && (
+      {containerSpec?.readinessProbe && (
         <DetailSection
           title="Readiness Probe"
-          data={containerSpec.readinessProbe}
+          data={containerSpec?.readinessProbe}
           formatter={CodeFormatter}
         />
       )}
-      {containerSpec.startupProbe && (
+      {containerSpec?.startupProbe && (
         <DetailSection
           title="Startup Probe"
-          data={containerSpec.startupProbe}
+          data={containerSpec?.startupProbe}
           formatter={CodeFormatter}
         />
       )}
-      <DetailSection title="Arguments" data={containerSpec.args} formatter={CodeFormatter} />
+      <DetailSection title="Arguments" data={containerSpec?.args} formatter={CodeFormatter} />
       {containerSpec.resources?.requests && (
         <DetailSection
           title="Resources"
-          data={containerSpec.resources.requests}
+          data={containerSpec?.resources?.requests}
           formatter={CodeFormatter}
         />
       )}
-      {containerSpec.resources?.limits && (
+      {containerSpec?.resources?.limits && (
         <DetailSection
           title="Limits"
-          data={containerSpec.resources.limits}
+          data={containerSpec?.resources?.limits}
           formatter={CodeFormatter}
         />
       )}
