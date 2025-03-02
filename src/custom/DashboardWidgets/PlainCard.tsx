@@ -73,7 +73,7 @@ export const PlainCard = ({ title, icon, resources }: PlainCardProps): JSX.Eleme
           <StyledContentBox>
             <StyledResourceList>
               {resources.map((item) => (
-                <ResourceListItem key={item.link} className="Pranjal">
+                <ResourceListItem key={item.link}>
                   {item.icon && (
                     <StyledResourceIcon src={item.icon} alt={`Icon for ${item.name}`} />
                   )}
