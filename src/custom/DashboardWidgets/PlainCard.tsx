@@ -43,7 +43,10 @@ const StyledResourceLink = styled(Link)({
   fontSize: '1rem',
   fontWeight: '400',
   marginRight: '0.25rem',
-  textDecoration: 'none'
+  textDecoration: 'none',
+  '&:hover': {
+    textDecoration: 'none'
+  }
 });
 
 interface Resource {
