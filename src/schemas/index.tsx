@@ -16,6 +16,9 @@ import importDesignUiSchema from './importDesign/uiSchema';
 import importFilterSchema from './importFilter/schema';
 import importFilterUiSchema from './importFilter/uiSchema';
 
+import importModelSchema from './importModel/schema';
+import importModelUiSchema from './importModel/uiSchema';
+
 import publishCatalogItemSchema from './publishCatalogItem/schema';
 import publishCatalogItemUiSchema from './publishCatalogItem/uiSchema';
 
@@ -43,6 +46,8 @@ export {
   importDesignUiSchema,
   importFilterSchema,
   importFilterUiSchema,
+  importModelSchema,
+  importModelUiSchema,
   kubernetesCredentialSchema,
   kubernetesCredentialUiSchema,
   prometheusCredentialSchema,
