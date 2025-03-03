@@ -20,7 +20,7 @@ const MuiTableBody: Components<Theme>['MuiTableBody'] = {
 const MuiTableCell: Components<Theme>['MuiTableCell'] = {
   styleOverrides: {
     root: ({ theme }) => {
-      return { borderBottom: `1px solid ${theme.palette.border.normal}` };
+      return { borderBottom: `1px solid ${theme.palette.icon.disabled}` };
     }
   }
 };
