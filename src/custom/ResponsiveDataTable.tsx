@@ -170,7 +170,7 @@ const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
         styleOverrides: {
           root: {
             '&.Mui-active .MuiTableSortLabel-icon': {
-              color: theme.palette.text.default
+              color: theme.palette.icon.default
             }
           }
         }
