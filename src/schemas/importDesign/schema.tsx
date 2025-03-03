@@ -41,7 +41,8 @@ const importDesignSchema = {
           file: {
             type: 'string',
             format: 'file',
-            description: 'Browse the  file from your file system',
+            description:
+              'Supported formats: Kubernetes Manifests, Helm Charts, Docker Compose, and Meshery Designs. See [Import Designs Documentation](https://docs.meshery.io/guides/configuration-management/importing-designs#import-designs-using-meshery-ui) for details',
             'x-rjsf-grid-area': '12'
           }
         },
@@ -63,7 +64,7 @@ const importDesignSchema = {
             format: 'uri',
             title: 'URL',
             description:
-              'Provide the URL of the  file you want to import. This should be a direct URL to the file, for example: https://raw.github.com/your-design-file.yaml',
+              'Provide the URL of the file you want to import. This should be a direct URL to a single file, for example: https://raw.github.com/your-design-file.yaml. Also, ensure that design is in a supported format: Kubernetes Manifest, Helm Chart, Docker Compose, or Meshery Design. See [Import Designs Documentation](https://docs.meshery.io/guides/configuration-management/importing-designs#import-designs-using-meshery-ui) for details',
             'x-rjsf-grid-area': '12'
           }
         },
