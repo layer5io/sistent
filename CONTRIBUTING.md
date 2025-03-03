@@ -106,7 +106,7 @@ Users can now test their code on their local machine against the CI checks imple
 To test code changes on your local machine, run the following command:
 
 ```
-make run-tests
+make test-run
 ```
 
 #### Building Docker image
@@ -120,6 +120,12 @@ make docker
 ### UI Lint Rules
 
 Layer5 uses ES-Lint to maintain code quality & consistency in our UI Code.
+
+Run the following command before commiting the changes:
+
+```
+make lint
+```
 
 # <a name="maintaining"> Reviews</a>
 
