@@ -108,6 +108,7 @@
     "mui-datatables": "*",
     "re-resizable": "^6.10.3",
     "react-draggable": "^4.4.6",
+    "react-material-ui-carousel": "^3.4.2",
     "react-share": "^5.1.0"
   }
 }
