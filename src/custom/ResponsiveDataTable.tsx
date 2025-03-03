@@ -1,4 +1,4 @@
-import { Theme, ThemeProvider, createTheme, styled } from '@mui/material/styles';
+import { Theme, styled } from '@mui/material/styles';
 import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
@@ -104,7 +104,6 @@ export const DataTableEllipsisMenu: React.FC<{
                   <MenuItem
                     sx={{
                       width: '-webkit-fill-available'
-                      // background: theme.palette.background.surfaces
                     }}
                     onClick={() => handleActionClick(action)}
                     disabled={action.disabled}
@@ -122,142 +121,6 @@ export const DataTableEllipsisMenu: React.FC<{
     </>
   );
 };
-
-const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
-  createTheme({
-    typography: {
-      fontFamily: theme.typography.fontFamily
-    },
-    palette: {
-      mode: theme.palette.mode,
-      text: {
-        primary: theme.palette.text.default,
-        secondary: theme.palette.text.secondary
-      },
-      background: {
-        default: backgroundColor || theme.palette.background?.constant?.table,
-        paper: backgroundColor || theme.palette.background?.constant?.table
-      },
-      border: { ...theme.palette.border },
-      icon: { ...theme.palette.icon }
-    },
-    components: {
-      MuiTableCell: {
-        styleOverrides: {
-          root: {
-            borderBottom: `1px solid ${theme.palette.border.default}`
-          }
-        }
-      },
-      MuiPaper: {
-        styleOverrides: {
-          root: {
-            maxWidth: '100%'
-          }
-        }
-      },
-      MuiTable: {
-        styleOverrides: {
-          root: {
-            width: '-webkit-fill-available',
-            '@media (max-width: 500px)': {
-              wordWrap: 'break-word'
-            }
-          }
-        }
-      },
-      MuiTableSortLabel: {
-        styleOverrides: {
-          root: {
-            '&.Mui-active .MuiTableSortLabel-icon': {
-              color: theme.palette.icon.default
-            }
-          }
-        }
-      },
-      MUIDataTableHeadCell: {
-        styleOverrides: {
-          data: {
-            fontWeight: 'bold',
-            textTransform: 'uppercase'
-          },
-          root: {
-            fontWeight: 'bold',
-            textTransform: 'uppercase'
-          }
-        }
-      },
-      MUIDataTableSearch: {
-        styleOverrides: {
-          main: {
-            '@media (max-width: 600px)': {
-              justifyContent: 'center'
-            }
-          }
-        }
-      },
-      MuiCheckbox: {
-        styleOverrides: {
-          root: {
-            intermediate: false,
-            color: 'transparent',
-            '&.Mui-checked': {
-              color: theme.palette.primary.main,
-              '& .MuiSvgIcon-root': {
-                width: '1.25rem',
-                height: '1.25rem',
-                borderColor: theme.palette.border.brand,
-                marginLeft: '0px',
-                padding: '0px'
-              }
-            },
-            '&.MuiCheckbox-indeterminate': {
-              color: theme.palette.background.brand?.default
-            },
-            '& .MuiSvgIcon-root': {
-              width: '1.25rem',
-              height: '1.25rem',
-              border: `.75px solid ${theme.palette.border.strong}`,
-              borderRadius: '2px',
-              padding: '0px'
-            },
-            '&:hover': {
-              backgroundColor: 'transparent'
-            },
-            '&.Mui-disabled': {
-              '&:hover': {
-                cursor: 'not-allowed'
-              }
-            }
-          }
-        }
-      },
-      MuiInput: {
-        styleOverrides: {
-          root: {
-            '&:before': {
-              borderBottom: `2px solid ${theme.palette.border.brand}`
-            },
-            '&.Mui-focused:after': {
-              borderBottom: `2px solid ${theme.palette.border.brand}`
-            },
-            '&:hover:not(.Mui-disabled):before': {
-              borderBottom: `2px solid ${theme.palette.border.brand}`
-            }
-          }
-        }
-      },
-      MuiTableRow: {
-        styleOverrides: {
-          root: {
-            '&.Mui-disabled': {
-              cursor: 'not-allowed'
-            }
-          }
-        }
-      }
-    }
-  });
 
 export interface Column {
   name: string;
@@ -287,10 +150,8 @@ export interface ResponsiveDataTableProps {
   tableCols?: MUIDataTableColumn[];
   updateCols?: ((columns: MUIDataTableColumn[]) => void) | undefined;
   columnVisibility: Record<string, boolean> | undefined;
-  theme?: object;
   colViews?: ColView[];
   rowsPerPageOptions?: number[] | undefined;
-  backgroundColor?: string;
 }
 const ResponsiveDataTable = ({
   data,
@@ -300,8 +161,6 @@ const ResponsiveDataTable = ({
   updateCols,
   columnVisibility,
   rowsPerPageOptions = [10, 25, 50, 100],
-  theme: customTheme,
-  backgroundColor,
   ...props
 }: ResponsiveDataTableProps): JSX.Element => {
   const formatDate = (date: Date): string => {
@@ -320,7 +179,7 @@ const ResponsiveDataTable = ({
     print: false,
     download: false,
     search: false,
-    filter: true,
+    filter: false,
     viewColumns: false,
     rowsPerPageOptions: rowsPerPageOptions,
     onViewColumnsChange: (column: string, action: string) => {
@@ -402,32 +261,19 @@ const ResponsiveDataTable = ({
     Checkbox: Checkbox
   };
 
-  const finalTheme = (baseTheme: Theme) => {
-    const defaultTheme = dataTableTheme(baseTheme, backgroundColor);
-    if (customTheme) {
-      return createTheme(
-        defaultTheme,
-        typeof customTheme === 'function' ? customTheme(baseTheme) : customTheme
-      );
-    }
-    return defaultTheme;
-  };
-
   return (
-    <ThemeProvider theme={finalTheme}>
-      <MUIDataTable
-        columns={tableCols ?? []}
-        data={data || []}
-        title={undefined}
-        components={components}
-        options={{
-          ...updatedOptions,
-          elevation: 0,
-          enableNestedDataAccess: '.'
-        }}
-        {...props}
-      />
-    </ThemeProvider>
+    <MUIDataTable
+      columns={tableCols ?? []}
+      data={data || []}
+      title={undefined}
+      components={components}
+      options={{
+        ...updatedOptions,
+        elevation: 0,
+        enableNestedDataAccess: '.'
+      }}
+      {...props}
+    />
   );
 };
 
