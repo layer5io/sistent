@@ -122,8 +122,8 @@ export default function TeamTableConfiguration({
       name: 'id',
       label: 'ID',
       options: {
-        filter: true,
-        sort: true,
+        filter: false,
+        sort: false,
         searchable: false,
         customBodyRender: (value: string) => <FormatId id={value} />
       }
@@ -132,7 +132,7 @@ export default function TeamTableConfiguration({
       name: 'name',
       label: 'Name',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: true
       }
@@ -141,9 +141,9 @@ export default function TeamTableConfiguration({
       name: 'description',
       label: 'Description',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
-        searchable: true,
+        searchable: false,
         customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={30} />
       }
     },
@@ -151,7 +151,7 @@ export default function TeamTableConfiguration({
       name: 'owner',
       label: 'Owner',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: true
       }
@@ -160,7 +160,7 @@ export default function TeamTableConfiguration({
       name: 'created_at',
       label: 'Created At',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: false,
         sortDescFirst: true
@@ -170,7 +170,7 @@ export default function TeamTableConfiguration({
       name: 'updated_at',
       label: 'Updated At',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: false,
         sortDescFirst: true
@@ -200,8 +200,8 @@ export default function TeamTableConfiguration({
       name: 'actions',
       label: 'Actions',
       options: {
-        filter: true,
-        sort: true,
+        filter: false,
+        sort: false,
         searchable: false,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => {
           if (bulkSelect || tableMeta.rowData[4].Valid) {
@@ -282,7 +282,7 @@ export default function TeamTableConfiguration({
   const ExpandedRowIdx = teams?.findIndex((team) => team.id === teamId);
 
   const options = {
-    filter: true,
+    filter: false,
     selectableRows: 'none' as const,
     filterType: 'dropdown' as const,
     expandableRows: true,
@@ -404,11 +404,7 @@ export default function TeamTableConfiguration({
 
   return {
     columns,
-    tableOptions: {
-      ...options,
-      filter: true,
-      sort: true
-    },
+    tableOptions: options,
     tableCols,
     updateCols,
     columnVisibility,
