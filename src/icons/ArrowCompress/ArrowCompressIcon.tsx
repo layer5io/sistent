@@ -1,0 +1,32 @@
+import { FC } from 'react';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
+import { IconProps } from '../types';
+
+const ArrowCompressIcon: FC<IconProps> = ({
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
+  ...props
+}) => {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      transform="matrix(-1,0,0,1,0,0)"
+      {...props}
+    >
+      <path
+        d="m5 5 5 5m0 0V5m0 5H5m14 9-5-5m0 0v5m0-5h5"
+        stroke="#000"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+
+export default ArrowCompressIcon;
