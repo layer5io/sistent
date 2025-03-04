@@ -72,8 +72,6 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
     return columns.map((col) => {
       const newCol = { ...col };
       if (!newCol.options) newCol.options = {};
-      newCol.options.sort = true;
-      newCol.options.filter = true;
       newCol.options.display = columnVisibility[col.name];
       if (
         [
@@ -149,8 +147,6 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
       rowsPerPage: pageSize,
       page,
       elevation: 0,
-      sort: true,
-      filter: true,
       sortOrder: {
         name: sortOrder.split(' ')[0],
         direction: sortOrder.split(' ')[1]
