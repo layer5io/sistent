@@ -447,7 +447,6 @@ const UsersTable: React.FC<UsersTableProps> = ({
           tableCols={tableCols}
           updateCols={updateCols}
           columnVisibility={columnVisibility}
-          backgroundColor={theme?.palette.background.tabs}
         />
       </div>
       <PromptComponent ref={ref} />
