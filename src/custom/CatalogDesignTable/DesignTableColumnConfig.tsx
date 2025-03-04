@@ -247,7 +247,7 @@ export const createDesignsColumnsConfig = ({
             actionsList.splice(1, 0, publishAction);
           }
 
-          return <DataTableEllipsisMenu actionsList={actionsList} theme={theme} />;
+          return <DataTableEllipsisMenu actionsList={actionsList} />;
         }
       }
     }
