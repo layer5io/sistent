@@ -229,8 +229,8 @@ const UsersTable: React.FC<UsersTableProps> = ({
       name: 'user_id',
       label: 'User ID',
       options: {
-        filter: true,
-        sort: true,
+        filter: false,
+        sort: false,
         searchable: false
       }
     },
@@ -238,8 +238,8 @@ const UsersTable: React.FC<UsersTableProps> = ({
       name: 'avatar_url',
       label: 'Team Member',
       options: {
-        filter: true,
-        sort: true,
+        filter: false,
+        sort: false,
         searchable: false,
         customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => (
           <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
@@ -257,7 +257,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       name: 'email',
       label: 'Email',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: true
       }
@@ -266,7 +266,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       name: 'username',
       label: 'Username',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: true,
         customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => (
@@ -308,7 +308,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       name: 'first_name',
       label: 'First',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: true
       }
@@ -317,7 +317,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       name: 'last_name',
       label: 'Last',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: true
       }
@@ -327,7 +327,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       label: 'Roles',
       options: {
         filter: true,
-        sort: true,
+        sort: false,
         searchable: false,
         //  filterType: "multiselect",
         filterOptions: {
@@ -349,7 +349,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       name: 'joined_at',
       label: 'Joined At',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: false,
         sortDescFirst: true
@@ -359,9 +359,8 @@ const UsersTable: React.FC<UsersTableProps> = ({
       name: 'last_login_time',
       label: 'Last Active At',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
-
         searchable: false,
         sortDescFirst: true
       }
@@ -393,8 +392,8 @@ const UsersTable: React.FC<UsersTableProps> = ({
       name: 'actions',
       label: 'Actions',
       options: {
-        filter: true,
-        sort: true,
+        filter: false,
+        sort: false,
         searchable: false,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) =>
           getValidColumnValue(tableMeta.rowData, 'deleted_at', columns).Valid !== false ? (
@@ -438,11 +437,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
         <ResponsiveDataTable
           columns={columns}
           data={users}
-          options={{
-            ...options,
-            filter: true,
-            sort: true
-          }}
+          options={options}
           colViews={colViews}
           tableCols={tableCols}
           updateCols={updateCols}
