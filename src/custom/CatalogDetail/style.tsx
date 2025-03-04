@@ -101,10 +101,10 @@ export const CarouselButton = styled('button')(({ theme }) => ({
     color: '#fff'
   },
   '&:first-of-type': {
-    left: '-2rem'
+    left: '-1.2rem'
   },
   '&:last-of-type': {
-    right: '-2rem'
+    right: '-1.2rem'
   }
 }));
 export const CarouselWrapper = styled('div')({

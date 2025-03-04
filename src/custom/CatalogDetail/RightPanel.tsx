@@ -3,8 +3,7 @@ import { Pattern } from '../CustomCatalog/CustomCard';
 import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import CaveatsSection from './CaveatsSection';
 import OverviewSection from './OverviewSection';
-import RelatedDesigns, { PatternsPerUser } from './RelatedDesigns';
-import SimilarDesign, { DetailsByType } from './SimilarDesign';
+import RelatedDesigns, { DetailsByType, PatternsPerUser } from './RelatedDesigns';
 import { Class } from './types';
 
 interface RightPanelProps {
@@ -89,6 +88,7 @@ const RightPanel: React.FC<RightPanelProps> = ({
       {showCaveats && <CaveatsSection details={details} />}
       <RelatedDesigns
         details={details}
+        detailsByType={detailsByType}
         orgName={orgName}
         fetchingOrgError={fetchingOrgError}
         type={type}
@@ -97,8 +97,9 @@ const RightPanel: React.FC<RightPanelProps> = ({
         userProfile={userProfile}
         technologySVGPath={technologySVGPath}
         technologySVGSubpath={technologySVGSubpath}
+        filterByType={false}
       />
-      <SimilarDesign
+      <RelatedDesigns
         details={details}
         detailsByType={detailsByType}
         orgName={orgName}
@@ -109,6 +110,7 @@ const RightPanel: React.FC<RightPanelProps> = ({
         userProfile={userProfile}
         technologySVGPath={technologySVGPath}
         technologySVGSubpath={technologySVGSubpath}
+        filterByType={true}
       />
     </div>
   );
