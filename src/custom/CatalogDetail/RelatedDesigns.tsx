@@ -54,8 +54,8 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
   const organizationName = filterByType
     ? 'Similar Designs by Type'
     : fetchingOrgError || !orgName
-    ? 'Unknown Organization'
-    : orgName;
+      ? 'Unknown Organization'
+      : orgName;
 
   const scroll = (direction: 'left' | 'right') => {
     if (carouselRef.current) {
