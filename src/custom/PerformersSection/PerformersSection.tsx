@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { memo, useMemo } from 'react';
+import { ChevronLeft, ChevronRight } from '@mui/icons-material';
+import { memo, useMemo, useRef } from 'react';
 import {
   CloneIcon,
   DeploymentsIcon,
@@ -14,6 +15,9 @@ import { ErrorBoundary } from '../ErrorBoundary';
 import { StateCardSekeleton } from './PerformersToogleButton';
 import {
   CardsContainer,
+  CarouselButton,
+  CarouselContainer,
+  CarouselWrapper,
   ContentWrapper,
   ErrorContainer,
   HeaderSection,
@@ -260,6 +264,7 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
   onStatusClick
 }) => {
   const theme = useTheme();
+  const carouselRef = useRef<HTMLDivElement | null>(null);
   const { queries, isLoading, hasError } = useMetricQueries(useGetCatalogFilters);
 
   const stats = useMemo(
@@ -284,6 +289,16 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
       </MainContainer>
     );
 
+  const scroll = (direction: 'left' | 'right') => {
+    if (carouselRef.current) {
+      const scrollAmount = 300; // Adjust scroll distance per click
+      carouselRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <ErrorBoundary>
       <MainContainer>
@@ -298,18 +313,28 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
           />
         </Title>
         <CardsContainer>
-          {isLoading && <StateCardSekeleton />}
-          {!isLoading &&
-            stats.map((stat, index) => (
-              <StatCard
-                key={`${stat.id}-${index}`}
-                {...stat}
-                onCardClick={onCardClick}
-                onIconClick={onIconClick}
-                onAuthorClick={onAuthorClick}
-                onStatusClick={onStatusClick}
-              />
-            ))}
+          <CarouselWrapper>
+            <CarouselButton onClick={() => scroll('left')}>
+              <ChevronLeft />
+            </CarouselButton>
+            <CarouselContainer ref={carouselRef}>
+              {isLoading && <StateCardSekeleton />}
+              {!isLoading &&
+                stats.map((stat, index) => (
+                  <StatCard
+                    key={`${stat.id}-${index}`}
+                    {...stat}
+                    onCardClick={onCardClick}
+                    onIconClick={onIconClick}
+                    onAuthorClick={onAuthorClick}
+                    onStatusClick={onStatusClick}
+                  />
+                ))}
+            </CarouselContainer>
+            <CarouselButton onClick={() => scroll('right')}>
+              <ChevronRight />
+            </CarouselButton>
+          </CarouselWrapper>
         </CardsContainer>
       </MainContainer>
     </ErrorBoundary>
