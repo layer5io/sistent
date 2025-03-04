@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Typography } from '../../base';
-import { DARK_TEAL, styled, WHITE } from '../../theme';
+import { DARK_TEAL, styled } from '../../theme';
 import { getCatalogCardBackground } from '../CustomCatalog/style';
 
 interface StatusLabelProps {
@@ -268,7 +268,7 @@ export const ErrorContainer = styled(Box)(({ theme }) => ({
 
 export const CarouselContainer = styled('div')({
   display: 'flex',
-  overflowX: 'auto',
+  overflow: 'hidden',
   scrollBehavior: 'smooth',
   scrollSnapType: 'x mandatory',
   gap: '1rem',
@@ -290,15 +290,15 @@ export const CarouselButton = styled('button')(({ theme }) => ({
   top: '50%',
   transform: 'translateY(-50%)',
   zIndex: '1',
-  background: theme.palette.icon.default,
+  fill: theme.palette.icon.default,
+  borderColor: theme.palette.border.normal,
   border: 'none',
   cursor: 'pointer',
   padding: '0.5rem',
   borderRadius: '50%',
   boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
   '&:hover': {
-    background: theme.palette.icon.secondary,
-    color: WHITE
+    fill: theme.palette.icon.secondary
   },
   '&:first-of-type': {
     left: '-2rem'
