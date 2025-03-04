@@ -212,8 +212,8 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
           tableBackgroundColor
             ? tableBackgroundColor
             : theme.palette.mode === 'light'
-            ? theme.palette.background.default
-            : theme.palette.background.secondary
+              ? theme.palette.background.default
+              : theme.palette.background.secondary
         }
       />
     </ErrorBoundary>

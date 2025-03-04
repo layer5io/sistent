@@ -86,7 +86,7 @@ export const typography = (mode: PaletteMode): TypographyOptions => {
       }
     },
     textB1Regular: {
-      fontFamily: ['"Open Sans"', 'sans-serif'].join(','),
+      fontFamily: ['Qanelas Soft Regular', 'Open Sans', 'sans-serif'].join(','),
       color: mode === 'light' ? common.black : common.white,
       fontSize: '1rem',
       fontWeight: 400,

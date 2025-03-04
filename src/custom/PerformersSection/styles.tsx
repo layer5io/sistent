@@ -243,8 +243,8 @@ export const StatusLabel = styled(Box)<StatusLabelProps>(({ labelType, theme }) 
     labelType === 'community'
       ? 'rgba(122,132,142,.8)'
       : labelType === 'official'
-      ? theme.palette.background.cta?.default
-      : theme.palette.text.brand,
+        ? theme.palette.background.cta?.default
+        : theme.palette.text.brand,
   color: labelType === 'official' ? 'black' : 'white',
   paddingInline: '1rem',
   borderTopRightRadius: '1rem',

@@ -1,4 +1,4 @@
-import { Theme, ThemeProvider, createTheme, styled } from '@mui/material/styles';
+import { Theme, styled } from '@mui/material/styles';
 import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
@@ -104,7 +104,6 @@ export const DataTableEllipsisMenu: React.FC<{
                   <MenuItem
                     sx={{
                       width: '-webkit-fill-available'
-                      // background: theme.palette.background.surfaces
                     }}
                     onClick={() => handleActionClick(action)}
                     disabled={action.disabled}
@@ -122,6 +121,7 @@ export const DataTableEllipsisMenu: React.FC<{
     </>
   );
 };
+
 
 const dataTableTheme = (theme: Theme, backgroundColor?: string) =>
   createTheme({
@@ -284,10 +284,8 @@ export interface ResponsiveDataTableProps {
   tableCols?: MUIDataTableColumn[];
   updateCols?: ((columns: MUIDataTableColumn[]) => void) | undefined;
   columnVisibility: Record<string, boolean> | undefined;
-  theme?: object;
   colViews?: ColView[];
   rowsPerPageOptions?: number[] | undefined;
-  backgroundColor?: string;
 }
 const ResponsiveDataTable = ({
   data,
@@ -297,8 +295,6 @@ const ResponsiveDataTable = ({
   updateCols,
   columnVisibility,
   rowsPerPageOptions = [10, 25, 50, 100],
-  theme: customTheme,
-  backgroundColor,
   ...props
 }: ResponsiveDataTableProps): JSX.Element => {
   const formatDate = (date: Date): string => {
@@ -317,7 +313,7 @@ const ResponsiveDataTable = ({
     print: false,
     download: false,
     search: false,
-    filter: true,
+    filter: false,
     viewColumns: false,
     rowsPerPageOptions: rowsPerPageOptions,
     onViewColumnsChange: (column: string, action: string) => {
@@ -399,32 +395,19 @@ const ResponsiveDataTable = ({
     Checkbox: Checkbox
   };
 
-  const finalTheme = (baseTheme: Theme) => {
-    const defaultTheme = dataTableTheme(baseTheme, backgroundColor);
-    if (customTheme) {
-      return createTheme(
-        defaultTheme,
-        typeof customTheme === 'function' ? customTheme(baseTheme) : customTheme
-      );
-    }
-    return defaultTheme;
-  };
-
   return (
-    <ThemeProvider theme={finalTheme}>
-      <MUIDataTable
-        columns={tableCols ?? []}
-        data={data || []}
-        title={undefined}
-        components={components}
-        options={{
-          ...updatedOptions,
-          elevation: 0,
-          enableNestedDataAccess: '.'
-        }}
-        {...props}
-      />
-    </ThemeProvider>
+    <MUIDataTable
+      columns={tableCols ?? []}
+      data={data || []}
+      title={undefined}
+      components={components}
+      options={{
+        ...updatedOptions,
+        elevation: 0,
+        enableNestedDataAccess: '.'
+      }}
+      {...props}
+    />
   );
 };
 

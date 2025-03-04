@@ -1,6 +1,7 @@
 import React from 'react';
 import { Checkbox, Grid, List, ListItem, Typography } from '../../../base';
 import { KubernetesIcon, LeftArrowIcon, RightArrowIcon, SMPIcon } from '../../../icons';
+import { GithubIcon } from '../../../icons/Github';
 import { MesheryIcon } from '../../../icons/Meshery';
 import Tooltip from '../../../patches/Tooltip';
 import {
@@ -22,7 +23,8 @@ export function getFallbackImageBasedOnKind(kind: string | undefined): JSX.Eleme
   }
   const fallbackComponents: { [key: string]: JSX.Element } = {
     meshery: <MesheryIcon />,
-    kubernetes: <KubernetesIcon />
+    kubernetes: <KubernetesIcon />,
+    github: <GithubIcon />
   };
 
   return fallbackComponents[kind] || null;
