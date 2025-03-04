@@ -50,7 +50,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
       {showOpenPlaygroundAction && (
         <ActionButton
           sx={{
-            borderRadius: '0.2rem',
+            borderRadius: theme.shape.borderRadius,
             backgroundColor: theme.palette.background.cta?.default,
             color: theme.palette.text.inverse,
             gap: '10px',
@@ -81,7 +81,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
               sx={{
                 backgroundColor: showOpenPlaygroundAction ? 'transparent' : undefined,
                 color: theme.palette.text.default,
-                borderRadius: '0.2rem',
+                borderRadius: theme.shape.borderRadius,
                 gap: '10px',
                 border: `1px solid ${theme.palette.border.normal}`
               }}
@@ -100,7 +100,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
           )}
           <ActionButton
             sx={{
-              borderRadius: '0.2rem',
+              borderRadius: theme.shape.borderRadius,
               backgroundColor: 'transparent',
               border: `1px solid ${theme.palette.border.normal}`,
               gap: '10px',
@@ -129,7 +129,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         {showInfoAction && (
           <ActionButton
             sx={{
-              borderRadius: '0.2rem',
+              borderRadius: theme.shape.borderRadius,
               backgroundColor: 'transparent',
               border: `1px solid ${theme.palette.border.normal}`,
               gap: '10px',
@@ -144,7 +144,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
         {showDeleteAction && (
           <UnpublishAction
             sx={{
-              borderRadius: '0.2rem',
+              borderRadius: theme.shape.borderRadius,
               gap: '10px'
             }}
             onClick={handleDelete}
