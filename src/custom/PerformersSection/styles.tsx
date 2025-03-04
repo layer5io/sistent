@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, Typography } from '../../base';
-import { DARK_TEAL, styled } from '../../theme';
+import { DARK_TEAL, styled, WHITE } from '../../theme';
 import { getCatalogCardBackground } from '../CustomCatalog/style';
 
 interface StatusLabelProps {
@@ -265,3 +265,52 @@ export const ErrorContainer = styled(Box)(({ theme }) => ({
   fontSize: '1rem',
   fontWeight: 500
 }));
+
+export const CarouselContainer = styled('div')({
+  display: 'flex',
+  overflowX: 'auto',
+  scrollBehavior: 'smooth',
+  scrollSnapType: 'x mandatory',
+  gap: '1rem',
+  padding: '1rem 0',
+  width: '100%',
+  '&::-webkit-scrollbar': {
+    display: 'none'
+  },
+  scrollbarWidth: 'none',
+  '.carousel-item': {
+    flex: '0 0 auto',
+    scrollSnapAlign: 'center',
+    width: 'auto'
+  }
+});
+
+export const CarouselButton = styled('button')(({ theme }) => ({
+  position: 'absolute',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  zIndex: '1',
+  background: theme.palette.icon.default,
+  border: 'none',
+  cursor: 'pointer',
+  padding: '0.5rem',
+  borderRadius: '50%',
+  boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+  '&:hover': {
+    background: theme.palette.icon.secondary,
+    color: WHITE
+  },
+  '&:first-of-type': {
+    left: '-2rem'
+  },
+  '&:last-of-type': {
+    right: '-2rem'
+  }
+}));
+
+export const CarouselWrapper = styled('div')({
+  display: 'flex',
+  alignItems: 'center',
+  width: '100%',
+  position: 'relative'
+});
