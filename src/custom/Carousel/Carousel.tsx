@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import React, { ReactNode, useRef } from 'react';
+import { CarouselButton, CarouselContainer, CarouselWrapper } from './style';
 
 interface CarouselProps {
   items: ReactNode[];
@@ -9,8 +10,6 @@ interface CarouselProps {
   itemClassName?: string;
 }
 
-import { CarouselButton, CarouselContainer, CarouselWrapper } from './style';
-
 const Carousel: React.FC<CarouselProps> = ({
   items,
   scrollAmount = 300,
@@ -18,8 +17,6 @@ const Carousel: React.FC<CarouselProps> = ({
   itemClassName = 'carousel-item'
 }) => {
   const carouselRef = useRef<HTMLDivElement>(null);
-
-  // Skip rendering if no items
   if (!items.length) return null;
 
   const scroll = (direction: 'left' | 'right') => {
