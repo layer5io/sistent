@@ -11,7 +11,7 @@ build:
 	npm run build
 
 ## Buid Sistent in watch mode
-watch-build:
+watchmode-build:
 	npm run build:watch
 
 ## Check code formatting
