@@ -1,6 +1,6 @@
+import { Carousel } from '../Carousel';
 import { CatalogCardDesignLogo } from '../CustomCatalog';
 import CustomCatalogCard, { Pattern } from '../CustomCatalog/CustomCard';
-import Carousel from './Carousel';
 import { getHeadingText } from './helper';
 import { AdditionalContainer, ContentHeading } from './style';
 import { UserProfile } from './types';
