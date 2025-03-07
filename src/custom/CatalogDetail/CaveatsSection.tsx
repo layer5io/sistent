@@ -1,4 +1,5 @@
 import React from 'react';
+import { Typography } from '../../base';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { RenderMarkdown } from '../Markdown';
 import { ContentDetailsText } from '../Typography';
@@ -12,7 +13,9 @@ const CaveatsSection: React.FC<CaveatsSectionProps> = ({ details }) => {
   return (
     <CaveatsContainer>
       <ContentHeading>
-        <h2 style={{ margin: '0' }}>CAVEATS AND CONSIDERATIONS</h2>
+        <Typography variant="h2" style={{ margin: '0' }}>
+          CAVEATS AND CONSIDERATIONS
+        </Typography>
       </ContentHeading>
       {details?.catalog_data?.pattern_caveats ? (
         <ContentDetailsText style={{ whiteSpace: 'normal', fontFamily: 'inherit' }}>

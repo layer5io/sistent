@@ -1,4 +1,5 @@
 import React from 'react';
+import { Typography } from '../../base';
 import { ChapterContent, ChapterDesc, ChapterNumber, ContentCardWrapper } from './style';
 
 interface ChapterProps {
@@ -21,11 +22,11 @@ const LearningContent: React.FC<ContentCardProps> = ({ chapterNum, chapter }) =>
     <ChapterContent>
       <ChapterNumber>{chapterNum}</ChapterNumber>
       <ChapterDesc>
-        <h2>
+        <Typography variant="h2">
           {chapter.frontmatter.chapterTitle
             ? chapter.frontmatter.chapterTitle
             : chapter.frontmatter.courseTitle}
-        </h2>
+        </Typography>
         <p>{chapter.frontmatter.description}</p>
       </ChapterDesc>
     </ChapterContent>

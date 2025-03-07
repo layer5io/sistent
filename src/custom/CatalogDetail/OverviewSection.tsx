@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '../../base';
+import { Grid, Typography } from '../../base';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import ContentClassInfo from './ContentClassInfo';
@@ -96,7 +96,9 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
         <Grid item lg={8} md={8} sm={12} xs={12}>
           {showContentDetails ? (
             <ContentRow>
-              <h2 style={{ margin: '0' }}>WHAT DOES THIS DESIGN DO?</h2>
+              <Typography variant="h2" style={{ margin: '0' }}>
+                WHAT DOES THIS DESIGN DO?
+              </Typography>
               {details?.catalog_data?.pattern_info ? (
                 <PatternInfo text={decodeURIComponent(details.catalog_data.pattern_info)} />
               ) : (

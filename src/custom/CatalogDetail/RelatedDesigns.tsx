@@ -1,3 +1,4 @@
+import { Typography } from '../../base';
 import { Carousel } from '../Carousel';
 import { CatalogCardDesignLogo } from '../CustomCatalog';
 import CustomCatalogCard, { Pattern } from '../CustomCatalog/CustomCard';
@@ -71,11 +72,11 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
   return (
     <AdditionalContainer>
       <ContentHeading>
-        <h2 style={{ margin: '0', textTransform: 'uppercase' }}>
+        <Typography variant="h2" style={{ margin: '0', textTransform: 'uppercase' }}>
           {filterByType
             ? organizationName
             : getHeadingText({ type, userProfile, organizationName, fetchingOrgError })}
-        </h2>
+        </Typography>
       </ContentHeading>
       <Carousel items={carouselItems} scrollAmount={300} />
     </AdditionalContainer>

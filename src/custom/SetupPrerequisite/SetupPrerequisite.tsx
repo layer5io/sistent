@@ -1,4 +1,5 @@
 import React from 'react';
+import { Typography } from '../../base';
 import { Card, CardHeader, ContainerCardWrapper, SetupPreReqWrapper } from './style';
 
 interface SetupItem {
@@ -14,7 +15,7 @@ interface SetupPreReqProps {
 const SetupPreReq: React.FC<SetupPreReqProps> = ({ Steps, PrerequisiteLine }) => (
   <SetupPreReqWrapper>
     <div className="get-started-desc" id="pre-requisites">
-      <h2>Prerequisites</h2>
+      <Typography variant="h2">Prerequisites</Typography>
       <p>{PrerequisiteLine}</p>
     </div>
     <ContainerCardWrapper id="Set up">
@@ -22,7 +23,7 @@ const SetupPreReq: React.FC<SetupPreReqProps> = ({ Steps, PrerequisiteLine }) =>
         return (
           <Card key={index} href={item.url} target="_blank">
             <CardHeader>
-              <h2>{item.heading}</h2>
+              <Typography variant="h2">{item.heading}</Typography>
               {typeof item.Icon === 'string' ? (
                 <img src={item.Icon} alt={item.heading} width={'40px'} height={'40px'} />
               ) : (

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Typography } from '../../base';
 import { ChapterCardWrapper, ChapterContent, ChapterDescription, ChapterNumber } from './style';
 
 interface Chapter {
@@ -19,11 +20,11 @@ const ChapterCard: React.FC<Props> = ({ chapterNum, chapter }) => (
     <ChapterContent>
       <ChapterNumber>{chapterNum}</ChapterNumber>
       <ChapterDescription>
-        <h3>
+        <Typography variant="h3">
           {chapter.frontmatter.chapterTitle
             ? chapter.frontmatter.chapterTitle
             : chapter.frontmatter.courseTitle}
-        </h3>
+        </Typography>
         <p>{chapter.frontmatter.description}</p>
       </ChapterDescription>
     </ChapterContent>

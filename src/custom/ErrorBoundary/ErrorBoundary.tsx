@@ -46,7 +46,7 @@ export function Fallback({
 }: FallbackComponentProps): JSX.Element {
   return (
     <div role="alert">
-      <h2>Uh-oh!😔 Please pardon the mesh.</h2>
+      <Typography variant="h2">Uh-oh!😔 Please pardon the mesh.</Typography>
       <CodeMessage>
         <code>
           <strong>Error: </strong>

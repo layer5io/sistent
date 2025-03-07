@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Typography } from '../../base';
 import { CloseIcon, DropDownIcon, OutlinedDoubleChevronIcon } from '../../icons';
 import { TOCWrapper } from './style';
 interface CourseData {
@@ -31,7 +32,7 @@ const TOCLearning: React.FC<TOCProps> = ({ coursesData }) => {
       <div className="go-back">
         <a href={'/learn/learning-paths'}>
           <OutlinedDoubleChevronIcon />
-          <h4>Learning Paths</h4>
+          <Typography variant="h4">Learning Paths</Typography>
         </a>
         <div className="toc-toggle-btn">
           {expand ? (
@@ -54,7 +55,9 @@ const TOCLearning: React.FC<TOCProps> = ({ coursesData }) => {
       <div className="toc-list">
         <ul className={`toc-ul ${expand ? 'toc-ul-open' : ''}`}>
           <a href="#pre-requisites">
-            <h5 className="toc-sub-heading">Pre-requisites</h5>
+            <Typography variant="h5" className="toc-sub-heading">
+              Pre-requisites
+            </Typography>
           </a>
           {preReqSteps.map((item, index) => (
             <li key={index}>
@@ -65,7 +68,9 @@ const TOCLearning: React.FC<TOCProps> = ({ coursesData }) => {
           ))}
 
           <a href="#courses-list">
-            <h5 className="toc-sub-heading">Courses</h5>
+            <Typography variant="h5" className="toc-sub-heading">
+              Courses
+            </Typography>
           </a>
 
           {coursesData.map((item, index) => (

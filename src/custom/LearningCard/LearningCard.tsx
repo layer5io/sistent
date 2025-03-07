@@ -1,4 +1,5 @@
 import React from 'react';
+import { Typography } from '../../base';
 import {
   Card2,
   CardActive,
@@ -46,11 +47,11 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType
           <CardParent style={{ borderTop: `5px solid ${tutorial.frontmatter.themeColor}` }}>
             <div>
               <CardHead>
-                <h3>
+                <Typography variant="h3">
                   {tutorial.frontmatter.title
                     ? tutorial.frontmatter.title
                     : tutorial.frontmatter.courseTitle}
-                </h3>
+                </Typography>
                 <div style={{ whiteSpace: 'nowrap' }}>
                   <span>Coming Soon</span>
                 </div>
@@ -70,11 +71,11 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType
             <CardParent style={{ borderTop: `5px solid ${tutorial.frontmatter.themeColor}` }}>
               <div>
                 <CardHead>
-                  <h3>
+                  <Typography variant="h3">
                     {tutorial.frontmatter.title
                       ? tutorial.frontmatter.title
                       : tutorial.frontmatter.courseTitle}
-                  </h3>
+                  </Typography>
                   {tutorial.frontmatter.status ? (
                     <p>
                       <span>New</span>
