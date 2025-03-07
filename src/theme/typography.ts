@@ -4,6 +4,14 @@ import { common } from './colors';
 
 declare module '@mui/material/styles' {
   interface TypographyVariants {
+    h1: React.CSSProperties;
+    h2: React.CSSProperties;
+    h3: React.CSSProperties;
+    h4: React.CSSProperties;
+    h5: React.CSSProperties;
+    h6: React.CSSProperties;
+    body1: React.CSSProperties;
+    body2: React.CSSProperties;
     textH1Bold: React.CSSProperties;
     textH2Medium: React.CSSProperties;
     textH3Medium: React.CSSProperties;
@@ -18,6 +26,14 @@ declare module '@mui/material/styles' {
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
+    h1?: React.CSSProperties;
+    h2?: React.CSSProperties;
+    h3?: React.CSSProperties;
+    h4?: React.CSSProperties;
+    h5?: React.CSSProperties;
+    h6?: React.CSSProperties;
+    body1?: React.CSSProperties;
+    body2?: React.CSSProperties;
     textH1Bold?: React.CSSProperties;
     textH2Medium?: React.CSSProperties;
     textH3Medium?: React.CSSProperties;
@@ -33,6 +49,14 @@ declare module '@mui/material/styles' {
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
+    h1: true;
+    h2: true;
+    h3: true;
+    h4: true;
+    h5: true;
+    h6: true;
+    body1: true;
+    body2: true;
     textH1Bold: true;
     textH2Medium: true;
     textH3Medium: true;
@@ -51,6 +75,54 @@ const theme = createTheme();
 export const typography = (mode: PaletteMode): TypographyOptions => {
   return {
     fontFamily: ['Qanelas Soft Regular', 'Roboto', 'Helvectica', 'Arial', 'sans-serif'].join(','),
+    h1: {
+      fontFamily: ['Qanelas Soft Regular', 'Open Sans', 'sans-serif'].join(','),
+      fontWeight: 700,
+      fontSize: '3.25rem',
+      lineHeight: '4rem'
+    },
+    h2: {
+      fontFamily: ['Qanelas Soft Regular', 'Open Sans', 'sans-serif'].join(','),
+      fontWeight: 600,
+      fontSize: '2.5rem',
+      lineHeight: '3rem'
+    },
+    h3: {
+      fontFamily: ['Qanelas Soft Regular', 'Open Sans', 'sans-serif'].join(','),
+      fontWeight: 500,
+      fontSize: '2rem',
+      lineHeight: '2.5rem'
+    },
+    h4: {
+      fontFamily: ['Qanelas Soft Regular', 'Open Sans', 'sans-serif'].join(','),
+      fontWeight: 400,
+      fontSize: '1.75rem',
+      lineHeight: '2.25rem'
+    },
+    h5: {
+      fontFamily: ['Qanelas Soft Regular', 'Open Sans', 'sans-serif'].join(','),
+      fontWeight: 400,
+      fontSize: '1.5rem',
+      lineHeight: '2rem'
+    },
+    h6: {
+      fontFamily: ['Qanelas Soft Regular', 'Open Sans', 'sans-serif'].join(','),
+      fontWeight: 600,
+      fontSize: '1.25rem',
+      lineHeight: '1.75rem'
+    },
+    body1: {
+      fontFamily: ['Qanelas Soft Regular', 'Open Sans', 'sans-serif'].join(','),
+      fontWeight: 400,
+      fontSize: '1rem',
+      lineHeight: '1.5rem'
+    },
+    body2: {
+      fontFamily: ['Qanelas Soft Regular', 'Open Sans', 'sans-serif'].join(','),
+      fontWeight: 400,
+      fontSize: '0.875rem',
+      lineHeight: '1.25rem'
+    },
     textH1Bold: {
       fontFamily: ['Qanelas Soft Regular'].join(','),
       fontSize: '3.25rem',
