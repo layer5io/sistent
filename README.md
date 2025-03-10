@@ -73,8 +73,6 @@ attach sistent to your project:
 > [!NOTE]
 > Avoid using `type any` in your code. Always specify explicit types to ensure type safety and maintainability.
 
-You can also refer to this "<a href="https://www.youtube.com/live/lsw9KA__iu4?si=o8gpZdSHcqO2OKxE">Training: contributing to Sistent</a>" and this <a href="https://www.youtube.com/live/yiXkxbibLUU?si=Dybj5qr0VLhLWEpl">Websites call</a> where experienced contributors have taught how to use sistent in your project or Meshery
-
 <br/>
 
 ## Join the Layer5 community!
