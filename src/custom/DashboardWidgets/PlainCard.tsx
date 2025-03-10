@@ -27,7 +27,10 @@ const ResourceListItem = styled('li')({
   listStyleType: 'none',
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'center'
+  alignItems: 'center',
+  '&:hover': {
+    filter: 'invert(50%) sepia(30%) saturate(1000%) hue-rotate(120deg)'
+  }
 });
 
 const StyledResourceIcon = styled('img')({
@@ -40,7 +43,10 @@ const StyledResourceLink = styled(Link)({
   fontSize: '1rem',
   fontWeight: '400',
   marginRight: '0.25rem',
-  textDecoration: 'none'
+  textDecoration: 'none',
+  '&:hover': {
+    textDecoration: 'none'
+  }
 });
 
 interface Resource {
