@@ -1,7 +1,6 @@
 import { Box, Button, Card, Checkbox, Grid, IconButton, Typography } from '../../base';
 import { DeleteIcon, EditIcon } from '../../icons';
 import { styled, useTheme } from '../../theme';
-import { charcoal } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
 
 export const ModalActionDiv = styled('div')({
@@ -181,7 +180,6 @@ export const AllocationWorkspace = styled(AllocationButton)({
 
 export const PopupButton = styled(Button)(({ theme }) => ({
   width: '100%',
-  borderRadius: '4px',
   background: theme.palette.background.brand?.default,
   boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
   display: 'flex',
@@ -213,21 +211,6 @@ export const TabCount = styled('p')<TabStyleProps>(({ theme, textColor }) => ({
   lineHeight: 1,
   marginBottom: '5px',
   color: textColor || theme.palette.text.constant?.white
-}));
-
-export const ViewButton = styled(Button)(({ theme }) => ({
-  width: '100%',
-  borderRadius: '4px',
-  background: theme.palette.text.default,
-  boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-  display: 'flex',
-  flexDirection: 'column',
-  marginBottom: '10px',
-  color: `${charcoal[40]}30 !important`,
-  '&:hover': {
-    background: theme.palette.text.default
-  },
-  padding: '15px 10px'
 }));
 
 interface IconWrapperProps {
