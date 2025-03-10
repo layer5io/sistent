@@ -1,11 +1,9 @@
-# This workflow will run tests using node and then publish a package to GitHub Packages when a release is created
-# For more information see: https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages
-
 name: Publish Node.js Package
 
 on:
   release:
     types: [published]
+
 env:
   HUSKY: 0
 
@@ -36,14 +34,16 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '20.x'
-          registry-url: "https://registry.npmjs.org"
+          registry-url: "https://npm.pkg.github.com" # ✅ Updated for GitHub Packages
           scope: "@layer5"
+
       - run: |
           npm install
           npm run build
           npm publish --verbose
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # ✅ Use GitHub token for authentication
+
   versions-check:
     needs: publish-gpr
     runs-on: ubuntu-latest
@@ -53,19 +53,19 @@ jobs:
         with:
           result-encoding: string
           script: |
-            let str = `${{github.event.release.tag_name}}`
+            let str = `${{ github.event.release.tag_name }}`
+            return str.replace(/^v/, '') # ✅ Ensure correct version format
 
-            return str.replace(/^v/, '')
       - name: Save Release number
         if: ${{ !cancelled() }}
         run: |
           mkdir -p ./version
           echo ${{ steps.versions.outputs.result }} > ./version/number
+
       - name: Upload Version Report
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
+        uses: actions/upload-artifact@v4
         with:
           name: version-number
-          path: |
-            version/number
+          path: version/number
           retention-days: 14
