@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash';
+import moment from 'moment';
 import { MUIDataTableColumn } from 'mui-datatables';
 import { useCallback, useMemo, useRef } from 'react';
 import { PublishIcon } from '../../icons';
 import { CHARCOAL } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
+import { CustomTooltip } from '../CustomTooltip';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
 import PromptComponent from '../Prompt';
@@ -57,13 +59,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
   const modalRef = useRef<PromptRef>(null);
 
   const formatDate = useCallback((date: string | Date): string => {
-    const dateOptions: Intl.DateTimeFormatOptions = {
-      weekday: 'short',
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    };
-    return new Date(date).toLocaleDateString('en-US', dateOptions);
+    return moment(date).fromNow();
   }, []);
 
   const processedColumns: MUIDataTableColumn[] = useMemo(() => {
@@ -86,11 +82,20 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
           if (!value || value === 'NA') return <>NA</>;
           if (typeof value === 'object' && 'Valid' in value) {
             if (value.Valid && value.Time) {
-              return <>{formatDate(value.Time)}</>;
+              const date = new Date(value.Time);
+              return (
+                <CustomTooltip title={date.toString()} disableInteractive>
+                  <div>{formatDate(date)}</div>
+                </CustomTooltip>
+              );
             }
             return <>NA</>;
           }
-          return <>{formatDate(value)}</>;
+          return (
+            <CustomTooltip title={new Date(value).toString()} disableInteractive>
+              <div>{formatDate(value)}</div>
+            </CustomTooltip>
+          );
         };
       }
       return newCol;

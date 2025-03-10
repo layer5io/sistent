@@ -1,9 +1,11 @@
+import moment from 'moment';
 import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { ShareIcon } from '../icons';
 import { EllipsisIcon } from '../icons/Ellipsis';
 import { styled, useTheme } from './../theme';
+import { CustomTooltip } from './CustomTooltip';
 import { ColView } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { TooltipIcon } from './TooltipIconButton';
 
@@ -157,14 +159,7 @@ const ResponsiveDataTable = ({
   ...props
 }: ResponsiveDataTableProps): JSX.Element => {
   const formatDate = (date: Date): string => {
-    const dateOptions: Intl.DateTimeFormatOptions = {
-      weekday: 'short',
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    };
-
-    return new Intl.DateTimeFormat('en-US', dateOptions).format(date);
+    return moment(date).fromNow();
   };
 
   const updatedOptions = {
@@ -227,13 +222,21 @@ const ResponsiveDataTable = ({
               const obj = value as { Valid: boolean; Time: string | undefined };
               if (obj.Valid && obj.Time) {
                 const date = new Date(obj.Time);
-                return <>{formatDate(date)}</>;
+                return (
+                  <CustomTooltip title={date.toString()} disableInteractive>
+                    <div>{formatDate(date)}</div>
+                  </CustomTooltip>
+                );
               } else {
                 return <>NA</>;
               }
             } else if (typeof value === 'string') {
               const date = new Date(value);
-              return <>{formatDate(date)}</>;
+              return (
+                <CustomTooltip title={date.toString()} disableInteractive>
+                  <div>{formatDate(date)}</div>
+                </CustomTooltip>
+              );
             } else {
               return <>{value}</>;
             }
