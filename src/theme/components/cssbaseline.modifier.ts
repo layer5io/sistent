@@ -7,10 +7,9 @@ export const MuiCssBaseline: Components<Theme>['MuiCssBaseline'] = {
       font-style: normal;
       font-display: swap;
       font-weight: 400;
-      src: 
+      src:
         local('QanelasSoftRegular'),
-        local('Quanelas Soft Regular'),
-        url('/assets/fonts/QanelasSoftRegular.woff2') format('woff2');
+        local('Quanelas Soft Regular')
     }
     `
 };

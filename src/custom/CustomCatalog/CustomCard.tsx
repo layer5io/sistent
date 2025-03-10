@@ -114,7 +114,7 @@ const ClassWrap = ({ catalogClassName }: { catalogClassName: string }) => {
 const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   pattern,
   patternType,
-  cardHeight = '18rem',
+  cardHeight = '16.5rem',
   cardWidth = '15rem',
   cardStyles,
   shouldFlip = true,
@@ -280,7 +280,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
             </DesignDetailsDiv>
 
             {isDetailed && (
-              <DesignDetailsDiv style={{ marginTop: '40px' }}>
+              <DesignDetailsDiv style={{ marginTop: '20px' }}>
                 <Grid container style={{ justifyContent: 'space-between', alignItems: 'center' }}>
                   <Grid
                     item

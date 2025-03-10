@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { MUIDataTableColumn } from 'mui-datatables';
 import { useCallback, useMemo, useRef } from 'react';
 import { PublishIcon } from '../../icons';
-import { CHARCOAL, useTheme } from '../../theme';
+import { CHARCOAL } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
@@ -52,10 +52,8 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
   handleBulkDeleteModal,
   setSearch,
   rowsPerPageOptions = [10, 25, 50, 100],
-  tableBackgroundColor,
   handleBulkpatternsDataUnpublishModal
 }) => {
-  const theme = useTheme();
   const modalRef = useRef<PromptRef>(null);
 
   const formatDate = useCallback((date: string | Date): string => {
@@ -72,8 +70,6 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
     return columns.map((col) => {
       const newCol = { ...col };
       if (!newCol.options) newCol.options = {};
-      newCol.options.sort = true;
-      newCol.options.filter = true;
       newCol.options.display = columnVisibility[col.name];
       if (
         [
@@ -149,8 +145,6 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
       rowsPerPage: pageSize,
       page,
       elevation: 0,
-      sort: true,
-      filter: true,
       sortOrder: {
         name: sortOrder.split(' ')[0],
         direction: sortOrder.split(' ')[1]
@@ -208,13 +202,6 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
         colViews={colViews}
         tableCols={processedColumns}
         columnVisibility={columnVisibility}
-        backgroundColor={
-          tableBackgroundColor
-            ? tableBackgroundColor
-            : theme.palette.mode === 'light'
-            ? theme.palette.background.default
-            : theme.palette.background.secondary
-        }
       />
     </ErrorBoundary>
   );
