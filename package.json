@@ -79,9 +79,9 @@
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "@xstate/react": "^4.1.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "@xstate/react": "^5.0.2",
+    "react": "^17.0.2 || ^18.3.1",
+    "react-dom": "^17.0.2 || ^18.3.1",
     "xstate": "^5.18.2"
   },
   "peerDependenciesMeta": {

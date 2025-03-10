@@ -1,9 +1,9 @@
-import { Theme, styled } from '@mui/material/styles';
 import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { ShareIcon } from '../icons';
 import { EllipsisIcon } from '../icons/Ellipsis';
+import { styled, useTheme } from './../theme';
 import { ColView } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { TooltipIcon } from './TooltipIconButton';
 
@@ -20,11 +20,10 @@ export const IconWrapper = styled('div', {
 
 export const DataTableEllipsisMenu: React.FC<{
   actionsList: NonNullable<Column['options']>['actionsList'];
-  theme?: Theme;
-}> = ({ actionsList, theme }) => {
+}> = ({ actionsList }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [isSocialShareOpen, setIsSocialShareOpen] = React.useState(false);
-
+  const theme = useTheme();
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -50,7 +49,7 @@ export const DataTableEllipsisMenu: React.FC<{
       <TooltipIcon
         title="View Actions"
         onClick={handleClick}
-        icon={<EllipsisIcon fill={theme?.palette.icon.default ?? 'black'} />}
+        icon={<EllipsisIcon fill={theme.palette.icon.default} />}
         arrow
       />
       <Menu
@@ -59,9 +58,8 @@ export const DataTableEllipsisMenu: React.FC<{
         open={Boolean(anchorEl)}
         onClose={handleClose}
         sx={{
-          fontFamily: theme?.typography.fontFamily,
           '& .MuiPaper-root': {
-            backgroundColor: theme?.palette.background.card ?? 'white'
+            backgroundColor: theme.palette.background.card
           }
         }}
       >
@@ -73,19 +71,14 @@ export const DataTableEllipsisMenu: React.FC<{
                   key={`${index}-menuitem`}
                   sx={{
                     width: '-webkit-fill-available'
-                    // background: theme.palette.background.surfaces
                   }}
                   onClick={() => handleActionClick(action)}
                   disabled={action.disabled}
                 >
                   <ListItemIcon>
-                    <ShareIcon
-                      width={24}
-                      height={24}
-                      fill={theme?.palette.text.primary ?? 'black'}
-                    />
+                    <ShareIcon width={24} height={24} fill={theme.palette.text.primary} />
                   </ListItemIcon>
-                  <ListItemText sx={{ color: theme?.palette.text.primary ?? 'black' }}>
+                  <ListItemText sx={{ color: theme.palette.text.primary }}>
                     {action.title}
                   </ListItemText>
                 </MenuItem>,
@@ -109,7 +102,7 @@ export const DataTableEllipsisMenu: React.FC<{
                     disabled={action.disabled}
                   >
                     <ListItemIcon>{action.icon}</ListItemIcon>
-                    <ListItemText sx={{ color: theme?.palette.text.primary ?? 'black' }}>
+                    <ListItemText sx={{ color: theme.palette.text.primary }}>
                       {action.title}
                     </ListItemText>
                   </MenuItem>
