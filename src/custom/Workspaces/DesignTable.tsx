@@ -249,7 +249,6 @@ const DesignTable: React.FC<DesignTableProps> = ({
             }
             filter={'my-designs'}
             setSearch={setDesignSearch}
-            tableBackgroundColor={theme.palette.background.constant?.table}
           />
         </AccordionDetails>
       </Accordion>

@@ -46,14 +46,6 @@ const TeamTable: React.FC<TeamTableProps> = ({
   useRemoveUserFromTeamMutation
 }) => {
   const theme = useTheme();
-  columns.forEach((col) => {
-    if (!col.options) {
-      col.options = {};
-    }
-    col.options.sort = true;
-    col.options.filter = true;
-    col.options.display = columnVisibility[col.name] ?? true;
-  });
   return (
     <ErrorBoundary>
       <ResponsiveDataTable
