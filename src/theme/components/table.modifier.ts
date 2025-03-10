@@ -20,7 +20,20 @@ const MuiTableBody: Components<Theme>['MuiTableBody'] = {
 const MuiTableCell: Components<Theme>['MuiTableCell'] = {
   styleOverrides: {
     root: ({ theme }) => {
-      return { borderBottom: `1px solid ${theme.palette.icon.disabled}` };
+      return {
+        borderBottom: `1px solid ${theme.palette.icon.disabled}`,
+        backgroundColor: 'transparent !important'
+      };
+    },
+    head: {
+      '& div': {
+        fontSize: '1rem',
+        fontWeight: 'bold'
+      },
+      '& .MuiButton-root': {
+        fontWeight: 'bold',
+        textTransform: 'uppercase !important'
+      }
     }
   }
 };
@@ -29,7 +42,10 @@ const MuiTableFooter: Components<Theme>['MuiTableFooter'] = {
   styleOverrides: {
     root: ({ theme }) => {
       return {
-        backgroundColor: theme.palette.background.card
+        backgroundColor:
+          theme.palette.mode == 'dark'
+            ? theme.palette.background.card
+            : theme.palette.background.surfaces
       };
     }
   }
@@ -39,7 +55,10 @@ const MuiTableHead: Components<Theme>['MuiTableHead'] = {
   styleOverrides: {
     root: ({ theme }) => {
       return {
-        backgroundColor: theme.palette.background.card,
+        backgroundColor:
+          theme.palette.mode == 'dark'
+            ? theme.palette.background.card
+            : theme.palette.background.surfaces,
         fontWeight: 'bold',
         textTransform: 'uppercase'
       };
@@ -62,7 +81,8 @@ const MuiTableSortLabel: Components<Theme>['MuiTableSortLabel'] = {
     root: ({ theme }) => {
       return {
         '& .MuiTableSortLabel-icon': {
-          color: `${theme.palette.icon.default} !important`
+          color: `${theme.palette.icon.default} !important`,
+          height: 'auto !important'
         }
       };
     }
@@ -81,7 +101,10 @@ const MuiToolbar: Components<Theme>['MuiToolbar'] = {
   styleOverrides: {
     root: ({ theme }) => {
       return {
-        backgroundColor: theme.palette.background.card,
+        backgroundColor:
+          theme.palette.mode == 'dark'
+            ? theme.palette.background.card
+            : theme.palette.background.surfaces,
         color: theme.palette.text.default
       };
     }
