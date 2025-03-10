@@ -49,25 +49,23 @@ const StyledButton = styled(Button)(() => ({
   padding: '0px'
 }));
 
-const StyledDiv = styled('div')(
-  ({ theme, enabled, type }: { theme: Theme; enabled: boolean; type: VIEW_VISIBILITY }) => ({
-    paddingLeft: '0.3rem',
-    height: '1.5rem',
-    paddingRight: enabled ? '0' : '0.3rem',
-    borderRadius: '0.25rem',
-    border: `1px solid ${NOT_FOUND}`,
-    background:
-      theme?.palette.mode === 'light' ? ALICE_BLUE : theme?.palette.background.constant?.table,
-    textTransform: 'uppercase',
-    color: theme?.palette.text.default,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: type !== 'published' ? '3.8rem' : 'auto',
-    fontSize: '0.75rem',
-    fontFamily: theme?.typography.fontFamily
-  })
-);
+const StyledDiv = styled('div')(({ theme, enabled }: { theme: Theme; enabled: boolean }) => ({
+  paddingLeft: '0.3rem',
+  height: '1.5rem',
+  width: 'auto',
+  paddingRight: enabled ? '0' : '0.3rem',
+  borderRadius: '0.25rem',
+  border: `1px solid ${NOT_FOUND}`,
+  background:
+    theme?.palette.mode === 'light' ? ALICE_BLUE : theme?.palette.background.constant?.table,
+  textTransform: 'uppercase',
+  color: theme?.palette.text.default,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  fontSize: '0.75rem',
+  fontFamily: theme?.typography.fontFamily
+}));
 
 const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
   textTransform: 'capitalize',
@@ -108,7 +106,7 @@ const VisibilityChipMenu: React.FC<VisibilityChipMenuProps> = ({
         onClick={handleOpen}
         data-testid={`design-visibility-${value.toLowerCase()}`}
       >
-        <StyledDiv theme={theme} enabled={enabled} type={value}>
+        <StyledDiv theme={theme} enabled={enabled}>
           <span style={{ fontSize: '0.7rem' }}>{value}</span>
           {enabled && <ArrowDropDownIcon style={{ ...iconXSmall }} />}
         </StyledDiv>

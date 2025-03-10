@@ -1,6 +1,7 @@
 import { ActionButton } from './ActionButton';
 import { BBChart } from './BBChart';
 import { BookmarkNotification } from './BookmarkNotification';
+import { Carousel } from './Carousel';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ChapterCard } from './ChapterCard';
 import { CollaboratorAvatarGroup } from './CollaboratorAvatarGroup';
@@ -72,6 +73,7 @@ export {
   ActionButton,
   BBChart,
   BookmarkNotification,
+  Carousel,
   CatalogCardDesignLogo,
   CatalogFilter,
   ChapterCard,

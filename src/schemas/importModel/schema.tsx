@@ -1,13 +1,20 @@
 const importModelSchema = {
   type: 'object',
+  required: ['uploadType'],
   properties: {
     uploadType: {
+      type: 'string',
       title: 'Upload method',
-      enum: ['File Import', 'URL Import'],
+      enum: ['File Import', 'URL Import', 'CSV Import'],
+      enumDescriptions: [
+        'Upload a model file (.tar, .tar.gz, .tgz) from your local system',
+        'Import a model file using a direct URL to the source',
+        'Upload separate CSV files for model definitions, components, and their relationships'
+      ],
       default: 'Select the Upload Method',
       'x-rjsf-grid-area': '12',
       description:
-        "Choose the method you prefer to upload your model file. Select 'File Upload' if you have the file on your local system or 'URL Import' if you have the file hosted online."
+        "Choose the method you prefer to upload your model file. Select 'File Import' or 'CSV Import' if you have the file on your local system or 'URL Import' if you have the file hosted online."
     }
   },
   allOf: [
@@ -51,11 +58,11 @@ const importModelSchema = {
             'x-rjsf-grid-area': '12',
             disabled: true
           }
-        }
+        },
+        required: ['url']
       }
     }
-  ],
-  required: ['uploadType']
+  ]
 };
 
 export default importModelSchema;
