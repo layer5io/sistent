@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash';
-import moment from 'moment';
 import { MUIDataTableColumn } from 'mui-datatables';
 import { useCallback, useMemo, useRef } from 'react';
 import { PublishIcon } from '../../icons';
 import { CHARCOAL } from '../../theme';
+import { FormattedTime } from '../../utils';
 import { Pattern } from '../CustomCatalog/CustomCard';
-import { CustomTooltip } from '../CustomTooltip';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
 import PromptComponent from '../Prompt';
@@ -58,10 +57,6 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
 }) => {
   const modalRef = useRef<PromptRef>(null);
 
-  const formatDate = useCallback((date: string | Date): string => {
-    return moment(date).fromNow();
-  }, []);
-
   const processedColumns: MUIDataTableColumn[] = useMemo(() => {
     return columns.map((col) => {
       const newCol = { ...col };
@@ -82,25 +77,16 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
           if (!value || value === 'NA') return <>NA</>;
           if (typeof value === 'object' && 'Valid' in value) {
             if (value.Valid && value.Time) {
-              const date = new Date(value.Time);
-              return (
-                <CustomTooltip title={date.toString()} disableInteractive>
-                  <div>{formatDate(date)}</div>
-                </CustomTooltip>
-              );
+              return <FormattedTime date={value.Time} />;
             }
             return <>NA</>;
           }
-          return (
-            <CustomTooltip title={new Date(value).toString()} disableInteractive>
-              <div>{formatDate(value)}</div>
-            </CustomTooltip>
-          );
+          return <FormattedTime date={value.Time} />;
         };
       }
       return newCol;
     });
-  }, [columns, columnVisibility, formatDate]);
+  }, [columns, columnVisibility]);
 
   const handleTableChange = useCallback(
     (action: string, tableState: any) => {

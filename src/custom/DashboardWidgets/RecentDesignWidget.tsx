@@ -17,9 +17,9 @@ import {
 import { iconMedium } from '../../constants/iconsSizes';
 import { AddIcon, OpenInNewIcon } from '../../icons';
 import { useTheme } from '../../theme';
+import { getFullFormattedTime, getRelativeTime } from '../../utils';
 import { CustomTooltip } from '../CustomTooltip';
 import { Modal, ModalBody } from '../Modal';
-import { formatDateTime, formatRelativeDate } from './utils';
 
 interface Resource {
   link: string;
@@ -297,7 +297,7 @@ interface RelativeFormattedDateProps {
 
 const RelativeFormattedDate: React.FC<RelativeFormattedDateProps> = ({ date, style }) => {
   return (
-    <Tooltip title={formatDateTime(date)} placement="top">
+    <Tooltip title={getFullFormattedTime(date)} placement="top">
       <div>
         <Typography
           style={{
@@ -305,7 +305,7 @@ const RelativeFormattedDate: React.FC<RelativeFormattedDateProps> = ({ date, sty
             ...style
           }}
         >
-          {formatRelativeDate(date)}
+          {getRelativeTime(date)}
         </Typography>
       </div>
     </Tooltip>

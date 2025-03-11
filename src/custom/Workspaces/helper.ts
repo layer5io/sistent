@@ -1,4 +1,4 @@
-import { formatDate } from '../CatalogDetail/helper';
+import { getFormatDate } from '../../utils';
 
 /**
  * Helper function to parse and format the value of a field representing a deletion timestamp in the provided data object.
@@ -11,8 +11,7 @@ export const parseDeletionTimestamp = (data: {
   deleted_at: { Valid: boolean; Time: string | number | Date };
 }) => {
   if (data && data.deleted_at && data.deleted_at.Valid === true) {
-    const date = new Date(data.deleted_at.Time);
-    return formatDate(date);
+    return getFormatDate(data.deleted_at.Time as string);
   } else {
     return DEFAULT_DATE;
   }
