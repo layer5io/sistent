@@ -1,5 +1,6 @@
 import { Theme } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
+import { Typography } from '../../base';
 import { PLAYGROUND_MODES } from '../../constants/constants';
 import { ChainIcon, CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
@@ -9,7 +10,7 @@ import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
-import { UserTableAvatarInfo } from '../UsersTable';
+import AuthorCell from './AuthorCell';
 import { getColumnValue } from './helper';
 import { L5DeleteIcon, NameDiv } from './style';
 
@@ -103,14 +104,13 @@ export const createDesignsColumnsConfig = ({
           const lastName = getColumnValue(tableMeta as TableMeta, 'last_name');
           const avatar_url = getColumnValue(tableMeta as TableMeta, 'avatar_url');
           const user_id = getColumnValue(tableMeta as TableMeta, 'user_id');
-          const userEmail = getColumnValue(tableMeta as TableMeta, 'email');
 
           return (
-            <UserTableAvatarInfo
-              userEmail={userEmail}
+            <AuthorCell
               userId={user_id}
-              userName={`${firstName} ${lastName}`}
-              profileUrl={avatar_url}
+              avatarUrl={avatar_url}
+              firstName={firstName}
+              lastName={lastName}
             />
           );
         }
@@ -165,7 +165,11 @@ export const createDesignsColumnsConfig = ({
       options: {
         filter: false,
         sort: false,
-        searchable: false
+        searchable: false,
+        customBodyRender: (_, tableMeta: MUIDataTableMeta) => {
+          const userEmail = getColumnValue(tableMeta as TableMeta, 'email');
+          return <Typography variant="body2">{userEmail}</Typography>;
+        }
       }
     },
 
