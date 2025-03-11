@@ -13,7 +13,6 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
       } = theme;
       return {
         ...textB2SemiBold,
-        borderRadius: '0.5rem',
         fontWeight: 500,
         '&.MuiButton-contained': {
           color: constant?.white,
