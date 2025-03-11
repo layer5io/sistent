@@ -26,9 +26,6 @@ export const createCustomTheme = (mode: PaletteMode, brandPalette?: Interactiven
     },
     components,
     typography: typography(mode),
-    breakpoints: {},
-    shape: {
-      borderRadius: 8
-    }
+    breakpoints: {}
   });
 };
