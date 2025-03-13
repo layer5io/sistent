@@ -106,7 +106,7 @@ Users can now test their code on their local machine against the CI checks imple
 To test code changes on your local machine, run the following command:
 
 ```
-make test-run
+make tests
 ```
 
 #### Building Docker image
