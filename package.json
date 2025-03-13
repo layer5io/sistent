@@ -79,9 +79,9 @@
     "typescript": "^5.3.3"
   },
   "peerDependencies": {
-    "@xstate/react": "^4.1.1",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "@xstate/react": "^5.0.2",
+    "react": "^17.0.2 || ^18.3.1",
+    "react-dom": "^17.0.2 || ^18.3.1",
     "xstate": "^5.18.2"
   },
   "peerDependenciesMeta": {
@@ -104,7 +104,7 @@
     "billboard.js": "^3.14.3",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
-    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.47",
     "mui-datatables": "*",
     "re-resizable": "^6.10.3",
     "react-draggable": "^4.4.6",

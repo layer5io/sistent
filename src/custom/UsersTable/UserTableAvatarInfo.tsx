@@ -38,7 +38,7 @@ const UserTableAvatarInfo: React.FC<UserTableAvatarInfoProps> = ({
       </Grid>
       <Grid item xs>
         {userName}
-        <Typography variant="body2" color={theme.palette.background.brand?.disabled}>
+        <Typography variant="body2" color={theme.palette.text.disabled}>
           {userEmail}
         </Typography>
       </Grid>

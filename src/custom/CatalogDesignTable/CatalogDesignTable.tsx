@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { MUIDataTableColumn } from 'mui-datatables';
 import { useCallback, useMemo, useRef } from 'react';
 import { PublishIcon } from '../../icons';
-import { CHARCOAL, useTheme } from '../../theme';
+import { CHARCOAL } from '../../theme';
+import { FormattedTime } from '../../utils';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
@@ -52,28 +53,14 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
   handleBulkDeleteModal,
   setSearch,
   rowsPerPageOptions = [10, 25, 50, 100],
-  tableBackgroundColor,
   handleBulkpatternsDataUnpublishModal
 }) => {
-  const theme = useTheme();
   const modalRef = useRef<PromptRef>(null);
-
-  const formatDate = useCallback((date: string | Date): string => {
-    const dateOptions: Intl.DateTimeFormatOptions = {
-      weekday: 'short',
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    };
-    return new Date(date).toLocaleDateString('en-US', dateOptions);
-  }, []);
 
   const processedColumns: MUIDataTableColumn[] = useMemo(() => {
     return columns.map((col) => {
       const newCol = { ...col };
       if (!newCol.options) newCol.options = {};
-      newCol.options.sort = true;
-      newCol.options.filter = true;
       newCol.options.display = columnVisibility[col.name];
       if (
         [
@@ -90,16 +77,16 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
           if (!value || value === 'NA') return <>NA</>;
           if (typeof value === 'object' && 'Valid' in value) {
             if (value.Valid && value.Time) {
-              return <>{formatDate(value.Time)}</>;
+              return <FormattedTime date={value.Time} />;
             }
             return <>NA</>;
           }
-          return <>{formatDate(value)}</>;
+          return <FormattedTime date={value.Time} />;
         };
       }
       return newCol;
     });
-  }, [columns, columnVisibility, formatDate]);
+  }, [columns, columnVisibility]);
 
   const handleTableChange = useCallback(
     (action: string, tableState: any) => {
@@ -149,8 +136,6 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
       rowsPerPage: pageSize,
       page,
       elevation: 0,
-      sort: true,
-      filter: true,
       sortOrder: {
         name: sortOrder.split(' ')[0],
         direction: sortOrder.split(' ')[1]
@@ -208,13 +193,6 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
         colViews={colViews}
         tableCols={processedColumns}
         columnVisibility={columnVisibility}
-        backgroundColor={
-          tableBackgroundColor
-            ? tableBackgroundColor
-            : theme.palette.mode === 'light'
-              ? theme.palette.background.default
-              : theme.palette.background.secondary
-        }
       />
     </ErrorBoundary>
   );

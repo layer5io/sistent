@@ -1,5 +1,6 @@
 import { Theme } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
+import { Typography } from '../../base';
 import { PLAYGROUND_MODES } from '../../constants/constants';
 import { ChainIcon, CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
@@ -9,7 +10,7 @@ import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
-import { UserTableAvatarInfo } from '../UsersTable';
+import AuthorCell from './AuthorCell';
 import { getColumnValue } from './helper';
 import { L5DeleteIcon, NameDiv } from './style';
 
@@ -72,9 +73,7 @@ export const createDesignsColumnsConfig = ({
       name: 'id',
       label: 'ID',
       options: {
-        filter: true,
-        sort: true,
-        searchable: true,
+        filter: false,
         customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={10} />
       }
     },
@@ -82,7 +81,7 @@ export const createDesignsColumnsConfig = ({
       name: 'name',
       label: 'Name',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: true,
         customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => {
@@ -97,7 +96,7 @@ export const createDesignsColumnsConfig = ({
       name: 'first_name',
       label: 'Author',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: true,
         customBodyRender: (_, tableMeta: MUIDataTableMeta) => {
@@ -105,14 +104,13 @@ export const createDesignsColumnsConfig = ({
           const lastName = getColumnValue(tableMeta as TableMeta, 'last_name');
           const avatar_url = getColumnValue(tableMeta as TableMeta, 'avatar_url');
           const user_id = getColumnValue(tableMeta as TableMeta, 'user_id');
-          const userEmail = getColumnValue(tableMeta as TableMeta, 'email');
 
           return (
-            <UserTableAvatarInfo
-              userEmail={userEmail}
+            <AuthorCell
               userId={user_id}
-              userName={`${firstName} ${lastName}`}
-              profileUrl={avatar_url}
+              avatarUrl={avatar_url}
+              firstName={firstName}
+              lastName={lastName}
             />
           );
         }
@@ -122,7 +120,7 @@ export const createDesignsColumnsConfig = ({
       name: 'created_at',
       label: 'Created At',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: true,
         setCellHeaderProps: () => {
@@ -134,7 +132,7 @@ export const createDesignsColumnsConfig = ({
       name: 'updated_at',
       label: 'Updated At',
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         searchable: true,
         setCellHeaderProps: () => {
@@ -146,8 +144,8 @@ export const createDesignsColumnsConfig = ({
       name: 'visibility',
       label: 'Visibility',
       options: {
-        filter: true,
-        sort: true,
+        filter: false,
+        sort: false,
         searchable: true
       }
     },
@@ -155,27 +153,33 @@ export const createDesignsColumnsConfig = ({
       name: 'user_id',
       label: 'User ID',
       options: {
-        filter: true,
-        sort: true,
-        searchable: true
+        filter: false,
+        sort: false,
+        searchable: false
       }
     },
+
     {
       name: 'email',
-      label: 'Email',
+      label: 'email',
       options: {
-        filter: true,
-        sort: true,
-        searchable: true
+        filter: false,
+        sort: false,
+        searchable: false,
+        customBodyRender: (_, tableMeta: MUIDataTableMeta) => {
+          const userEmail = getColumnValue(tableMeta as TableMeta, 'email');
+          return <Typography variant="body2">{userEmail}</Typography>;
+        }
       }
     },
+
     {
       name: 'actions',
       label: 'Actions',
       options: {
-        filter: true,
-        sort: true,
-        searchable: true,
+        filter: false,
+        sort: false,
+        searchable: false,
         setCellHeaderProps: () => ({ align: 'center' as const }),
         setCellProps: () => ({ align: 'center' as const }),
         customBodyRender: function CustomBody(_, tableMeta: MUIDataTableMeta) {
@@ -247,7 +251,7 @@ export const createDesignsColumnsConfig = ({
             actionsList.splice(1, 0, publishAction);
           }
 
-          return <DataTableEllipsisMenu actionsList={actionsList} theme={theme} />;
+          return <DataTableEllipsisMenu actionsList={actionsList} />;
         }
       }
     }
