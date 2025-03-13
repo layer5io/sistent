@@ -38,7 +38,7 @@ jobs:
         run: make build
 
       - name: Run Tests
-        run: make test-run
+        run: make tests
 
       - name: Log Node.js Version
         run: echo "Tested on Node.js version ${{ matrix.node-version }}"
