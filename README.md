@@ -37,37 +37,44 @@ Make sure you have `npm` on `node@16` and above. The CI workflows checks for in 
 
 To set up the project, run the following command to install dependencies:
 
-Please note that at this time, `npm install` will also build the project as the first step. This is to ensure that this is building correctly before moving to a task.
+```
+make setup
+```
+
+To test the sistent component locally, you can run:
 
 ```
-setup:
-	npm install
+make build
+```
+
+If you wish to build in watch mode:
+
+```
+make watchmode-build
 ```
 
 To check if your code meets the formatting standards, you can run:
 
 ```
-format-check:
-	npm run format:check
+make format-check
 ```
 
-To automatically fix formatting issues, you can run
+To run Eslint:
 
 ```
-format-fix:
-	npm run format:write
+make lint
 ```
 
-To test the sistent component locally, you can run
+To run tests:
 
 ```
-build:
-  npm run build
+make tests
 ```
 
+To attach sistent to your project use:
+
 ```
-attach sistent to your project:
-	npm install <path-to-sistent-on-local-machine>
+npm install <path-to-sistent-on-local-machine>
 ```
 
 > [!NOTE]

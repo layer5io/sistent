@@ -1,21 +1,31 @@
-.PHONY: setup build format-check format-fix
+include .github/build/Makefile.show-help.mk
 
-## Install Sistent dependencies your local machine.
-package-setup:
+.PHONY: setup build format-check format-fix lint
+
+## Install Sistent dependencies on your local machine
+setup:
 	npm install
 
-## Build Sistent components and packages on your local machine.
-package-build: setup
+## Build Sistent components and packages on your local machine
+build:
 	npm run build
 
-package-build-watch: setup
+## Buid Sistent in watch mode
+build-watch:
 	npm run build:watch
 
-package-format-check:
+## Check code formatting
+format-check:
 	npm run format:check
 
-package-format-fix:
+## Fix formatting and run Eslint on your local machine
+lint:
 	npm run format:write
+	npm run lint
+
+## Run tests
+tests:
+	npm run test
 
 .PHONY: version-patch version-minor version-major
 
@@ -27,6 +37,6 @@ version-patch:
 version-minor:
 	npm run versionup:minor
 
-# Create a major versio of packages
+# Create a major version of packages
 version-major:
 	npm run versionup:major

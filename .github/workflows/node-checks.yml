@@ -26,19 +26,19 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install Dependencies
-        run: npm install
+        run: make setup
 
       - name: Lint Check
-        run: npm run lint
+        run: make lint
 
       - name: Prettier Check
-        run: npm run format:check
+        run: make format-check
 
       - name: Build Project
-        run: npm run build
+        run: make build
 
       - name: Run Tests
-        run: npm run test
+        run: make tests
 
       - name: Log Node.js Version
         run: echo "Tested on Node.js version ${{ matrix.node-version }}"
