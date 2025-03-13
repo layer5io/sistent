@@ -24,7 +24,7 @@ lint:
 	npm run lint
 
 ## Run tests
-test-run:
+tests:
 	npm run test
 
 .PHONY: version-patch version-minor version-major

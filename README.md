@@ -68,7 +68,7 @@ make lint
 To run tests:
 
 ```
-make test-run
+make tests
 ```
 
 To attach sistent to your project use:
