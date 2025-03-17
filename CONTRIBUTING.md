@@ -106,7 +106,7 @@ Users can now test their code on their local machine against the CI checks imple
 To test code changes on your local machine, run the following command:
 
 ```
-make run-tests
+make tests
 ```
 
 #### Building Docker image
@@ -117,9 +117,17 @@ To build a Docker image of the project, please ensure you have `Docker` installe
 make docker
 ```
 
+You can also refer to this "<a href="https://www.youtube.com/live/lsw9KA__iu4?si=o8gpZdSHcqO2OKxE">Training: contributing to Sistent</a>" and this <a href="https://www.youtube.com/live/yiXkxbibLUU?si=Dybj5qr0VLhLWEpl">Websites call</a> where experienced contributors have taught how to use sistent in your project or Meshery
+
 ### UI Lint Rules
 
 Layer5 uses ES-Lint to maintain code quality & consistency in our UI Code.
+
+Run the following command before commiting the changes:
+
+```
+make lint
+```
 
 # <a name="maintaining"> Reviews</a>
 

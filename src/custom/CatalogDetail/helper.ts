@@ -56,12 +56,6 @@ export const formatToTitleCase = (value: string): string => {
   return '';
 };
 
-export const formatDate = (date: Date) => {
-  const options = { year: 'numeric', month: 'short', day: 'numeric' };
-  const formattedDate = new Date(date).toLocaleDateString('en-US', options);
-  return formattedDate;
-};
-
 interface HeadingProps {
   type: string;
   userProfile?: {

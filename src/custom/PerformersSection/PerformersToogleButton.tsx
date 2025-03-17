@@ -21,13 +21,14 @@ const PerformersSectionButton: React.FC<PerformersSectionButtonProps> = ({ open,
           onClick={handleClick}
           sx={{
             height: '3.7rem',
-            padding: '0rem'
+            padding: '0.3rem'
           }}
           style={{
             backgroundColor: open ? undefined : theme.palette.background.constant?.disabled
           }}
         >
-          <TropyIcon style={{ height: '2rem', width: '2rem' }} />
+          <TropyIcon style={{ height: '2rem', width: '2rem', marginRight: '10px' }} />
+          {open ? 'Hide Performers' : 'Show Performers'}
         </Button>
       </span>
     </CustomTooltip>

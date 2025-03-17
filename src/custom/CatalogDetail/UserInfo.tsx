@@ -1,11 +1,11 @@
 import { Avatar } from '../../base';
 import { CLOUD_URL } from '../../constants/constants';
 import { LockIcon, PublicIcon } from '../../icons';
+import { getFormatDate } from '../../utils';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { getVersion } from '../CustomCatalog/Helper';
 import { VisibilityChipMenu } from '../VisibilityChipMenu';
 import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
-import { formatDate } from './helper';
 import { ContentDetailsPoints, ContentDetailsText, ContentRow, RedirectLink } from './style';
 import { UserProfile } from './types';
 
@@ -56,11 +56,11 @@ const UserInfo: React.FC<UserInfoProps> = ({
       </ContentRow>
       <ContentRow>
         <ContentDetailsPoints>CREATED AT</ContentDetailsPoints>
-        <ContentDetailsText>{formatDate(details?.created_at)}</ContentDetailsText>
+        <ContentDetailsText>{getFormatDate(details?.created_at.toString())}</ContentDetailsText>
       </ContentRow>
       <ContentRow>
         <ContentDetailsPoints>UPDATED AT</ContentDetailsPoints>
-        <ContentDetailsText>{formatDate(details?.updated_at)}</ContentDetailsText>
+        <ContentDetailsText>{getFormatDate(details?.updated_at.toString())}</ContentDetailsText>
       </ContentRow>
       {showVersion && (
         <ContentRow>
