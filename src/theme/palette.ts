@@ -238,7 +238,7 @@ export const lightModePalette: PaletteOptions = {
       tertiary: Colors.blue[70]
     },
     success: {
-      default: Colors.green[30],
+      default: Colors.KEPPEL,
       hover: Colors.green[20],
       pressed: Colors.green[10],
       secondary: Colors.green[60],
