@@ -193,6 +193,9 @@ declare module '@mui/material/styles' {
 }
 
 export const lightModePalette: PaletteOptions = {
+  primary: {
+    main: Colors.KEPPEL
+  },
   background: {
     default: Colors.charcoal[100],
     secondary: Colors.accentGrey[90],
@@ -312,6 +315,9 @@ export const lightModePalette: PaletteOptions = {
 };
 
 export const darkModePalette: PaletteOptions = {
+  primary: {
+    main: Colors.KEPPEL
+  },
   background: {
     default: Colors.charcoal[10],
     secondary: Colors.accentGrey[20],
@@ -386,9 +392,9 @@ export const darkModePalette: PaletteOptions = {
   },
   text: {
     default: Colors.charcoal[100],
-    secondary: Colors.charcoal[40],
+    secondary: Colors.charcoal[70],
     tertiary: Colors.charcoal[60],
-    disabled: Colors.charcoal[70],
+    disabled: Colors.charcoal[60],
     inverse: Colors.charcoal[10],
     brand: Colors.keppel[40],
     info: Colors.blue[40],
