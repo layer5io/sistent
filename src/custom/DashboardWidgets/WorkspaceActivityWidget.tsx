@@ -107,7 +107,7 @@ const WorkspaceActivityCard: React.FC<WorkspaceActivityCardProps> = ({
   const iconsProps = {
     fill: theme.palette.icon?.default,
     primaryFill: theme.palette.icon?.default,
-    secondaryFill: theme.palette.background.brand?.default,
+    secondaryFill: theme.palette.icon.disabled,
     opacity: 0.6,
     iconMedium
   };
@@ -138,7 +138,7 @@ const WorkspaceActivityCard: React.FC<WorkspaceActivityCardProps> = ({
       </HeaderBox>
       {isEventsLoading ? (
         <LoaderBox>
-          <CircularProgress color="inherit" />
+          <CircularProgress />
         </LoaderBox>
       ) : activities?.length > 0 ? (
         <StyledList>
