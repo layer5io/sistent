@@ -96,7 +96,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
         <Grid item lg={8} md={8} sm={12} xs={12}>
           {showContentDetails ? (
             <ContentRow>
-              <h2 style={{ margin: '0' }}>WHAT DOES THIS DESIGN DO?</h2>
+              <h2 style={{ margin: '0' }}>WHAT DOES THIS DESIGN DOINGG?</h2>
               {details?.catalog_data?.pattern_info ? (
                 <PatternInfo text={decodeURIComponent(details.catalog_data.pattern_info)} />
               ) : (
