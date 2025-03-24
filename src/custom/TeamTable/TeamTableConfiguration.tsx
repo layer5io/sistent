@@ -144,7 +144,9 @@ export default function TeamTableConfiguration({
         filter: false,
         sort: true,
         searchable: false,
-        customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={30} />
+        customBodyRender: (value: string) => (
+          <ConditionalTooltip value={value ?? ''} maxLength={30} />
+        )
       }
     },
     {
