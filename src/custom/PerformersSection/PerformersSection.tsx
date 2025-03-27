@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { memo, useMemo } from 'react';
+import { memo, useMemo, useState } from 'react';
+import { Box, FormControl, MenuItem, Select } from '../../base';
 import {
   CloneIcon,
   DeploymentsIcon,
@@ -44,6 +45,7 @@ interface BaseQueryParams {
   expandUser: boolean;
   trim: boolean;
   order?: string;
+  duration?: string;
 }
 
 interface StatCardProps {
@@ -115,9 +117,10 @@ const METRICS: Record<MetricType, MetricConfig> = {
   }
 };
 
-const createQueryParams = (metric: MetricType): BaseQueryParams => ({
+const createQueryParams = (metric: MetricType, duration: string): BaseQueryParams => ({
   ...BASE_QUERY_PARAMS,
-  order: `${METRICS[metric].countKey} desc`
+  order: `${METRICS[metric].countKey} desc`,
+  duration: duration
 });
 
 const StatCardComponent: React.FC<StatCardProps> = ({
@@ -197,18 +200,27 @@ export const withDefaultPageArgs = (args: PageArgs = {}): PageArgs => ({
 const StatCard = memo(StatCardComponent);
 StatCard.displayName = 'StatCard';
 
-const useMetricQueries = (useGetCatalogFilters: PerformersSectionProps['useGetCatalogFilters']) => {
-  const viewQuery = useGetCatalogFilters(withDefaultPageArgs(createQueryParams('view')));
+const useMetricQueries = (
+  useGetCatalogFilters: PerformersSectionProps['useGetCatalogFilters'],
+  duration: string
+) => {
+  const viewQuery = useGetCatalogFilters(withDefaultPageArgs(createQueryParams('view', duration)));
 
-  const cloneQuery = useGetCatalogFilters(withDefaultPageArgs(createQueryParams('clone')));
-
-  const downloadQuery = useGetCatalogFilters(withDefaultPageArgs(createQueryParams('download')));
-
-  const deploymentQuery = useGetCatalogFilters(
-    withDefaultPageArgs(createQueryParams('deployment'))
+  const cloneQuery = useGetCatalogFilters(
+    withDefaultPageArgs(createQueryParams('clone', duration))
   );
 
-  const shareQuery = useGetCatalogFilters(withDefaultPageArgs(createQueryParams('share')));
+  const downloadQuery = useGetCatalogFilters(
+    withDefaultPageArgs(createQueryParams('download', duration))
+  );
+
+  const deploymentQuery = useGetCatalogFilters(
+    withDefaultPageArgs(createQueryParams('deployment', duration))
+  );
+
+  const shareQuery = useGetCatalogFilters(
+    withDefaultPageArgs(createQueryParams('share', duration))
+  );
 
   const metricQueries = {
     view: viewQuery,
@@ -260,7 +272,8 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
   onStatusClick
 }) => {
   const theme = useTheme();
-  const { queries, isLoading, hasError } = useMetricQueries(useGetCatalogFilters);
+  const [duration, setDuration] = useState('All');
+  const { queries, isLoading, hasError } = useMetricQueries(useGetCatalogFilters, duration);
 
   const stats = useMemo(
     () =>
@@ -287,16 +300,41 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
   return (
     <ErrorBoundary>
       <MainContainer>
-        <Title>
-          Top Performers
-          <TropyIcon
-            style={{
-              height: '2rem',
-              width: '2rem',
-              color: theme.palette.icon.secondary
-            }}
-          />
-        </Title>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="space-between"
+          width="100%"
+          paddingInline={'1rem'}
+        >
+          <Title>
+            Top Performers
+            <TropyIcon
+              style={{
+                height: '2rem',
+                width: '2rem',
+                color: theme.palette.icon.secondary
+              }}
+            />
+          </Title>
+          <FormControl>
+            <Select
+              size="small"
+              value={duration}
+              inputProps={{ 'aria-label': 'Without label' }}
+              displayEmpty
+              onChange={(e) => setDuration(e.target.value as string)}
+            >
+              <MenuItem value={'1w'}>Last Week</MenuItem>
+              <MenuItem value={'1m'}>Last Month</MenuItem>
+              <MenuItem value={'3m'}>Last Three Month</MenuItem>
+              <MenuItem value={'6m'}>Last Six Month</MenuItem>
+              <MenuItem value={'1y'}>Last Year</MenuItem>
+              <MenuItem value={'All'}>All Time</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+
         <CardsContainer>
           {isLoading && <StateCardSekeleton />}
           {!isLoading &&
