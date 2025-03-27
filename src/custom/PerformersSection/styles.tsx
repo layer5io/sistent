@@ -82,7 +82,6 @@ export const Title = styled(Typography)(({ theme }) => ({
   fontSize: '1.5rem',
   fontWeight: 600,
   color: theme.palette.text.default,
-  paddingLeft: theme.spacing(2),
   display: 'flex',
   alignItems: 'center',
   gap: '0.5rem',
