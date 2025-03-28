@@ -10,6 +10,7 @@ export * from './AvatarGroup';
 export * from './Backdrop';
 export * from './Badge';
 export * from './Box';
+export * from './Breadcrumbs';
 export * from './Button';
 export * from './ButtonGroup';
 export * from './Card';
