@@ -71,11 +71,19 @@ To run tests:
 make tests
 ```
 
+For constant testing during development, use:
+
+```
+make build-watch
+```
+
 To attach sistent to your project use:
 
 ```
 npm install <path-to-sistent-on-local-machine>
 ```
+
+
 
 > [!NOTE]
 > Avoid using `type any` in your code. Always specify explicit types to ensure type safety and maintainability.
