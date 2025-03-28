@@ -6,8 +6,7 @@ export const getRelativeTime = (date: string): string => {
 };
 
 export const getFullFormattedTime = (date: string): string => {
-  const timezone = moment.tz.guess();
-  return moment(date).tz(timezone).format('ddd, MMM D, YYYY h:mm A, z');
+  return moment(date).format('ddd, MMM D, YYYY h:mm A');
 };
 
 export const getFormatDate = (date: string) => {
