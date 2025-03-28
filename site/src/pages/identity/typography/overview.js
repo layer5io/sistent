@@ -1,10 +1,9 @@
+import React from "react";
 import Next from '../Next';
 import Previous from '../Previous';
 import Sidebar from '../Sidebar';
 import SubText from '../SubText';
 import SubContent from '../SubContent';
-import Previous from '../Previous';
-import Next from '../Next';
 
 const items = [
     {
