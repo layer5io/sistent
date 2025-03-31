@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { SwipeableDrawer, Theme } from '@mui/material';
+import { Grid2, SwipeableDrawer, Theme } from '@mui/material';
 import { useState } from 'react';
 import {
   Backdrop,
   CircularProgress,
   DialogContent,
   DialogTitle,
-  Grid,
   ListItem,
   Typography
 } from '../../../base';
+
 import { CloseIcon } from '../../../icons';
 import { CheckIcon } from '../../../icons/Check';
 import { styled, useTheme } from '../../../theme';
@@ -251,14 +251,16 @@ const GetStartedModal: React.FC<GetStartedModalProps> = ({
               theme={theme}
             >{`${completedPercentage()}%`}</PrecentageLabel>
           </DialogContent>
-          <Grid sx={{ overflowY: 'auto', backgroundColor: theme.palette.background.surfaces }}>
+          <Grid2 sx={{ overflowY: 'auto', backgroundColor: theme.palette.background.surfaces }}>
             {stepsData.map((item) => {
               return (
                 <ListItem
                   key={item.id}
-                  disabled={item.isDisabled}
                   onClick={() => {
-                    !item.isDisabled && handleClick(item.id), handleClose();
+                    if (!item.isDisabled) {
+                      handleClick(item.id);
+                      handleClose();
+                    }
                   }}
                   sx={{
                     cursor: 'pointer',
@@ -284,7 +286,7 @@ const GetStartedModal: React.FC<GetStartedModalProps> = ({
                 </ListItem>
               );
             })}
-          </Grid>
+          </Grid2>
         </>
       </SwipeableDrawerDiv>
       <JourneyModal

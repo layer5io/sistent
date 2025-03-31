@@ -1,5 +1,6 @@
-import { alpha, Theme } from '@mui/material';
-import { Box, Chip, Grid, IconButton, Typography } from '../../base';
+import { alpha, Grid2, Theme } from '@mui/material';
+import { Box, Chip, IconButton, Typography } from '../../base';
+
 import { charcoal, KEPPEL, styled } from '../../theme';
 
 interface StyledProps {
@@ -295,7 +296,7 @@ export const OperatorDataContainer = styled('div')({
   marginTop: '1rem'
 });
 
-export const KeyValueGrid = styled(Grid)(({ theme }) => ({
+export const KeyValueGrid = styled(Grid2)(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
   paddingBlock: '0.5rem'
 }));
@@ -305,7 +306,7 @@ export const KeyValueGridTitle = styled(Typography)({
   textTransform: 'capitalize'
 });
 
-export const KeyValueGridCell = styled(Grid)({
+export const KeyValueGridCell = styled(Grid2)({
   placeSelf: 'center',
   alignItems: 'center'
 });

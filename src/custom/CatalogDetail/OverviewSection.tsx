@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '../../base';
+import { Grid2 } from '../../base';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import ContentClassInfo from './ContentClassInfo';
@@ -71,10 +71,25 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           handleShare={handleShare}
         />
       </div>
-      <Grid container spacing={2}>
-        <Grid item lg={4} md={4} sm={12} xs={12}>
-          <Grid container>
-            <Grid item lg={12} md={12} sm={6} xs={6} style={{ fontFamily: fontFamily }}>
+      <Grid2 container spacing={2}>
+        <Grid2
+          size={{
+            lg: 4,
+            md: 4,
+            sm: 12,
+            xs: 12
+          }}
+        >
+          <Grid2 container>
+            <Grid2
+              style={{ fontFamily: fontFamily }}
+              size={{
+                lg: 12,
+                md: 12,
+                sm: 6,
+                xs: 6
+              }}
+            >
               {details?.catalog_data?.content_class && (
                 <ContentRow>
                   <ContentClassInfo
@@ -90,10 +105,17 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
                 isVisibilityEnabled={isVisibilityEnabled}
                 handleVisibilityChange={handleVisibilityChange}
               />
-            </Grid>
-          </Grid>
-        </Grid>
-        <Grid item lg={8} md={8} sm={12} xs={12}>
+            </Grid2>
+          </Grid2>
+        </Grid2>
+        <Grid2
+          size={{
+            lg: 8,
+            md: 8,
+            sm: 12,
+            xs: 12
+          }}
+        >
           {showContentDetails ? (
             <ContentRow>
               <h2 style={{ margin: '0' }}>WHAT DOES THIS DESIGN DO?</h2>
@@ -106,9 +128,9 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           ) : (
             ViewsComponent
           )}
-        </Grid>
+        </Grid2>
         {!(type === 'view' || type === 'filter') && <MetricsDisplay details={details} />}
-      </Grid>
+      </Grid2>
     </OverviewContainer>
   );
 };

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Checkbox, Grid, List, ListItem, Typography } from '../../../base';
+import { Checkbox, Grid2, List, ListItem, Typography } from '../../../base';
+
 import { KubernetesIcon, LeftArrowIcon, RightArrowIcon, SMPIcon } from '../../../icons';
 import { GithubIcon } from '../../../icons/Github';
 import { MesheryIcon } from '../../../icons/Meshery';
@@ -286,7 +287,7 @@ function TransferList({
   );
 
   return (
-    <Grid container justifyContent="center" alignItems="center">
+    <Grid2 container justifyContent="center" alignItems="center">
       <ListGrid>
         <ListHeading>
           Available {name} ({left.length})
@@ -294,7 +295,7 @@ function TransferList({
         {customList(left, emptyStateIconLeft, emtyStateMessageLeft, 'leftList')}
       </ListGrid>
       <ButtonGrid>
-        <Grid container direction="column" alignItems="center">
+        <Grid2 container direction="column" alignItems="center">
           <TransferButton
             variant="outlined"
             size="small"
@@ -339,7 +340,7 @@ function TransferList({
             <LeftArrowIcon width={18} height={18} />
             <LeftArrowIcon style={{ position: 'absolute', left: '27px' }} width={18} height={18} />
           </TransferButton>
-        </Grid>
+        </Grid2>
       </ButtonGrid>
       <ListGrid>
         <ListHeading>
@@ -347,7 +348,7 @@ function TransferList({
         </ListHeading>
         {customList(right, emptyStateIconRight, emtyStateMessageRight, 'rightList')}
       </ListGrid>
-    </Grid>
+    </Grid2>
   );
 }
 

@@ -1,5 +1,6 @@
 import { SyncAlt as SyncAltIcon } from '@mui/icons-material';
-import { Grid, Tooltip, Typography } from '../../base';
+import { Grid2, Tooltip, Typography } from '../../base';
+
 import { useTheme } from '../../theme';
 import { formatShortDate, formatShortDateTime } from './helper';
 import { PopupButton, Record, TabCount, TabTitle } from './styles';
@@ -40,11 +41,11 @@ export const TransferButton: React.FC<TransferButtonProps> = ({
         }
       }}
     >
-      <Grid>
+      <Grid2>
         <TabCount textColor={theme.palette.text.default}>{count}</TabCount>
         <TabTitle textColor={theme.palette.text.default}>{title}</TabTitle>
         <SyncAltIcon sx={{ position: 'absolute', top: '10px', right: '10px' }} />
-      </Grid>
+      </Grid2>
     </PopupButton>
   );
 };
@@ -56,11 +57,11 @@ export const RedirectButton: React.FC<RedirectButtonProps> = ({
 }) => {
   return (
     <PopupButton disabled={disabled} color="primary" sx={{ boxShadow: 'none' }}>
-      <Grid>
+      <Grid2>
         <TabCount>{count}</TabCount>
         <TabTitle>{title}</TabTitle>
         {/* <ArrowForward /> */}
-      </Grid>
+      </Grid2>
     </PopupButton>
   );
 };
@@ -76,7 +77,7 @@ export const RecordRow: React.FC<RecordRowProps> = ({ title, name, date }) => {
 
   return (
     <Record>
-      <Grid xs={10} sx={{ display: 'flex', maxHeight: '140px' }}>
+      <Grid2 sx={{ display: 'flex', maxHeight: '140px' }} size={10}>
         <Typography
           sx={{
             fontSize: 14,
@@ -93,8 +94,8 @@ export const RecordRow: React.FC<RecordRowProps> = ({ title, name, date }) => {
         >
           {name}
         </Typography>
-      </Grid>
-      <Grid xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      </Grid2>
+      <Grid2 sx={{ display: 'flex', justifyContent: 'flex-end' }} size={2}>
         <Tooltip title={date ? formatShortDateTime(date) : ''} placement="top">
           <Typography
             sx={{
@@ -108,7 +109,7 @@ export const RecordRow: React.FC<RecordRowProps> = ({ title, name, date }) => {
             {date ? formatShortDate(date) : '-'}
           </Typography>
         </Tooltip>
-      </Grid>
+      </Grid2>
     </Record>
   );
 };

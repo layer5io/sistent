@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Box, Grid, Typography } from '../../base';
+import { Avatar, Box, Grid2, Typography } from '../../base';
 import { CLOUD_URL } from '../../constants/constants';
 import { PersonIcon } from '../../icons';
 import { CustomTooltip } from '../CustomTooltip';
@@ -30,12 +30,12 @@ const AuthorCell: React.FC<AuthorCellProps> = ({
 
   return (
     <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
-      <Grid
+      <Grid2
         container
         alignItems="center"
         style={maxWidth ? { width: 'max-content' } : { width: '' }}
       >
-        <Grid item>
+        <Grid2>
           <Box sx={{ color: 'text.secondary', mr: 1 }}>
             <CustomTooltip title={`View ${displayName}'s Profile`}>
               <div>
@@ -52,13 +52,13 @@ const AuthorCell: React.FC<AuthorCellProps> = ({
               </div>
             </CustomTooltip>
           </Box>
-        </Grid>
+        </Grid2>
         {maxWidth && (
-          <Grid item>
+          <Grid2>
             <Typography variant="body2">{displayName}</Typography>
-          </Grid>
+          </Grid2>
         )}
-      </Grid>
+      </Grid2>
     </Box>
   );
 };

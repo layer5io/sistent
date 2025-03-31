@@ -1,6 +1,6 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import React, { useEffect, useState } from 'react';
-import { Avatar, Grid } from '../../base';
+import { Avatar, Grid2 } from '../../base';
 import { CloneIcon, CommunityClassIcon, OfficialClassIcon, OpenIcon, ShareIcon } from '../../icons';
 import VerificationClassIcon from '../../icons/ContentClassIcons/VerificationClassIcon';
 import DeploymentsIcon from '../../icons/Deployments/DeploymentsIcon';
@@ -230,7 +230,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
               {cardTechnologies && (
                 <TechnologiesSection>
                   <TechnologyText>Technologies</TechnologyText>
-                  <Grid
+                  <Grid2
                     container
                     style={{ gap: '4px', alignItems: 'flex-start', flexWrap: 'nowrap' }}
                   >
@@ -243,7 +243,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
                             (getHostUrl ? getHostUrl() : '') +
                             `${basePath}/${technology.toLowerCase()}/${subBasePath}/${technology.toLowerCase()}-color.svg`;
                           return (
-                            <Grid item key={index}>
+                            <Grid2 key={index}>
                               <CustomTooltip key={index} title={technology.toLowerCase()}>
                                 <img
                                   height="24px"
@@ -252,12 +252,11 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
                                   src={svgPath}
                                 />
                               </CustomTooltip>
-                            </Grid>
+                            </Grid2>
                           );
                         })}
                         {availableTechnologies.length > techlimit && (
-                          <Grid
-                            item
+                          <Grid2
                             sx={{
                               padding: '0 8px 0 4px',
                               borderRadius: '16px',
@@ -270,20 +269,19 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
                             }}
                           >
                             +{availableTechnologies.length - techlimit}
-                          </Grid>
+                          </Grid2>
                         )}
                       </>
                     )}
-                  </Grid>
+                  </Grid2>
                 </TechnologiesSection>
               )}
             </DesignDetailsDiv>
 
             {isDetailed && (
               <DesignDetailsDiv style={{ marginTop: '20px' }}>
-                <Grid container style={{ justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Grid
-                    item
+                <Grid2 container style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Grid2
                     style={{
                       width: '100%',
                       display: 'flex',
@@ -313,8 +311,8 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
                         }
                       )}
                     </DateText>
-                  </Grid>
-                </Grid>
+                  </Grid2>
+                </Grid2>
               </DesignDetailsDiv>
             )}
             {version && (

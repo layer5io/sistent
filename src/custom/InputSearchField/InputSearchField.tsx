@@ -1,6 +1,7 @@
-import { Autocomplete } from '@mui/material';
+import { Autocomplete, Grid2 } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Box, Chip, CircularProgress, Grid, TextField, Tooltip, Typography } from '../../base';
+import { Box, Chip, CircularProgress, TextField, Tooltip, Typography } from '../../base';
+
 import { iconLarge, iconSmall } from '../../constants/iconsSizes';
 import { CloseIcon, OrgIcon } from '../../icons';
 
@@ -145,19 +146,18 @@ const InputSearchField: React.FC<InputSearchFieldProps> = ({
         renderOption={(props, option: Option) => (
           <li {...props} key={option.id}>
             <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
-              <Grid container alignItems="center">
-                <Grid item>
+              <Grid2 container alignItems="center">
+                <Grid2>
                   <Box sx={{ color: 'text.secondary', mr: 2 }}>{iconComponent}</Box>
-                </Grid>
-                <Grid item xs>
+                </Grid2>
+                <Grid2 size="grow">
                   <Typography variant="body2">{option.name}</Typography>
-                </Grid>
-              </Grid>
+                </Grid2>
+              </Grid2>
             </Box>
           </li>
         )}
       />
-
       <Box
         sx={{
           display: 'flex',

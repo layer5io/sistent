@@ -1,4 +1,5 @@
-import { Box, Button, Card, Checkbox, Grid, IconButton, Typography } from '../../base';
+import { Box, Button, Card, Checkbox, Grid2, IconButton, Typography } from '../../base';
+
 import { DeleteIcon, EditIcon } from '../../icons';
 import { styled, useTheme } from '../../theme';
 import { charcoal } from '../../theme/colors/colors';
@@ -243,7 +244,7 @@ export const IconWrapper = styled('div')<IconWrapperProps>(({ disabled = false }
   }
 }));
 
-export const Record = styled(Grid)(({ theme }) => ({
+export const Record = styled(Grid2)(({ theme }) => ({
   borderBottom: `1px solid ${theme.palette.divider}`,
   display: 'flex',
   flexDirection: 'row',
@@ -332,18 +333,18 @@ export const L5EditIcon = ({
   );
 };
 
-export const WorkspaceCardGrid = styled(Grid)({
+export const WorkspaceCardGrid = styled(Grid2)({
   display: 'flex',
   flexDirection: 'row'
 });
 
-export const DescriptionGrid = styled(Grid)({
+export const DescriptionGrid = styled(Grid2)({
   display: 'flex',
   alignItems: 'center',
   marginTop: 1
 });
 
-export const AllocationColumnGrid = styled(Grid)({
+export const AllocationColumnGrid = styled(Grid2)({
   width: '100%'
 });
 
@@ -368,18 +369,18 @@ export const CardFrontWrapper = styled(CardWrapper)(({ theme }) => ({
   boxShadow: 'none'
 }));
 
-export const CardBackTopGrid = styled(Grid)({
+export const CardBackTopGrid = styled(Grid2)({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'space-between'
 });
 
-export const CardBackTitleGrid = styled(Grid)({
+export const CardBackTitleGrid = styled(Grid2)({
   display: 'flex',
   alignItems: 'flex-start'
 });
 
-export const CardBackActionsGrid = styled(Grid)({
+export const CardBackActionsGrid = styled(Grid2)({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end'
@@ -392,14 +393,14 @@ export const RecentActivityTitle = styled(Typography)(({ theme }) => ({
   color: theme.palette.background.constant?.white
 }));
 
-export const RecentActivityGrid = styled(Grid)({
+export const RecentActivityGrid = styled(Grid2)({
   display: 'flex',
   flexDirection: 'column',
   maxHeight: '14.5rem',
   overflowY: 'scroll'
 });
 
-export const DateGrid = styled(Grid)(({ theme }) => ({
+export const DateGrid = styled(Grid2)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   position: 'absolute',
@@ -410,6 +411,6 @@ export const DateGrid = styled(Grid)(({ theme }) => ({
   paddingRight: '40px'
 }));
 
-export const DateColumnGrid = styled(Grid)({
+export const DateColumnGrid = styled(Grid2)({
   textAlign: 'left'
 });
