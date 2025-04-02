@@ -3,7 +3,8 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { ChartOptions } from 'billboard.js';
 import _ from 'lodash';
 import React, { useCallback, useContext, useMemo } from 'react';
-import { Box, Chip, Collapse, Grid, IconButton, Typography } from '../../base';
+import { Box, Chip, Collapse, Grid2, IconButton, Typography } from '../../base';
+
 import { CARIBBEAN_GREEN, KEPPEL, SAFFRON, blue, red } from '../../theme';
 import { BBChart } from '../BBChart';
 import { CustomTooltip } from '../CustomTooltip';
@@ -276,13 +277,13 @@ export const StatusFormatter: React.FC<StatusFormatterProps> = ({ status }) => {
   }
   if (_.isObject(status)) {
     return (
-      <Grid container spacing={1}>
+      <Grid2 container spacing={1}>
         {Object.entries(status).map(([key, value]) => (
-          <Grid item key={key}>
+          <Grid2 key={key}>
             <StyledChip label={value as string} size="small" />
-          </Grid>
+          </Grid2>
         ))}
-      </Grid>
+      </Grid2>
     );
   }
   const statusColor = STATUS_COLORS[status];

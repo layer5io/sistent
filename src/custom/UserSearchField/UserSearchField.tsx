@@ -2,7 +2,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { debounce } from 'lodash';
 import React, { useState } from 'react';
-import { Avatar, Box, Chip, Grid, TextField, Tooltip, Typography } from '../../base';
+import { Avatar, Box, Chip, Grid2, TextField, Tooltip, Typography } from '../../base';
 import { iconSmall } from '../../constants/iconsSizes';
 import { CloseIcon } from '../../icons/Close';
 import { PersonIcon } from '../../icons/Person';
@@ -174,15 +174,15 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
         renderOption={(props: React.HTMLAttributes<HTMLLIElement>, option) => (
           // @ts-expect-error Props need to be passed to BOX component to make sure styles getting updated
           <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-            <Grid container alignItems="center">
-              <Grid item>
+            <Grid2 container alignItems="center">
+              <Grid2>
                 <Box sx={{ color: 'text.secondary', mr: 2 }}>
                   <Avatar alt={option.first_name} src={option.avatar_url}>
                     {option.avatar_url ? '' : <PersonIcon />}
                   </Avatar>
                 </Box>
-              </Grid>
-              <Grid item xs>
+              </Grid2>
+              <Grid2 size="grow">
                 {option.deleted_at?.Valid ? (
                   <Typography variant="body2" color="text.secondary">
                     {option.email} (deleted)
@@ -197,12 +197,11 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
                     </Typography>
                   </>
                 )}
-              </Grid>
-            </Grid>
+              </Grid2>
+            </Grid2>
           </Box>
         )}
       />
-
       {customUsersList ? (
         clonedComponent
       ) : (

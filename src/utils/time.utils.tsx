@@ -1,4 +1,4 @@
-import moment from 'moment-timezone';
+import moment from 'moment';
 import { CustomTooltip } from '../custom';
 
 export const getRelativeTime = (date: string): string => {

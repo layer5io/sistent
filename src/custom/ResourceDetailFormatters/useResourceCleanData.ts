@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash';
-import moment from 'moment-timezone';
+import moment from 'moment';
 import { GetResourceCleanDataProps, NumberState } from './types';
 
 export const useResourceCleanData = () => {

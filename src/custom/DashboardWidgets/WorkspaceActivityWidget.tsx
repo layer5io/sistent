@@ -1,6 +1,6 @@
 import { SelectChangeEvent } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import moment from 'moment-timezone';
+import moment from 'moment';
 import {
   Box,
   Button,

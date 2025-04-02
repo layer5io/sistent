@@ -1,5 +1,6 @@
-import { styled } from '@mui/material';
-import { Button, Chip, Grid, Paper, Typography } from '../../../base';
+import { Grid2, styled } from '@mui/material';
+import { Button, Chip, Paper, Typography } from '../../../base';
+
 import { KEPPEL } from '../../../theme';
 
 export const StyledChip = styled(Chip)(({ theme }) => ({
@@ -57,7 +58,7 @@ export const TransferButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-export const ListGrid = styled(Grid)({
+export const ListGrid = styled(Grid2)({
   padding: '0 1rem',
   '@media (max-width: 768px)': {
     padding: '0',
@@ -68,7 +69,7 @@ export const ListGrid = styled(Grid)({
   }
 });
 
-export const ButtonGrid = styled(Grid)({
+export const ButtonGrid = styled(Grid2)({
   padding: '2.5rem 1rem 0 1rem',
   '@media (max-width: 768px)': {
     padding: '1rem',
