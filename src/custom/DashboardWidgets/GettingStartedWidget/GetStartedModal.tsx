@@ -125,7 +125,6 @@ const CheckField = styled('div')<CheckFieldProps>(({ theme, isVisit }) => ({
   height: '35px',
   borderRadius: '50%',
   marginRight: '10px',
-  backgroundImage: `url(${process.env.API_ENDPOINT_PREFIX}/assets/images/check.png)`,
   backgroundColor: isVisit === true ? theme.palette.background.brand?.default : 'white',
   border:
     isVisit === true ? `1px solid ${theme.palette.background.brand?.default}` : '1px solid #3C494F',
