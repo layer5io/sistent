@@ -1,3 +1,4 @@
+import React from "react";
 import { ThemeProvider } from './src/components/Theme';
 import './src/styles/global.css';
 

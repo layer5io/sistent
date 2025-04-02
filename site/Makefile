@@ -21,7 +21,7 @@ setup:
 
 ## Run site on your local machine. Alternate method.
 site:
-	gatsby develop
+	npm start
 
 ## Build site on your local machine.
 build:
