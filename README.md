@@ -50,7 +50,7 @@ make build
 If you wish to build in watch mode:
 
 ```
-make watchmode-build
+make build-watch
 ```
 
 To check if your code meets the formatting standards, you can run:
