@@ -1,5 +1,6 @@
 const createAndEditEnvironmentSchema = {
   title: 'Environment',
+  required: ['name'],
   properties: {
     description: {
       description:
