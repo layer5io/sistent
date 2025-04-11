@@ -2,7 +2,7 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import _ from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from '../../base';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '../../base';
 import { DesignIcon } from '../../icons';
 import { publishCatalogItemSchema } from '../../schemas';
 import { useTheme } from '../../theme';
@@ -154,7 +154,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
     return initialVisibility;
   });
 
-  const [expanded, setExpanded] = useState<boolean>(false);
+  const [expanded, setExpanded] = useState<boolean>(true);
   const handleAccordionChange = () => {
     setExpanded(!expanded);
   };
@@ -187,9 +187,12 @@ const DesignTable: React.FC<DesignTableProps> = ({
 
   const tableHeaderContent = (
     <TableHeader>
-      <Typography variant="body1" fontWeight={'bold'}>
-        Assigned Designs
-      </Typography>
+      <Box display={'flex'} alignItems="center" gap={1} width="100%">
+        <DesignIcon height="1.5rem" width="1.5rem" />
+        <Typography variant="body1" fontWeight={'bold'}>
+          Assigned Designs
+        </Typography>
+      </Box>
       <TableRightActionHeader>
         <SearchBar
           onSearch={(value) => {
@@ -256,7 +259,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
         open={designAssignment.assignModal}
         onClose={designAssignment.handleAssignModalClose}
         title={`Assign Designs to ${workspaceName}`}
-        headerIcon={<DesignIcon height="40" width="40" secondaryFill="white" />}
+        headerIcon={<DesignIcon height="40" width="40" />}
         name="Designs"
         assignableData={designAssignment.data}
         handleAssignedData={designAssignment.handleAssignData}

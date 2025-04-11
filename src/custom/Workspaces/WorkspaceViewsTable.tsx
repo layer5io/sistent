@@ -3,7 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import React, { useState } from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '../../base';
-import { DeleteIcon, EnvironmentIcon } from '../../icons';
+import { DeleteIcon, EnvironmentIcon, ViewIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { NameDiv } from '../CatalogDesignTable/style';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
@@ -77,7 +77,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   handleShowDetails
 }) => {
   const theme = useTheme();
-  const [expanded, setExpanded] = useState<boolean>(false);
+  const [expanded, setExpanded] = useState<boolean>(true);
   const handleAccordionChange = () => {
     setExpanded(!expanded);
   };
@@ -125,7 +125,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     },
     {
       name: 'avatar_url',
-      label: 'Owner',
+      label: 'Author',
       options: {
         filter: false,
         sort: false,
@@ -313,9 +313,12 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
           }}
         >
           <TableHeader>
-            <Typography variant="body1" fontWeight={'bold'}>
-              Assigned Views
-            </Typography>
+            <Box display={'flex'} alignItems="center" gap={1} width="100%">
+              <ViewIcon height="1.5rem" width="1.5rem" fill={theme.palette.icon.brand} />
+              <Typography variant="body1" fontWeight={'bold'}>
+                Assigned Views
+              </Typography>
+            </Box>
             <TableRightActionHeader>
               <SearchBar
                 onSearch={(value) => {

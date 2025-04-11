@@ -50,10 +50,14 @@ export function CustomColumnVisibilityControl({
     setOpen(false);
   };
 
-  const handleColumnVisibilityChange = (columnName: string, isVisible: boolean) => {
+  const handleColumnVisibilityChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    columnName: string
+  ) => {
+    e.stopPropagation();
     customToolsProps.setColumnVisibility((prevState) => ({
       ...prevState,
-      [columnName]: isVisible
+      [columnName]: e.target.checked
     }));
   };
 
@@ -67,7 +71,7 @@ export function CustomColumnVisibilityControl({
           arrow
         />
         <PopperListener
-          style={style}
+          style={{ ...style, zIndex: 1350 }}
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
           placement="bottom-end"
@@ -107,7 +111,7 @@ export function CustomColumnVisibilityControl({
                         <Checkbox
                           checked={customToolsProps.columnVisibility[col.name]}
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            handleColumnVisibilityChange(col.name, e.target.checked)
+                            handleColumnVisibilityChange(e, col.name)
                           }
                         />
                       }
