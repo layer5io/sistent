@@ -4,6 +4,7 @@ import Text from '../Text';
 import Code from './code';
 import Guidance from './guidance';
 import Overview from './overview';
+import React from "react";
 
 const Color = () => {
   const { id } = useParams();

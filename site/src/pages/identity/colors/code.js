@@ -2,6 +2,7 @@ import Next from '../Next';
 import Previous from '../Previous';
 import Sidebar from '../Sidebar';
 import SubContent from '../SubContent';
+import React from "react";
 
 const items = [
   {
