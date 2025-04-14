@@ -13,6 +13,7 @@ import {
 } from '../../base';
 import { iconLarge, iconXSmall } from '../../constants/iconsSizes';
 import { DesignIcon, EnvironmentIcon, TeamsIcon, ViewIcon, WorkspaceIcon } from '../../icons';
+import { useTheme } from '../../theme';
 import { getFormatDate, getFullFormattedTime } from '../../utils';
 import { CustomTooltip } from '../CustomTooltip';
 import { Modal, ModalBody, ModalFooter } from '../Modal';
@@ -121,7 +122,7 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
     },
     [isEventsLoading, isFetching, hasMore]
   );
-
+  const theme = useTheme();
   const getImage = (description: string) => {
     const availableTypes = ['design', 'view', 'environment', 'team'];
     const type = availableTypes.find((type) => description.includes(type));
@@ -132,11 +133,11 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
       case 'view':
         return <ViewIcon {...iconXSmall} />;
       case 'environment':
-        return <EnvironmentIcon {...iconXSmall} />;
+        return <EnvironmentIcon {...iconXSmall} fill={theme.palette.icon.default} />;
       case 'team':
-        return <TeamsIcon {...iconXSmall} fill="" />;
+        return <TeamsIcon {...iconXSmall} primaryFill={theme.palette.icon.default} fill="" />;
       default:
-        return <WorkspaceIcon {...iconXSmall} />;
+        return <WorkspaceIcon {...iconXSmall} fill={theme.palette.icon.default} />;
     }
   };
 
