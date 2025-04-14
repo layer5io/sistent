@@ -5,7 +5,7 @@ import { IconProps } from '../types';
 const ArrowCompressIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  stroke="currentColor"
+  stroke = 'currentColor',
   ...props
 }) => {
   return (
