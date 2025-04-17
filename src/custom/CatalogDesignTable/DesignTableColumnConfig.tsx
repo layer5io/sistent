@@ -39,6 +39,8 @@ interface ColumnConfigProps {
   isFromWorkspaceTable?: boolean;
   isRemoveAllowed?: boolean;
   theme?: Theme;
+  isVisibilityEnabled: boolean;
+  handleVisibilityChange: (visibility: VIEW_VISIBILITY) => void;
 }
 
 export const colViews: ColView[] = [
@@ -68,7 +70,9 @@ export const createDesignsColumnsConfig = ({
   isDownloadAllowed,
   isRemoveAllowed,
   theme,
-  isFromWorkspaceTable = false
+  isFromWorkspaceTable = false,
+  isVisibilityEnabled,
+  handleVisibilityChange
 }: ColumnConfigProps): MUIDataTableColumn[] => {
   return [
     {

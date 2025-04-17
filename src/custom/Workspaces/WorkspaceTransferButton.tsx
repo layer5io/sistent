@@ -1,7 +1,8 @@
 import { SyncAlt as SyncAltIcon } from '@mui/icons-material';
-import { Grid, Tooltip, Typography } from '../../base';
+import { Grid, Typography } from '../../base';
 import { useTheme } from '../../theme';
-import { formatShortDate, formatShortDateTime } from './helper';
+import { getFullFormattedTime, getRelativeTime } from '../../utils';
+import { CustomTooltip } from '../CustomTooltip';
 import { PopupButton, Record, TabCount, TabTitle } from './styles';
 
 interface TransferButtonProps {
@@ -89,25 +90,32 @@ export const RecordRow: React.FC<RecordRowProps> = ({ title, name, date }) => {
           {title}
         </Typography>
         <Typography
-          sx={{ ml: 1, fontStyle: 'italic', color: theme.palette.background.brand?.default }}
+          sx={{
+            marginInline: '0.5rem',
+            fontStyle: 'italic',
+            color: theme.palette.background.brand?.default,
+            textWrap: 'nowrap'
+          }}
         >
           {name}
         </Typography>
       </Grid>
       <Grid xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Tooltip title={date ? formatShortDateTime(date) : ''} placement="top">
-          <Typography
-            sx={{
-              fontSize: 14,
-              fontStyle: 'italic',
-              color: `${theme.palette.text.disabled}`,
-              paddingRight: '12px',
-              textAlign: 'end'
-            }}
-          >
-            {date ? formatShortDate(date) : '-'}
-          </Typography>
-        </Tooltip>
+        <CustomTooltip title={date ? getFullFormattedTime(date as string) : ''} placement="top">
+          <div>
+            <Typography
+              sx={{
+                fontSize: 14,
+                fontStyle: 'italic',
+                color: `${theme.palette.text.disabled}`,
+                paddingRight: '12px',
+                textAlign: 'end'
+              }}
+            >
+              {date ? getRelativeTime(date as string) : '-'}
+            </Typography>
+          </div>
+        </CustomTooltip>
       </Grid>
     </Record>
   );

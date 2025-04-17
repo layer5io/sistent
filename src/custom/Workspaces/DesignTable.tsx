@@ -56,6 +56,8 @@ export interface DesignTableProps {
   isAssignAllowed: boolean;
   isRemoveAllowed: boolean;
   setDesignSearch: (value: string) => void;
+  isVisibilityEnabled: boolean;
+  handleVisibilityChange: (visibility: string) => void;
 }
 
 export interface PublishModalState {
@@ -96,7 +98,9 @@ const DesignTable: React.FC<DesignTableProps> = ({
   isAssignAllowed,
   isRemoveAllowed,
   useGetWorkspaceDesignsQuery,
-  setDesignSearch
+  setDesignSearch,
+  isVisibilityEnabled,
+  handleVisibilityChange
 }) => {
   const [publishModal, setPublishModal] = useState<PublishModalState>({
     open: false,
@@ -132,7 +136,9 @@ const DesignTable: React.FC<DesignTableProps> = ({
     isUnpublishAllowed,
     isFromWorkspaceTable: true,
     isRemoveAllowed,
-    theme
+    theme,
+    isVisibilityEnabled: isVisibilityEnabled,
+    handleVisibilityChange: handleVisibilityChange
   });
 
   const [publishSchema, setPublishSchema] = useState<{
