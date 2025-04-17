@@ -110,7 +110,7 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
           onClick={teamAssignment.handleAssignModal}
           style={{ margin: '1rem' }}
         >
-          Assign Teams
+          Manage Teams
         </Button>
         <TableRightActionHeader>
           <SearchBar

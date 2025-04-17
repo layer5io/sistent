@@ -250,7 +250,7 @@ export default function TeamTableConfiguration({
                 <IconWrapper disabled={!isRemoveTeamFromWorkspaceAllowed}>
                   <TooltipIcon
                     id={`remove_team-${tableMeta.rowIndex}`}
-                    title={'Remove Team'}
+                    title={'Move Team'}
                     onClick={() => {
                       isRemoveTeamFromWorkspaceAllowed &&
                         handleRemoveTeamFromWorkspace &&
