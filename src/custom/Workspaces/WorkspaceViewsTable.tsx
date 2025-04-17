@@ -18,6 +18,7 @@ import ResponsiveDataTable, { IconWrapper } from '../ResponsiveDataTable';
 import SearchBar from '../SearchBar';
 import { TooltipIcon } from '../TooltipIconButton';
 import { UserTableAvatarInfo } from '../UsersTable';
+import VisibilityChipMenu, { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AssignmentModal from './AssignmentModal';
 import useViewAssignment from './hooks/useViewsAssignment';
 import {
@@ -211,8 +212,8 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
         filter: false,
         sort: false,
         searchable: true,
-        setCellHeaderProps: () => {
-          return { align: 'center' };
+        customBodyRender: (value: VIEW_VISIBILITY) => {
+          return <VisibilityChipMenu value={value} enabled={false} />;
         }
       }
     },

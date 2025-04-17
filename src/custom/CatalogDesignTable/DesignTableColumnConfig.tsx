@@ -2,7 +2,7 @@ import { Theme } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { Typography } from '../../base';
 import { PLAYGROUND_MODES } from '../../constants/constants';
-import { ChainIcon, CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
+import { ChainIcon, CopyIcon, KanvasIcon, LockIcon, PublicIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { downloadPattern, slugify } from '../CatalogDetail/helper';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
@@ -10,6 +10,8 @@ import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
+import { VisibilityChipMenu } from '../VisibilityChipMenu';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AuthorCell from './AuthorCell';
 import { getColumnValue } from './helper';
 import { L5DeleteIcon, NameDiv } from './style';
@@ -146,7 +148,20 @@ export const createDesignsColumnsConfig = ({
       options: {
         filter: false,
         sort: false,
-        searchable: true
+        searchable: true,
+        customBodyRender: (value: VIEW_VISIBILITY) => {
+          return (
+            <VisibilityChipMenu
+              value={value}
+              onChange={(value) => handleVisibilityChange(value as VIEW_VISIBILITY)}
+              enabled={isVisibilityEnabled}
+              options={[
+                [VIEW_VISIBILITY.PUBLIC, PublicIcon],
+                [VIEW_VISIBILITY.PRIVATE, LockIcon]
+              ]}
+            />
+          );
+        }
       }
     },
     {
@@ -180,8 +195,7 @@ export const createDesignsColumnsConfig = ({
         filter: false,
         sort: false,
         searchable: false,
-        setCellHeaderProps: () => ({ align: 'center' as const }),
-        setCellProps: () => ({ align: 'center' as const }),
+
         customBodyRender: function CustomBody(_, tableMeta: MUIDataTableMeta) {
           const rowIndex = (tableMeta as TableMeta).rowIndex;
           const rowData = (tableMeta as TableMeta).tableData[rowIndex];
@@ -203,7 +217,7 @@ export const createDesignsColumnsConfig = ({
               icon: <ChainIcon width={'24'} height={'24'} fill={theme?.palette.icon.secondary} />
             },
             {
-              title: 'Open in playground',
+              title: 'Open in Playground',
               onClick: () => {
                 window.open(
                   `https://playground.meshery.io/extension/meshmap?mode=${
