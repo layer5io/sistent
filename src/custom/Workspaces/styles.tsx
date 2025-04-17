@@ -396,7 +396,12 @@ export const RecentActivityGrid = styled(Grid)({
   display: 'flex',
   flexDirection: 'column',
   maxHeight: '14.5rem',
-  overflowY: 'scroll'
+  overflowY: 'scroll',
+  scrollbarWidth: 'none',
+  '&::-webkit-scrollbar': {
+    display: 'none'
+  },
+  '-ms-overflow-style': 'none'
 });
 
 export const DateGrid = styled(Grid)(({ theme }) => ({
