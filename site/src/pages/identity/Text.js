@@ -1,5 +1,6 @@
 import Content from './Content';
 import Heading from './Heading';
+import React from 'react';
 
 const Header = (props) => {
   return (
