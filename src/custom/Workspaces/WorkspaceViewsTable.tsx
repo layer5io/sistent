@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import React, { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '../../base';
+import { Box, Typography } from '../../base';
 import { DeleteIcon, EnvironmentIcon, ViewIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { NameDiv } from '../CatalogDesignTable/style';
@@ -19,6 +18,7 @@ import ResponsiveDataTable, { IconWrapper } from '../ResponsiveDataTable';
 import SearchBar from '../SearchBar';
 import { TooltipIcon } from '../TooltipIconButton';
 import { UserTableAvatarInfo } from '../UsersTable';
+import VisibilityChipMenu, { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AssignmentModal from './AssignmentModal';
 import useViewAssignment from './hooks/useViewsAssignment';
 import {
@@ -77,23 +77,25 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   handleShowDetails
 }) => {
   const theme = useTheme();
-  const [expanded, setExpanded] = useState<boolean>(true);
-  const handleAccordionChange = () => {
-    setExpanded(!expanded);
-  };
+
   const [search, setSearch] = useState('');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
-  const { data: viewsOfWorkspace } = useGetViewsOfWorkspaceQuery({
-    workspaceId,
-    page: page,
-    pageSize: pageSize,
-    search: search,
-    order: sortOrder,
-    expandUser: true
-  });
+  const { data: viewsOfWorkspace } = useGetViewsOfWorkspaceQuery(
+    {
+      workspaceId,
+      page: page,
+      pageSize: pageSize,
+      search: search,
+      order: sortOrder,
+      expandUser: true
+    },
+    {
+      skip: !workspaceId
+    }
+  );
   const { width } = useWindowDimensions();
   const [unassignviewFromWorkspace] = useUnassignViewFromWorkspaceMutation();
   const columns: MUIDataTableColumn[] = [
@@ -210,8 +212,8 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
         filter: false,
         sort: false,
         searchable: true,
-        setCellHeaderProps: () => {
-          return { align: 'center' };
+        customBodyRender: (value: VIEW_VISIBILITY) => {
+          return <VisibilityChipMenu value={value} enabled={false} />;
         }
       }
     },
@@ -305,60 +307,50 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
 
   return (
     <>
-      <Accordion expanded={expanded} onChange={handleAccordionChange} style={{ margin: 0 }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          sx={{
-            backgroundColor: 'background.paper'
-          }}
-        >
-          <TableHeader>
-            <Box display={'flex'} alignItems="center" gap={1} width="100%">
-              <ViewIcon height="1.5rem" width="1.5rem" fill={theme.palette.icon.brand} />
-              <Typography variant="body1" fontWeight={'bold'}>
-                Assigned Views
-              </Typography>
-            </Box>
-            <TableRightActionHeader>
-              <SearchBar
-                onSearch={(value) => {
-                  setSearch(value);
-                }}
-                onClear={() => {
-                  setSearch('');
-                }}
-                expanded={isSearchExpanded}
-                setExpanded={setIsSearchExpanded}
-                placeholder="Search workspaces..."
-              />
-              <CustomColumnVisibilityControl
-                columns={columns}
-                customToolsProps={{
-                  columnVisibility,
-                  setColumnVisibility
-                }}
-                id={'views-table'}
-              />
-              <L5EditIcon
-                onClick={viewAssignment.handleAssignModal}
-                disabled={!isAssignAllowed}
-                title="Assign Views"
-              />
-            </TableRightActionHeader>
-          </TableHeader>
-        </AccordionSummary>
-        <AccordionDetails style={{ padding: 0 }}>
-          <ResponsiveDataTable
-            columns={columns}
-            data={viewsOfWorkspace?.views}
-            options={options}
-            colViews={colViews}
-            tableCols={tableCols}
-            updateCols={updateCols}
-            columnVisibility={columnVisibility}
+      <TableHeader style={{ padding: '1rem' }}>
+        <Box display={'flex'} alignItems="center" gap={1} width="100%">
+          <ViewIcon height="1.5rem" width="1.5rem" fill={theme.palette.icon.brand} />
+          <Typography variant="body1" fontWeight={'bold'}>
+            Assigned Views
+          </Typography>
+        </Box>
+        <TableRightActionHeader style={{ marginRight: '0rem' }}>
+          <SearchBar
+            onSearch={(value) => {
+              setSearch(value);
+            }}
+            onClear={() => {
+              setSearch('');
+            }}
+            expanded={isSearchExpanded}
+            setExpanded={setIsSearchExpanded}
+            placeholder="Search workspaces..."
           />
-        </AccordionDetails>
-      </Accordion>
+          <CustomColumnVisibilityControl
+            columns={columns}
+            customToolsProps={{
+              columnVisibility,
+              setColumnVisibility
+            }}
+            id={'views-table'}
+          />
+          <L5EditIcon
+            onClick={viewAssignment.handleAssignModal}
+            disabled={!isAssignAllowed}
+            title="Assign Views"
+          />
+        </TableRightActionHeader>
+      </TableHeader>
+
+      <ResponsiveDataTable
+        columns={columns}
+        data={viewsOfWorkspace?.views}
+        options={options}
+        colViews={colViews}
+        tableCols={tableCols}
+        updateCols={updateCols}
+        columnVisibility={columnVisibility}
+      />
 
       <AssignmentModal
         open={viewAssignment.assignModal}

@@ -10,6 +10,8 @@ import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
+import { VisibilityChipMenu } from '../VisibilityChipMenu';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AuthorCell from './AuthorCell';
 import { getColumnValue } from './helper';
 import { L5DeleteIcon, NameDiv } from './style';
@@ -146,7 +148,10 @@ export const createDesignsColumnsConfig = ({
       options: {
         filter: false,
         sort: false,
-        searchable: true
+        searchable: true,
+        customBodyRender: (value: VIEW_VISIBILITY) => {
+          return <VisibilityChipMenu value={value} enabled={false} />;
+        }
       }
     },
     {
@@ -180,8 +185,7 @@ export const createDesignsColumnsConfig = ({
         filter: false,
         sort: false,
         searchable: false,
-        setCellHeaderProps: () => ({ align: 'center' as const }),
-        setCellProps: () => ({ align: 'center' as const }),
+
         customBodyRender: function CustomBody(_, tableMeta: MUIDataTableMeta) {
           const rowIndex = (tableMeta as TableMeta).rowIndex;
           const rowData = (tableMeta as TableMeta).tableData[rowIndex];
@@ -203,7 +207,7 @@ export const createDesignsColumnsConfig = ({
               icon: <ChainIcon width={'24'} height={'24'} fill={theme?.palette.icon.secondary} />
             },
             {
-              title: 'Open in playground',
+              title: 'Open in Playground',
               onClick: () => {
                 window.open(
                   `https://playground.meshery.io/extension/meshmap?mode=${
@@ -217,7 +221,7 @@ export const createDesignsColumnsConfig = ({
               )
             },
             {
-              title: isFromWorkspaceTable ? 'Remove Design' : 'Delete',
+              title: isFromWorkspaceTable ? 'Move Design' : 'Delete',
               disabled: isFromWorkspaceTable ? !isRemoveAllowed : !isDeleteAllowed,
               onClick: () => handleDeleteModal(rowData)(),
               icon: <L5DeleteIcon />
