@@ -2,7 +2,7 @@ import { Theme } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { Typography } from '../../base';
 import { PLAYGROUND_MODES } from '../../constants/constants';
-import { ChainIcon, CopyIcon, KanvasIcon, LockIcon, PublicIcon, PublishIcon } from '../../icons';
+import { ChainIcon, CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { downloadPattern, slugify } from '../CatalogDetail/helper';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
@@ -39,8 +39,6 @@ interface ColumnConfigProps {
   isFromWorkspaceTable?: boolean;
   isRemoveAllowed?: boolean;
   theme?: Theme;
-  isVisibilityEnabled: boolean;
-  handleVisibilityChange: (visibility: VIEW_VISIBILITY) => void;
 }
 
 export const colViews: ColView[] = [
@@ -70,9 +68,7 @@ export const createDesignsColumnsConfig = ({
   isDownloadAllowed,
   isRemoveAllowed,
   theme,
-  isFromWorkspaceTable = false,
-  isVisibilityEnabled,
-  handleVisibilityChange
+  isFromWorkspaceTable = false
 }: ColumnConfigProps): MUIDataTableColumn[] => {
   return [
     {
@@ -154,17 +150,7 @@ export const createDesignsColumnsConfig = ({
         sort: false,
         searchable: true,
         customBodyRender: (value: VIEW_VISIBILITY) => {
-          return (
-            <VisibilityChipMenu
-              value={value}
-              onChange={(value) => handleVisibilityChange(value as VIEW_VISIBILITY)}
-              enabled={isVisibilityEnabled}
-              options={[
-                [VIEW_VISIBILITY.PUBLIC, PublicIcon],
-                [VIEW_VISIBILITY.PRIVATE, LockIcon]
-              ]}
-            />
-          );
+          return <VisibilityChipMenu value={value} enabled={false} />;
         }
       }
     },
