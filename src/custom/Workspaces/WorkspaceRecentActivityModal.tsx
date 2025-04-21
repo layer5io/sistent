@@ -1,4 +1,4 @@
-import HistoryIcon from '@mui/icons-material/History';
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Avatar,
@@ -147,7 +147,7 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
         title={`"${workspaceName}" Recent Activity`}
         open={open}
         closeModal={handleClose}
-        headerIcon={<HistoryIcon />}
+        headerIcon={<AccessTimeFilledIcon />}
         maxWidth="md"
       >
         <ModalBody style={{ maxHeight: '40rem' }}>
