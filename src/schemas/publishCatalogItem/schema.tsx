@@ -1,5 +1,7 @@
-import { CatalogDataDefinitionV1Alpha1Schema } from '@layer5/schemas';
+import { CatalogDataDefinitionV1Alpha1OpenApiSchema } from '@layer5/schemas';
 
+const CatalogDataDefinitionV1Alpha1Schema =
+  CatalogDataDefinitionV1Alpha1OpenApiSchema.components.schemas.CatalogData;
 /**
  * Schema for publish catalog item modal;
  * Can be use for publishing filters and designs
