@@ -12,7 +12,7 @@ const publishCatalogItemSchema = {
     compatibility: {
       type: CatalogDataDefinitionV1Alpha1Schema.properties.compatibility.type,
       title: 'Technology',
-      items: CatalogDataDefinitionV1Alpha1Schema.properties.compatibility.items,
+      items: CatalogDataDefinitionV1Alpha1Schema.properties.compatibility.items.enum,
       uniqueItems: true,
       minItems: 1,
       description:
@@ -22,7 +22,7 @@ const publishCatalogItemSchema = {
     pattern_caveats: {
       type: CatalogDataDefinitionV1Alpha1Schema.properties.pattern_caveats.type,
       title: CatalogDataDefinitionV1Alpha1Schema.properties.pattern_caveats.title,
-      description: CatalogDataDefinitionV1Alpha1Schema.properties.pattern_caveats,
+      description: CatalogDataDefinitionV1Alpha1Schema.properties.pattern_caveats.description,
       format: 'textarea',
       'x-rjsf-grid-area': 12,
       'x-encode-in-uri': true
@@ -30,7 +30,7 @@ const publishCatalogItemSchema = {
     pattern_info: {
       type: CatalogDataDefinitionV1Alpha1Schema.properties.pattern_info.type,
       title: CatalogDataDefinitionV1Alpha1Schema.properties.pattern_info.title,
-      description: CatalogDataDefinitionV1Alpha1Schema.properties.pattern_info,
+      description: CatalogDataDefinitionV1Alpha1Schema.properties.pattern_info.description,
       format: 'textarea',
       'x-rjsf-grid-area': 12,
       'x-encode-in-uri': true

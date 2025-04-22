@@ -6,16 +6,16 @@ const createAndEditEnvironmentSchema = {
   required: ['name'],
   properties: {
     description: {
-      description: environmentSchema.environmentPayload.properties.name.description,
+      description: environmentSchema.environmentPayload.properties.description.description,
       format: 'textarea',
       title: 'Description',
-      type: environmentSchema.environmentPayload.properties.name.type,
+      type: environmentSchema.environmentPayload.properties.description.type,
       'x-rjsf-grid-area': '12'
     },
     name: {
-      description: environmentSchema.environmentPayload.properties.description.description,
+      description: environmentSchema.environmentPayload.properties.name.description,
       title: 'Name',
-      type: environmentSchema.environmentPayload.properties.description.type,
+      type: environmentSchema.environmentPayload.properties.name.type,
       'x-rjsf-grid-area': '12'
     },
     organization: {
