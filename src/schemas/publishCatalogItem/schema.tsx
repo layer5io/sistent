@@ -12,7 +12,7 @@ const publishCatalogItemSchema = {
     compatibility: {
       type: CatalogDataDefinitionV1Alpha1Schema.properties.compatibility.type,
       title: 'Technology',
-      items: CatalogDataDefinitionV1Alpha1Schema.properties.compatibility.items.enum,
+      items: CatalogDataDefinitionV1Alpha1Schema.properties.compatibility.items,
       uniqueItems: true,
       minItems: 1,
       description:
