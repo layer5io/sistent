@@ -71,11 +71,30 @@ To run tests:
 make tests
 ```
 
-To attach sistent to your project use:
+#### Using your local Sistent Fork in a Project
+
+1. Install your local Sistent package in the project
 
 ```
 npm install <path-to-sistent-on-local-machine>
 ```
+
+2. Build your local Sistent fork
+
+After making changes to your fork, run this command in your local Sistent package.
+
+```
+make build
+```
+
+3. Run the build command in the project where your local Sistent fork is installed.
+
+```
+# example, Meshery UI
+make ui-build
+```
+
+Now your project should reflect changes from your local Sistent fork.
 
 > [!NOTE]
 > Avoid using `type any` in your code. Always specify explicit types to ensure type safety and maintainability.
