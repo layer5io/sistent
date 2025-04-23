@@ -1,3 +1,4 @@
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { Theme } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { Typography } from '../../base';
@@ -15,7 +16,6 @@ import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AuthorCell from './AuthorCell';
 import { getColumnValue } from './helper';
 import { L5DeleteIcon, NameDiv } from './style';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 interface TableMeta extends MUIDataTableMeta {
   rowIndex: number;
@@ -222,10 +222,14 @@ export const createDesignsColumnsConfig = ({
               )
             },
             {
-              title: isFromWorkspaceTable ? 'Move Design' : 'Delete',
+              title: isFromWorkspaceTable ? 'Remove Design' : 'Delete',
               disabled: isFromWorkspaceTable ? !isRemoveAllowed : !isDeleteAllowed,
               onClick: () => handleDeleteModal(rowData)(),
-              icon: isFromWorkspaceTable? <RemoveCircleIcon style={{color:theme?.palette.icon.default}}/>:  <L5DeleteIcon />
+              icon: isFromWorkspaceTable ? (
+                <RemoveCircleIcon style={{ color: theme?.palette.icon.default }} />
+              ) : (
+                <L5DeleteIcon />
+              )
             }
           ];
 
