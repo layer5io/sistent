@@ -248,7 +248,7 @@ export const createDesignsColumnsConfig = ({
                 <L5DeleteIcon />
               )
             }
-          ].filter((a) => a.hidden != true);
+          ].filter((a) => a?.hidden != true);
 
           const publishAction = {
             title: 'Publish',
@@ -265,6 +265,7 @@ export const createDesignsColumnsConfig = ({
           };
 
           const cloneAction = {
+            hidden: false,
             title: 'Clone',
             onClick: () => handleClone(rowData?.name, rowData?.id),
             icon: <CopyIcon width={24} height={24} fill={theme?.palette.icon.secondary} />
