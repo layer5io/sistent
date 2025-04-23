@@ -29,6 +29,7 @@ interface ColumnConfigProps {
   handleCopyUrl: (type: string, name: string, id: string) => void;
   handleClone: (name: string, id: string) => void;
   handleShowDetails: (designId: string, designName: string) => void;
+  handleOpenInDesigner?: (designId: string, designName: string) => void;
   handleDownload?: (design: Pattern) => void;
   getDownloadUrl?: (id: string) => string;
   isDownloadAllowed: boolean;
@@ -40,6 +41,7 @@ interface ColumnConfigProps {
   isFromWorkspaceTable?: boolean;
   isRemoveAllowed?: boolean;
   theme?: Theme;
+  showPlaygroundActions: boolean;
 }
 
 export const colViews: ColView[] = [
@@ -69,6 +71,8 @@ export const createDesignsColumnsConfig = ({
   isDownloadAllowed,
   isRemoveAllowed,
   theme,
+  handleOpenInDesigner,
+  showPlaygroundActions = true,
   isFromWorkspaceTable = false
 }: ColumnConfigProps): MUIDataTableColumn[] => {
   return [
@@ -209,6 +213,7 @@ export const createDesignsColumnsConfig = ({
             },
             {
               title: 'Open in Playground',
+              hidden: showPlaygroundActions == false,
               onClick: () => {
                 window.open(
                   `https://playground.meshery.io/extension/meshmap?mode=${
@@ -221,6 +226,18 @@ export const createDesignsColumnsConfig = ({
                 <KanvasIcon width={24} height={24} primaryFill={theme?.palette.icon.secondary} />
               )
             },
+
+            {
+              hidden: !handleOpenInDesigner,
+              title: 'Open in Designer',
+              // disabled : !handleOpenInDesigner,
+              onClick: () =>
+                handleOpenInDesigner && handleOpenInDesigner(rowData?.id, rowData?.name),
+              icon: (
+                <KanvasIcon width={24} height={24} primaryFill={theme?.palette.icon.secondary} />
+              )
+            },
+
             {
               title: isFromWorkspaceTable ? 'Remove Design' : 'Delete',
               disabled: isFromWorkspaceTable ? !isRemoveAllowed : !isDeleteAllowed,
@@ -231,7 +248,7 @@ export const createDesignsColumnsConfig = ({
                 <L5DeleteIcon />
               )
             }
-          ];
+          ].filter((a) => a.hidden != true);
 
           const publishAction = {
             title: 'Publish',

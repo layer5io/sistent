@@ -21,6 +21,7 @@ import useDesignAssignment from './hooks/useDesignAssignment';
 import { L5EditIcon, TableHeader, TableRightActionHeader } from './styles';
 export interface DesignTableProps {
   workspaceId: string;
+  isKanvasEnabled: boolean;
   workspaceName: string;
   designsOfWorkspace: any;
   meshModelModelsData: any;
@@ -56,6 +57,8 @@ export interface DesignTableProps {
   isAssignAllowed: boolean;
   isRemoveAllowed: boolean;
   setDesignSearch: (value: string) => void;
+  handleOpenInDesigner?: (designId: string, designName: string) => void;
+  showPlaygroundActions?: boolean;
 }
 
 export interface PublishModalState {
@@ -96,7 +99,9 @@ const DesignTable: React.FC<DesignTableProps> = ({
   isAssignAllowed,
   isRemoveAllowed,
   useGetWorkspaceDesignsQuery,
-  setDesignSearch
+  setDesignSearch,
+  handleOpenInDesigner,
+  showPlaygroundActions = true
 }) => {
   const [publishModal, setPublishModal] = useState<PublishModalState>({
     open: false,
@@ -132,7 +137,9 @@ const DesignTable: React.FC<DesignTableProps> = ({
     isUnpublishAllowed,
     isFromWorkspaceTable: true,
     isRemoveAllowed,
-    theme
+    theme,
+    handleOpenInDesigner,
+    showPlaygroundActions
   });
 
   const [publishSchema, setPublishSchema] = useState<{

@@ -39,6 +39,8 @@ interface ViewsTableProps {
   isRemoveAllowed: boolean;
   isAssignAllowed: boolean;
   handleShowDetails: (viewId: string, viewName: string, filterType: string) => void;
+  handleOpenInOperator?: (designId: string, viewName: string, filterType: string) => void;
+  showPlaygroundActions?: boolean;
 }
 
 const colViews: ColView[] = [
