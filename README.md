@@ -79,6 +79,16 @@ make tests
 npm install <path-to-sistent-on-local-machine>
 ```
 
+> Example:
+>
+> ```
+> # relative path
+> npm install ./../sistent
+>
+> # absolute path
+> npm install /home/five/code/sistent
+> ```
+
 2. Build your local Sistent fork
 
 After making changes to your fork, run this command in your local Sistent package.
