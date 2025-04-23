@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PrevIcon from '../../assets/images/Chevron-light.svg';
 
