@@ -1,20 +1,18 @@
+import { ModelDefinitionV1Beta1OpenApiSchema } from '@layer5/schemas';
+
+const ModelSchema = ModelDefinitionV1Beta1OpenApiSchema.components.schemas;
 const importModelSchema = {
   type: 'object',
   required: ['uploadType'],
   properties: {
     uploadType: {
-      type: 'string',
+      type: ModelSchema.ImportRequest.properties.uploadType.type,
       title: 'Upload method',
       enum: ['File Import', 'URL Import', 'CSV Import'],
-      enumDescriptions: [
-        'Upload a model file (.tar, .tar.gz, .tgz) from your local system',
-        'Import a model file using a direct URL to the source',
-        'Upload separate CSV files for model definitions, components, and their relationships'
-      ],
+      enumDescriptions: ModelSchema.ImportRequest.properties.uploadType.enumDescriptions,
       default: 'Select the Upload Method',
       'x-rjsf-grid-area': '12',
-      description:
-        "Choose the method you prefer to upload your model file. Select 'File Import' or 'CSV Import' if you have the file on your local system or 'URL Import' if you have the file hosted online."
+      description: ModelSchema.ImportRequest.properties.uploadType.description
     }
   },
   allOf: [
@@ -29,10 +27,9 @@ const importModelSchema = {
       then: {
         properties: {
           file: {
-            type: 'string',
-            format: 'file',
-            description:
-              'Supported model file formats are: .tar, .tar.gz, and .tgz. See [Import Models Documentation](https://docs.meshery.io/guides/configuration-management/importing-models#import-models-using-meshery-ui) for details',
+            type: ModelSchema.ImportBody.oneOf[0].properties.modelFile?.type,
+            format: ModelSchema.ImportBody.oneOf[0].properties.modelFile?.format,
+            description: ModelSchema.ImportBody.oneOf[0].properties.modelFile?.description,
             'x-rjsf-grid-area': '12'
           }
         },
@@ -50,11 +47,10 @@ const importModelSchema = {
       then: {
         properties: {
           url: {
-            type: 'string',
-            format: 'uri',
+            type: ModelSchema.ImportBody.oneOf[1].properties.url?.type,
+            format: ModelSchema.ImportBody.oneOf[1].properties.url?.format,
             title: 'URL',
-            description:
-              'A direct URL to a single model file, for example: https://raw.github.com/your-model-file.tar. Supported model file formats are: .tar, .tar.gz, and .tgz. \n\nFor bulk import of your model use the GitHub connection or CSV files. See [Import Models Documentation](https://docs.meshery.io/guides/configuration-management/importing-models#import-models-using-meshery-ui) for details',
+            description: ModelSchema.ImportBody.oneOf[1].properties.url?.description,
             'x-rjsf-grid-area': '12',
             disabled: true
           }

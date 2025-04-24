@@ -1,27 +1,27 @@
 /**
  * Schema for create or edit workspace modals
  */
+import { WorkspaceDefinitionV1Beta1OpenApiSchema } from '@layer5/schemas';
+
+const workspaceSchema = WorkspaceDefinitionV1Beta1OpenApiSchema.components.schemas;
 const createAndEditWorkspace = {
   properties: {
     description: {
-      description:
-        "Workspaces serve as a virtual space for your team-based work, allows you to control access and more, Provide a detailed description to clarify the purpose of this workspace. Remember you can changes description of workspace after it's creations too. Learn more about workspaces [here](https://docs.meshery.io/concepts/logical/workspaces)",
+      description: workspaceSchema.workspacePayload.properties.description.description,
       format: 'textarea',
       title: 'Description',
-      type: 'string',
+      type: workspaceSchema.workspacePayload.properties.description.type,
       'x-rjsf-grid-area': '12'
     },
     name: {
-      description:
-        'Provide a name that meaningfully represents this workspace. You can change the name of the workspace even after its creation.',
+      description: workspaceSchema.workspacePayload.properties.name.description,
       title: 'Name',
-      type: 'string',
+      type: workspaceSchema.workspacePayload.properties.name.type,
       'x-rjsf-grid-area': '12'
     },
     organization: {
-      type: 'string',
-      description:
-        'Select an organization in which you want to create this new workspace. Keep in mind that the organization cannot be changed after creation.',
+      type: workspaceSchema.workspacePayload.properties.organization_id.type,
+      description: workspaceSchema.workspacePayload.properties.organization_id.description,
       title: 'Organization',
       enum: [],
       enumNames: [],
@@ -29,7 +29,7 @@ const createAndEditWorkspace = {
     }
   },
   type: 'object',
-  required: ['name', 'organization']
+  required: workspaceSchema.workspacePayload.required
 };
 
 export default createAndEditWorkspace;
