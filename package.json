@@ -99,6 +99,7 @@
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@layer5/meshery-design-embed": "^0.4.0",
+    "@layer5/schemas": "^0.0.6-8",
     "@mui/material": "^5.15.11",
     "@types/mui-datatables": "*",
     "billboard.js": "^3.14.3",
