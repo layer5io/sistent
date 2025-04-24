@@ -3,6 +3,7 @@ import Previous from '../Previous';
 import Sidebar from '../Sidebar';
 import SubContent from '../SubContent';
 import SubText from '../SubText';
+import React from "react";
 
 const items = [
   {

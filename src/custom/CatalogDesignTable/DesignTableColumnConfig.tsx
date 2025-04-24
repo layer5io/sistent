@@ -1,3 +1,4 @@
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { Theme } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { Typography } from '../../base';
@@ -10,6 +11,8 @@ import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
+import { VisibilityChipMenu } from '../VisibilityChipMenu';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AuthorCell from './AuthorCell';
 import { getColumnValue } from './helper';
 import { L5DeleteIcon, NameDiv } from './style';
@@ -26,6 +29,7 @@ interface ColumnConfigProps {
   handleCopyUrl: (type: string, name: string, id: string) => void;
   handleClone: (name: string, id: string) => void;
   handleShowDetails: (designId: string, designName: string) => void;
+  handleOpenInDesigner?: (designId: string, designName: string) => void;
   handleDownload?: (design: Pattern) => void;
   getDownloadUrl?: (id: string) => string;
   isDownloadAllowed: boolean;
@@ -37,6 +41,7 @@ interface ColumnConfigProps {
   isFromWorkspaceTable?: boolean;
   isRemoveAllowed?: boolean;
   theme?: Theme;
+  showPlaygroundActions: boolean;
 }
 
 export const colViews: ColView[] = [
@@ -66,6 +71,8 @@ export const createDesignsColumnsConfig = ({
   isDownloadAllowed,
   isRemoveAllowed,
   theme,
+  handleOpenInDesigner,
+  showPlaygroundActions = true,
   isFromWorkspaceTable = false
 }: ColumnConfigProps): MUIDataTableColumn[] => {
   return [
@@ -146,7 +153,10 @@ export const createDesignsColumnsConfig = ({
       options: {
         filter: false,
         sort: false,
-        searchable: true
+        searchable: true,
+        customBodyRender: (value: VIEW_VISIBILITY) => {
+          return <VisibilityChipMenu value={value} enabled={false} />;
+        }
       }
     },
     {
@@ -180,8 +190,7 @@ export const createDesignsColumnsConfig = ({
         filter: false,
         sort: false,
         searchable: false,
-        setCellHeaderProps: () => ({ align: 'center' as const }),
-        setCellProps: () => ({ align: 'center' as const }),
+
         customBodyRender: function CustomBody(_, tableMeta: MUIDataTableMeta) {
           const rowIndex = (tableMeta as TableMeta).rowIndex;
           const rowData = (tableMeta as TableMeta).tableData[rowIndex];
@@ -203,7 +212,8 @@ export const createDesignsColumnsConfig = ({
               icon: <ChainIcon width={'24'} height={'24'} fill={theme?.palette.icon.secondary} />
             },
             {
-              title: 'Open in playground',
+              title: 'Open in Playground',
+              hidden: showPlaygroundActions == false,
               onClick: () => {
                 window.open(
                   `https://playground.meshery.io/extension/meshmap?mode=${
@@ -216,13 +226,29 @@ export const createDesignsColumnsConfig = ({
                 <KanvasIcon width={24} height={24} primaryFill={theme?.palette.icon.secondary} />
               )
             },
+
+            {
+              hidden: !handleOpenInDesigner,
+              title: 'Open in Designer',
+              // disabled : !handleOpenInDesigner,
+              onClick: () =>
+                handleOpenInDesigner && handleOpenInDesigner(rowData?.id, rowData?.name),
+              icon: (
+                <KanvasIcon width={24} height={24} primaryFill={theme?.palette.icon.secondary} />
+              )
+            },
+
             {
               title: isFromWorkspaceTable ? 'Remove Design' : 'Delete',
               disabled: isFromWorkspaceTable ? !isRemoveAllowed : !isDeleteAllowed,
               onClick: () => handleDeleteModal(rowData)(),
-              icon: <L5DeleteIcon />
+              icon: isFromWorkspaceTable ? (
+                <RemoveCircleIcon style={{ color: theme?.palette.icon.default }} />
+              ) : (
+                <L5DeleteIcon />
+              )
             }
-          ];
+          ].filter((a) => a?.hidden != true);
 
           const publishAction = {
             title: 'Publish',
@@ -239,6 +265,7 @@ export const createDesignsColumnsConfig = ({
           };
 
           const cloneAction = {
+            hidden: false,
             title: 'Clone',
             onClick: () => handleClone(rowData?.name, rowData?.id),
             icon: <CopyIcon width={24} height={24} fill={theme?.palette.icon.secondary} />
