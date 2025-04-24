@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import React, { useState } from 'react';
 import { Box, Typography } from '../../base';
-import { DeleteIcon, EnvironmentIcon, ViewIcon } from '../../icons';
+import { EnvironmentIcon, ViewIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { NameDiv } from '../CatalogDesignTable/style';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
@@ -38,6 +39,8 @@ interface ViewsTableProps {
   isRemoveAllowed: boolean;
   isAssignAllowed: boolean;
   handleShowDetails: (viewId: string, viewName: string, filterType: string) => void;
+  handleOpenInOperator?: (designId: string, viewName: string, filterType: string) => void;
+  showPlaygroundActions?: boolean;
 }
 
 const colViews: ColView[] = [
@@ -227,7 +230,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => (
           <IconWrapper disabled={!isRemoveAllowed}>
             <TooltipIcon
-              id={`delete_team-${tableMeta.rowIndex}`}
+              id={`delete_view-${tableMeta.rowIndex}`}
               title="Remove View"
               onClick={() => {
                 isRemoveAllowed &&
@@ -238,7 +241,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
               }}
               iconType="delete"
             >
-              <DeleteIcon height={28} width={28} fill={theme.palette.icon.default} />
+              <RemoveCircleIcon style={{ color: theme?.palette.icon.default }} />{' '}
             </TooltipIcon>
           </IconWrapper>
         )
