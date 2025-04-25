@@ -1,15 +1,11 @@
+import { Button } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { debounce } from 'lodash';
-import React, { useCallback, useState } from 'react';
-import { Avatar, Box, Chip, Grid, TextField, Tooltip, Typography } from '../../base';
-import { iconSmall } from '../../constants/iconsSizes';
-import { CloseIcon } from '../../icons/Close';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Avatar, Box, Chip, Grid, TextField, Typography } from '../../base';
 import { PersonIcon } from '../../icons/Person';
 import { useTheme } from '../../theme';
-import { Button } from '@mui/material';
-import { MutationDefinition } from '@reduxjs/toolkit/query';
-import { TypedUseMutationResult } from '@reduxjs/toolkit/dist/query/react';
 
 interface User {
   id: string;
@@ -43,7 +39,7 @@ interface UserSearchFieldProps {
    * @returns {Promise<User[]>} A promise that resolves to an array of user suggestions.
    */
   fetchSuggestions: (value: string) => Promise<User[]>;
-  shareWithNewUsers: (newUsers: User[]) => Promise<{ error: string }>,
+  shareWithNewUsers: (newUsers: User[]) => Promise<{ error: string }>;
   // isSharing : boolean
 }
 
@@ -51,68 +47,88 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   usersData,
   disabled = false,
   fetchSuggestions,
-  shareWithNewUsers,
+  shareWithNewUsers
 }: UserSearchFieldProps) => {
   const [error, setError] = useState<string | false>(false);
-  const [inputValue, setInputValue] = useState("")
+  const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState<User[]>([]);
   const [open, setOpen] = useState(false);
   const [searchUserLoading, setSearchUserLoading] = useState(false);
-  // const [showAllUsers, setShowAllUsers] = useState(false);
+  const [usersToShareWith, setUsersToShareWith] = useState<User[]>([]);
+  const [isSharing, setIsSharing] = useState(false);
   const theme = useTheme();
-  const [usersToShareWith, setUsersToShareWith] = useState([])
-  const [isSharing, setIsSharing] = useState(false)
-
 
   const handleShareWithNewUsers = async () => {
-
     try {
-      setIsSharing(true)
-      const result = await shareWithNewUsers(usersToShareWith)
-      console.log("sharing result", result)
+      setIsSharing(true);
+      const result = await shareWithNewUsers(usersToShareWith);
+      console.log('sharing result', result);
       if (!result.error) {
-        setUsersToShareWith([])
+        setUsersToShareWith([]);
       } else {
-        setError(result.error)
+        setError(result.error);
       }
-    }
-    catch (e) {
-      console.log("error while sharing", e)
+    } catch (e) {
+      console.log('error while sharing', e);
     } finally {
-      setIsSharing(false)
-    }
-  }
-
-  const handleAdd = (_event: React.SyntheticEvent<Element, Event>, value: User[]) => {
-    if (value) {
-      console.log("add value", value)
-      setUsersToShareWith(value)
-      setInputValue("")
-      setOpen(false)
+      setIsSharing(false);
     }
   };
 
-  const handleInputChange = useCallback( debounce(
-    async ( value: string) => {
-      console.log("inputChange",value)
-      if (value === '') {
-        setOptions([]);
-        setOpen(false);
-      } else {
-        setSearchUserLoading(true);
-        const suggestions = await fetchSuggestions(value);
-        setOptions(suggestions);
-        setSearchUserLoading(false);
-        setError(false);
-        setOpen(true);
-      }
-    },
-    300
-  ),[fetchSuggestions]);
+  const handleAdd = (_event: React.SyntheticEvent<Element, Event>, value: User[]) => {
+    if (value) {
+      console.log('add value', value);
+      setUsersToShareWith(value);
+      setInputValue('');
+      setOpen(false);
+    }
+  };
 
-  const filteredOptions = options.filter(option => !usersToShareWith.concat(usersData).find(u => u.id == option.id))
+  // Memoize the debounced function to prevent recreation on each render
+  const debouncedFetchSuggestions = useMemo(
+    () =>
+      debounce(async (value: string) => {
+        console.log('debounced fetch running for:', value);
+        if (value === '') {
+          setOptions([]);
+          setOpen(false);
+        } else {
+          setSearchUserLoading(true);
+          const suggestions = await fetchSuggestions(value);
+          setOptions(suggestions);
+          setSearchUserLoading(false);
+          setError(false);
+          setOpen(true);
+        }
+      }, 300),
+    [fetchSuggestions]
+  );
 
-  const isShareDisabled = disabled || isSharing || usersToShareWith.length == 0
+  // Clean up debounce on unmount
+  useEffect(() => {
+    return () => {
+      debouncedFetchSuggestions.cancel();
+    };
+  }, [debouncedFetchSuggestions]);
+
+  // Handler for input changes
+  const handleInputChange = (event: React.SyntheticEvent, value: string, reason: string) => {
+    // Only process actual typing events, not clearing or blurring
+    if (reason === 'input') {
+      console.log('input change:', value);
+      setInputValue(value);
+      debouncedFetchSuggestions(value);
+    } else if (reason === 'clear') {
+      setInputValue('');
+      setOptions([]);
+    }
+  };
+
+  const filteredOptions = options.filter(
+    (option) => !usersToShareWith.concat(usersData).find((u) => u.id === option.id)
+  );
+
+  const isShareDisabled = disabled || isSharing || usersToShareWith.length === 0;
 
   const UserChip = ({ avatarObj, ...props }: { avatarObj: User }) => (
     <Chip
@@ -130,7 +146,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
 
   return (
     <>
-      <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} gap={1}>
+      <Box display="flex" alignItems="center" justifyContent="space-between" gap={1}>
         <Autocomplete
           id="user-search-field"
           sx={{ width: '100%' }}
@@ -138,7 +154,9 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           // @ts-ignore
           filterOptions={(x) => x}
           options={filteredOptions}
-          renderTags={(value, getTagProps) => value.map((user, index) => <UserChip avatarObj={user} {...getTagProps({ index })} />)}
+          renderTags={(value, getTagProps) =>
+            value.map((user, index) => <UserChip avatarObj={user} {...getTagProps({ index })} />)
+          }
           disableClearable
           includeInputInList
           filterSelectedOptions
@@ -152,35 +170,25 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           getOptionLabel={(user) => user.email}
           noOptionsText={searchUserLoading ? 'Loading...' : 'No users found'}
           onChange={handleAdd}
-          onInputChange={(event,value) => {
-            console.log("onChange",value)
-            setInputValue(value)
-            handleInputChange(value)
-          }}
-
+          onInputChange={handleInputChange}
           isOptionEqualToValue={(option, value) => option.id === value.id}
-          // clearOnBlur
-
           renderInput={(params) => (
             <TextField
               {...params}
-              // label={label || 'Add User'}
-              placeholder='Add Users'
+              placeholder="Add Users"
               error={!!error}
               helperText={error}
               fullWidth
               label=""
               disabled={isShareDisabled}
-
               sx={{
-                "& .MuiOutlinedInput-root": {
-                  paddingInline: "0.5rem",
-                  paddingBlock: "0.1rem"
+                '& .MuiOutlinedInput-root': {
+                  paddingInline: '0.5rem',
+                  paddingBlock: '0.1rem'
                 }
               }}
               InputProps={{
                 ...params.InputProps,
-
                 endAdornment: (
                   <>{searchUserLoading ? <CircularProgress color="inherit" size={20} /> : null}</>
                 )
@@ -219,14 +227,27 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           )}
         />
 
-        <Button variant='contained' color='primary'
+        <Button
+          variant="contained"
           sx={{
-            backgroundColor: isShareDisabled ? theme.palette.action.disabled : theme.palette.action.active
+            '&.Mui-disabled': {
+              color: `${theme.palette.text.secondary} !important`,
+              backgroundColor: `${theme.palette.action.disabled}  !important` // This ensures the color stays when disabled
+            }
           }}
-          onClick={handleShareWithNewUsers} disabled={isShareDisabled}>
-          {isSharing ? <CircularProgress size={24} sx={{
-            color: "#fff"
-          }} /> : "Share"}
+          onClick={handleShareWithNewUsers}
+          disabled={isShareDisabled}
+        >
+          {isSharing ? (
+            <CircularProgress
+              size={24}
+              sx={{
+                color: '#fff'
+              }}
+            />
+          ) : (
+            'Share'
+          )}
         </Button>
       </Box>
     </>
