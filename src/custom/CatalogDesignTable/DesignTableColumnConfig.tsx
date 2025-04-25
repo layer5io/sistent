@@ -1,3 +1,4 @@
+import { Lock, Public } from '@mui/icons-material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { Theme } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
@@ -42,6 +43,8 @@ interface ColumnConfigProps {
   isRemoveAllowed?: boolean;
   theme?: Theme;
   showPlaygroundActions: boolean;
+  handleVisibilityChange?: (id: string, visibility: VIEW_VISIBILITY) => void;
+  currentUserId?: string;
 }
 
 export const colViews: ColView[] = [
@@ -73,7 +76,9 @@ export const createDesignsColumnsConfig = ({
   theme,
   handleOpenInDesigner,
   showPlaygroundActions = true,
-  isFromWorkspaceTable = false
+  isFromWorkspaceTable = false,
+  currentUserId,
+  handleVisibilityChange
 }: ColumnConfigProps): MUIDataTableColumn[] => {
   return [
     {
@@ -154,8 +159,26 @@ export const createDesignsColumnsConfig = ({
         filter: false,
         sort: false,
         searchable: true,
-        customBodyRender: (value: VIEW_VISIBILITY) => {
-          return <VisibilityChipMenu value={value} enabled={false} />;
+        customBodyRender: (value: VIEW_VISIBILITY, tableMeta) => {
+          const rowIndex = (tableMeta as TableMeta).rowIndex;
+          const designId = (tableMeta as TableMeta).tableData[rowIndex]?.id;
+          const designVisibility = (tableMeta as TableMeta).tableData[rowIndex]?.visibility;
+          const ownerId = (tableMeta as TableMeta).tableData[rowIndex]?.user_id;
+          const isOwner = ownerId === currentUserId;
+          const isEnabled = designVisibility !== VIEW_VISIBILITY.PUBLISHED && isOwner;
+          return (
+            <VisibilityChipMenu
+              value={value as VIEW_VISIBILITY}
+              onChange={(value) =>
+                handleVisibilityChange && handleVisibilityChange(designId, value as VIEW_VISIBILITY)
+              }
+              enabled={isEnabled}
+              options={[
+                [VIEW_VISIBILITY.PUBLIC, Public],
+                [VIEW_VISIBILITY.PRIVATE, Lock]
+              ]}
+            />
+          );
         }
       }
     },

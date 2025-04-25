@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography } from '../../base';
+import { Box } from '../../base';
 import { DesignIcon } from '../../icons';
 import { publishCatalogItemSchema } from '../../schemas';
 import { useTheme } from '../../theme';
@@ -16,9 +16,10 @@ import { useWindowDimensions } from '../Helpers/Dimension';
 import { updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
 import PromptComponent from '../Prompt';
 import SearchBar from '../SearchBar';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AssignmentModal from './AssignmentModal';
 import useDesignAssignment from './hooks/useDesignAssignment';
-import { L5EditIcon, TableHeader, TableRightActionHeader } from './styles';
+import { L5EditIcon, TableHeader } from './styles';
 export interface DesignTableProps {
   workspaceId: string;
   isKanvasEnabled: boolean;
@@ -59,6 +60,8 @@ export interface DesignTableProps {
   setDesignSearch: (value: string) => void;
   handleOpenInDesigner?: (designId: string, designName: string) => void;
   showPlaygroundActions?: boolean;
+  handleVisibilityChange?: (id: string, visibility: VIEW_VISIBILITY) => void;
+  currentUserId?: string;
 }
 
 export interface PublishModalState {
@@ -101,7 +104,9 @@ const DesignTable: React.FC<DesignTableProps> = ({
   useGetWorkspaceDesignsQuery,
   setDesignSearch,
   handleOpenInDesigner,
-  showPlaygroundActions = true
+  showPlaygroundActions = true,
+  handleVisibilityChange,
+  currentUserId
 }) => {
   const [publishModal, setPublishModal] = useState<PublishModalState>({
     open: false,
@@ -139,7 +144,9 @@ const DesignTable: React.FC<DesignTableProps> = ({
     isRemoveAllowed,
     theme,
     handleOpenInDesigner,
-    showPlaygroundActions
+    showPlaygroundActions,
+    handleVisibilityChange,
+    currentUserId
   });
 
   const [publishSchema, setPublishSchema] = useState<{
@@ -188,13 +195,15 @@ const DesignTable: React.FC<DesignTableProps> = ({
 
   const tableHeaderContent = (
     <TableHeader style={{ padding: '1rem' }}>
-      <Box display={'flex'} alignItems="center" gap={1} width="100%">
-        <DesignIcon height="1.5rem" width="1.5rem" />
-        <Typography variant="body1" fontWeight={'bold'}>
-          Assigned Designs
-        </Typography>
-      </Box>
-      <TableRightActionHeader style={{ marginRight: '0rem' }}>
+      <Box
+        style={{
+          marginRight: '0rem',
+          width: '100%',
+          justifyContent: 'end',
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
         <SearchBar
           onSearch={(value) => {
             setDesignSearch(value);
@@ -219,7 +228,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
           disabled={!isAssignAllowed}
           title="Assign Designs"
         />
-      </TableRightActionHeader>
+      </Box>
     </TableHeader>
   );
 
