@@ -1,7 +1,7 @@
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import { debounce } from 'lodash';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Avatar, Box, Chip, Grid, TextField, Tooltip, Typography } from '../../base';
 import { iconSmall } from '../../constants/iconsSizes';
 import { CloseIcon } from '../../icons/Close';
@@ -49,82 +49,52 @@ interface UserSearchFieldProps {
 
 const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   usersData,
-  // setUsersData,
-  label,
-  setDisableSave,
-  // disabled = false,
-  customUsersList,
+  disabled = false,
   fetchSuggestions,
-  // isSharing,
   shareWithNewUsers,
 }: UserSearchFieldProps) => {
   const [error, setError] = useState<string | false>(false);
-  const [inputValue, setInputValue] = useState<User | undefined>(undefined);
+  const [inputValue, setInputValue] = useState("")
   const [options, setOptions] = useState<User[]>([]);
   const [open, setOpen] = useState(false);
   const [searchUserLoading, setSearchUserLoading] = useState(false);
-  const [showAllUsers, setShowAllUsers] = useState(false);
+  // const [showAllUsers, setShowAllUsers] = useState(false);
   const theme = useTheme();
-  // console.log("usersData", usersData)
   const [usersToShareWith, setUsersToShareWith] = useState([])
-  // console.log("usersShrewith", usersToShareWith,shareWithNewUsers)
   const [isSharing, setIsSharing] = useState(false)
 
-  // const handleDelete = (email: string) => {
-  //   setUsersData(usersData.filter((user) => user.email !== email));
-  //   if (setDisableSave) {
-  //     setDisableSave(false);
-  //   }
-  // };
 
   const handleShareWithNewUsers = async () => {
 
     try {
       setIsSharing(true)
       const result = await shareWithNewUsers(usersToShareWith)
-      console.log("sharing result",result)
+      console.log("sharing result", result)
       if (!result.error) {
         setUsersToShareWith([])
       } else {
         setError(result.error)
       }
     }
-    catch(e){
-      console.log("error while sharing",e)
+    catch (e) {
+      console.log("error while sharing", e)
     } finally {
       setIsSharing(false)
     }
   }
 
-  const handleAdd = (_event: React.SyntheticEvent<Element, Event>, value: User | null) => {
+  const handleAdd = (_event: React.SyntheticEvent<Element, Event>, value: User[]) => {
     if (value) {
-      console.log("value", value)
-
+      console.log("add value", value)
       setUsersToShareWith(value)
-
-      // setUsersData((prevData: User[]): User[] => {
-      //   prevData = prevData || [];
-      //   const isDuplicate = prevData.some((user) => user.user_id === value.user_id);
-      //   const isDeleted = value.deleted_at?.Valid === true;
-
-      //   if (isDuplicate || isDeleted) {
-      //     setError(isDuplicate ? 'User already selected' : 'User does not exist');
-      //     return prevData;
-      //   }
-
-      //   setError(false);
-      //   return [...prevData, value];
-      // });
-      // setInputValue(undefined); // Clear the input value
-      // setOptions([]);
-      // if (setDisableSave) {
-      //   setDisableSave(false);
-      // }
+      setInputValue("")
+      setOpen(false)
     }
   };
 
-  const handleInputChange = debounce(
-    async (_event: React.SyntheticEvent<Element, Event>, value: string) => {
+  const handleInputChange = useCallback( debounce(
+    async ( value: string) => {
+      console.log("inputChange",value)
       if (value === '') {
         setOptions([]);
         setOpen(false);
@@ -138,22 +108,11 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
       }
     },
     300
-  );
+  ),[fetchSuggestions]);
 
-  // selected options are filtered out
   const filteredOptions = options.filter(option => !usersToShareWith.concat(usersData).find(u => u.id == option.id))
-  // console.log("filteredData", filteredOptions)
 
-
-
-  /**
-   * Clone customUsersList component to pass necessary props
-   */
-  // const clonedComponent = customUsersList
-  //   ? React.cloneElement(customUsersList, {
-  //     handleDelete: handleDelete
-  //   })
-  //   : null;
+  const isShareDisabled = disabled || isSharing || usersToShareWith.length == 0
 
   const UserChip = ({ avatarObj, ...props }: { avatarObj: User }) => (
     <Chip
@@ -166,12 +125,6 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
       label={avatarObj.email}
       size="small"
       {...props}
-    // onDelete={() => handleDelete(avatarObj.email)}
-    // deleteIcon={
-    //   <Tooltip title="Remove member">
-    //     <CloseIcon style={iconSmall} />
-    //   </Tooltip>
-    // }
     />
   );
 
@@ -193,13 +146,19 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           disableListWrap
           disabled={isSharing}
           open={open}
+          inputValue={inputValue}
           loading={searchUserLoading}
-          value={inputValue}
-          getOptionLabel={() => ''}
+          value={usersToShareWith}
+          getOptionLabel={(user) => user.email}
           noOptionsText={searchUserLoading ? 'Loading...' : 'No users found'}
           onChange={handleAdd}
-          onInputChange={handleInputChange}
-          isOptionEqualToValue={(option, value) => option === value}
+          onInputChange={(event,value) => {
+            console.log("onChange",value)
+            setInputValue(value)
+            handleInputChange(value)
+          }}
+
+          isOptionEqualToValue={(option, value) => option.id === value.id}
           // clearOnBlur
 
           renderInput={(params) => (
@@ -211,8 +170,17 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
               helperText={error}
               fullWidth
               label=""
+              disabled={isShareDisabled}
+
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  paddingInline: "0.5rem",
+                  paddingBlock: "0.1rem"
+                }
+              }}
               InputProps={{
                 ...params.InputProps,
+
                 endAdornment: (
                   <>{searchUserLoading ? <CircularProgress color="inherit" size={20} /> : null}</>
                 )
@@ -251,43 +219,16 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           )}
         />
 
-        <Button variant='contained' color='primary' onClick={handleShareWithNewUsers} disabled={ isSharing || usersToShareWith.length == 0}>
+        <Button variant='contained' color='primary'
+          sx={{
+            backgroundColor: isShareDisabled ? theme.palette.action.disabled : theme.palette.action.active
+          }}
+          onClick={handleShareWithNewUsers} disabled={isShareDisabled}>
           {isSharing ? <CircularProgress size={24} sx={{
-            color:"#fff"
-          }}  /> : "Share"}
+            color: "#fff"
+          }} /> : "Share"}
         </Button>
       </Box>
-      {/* customUsersList ? (
-        clonedComponent
-      ) : (
-        <Box
-          sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: 0.5,
-            mt: usersData?.length > 0 ? '0.5rem' : ''
-          }}
-        >
-          {showAllUsers
-            ? usersData?.map((avatarObj) => renderChip(avatarObj))
-            : usersData?.length > 0 && renderChip(usersData[usersData.length - 1])}
-          {usersData?.length > 1 && (
-            <Typography
-              onClick={() => setShowAllUsers(!showAllUsers)}
-              sx={{
-                cursor: 'pointer',
-                color: theme.palette.text.default,
-                fontWeight: '600',
-                '&:hover': {
-                  color: theme.palette.text.brand
-                }
-              }}
-            >
-              {showAllUsers ? '(hide)' : `(+${usersData.length - 1})`}
-            </Typography>
-          )}
-        </Box>
-      ) */}
     </>
   );
 };

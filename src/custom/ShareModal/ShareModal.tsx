@@ -1,4 +1,4 @@
-import { SelectChangeEvent } from '@mui/material';
+import { CircularProgress, SelectChangeEvent } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import {
   Avatar,
@@ -50,9 +50,79 @@ interface User {
 interface AccessListProps {
   accessList: User[];
   ownerData: User;
-  handleDelete: (email: string) => void;
+  handleDelete: (email: string) => Promise<{ error: string }>;
   hostURL?: string | null;
 }
+
+interface AccessListActorProps {
+  actor: User;
+  isOwner: boolean;
+  hostURL?: string | null;
+  handleDelete: (email: string) => Promise<{ error: string }>;
+}
+
+const AccessListActor: React.FC<AccessListActorProps> = ({ actor: actorData, hostURL, isOwner, handleDelete }) => {
+  const theme = useTheme()
+  const [isRevoking, setIsRevoking] = useState(false)
+  const revokeAcess = async () => {
+    setIsRevoking(true)
+    try {
+      const res = await handleDelete(actorData.email)
+    }
+    finally {
+      setIsRevoking(false)
+    }
+  }
+
+  const openInNewTab = (url: string) => {
+    window.open(url, '_blank', 'noreferrer');
+  };
+
+  return (
+    <ListItem key={actorData.id} style={{ paddingLeft: '0' }}>
+      <ListItemAvatar>
+        <Avatar
+          alt={actorData.first_name}
+          src={actorData.avatar_url}
+          imgProps={{ referrerPolicy: 'no-referrer' }}
+          onClick={() => {
+            hostURL && openInNewTab(`${hostURL}/user/${actorData.id}`);
+          }}
+        />
+      </ListItemAvatar>
+      <ListItemText
+        primary={`${actorData.first_name || ''} ${actorData.last_name || ''}`}
+        secondary={actorData.email}
+        secondaryTypographyProps={{
+          sx: {
+            color: theme.palette.background.neutral?.pressed
+          }
+        }}
+      />
+      <ListItemSecondaryAction>
+        {isOwner && (
+          <div>Owner</div>
+        )}
+
+        {!isOwner && !isRevoking && (
+          <CustomTooltip title="Remove Access" placement="top" arrow>
+            <IconButton
+              edge="end"
+              aria-label="delete"
+              onClick={revokeAcess}
+            >
+              <DeleteIcon fill={theme.palette.background.neutral?.default} />
+            </IconButton>
+          </CustomTooltip>
+        )}
+
+        {isRevoking && <CircularProgress size={24} sx={{ color: theme.palette.icon.default }} />}
+
+      </ListItemSecondaryAction>
+    </ListItem>)
+}
+
+
 
 /**
  * Custom component to show users list with delete icon and owner tag
@@ -63,11 +133,7 @@ const AccessList: React.FC<AccessListProps> = ({
   handleDelete,
   hostURL
 }: AccessListProps) => {
-  const openInNewTab = (url: string) => {
-    window.open(url, '_blank', 'noreferrer');
-  };
 
-  const theme = useTheme();
 
   return (
     <>
@@ -78,44 +144,8 @@ const AccessList: React.FC<AccessListProps> = ({
       )}
       <ListWrapper>
         <List dense>
-          {accessList.map((actorData) => (
-            <ListItem key={actorData.id} style={{ paddingLeft: '0' }}>
-              <ListItemAvatar>
-                <Avatar
-                  alt={actorData.first_name}
-                  src={actorData.avatar_url}
-                  imgProps={{ referrerPolicy: 'no-referrer' }}
-                  onClick={() => {
-                    hostURL && openInNewTab(`${hostURL}/user/${actorData.id}`);
-                  }}
-                />
-              </ListItemAvatar>
-              <ListItemText
-                primary={`${actorData.first_name || ''} ${actorData.last_name || ''}`}
-                secondary={actorData.email}
-                secondaryTypographyProps={{
-                  sx: {
-                    color: theme.palette.background.neutral?.pressed
-                  }
-                }}
-              />
-              <ListItemSecondaryAction>
-                {ownerData.id === actorData.id ? (
-                  <div>Owner</div>
-                ) : (
-                  <CustomTooltip title="Remove Access" placement="top" arrow>
-                    <IconButton
-                      edge="end"
-                      aria-label="delete"
-                      onClick={() => handleDelete(actorData.email)}
-                    >
-                      <DeleteIcon fill={theme.palette.background.neutral?.default} />
-                    </IconButton>
-                  </CustomTooltip>
-                )}
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
+          {accessList.map((actorData) => (<AccessListActor hostURL={hostURL} key={actorData.id}
+            actor={actorData} handleDelete={handleDelete} isOwner={ownerData.id == actorData.id} />))}
         </List>
       </ListWrapper>
     </>
@@ -139,8 +169,6 @@ interface ShareModalProps {
   ownerData: User;
   /** Function to fetch the list of users who have access to the resource */
   fetchAccessActors: () => Promise<User[]>;
-  /** Function to handle the sharing of the resource with specified users and options */
-  handleShare: (shareUserData: User[], selectedOption: string | undefined) => void;
   /** Optional URL of the host application. Defaults to `null` if not provided */
   hostURL?: string | null;
   /**
@@ -157,11 +185,12 @@ interface ShareModalProps {
    */
   fetchSuggestions: (value: string) => Promise<User[]>;
   handleCopy: () => void;
-  handleUpdateVisibility: (value: string) => Promise<{error:string}>  ,
-  isUpdatingVisibility : boolean ,
-  handleShareWithNewUsers: (newUsers: User[]) => Promise<{error:string}>,
-  // isSharing : boolean
-  canShareWithNewUsers: boolean
+  handleUpdateVisibility: (value: string) => Promise<{ error: string }>,
+  isUpdatingVisibility: boolean,
+  handleShareWithNewUsers: (newUsers: User[]) => Promise<{ error: string }>,
+  canShareWithNewUsers: boolean,
+  handleRevokeAccess: (revokedUsser: User[]) => Promise<{ error: string }>
+  canRevokeAccess: boolean,
 }
 
 /**
@@ -174,54 +203,45 @@ const ShareModal: React.FC<ShareModalProps> = ({
   dataName,
   ownerData,
   fetchAccessActors,
-  handleShare,
   hostURL = null,
   handleCopy,
   handleUpdateVisibility,
   isUpdatingVisibility,
   canShareWithNewUsers,
+  handleRevokeAccess,
   handleShareWithNewUsers,
   isVisibilitySelectorDisabled = false,
   fetchSuggestions
 }: ShareModalProps): JSX.Element => {
-  console.log("new share modal new")
-  const theme = useTheme();
+ const theme = useTheme();
   const [openMenu, setMenu] = useState<boolean>(false);
-  const [selectedOption, setOption] = useState<string | undefined>(selectedResource?.visibility);
   const [shareUserData, setShareUserData] = useState<User[]>([]);
+  const [resourceVisibility,setVisibility] = useState(selectedResource.visibility)
 
-  const handleDelete = (email: string) => {
-    setShareUserData((prevData) => prevData.filter((user) => user.email !== email));
+  const handleDelete = async (email: string) => {
+    const revoked = shareUserData.find(user => user.email == email)
+    if (!revoked) {
+      console.error("cant revoke user without acesss")
+      return {error:""}
+    }
+    return handleRevokeAccess([revoked])
   };
 
-  const handleOptionClick = (event: SelectChangeEvent<unknown>) => {
+  const handleOptionClick = async (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as string;
-    setOption(value);
-    handleUpdateVisibility(value)
+    if (value == resourceVisibility){
+      console.error("visibility is already ",value)
+      return
+    }
+
+    const res = await handleUpdateVisibility(value)
+    if (!res?.error){
+      setVisibility(value)
+    }
   };
 
   const handleMenuClose = () => setMenu(false);
 
-  const isShareDisabled = () => {
-    // Ensure at least one user other than the owner is selected
-    const otherUsersSelected = shareUserData.some((user) => user.id !== ownerData.id);
-
-    const existingAccessIds = shareUserData.map((user) => user.id);
-    const ownerDataId = ownerData?.id;
-
-    if (ownerDataId) {
-      existingAccessIds.push(ownerDataId);
-    }
-
-    const hasMismatchedUsers = !shareUserData.every((user) => existingAccessIds.includes(user.id));
-
-    return (
-      !otherUsersSelected || // Disable if no other users are selected
-      (shareUserData.length === existingAccessIds.length &&
-        !hasMismatchedUsers &&
-        selectedOption === selectedResource?.visibility)
-    );
-  };
 
   useEffect(() => {
     const fetchActors = async () => {
@@ -231,11 +251,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
     fetchActors();
   }, [fetchAccessActors]);
 
-  useEffect(() => {
-    if (selectedResource) {
-      setOption(selectedResource?.visibility);
-    }
-  }, [selectedResource]);
+
 
   return (
     <div style={{ marginBottom: '1rem' }}>
@@ -270,7 +286,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
             hostURL={hostURL}
           />
 
-          {selectedResource?.visibility !== 'published' && (
+          {resourceVisibility !== 'published' && (
             <>
               <CustomListItemText>
                 <Typography variant="h6">General Access</Typography>
@@ -279,14 +295,20 @@ const ShareModal: React.FC<ShareModalProps> = ({
                 <FormControlWrapper size="small">
                   <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>
                     <VisibilityIconWrapper>
-                      {selectedOption === SHARE_MODE.PUBLIC ? (
+
+                      {isUpdatingVisibility && <CircularProgress size={24} />}
+
+                      
+                      {!isUpdatingVisibility && resourceVisibility === SHARE_MODE.PUBLIC && (
                         <PublicIcon
                           width={24}
                           height={24}
                           fill={theme.palette.icon.default}
                           stroke={theme.palette.mode === 'dark' ? WHITE : BLACK}
                         />
-                      ) : (
+                      )}
+
+                      {!isUpdatingVisibility && resourceVisibility == SHARE_MODE.PRIVATE && (
                         <LockIcon
                           width={24}
                           height={24}
@@ -298,19 +320,19 @@ const ShareModal: React.FC<ShareModalProps> = ({
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <CustomSelect
                         variant="outlined"
-                        defaultValue={selectedOption}
+                        value={resourceVisibility}
                         labelId="share-menu-select"
                         id="share-menu"
                         open={openMenu}
                         onClose={handleMenuClose}
                         onOpen={() => setMenu(true)}
                         onChange={handleOptionClick}
-                        disabled={isVisibilitySelectorDisabled}
+                        disabled={isVisibilitySelectorDisabled || isUpdatingVisibility}
                       >
                         {Object.values(SHARE_MODE).map((option) => (
                           <MenuItem
                             key={option}
-                            selected={option === selectedOption}
+                            selected={option === resourceVisibility}
                             value={option}
                           >
                             {option.charAt(0).toUpperCase() + option.slice(1)}
@@ -324,7 +346,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                         component="span"
                         variant="body2"
                       >
-                        {selectedOption === SHARE_MODE.PRIVATE ? options.PRIVATE : options.PUBLIC}
+                        {resourceVisibility === SHARE_MODE.PRIVATE ? options.PRIVATE : options.PUBLIC}
                       </Typography>
                     </div>
                   </div>
