@@ -267,7 +267,7 @@ export const createDesignsColumnsConfig = ({
             },
 
             {
-              title: isFromWorkspaceTable ? 'Remove Design' : 'Delete',
+              title: isFromWorkspaceTable ? 'Move Design' : 'Delete',
               disabled: isFromWorkspaceTable ? !isRemoveAllowed : !isDeleteAllowed,
               onClick: () => handleDeleteModal(rowData)(),
               icon: isFromWorkspaceTable ? (

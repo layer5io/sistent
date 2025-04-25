@@ -251,7 +251,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
           <IconWrapper disabled={!isRemoveAllowed}>
             <TooltipIcon
               id={`delete_view-${tableMeta.rowIndex}`}
-              title="Remove View"
+              title="Move View"
               onClick={() => {
                 isRemoveAllowed &&
                   unassignviewFromWorkspace({
