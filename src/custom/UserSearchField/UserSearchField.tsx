@@ -7,6 +7,9 @@ import { iconSmall } from '../../constants/iconsSizes';
 import { CloseIcon } from '../../icons/Close';
 import { PersonIcon } from '../../icons/Person';
 import { useTheme } from '../../theme';
+import { Button } from '@mui/material';
+import { MutationDefinition } from '@reduxjs/toolkit/query';
+import { TypedUseMutationResult } from '@reduxjs/toolkit/dist/query/react';
 
 interface User {
   id: string;
@@ -40,16 +43,20 @@ interface UserSearchFieldProps {
    * @returns {Promise<User[]>} A promise that resolves to an array of user suggestions.
    */
   fetchSuggestions: (value: string) => Promise<User[]>;
+  shareWithNewUsers: (newUsers: User[]) => Promise<{ error: string }>,
+  // isSharing : boolean
 }
 
 const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   usersData,
-  setUsersData,
+  // setUsersData,
   label,
   setDisableSave,
-  disabled = false,
+  // disabled = false,
   customUsersList,
-  fetchSuggestions
+  fetchSuggestions,
+  // isSharing,
+  shareWithNewUsers,
 }: UserSearchFieldProps) => {
   const [error, setError] = useState<string | false>(false);
   const [inputValue, setInputValue] = useState<User | undefined>(undefined);
@@ -58,34 +65,61 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   const [searchUserLoading, setSearchUserLoading] = useState(false);
   const [showAllUsers, setShowAllUsers] = useState(false);
   const theme = useTheme();
+  // console.log("usersData", usersData)
+  const [usersToShareWith, setUsersToShareWith] = useState([])
+  // console.log("usersShrewith", usersToShareWith,shareWithNewUsers)
+  const [isSharing, setIsSharing] = useState(false)
 
-  const handleDelete = (email: string) => {
-    setUsersData(usersData.filter((user) => user.email !== email));
-    if (setDisableSave) {
-      setDisableSave(false);
+  // const handleDelete = (email: string) => {
+  //   setUsersData(usersData.filter((user) => user.email !== email));
+  //   if (setDisableSave) {
+  //     setDisableSave(false);
+  //   }
+  // };
+
+  const handleShareWithNewUsers = async () => {
+
+    try {
+      setIsSharing(true)
+      const result = await shareWithNewUsers(usersToShareWith)
+      console.log("sharing result",result)
+      if (!result.error) {
+        setUsersToShareWith([])
+      } else {
+        setError(result.error)
+      }
     }
-  };
+    catch(e){
+      console.log("error while sharing",e)
+    } finally {
+      setIsSharing(false)
+    }
+  }
 
   const handleAdd = (_event: React.SyntheticEvent<Element, Event>, value: User | null) => {
     if (value) {
-      setUsersData((prevData: User[]): User[] => {
-        prevData = prevData || [];
-        const isDuplicate = prevData.some((user) => user.user_id === value.user_id);
-        const isDeleted = value.deleted_at?.Valid === true;
+      console.log("value", value)
 
-        if (isDuplicate || isDeleted) {
-          setError(isDuplicate ? 'User already selected' : 'User does not exist');
-          return prevData;
-        }
+      setUsersToShareWith(value)
 
-        setError(false);
-        return [...prevData, value];
-      });
-      setInputValue(undefined); // Clear the input value
-      setOptions([]);
-      if (setDisableSave) {
-        setDisableSave(false);
-      }
+      // setUsersData((prevData: User[]): User[] => {
+      //   prevData = prevData || [];
+      //   const isDuplicate = prevData.some((user) => user.user_id === value.user_id);
+      //   const isDeleted = value.deleted_at?.Valid === true;
+
+      //   if (isDuplicate || isDeleted) {
+      //     setError(isDuplicate ? 'User already selected' : 'User does not exist');
+      //     return prevData;
+      //   }
+
+      //   setError(false);
+      //   return [...prevData, value];
+      // });
+      // setInputValue(undefined); // Clear the input value
+      // setOptions([]);
+      // if (setDisableSave) {
+      //   setDisableSave(false);
+      // }
     }
   };
 
@@ -105,16 +139,23 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
     },
     300
   );
+
+  // selected options are filtered out
+  const filteredOptions = options.filter(option => !usersToShareWith.concat(usersData).find(u => u.id == option.id))
+  // console.log("filteredData", filteredOptions)
+
+
+
   /**
    * Clone customUsersList component to pass necessary props
    */
-  const clonedComponent = customUsersList
-    ? React.cloneElement(customUsersList, {
-        handleDelete: handleDelete
-      })
-    : null;
+  // const clonedComponent = customUsersList
+  //   ? React.cloneElement(customUsersList, {
+  //     handleDelete: handleDelete
+  //   })
+  //   : null;
 
-  const renderChip = (avatarObj: User) => (
+  const UserChip = ({ avatarObj, ...props }: { avatarObj: User }) => (
     <Chip
       key={avatarObj.user_id}
       avatar={
@@ -124,86 +165,99 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
       }
       label={avatarObj.email}
       size="small"
-      onDelete={() => handleDelete(avatarObj.email)}
-      deleteIcon={
-        <Tooltip title="Remove member">
-          <CloseIcon style={iconSmall} />
-        </Tooltip>
-      }
+      {...props}
+    // onDelete={() => handleDelete(avatarObj.email)}
+    // deleteIcon={
+    //   <Tooltip title="Remove member">
+    //     <CloseIcon style={iconSmall} />
+    //   </Tooltip>
+    // }
     />
   );
 
   return (
     <>
-      <Autocomplete
-        id="user-search-field"
-        sx={{ width: 'auto' }}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        filterOptions={(x) => x}
-        options={options}
-        disableClearable
-        includeInputInList
-        filterSelectedOptions
-        disableListWrap
-        disabled={disabled}
-        open={open}
-        loading={searchUserLoading}
-        value={inputValue}
-        getOptionLabel={() => ''}
-        noOptionsText={searchUserLoading ? 'Loading...' : 'No users found'}
-        onChange={handleAdd}
-        onInputChange={handleInputChange}
-        isOptionEqualToValue={(option, value) => option === value}
-        clearOnBlur
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label={label || 'Add User'}
-            error={!!error}
-            helperText={error}
-            fullWidth
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>{searchUserLoading ? <CircularProgress color="inherit" size={20} /> : null}</>
-              )
-            }}
-          />
-        )}
-        renderOption={(props: React.HTMLAttributes<HTMLLIElement>, option) => (
-          // @ts-expect-error Props need to be passed to BOX component to make sure styles getting updated
-          <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-            <Grid container alignItems="center">
-              <Grid item>
-                <Box sx={{ color: 'text.secondary', mr: 2 }}>
-                  <Avatar alt={option.first_name} src={option.avatar_url}>
-                    {option.avatar_url ? '' : <PersonIcon />}
-                  </Avatar>
-                </Box>
-              </Grid>
-              <Grid item xs>
-                {option.deleted_at?.Valid ? (
-                  <Typography variant="body2" color="text.secondary">
-                    {option.email} (deleted)
-                  </Typography>
-                ) : (
-                  <>
-                    <Typography variant="body2">
-                      {option.first_name} {option.last_name}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {option.email}
-                    </Typography>
-                  </>
-                )}
-              </Grid>
-            </Grid>
-          </Box>
-        )}
-      />
+      <Box display={"flex"} alignItems={"center"} justifyContent={"space-between"} gap={1}>
+        <Autocomplete
+          id="user-search-field"
+          sx={{ width: '100%' }}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          filterOptions={(x) => x}
+          options={filteredOptions}
+          renderTags={(value, getTagProps) => value.map((user, index) => <UserChip avatarObj={user} {...getTagProps({ index })} />)}
+          disableClearable
+          includeInputInList
+          filterSelectedOptions
+          multiple
+          disableListWrap
+          disabled={isSharing}
+          open={open}
+          loading={searchUserLoading}
+          value={inputValue}
+          getOptionLabel={() => ''}
+          noOptionsText={searchUserLoading ? 'Loading...' : 'No users found'}
+          onChange={handleAdd}
+          onInputChange={handleInputChange}
+          isOptionEqualToValue={(option, value) => option === value}
+          // clearOnBlur
 
-      {customUsersList ? (
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              // label={label || 'Add User'}
+              placeholder='Add Users'
+              error={!!error}
+              helperText={error}
+              fullWidth
+              label=""
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <>{searchUserLoading ? <CircularProgress color="inherit" size={20} /> : null}</>
+                )
+              }}
+            />
+          )}
+          renderOption={(props: React.HTMLAttributes<HTMLLIElement>, option) => (
+            // @ts-expect-error Props need to be passed to BOX component to make sure styles getting updated
+            <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+              <Grid container alignItems="center">
+                <Grid item>
+                  <Box sx={{ color: 'text.secondary', mr: 2 }}>
+                    <Avatar alt={option.first_name} src={option.avatar_url}>
+                      {option.avatar_url ? '' : <PersonIcon />}
+                    </Avatar>
+                  </Box>
+                </Grid>
+                <Grid item xs>
+                  {option.deleted_at?.Valid ? (
+                    <Typography variant="body2" color="text.secondary">
+                      {option.email} (deleted)
+                    </Typography>
+                  ) : (
+                    <>
+                      <Typography variant="body2">
+                        {option.first_name} {option.last_name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        {option.email}
+                      </Typography>
+                    </>
+                  )}
+                </Grid>
+              </Grid>
+            </Box>
+          )}
+        />
+
+        <Button variant='contained' color='primary' onClick={handleShareWithNewUsers} disabled={ isSharing || usersToShareWith.length == 0}>
+          {isSharing ? <CircularProgress size={24} sx={{
+            color:"#fff"
+          }}  /> : "Share"}
+        </Button>
+      </Box>
+      {/* customUsersList ? (
         clonedComponent
       ) : (
         <Box
@@ -233,7 +287,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
             </Typography>
           )}
         </Box>
-      )}
+      ) */}
     </>
   );
 };

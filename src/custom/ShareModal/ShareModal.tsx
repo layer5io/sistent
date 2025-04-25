@@ -157,6 +157,11 @@ interface ShareModalProps {
    */
   fetchSuggestions: (value: string) => Promise<User[]>;
   handleCopy: () => void;
+  handleUpdateVisibility: (value: string) => Promise<{error:string}>  ,
+  isUpdatingVisibility : boolean ,
+  handleShareWithNewUsers: (newUsers: User[]) => Promise<{error:string}>,
+  // isSharing : boolean
+  canShareWithNewUsers: boolean
 }
 
 /**
@@ -172,10 +177,14 @@ const ShareModal: React.FC<ShareModalProps> = ({
   handleShare,
   hostURL = null,
   handleCopy,
-
+  handleUpdateVisibility,
+  isUpdatingVisibility,
+  canShareWithNewUsers,
+  handleShareWithNewUsers,
   isVisibilitySelectorDisabled = false,
   fetchSuggestions
 }: ShareModalProps): JSX.Element => {
+  console.log("new share modal new")
   const theme = useTheme();
   const [openMenu, setMenu] = useState<boolean>(false);
   const [selectedOption, setOption] = useState<string | undefined>(selectedResource?.visibility);
@@ -188,6 +197,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
   const handleOptionClick = (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as string;
     setOption(value);
+    handleUpdateVisibility(value)
   };
 
   const handleMenuClose = () => setMenu(false);
@@ -239,6 +249,9 @@ const ShareModal: React.FC<ShareModalProps> = ({
             setUsersData={setShareUserData}
             usersData={shareUserData}
             label="Search Users"
+            shareWithNewUsers={handleShareWithNewUsers}
+            // isSharing={isSharing}
+            disabled={canShareWithNewUsers}
             customUsersList={
               <AccessList
                 accessList={shareUserData}
@@ -249,6 +262,14 @@ const ShareModal: React.FC<ShareModalProps> = ({
             }
             fetchSuggestions={fetchSuggestions}
           />
+
+          <AccessList
+            accessList={shareUserData}
+            ownerData={ownerData}
+            handleDelete={handleDelete}
+            hostURL={hostURL}
+          />
+
           {selectedResource?.visibility !== 'published' && (
             <>
               <CustomListItemText>
@@ -334,14 +355,14 @@ const ShareModal: React.FC<ShareModalProps> = ({
               </IconButtonWrapper>
               <Typography>Copy Link</Typography>
             </ModalButtonSecondary>
-            <ModalButtonPrimary
+            {/* <ModalButtonPrimary
               disabled={isShareDisabled()}
               variant="contained"
               color="primary"
               onClick={() => handleShare(shareUserData, selectedOption)}
             >
               Share
-            </ModalButtonPrimary>
+            </ModalButtonPrimary> */}
           </div>
         </ModalFooter>
       </Modal>
