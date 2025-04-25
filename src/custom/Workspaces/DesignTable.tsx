@@ -24,7 +24,6 @@ export interface DesignTableProps {
   workspaceId: string;
   isKanvasEnabled: boolean;
   workspaceName: string;
-  designsOfWorkspace: any;
   meshModelModelsData: any;
   useGetWorkspaceDesignsQuery: any;
   useAssignDesignToWorkspaceMutation: any;
@@ -57,7 +56,6 @@ export interface DesignTableProps {
   isUnpublishAllowed: boolean;
   isAssignAllowed: boolean;
   isRemoveAllowed: boolean;
-  setDesignSearch: (value: string) => void;
   handleOpenInDesigner?: (designId: string, designName: string) => void;
   showPlaygroundActions?: boolean;
   handleVisibilityChange?: (id: string, visibility: VIEW_VISIBILITY) => void;
