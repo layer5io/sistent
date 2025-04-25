@@ -315,7 +315,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
         <ModalFooter
           variant="filled"
-          helpText="You can share your designs or designs for which you have permission to share with other members of your organization and teams, and you can control access permissions."
+          helpText="You can share your designs or designs for which you have permission to share with other members of your organization and teams, and you can control access permissions. <a href='https://docs.layer5.io/kanvas/designer/share-resource/'>Learn more</a>"
         >
           <div
             style={{

@@ -3,8 +3,8 @@ import { Lock, Public } from '@mui/icons-material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import React, { useState } from 'react';
-import { Box, Typography } from '../../base';
-import { EnvironmentIcon, ViewIcon } from '../../icons';
+import { Box } from '../../base';
+import { EnvironmentIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { NameDiv } from '../CatalogDesignTable/style';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
@@ -23,13 +23,7 @@ import { UserTableAvatarInfo } from '../UsersTable';
 import VisibilityChipMenu, { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AssignmentModal from './AssignmentModal';
 import useViewAssignment from './hooks/useViewsAssignment';
-import {
-  CellStyle,
-  CustomBodyRenderStyle,
-  L5EditIcon,
-  TableHeader,
-  TableRightActionHeader
-} from './styles';
+import { CellStyle, CustomBodyRenderStyle, L5EditIcon, TableHeader } from './styles';
 
 interface ViewsTableProps {
   workspaceId: string;
@@ -338,13 +332,15 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   return (
     <>
       <TableHeader style={{ padding: '1rem' }}>
-        <Box display={'flex'} alignItems="center" gap={1} width="100%">
-          <ViewIcon height="1.5rem" width="1.5rem" fill={theme.palette.icon.brand} />
-          <Typography variant="body1" fontWeight={'bold'}>
-            Assigned Views
-          </Typography>
-        </Box>
-        <TableRightActionHeader style={{ marginRight: '0rem' }}>
+        <Box
+          style={{
+            marginRight: '0rem',
+            width: '100%',
+            justifyContent: 'end',
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
           <SearchBar
             onSearch={(value) => {
               setSearch(value);
@@ -369,7 +365,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
             disabled={!isAssignAllowed}
             title="Assign Views"
           />
-        </TableRightActionHeader>
+        </Box>
       </TableHeader>
 
       <ResponsiveDataTable

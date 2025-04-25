@@ -29,7 +29,7 @@ const createAndEditWorkspace = {
     }
   },
   type: 'object',
-  required: workspaceSchema.workspacePayload.required
+  required: ['name', 'organization']
 };
 
 export default createAndEditWorkspace;
