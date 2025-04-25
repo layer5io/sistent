@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography } from '../../base';
+import { Box } from '../../base';
 import { DesignIcon } from '../../icons';
 import { publishCatalogItemSchema } from '../../schemas';
 import { useTheme } from '../../theme';
@@ -18,7 +18,7 @@ import PromptComponent from '../Prompt';
 import SearchBar from '../SearchBar';
 import AssignmentModal from './AssignmentModal';
 import useDesignAssignment from './hooks/useDesignAssignment';
-import { L5EditIcon, TableHeader, TableRightActionHeader } from './styles';
+import { L5EditIcon, TableHeader } from './styles';
 export interface DesignTableProps {
   workspaceId: string;
   isKanvasEnabled: boolean;
@@ -188,13 +188,15 @@ const DesignTable: React.FC<DesignTableProps> = ({
 
   const tableHeaderContent = (
     <TableHeader style={{ padding: '1rem' }}>
-      <Box display={'flex'} alignItems="center" gap={1} width="100%">
-        <DesignIcon height="1.5rem" width="1.5rem" />
-        <Typography variant="body1" fontWeight={'bold'}>
-          Assigned Designs
-        </Typography>
-      </Box>
-      <TableRightActionHeader style={{ marginRight: '0rem' }}>
+      <Box
+        style={{
+          marginRight: '0rem',
+          width: '100%',
+          justifyContent: 'end',
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
         <SearchBar
           onSearch={(value) => {
             setDesignSearch(value);
@@ -219,7 +221,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
           disabled={!isAssignAllowed}
           title="Assign Designs"
         />
-      </TableRightActionHeader>
+      </Box>
     </TableHeader>
   );
 
