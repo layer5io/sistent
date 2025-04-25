@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Lock, Public } from '@mui/icons-material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import React, { useState } from 'react';
@@ -35,6 +36,8 @@ interface ViewsTableProps {
   handleShowDetails: (viewId: string, viewName: string, filterType: string) => void;
   handleOpenInOperator?: (designId: string, viewName: string, filterType: string) => void;
   showPlaygroundActions?: boolean;
+  handleVisibilityChange?: (id: string, visibility: VIEW_VISIBILITY) => void;
+  currentUserId?: string;
 }
 
 const colViews: ColView[] = [
@@ -71,7 +74,9 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   useUnassignViewFromWorkspaceMutation,
   useAssignViewToWorkspaceMutation,
   isAssignAllowed,
-  handleShowDetails
+  handleShowDetails,
+  handleVisibilityChange,
+  currentUserId
 }) => {
   const theme = useTheme();
 
@@ -80,7 +85,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
-  const { data: viewsOfWorkspace } = useGetViewsOfWorkspaceQuery(
+  const { data: viewsOfWorkspace, refetch } = useGetViewsOfWorkspaceQuery(
     {
       workspaceId,
       page: page,
@@ -209,8 +214,29 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
         filter: false,
         sort: false,
         searchable: true,
-        customBodyRender: (value: VIEW_VISIBILITY) => {
-          return <VisibilityChipMenu value={value} enabled={false} />;
+        customBodyRender: (value: VIEW_VISIBILITY, tableMeta) => {
+          const rowIndex = tableMeta.rowIndex;
+          const viewId = tableMeta.tableData[rowIndex]?.id;
+          const viewVisibility = tableMeta.tableData[rowIndex]?.visibility;
+          const ownerId = tableMeta.tableData[rowIndex]?.user_id;
+          const isOwner = ownerId === currentUserId;
+          const isEnabled = viewVisibility !== VIEW_VISIBILITY.PUBLISHED && isOwner;
+          return (
+            <VisibilityChipMenu
+              value={value as VIEW_VISIBILITY}
+              onChange={(value) => {
+                if (handleVisibilityChange) {
+                  handleVisibilityChange(viewId, value as VIEW_VISIBILITY);
+                  refetch();
+                }
+              }}
+              enabled={isEnabled}
+              options={[
+                [VIEW_VISIBILITY.PUBLIC, Public],
+                [VIEW_VISIBILITY.PRIVATE, Lock]
+              ]}
+            />
+          );
         }
       }
     },
