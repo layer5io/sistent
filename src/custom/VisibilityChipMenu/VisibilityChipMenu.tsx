@@ -109,7 +109,7 @@ const VisibilityChipMenu: React.FC<VisibilityChipMenuProps> = ({
         data-testid={`design-visibility-${value.toLowerCase()}`}
       >
         <StyledDiv theme={theme} enabled={enabled}>
-          <span style={{ fontSize: '0.7rem' }}>{value}</span>
+          <span style={{ fontSize: '0.85rem' }}>{value}</span>
           {enabled && <ArrowDropDownIcon style={{ ...iconXSmall }} />}
         </StyledDiv>
       </StyledButton>
