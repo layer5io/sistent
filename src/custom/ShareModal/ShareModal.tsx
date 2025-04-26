@@ -14,8 +14,13 @@ import {
 import { ChainIcon, DeleteIcon, LockIcon, PublicIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { BLACK, WHITE } from '../../theme/colors';
+import {
+  canShareResourceWithNewUsers,
+  canUpdateResourceVisibility,
+  User
+} from '../../utils/permissions';
 import { CustomTooltip } from '../CustomTooltip';
-import { Modal, ModalBody,  ModalButtonSecondary, ModalFooter } from '../Modal';
+import { Modal, ModalBody, ModalButtonSecondary, ModalFooter } from '../Modal';
 import UserShareSearch from '../UserSearchField/UserSearchField';
 import {
   CustomDialogContentText,
@@ -32,8 +37,7 @@ const options = {
   PRIVATE: 'Only people with access can open with the link'
 };
 
-const SHARE_MODE = VISIBILITY
-import { canShareResourceWithNewUsers, canUpdateResourceVisibility, User } from '../../utils/permissions';
+const SHARE_MODE = VISIBILITY;
 
 interface AccessListProps {
   accessList: User[];
@@ -49,18 +53,22 @@ interface AccessListActorProps {
   handleDelete: (email: string) => Promise<{ error: string }>;
 }
 
-const AccessListActor: React.FC<AccessListActorProps> = ({ actor: actorData, hostURL, isOwner, handleDelete }) => {
-  const theme = useTheme()
-  const [isRevoking, setIsRevoking] = useState(false)
+const AccessListActor: React.FC<AccessListActorProps> = ({
+  actor: actorData,
+  hostURL,
+  isOwner,
+  handleDelete
+}) => {
+  const theme = useTheme();
+  const [isRevoking, setIsRevoking] = useState(false);
   const revokeAcess = async () => {
-    setIsRevoking(true)
+    setIsRevoking(true);
     try {
-      const res = await handleDelete(actorData.email)
+      await handleDelete(actorData.email);
+    } finally {
+      setIsRevoking(false);
     }
-    finally {
-      setIsRevoking(false)
-    }
-  }
+  };
 
   const openInNewTab = (url: string) => {
     window.open(url, '_blank', 'noreferrer');
@@ -88,29 +96,21 @@ const AccessListActor: React.FC<AccessListActorProps> = ({ actor: actorData, hos
         }}
       />
       <ListItemSecondaryAction>
-        {isOwner && (
-          <div>Owner</div>
-        )}
+        {isOwner && <div>Owner</div>}
 
         {!isOwner && !isRevoking && (
           <CustomTooltip title="Remove Access" placement="top" arrow>
-            <IconButton
-              edge="end"
-              aria-label="delete"
-              onClick={revokeAcess}
-            >
+            <IconButton edge="end" aria-label="delete" onClick={revokeAcess}>
               <DeleteIcon fill={theme.palette.background.neutral?.default} />
             </IconButton>
           </CustomTooltip>
         )}
 
         {isRevoking && <CircularProgress size={24} sx={{ color: theme.palette.icon.default }} />}
-
       </ListItemSecondaryAction>
-    </ListItem>)
-}
-
-
+    </ListItem>
+  );
+};
 
 /**
  * Custom component to show users list with delete icon and owner tag
@@ -121,8 +121,6 @@ const AccessList: React.FC<AccessListProps> = ({
   handleDelete,
   hostURL
 }: AccessListProps) => {
-
-
   return (
     <>
       {accessList.length > 0 && (
@@ -132,8 +130,15 @@ const AccessList: React.FC<AccessListProps> = ({
       )}
       <ListWrapper>
         <List dense>
-          {accessList.map((actorData) => (<AccessListActor hostURL={hostURL} key={actorData.id}
-            actor={actorData} handleDelete={handleDelete} isOwner={ownerData.id == actorData.id} />))}
+          {accessList.map((actorData) => (
+            <AccessListActor
+              hostURL={hostURL}
+              key={actorData.id}
+              actor={actorData}
+              handleDelete={handleDelete}
+              isOwner={ownerData.id == actorData.id}
+            />
+          ))}
         </List>
       </ListWrapper>
     </>
@@ -146,7 +151,7 @@ interface SelectedResource {
   [key: string]: unknown;
 }
 
-type ResourceAccessArg = {
+export type ResourceAccessArg = {
   resourceType: string;
   resourceId: string;
   resourceAccessMappingPayload: {
@@ -156,9 +161,8 @@ type ResourceAccessArg = {
   };
 };
 
-
 import { startCase } from 'lodash';
-import {  VISIBILITY } from '../../constants/constants';
+import { VISIBILITY } from '../../constants/constants';
 
 interface ShareModalProps {
   /** Function to close the share modal */
@@ -173,17 +177,21 @@ interface ShareModalProps {
   fetchAccessActors: () => Promise<User[]>;
   /** Optional URL of the host application. Defaults to `null` if not provided */
   hostURL?: string | null;
-  handleUpdateVisibility: (value: string) => Promise<{ error: string }>,
-  handleShareWithNewUsers: (newUsers: User[]) => Promise<{ error: string }>,
-  canShareWithNewUsers: boolean,
-  handleRevokeAccess: (revokedUsser: User[]) => Promise<{ error: string }>
-  canRevokeAccess: boolean,
-  resourceAccessMutator: any,
-  notify: ({ message, event_type }: { message: string, event_type: "success" | "error" }) => void,
-  useGetAllUsersQuery: any,
-  shareableLink:string,
-  mesheryURL : string, // url to hosted meshery
-  currentUser: User,
+  handleUpdateVisibility: (value: string) => Promise<{ error: string }>;
+  handleShareWithNewUsers: (newUsers: User[]) => Promise<{ error: string }>;
+  canShareWithNewUsers: boolean;
+  handleRevokeAccess: (revokedUsser: User[]) => Promise<{ error: string }>;
+  canRevokeAccess: boolean;
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  resourceAccessMutator: any;
+  notify: ({ message, event_type }: { message: string; event_type: 'success' | 'error' }) => void;
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  useGetAllUsersQuery: any;
+  shareableLink: string;
+  mesheryURL: string; // url to hosted meshery
+  currentUser: User;
 }
 
 /**
@@ -203,39 +211,43 @@ const ShareModal: React.FC<ShareModalProps> = ({
   notify,
   useGetAllUsersQuery,
   shareableLink
-
 }: ShareModalProps): JSX.Element => {
   const theme = useTheme();
   const [openMenu, setMenu] = useState<boolean>(false);
   const [shareUserData, setShareUserData] = useState<User[]>([]);
-  const [resourceVisibility, setVisibility] = useState(selectedResource.visibility)
-  const [isUpdatingVisibility, setUpdatingVisibility] = useState(false)
+  const [resourceVisibility, setVisibility] = useState(selectedResource.visibility);
+  const [isUpdatingVisibility, setUpdatingVisibility] = useState(false);
 
-  const userCanUpdateVisibility = canUpdateResourceVisibility(selectedResource,currentUser,ownerData)
-  const userCanShareWithNewUsers = canShareResourceWithNewUsers(selectedResource,currentUser,ownerData)
+  const userCanUpdateVisibility = canUpdateResourceVisibility(
+    selectedResource,
+    currentUser,
+    ownerData
+  );
+  const userCanShareWithNewUsers = canShareResourceWithNewUsers(
+    selectedResource,
+    currentUser,
+    ownerData
+  );
 
-
-
- const handleCopy = () => {
-   // const shareableLink = getShareableResourceRoute(dataName,selectedResource.id,selectedResource.name)
-   console.log("shareableLink",shareableLink)
+  const handleCopy = () => {
+    // const shareableLink = getShareableResourceRoute(dataName,selectedResource.id,selectedResource.name)
+    console.log('shareableLink', shareableLink);
     navigator.clipboard.writeText(shareableLink);
     notify({
-      message: "Link copied to clipboard",
-      event_type: "success"
+      message: 'Link copied to clipboard',
+      event_type: 'success'
     });
   };
 
-  const resourceType = dataName === "design" ? "pattern" : dataName;
-
+  const resourceType = dataName === 'design' ? 'pattern' : dataName;
 
   const handleShareWithNewUsers = async (newUsers: User[]) => {
-    console.log("new users", newUsers)
-    const grantAccessList = newUsers.map(user => ({
+    console.log('new users', newUsers);
+    const grantAccessList = newUsers.map((user) => ({
       actor_id: user.user_id,
-      actor_type: "user"
-    }))
-    const emails = newUsers.map(u => u.email)
+      actor_type: 'user'
+    }));
+    const emails = newUsers.map((u) => u.email);
 
     const response = await resourceAccessMutator({
       resourceType,
@@ -245,36 +257,34 @@ const ShareModal: React.FC<ShareModalProps> = ({
         revoke_access: [],
         notify_users: true
       }
-    })
+    });
 
     if (!response?.error) {
-      const msg = `${dataName} shared with ${emails.join(", ")} `;
+      const msg = `${dataName} shared with ${emails.join(', ')} `;
       notify({
         message: msg,
-        event_type: "success"
+        event_type: 'success'
       });
     }
 
     if (response?.error) {
       notify({
         message: `An error occurred. ${dataName} not shared`,
-        event_type: "error"
+        event_type: 'error'
       });
     }
 
     return {
       error: response?.error?.error
-    }
-
+    };
   };
 
-
   const handleRevokeAccess = async (revokedUsers: User[]) => {
-    const revokeAccessList = revokedUsers.map(user => ({
+    const revokeAccessList = revokedUsers.map((user) => ({
       actor_id: user.id,
-      actor_type: "user"
-    }))
-    const emails = revokedUsers.map(u => u.email)
+      actor_type: 'user'
+    }));
+    const emails = revokedUsers.map((u) => u.email);
 
     const response = await resourceAccessMutator({
       resourceType,
@@ -284,83 +294,76 @@ const ShareModal: React.FC<ShareModalProps> = ({
         revoke_access: [...revokeAccessList],
         notify_users: true
       }
-    })
-
+    });
 
     if (!response?.error) {
-      const msg = `Access to ${dataName} revoked for  ${emails.join(", ")} `;
+      const msg = `Access to ${dataName} revoked for  ${emails.join(', ')} `;
       notify({
         message: msg,
-        event_type: "success"
+        event_type: 'success'
       });
-
     }
 
     if (response?.error) {
       notify({
         message: `failed to revokke access to ${dataName}`,
-        event_type: "error"
+        event_type: 'error'
       });
     }
 
     return {
       error: response?.error?.error
-    }
-
+    };
   };
-
 
   const handleDelete = async (email: string) => {
-    const revoked = shareUserData.find(user => user.email == email)
+    const revoked = shareUserData.find((user) => user.email == email);
     if (!revoked) {
-      console.error("cant revoke user without acesss")
-      return { error: "" }
+      console.error('cant revoke user without acesss');
+      return { error: '' };
     }
-    return handleRevokeAccess([revoked])
+    return handleRevokeAccess([revoked]);
   };
 
-
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   const notifyVisibilityChange = (res: any, value: any) => {
     const UPDATE_VISIBILITY_MSG = `${startCase(dataName)} '${selectedResource.name}' is now ${value}`;
-    const FAILED_TO_UPDATE_VISIBILITY_MSG = `Failed to update visibility. ${res?.error?.error || ""}`;
+    const FAILED_TO_UPDATE_VISIBILITY_MSG = `Failed to update visibility. ${res?.error?.error || ''}`;
 
     if (!res.error) {
       notify({
         message: UPDATE_VISIBILITY_MSG,
-        event_type: "success"
+        event_type: 'success'
       });
     } else {
-
       notify({
         message: FAILED_TO_UPDATE_VISIBILITY_MSG,
-        event_type: "error"
+        event_type: 'error'
       });
     }
-  }
+  };
 
   const updateVisisbility = async (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as string;
 
     if (value == resourceVisibility) {
-      console.error("visibility is already ", value)
-      return
+      console.error('visibility is already ', value);
+      return;
     }
 
     try {
-      setUpdatingVisibility(true)
-      const res = await handleUpdateVisibility(value)
-      notifyVisibilityChange(res, value)
+      setUpdatingVisibility(true);
+      const res = await handleUpdateVisibility(value);
+      notifyVisibilityChange(res, value);
       if (!res?.error) {
-        setVisibility(value)
+        setVisibility(value);
       }
     } finally {
-      setUpdatingVisibility(false)
+      setUpdatingVisibility(false);
     }
   };
 
-
   const handleMenuClose = () => setMenu(false);
-
 
   useEffect(() => {
     const fetchActors = async () => {
@@ -369,8 +372,6 @@ const ShareModal: React.FC<ShareModalProps> = ({
     };
     fetchActors();
   }, [fetchAccessActors]);
-
-
 
   return (
     <div style={{ marginBottom: '1rem' }}>
@@ -403,9 +404,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                 <FormControlWrapper size="small">
                   <div style={{ display: 'flex', justifyContent: 'start', alignItems: 'center' }}>
                     <VisibilityIconWrapper>
-
                       {isUpdatingVisibility && <CircularProgress size={24} />}
-
 
                       {!isUpdatingVisibility && resourceVisibility === SHARE_MODE.PUBLIC && (
                         <PublicIcon
@@ -454,7 +453,9 @@ const ShareModal: React.FC<ShareModalProps> = ({
                         component="span"
                         variant="body2"
                       >
-                        {resourceVisibility === SHARE_MODE.PRIVATE ? options.PRIVATE : options.PUBLIC}
+                        {resourceVisibility === SHARE_MODE.PRIVATE
+                          ? options.PRIVATE
+                          : options.PUBLIC}
                       </Typography>
                     </div>
                   </div>
@@ -485,7 +486,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
               </IconButtonWrapper>
               <Typography>Copy Link</Typography>
             </ModalButtonSecondary>
-           </div>
+          </div>
         </ModalFooter>
       </Modal>
     </div>
