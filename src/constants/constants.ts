@@ -9,25 +9,22 @@ export const DEFAULT_STROKE_WIDTH = '2';
 export const CLOUD_URL = 'https://cloud.layer5.io';
 
 export const KANVAS_MODE = {
-  DESIGN: "design",
-  OPERATOR: "operator"
+  DESIGNER: 'design',
+  OPERATOR: 'operator'
 } as const;
 
-
-export const PLAYGROUND_MODES = KANVAS_MODE
+export const PLAYGROUND_MODES = KANVAS_MODE;
 
 export const VISIBILITY = {
-  PUBLIC : "public",
-  PRIVATE :"private"
-}
+  PUBLIC: 'public',
+  PRIVATE: 'private'
+};
 
 export const RESOURCE_TYPE = {
-  FILTER: "filter",
-  DESIGN: "design",
-  CATALOG: "catalog",
-  VIEW: "view"
+  FILTER: 'filter',
+  DESIGN: 'design',
+  CATALOG: 'catalog',
+  VIEW: 'view'
 } as const;
 
-
 export type ResourceType = (typeof RESOURCE_TYPE)[keyof typeof RESOURCE_TYPE];
-

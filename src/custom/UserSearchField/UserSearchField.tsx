@@ -1,11 +1,11 @@
 import { Button } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
+import { useDebounce } from 'use-debounce';
 import { Avatar, Box, Chip, Grid, TextField, Typography } from '../../base';
 import { PersonIcon } from '../../icons/Person';
 import { useTheme } from '../../theme';
-import { useDebounce } from 'use-debounce';
 
 interface User {
   id: string;
@@ -22,7 +22,8 @@ interface UserSearchFieldProps {
   usersData: User[];
   disabled?: boolean;
   shareWithNewUsers: (newUsers: User[]) => Promise<{ error: string }>;
-  useGetAllUsersQuery: any
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  useGetAllUsersQuery: any;
 }
 
 const UserShareSearch: React.FC<UserSearchFieldProps> = ({
@@ -36,22 +37,23 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   const [usersToShareWith, setUsersToShareWith] = useState<User[]>([]);
   const [isSharing, setIsSharing] = useState(false);
   const theme = useTheme();
-  const [debouncedInput] = useDebounce(inputValue,300)
+  const [debouncedInput] = useDebounce(inputValue, 300);
 
-  const {data:usersMatchingSearch,isLoading:searchUserLoading} = useGetAllUsersQuery({
-    search:debouncedInput,
-    page:0,
-    pagesize:10,
-  },{skip: debouncedInput.trim().length == 0})
+  const { data: usersMatchingSearch, isLoading: searchUserLoading } = useGetAllUsersQuery(
+    {
+      search: debouncedInput,
+      page: 0,
+      pagesize: 10
+    },
+    { skip: debouncedInput.trim().length == 0 }
+  );
 
-
-  const suggestions = usersMatchingSearch?.data  ??  [] as User[]
+  const suggestions = usersMatchingSearch?.data ?? ([] as User[]);
 
   // const open = inputValue.trim().length > 0 && suggestions?.length > 0
 
-
   const handleShareWithNewUsers = async () => {
-   console.log("users to share with",usersToShareWith)
+    console.log('users to share with', usersToShareWith);
     try {
       setIsSharing(true);
       const result = await shareWithNewUsers(usersToShareWith);
@@ -85,10 +87,8 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   };
 
   const filteredOptions = suggestions.filter(
-    (option) => !usersToShareWith.concat(usersData).find((u) => u.email === option.email)
+    (option: User) => !usersToShareWith.concat(usersData).find((u) => u.email === option.email)
   );
-
-
 
   const isShareDisabled = disabled || isSharing || usersToShareWith.length === 0;
 
@@ -130,7 +130,13 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           loading={searchUserLoading}
           value={usersToShareWith}
           getOptionLabel={(user) => user.email}
-          noOptionsText={searchUserLoading ? 'Loading...' : (inputValue=="" ? "Search using name or email" :'No users found')}
+          noOptionsText={
+            searchUserLoading
+              ? 'Loading...'
+              : inputValue == ''
+                ? 'Search using name or email'
+                : 'No users found'
+          }
           onChange={handleAdd}
           onInputChange={handleInputChange}
           isOptionEqualToValue={(option, value) => option.email === value.email}
