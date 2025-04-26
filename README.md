@@ -89,6 +89,12 @@ npm install <path-to-sistent-on-local-machine>
 > npm install /home/five/code/sistent
 > ```
 
+This will update your Sistent dependency to:
+
+```
+"@layer5/sistent" : "file:../../sistent"
+```
+
 2. Build your local Sistent fork
 
 After making changes to your fork, run this command in your local Sistent package.
@@ -105,6 +111,14 @@ make ui-build
 ```
 
 Now your project should reflect changes from your local Sistent fork.
+
+If you want to remove the local Sistent fork from your project, run:
+
+```
+npm uninstall @layer5/sistent
+```
+
+This will remove the local Sistent package from your project. You will have to install the standard package again after running this command.
 
 > [!NOTE]
 > Avoid using `type any` in your code. Always specify explicit types to ensure type safety and maintainability.
