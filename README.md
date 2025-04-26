@@ -83,7 +83,7 @@ npm install <path-to-sistent-on-local-machine>
 >
 > ```
 > # relative path
-> npm install ./../sistent
+> npm install ../../sistent
 >
 > # absolute path
 > npm install /home/five/code/sistent
