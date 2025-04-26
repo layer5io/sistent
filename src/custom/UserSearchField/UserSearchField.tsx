@@ -6,6 +6,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Avatar, Box, Chip, Grid, TextField, Typography } from '../../base';
 import { PersonIcon } from '../../icons/Person';
 import { useTheme } from '../../theme';
+import { useDebounce } from 'use-debounce';
 
 interface User {
   id: string;
@@ -40,29 +41,38 @@ interface UserSearchFieldProps {
    */
   fetchSuggestions: (value: string) => Promise<User[]>;
   shareWithNewUsers: (newUsers: User[]) => Promise<{ error: string }>;
+  useGetAllUsersQuery: any
   // isSharing : boolean
 }
 
 const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   usersData,
   disabled = false,
-  fetchSuggestions,
-  shareWithNewUsers
+  shareWithNewUsers,
+  useGetAllUsersQuery
 }: UserSearchFieldProps) => {
   const [error, setError] = useState<string | false>(false);
   const [inputValue, setInputValue] = useState('');
-  const [options, setOptions] = useState<User[]>([]);
-  const [open, setOpen] = useState(false);
-  const [searchUserLoading, setSearchUserLoading] = useState(false);
   const [usersToShareWith, setUsersToShareWith] = useState<User[]>([]);
   const [isSharing, setIsSharing] = useState(false);
   const theme = useTheme();
+  const [debouncedInput] = useDebounce(inputValue,300)
+
+  const {data:usersMatchingSearch,isLoading:searchUserLoading} = useGetAllUsersQuery({
+    search:debouncedInput,
+    page:0,
+    pagesize:10,
+  },{skip: debouncedInput.trim().length == 0})
+
+  const suggestions = (usersMatchingSearch?.data  ?? []) as User[]
+
+  const open = inputValue.trim().length > 0 && suggestions?.length > 0
+
 
   const handleShareWithNewUsers = async () => {
     try {
       setIsSharing(true);
       const result = await shareWithNewUsers(usersToShareWith);
-      console.log('sharing result', result);
       if (!result.error) {
         setUsersToShareWith([]);
       } else {
@@ -77,56 +87,55 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
 
   const handleAdd = (_event: React.SyntheticEvent<Element, Event>, value: User[]) => {
     if (value) {
-      console.log('add value', value);
       setUsersToShareWith(value);
       setInputValue('');
-      setOpen(false);
     }
   };
 
-  // Memoize the debounced function to prevent recreation on each render
-  const debouncedFetchSuggestions = useMemo(
-    () =>
-      debounce(async (value: string) => {
-        console.log('debounced fetch running for:', value);
-        if (value === '') {
-          setOptions([]);
-          setOpen(false);
-        } else {
-          setSearchUserLoading(true);
-          const suggestions = await fetchSuggestions(value);
-          setOptions(suggestions);
-          setSearchUserLoading(false);
-          setError(false);
-          setOpen(true);
-        }
-      }, 300),
-    [fetchSuggestions]
-  );
+  // // Memoize the debounced function to prevent recreation on each render
+  // const debouncedFetchSuggestions = useMemo(
+  //   () =>
+  //     debounce(async (value: string) => {
+  //       console.log('debounced fetch running for:', value);
+  //       if (value === '') {
+  //         setOptions([]);
+  //         setOpen(false);
+  //       } else {
+  //         setSearchUserLoading(true);
+  //         const suggestions = await fetchSuggestions(value);
+  //         console.log("suggestions",suggestions)
+  //         setOptions(suggestions);
+  //         setSearchUserLoading(false);
+  //         setError(false);
+  //         setOpen(true);
+  //       }
+  //     }, 300),
+  //   [fetchSuggestions]
+  // );
 
-  // Clean up debounce on unmount
-  useEffect(() => {
-    return () => {
-      debouncedFetchSuggestions.cancel();
-    };
-  }, [debouncedFetchSuggestions]);
+  // // Clean up debounce on unmount
+  // useEffect(() => {
+  //   return () => {
+  //     debouncedFetchSuggestions.cancel();
+  //   };
+  // }, [debouncedFetchSuggestions]);
 
   // Handler for input changes
   const handleInputChange = (event: React.SyntheticEvent, value: string, reason: string) => {
     // Only process actual typing events, not clearing or blurring
     if (reason === 'input') {
-      console.log('input change:', value);
       setInputValue(value);
-      debouncedFetchSuggestions(value);
+      // debouncedFetchSuggestions(value);
     } else if (reason === 'clear') {
       setInputValue('');
-      setOptions([]);
+      // setOptions([]);
     }
   };
 
-  const filteredOptions = options.filter(
-    (option) => !usersToShareWith.concat(usersData).find((u) => u.id === option.id)
+  const filteredOptions = suggestions.filter(
+    (option) => !usersToShareWith.concat(usersData).find((u) => u.email === option.email)
   );
+
 
   const isShareDisabled = disabled || isSharing || usersToShareWith.length === 0;
 
@@ -171,7 +180,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           noOptionsText={searchUserLoading ? 'Loading...' : 'No users found'}
           onChange={handleAdd}
           onInputChange={handleInputChange}
-          isOptionEqualToValue={(option, value) => option.id === value.id}
+          isOptionEqualToValue={(option, value) => option.email === value.email}
           renderInput={(params) => (
             <TextField
               {...params}

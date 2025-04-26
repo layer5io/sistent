@@ -26,6 +26,7 @@ import {
   ListWrapper,
   VisibilityIconWrapper
 } from './style';
+import { TypedMutationTrigger, TypedUseQuery } from '@reduxjs/toolkit/dist/query/react';
 
 const options = {
   PUBLIC: 'Anyone with the link can edit',
@@ -158,6 +159,20 @@ interface SelectedResource {
   [key: string]: unknown;
 }
 
+type ResourceAccessArg = {
+  resourceType: string;
+  resourceId: string;
+  resourceAccessMappingPayload: {
+    grant_access: string[];
+    revoke_access: string[];
+    notify_users: boolean;
+  };
+};
+
+
+import type { MutationTrigger } from '@reduxjs/toolkit/query/react';
+import { startCase } from 'lodash';
+
 interface ShareModalProps {
   /** Function to close the share modal */
   handleShareModalClose: () => void;
@@ -186,11 +201,13 @@ interface ShareModalProps {
   fetchSuggestions: (value: string) => Promise<User[]>;
   handleCopy: () => void;
   handleUpdateVisibility: (value: string) => Promise<{ error: string }>,
-  isUpdatingVisibility: boolean,
   handleShareWithNewUsers: (newUsers: User[]) => Promise<{ error: string }>,
   canShareWithNewUsers: boolean,
   handleRevokeAccess: (revokedUsser: User[]) => Promise<{ error: string }>
   canRevokeAccess: boolean,
+  resourceAccessMutator: MutationTrigger<ResourceAccessArg>,
+  notify: ({ message, event_type }: { message: string, event_type: "success" | "error" }) => void,
+  useGetAllUsersQuery: any,
 }
 
 /**
@@ -206,39 +223,157 @@ const ShareModal: React.FC<ShareModalProps> = ({
   hostURL = null,
   handleCopy,
   handleUpdateVisibility,
-  isUpdatingVisibility,
   canShareWithNewUsers,
-  handleRevokeAccess,
-  handleShareWithNewUsers,
   isVisibilitySelectorDisabled = false,
-  fetchSuggestions
+  fetchSuggestions,
+  resourceAccessMutator,
+  notify,
+  useGetAllUsersQuery,
+
 }: ShareModalProps): JSX.Element => {
- const theme = useTheme();
+  const theme = useTheme();
   const [openMenu, setMenu] = useState<boolean>(false);
   const [shareUserData, setShareUserData] = useState<User[]>([]);
-  const [resourceVisibility,setVisibility] = useState(selectedResource.visibility)
+  const [resourceVisibility, setVisibility] = useState(selectedResource.visibility)
+  const [isUpdatingVisibility, setUpdatingVisibility] = useState(false)
+
+
+
+
+  const resourceType = dataName === "design" ? "pattern" : dataName;
+
+
+  const handleShareWithNewUsers = async (newUsers: User[]) => {
+    console.log("new users", newUsers)
+    const grantAccessList = newUsers.map(user => ({
+      actor_id: user.user_id ?? user.id,
+      actor_type: "user"
+    }))
+    const emails = newUsers.map(u => u.email)
+
+    const response = await resourceAccessMutator({
+      resourceType,
+      resourceId: selectedResource?.id,
+      resourceAccessMappingPayload: {
+        grant_access: [...grantAccessList],
+        revoke_access: [],
+        notify_users: true
+      }
+    })
+
+
+
+    if (!response?.error) {
+      const msg = `${dataName} shared with ${emails.join(", ")} `;
+      notify({
+        message: msg,
+        event_type: "success"
+      });
+    }
+
+    if (response?.error) {
+      notify({
+        message: `An error occurred. ${dataName} not shared`,
+        event_type: "error"
+      });
+    }
+
+    return {
+      error: response?.error?.error
+    }
+
+  };
+
+
+  const handleRevokeAccess = async (revokedUsers: User[]) => {
+    const revokeAccessList = revokedUsers.map(user => ({
+      actor_id: user.id,
+      actor_type: "user"
+    }))
+    const emails = revokedUsers.map(u => u.email)
+
+    const response = await resourceAccessMutator({
+      resourceType,
+      resourceId: selectedResource?.id,
+      resourceAccessMappingPayload: {
+        grant_access: [],
+        revoke_access: [...revokeAccessList],
+        notify_users: true
+      }
+    })
+
+
+    if (!response?.error) {
+      const msg = `Access to ${dataName} revoked for  ${emails.join(", ")} `;
+      notify({
+        message: msg,
+        event_type: "success"
+      });
+
+    }
+
+    if (response?.error) {
+      notify({
+        message: `failed to revokke access to ${dataName}`,
+        event_type: "error"
+      });
+    }
+
+    return {
+      error: response?.error?.error
+    }
+
+  };
+
 
   const handleDelete = async (email: string) => {
     const revoked = shareUserData.find(user => user.email == email)
     if (!revoked) {
       console.error("cant revoke user without acesss")
-      return {error:""}
+      return { error: "" }
     }
     return handleRevokeAccess([revoked])
   };
 
-  const handleOptionClick = async (event: SelectChangeEvent<unknown>) => {
+
+  const notifyVisibilityChange = (res: any, value: any) => {
+    const UPDATE_VISIBILITY_MSG = `${startCase(dataName)} '${selectedResource.name}' is now ${value}`;
+    const FAILED_TO_UPDATE_VISIBILITY_MSG = `Failed to update visibility. ${res?.error?.error || ""}`;
+
+    if (!res.error) {
+      notify({
+        message: UPDATE_VISIBILITY_MSG,
+        event_type: "success"
+      });
+    } else {
+
+      notify({
+        message: FAILED_TO_UPDATE_VISIBILITY_MSG,
+        event_type: "error"
+      });
+    }
+  }
+
+  const updateVisisbility = async (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as string;
-    if (value == resourceVisibility){
-      console.error("visibility is already ",value)
+
+    if (value == resourceVisibility) {
+      console.error("visibility is already ", value)
       return
     }
 
-    const res = await handleUpdateVisibility(value)
-    if (!res?.error){
-      setVisibility(value)
+    try {
+      setUpdatingVisibility(true)
+      const res = await handleUpdateVisibility(value)
+      notifyVisibilityChange(res, value)
+      if (!res?.error) {
+        setVisibility(value)
+      }
+    } finally {
+      setUpdatingVisibility(false)
     }
   };
+
 
   const handleMenuClose = () => setMenu(false);
 
@@ -276,6 +411,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                 hostURL={hostURL}
               />
             }
+            useGetAllUsersQuery={useGetAllUsersQuery}
             fetchSuggestions={fetchSuggestions}
           />
 
@@ -298,7 +434,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
                       {isUpdatingVisibility && <CircularProgress size={24} />}
 
-                      
+
                       {!isUpdatingVisibility && resourceVisibility === SHARE_MODE.PUBLIC && (
                         <PublicIcon
                           width={24}
@@ -326,7 +462,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                         open={openMenu}
                         onClose={handleMenuClose}
                         onOpen={() => setMenu(true)}
-                        onChange={handleOptionClick}
+                        onChange={updateVisisbility}
                         disabled={isVisibilitySelectorDisabled || isUpdatingVisibility}
                       >
                         {Object.values(SHARE_MODE).map((option) => (
