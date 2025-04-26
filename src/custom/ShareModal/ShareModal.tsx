@@ -15,7 +15,7 @@ import { ChainIcon, DeleteIcon, LockIcon, PublicIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { BLACK, WHITE } from '../../theme/colors';
 import { CustomTooltip } from '../CustomTooltip';
-import { Modal, ModalBody, ModalButtonPrimary, ModalButtonSecondary, ModalFooter } from '../Modal';
+import { Modal, ModalBody,  ModalButtonSecondary, ModalFooter } from '../Modal';
 import UserShareSearch from '../UserSearchField/UserSearchField';
 import {
   CustomDialogContentText,
@@ -26,27 +26,14 @@ import {
   ListWrapper,
   VisibilityIconWrapper
 } from './style';
-import { TypedMutationTrigger, TypedUseQuery } from '@reduxjs/toolkit/dist/query/react';
 
 const options = {
   PUBLIC: 'Anyone with the link can edit',
   PRIVATE: 'Only people with access can open with the link'
 };
 
-const SHARE_MODE = {
-  PRIVATE: 'private',
-  PUBLIC: 'public'
-};
-
-interface User {
-  id: string;
-  user_id: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-  avatar_url?: string;
-  deleted_at?: { Valid: boolean };
-}
+const SHARE_MODE = VISIBILITY
+import { canShareResourceWithNewUsers, canUpdateResourceVisibility, User } from '../../utils/permissions';
 
 interface AccessListProps {
   accessList: User[];
@@ -170,8 +157,8 @@ type ResourceAccessArg = {
 };
 
 
-import type { MutationTrigger } from '@reduxjs/toolkit/query/react';
 import { startCase } from 'lodash';
+import {  VISIBILITY } from '../../constants/constants';
 
 interface ShareModalProps {
   /** Function to close the share modal */
@@ -186,28 +173,17 @@ interface ShareModalProps {
   fetchAccessActors: () => Promise<User[]>;
   /** Optional URL of the host application. Defaults to `null` if not provided */
   hostURL?: string | null;
-  /**
-   * Optional URL of the resource. Defaults to empty string if not provided
-   * Resource URL will be the URL which user will copy with Copy Link Button
-   */
-  resourceURL?: string;
-  /** Optional flag to disable the visibility selector. Defaults to `false` if not provided */
-  isVisibilitySelectorDisabled?: boolean;
-  /**
-   * Function to fetch user suggestions based on the input value.
-   * @param {string} value - The input value for which suggestions are to be fetched.
-   * @returns {Promise<User[]>} A promise that resolves to an array of user suggestions.
-   */
-  fetchSuggestions: (value: string) => Promise<User[]>;
-  handleCopy: () => void;
   handleUpdateVisibility: (value: string) => Promise<{ error: string }>,
   handleShareWithNewUsers: (newUsers: User[]) => Promise<{ error: string }>,
   canShareWithNewUsers: boolean,
   handleRevokeAccess: (revokedUsser: User[]) => Promise<{ error: string }>
   canRevokeAccess: boolean,
-  resourceAccessMutator: MutationTrigger<ResourceAccessArg>,
+  resourceAccessMutator: any,
   notify: ({ message, event_type }: { message: string, event_type: "success" | "error" }) => void,
   useGetAllUsersQuery: any,
+  shareableLink:string,
+  mesheryURL : string, // url to hosted meshery
+  currentUser: User,
 }
 
 /**
@@ -221,14 +197,12 @@ const ShareModal: React.FC<ShareModalProps> = ({
   ownerData,
   fetchAccessActors,
   hostURL = null,
-  handleCopy,
+  currentUser,
   handleUpdateVisibility,
-  canShareWithNewUsers,
-  isVisibilitySelectorDisabled = false,
-  fetchSuggestions,
   resourceAccessMutator,
   notify,
   useGetAllUsersQuery,
+  shareableLink
 
 }: ShareModalProps): JSX.Element => {
   const theme = useTheme();
@@ -237,8 +211,20 @@ const ShareModal: React.FC<ShareModalProps> = ({
   const [resourceVisibility, setVisibility] = useState(selectedResource.visibility)
   const [isUpdatingVisibility, setUpdatingVisibility] = useState(false)
 
+  const userCanUpdateVisibility = canUpdateResourceVisibility(selectedResource,currentUser,ownerData)
+  const userCanShareWithNewUsers = canShareResourceWithNewUsers(selectedResource,currentUser,ownerData)
 
 
+
+ const handleCopy = () => {
+   // const shareableLink = getShareableResourceRoute(dataName,selectedResource.id,selectedResource.name)
+   console.log("shareableLink",shareableLink)
+    navigator.clipboard.writeText(shareableLink);
+    notify({
+      message: "Link copied to clipboard",
+      event_type: "success"
+    });
+  };
 
   const resourceType = dataName === "design" ? "pattern" : dataName;
 
@@ -397,22 +383,10 @@ const ShareModal: React.FC<ShareModalProps> = ({
       >
         <ModalBody>
           <UserShareSearch
-            setUsersData={setShareUserData}
             usersData={shareUserData}
-            label="Search Users"
             shareWithNewUsers={handleShareWithNewUsers}
-            // isSharing={isSharing}
-            disabled={canShareWithNewUsers}
-            customUsersList={
-              <AccessList
-                accessList={shareUserData}
-                ownerData={ownerData}
-                handleDelete={handleDelete}
-                hostURL={hostURL}
-              />
-            }
+            disabled={!userCanShareWithNewUsers}
             useGetAllUsersQuery={useGetAllUsersQuery}
-            fetchSuggestions={fetchSuggestions}
           />
 
           <AccessList
@@ -463,7 +437,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                         onClose={handleMenuClose}
                         onOpen={() => setMenu(true)}
                         onChange={updateVisisbility}
-                        disabled={isVisibilitySelectorDisabled || isUpdatingVisibility}
+                        disabled={!userCanUpdateVisibility || isUpdatingVisibility}
                       >
                         {Object.values(SHARE_MODE).map((option) => (
                           <MenuItem
@@ -513,15 +487,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
               </IconButtonWrapper>
               <Typography>Copy Link</Typography>
             </ModalButtonSecondary>
-            {/* <ModalButtonPrimary
-              disabled={isShareDisabled()}
-              variant="contained"
-              color="primary"
-              onClick={() => handleShare(shareUserData, selectedOption)}
-            >
-              Share
-            </ModalButtonPrimary> */}
-          </div>
+           </div>
         </ModalFooter>
       </Modal>
     </div>

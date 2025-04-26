@@ -1,8 +1,7 @@
 import { Button } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
-import { debounce } from 'lodash';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, {  useState } from 'react';
 import { Avatar, Box, Chip, Grid, TextField, Typography } from '../../base';
 import { PersonIcon } from '../../icons/Person';
 import { useTheme } from '../../theme';
@@ -21,28 +20,9 @@ interface User {
 interface UserSearchFieldProps {
   // Array of user objects currently selected.
   usersData: User[];
-  // Function to update the selected users data.
-  setUsersData: React.Dispatch<React.SetStateAction<User[]>>;
-  // Label for the text field.
-  label?: string;
-  // Function to enable or disable the save button.
-  setDisableSave?: (disabled: boolean) => void;
-  // Type of search being performed, e.g., 'user', 'admin'.
-  searchType?: string;
-  // Boolean indicating whether the search field is disabled.
   disabled?: boolean;
-  // Custom component to change rendering style of users list, if not given
-  // by default it will show list with avatar and email of selected users
-  customUsersList?: JSX.Element;
-  /**
-   * Function to fetch user suggestions based on the input value.
-   * @param {string} value - The input value for which suggestions are to be fetched.
-   * @returns {Promise<User[]>} A promise that resolves to an array of user suggestions.
-   */
-  fetchSuggestions: (value: string) => Promise<User[]>;
   shareWithNewUsers: (newUsers: User[]) => Promise<{ error: string }>;
   useGetAllUsersQuery: any
-  // isSharing : boolean
 }
 
 const UserShareSearch: React.FC<UserSearchFieldProps> = ({
@@ -92,43 +72,13 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
     }
   };
 
-  // // Memoize the debounced function to prevent recreation on each render
-  // const debouncedFetchSuggestions = useMemo(
-  //   () =>
-  //     debounce(async (value: string) => {
-  //       console.log('debounced fetch running for:', value);
-  //       if (value === '') {
-  //         setOptions([]);
-  //         setOpen(false);
-  //       } else {
-  //         setSearchUserLoading(true);
-  //         const suggestions = await fetchSuggestions(value);
-  //         console.log("suggestions",suggestions)
-  //         setOptions(suggestions);
-  //         setSearchUserLoading(false);
-  //         setError(false);
-  //         setOpen(true);
-  //       }
-  //     }, 300),
-  //   [fetchSuggestions]
-  // );
-
-  // // Clean up debounce on unmount
-  // useEffect(() => {
-  //   return () => {
-  //     debouncedFetchSuggestions.cancel();
-  //   };
-  // }, [debouncedFetchSuggestions]);
-
   // Handler for input changes
   const handleInputChange = (event: React.SyntheticEvent, value: string, reason: string) => {
     // Only process actual typing events, not clearing or blurring
     if (reason === 'input') {
       setInputValue(value);
-      // debouncedFetchSuggestions(value);
     } else if (reason === 'clear') {
       setInputValue('');
-      // setOptions([]);
     }
   };
 
