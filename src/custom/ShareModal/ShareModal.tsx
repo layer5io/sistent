@@ -232,7 +232,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
   const handleShareWithNewUsers = async (newUsers: User[]) => {
     console.log("new users", newUsers)
     const grantAccessList = newUsers.map(user => ({
-      actor_id: user.user_id ?? user.id,
+      actor_id: user.user_id,
       actor_type: "user"
     }))
     const emails = newUsers.map(u => u.email)
@@ -246,8 +246,6 @@ const ShareModal: React.FC<ShareModalProps> = ({
         notify_users: true
       }
     })
-
-
 
     if (!response?.error) {
       const msg = `${dataName} shared with ${emails.join(", ")} `;

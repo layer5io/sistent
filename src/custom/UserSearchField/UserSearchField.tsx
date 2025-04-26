@@ -44,12 +44,14 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
     pagesize:10,
   },{skip: debouncedInput.trim().length == 0})
 
-  const suggestions = (usersMatchingSearch?.data  ?? []) as User[]
 
-  const open = inputValue.trim().length > 0 && suggestions?.length > 0
+  const suggestions = usersMatchingSearch?.data  ??  [] as User[]
+
+  // const open = inputValue.trim().length > 0 && suggestions?.length > 0
 
 
   const handleShareWithNewUsers = async () => {
+   console.log("users to share with",usersToShareWith)
     try {
       setIsSharing(true);
       const result = await shareWithNewUsers(usersToShareWith);
@@ -87,6 +89,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   );
 
 
+
   const isShareDisabled = disabled || isSharing || usersToShareWith.length === 0;
 
   const UserChip = ({ avatarObj, ...props }: { avatarObj: User }) => (
@@ -122,12 +125,12 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           multiple
           disableListWrap
           disabled={isSharing}
-          open={open}
+          // open={open}
           inputValue={inputValue}
           loading={searchUserLoading}
           value={usersToShareWith}
           getOptionLabel={(user) => user.email}
-          noOptionsText={searchUserLoading ? 'Loading...' : 'No users found'}
+          noOptionsText={searchUserLoading ? 'Loading...' : (inputValue=="" ? "Search using name or email" :'No users found')}
           onChange={handleAdd}
           onInputChange={handleInputChange}
           isOptionEqualToValue={(option, value) => option.email === value.email}
