@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog } from '../../base';
+import { styled } from '../../theme';
 
 interface ImageComponentProps {
   src: string;
@@ -17,13 +18,27 @@ interface ImageComponentProps {
   align?: 'left' | 'center' | 'right';
   onClick?: (event: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
 }
+interface AlignProps {
+  align: 'left' | 'center' | 'right';
+}
+const Figure = styled('figure')<AlignProps>(({ align }) => ({
+  margin: '1rem 0',
+  textAlign: align,
+  width: '100%',
+}));
+const FigCaption = styled('figcaption')<AlignProps>(({ align }) => ({
+  fontSize: '0.9rem',
+  color: '#666',
+  marginTop: '0.5rem',
+  textAlign: align
+}));
 
-const CustomImage: React.FC<ImageComponentProps> = ({ 
-  src, 
-  alt, 
-  caption, 
+const CustomImage: React.FC<ImageComponentProps> = ({
+  src,
+  alt,
+  caption,
   align = 'left',
-  ...props 
+  ...props
 }) => {
   const [isZoomed, setIsZoomed] = useState(false);
   const handleZoomClick = () => {
@@ -32,24 +47,10 @@ const CustomImage: React.FC<ImageComponentProps> = ({
   const handleZoomClose = () => {
     setIsZoomed(false);
   };
-  
-  const figureStyle: React.CSSProperties = {
-    margin: '1rem 0',
-    textAlign: align,
-    width: '100%',
-    ...props.style
-  };
-  
-  const captionStyle: React.CSSProperties = {
-    fontSize: '0.9rem',
-    color: '#666',
-    marginTop: '0.5rem',
-    textAlign: align
-  };
-  
+
   return (
     <>
-      <figure style={figureStyle}>
+      <Figure align={align}>
         <img
           src={src}
           alt={alt || caption || ''}
@@ -65,9 +66,9 @@ const CustomImage: React.FC<ImageComponentProps> = ({
             width: '50%'
           }}
         />
-        {caption && <figcaption style={captionStyle}>{caption}</figcaption>}
-      </figure>
-      
+        {caption && <FigCaption align={align}>{caption}</FigCaption>}
+      </Figure>
+
       <Dialog
         open={isZoomed}
         onClose={handleZoomClose}
