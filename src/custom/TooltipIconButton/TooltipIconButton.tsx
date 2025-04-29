@@ -48,7 +48,6 @@ export function TooltipIcon({
             },
             ...style
           }}
-          disableRipple
         >
           {icon || children}
         </IconButton>
