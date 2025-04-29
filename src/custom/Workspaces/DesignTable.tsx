@@ -24,7 +24,6 @@ export interface DesignTableProps {
   workspaceId: string;
   isKanvasEnabled: boolean;
   workspaceName: string;
-  designsOfWorkspace: any;
   meshModelModelsData: any;
   useGetWorkspaceDesignsQuery: any;
   useAssignDesignToWorkspaceMutation: any;
@@ -57,7 +56,6 @@ export interface DesignTableProps {
   isUnpublishAllowed: boolean;
   isAssignAllowed: boolean;
   isRemoveAllowed: boolean;
-  setDesignSearch: (value: string) => void;
   handleOpenInDesigner?: (designId: string, designName: string) => void;
   showPlaygroundActions?: boolean;
   handleVisibilityChange?: (id: string, visibility: VIEW_VISIBILITY) => void;
@@ -78,7 +76,6 @@ export interface TableColumn {
 const DesignTable: React.FC<DesignTableProps> = ({
   workspaceId,
   workspaceName,
-  designsOfWorkspace,
   meshModelModelsData,
   handleBulkUnpublishModal,
   handleBulkWorkspaceDesignDeleteModal,
@@ -102,7 +99,6 @@ const DesignTable: React.FC<DesignTableProps> = ({
   isAssignAllowed,
   isRemoveAllowed,
   useGetWorkspaceDesignsQuery,
-  setDesignSearch,
   handleOpenInDesigner,
   showPlaygroundActions = true,
   handleVisibilityChange,
@@ -112,12 +108,28 @@ const DesignTable: React.FC<DesignTableProps> = ({
     open: false,
     pattern: {}
   });
+
   const modalRef = useRef(null);
+  const [search, setSearch] = useState('');
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
+  const { data: designsOfWorkspace, refetch: refetchWorkspaceDesigns } =
+    useGetWorkspaceDesignsQuery(
+      {
+        workspaceId,
+        page: page,
+        pagesize: pageSize,
+        search: search,
+        order: sortOrder,
+        expandUser: true
+      },
+      {
+        skip: !workspaceId
+      }
+    );
   const handlePublishModal = (pattern: Pattern): void => {
     const result = publishModalHandler(pattern);
     setPublishModal({
@@ -146,7 +158,8 @@ const DesignTable: React.FC<DesignTableProps> = ({
     handleOpenInDesigner,
     showPlaygroundActions,
     handleVisibilityChange,
-    currentUserId
+    currentUserId,
+    refetchWorkspaceDesigns
   });
 
   const [publishSchema, setPublishSchema] = useState<{
@@ -206,10 +219,10 @@ const DesignTable: React.FC<DesignTableProps> = ({
       >
         <SearchBar
           onSearch={(value) => {
-            setDesignSearch(value);
+            setSearch(value);
           }}
           onClear={() => {
-            setDesignSearch('');
+            setSearch('');
           }}
           expanded={isSearchExpanded}
           setExpanded={setIsSearchExpanded}
@@ -252,7 +265,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
           handleBulkWorkspaceDesignDeleteModal(designs, modalRef, workspaceName, workspaceId)
         }
         filter={'my-designs'}
-        setSearch={setDesignSearch}
+        setSearch={setSearch}
       />
       <AssignmentModal
         open={designAssignment.assignModal}

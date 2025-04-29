@@ -45,12 +45,13 @@ interface ColumnConfigProps {
   showPlaygroundActions: boolean;
   handleVisibilityChange?: (id: string, visibility: VIEW_VISIBILITY) => void;
   currentUserId?: string;
+  refetchWorkspaceDesigns: () => void;
 }
 
 export const colViews: ColView[] = [
   ['id', 'na'],
   ['name', 'xs'],
-  ['first_name', 'xs'],
+  ['user', 'xs'],
   ['created_at', 'na'],
   ['updated_at', 'l'],
   ['visibility', 'l'],
@@ -78,7 +79,8 @@ export const createDesignsColumnsConfig = ({
   showPlaygroundActions = true,
   isFromWorkspaceTable = false,
   currentUserId,
-  handleVisibilityChange
+  handleVisibilityChange,
+  refetchWorkspaceDesigns
 }: ColumnConfigProps): MUIDataTableColumn[] => {
   return [
     {
@@ -105,7 +107,7 @@ export const createDesignsColumnsConfig = ({
       }
     },
     {
-      name: 'first_name',
+      name: 'user',
       label: 'Author',
       options: {
         filter: false,
@@ -169,9 +171,12 @@ export const createDesignsColumnsConfig = ({
           return (
             <VisibilityChipMenu
               value={value as VIEW_VISIBILITY}
-              onChange={(value) =>
-                handleVisibilityChange && handleVisibilityChange(designId, value as VIEW_VISIBILITY)
-              }
+              onChange={(value) => {
+                if (handleVisibilityChange) {
+                  handleVisibilityChange(designId, value as VIEW_VISIBILITY);
+                  refetchWorkspaceDesigns();
+                }
+              }}
               enabled={isEnabled}
               options={[
                 [VIEW_VISIBILITY.PUBLIC, Public],
@@ -262,7 +267,7 @@ export const createDesignsColumnsConfig = ({
             },
 
             {
-              title: isFromWorkspaceTable ? 'Remove Design' : 'Delete',
+              title: isFromWorkspaceTable ? 'Move Design' : 'Delete',
               disabled: isFromWorkspaceTable ? !isRemoveAllowed : !isDeleteAllowed,
               onClick: () => handleDeleteModal(rowData)(),
               icon: isFromWorkspaceTable ? (

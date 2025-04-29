@@ -89,7 +89,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     {
       workspaceId,
       page: page,
-      pageSize: pageSize,
+      pagesize: pageSize,
       search: search,
       order: sortOrder,
       expandUser: true
@@ -251,7 +251,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
           <IconWrapper disabled={!isRemoveAllowed}>
             <TooltipIcon
               id={`delete_view-${tableMeta.rowIndex}`}
-              title="Remove View"
+              title="Move View"
               onClick={() => {
                 isRemoveAllowed &&
                   unassignviewFromWorkspace({
@@ -292,6 +292,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     selectableRows: 'none',
     count: viewsOfWorkspace?.total_count,
     rowsPerPage: pageSize,
+    serverSide: true,
     page,
     elevation: 0,
     sortOrder: {
