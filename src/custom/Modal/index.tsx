@@ -51,6 +51,7 @@ const StyledDialog = styled(Dialog)`
   && {
     .MuiDialog-paper {
       border-radius: 0.5rem;
+      overflow: hidden;
     }
   }
 `;
