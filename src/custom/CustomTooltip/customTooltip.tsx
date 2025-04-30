@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React from 'react';
+import React, { useState } from 'react';
 import { Tooltip, TooltipProps } from '../../base';
 import { WHITE } from '../../theme';
 import { RenderMarkdownTooltip } from '../Markdown';
@@ -27,6 +27,21 @@ function CustomTooltip({
   componentsProps = {},
   ...props
 }: CustomTooltipProps): JSX.Element {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const isTouchDevice = () => {
+    return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  };
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsOpen(true);
+  };
+
+  const handleTouchEnd = () => {
+    setTimeout(() => setIsOpen(false), 1500);
+  };
+
   return (
     <Tooltip
       componentsProps={_.merge(
@@ -57,13 +72,16 @@ function CustomTooltip({
         },
         componentsProps
       )}
+      open={isTouchDevice() ? isOpen : undefined}
       title={typeof title === 'string' ? <RenderMarkdownTooltip content={title} /> : title}
       placement={placement}
       arrow
       onClick={onClick}
       {...props}
     >
-      {children}
+      <div onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
+        {children}
+      </div>
     </Tooltip>
   );
 }
