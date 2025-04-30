@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash';
 import { MUIDataTableColumn } from 'mui-datatables';
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import { PublishIcon } from '../../icons';
 import { CHARCOAL } from '../../theme';
-import { FormattedTime } from '../../utils';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
@@ -56,37 +55,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
   handleBulkpatternsDataUnpublishModal
 }) => {
   const modalRef = useRef<PromptRef>(null);
-
-  const processedColumns: MUIDataTableColumn[] = useMemo(() => {
-    return columns.map((col) => {
-      const newCol = { ...col };
-      if (!newCol.options) newCol.options = {};
-      newCol.options.display = columnVisibility[col.name];
-      if (
-        [
-          'updated_at',
-          'created_at',
-          'deleted_at',
-          'last_login_time',
-          'joined_at',
-          'last_run',
-          'next_run'
-        ].includes(col.name)
-      ) {
-        newCol.options.customBodyRender = (value: any) => {
-          if (!value || value === 'NA') return <>NA</>;
-          if (typeof value === 'object' && 'Valid' in value) {
-            if (value.Valid && value.Time) {
-              return <FormattedTime date={value.Time} />;
-            }
-            return <>NA</>;
-          }
-          return <FormattedTime date={value.Time} />;
-        };
-      }
-      return newCol;
-    });
-  }, [columns, columnVisibility]);
+  const [tableCols, updateCols] = useState(columns);
 
   const handleTableChange = useCallback(
     (action: string, tableState: any) => {
@@ -176,22 +145,19 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
     ]
   );
 
-  if (!processedColumns.length) {
-    return null;
-  }
-
   return (
     <ErrorBoundary>
       <PromptComponent ref={modalRef} />
       <ResponsiveDataTable
-        columns={processedColumns}
+        columns={columns}
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
         data={patterns || []}
         rowsPerPageOptions={rowsPerPageOptions}
         options={options}
         colViews={colViews}
-        tableCols={processedColumns}
+        tableCols={tableCols}
+        updateCols={updateCols}
         columnVisibility={columnVisibility}
       />
     </ErrorBoundary>

@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Lock, Public } from '@mui/icons-material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import React, { useState } from 'react';
-import { Box, Typography } from '../../base';
-import { EnvironmentIcon, ViewIcon } from '../../icons';
+import { Box } from '../../base';
+import { EnvironmentIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { NameDiv } from '../CatalogDesignTable/style';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
@@ -22,13 +23,7 @@ import { UserTableAvatarInfo } from '../UsersTable';
 import VisibilityChipMenu, { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AssignmentModal from './AssignmentModal';
 import useViewAssignment from './hooks/useViewsAssignment';
-import {
-  CellStyle,
-  CustomBodyRenderStyle,
-  L5EditIcon,
-  TableHeader,
-  TableRightActionHeader
-} from './styles';
+import { CellStyle, CustomBodyRenderStyle, L5EditIcon, TableHeader } from './styles';
 
 interface ViewsTableProps {
   workspaceId: string;
@@ -39,6 +34,10 @@ interface ViewsTableProps {
   isRemoveAllowed: boolean;
   isAssignAllowed: boolean;
   handleShowDetails: (viewId: string, viewName: string, filterType: string) => void;
+  handleOpenInOperator?: (designId: string, viewName: string, filterType: string) => void;
+  showPlaygroundActions?: boolean;
+  handleVisibilityChange?: (id: string, visibility: VIEW_VISIBILITY) => void;
+  currentUserId?: string;
 }
 
 const colViews: ColView[] = [
@@ -75,7 +74,9 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   useUnassignViewFromWorkspaceMutation,
   useAssignViewToWorkspaceMutation,
   isAssignAllowed,
-  handleShowDetails
+  handleShowDetails,
+  handleVisibilityChange,
+  currentUserId
 }) => {
   const theme = useTheme();
 
@@ -84,11 +85,11 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
-  const { data: viewsOfWorkspace } = useGetViewsOfWorkspaceQuery(
+  const { data: viewsOfWorkspace, refetch } = useGetViewsOfWorkspaceQuery(
     {
       workspaceId,
       page: page,
-      pageSize: pageSize,
+      pagesize: pageSize,
       search: search,
       order: sortOrder,
       expandUser: true
@@ -213,8 +214,29 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
         filter: false,
         sort: false,
         searchable: true,
-        customBodyRender: (value: VIEW_VISIBILITY) => {
-          return <VisibilityChipMenu value={value} enabled={false} />;
+        customBodyRender: (value: VIEW_VISIBILITY, tableMeta) => {
+          const rowIndex = tableMeta.rowIndex;
+          const viewId = tableMeta.tableData[rowIndex]?.id;
+          const viewVisibility = tableMeta.tableData[rowIndex]?.visibility;
+          const ownerId = tableMeta.tableData[rowIndex]?.user_id;
+          const isOwner = ownerId === currentUserId;
+          const isEnabled = viewVisibility !== VIEW_VISIBILITY.PUBLISHED && isOwner;
+          return (
+            <VisibilityChipMenu
+              value={value as VIEW_VISIBILITY}
+              onChange={(value) => {
+                if (handleVisibilityChange) {
+                  handleVisibilityChange(viewId, value as VIEW_VISIBILITY);
+                  refetch();
+                }
+              }}
+              enabled={isEnabled}
+              options={[
+                [VIEW_VISIBILITY.PUBLIC, Public],
+                [VIEW_VISIBILITY.PRIVATE, Lock]
+              ]}
+            />
+          );
         }
       }
     },
@@ -229,7 +251,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
           <IconWrapper disabled={!isRemoveAllowed}>
             <TooltipIcon
               id={`delete_view-${tableMeta.rowIndex}`}
-              title="Remove View"
+              title="Move View"
               onClick={() => {
                 isRemoveAllowed &&
                   unassignviewFromWorkspace({
@@ -270,6 +292,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     selectableRows: 'none',
     count: viewsOfWorkspace?.total_count,
     rowsPerPage: pageSize,
+    serverSide: true,
     page,
     elevation: 0,
     sortOrder: {
@@ -309,13 +332,15 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   return (
     <>
       <TableHeader style={{ padding: '1rem' }}>
-        <Box display={'flex'} alignItems="center" gap={1} width="100%">
-          <ViewIcon height="1.5rem" width="1.5rem" fill={theme.palette.icon.brand} />
-          <Typography variant="body1" fontWeight={'bold'}>
-            Assigned Views
-          </Typography>
-        </Box>
-        <TableRightActionHeader style={{ marginRight: '0rem' }}>
+        <Box
+          style={{
+            marginRight: '0rem',
+            width: '100%',
+            justifyContent: 'end',
+            display: 'flex',
+            alignItems: 'center'
+          }}
+        >
           <SearchBar
             onSearch={(value) => {
               setSearch(value);
@@ -340,7 +365,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
             disabled={!isAssignAllowed}
             title="Assign Views"
           />
-        </TableRightActionHeader>
+        </Box>
       </TableHeader>
 
       <ResponsiveDataTable

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, Typography } from '../../base';
+import { Box } from '../../base';
 import { DesignIcon } from '../../icons';
 import { publishCatalogItemSchema } from '../../schemas';
 import { useTheme } from '../../theme';
@@ -16,13 +16,14 @@ import { useWindowDimensions } from '../Helpers/Dimension';
 import { updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
 import PromptComponent from '../Prompt';
 import SearchBar from '../SearchBar';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AssignmentModal from './AssignmentModal';
 import useDesignAssignment from './hooks/useDesignAssignment';
-import { L5EditIcon, TableHeader, TableRightActionHeader } from './styles';
+import { L5EditIcon, TableHeader } from './styles';
 export interface DesignTableProps {
   workspaceId: string;
+  isKanvasEnabled: boolean;
   workspaceName: string;
-  designsOfWorkspace: any;
   meshModelModelsData: any;
   useGetWorkspaceDesignsQuery: any;
   useAssignDesignToWorkspaceMutation: any;
@@ -55,7 +56,10 @@ export interface DesignTableProps {
   isUnpublishAllowed: boolean;
   isAssignAllowed: boolean;
   isRemoveAllowed: boolean;
-  setDesignSearch: (value: string) => void;
+  handleOpenInDesigner?: (designId: string, designName: string) => void;
+  showPlaygroundActions?: boolean;
+  handleVisibilityChange?: (id: string, visibility: VIEW_VISIBILITY) => void;
+  currentUserId?: string;
 }
 
 export interface PublishModalState {
@@ -72,7 +76,6 @@ export interface TableColumn {
 const DesignTable: React.FC<DesignTableProps> = ({
   workspaceId,
   workspaceName,
-  designsOfWorkspace,
   meshModelModelsData,
   handleBulkUnpublishModal,
   handleBulkWorkspaceDesignDeleteModal,
@@ -96,18 +99,37 @@ const DesignTable: React.FC<DesignTableProps> = ({
   isAssignAllowed,
   isRemoveAllowed,
   useGetWorkspaceDesignsQuery,
-  setDesignSearch
+  handleOpenInDesigner,
+  showPlaygroundActions = true,
+  handleVisibilityChange,
+  currentUserId
 }) => {
   const [publishModal, setPublishModal] = useState<PublishModalState>({
     open: false,
     pattern: {}
   });
+
   const modalRef = useRef(null);
+  const [search, setSearch] = useState('');
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
+  const { data: designsOfWorkspace, refetch: refetchWorkspaceDesigns } =
+    useGetWorkspaceDesignsQuery(
+      {
+        workspaceId,
+        page: page,
+        pagesize: pageSize,
+        search: search,
+        order: sortOrder,
+        expandUser: true
+      },
+      {
+        skip: !workspaceId
+      }
+    );
   const handlePublishModal = (pattern: Pattern): void => {
     const result = publishModalHandler(pattern);
     setPublishModal({
@@ -132,7 +154,12 @@ const DesignTable: React.FC<DesignTableProps> = ({
     isUnpublishAllowed,
     isFromWorkspaceTable: true,
     isRemoveAllowed,
-    theme
+    theme,
+    handleOpenInDesigner,
+    showPlaygroundActions,
+    handleVisibilityChange,
+    currentUserId,
+    refetchWorkspaceDesigns
   });
 
   const [publishSchema, setPublishSchema] = useState<{
@@ -181,19 +208,21 @@ const DesignTable: React.FC<DesignTableProps> = ({
 
   const tableHeaderContent = (
     <TableHeader style={{ padding: '1rem' }}>
-      <Box display={'flex'} alignItems="center" gap={1} width="100%">
-        <DesignIcon height="1.5rem" width="1.5rem" />
-        <Typography variant="body1" fontWeight={'bold'}>
-          Assigned Designs
-        </Typography>
-      </Box>
-      <TableRightActionHeader style={{ marginRight: '0rem' }}>
+      <Box
+        style={{
+          marginRight: '0rem',
+          width: '100%',
+          justifyContent: 'end',
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
         <SearchBar
           onSearch={(value) => {
-            setDesignSearch(value);
+            setSearch(value);
           }}
           onClear={() => {
-            setDesignSearch('');
+            setSearch('');
           }}
           expanded={isSearchExpanded}
           setExpanded={setIsSearchExpanded}
@@ -212,7 +241,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
           disabled={!isAssignAllowed}
           title="Assign Designs"
         />
-      </TableRightActionHeader>
+      </Box>
     </TableHeader>
   );
 
@@ -236,7 +265,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
           handleBulkWorkspaceDesignDeleteModal(designs, modalRef, workspaceName, workspaceId)
         }
         filter={'my-designs'}
-        setSearch={setDesignSearch}
+        setSearch={setSearch}
       />
       <AssignmentModal
         open={designAssignment.assignModal}
