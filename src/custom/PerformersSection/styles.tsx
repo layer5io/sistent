@@ -222,10 +222,9 @@ export const UserNameText = styled(Typography)(({ theme }) => ({
 
 export const CardsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  gap: '18px',
+  gap: '15px',
   width: '100%',
-  overflowX: 'auto',
-  padding: '18px',
+  padding: '20px',
   background:
     theme.palette.mode === 'light'
       ? theme.palette.background.default
