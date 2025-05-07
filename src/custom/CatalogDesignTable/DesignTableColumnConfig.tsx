@@ -1,3 +1,5 @@
+import { Lock, Public } from '@mui/icons-material';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { Theme } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { Typography } from '../../base';
@@ -10,6 +12,8 @@ import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
+import { VisibilityChipMenu } from '../VisibilityChipMenu';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AuthorCell from './AuthorCell';
 import { getColumnValue } from './helper';
 import { L5DeleteIcon, NameDiv } from './style';
@@ -26,6 +30,7 @@ interface ColumnConfigProps {
   handleCopyUrl: (type: string, name: string, id: string) => void;
   handleClone: (name: string, id: string) => void;
   handleShowDetails: (designId: string, designName: string) => void;
+  handleOpenInDesigner?: (designId: string, designName: string) => void;
   handleDownload?: (design: Pattern) => void;
   getDownloadUrl?: (id: string) => string;
   isDownloadAllowed: boolean;
@@ -37,12 +42,16 @@ interface ColumnConfigProps {
   isFromWorkspaceTable?: boolean;
   isRemoveAllowed?: boolean;
   theme?: Theme;
+  showPlaygroundActions: boolean;
+  handleVisibilityChange?: (id: string, visibility: VIEW_VISIBILITY) => void;
+  currentUserId?: string;
+  refetchWorkspaceDesigns: () => void;
 }
 
 export const colViews: ColView[] = [
   ['id', 'na'],
   ['name', 'xs'],
-  ['first_name', 'xs'],
+  ['user', 'xs'],
   ['created_at', 'na'],
   ['updated_at', 'l'],
   ['visibility', 'l'],
@@ -66,7 +75,12 @@ export const createDesignsColumnsConfig = ({
   isDownloadAllowed,
   isRemoveAllowed,
   theme,
-  isFromWorkspaceTable = false
+  handleOpenInDesigner,
+  showPlaygroundActions = true,
+  isFromWorkspaceTable = false,
+  currentUserId,
+  handleVisibilityChange,
+  refetchWorkspaceDesigns
 }: ColumnConfigProps): MUIDataTableColumn[] => {
   return [
     {
@@ -93,7 +107,7 @@ export const createDesignsColumnsConfig = ({
       }
     },
     {
-      name: 'first_name',
+      name: 'user',
       label: 'Author',
       options: {
         filter: false,
@@ -146,7 +160,31 @@ export const createDesignsColumnsConfig = ({
       options: {
         filter: false,
         sort: false,
-        searchable: true
+        searchable: true,
+        customBodyRender: (value: VIEW_VISIBILITY, tableMeta) => {
+          const rowIndex = (tableMeta as TableMeta).rowIndex;
+          const designId = (tableMeta as TableMeta).tableData[rowIndex]?.id;
+          const designVisibility = (tableMeta as TableMeta).tableData[rowIndex]?.visibility;
+          const ownerId = (tableMeta as TableMeta).tableData[rowIndex]?.user_id;
+          const isOwner = ownerId === currentUserId;
+          const isEnabled = designVisibility !== VIEW_VISIBILITY.PUBLISHED && isOwner;
+          return (
+            <VisibilityChipMenu
+              value={value as VIEW_VISIBILITY}
+              onChange={(value) => {
+                if (handleVisibilityChange) {
+                  handleVisibilityChange(designId, value as VIEW_VISIBILITY);
+                  refetchWorkspaceDesigns();
+                }
+              }}
+              enabled={isEnabled}
+              options={[
+                [VIEW_VISIBILITY.PUBLIC, Public],
+                [VIEW_VISIBILITY.PRIVATE, Lock]
+              ]}
+            />
+          );
+        }
       }
     },
     {
@@ -180,8 +218,7 @@ export const createDesignsColumnsConfig = ({
         filter: false,
         sort: false,
         searchable: false,
-        setCellHeaderProps: () => ({ align: 'center' as const }),
-        setCellProps: () => ({ align: 'center' as const }),
+
         customBodyRender: function CustomBody(_, tableMeta: MUIDataTableMeta) {
           const rowIndex = (tableMeta as TableMeta).rowIndex;
           const rowData = (tableMeta as TableMeta).tableData[rowIndex];
@@ -203,7 +240,8 @@ export const createDesignsColumnsConfig = ({
               icon: <ChainIcon width={'24'} height={'24'} fill={theme?.palette.icon.secondary} />
             },
             {
-              title: 'Open in playground',
+              title: 'Open in Playground',
+              hidden: showPlaygroundActions == false,
               onClick: () => {
                 window.open(
                   `https://playground.meshery.io/extension/meshmap?mode=${
@@ -216,13 +254,29 @@ export const createDesignsColumnsConfig = ({
                 <KanvasIcon width={24} height={24} primaryFill={theme?.palette.icon.secondary} />
               )
             },
+
             {
-              title: isFromWorkspaceTable ? 'Remove Design' : 'Delete',
+              hidden: !handleOpenInDesigner,
+              title: 'Open in Designer',
+              // disabled : !handleOpenInDesigner,
+              onClick: () =>
+                handleOpenInDesigner && handleOpenInDesigner(rowData?.id, rowData?.name),
+              icon: (
+                <KanvasIcon width={24} height={24} primaryFill={theme?.palette.icon.secondary} />
+              )
+            },
+
+            {
+              title: isFromWorkspaceTable ? 'Move Design' : 'Delete',
               disabled: isFromWorkspaceTable ? !isRemoveAllowed : !isDeleteAllowed,
               onClick: () => handleDeleteModal(rowData)(),
-              icon: <L5DeleteIcon />
+              icon: isFromWorkspaceTable ? (
+                <RemoveCircleIcon style={{ color: theme?.palette.icon.default }} />
+              ) : (
+                <L5DeleteIcon />
+              )
             }
-          ];
+          ].filter((a) => a?.hidden != true);
 
           const publishAction = {
             title: 'Publish',
@@ -239,6 +293,7 @@ export const createDesignsColumnsConfig = ({
           };
 
           const cloneAction = {
+            hidden: false,
             title: 'Clone',
             onClick: () => handleClone(rowData?.name, rowData?.id),
             icon: <CopyIcon width={24} height={24} fill={theme?.palette.icon.secondary} />

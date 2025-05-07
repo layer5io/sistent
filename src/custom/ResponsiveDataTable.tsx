@@ -11,6 +11,7 @@ import { TooltipIcon } from './TooltipIconButton';
 export const IconWrapper = styled('div', {
   shouldForwardProp: (prop) => prop !== 'disabled'
 })<{ disabled?: boolean }>(({ disabled = false }) => ({
+  width: 'fit-content',
   cursor: disabled ? 'not-allowed' : 'pointer',
   opacity: disabled ? '0.5' : '1',
   display: 'flex',

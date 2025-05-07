@@ -9,6 +9,7 @@ import {
   TropyIcon
 } from '../../icons';
 import { useTheme } from '../../theme';
+import { Carousel } from '../Carousel';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { StateCardSekeleton } from './PerformersToogleButton';
@@ -284,6 +285,17 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
       </MainContainer>
     );
 
+  const statComponents = stats.map((stat, index) => (
+    <StatCard
+      key={`${stat.id}-${index}`}
+      {...stat}
+      onCardClick={onCardClick}
+      onIconClick={onIconClick}
+      onAuthorClick={onAuthorClick}
+      onStatusClick={onStatusClick}
+    />
+  ));
+
   return (
     <ErrorBoundary>
       <MainContainer>
@@ -299,17 +311,7 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
         </Title>
         <CardsContainer>
           {isLoading && <StateCardSekeleton />}
-          {!isLoading &&
-            stats.map((stat, index) => (
-              <StatCard
-                key={`${stat.id}-${index}`}
-                {...stat}
-                onCardClick={onCardClick}
-                onIconClick={onIconClick}
-                onAuthorClick={onAuthorClick}
-                onStatusClick={onStatusClick}
-              />
-            ))}
+          <Carousel items={statComponents} />
         </CardsContainer>
       </MainContainer>
     </ErrorBoundary>

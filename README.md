@@ -37,38 +37,88 @@ Make sure you have `npm` on `node@16` and above. The CI workflows checks for in 
 
 To set up the project, run the following command to install dependencies:
 
-Please note that at this time, `npm install` will also build the project as the first step. This is to ensure that this is building correctly before moving to a task.
+```
+make setup
+```
+
+To test the sistent component locally, you can run:
 
 ```
-setup:
-	npm install
+make build
+```
+
+If you wish to build in watch mode:
+
+```
+make watchmode-build
 ```
 
 To check if your code meets the formatting standards, you can run:
 
 ```
-format-check:
-	npm run format:check
+make format-check
 ```
 
-To automatically fix formatting issues, you can run
+To run Eslint:
 
 ```
-format-fix:
-	npm run format:write
+make lint
 ```
 
-To test the sistent component locally, you can run
+To run tests:
 
 ```
-build:
-  npm run build
+make tests
 ```
 
+#### Using your local Sistent Fork in a Project
+
+1. Install your local Sistent package in the project
+
 ```
-attach sistent to your project:
-	npm install <path-to-sistent-on-local-machine>
+npm install <path-to-sistent-on-local-machine>
 ```
+
+> Example:
+>
+> ```
+> # relative path
+> npm install ../../sistent
+>
+> # absolute path
+> npm install /home/five/code/sistent
+> ```
+
+This will update your Sistent dependency to:
+
+```
+"@layer5/sistent" : "file:../../sistent"
+```
+
+2. Build your local Sistent fork
+
+After making changes to your fork, run this command in your local Sistent package.
+
+```
+make build
+```
+
+3. Run the build command in the project where your local Sistent fork is installed.
+
+```
+# example, Meshery UI
+make ui-build
+```
+
+Now your project should reflect changes from your local Sistent fork.
+
+If you want to remove the local Sistent fork from your project, run:
+
+```
+npm uninstall @layer5/sistent
+```
+
+This will remove the local Sistent package from your project. You will have to install the standard package again after running this command.
 
 > [!NOTE]
 > Avoid using `type any` in your code. Always specify explicit types to ensure type safety and maintainability.

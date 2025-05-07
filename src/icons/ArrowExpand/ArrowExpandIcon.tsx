@@ -5,6 +5,7 @@ import { IconProps } from '../types';
 const ArrowCompressIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
+  stroke = 'currentColor',
   ...props
 }) => {
   return (
@@ -18,7 +19,7 @@ const ArrowCompressIcon: FC<IconProps> = ({
     >
       <path
         d="m5 5 5 5m0 0V5m0 5H5m14 9-5-5m0 0v5m0-5h5"
-        stroke="#000"
+        stroke={stroke}
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"

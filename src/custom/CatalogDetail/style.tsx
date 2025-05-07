@@ -200,6 +200,18 @@ export const OverviewContainer = styled('div')(({ theme }) => ({
   borderRadius: '0.4rem'
 }));
 
+export const OverviewContainerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  width: '100%',
+  flexWrap: 'wrap',
+  fontFamily: 'inherit',
+
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column'
+  }
+}));
+
 export const DesignHeading = styled('h1')(({ theme }) => ({
   textAlign: 'left',
   margin: '0rem 0rem 2rem 0rem',

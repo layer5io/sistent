@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import _ from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from '../../base';
+import { Box } from '../../base';
 import { DesignIcon } from '../../icons';
 import { publishCatalogItemSchema } from '../../schemas';
 import { useTheme } from '../../theme';
@@ -17,13 +16,14 @@ import { useWindowDimensions } from '../Helpers/Dimension';
 import { updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
 import PromptComponent from '../Prompt';
 import SearchBar from '../SearchBar';
+import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AssignmentModal from './AssignmentModal';
 import useDesignAssignment from './hooks/useDesignAssignment';
-import { L5EditIcon, TableHeader, TableRightActionHeader } from './styles';
+import { L5EditIcon, TableHeader } from './styles';
 export interface DesignTableProps {
   workspaceId: string;
+  isKanvasEnabled: boolean;
   workspaceName: string;
-  designsOfWorkspace: any;
   meshModelModelsData: any;
   useGetWorkspaceDesignsQuery: any;
   useAssignDesignToWorkspaceMutation: any;
@@ -56,7 +56,10 @@ export interface DesignTableProps {
   isUnpublishAllowed: boolean;
   isAssignAllowed: boolean;
   isRemoveAllowed: boolean;
-  setDesignSearch: (value: string) => void;
+  handleOpenInDesigner?: (designId: string, designName: string) => void;
+  showPlaygroundActions?: boolean;
+  handleVisibilityChange?: (id: string, visibility: VIEW_VISIBILITY) => void;
+  currentUserId?: string;
 }
 
 export interface PublishModalState {
@@ -73,7 +76,6 @@ export interface TableColumn {
 const DesignTable: React.FC<DesignTableProps> = ({
   workspaceId,
   workspaceName,
-  designsOfWorkspace,
   meshModelModelsData,
   handleBulkUnpublishModal,
   handleBulkWorkspaceDesignDeleteModal,
@@ -97,18 +99,37 @@ const DesignTable: React.FC<DesignTableProps> = ({
   isAssignAllowed,
   isRemoveAllowed,
   useGetWorkspaceDesignsQuery,
-  setDesignSearch
+  handleOpenInDesigner,
+  showPlaygroundActions = true,
+  handleVisibilityChange,
+  currentUserId
 }) => {
   const [publishModal, setPublishModal] = useState<PublishModalState>({
     open: false,
     pattern: {}
   });
+
   const modalRef = useRef(null);
+  const [search, setSearch] = useState('');
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
+  const { data: designsOfWorkspace, refetch: refetchWorkspaceDesigns } =
+    useGetWorkspaceDesignsQuery(
+      {
+        workspaceId,
+        page: page,
+        pagesize: pageSize,
+        search: search,
+        order: sortOrder,
+        expandUser: true
+      },
+      {
+        skip: !workspaceId
+      }
+    );
   const handlePublishModal = (pattern: Pattern): void => {
     const result = publishModalHandler(pattern);
     setPublishModal({
@@ -133,7 +154,12 @@ const DesignTable: React.FC<DesignTableProps> = ({
     isUnpublishAllowed,
     isFromWorkspaceTable: true,
     isRemoveAllowed,
-    theme
+    theme,
+    handleOpenInDesigner,
+    showPlaygroundActions,
+    handleVisibilityChange,
+    currentUserId,
+    refetchWorkspaceDesigns
   });
 
   const [publishSchema, setPublishSchema] = useState<{
@@ -153,11 +179,6 @@ const DesignTable: React.FC<DesignTableProps> = ({
     });
     return initialVisibility;
   });
-
-  const [expanded, setExpanded] = useState<boolean>(false);
-  const handleAccordionChange = () => {
-    setExpanded(!expanded);
-  };
 
   useEffect(() => {
     const fetchSchema = async () => {
@@ -186,17 +207,22 @@ const DesignTable: React.FC<DesignTableProps> = ({
   });
 
   const tableHeaderContent = (
-    <TableHeader>
-      <Typography variant="body1" fontWeight={'bold'}>
-        Assigned Designs
-      </Typography>
-      <TableRightActionHeader>
+    <TableHeader style={{ padding: '1rem' }}>
+      <Box
+        style={{
+          marginRight: '0rem',
+          width: '100%',
+          justifyContent: 'end',
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
         <SearchBar
           onSearch={(value) => {
-            setDesignSearch(value);
+            setSearch(value);
           }}
           onClear={() => {
-            setDesignSearch('');
+            setSearch('');
           }}
           expanded={isSearchExpanded}
           setExpanded={setIsSearchExpanded}
@@ -215,48 +241,37 @@ const DesignTable: React.FC<DesignTableProps> = ({
           disabled={!isAssignAllowed}
           title="Assign Designs"
         />
-      </TableRightActionHeader>
+      </Box>
     </TableHeader>
   );
 
   return (
     <>
-      <Accordion expanded={expanded} onChange={handleAccordionChange} style={{ margin: 0 }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          sx={{
-            backgroundColor: 'background.paper'
-          }}
-        >
-          {tableHeaderContent}
-        </AccordionSummary>
-        <AccordionDetails style={{ padding: 0 }}>
-          <CatalogDesignsTable
-            patterns={designsOfWorkspace?.designs || []}
-            totalCount={designsOfWorkspace?.total_count}
-            sortOrder={sortOrder}
-            setSortOrder={setSortOrder}
-            pageSize={pageSize}
-            setPageSize={setPageSize}
-            page={page}
-            setPage={setPage}
-            columnVisibility={columnVisibility}
-            colViews={designColumnsColViews}
-            columns={columns}
-            handleBulkpatternsDataUnpublishModal={handleBulkUnpublishModal}
-            handleBulkDeleteModal={(designs, modalRef) =>
-              handleBulkWorkspaceDesignDeleteModal(designs, modalRef, workspaceName, workspaceId)
-            }
-            filter={'my-designs'}
-            setSearch={setDesignSearch}
-          />
-        </AccordionDetails>
-      </Accordion>
+      {tableHeaderContent}
+      <CatalogDesignsTable
+        patterns={designsOfWorkspace?.designs || []}
+        totalCount={designsOfWorkspace?.total_count}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
+        pageSize={pageSize}
+        setPageSize={setPageSize}
+        page={page}
+        setPage={setPage}
+        columnVisibility={columnVisibility}
+        colViews={designColumnsColViews}
+        columns={columns}
+        handleBulkpatternsDataUnpublishModal={handleBulkUnpublishModal}
+        handleBulkDeleteModal={(designs, modalRef) =>
+          handleBulkWorkspaceDesignDeleteModal(designs, modalRef, workspaceName, workspaceId)
+        }
+        filter={'my-designs'}
+        setSearch={setSearch}
+      />
       <AssignmentModal
         open={designAssignment.assignModal}
         onClose={designAssignment.handleAssignModalClose}
         title={`Assign Designs to ${workspaceName}`}
-        headerIcon={<DesignIcon height="40" width="40" secondaryFill="white" />}
+        headerIcon={<DesignIcon height="40" width="40" />}
         name="Designs"
         assignableData={designAssignment.data}
         handleAssignedData={designAssignment.handleAssignData}
