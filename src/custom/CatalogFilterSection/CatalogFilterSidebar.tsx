@@ -127,7 +127,7 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
           <Box sx={{ overflowY: 'hidden', height: '90vh' }}>
             <FiltersDrawerHeader>
               <Typography
-                variant="h6"
+                variant="h4"
                 sx={{ color: theme.palette.text.constant?.white }}
                 component="div"
               >
