@@ -67,8 +67,20 @@ function UniversalFilter({
   };
 
   const renderFilterContent = () => (
-    <div style={{ padding: '1rem', width: isMobile ? '90vw' : 'auto' }}>
-      <h3>Filters: </h3>
+    <div>
+      <div
+        style={{
+          backgroundColor: '#507d91',
+          padding: '0.75rem 1rem',
+          margin: '-1rem -1rem 1rem -1rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          color: 'white'
+        }}
+      >
+        <h3>Filters: </h3>
+      </div>
       {Object.keys(filters).map((filterColumn) => {
         const options = filters[filterColumn].options;
         return (
@@ -143,7 +155,7 @@ function UniversalFilter({
             open={open}
             onClose={handleClose}
             PaperProps={{
-              style: { borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }
+              style: { padding: '0 1rem 1rem 1rem' }
             }}
           >
             {renderFilterContent()}
