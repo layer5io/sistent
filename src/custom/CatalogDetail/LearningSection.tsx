@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, ListItemIcon } from '../../base';
-import { CLOUD_URL } from '../../constants/constants';
+import { MESHERY_CLOUD_PROD } from '../../constants/constants';
 import { LearningIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import CollapsibleSection from './CollapsibleSection';
@@ -30,7 +30,7 @@ const LearningSection: React.FC<LearningSectionProps> = ({ filteredAcademyData }
 
   const renderLearningItem = (item: string, index: number) => (
     <Link
-      href={`${CLOUD_URL}/academy/learning-paths/${slugify('' + item)}`}
+      href={`${MESHERY_CLOUD_PROD}/academy/learning-paths/${slugify('' + item)}`}
       target="_blank"
       rel="noopener noreferrer"
       style={{ textDecoration: 'none', color: 'inherit' }}
