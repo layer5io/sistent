@@ -2,6 +2,7 @@ export * from './actors';
 export * from './base';
 export * from './colors';
 export * from './custom';
+export * from './hooks';
 export * from './icons';
 export * from './redux-persist';
 export * from './schemas';
