@@ -9,6 +9,7 @@ import { Paper } from '../base/Paper';
 import { Select } from '../base/Select';
 import { FilterIcon } from '../icons';
 import { useTheme } from '../theme';
+import { SLIGHT_BLUE } from '../theme/colors/colors';
 import PopperListener from './PopperListener';
 import { TooltipIcon } from './TooltipIconButton';
 
@@ -40,8 +41,7 @@ function UniversalFilter({
   const [open, setOpen] = React.useState(false);
 
   const theme = useTheme();
-  const muiTheme = useTheme();
-  const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -70,13 +70,13 @@ function UniversalFilter({
     <div>
       <div
         style={{
-          backgroundColor: '#507d91',
+          backgroundColor: SLIGHT_BLUE,
           padding: '0.75rem 1rem',
           margin: '-1rem -1rem 1rem -1rem',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          color: 'white'
+          color: theme.palette.text.primary
         }}
       >
         <h3>Filters: </h3>
@@ -155,7 +155,10 @@ function UniversalFilter({
             open={open}
             onClose={handleClose}
             PaperProps={{
-              style: { padding: '0 1rem 1rem 1rem' }
+              style: {
+                padding: '0 1rem 1rem 1rem',
+                backgroundColor: theme.palette.background.surfaces
+              }
             }}
           >
             {renderFilterContent()}
