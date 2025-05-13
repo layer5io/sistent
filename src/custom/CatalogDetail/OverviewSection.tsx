@@ -7,7 +7,7 @@ import MetricsDisplay from './MetricsDisplay';
 import PatternInfo from './PatternInfo';
 import SocialSharePopper from './SocialSharePopper';
 import UserInfo from './UserInfo';
-import { ContentRow, DesignHeading, OverviewContainer } from './style';
+import { ContentRow, DesignHeading, OverviewContainer, OverviewContainerHeader } from './style';
 import { Class } from './types';
 
 interface OverviewSectionProps {
@@ -50,15 +50,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
 }) => {
   return (
     <OverviewContainer>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          width: '100%',
-          flexWrap: 'wrap',
-          fontFamily: fontFamily || 'inherit'
-        }}
-      >
+      <OverviewContainerHeader>
         <DesignHeading>{details?.name}</DesignHeading>
         <SocialSharePopper
           details={details}
@@ -70,7 +62,7 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           showShareAction={showShareAction}
           handleShare={handleShare}
         />
-      </div>
+      </OverviewContainerHeader>
       <Grid container spacing={2}>
         <Grid item lg={4} md={4} sm={12} xs={12}>
           <Grid container>

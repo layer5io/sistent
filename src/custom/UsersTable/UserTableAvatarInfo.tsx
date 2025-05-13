@@ -1,5 +1,5 @@
 import { Avatar, Box, Grid, Typography } from '../../base';
-import { CLOUD_URL } from '../../constants/constants';
+import { MESHERY_CLOUD_PROD } from '../../constants/constants';
 import { PersonIcon } from '../../icons';
 import { useTheme } from '../../theme';
 
@@ -18,7 +18,7 @@ const UserTableAvatarInfo: React.FC<UserTableAvatarInfoProps> = ({
 }): JSX.Element => {
   const theme = useTheme();
   const handleProfileClick = (): void => {
-    window.open(`${CLOUD_URL}/user/${userId}`);
+    window.open(`${MESHERY_CLOUD_PROD}/user/${userId}`);
   };
 
   return (

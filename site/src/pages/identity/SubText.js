@@ -1,5 +1,6 @@
 import SubContent from './SubContent';
 import SubHeading from './SubHeading';
+import React from 'react';
 
 const SubText = (props) => {
   return (

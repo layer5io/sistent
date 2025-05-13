@@ -141,7 +141,8 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
               style={{
                 height: '75vh',
                 overflowY: 'auto',
-                background: theme.palette.background.surfaces
+                background: theme.palette.background.surfaces,
+                padding: '0 16px'
               }}
             >
               <CatalogFilterSidebarState
