@@ -90,7 +90,7 @@ export const Title = styled(Typography)(({ theme }) => ({
 }));
 
 export const StyledCard = styled(Card)<StyledCardProps>(({ theme }) => ({
-  width: '150px',
+  width: '200px',
   borderRadius: '16px',
   position: 'relative',
   overflow: 'hidden',
