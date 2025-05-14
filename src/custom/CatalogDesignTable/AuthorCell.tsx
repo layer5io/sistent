@@ -1,6 +1,6 @@
 import React from 'react';
 import { Avatar, Box, Grid, Typography } from '../../base';
-import { CLOUD_URL } from '../../constants/constants';
+import { MESHERY_CLOUD_PROD } from '../../constants/constants';
 import { PersonIcon } from '../../icons';
 import { CustomTooltip } from '../CustomTooltip';
 
@@ -44,7 +44,7 @@ const AuthorCell: React.FC<AuthorCellProps> = ({
                   alt={displayName}
                   src={avatarUrl}
                   onClick={() => {
-                    window.open(`${CLOUD_URL}/user/${userId}`, '_blank');
+                    window.open(`${MESHERY_CLOUD_PROD}/user/${userId}`, '_blank');
                   }}
                 >
                   {!avatarUrl && <PersonIcon />}

@@ -1,5 +1,5 @@
 import { Avatar } from '../../base';
-import { CLOUD_URL } from '../../constants/constants';
+import { MESHERY_CLOUD_PROD } from '../../constants/constants';
 import { LockIcon, PublicIcon } from '../../icons';
 import { getFormatDate } from '../../utils';
 import { Pattern } from '../CustomCatalog/CustomCard';
@@ -44,7 +44,7 @@ const UserInfo: React.FC<UserInfoProps> = ({
             }}
           />
           <RedirectLink
-            href={`${CLOUD_URL}/user/${details?.user_id}`}
+            href={`${MESHERY_CLOUD_PROD}/user/${details?.user_id}`}
             target="_blank"
             rel="noopener noreferrer"
           >
