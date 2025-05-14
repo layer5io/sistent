@@ -1,4 +1,4 @@
-import { Drawer, useMediaQuery } from '@mui/material';
+import { Drawer, styled, useMediaQuery } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
 import { Button } from '../base/Button';
@@ -9,7 +9,7 @@ import { Paper } from '../base/Paper';
 import { Select } from '../base/Select';
 import { FilterIcon } from '../icons';
 import { useTheme } from '../theme';
-import { SLIGHT_BLUE } from '../theme/colors/colors';
+import { darkModalGradient, lightModalGradient } from '../theme/colors/colors';
 import PopperListener from './PopperListener';
 import { TooltipIcon } from './TooltipIconButton';
 
@@ -27,6 +27,16 @@ export interface UniversalFilterProps {
   showAllOption?: boolean;
   id: string;
 }
+
+export const FilterHeader = styled('div')(({ theme }) => ({
+  background: theme.palette.mode === 'light' ? lightModalGradient.fotter : darkModalGradient.fotter,
+  padding: '0.75rem 1rem',
+  margin: '-1rem -1rem 1rem -1rem',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  color: theme.palette.text.primary
+}));
 
 function UniversalFilter({
   filters,
@@ -68,19 +78,9 @@ function UniversalFilter({
 
   const renderFilterContent = () => (
     <div>
-      <div
-        style={{
-          backgroundColor: SLIGHT_BLUE,
-          padding: '0.75rem 1rem',
-          margin: '-1rem -1rem 1rem -1rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          color: theme.palette.text.primary
-        }}
-      >
+      <FilterHeader>
         <h3>Filters: </h3>
-      </div>
+      </FilterHeader>
       {Object.keys(filters).map((filterColumn) => {
         const options = filters[filterColumn].options;
         return (
