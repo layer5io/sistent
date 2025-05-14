@@ -144,7 +144,9 @@ export default function TeamTableConfiguration({
         filter: false,
         sort: true,
         searchable: false,
-        customBodyRender: (value: string) => <ConditionalTooltip value={value} maxLength={30} />
+        customBodyRender: (value: string) => (
+          <ConditionalTooltip value={value ?? ''} maxLength={30} />
+        )
       }
     },
     {
@@ -248,7 +250,7 @@ export default function TeamTableConfiguration({
                 <IconWrapper disabled={!isRemoveTeamFromWorkspaceAllowed}>
                   <TooltipIcon
                     id={`remove_team-${tableMeta.rowIndex}`}
-                    title={'Remove Team'}
+                    title={'Move Team'}
                     onClick={() => {
                       isRemoveTeamFromWorkspaceAllowed &&
                         handleRemoveTeamFromWorkspace &&

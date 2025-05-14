@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Lock, Public } from '@mui/icons-material';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import React, { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Typography } from '../../base';
-import { DeleteIcon, EnvironmentIcon } from '../../icons';
+import { Box } from '../../base';
+import { EnvironmentIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { NameDiv } from '../CatalogDesignTable/style';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
@@ -19,15 +20,10 @@ import ResponsiveDataTable, { IconWrapper } from '../ResponsiveDataTable';
 import SearchBar from '../SearchBar';
 import { TooltipIcon } from '../TooltipIconButton';
 import { UserTableAvatarInfo } from '../UsersTable';
+import VisibilityChipMenu, { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AssignmentModal from './AssignmentModal';
 import useViewAssignment from './hooks/useViewsAssignment';
-import {
-  CellStyle,
-  CustomBodyRenderStyle,
-  L5EditIcon,
-  TableHeader,
-  TableRightActionHeader
-} from './styles';
+import { CellStyle, CustomBodyRenderStyle, L5EditIcon, TableHeader } from './styles';
 
 interface ViewsTableProps {
   workspaceId: string;
@@ -38,6 +34,10 @@ interface ViewsTableProps {
   isRemoveAllowed: boolean;
   isAssignAllowed: boolean;
   handleShowDetails: (viewId: string, viewName: string, filterType: string) => void;
+  handleOpenInOperator?: (designId: string, viewName: string, filterType: string) => void;
+  showPlaygroundActions?: boolean;
+  handleVisibilityChange?: (id: string, visibility: VIEW_VISIBILITY) => void;
+  currentUserId?: string;
 }
 
 const colViews: ColView[] = [
@@ -74,26 +74,30 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   useUnassignViewFromWorkspaceMutation,
   useAssignViewToWorkspaceMutation,
   isAssignAllowed,
-  handleShowDetails
+  handleShowDetails,
+  handleVisibilityChange,
+  currentUserId
 }) => {
   const theme = useTheme();
-  const [expanded, setExpanded] = useState<boolean>(false);
-  const handleAccordionChange = () => {
-    setExpanded(!expanded);
-  };
+
   const [search, setSearch] = useState('');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
-  const { data: viewsOfWorkspace } = useGetViewsOfWorkspaceQuery({
-    workspaceId,
-    page: page,
-    pageSize: pageSize,
-    search: search,
-    order: sortOrder,
-    expandUser: true
-  });
+  const { data: viewsOfWorkspace, refetch } = useGetViewsOfWorkspaceQuery(
+    {
+      workspaceId,
+      page: page,
+      pagesize: pageSize,
+      search: search,
+      order: sortOrder,
+      expandUser: true
+    },
+    {
+      skip: !workspaceId
+    }
+  );
   const { width } = useWindowDimensions();
   const [unassignviewFromWorkspace] = useUnassignViewFromWorkspaceMutation();
   const columns: MUIDataTableColumn[] = [
@@ -125,7 +129,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     },
     {
       name: 'avatar_url',
-      label: 'Owner',
+      label: 'Author',
       options: {
         filter: false,
         sort: false,
@@ -210,8 +214,29 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
         filter: false,
         sort: false,
         searchable: true,
-        setCellHeaderProps: () => {
-          return { align: 'center' };
+        customBodyRender: (value: VIEW_VISIBILITY, tableMeta) => {
+          const rowIndex = tableMeta.rowIndex;
+          const viewId = tableMeta.tableData[rowIndex]?.id;
+          const viewVisibility = tableMeta.tableData[rowIndex]?.visibility;
+          const ownerId = tableMeta.tableData[rowIndex]?.user_id;
+          const isOwner = ownerId === currentUserId;
+          const isEnabled = viewVisibility !== VIEW_VISIBILITY.PUBLISHED && isOwner;
+          return (
+            <VisibilityChipMenu
+              value={value as VIEW_VISIBILITY}
+              onChange={(value) => {
+                if (handleVisibilityChange) {
+                  handleVisibilityChange(viewId, value as VIEW_VISIBILITY);
+                  refetch();
+                }
+              }}
+              enabled={isEnabled}
+              options={[
+                [VIEW_VISIBILITY.PUBLIC, Public],
+                [VIEW_VISIBILITY.PRIVATE, Lock]
+              ]}
+            />
+          );
         }
       }
     },
@@ -225,8 +250,8 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => (
           <IconWrapper disabled={!isRemoveAllowed}>
             <TooltipIcon
-              id={`delete_team-${tableMeta.rowIndex}`}
-              title="Remove View"
+              id={`delete_view-${tableMeta.rowIndex}`}
+              title="Move View"
               onClick={() => {
                 isRemoveAllowed &&
                   unassignviewFromWorkspace({
@@ -236,7 +261,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
               }}
               iconType="delete"
             >
-              <DeleteIcon height={28} width={28} fill={theme.palette.icon.default} />
+              <RemoveCircleIcon style={{ color: theme?.palette.icon.default }} />{' '}
             </TooltipIcon>
           </IconWrapper>
         )
@@ -267,6 +292,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     selectableRows: 'none',
     count: viewsOfWorkspace?.total_count,
     rowsPerPage: pageSize,
+    serverSide: true,
     page,
     elevation: 0,
     sortOrder: {
@@ -305,57 +331,52 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
 
   return (
     <>
-      <Accordion expanded={expanded} onChange={handleAccordionChange} style={{ margin: 0 }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          sx={{
-            backgroundColor: 'background.paper'
+      <TableHeader style={{ padding: '1rem' }}>
+        <Box
+          style={{
+            marginRight: '0rem',
+            width: '100%',
+            justifyContent: 'end',
+            display: 'flex',
+            alignItems: 'center'
           }}
         >
-          <TableHeader>
-            <Typography variant="body1" fontWeight={'bold'}>
-              Assigned Views
-            </Typography>
-            <TableRightActionHeader>
-              <SearchBar
-                onSearch={(value) => {
-                  setSearch(value);
-                }}
-                onClear={() => {
-                  setSearch('');
-                }}
-                expanded={isSearchExpanded}
-                setExpanded={setIsSearchExpanded}
-                placeholder="Search workspaces..."
-              />
-              <CustomColumnVisibilityControl
-                columns={columns}
-                customToolsProps={{
-                  columnVisibility,
-                  setColumnVisibility
-                }}
-                id={'views-table'}
-              />
-              <L5EditIcon
-                onClick={viewAssignment.handleAssignModal}
-                disabled={!isAssignAllowed}
-                title="Assign Views"
-              />
-            </TableRightActionHeader>
-          </TableHeader>
-        </AccordionSummary>
-        <AccordionDetails style={{ padding: 0 }}>
-          <ResponsiveDataTable
-            columns={columns}
-            data={viewsOfWorkspace?.views}
-            options={options}
-            colViews={colViews}
-            tableCols={tableCols}
-            updateCols={updateCols}
-            columnVisibility={columnVisibility}
+          <SearchBar
+            onSearch={(value) => {
+              setSearch(value);
+            }}
+            onClear={() => {
+              setSearch('');
+            }}
+            expanded={isSearchExpanded}
+            setExpanded={setIsSearchExpanded}
+            placeholder="Search workspaces..."
           />
-        </AccordionDetails>
-      </Accordion>
+          <CustomColumnVisibilityControl
+            columns={columns}
+            customToolsProps={{
+              columnVisibility,
+              setColumnVisibility
+            }}
+            id={'views-table'}
+          />
+          <L5EditIcon
+            onClick={viewAssignment.handleAssignModal}
+            disabled={!isAssignAllowed}
+            title="Assign Views"
+          />
+        </Box>
+      </TableHeader>
+
+      <ResponsiveDataTable
+        columns={columns}
+        data={viewsOfWorkspace?.views}
+        options={options}
+        colViews={colViews}
+        tableCols={tableCols}
+        updateCols={updateCols}
+        columnVisibility={columnVisibility}
+      />
 
       <AssignmentModal
         open={viewAssignment.assignModal}
