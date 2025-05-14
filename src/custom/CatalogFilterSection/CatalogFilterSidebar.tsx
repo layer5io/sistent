@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import { Box, Drawer, Typography } from '../../base';
 import { CloseIcon } from '../../icons';
 import { darkTeal } from '../../theme';
-import { SLIGHT_BLUE } from '../../theme/colors/colors';
+import { darkModalGradient, lightModalGradient } from '../../theme/colors/colors';
 import { CloseBtn } from '../Modal';
 import CatalogFilterSidebarState from './CatalogFilterSidebarState';
 import {
@@ -152,7 +152,15 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
                 styleProps={appliedStyleProps}
               />
             </Box>
-            <Box sx={{ backgroundColor: SLIGHT_BLUE, height: '5vh' }} />
+            <Box
+              sx={{
+                background:
+                  theme.palette.mode === 'light'
+                    ? lightModalGradient.fotter
+                    : darkModalGradient.fotter,
+                height: '5vh'
+              }}
+            />
           </Box>
         </Drawer>
       </FilterDrawerDiv>
