@@ -19,7 +19,7 @@ interface CollaborationConfigParams {
 }
 
 interface CollaborationConfig {
-  signaling: string[];
+  signalingUrl: string[];
   user: UserProfile;
   authToken: string;
   refreshAuthToken: () => Promise<string>;
@@ -113,7 +113,7 @@ export const getCollaborationConfig = async ({
   };
 
   return {
-    signaling: [getSignalingUrlFromProviderUrl(provider_url)],
+    signalingUrl: [getSignalingUrlFromProviderUrl(provider_url)],
     user: userProfile,
     authToken: accessToken,
     refreshAuthToken: refreshToken,
@@ -143,7 +143,7 @@ const subscribeToRoomActivity = async (
   });
 
   // Create the websocket connection with proper headers
-  const ws = new WebSocket(config.signaling[0], ['auth', config.authToken]);
+  const ws = new WebSocket(config.signalingUrl[0], ['auth', config.authToken]);
   wsRef.current = ws;
 
   ws.addEventListener('open', () => {
