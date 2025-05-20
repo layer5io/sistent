@@ -1,6 +1,5 @@
 import { SyncAlt as SyncAltIcon } from '@mui/icons-material';
 import { Grid2, Typography } from '../../base';
-
 import { useTheme } from '../../theme';
 import { getFullFormattedTime, getRelativeTime } from '../../utils';
 import { CustomTooltip } from '../CustomTooltip';
@@ -101,7 +100,7 @@ export const RecordRow: React.FC<RecordRowProps> = ({ title, name, date }) => {
           {name}
         </Typography>
       </Grid2>
-      <Grid2 sx={{ display: 'flex', justifyContent: 'flex-end' }} xs={2}>
+      <Grid2 sx={{ display: 'flex', justifyContent: 'flex-end' }} size={2}>
         <CustomTooltip title={date ? getFullFormattedTime(date as string) : ''} placement="top">
           <div>
             <Typography
