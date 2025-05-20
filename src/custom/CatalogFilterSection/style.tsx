@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
 import { Box, Button, ListItemButton } from '../../base';
-import { SLIGHT_BLUE } from '../../theme/colors/colors';
+import { darkModalGradient, lightModalGradient } from '../../theme/colors/colors';
 import { StyleProps } from './CatalogFilterSidebar';
 
 export const FiltersCardDiv = styled(Box)<{ styleProps: StyleProps }>(({ styleProps }) => ({
@@ -46,12 +46,12 @@ export const FilterButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-export const FiltersDrawerHeader = styled(Box)(() => ({
+export const FiltersDrawerHeader = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
   padding: '0.5rem 1rem',
-  backgroundColor: SLIGHT_BLUE,
+  background: theme.palette.mode === 'light' ? lightModalGradient.header : darkModalGradient.header,
   height: '10vh'
 }));
 

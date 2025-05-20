@@ -90,8 +90,7 @@ export const Title = styled(Typography)(({ theme }) => ({
 }));
 
 export const StyledCard = styled(Card)<StyledCardProps>(({ theme }) => ({
-  width: 'inherit',
-  minWidth: '150px',
+  width: '200px',
   borderRadius: '16px',
   position: 'relative',
   overflow: 'hidden',
@@ -222,10 +221,9 @@ export const UserNameText = styled(Typography)(({ theme }) => ({
 
 export const CardsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
-  gap: '18px',
+  gap: '15px',
   width: '100%',
-  overflowX: 'auto',
-  padding: '18px',
+  padding: '20px',
   background:
     theme.palette.mode === 'light'
       ? theme.palette.background.default

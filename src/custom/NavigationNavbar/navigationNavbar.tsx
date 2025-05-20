@@ -1,6 +1,6 @@
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ListItemTextProps, MenuListProps } from '@mui/material';
+import { ListItemTextProps, MenuListProps, useMediaQuery, useTheme } from '@mui/material';
 import React, { MouseEvent, useState } from 'react';
 import { Collapse, Divider, ListItemText, MenuItem } from '../../base';
 import { IconWrapper, MenuItemList, MenuItemSubList, MenuListStyle, SubIconWrapper } from './style';
@@ -13,6 +13,7 @@ type NavigationItem = {
   onClick: () => void;
   subItems?: NavigationItem[];
   addDivider?: boolean;
+  showOnWeb?: boolean;
 };
 
 interface NavigationNavbarProps {
@@ -26,6 +27,8 @@ const NavigationNavbar: React.FC<NavigationNavbarProps> = ({
   MenuListProps = {},
   ListItemTextProps = {}
 }) => {
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('sm'));
   const [openSectionId, setOpenSectionId] = useState<string | null>(null);
   const toggleSectionOpen = (sectionId: string, event: MouseEvent<SVGSVGElement>) => {
     event.stopPropagation();
@@ -40,6 +43,12 @@ const NavigationNavbar: React.FC<NavigationNavbarProps> = ({
         const isOpen = openSectionId === item.id;
         const permission = item.permission ?? true;
         const addDivider = item.addDivider ?? false;
+
+        const showOnWeb = item.showOnWeb ?? true;
+
+        if (!showOnWeb && isDesktop) {
+          return null;
+        }
 
         return (
           <React.Fragment key={item.id}>
