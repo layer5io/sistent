@@ -1,6 +1,5 @@
 import { Button, ButtonGroup, Link, ListItemButton, Typography } from '../../base';
 import { styled } from '../../theme';
-import { Theme } from './types';
 
 export const StyledActionWrapper = styled('div')(({ theme }) => ({
   boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
@@ -18,7 +17,6 @@ export const StyledActionWrapper = styled('div')(({ theme }) => ({
 
 interface ActionButtonProps {
   disabled?: boolean;
-  theme?: Theme;
 }
 
 export const ActionButton = styled('div')<ActionButtonProps>(({ disabled = false, theme }) => ({
