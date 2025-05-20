@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Typography } from '../../base';
+import { Button } from '../../base';
 import { TeamsIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { CustomColumnVisibilityControl } from '../CustomColumnVisibilityControl';
@@ -10,7 +10,7 @@ import { TeamTableConfiguration } from '../TeamTable';
 import TeamTable from '../TeamTable/TeamTable';
 import AssignmentModal from './AssignmentModal';
 import useTeamAssignment from './hooks/useTeamAssignment';
-import { L5EditIcon, TableHeader, TableRightActionHeader } from './styles';
+import { TableHeader, TableRightActionHeader } from './styles';
 
 export interface TeamsTableProps {
   workspaceId: string;
@@ -50,10 +50,6 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
   const [pageSize, setPageSize] = useState<number>(10);
   const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
   const [bulkSelect, setBulkSelect] = useState<boolean>(false);
-  const [expanded, setExpanded] = useState<boolean>(false);
-  const handleAccordionChange = () => {
-    setExpanded(!expanded);
-  };
   const [search, setSearch] = useState<string>('');
   const [isSearchExpanded, setIsSearchExpanded] = useState<boolean>(false);
 
@@ -107,60 +103,51 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
   const theme = useTheme();
   return (
     <>
-      <Accordion expanded={expanded} onChange={handleAccordionChange} style={{ margin: 0 }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          sx={{ backgroundColor: 'background.paper' }}
+      <TableHeader>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={teamAssignment.handleAssignModal}
+          style={{ margin: '1rem' }}
         >
-          <TableHeader>
-            <Typography variant="body1" fontWeight={'bold'}>
-              Assigned Teams
-            </Typography>
-            <TableRightActionHeader>
-              <SearchBar
-                onSearch={(value) => {
-                  setSearch(value);
-                }}
-                onClear={() => {
-                  setSearch('');
-                }}
-                expanded={isSearchExpanded}
-                setExpanded={setIsSearchExpanded}
-                placeholder="Search workspaces..."
-              />
-              <CustomColumnVisibilityControl
-                columns={tableProps.columns}
-                customToolsProps={{
-                  columnVisibility: tableProps.columnVisibility,
-                  setColumnVisibility: tableProps.setColumnVisibility
-                }}
-                id={'teams-table'}
-              />
-              <L5EditIcon
-                onClick={teamAssignment.handleAssignModal}
-                disabled={!isAssignTeamAllowed}
-                title="Assign Teams"
-              />
-            </TableRightActionHeader>
-          </TableHeader>
-        </AccordionSummary>
-        <AccordionDetails style={{ padding: 0 }}>
-          <TeamTable
-            teams={teamsOfWorkspace?.teams}
-            tableOptions={tableProps.tableOptions}
-            columnVisibility={tableProps.columnVisibility}
-            colViews={tableProps.colViews}
-            tableCols={tableProps.tableCols}
-            updateCols={tableProps.updateCols}
-            columns={tableProps.columns}
-            isRemoveFromTeamAllowed={isRemoveTeamFromWorkspaceAllowed}
-            org_id={org_id}
-            useGetUsersForOrgQuery={useGetUsersForOrgQuery}
-            useNotificationHandlers={useNotificationHandlers}
-            useRemoveUserFromTeamMutation={useRemoveUserFromTeamMutation}
+          Assign Teams
+        </Button>
+        <TableRightActionHeader>
+          <SearchBar
+            onSearch={(value) => {
+              setSearch(value);
+            }}
+            onClear={() => {
+              setSearch('');
+            }}
+            expanded={isSearchExpanded}
+            setExpanded={setIsSearchExpanded}
+            placeholder="Search workspaces..."
           />
-        </AccordionDetails>
-      </Accordion>
+          <CustomColumnVisibilityControl
+            columns={tableProps.columns}
+            customToolsProps={{
+              columnVisibility: tableProps.columnVisibility,
+              setColumnVisibility: tableProps.setColumnVisibility
+            }}
+            id={'teams-table'}
+          />
+        </TableRightActionHeader>
+      </TableHeader>
+      <TeamTable
+        teams={teamsOfWorkspace?.teams}
+        tableOptions={tableProps.tableOptions}
+        columnVisibility={tableProps.columnVisibility}
+        colViews={tableProps.colViews}
+        tableCols={tableProps.tableCols}
+        updateCols={tableProps.updateCols}
+        columns={tableProps.columns}
+        isRemoveFromTeamAllowed={isRemoveTeamFromWorkspaceAllowed}
+        org_id={org_id}
+        useGetUsersForOrgQuery={useGetUsersForOrgQuery}
+        useNotificationHandlers={useNotificationHandlers}
+        useRemoveUserFromTeamMutation={useRemoveUserFromTeamMutation}
+      />
 
       <AssignmentModal
         open={teamAssignment.assignModal}

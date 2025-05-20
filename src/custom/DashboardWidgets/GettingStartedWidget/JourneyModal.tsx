@@ -26,7 +26,10 @@ const stepperType = {
 } as const;
 
 export const ModalImage = styled('img')(() => ({
-  aspectRatio: '16/9',
+  display: 'block',
+  width: '100%',
+  height: 'auto',
+  objectFit: 'contain',
   paddingBlock: '1rem'
 }));
 

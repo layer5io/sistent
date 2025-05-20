@@ -62,7 +62,13 @@ const FilterSection: React.FC<FilterSectionProps> = ({
           backgroundColor: styleProps.sectionTitleBackgroundColor
         }}
       >
-        <Typography variant="h6" fontWeight="bold" fontFamily={styleProps.fontFamily}>
+        <Typography
+          sx={{
+            fontSize: '1rem'
+          }}
+          fontWeight="bold"
+          fontFamily={styleProps.fontFamily}
+        >
           {(sectionDisplayName || filterKey).toUpperCase()}
         </Typography>
         {openSections[filterKey] ? <ExpandLessIcon /> : <ExpandMoreIcon />}

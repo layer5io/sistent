@@ -15,8 +15,8 @@ export type VIEW_VISIBILITY = (typeof VIEW_VISIBILITY)[keyof typeof VIEW_VISIBIL
 
 interface VisibilityChipMenuProps {
   value: VIEW_VISIBILITY;
-  onChange: (value: string) => void;
-  options: [string, React.ElementType][];
+  onChange?: (value: string) => void;
+  options?: [string, React.ElementType][];
   enabled: boolean;
 }
 
@@ -95,7 +95,9 @@ const VisibilityChipMenu: React.FC<VisibilityChipMenuProps> = ({
   };
   const handleChange = (e: MouseEvent, value: string) => {
     e.stopPropagation();
-    onChange(value);
+    if (onChange) {
+      onChange(value);
+    }
     close(e);
   };
   const theme = useTheme();
@@ -107,7 +109,7 @@ const VisibilityChipMenu: React.FC<VisibilityChipMenuProps> = ({
         data-testid={`design-visibility-${value.toLowerCase()}`}
       >
         <StyledDiv theme={theme} enabled={enabled}>
-          <span style={{ fontSize: '0.7rem' }}>{value}</span>
+          <span style={{ fontSize: '0.85rem' }}>{value}</span>
           {enabled && <ArrowDropDownIcon style={{ ...iconXSmall }} />}
         </StyledDiv>
       </StyledButton>
@@ -122,7 +124,7 @@ const VisibilityChipMenu: React.FC<VisibilityChipMenuProps> = ({
           left: (anchorEl?.getBoundingClientRect().left ?? 0) + 5
         }}
       >
-        {options.map(([visibility, Icon], index) => (
+        {options?.map(([visibility, Icon], index) => (
           <StyledMenuItem
             key={index}
             data-testid={`visibility-toggle-${visibility.toLowerCase()}`}

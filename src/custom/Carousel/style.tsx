@@ -6,6 +6,7 @@ export const CarouselButton = styled('button')(({ theme }) => ({
   transform: 'translateY(-50%)',
   zIndex: '1',
   background: theme.palette.background.paper,
+  color: theme.palette.mode === 'dark' ? theme.palette.common.white : theme.palette.common.black,
   border: 'none',
   cursor: 'pointer',
   padding: '0.5rem',

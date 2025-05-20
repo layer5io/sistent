@@ -58,7 +58,8 @@ const TeamTable: React.FC<TeamTableProps> = ({
               <TableCell
                 colSpan={6}
                 sx={{
-                  padding: '0.5rem'
+                  paddingInline: '4rem',
+                  backgroundColor: `${theme.palette.background.secondary} !important`
                 }}
               >
                 <StyledGrid container size={12}>

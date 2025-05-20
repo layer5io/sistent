@@ -181,14 +181,16 @@ function TransferList({
     setChecked(newChecked);
   };
 
-  const handleAllRight = () => {
+  const handleAllRight = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setRight(right.concat(left));
     setLeft([]);
     setLeftCount(0);
     setRightCount((prevRightCount: number) => prevRightCount + leftCount);
   };
 
-  const handleCheckedRight = () => {
+  const handleCheckedRight = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setRight(right.concat(leftChecked));
     setLeft(not(left, leftChecked));
     setChecked(not(checked, leftChecked));
@@ -196,7 +198,8 @@ function TransferList({
     setRightCount((prevRightCount: number) => prevRightCount + leftChecked.length);
   };
 
-  const handleCheckedLeft = () => {
+  const handleCheckedLeft = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
@@ -204,7 +207,8 @@ function TransferList({
     setLeftCount((prevLeftCount: number) => prevLeftCount + rightChecked.length);
   };
 
-  const handleAllLeft = () => {
+  const handleAllLeft = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setLeft(left.concat(right));
     setRight([]);
     setRightCount(0);

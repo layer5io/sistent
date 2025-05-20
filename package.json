@@ -18,6 +18,7 @@
     "commitlint": "commitlint --edit",
     "coverage": "jest --coverage",
     "dev": "NODE_ENV=development tsup",
+    "dev:watch": "NODE_ENV=development tsup",
     "format:check": "prettier --check \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -103,6 +104,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@layer5/meshery-design-embed": "^0.4.0",
+    "@layer5/schemas": "^0.0.6-16",
     "@mui/material": "^6.4.8",
     "@types/mui-datatables": "*",
     "billboard.js": "^3.15.0",
@@ -112,6 +114,7 @@
     "mui-datatables": "*",
     "re-resizable": "^6.11.2",
     "react-draggable": "^4.4.6",
-    "react-share": "^4.1.1"
+    "react-share": "^5.1.0",
+    "use-debounce": "^10.0.4"
   }
 }

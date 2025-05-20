@@ -1,9 +1,9 @@
 import { Grid2, useTheme } from '@mui/material';
 import { Backdrop, CircularProgress } from '../../base';
 
+import { getRelativeTime } from '../../utils';
 import { FlipCard } from '../FlipCard';
 import { RecordRow, RedirectButton, TransferButton } from './WorkspaceTransferButton';
-import { formattoLongDate } from './helper';
 import {
   AllocationColumnGrid,
   AllocationWorkspace,
@@ -409,12 +409,12 @@ const CardBack = ({
       <DateGrid size={12}>
         <DateColumnGrid size={6}>
           <DateLabel onClick={(e) => e.stopPropagation()}>
-            Updated At: {formattoLongDate(updatedDate)}
+            Updated At: {getRelativeTime(updatedDate)}
           </DateLabel>
         </DateColumnGrid>
         <DateColumnGrid size={6}>
           <DateLabel onClick={(e) => e.stopPropagation()}>
-            Created At: {formattoLongDate(createdDate)}
+            Created At: {getRelativeTime(createdDate)}
           </DateLabel>
         </DateColumnGrid>
       </DateGrid>

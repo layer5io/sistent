@@ -3,6 +3,7 @@ export * from './AccordionActions';
 export * from './AccordionDetails';
 export * from './AccordionSummary';
 export * from './Alert';
+export * from './AlertTitle';
 export * from './AppBar';
 export * from './Autocomplete';
 export * from './Avatar';
