@@ -1,4 +1,4 @@
-import { Slider, Theme } from '@mui/material';
+import { Slider } from '@mui/material';
 import { styled } from '../../theme';
 
 export const SliderDiv = styled(Slider)(({ theme, size }) => ({
@@ -22,7 +22,6 @@ export const SliderDiv = styled(Slider)(({ theme, size }) => ({
 interface PrecentageLabelProps {
   size: 'small' | 'medium' | 'large';
   completedPercentage: number;
-  theme: Theme;
 }
 
 export const PrecentageLabel = styled('div')<PrecentageLabelProps>(

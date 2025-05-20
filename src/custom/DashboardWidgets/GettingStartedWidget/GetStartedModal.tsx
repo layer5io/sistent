@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Grid2, SwipeableDrawer, Theme } from '@mui/material';
+import { Grid2, SwipeableDrawer } from '@mui/material';
 import { useState } from 'react';
 import {
   Backdrop,
@@ -117,7 +117,6 @@ const CheckboxLabel = styled('div')(() => ({
 
 interface CheckFieldProps {
   isVisit?: boolean;
-  theme?: Theme;
 }
 
 const CheckField = styled('div')<CheckFieldProps>(({ theme, isVisit }) => ({
@@ -247,7 +246,6 @@ const GetStartedModal: React.FC<GetStartedModalProps> = ({
             <PrecentageLabel
               size="medium"
               completedPercentage={percentage}
-              theme={theme}
             >{`${completedPercentage()}%`}</PrecentageLabel>
           </DialogContent>
           <Grid2 sx={{ overflowY: 'auto', backgroundColor: theme.palette.background.surfaces }}>
