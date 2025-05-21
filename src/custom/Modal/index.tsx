@@ -1,4 +1,4 @@
-import { ButtonProps, DialogProps, styled, Tooltip } from '@mui/material';
+import { ButtonProps, DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
@@ -58,19 +58,19 @@ const StyledDialog = styled(Dialog)`
   }
 `;
 
-const FullscreenButton = styled(FullScreenIcon)({
+const FullscreenButton = styled(FullScreenIcon)(({ theme }) => ({
   height: '2.25rem',
   width: '2.25rem',
-  fill: '#fff',
+  fill: theme.palette.common.white,
   cursor: 'pointer'
-});
+}));
 
-const FullscreenExitButton = styled(FullScreenExitIcon)({
+const FullscreenExitButton = styled(FullScreenExitIcon)(({ theme }) => ({
   height: '2.25rem',
   width: '2.25rem',
-  fill: '#fff',
+  fill: theme.palette.common.white,
   cursor: 'pointer'
-});
+}));
 
 export const ModalStyledHeader = styled('div')(({ theme }) => ({
   background: theme.palette.mode === 'light' ? lightModalGradient.header : darkModalGradient.header,
@@ -178,13 +178,13 @@ export const Modal: React.FC<ModalProps> = ({
           </Typography>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             {isFullScreenModeAllowed && (
-              <Tooltip title={fullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}>
+              <CustomTooltip title={fullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}>
                 {fullScreen ? (
                   <FullscreenExitButton onClick={toggleFullScreen} />
                 ) : (
                   <FullscreenButton onClick={toggleFullScreen} />
                 )}
-              </Tooltip>
+              </CustomTooltip>
             )}
             <CloseBtn onClick={closeModal}>
               <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
