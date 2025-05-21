@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import {
   ICE_SERVERS,
   ICEServer,
@@ -152,6 +152,7 @@ const subscribeToRoomActivity = async (
   });
 
   ws.addEventListener('message', (event: MessageEvent) => {
+    console.log('[RoomActivity] new message', event);
     const data = JSON.parse(event.data) as UserMapChangeMessage;
     if (data.type === USER_MAP_CHANGE_MSG && data.user_map) {
       onUserMapChange(data.user_map);
@@ -174,7 +175,7 @@ export const useRoomActivity = ({
   provider_url,
   getUserProfile,
   getUserAccessToken
-}: UseRoomActivityParams): UserMapping => {
+}: UseRoomActivityParams): [UserMapping, MutableRefObject<WebSocket | null>] => {
   const [allRoomsUserMapping, setAllRoomsUserMapping] = useState<UserMapping>({});
   const wsRef = useRef<WebSocket | null>(null);
 
@@ -191,10 +192,29 @@ export const useRoomActivity = ({
 
     return () => {
       if (ws) {
+        console.log('closing websocket', ws);
         ws.close();
       }
     };
   }, [provider_url, getUserProfile, getUserAccessToken]);
 
-  return allRoomsUserMapping;
+  return [allRoomsUserMapping, wsRef];
+};
+
+export const subscribeToRoom = (ws: WebSocket, room: string) => {
+  ws.send(
+    JSON.stringify({
+      type: 'subscribe',
+      topic: room
+    })
+  );
+};
+
+export const unSubscribeRoom = (ws: WebSocket, room: string) => {
+  ws.send(
+    JSON.stringify({
+      type: 'unsubscribe',
+      topic: room
+    })
+  );
 };
