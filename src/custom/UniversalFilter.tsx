@@ -136,7 +136,11 @@ function UniversalFilter({
             anchorEl={anchorEl}
             placement="bottom-end"
           >
-            <ClickAwayListener onClickAway={handleClose}>
+            <ClickAwayListener
+              onClickAway={handleClose}
+              mouseEvent="onMouseDown"
+              touchEvent="onTouchStart"
+            >
               <Paper
                 sx={{
                   padding: '1rem',
