@@ -29,7 +29,7 @@ export interface UniversalFilterProps {
 }
 
 export const FilterHeader = styled('div')(({ theme }) => ({
-  background: theme.palette.mode === 'light' ? lightModalGradient.fotter : darkModalGradient.fotter,
+  background: theme.palette.mode === 'light' ? lightModalGradient.header : darkModalGradient.header,
   padding: '0.75rem 1rem',
   margin: '-1rem -1rem 1rem -1rem',
   display: 'flex',
