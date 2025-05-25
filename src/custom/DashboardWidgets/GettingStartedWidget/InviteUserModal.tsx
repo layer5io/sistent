@@ -205,9 +205,51 @@ export default function UserInviteModal({
       }).unwrap();
 
       handleSuccess(`Invite send to ${inviteeName.trim() === '' ? inviteeEmail : inviteeName}.`);
-    } catch (e) {
-      console.debug('cannot send user invite', e);
-      handleError(`Invitation to ${inviteeFirstName} ${inviteeLastName} failed.`);
+    } catch (errorFromInvite: any) {
+      console.debug('Cannot send user invite, API error:', errorFromInvite);
+
+      const inviteeNameForFallback =
+        (inviteeFirstName + ' ' + inviteeLastName).trim() || inviteeEmail;
+      let displayErrorMessage = `Invitation to ${inviteeNameForFallback} failed. Please try again.`;
+
+      const whitelistedErrorMessages = [
+        'invalid org id',
+        'failed to retrieve organization',
+        'failed to add user to organization',
+        'failed to add user to team',
+        'user invite failed'
+      ];
+
+      let backendMessage: string | null = null;
+      if (errorFromInvite?.data) {
+        if (typeof errorFromInvite.data === 'string' && errorFromInvite.data.trim()) {
+          backendMessage = errorFromInvite.data.trim();
+        } else if (
+          errorFromInvite.data.message &&
+          typeof errorFromInvite.data.message === 'string' &&
+          errorFromInvite.data.message.trim()
+        ) {
+          backendMessage = errorFromInvite.data.message.trim();
+        } else if (
+          errorFromInvite.data.error &&
+          typeof errorFromInvite.data.error === 'string' &&
+          errorFromInvite.data.error.trim()
+        ) {
+          backendMessage = errorFromInvite.data.error.trim();
+        }
+      }
+
+      if (backendMessage) {
+        if (
+          backendMessage.startsWith('Email ') &&
+          backendMessage.includes(' is already registered.')
+        ) {
+          displayErrorMessage = backendMessage;
+        } else if (whitelistedErrorMessages.includes(backendMessage)) {
+          displayErrorMessage = backendMessage;
+        }
+      }
+      handleError(displayErrorMessage);
     }
     setInviteModal(false);
     setLoading(false);
