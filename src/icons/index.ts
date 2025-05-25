@@ -72,6 +72,7 @@ export * from './InfoOutlined';
 export * from './InviteUser';
 export * from './Kanvas';
 export * from './Kubernetes';
+export * from './LeaderBoard';
 export * from './Learning';
 export * from './LeftAngledArrow';
 export * from './LeftArrow';
