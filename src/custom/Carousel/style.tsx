@@ -36,9 +36,11 @@ export const CarouselContainer = styled('div')({
   overflowX: 'auto',
   scrollBehavior: 'smooth',
   scrollSnapType: 'x mandatory',
-  gap: '1rem',
-  padding: '1rem 0',
+  gap: '0.5rem',
+  paddingBottom: '1rem',
   width: '100%',
+  msOverflowStyle: 'none',
+  scrollbarWidth: 'none',
   '&::-webkit-scrollbar': {
     display: 'none'
   },
