@@ -151,9 +151,11 @@ interface SelectedResource {
   [key: string]: unknown;
 }
 
+type SelectedResources = SelectedResource | SelectedResource[];
+
 export type ResourceAccessArg = {
   resourceType: string;
-  resourceId: string;
+  resourceId: string | string[];
   resourceAccessMappingPayload: {
     grant_access: string[];
     revoke_access: string[];
@@ -167,8 +169,8 @@ import { VISIBILITY } from '../../constants/constants';
 interface ShareModalProps {
   /** Function to close the share modal */
   handleShareModalClose: () => void;
-  /** The resource that is selected for sharing.*/
-  selectedResource: SelectedResource;
+  /** The resource(s) that is selected for sharing.*/
+  selectedResource: SelectedResources;
   /** The name of the data being shared, like design or filter */
   dataName: string;
   /** Data of the user who owns the resource */
@@ -212,26 +214,29 @@ const ShareModal: React.FC<ShareModalProps> = ({
   useGetAllUsersQuery,
   shareableLink
 }: ShareModalProps): JSX.Element => {
+  console.log('amit selectdResource', selectedResource);
   const theme = useTheme();
   const [openMenu, setMenu] = useState<boolean>(false);
   const [shareUserData, setShareUserData] = useState<User[]>([]);
-  const [resourceVisibility, setVisibility] = useState(selectedResource.visibility);
+  const [resourceVisibility, setVisibility] = useState(
+    Array.isArray(selectedResource) ? selectedResource[0].visibility : selectedResource.visibility
+  );
+  console.log('amit resourceVisibility', resourceVisibility);
   const [isUpdatingVisibility, setUpdatingVisibility] = useState(false);
 
-  const userCanUpdateVisibility = canUpdateResourceVisibility(
-    selectedResource,
-    currentUser,
-    ownerData
-  );
-  const userCanShareWithNewUsers = canShareResourceWithNewUsers(
-    selectedResource,
-    currentUser,
-    ownerData
-  );
+  const userCanUpdateVisibility = Array.isArray(selectedResource)
+    ? selectedResource.every((resource) =>
+        canUpdateResourceVisibility(resource, currentUser, ownerData)
+      )
+    : canUpdateResourceVisibility(selectedResource, currentUser, ownerData);
+
+  const userCanShareWithNewUsers = Array.isArray(selectedResource)
+    ? selectedResource.every((resource) =>
+        canShareResourceWithNewUsers(resource, currentUser, ownerData)
+      )
+    : canShareResourceWithNewUsers(selectedResource, currentUser, ownerData);
 
   const handleCopy = () => {
-    // const shareableLink = getShareableResourceRoute(dataName,selectedResource.id,selectedResource.name)
-    console.log('shareableLink', shareableLink);
     navigator.clipboard.writeText(shareableLink);
     notify({
       message: 'Link copied to clipboard',
@@ -242,16 +247,49 @@ const ShareModal: React.FC<ShareModalProps> = ({
   const resourceType = dataName === 'design' ? 'pattern' : dataName;
 
   const handleShareWithNewUsers = async (newUsers: User[]) => {
-    console.log('new users', newUsers);
     const grantAccessList = newUsers.map((user) => ({
       actor_id: user.user_id,
       actor_type: 'user'
     }));
     const emails = newUsers.map((u) => u.email);
 
+    if (Array.isArray(selectedResource)) {
+      const responses = await Promise.all(
+        selectedResource.map((resource) =>
+          resourceAccessMutator({
+            resourceType,
+            resourceId: resource.id,
+            resourceAccessMappingPayload: {
+              grant_access: [...grantAccessList],
+              revoke_access: [],
+              notify_users: true
+            }
+          })
+        )
+      );
+
+      const hasError = responses.some((response) => response?.error);
+
+      if (!hasError) {
+        notify({
+          message: `${dataName}s shared with ${emails.join(', ')}`,
+          event_type: 'success'
+        });
+      } else {
+        notify({
+          message: `An error occurred. Some ${dataName}s may not have been shared`,
+          event_type: 'error'
+        });
+      }
+
+      return {
+        error: hasError ? 'Some resources failed to share' : ''
+      };
+    }
+
     const response = await resourceAccessMutator({
       resourceType,
-      resourceId: selectedResource?.id,
+      resourceId: !Array.isArray(selectedResource) ? selectedResource.id : selectedResource[0].id,
       resourceAccessMappingPayload: {
         grant_access: [...grantAccessList],
         revoke_access: [],
@@ -260,9 +298,8 @@ const ShareModal: React.FC<ShareModalProps> = ({
     });
 
     if (!response?.error) {
-      const msg = `${dataName} shared with ${emails.join(', ')} `;
       notify({
-        message: msg,
+        message: `${dataName} shared with ${emails.join(', ')}`,
         event_type: 'success'
       });
     }
@@ -288,7 +325,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
     const response = await resourceAccessMutator({
       resourceType,
-      resourceId: selectedResource?.id,
+      resourceId: !Array.isArray(selectedResource) ? selectedResource.id : selectedResource[0].id,
       resourceAccessMappingPayload: {
         grant_access: [],
         revoke_access: [...revokeAccessList],
@@ -327,7 +364,9 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const notifyVisibilityChange = (res: any, value: any) => {
-    const UPDATE_VISIBILITY_MSG = `${startCase(dataName)} '${selectedResource.name}' is now ${value}`;
+    const UPDATE_VISIBILITY_MSG = Array.isArray(selectedResource)
+      ? `${startCase(dataName)}s (${selectedResource.length}) are now ${value}`
+      : `${startCase(dataName)} '${selectedResource.name}' is now ${value}`;
     const FAILED_TO_UPDATE_VISIBILITY_MSG = `Failed to update visibility. ${res?.error?.error || ''}`;
 
     if (!res.error) {
@@ -378,7 +417,11 @@ const ShareModal: React.FC<ShareModalProps> = ({
       <Modal
         open={true}
         closeModal={handleShareModalClose}
-        title={`Share ${dataName} "${selectedResource?.name}"`}
+        title={
+          Array.isArray(selectedResource)
+            ? `Share ${selectedResource.length} ${dataName}s`
+            : `Share ${dataName} "${selectedResource?.name}"`
+        }
       >
         <ModalBody>
           <UserShareSearch
@@ -395,7 +438,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
             hostURL={hostURL}
           />
 
-          {resourceVisibility !== 'published' && (
+          {!Array.isArray(selectedResource) && resourceVisibility !== 'published' && (
             <>
               <CustomListItemText>
                 <Typography variant="h6">General Access</Typography>
