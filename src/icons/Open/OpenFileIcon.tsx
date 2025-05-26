@@ -1,6 +1,13 @@
-import PropTypes from 'prop-types';
+import { FC } from 'react';
+import { DEFAULT_WIDTH } from '../../constants/constants';
+import { IconProps } from '../types';
 
-export const OpenFileIcon = ({ width = 24, height = 24, fill = 'currentColor', ...props }) => (
+export const OpenFileIcon: FC<IconProps> = ({
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_WIDTH,
+  fill = 'currentColor',
+  ...props
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={width}
