@@ -3,7 +3,8 @@ import React, { useRef, useState } from 'react';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
 import { iconLarge, iconMedium } from '../../constants/iconsSizes';
-import { CloseIcon, InfoCircleIcon } from '../../icons';
+import { CloseIcon, FullScreenIcon, InfoCircleIcon } from '../../icons';
+import FullScreenExitIcon from '../../icons/Fullscreen/FullScreenExitIcon';
 import { darkModalGradient, lightModalGradient } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
 
@@ -12,6 +13,7 @@ interface ModalProps extends DialogProps {
   title: string;
   headerIcon?: React.ReactNode;
   reactNode?: React.ReactNode;
+  isFullScreenModeAllowed?: boolean;
 }
 
 interface ModalFooterProps {
@@ -55,6 +57,20 @@ const StyledDialog = styled(Dialog)`
     }
   }
 `;
+
+const FullscreenButton = styled(FullScreenIcon)(({ theme }) => ({
+  height: '2.25rem',
+  width: '2.25rem',
+  fill: theme.palette.common.white,
+  cursor: 'pointer'
+}));
+
+const FullscreenExitButton = styled(FullScreenExitIcon)(({ theme }) => ({
+  height: '2.25rem',
+  width: '2.25rem',
+  fill: theme.palette.common.white,
+  cursor: 'pointer'
+}));
 
 export const ModalStyledHeader = styled('div')(({ theme }) => ({
   background: theme.palette.mode === 'light' ? lightModalGradient.header : darkModalGradient.header,
@@ -103,7 +119,8 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
 export const ModalBody = styled(Paper)(({ theme }) => ({
   padding: '1rem',
   backgroundColor: theme.palette.background.surfaces,
-  overflowY: 'auto'
+  overflowY: 'auto',
+  height: '100%'
 }));
 
 const StyledFooter = styled('div', {
@@ -135,16 +152,22 @@ export const Modal: React.FC<ModalProps> = ({
   reactNode,
   children,
   maxWidth = 'xs',
+  isFullScreenModeAllowed,
   ...props
 }) => {
+  const [fullScreen, setFullScreen] = useState(false);
+  const toggleFullScreen = () => {
+    setFullScreen((prev) => !prev);
+  };
   return (
     <StyledDialog
-      fullWidth={true}
       maxWidth={maxWidth}
       open={open}
       onClose={closeModal}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
+      fullScreen={fullScreen}
+      fullWidth={!fullScreen}
       {...props}
     >
       {title && (
@@ -153,9 +176,20 @@ export const Modal: React.FC<ModalProps> = ({
           <Typography component={'div'} variant="h6">
             {title}
           </Typography>
-          <CloseBtn onClick={closeModal}>
-            <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
-          </CloseBtn>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            {isFullScreenModeAllowed && (
+              <CustomTooltip title={fullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}>
+                {fullScreen ? (
+                  <FullscreenExitButton onClick={toggleFullScreen} />
+                ) : (
+                  <FullscreenButton onClick={toggleFullScreen} />
+                )}
+              </CustomTooltip>
+            )}
+            <CloseBtn onClick={closeModal}>
+              <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
+            </CloseBtn>
+          </div>
         </ModalStyledHeader>
       )}
 
