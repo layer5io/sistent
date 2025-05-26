@@ -36,7 +36,7 @@ export const CarouselContainer = styled('div')({
   overflowX: 'auto',
   scrollBehavior: 'smooth',
   scrollSnapType: 'x mandatory',
-  gap: '1rem',
+  gap: '0.5rem',
   paddingBottom: '1rem',
   width: '100%',
   msOverflowStyle: 'none',

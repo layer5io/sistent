@@ -18,7 +18,6 @@ import {
   MainContainer,
   RepoTitle,
   StatsValue,
-  StatusLabel,
   StyledCard,
   Title,
   UserNameText
@@ -120,8 +119,7 @@ const StatCardComponent: React.FC<StatCardProps> = ({
   id,
   onCardClick,
   onIconClick,
-  onAuthorClick,
-  onStatusClick
+  onAuthorClick
 }) => {
   const handleCardClick = () => {
     onCardClick(pattern);
@@ -136,19 +134,14 @@ const StatCardComponent: React.FC<StatCardProps> = ({
     e.stopPropagation();
     onAuthorClick(userid);
   };
-
-  const handleStatusClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onStatusClick(status);
-  };
-
+  const theme = useTheme();
   return (
     <StyledCard elevation={0} status={status} onClick={handleCardClick}>
       <ContentWrapper cardId={id}>
         <HeaderSection>
           <HeaderTitle>{label}</HeaderTitle>
           <IconContainer onClick={(e) => handleIconClick(e, `${countKey}+desc`)}>
-            <LeaderBoardIcon {...iconXSmall} />
+            <LeaderBoardIcon {...iconXSmall} fill={theme.palette.common.black} />
           </IconContainer>
         </HeaderSection>
 
@@ -159,9 +152,6 @@ const StatCardComponent: React.FC<StatCardProps> = ({
           <UserNameText onClick={handleAuthorClick}>by {userName}</UserNameText>
         </Box>
       </ContentWrapper>
-      <StatusLabel labelType={status} onClick={handleStatusClick}>
-        {status}
-      </StatusLabel>
     </StyledCard>
   );
 };

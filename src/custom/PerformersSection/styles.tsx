@@ -2,10 +2,6 @@ import { Box, Card, CardContent, Typography } from '../../base';
 import { DARK_TEAL, styled } from '../../theme';
 import { getCatalogCardBackground } from '../CustomCatalog/style';
 
-interface StatusLabelProps {
-  labelType?: 'community' | 'official' | string;
-}
-
 interface ContentWrapperProps {
   cardId?: string;
 }
@@ -90,8 +86,10 @@ export const Title = styled(Typography)(({ theme }) => ({
 }));
 
 export const StyledCard = styled(Card)<StyledCardProps>(({ theme }) => ({
-  width: '10rem',
-  borderRadius: '16px',
+  width: '200px',
+  margin: '0.5rem',
+  height: '100%',
+  borderRadius: '1rem',
   position: 'relative',
   overflow: 'hidden',
   transition: 'all 0.3s ease-in-out',
@@ -140,9 +138,7 @@ export const ContentWrapper = styled(CardContent)<ContentWrapperProps>(() => ({
   display: 'flex',
   flexDirection: 'column',
   padding: '12px',
-  '&:last-child': {
-    paddingBottom: '12px'
-  }
+  paddingBottom: '0px !important'
 }));
 
 export const HeaderSection = styled(Box)({
@@ -231,30 +227,6 @@ export const CardsContainer = styled(Box)(({ theme }) => ({
   borderRadius: '12px',
   boxShadow: '0 1px 3px rgba(0, 0, 0, 0.05)',
   paddingBottom: theme.spacing(3)
-}));
-
-export const StatusLabel = styled(Box)<StatusLabelProps>(({ labelType, theme }) => ({
-  position: 'absolute',
-  bottom: 0,
-  left: 0,
-  background:
-    labelType === 'community'
-      ? 'rgba(122,132,142,.8)'
-      : labelType === 'official'
-        ? theme.palette.background.cta?.default
-        : theme.palette.text.brand,
-  color: labelType === 'official' ? 'black' : 'white',
-  paddingInline: '1rem',
-  borderTopRightRadius: '1rem',
-  fontSize: '0.75rem',
-  fontWeight: 'bold',
-  letterSpacing: '0.5px',
-  textTransform: 'lowercase',
-  zIndex: 2,
-  transition: 'all 0.3s ease',
-  '&:hover': {
-    filter: 'brightness(1.2)'
-  }
 }));
 
 export const ErrorContainer = styled(Box)(({ theme }) => ({
