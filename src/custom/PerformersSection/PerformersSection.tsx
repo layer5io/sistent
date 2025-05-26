@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { memo, useMemo } from 'react';
-import { Box } from '../../base';
+import { Box, Button } from '../../base';
 import { iconXSmall } from '../../constants/iconsSizes';
 import { LeaderBoardIcon, TropyIcon } from '../../icons';
 import { useTheme } from '../../theme';
@@ -20,6 +20,7 @@ import {
   StatsValue,
   StyledCard,
   Title,
+  TitleBox,
   UserNameText
 } from './styles';
 
@@ -46,21 +47,18 @@ interface StatCardProps {
   patternName: string;
   pattern: Pattern;
   userName: string;
-  userid: string;
   status: string;
   id: string;
   onCardClick: (pattern: Pattern) => void;
   onIconClick: (sortOrder: string) => void;
-  onAuthorClick: (userId: string) => void;
-  onStatusClick: (status: string) => void;
+  onOpenLeaderboard?: () => void;
 }
 
 interface PerformersSectionProps {
   useGetCatalogFilters: (params: any) => any;
   onCardClick: (pattern: Pattern) => void;
   onIconClick: (sortOrder: string) => void;
-  onAuthorClick: (userId: string) => void;
-  onStatusClick: (status: string) => void;
+  onOpenLeaderboard?: () => void;
 }
 
 type MetricType = 'view' | 'clone' | 'download' | 'deployment' | 'share';
@@ -114,12 +112,10 @@ const StatCardComponent: React.FC<StatCardProps> = ({
   patternName,
   pattern,
   userName,
-  userid,
   status,
   id,
   onCardClick,
-  onIconClick,
-  onAuthorClick
+  onIconClick
 }) => {
   const handleCardClick = () => {
     onCardClick(pattern);
@@ -130,11 +126,8 @@ const StatCardComponent: React.FC<StatCardProps> = ({
     onIconClick(sortOrder);
   };
 
-  const handleAuthorClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    onAuthorClick(userid);
-  };
   const theme = useTheme();
+
   return (
     <StyledCard elevation={0} status={status} onClick={handleCardClick}>
       <ContentWrapper cardId={id}>
@@ -149,7 +142,7 @@ const StatCardComponent: React.FC<StatCardProps> = ({
 
         <Box>
           <RepoTitle>{patternName}</RepoTitle>
-          <UserNameText onClick={handleAuthorClick}>by {userName}</UserNameText>
+          <UserNameText>by {userName}</UserNameText>
         </Box>
       </ContentWrapper>
     </StyledCard>
@@ -222,7 +215,6 @@ const processQueryData = (
     patternName: pattern.name || 'Unknown',
     pattern: pattern,
     userName: pattern.user?.first_name || 'Unknown',
-    userid: pattern.user?.id,
     id: config.id,
     status: pattern?.catalog_data?.content_class
   };
@@ -232,8 +224,7 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
   useGetCatalogFilters,
   onCardClick,
   onIconClick,
-  onAuthorClick,
-  onStatusClick
+  onOpenLeaderboard
 }) => {
   const theme = useTheme();
   const { queries, isLoading, hasError } = useMetricQueries(useGetCatalogFilters);
@@ -242,13 +233,8 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
     () =>
       (Object.keys(METRICS) as MetricType[])
         .map((metric) => processQueryData(queries, metric))
-        .filter(
-          (
-            stat
-          ): stat is Omit<
-            StatCardProps,
-            'onCardClick' | 'onIconClick' | 'onAuthorClick' | 'onStatusClick'
-          > => Boolean(stat)
+        .filter((stat): stat is Omit<StatCardProps, 'onCardClick' | 'onIconClick'> =>
+          Boolean(stat)
         ),
     [queries]
   );
@@ -266,24 +252,29 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
       {...stat}
       onCardClick={onCardClick}
       onIconClick={onIconClick}
-      onAuthorClick={onAuthorClick}
-      onStatusClick={onStatusClick}
     />
   ));
 
   return (
     <ErrorBoundary>
       <MainContainer>
-        <Title>
-          Top Performers
-          <TropyIcon
-            style={{
-              height: '2rem',
-              width: '2rem',
-              color: theme.palette.icon.secondary
-            }}
-          />
-        </Title>
+        <TitleBox>
+          <Box display={'flex'} alignItems="center" gap={1}>
+            <Title>Top Performers</Title>
+            <TropyIcon
+              style={{
+                height: '2rem',
+                width: '2rem',
+                color: theme.palette.icon.secondary
+              }}
+            />
+          </Box>
+          {onOpenLeaderboard && (
+            <Button variant="contained" onClick={() => onOpenLeaderboard()}>
+              Open Leaderboard
+            </Button>
+          )}
+        </TitleBox>
         <CardsContainer>
           {isLoading && <StateCardSekeleton />}
           <Carousel items={statComponents} />

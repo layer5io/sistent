@@ -74,15 +74,19 @@ export const MainContainer = styled(Box)(({ theme }) => ({
   flexDirection: 'column'
 }));
 
+export const TitleBox = styled(Box)(({ theme }) => ({
+  paddingInline: theme.spacing(2),
+  display: 'flex',
+  alignItems: 'center',
+  placeSelf: 'flex-start',
+  justifyContent: 'space-between',
+  width: '100%'
+}));
+
 export const Title = styled(Typography)(({ theme }) => ({
   fontSize: '1.5rem',
   fontWeight: 600,
-  color: theme.palette.text.default,
-  paddingLeft: theme.spacing(2),
-  display: 'flex',
-  alignItems: 'center',
-  gap: '0.5rem',
-  placeSelf: 'flex-start'
+  color: theme.palette.text.default
 }));
 
 export const StyledCard = styled(Card)<StyledCardProps>(({ theme }) => ({
@@ -203,16 +207,7 @@ export const RepoTitle = styled(Typography)(({ theme }) => ({
 
 export const UserNameText = styled(Typography)({
   fontSize: '0.75rem',
-  // color:
-  //   theme.palette.mode === 'light'
-  //     ? theme.palette.text.constant?.disabled
-  //     : theme.palette.text.disabled,
   marginBottom: '8px'
-  // transition: 'color 0.3s ease',
-
-  // '&:hover': {
-  //   color: theme.palette.text.brand
-  // }
 });
 
 export const CardsContainer = styled(Box)(({ theme }) => ({
