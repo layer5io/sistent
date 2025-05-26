@@ -1,2 +1,3 @@
+import OpenFileIcon from './OpenFileIcon';
 import OpenIcon from './OpenIcon';
-export { OpenIcon };
+export { OpenFileIcon, OpenIcon };
