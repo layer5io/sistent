@@ -40,6 +40,8 @@ const FormControlSelect = styled(FormControl)(() => ({
 const EMAIL_REGEXP =
   /^[\w!#$%&'*+\-\\/=?^_`{|}~]+(\.[\w!#$%&'*+\-\\/=?^_`{|}~]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/;
 
+const INVITE_EXISTING_USER_ERROR_CODE = 'meshery_cloud-1098';
+
 interface Organization {
   id: string;
   name: string;
@@ -205,50 +207,33 @@ export default function UserInviteModal({
       }).unwrap();
 
       handleSuccess(`Invite send to ${inviteeName.trim() === '' ? inviteeEmail : inviteeName}.`);
-    } catch (errorFromInvite: any) {
-      console.debug('Cannot send user invite, API error:', errorFromInvite);
-
-      const inviteeNameForFallback =
-        (inviteeFirstName + ' ' + inviteeLastName).trim() || inviteeEmail;
-      let displayErrorMessage = `Invitation to ${inviteeNameForFallback} failed. Please try again.`;
-
-      const whitelistedErrorMessages = [
-        'invalid org id',
-        'failed to retrieve organization',
-        'failed to add user to organization',
-        'failed to add user to team',
-        'user invite failed'
-      ];
-
-      let backendMessage: string | null = null;
-      if (errorFromInvite?.data) {
-        if (typeof errorFromInvite.data === 'string' && errorFromInvite.data.trim()) {
-          backendMessage = errorFromInvite.data.trim();
-        } else if (
-          errorFromInvite.data.message &&
-          typeof errorFromInvite.data.message === 'string' &&
-          errorFromInvite.data.message.trim()
-        ) {
-          backendMessage = errorFromInvite.data.message.trim();
-        } else if (
-          errorFromInvite.data.error &&
-          typeof errorFromInvite.data.error === 'string' &&
-          errorFromInvite.data.error.trim()
-        ) {
-          backendMessage = errorFromInvite.data.error.trim();
-        }
+    } catch (error: any) {
+      console.debug('cannot send user invite, API error:', error);
+      let displayErrorMessage = `Invitation to ${inviteeName.trim() === '' ? inviteeEmail : inviteeName} failed.`;
+      if (
+        error &&
+        error.data &&
+        typeof error.data === 'object' &&
+        error.data.code === INVITE_EXISTING_USER_ERROR_CODE
+      ) {
+        displayErrorMessage =
+          error.data.suggestedRemediation || error.data.message || displayErrorMessage;
+      } else if (
+        error &&
+        error.data &&
+        typeof error.data.message === 'string' &&
+        error.data.message.trim() !== ''
+      ) {
+        displayErrorMessage = error.data.message;
+      } else if (
+        error &&
+        error.data &&
+        typeof error.data === 'string' &&
+        error.data.trim() !== ''
+      ) {
+        displayErrorMessage = error.data;
       }
 
-      if (backendMessage) {
-        if (
-          backendMessage.startsWith('Email ') &&
-          backendMessage.includes(' is already registered.')
-        ) {
-          displayErrorMessage = backendMessage;
-        } else if (whitelistedErrorMessages.includes(backendMessage)) {
-          displayErrorMessage = backendMessage;
-        }
-      }
       handleError(displayErrorMessage);
     }
     setInviteModal(false);
