@@ -90,7 +90,7 @@ export const Title = styled(Typography)(({ theme }) => ({
 }));
 
 export const StyledCard = styled(Card)<StyledCardProps>(({ theme }) => ({
-  width: '200px',
+  width: '10rem',
   borderRadius: '16px',
   position: 'relative',
   overflow: 'hidden',
@@ -205,19 +205,19 @@ export const RepoTitle = styled(Typography)(({ theme }) => ({
   maxHeight: '2.6em'
 }));
 
-export const UserNameText = styled(Typography)(({ theme }) => ({
+export const UserNameText = styled(Typography)({
   fontSize: '0.75rem',
-  color:
-    theme.palette.mode === 'light'
-      ? theme.palette.text.constant?.disabled
-      : theme.palette.text.disabled,
-  marginBottom: '8px',
-  transition: 'color 0.3s ease',
+  // color:
+  //   theme.palette.mode === 'light'
+  //     ? theme.palette.text.constant?.disabled
+  //     : theme.palette.text.disabled,
+  marginBottom: '8px'
+  // transition: 'color 0.3s ease',
 
-  '&:hover': {
-    color: theme.palette.text.brand
-  }
-}));
+  // '&:hover': {
+  //   color: theme.palette.text.brand
+  // }
+});
 
 export const CardsContainer = styled(Box)(({ theme }) => ({
   display: 'flex',

@@ -1,13 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { memo, useMemo } from 'react';
-import {
-  CloneIcon,
-  DeploymentsIcon,
-  DownloadIcon,
-  OpenIcon,
-  ShareIcon,
-  TropyIcon
-} from '../../icons';
+import { Box } from '../../base';
+import { iconXSmall } from '../../constants/iconsSizes';
+import { LeaderBoardIcon, TropyIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { Carousel } from '../Carousel';
 import { Pattern } from '../CustomCatalog/CustomCard';
@@ -21,7 +16,6 @@ import {
   HeaderTitle,
   IconContainer,
   MainContainer,
-  RepoSection,
   RepoTitle,
   StatsValue,
   StatusLabel,
@@ -32,7 +26,6 @@ import {
 
 interface MetricConfig {
   label: string;
-  icon: React.ComponentType<any>;
   id: string;
   countKey: keyof Pattern;
 }
@@ -55,7 +48,6 @@ interface StatCardProps {
   pattern: Pattern;
   userName: string;
   userid: string;
-  icon: React.ComponentType<any>;
   status: string;
   id: string;
   onCardClick: (pattern: Pattern) => void;
@@ -86,32 +78,27 @@ const BASE_QUERY_PARAMS: BaseQueryParams = {
 const METRICS: Record<MetricType, MetricConfig> = {
   view: {
     label: 'Most Opens',
-    icon: OpenIcon,
-    id: 'open-icon',
+    id: 'open',
     countKey: 'view_count'
   },
   clone: {
     label: 'Most Clones',
-    icon: CloneIcon,
-    id: 'clone-icon',
+    id: 'clone',
     countKey: 'clone_count'
   },
   download: {
     label: 'Most Downloads',
-    icon: DownloadIcon,
-    id: 'download-icon',
+    id: 'download',
     countKey: 'download_count'
   },
   deployment: {
     label: 'Most Deploys',
-    icon: DeploymentsIcon,
-    id: 'deployments-icon',
+    id: 'deployments',
     countKey: 'deployment_count'
   },
   share: {
     label: 'Most Shares',
-    icon: ShareIcon,
-    id: 'share-icon',
+    id: 'share',
     countKey: 'share_count'
   }
 };
@@ -129,7 +116,6 @@ const StatCardComponent: React.FC<StatCardProps> = ({
   pattern,
   userName,
   userid,
-  icon: Icon,
   status,
   id,
   onCardClick,
@@ -162,16 +148,16 @@ const StatCardComponent: React.FC<StatCardProps> = ({
         <HeaderSection>
           <HeaderTitle>{label}</HeaderTitle>
           <IconContainer onClick={(e) => handleIconClick(e, `${countKey}+desc`)}>
-            <Icon className={id} />
+            <LeaderBoardIcon {...iconXSmall} />
           </IconContainer>
         </HeaderSection>
 
         <StatsValue>{count}</StatsValue>
 
-        <RepoSection>
+        <Box>
           <RepoTitle>{patternName}</RepoTitle>
           <UserNameText onClick={handleAuthorClick}>by {userName}</UserNameText>
-        </RepoSection>
+        </Box>
       </ContentWrapper>
       <StatusLabel labelType={status} onClick={handleStatusClick}>
         {status}
@@ -247,7 +233,6 @@ const processQueryData = (
     pattern: pattern,
     userName: pattern.user?.first_name || 'Unknown',
     userid: pattern.user?.id,
-    icon: config.icon,
     id: config.id,
     status: pattern?.catalog_data?.content_class
   };
