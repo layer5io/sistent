@@ -23,10 +23,4 @@ export const OpenFileIcon: FC<IconProps> = ({
   </svg>
 );
 
-OpenFileIcon.propTypes = {
-  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  fill: PropTypes.string
-};
-
 export default OpenFileIcon;
