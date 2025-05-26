@@ -422,7 +422,7 @@ export const darkModePalette: PaletteOptions = {
   },
 
   icon: {
-    default: Colors.accentGrey[80],
+    default: Colors.charcoal[80],
     secondary: Colors.charcoal[70],
     brand: Colors.keppel[40],
     inverse: Colors.charcoal[10],
