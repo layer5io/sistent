@@ -82,6 +82,7 @@ export * from './Mendeley';
 export * from './Menu';
 export * from './MesheryFilter';
 export * from './MesheryOperator';
+export * from './MoveFile';
 export * from './Open';
 export * from './OpenInNew';
 export * from './Organization';

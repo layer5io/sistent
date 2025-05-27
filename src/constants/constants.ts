@@ -67,3 +67,21 @@ export const MESHERY_CLOUD_PROD = 'https://cloud.layer5.io';
 export const MESHERY_CLOUD_STAGING = 'staging-cloud.layer5.io';
 export const MESHERY_CLOUD_WS_PROD = 'cloud-ws.layer5.io';
 export const MESHERY_CLOUD_WS_STAGING = 'staging-cloud-ws.layer5.io:6543';
+
+export const EVENT_TYPES = {
+  SUCCESS: {
+    type: 'success'
+  },
+  DEFAULT: {
+    type: 'default'
+  },
+  INFO: {
+    type: 'info'
+  },
+  WARNING: {
+    type: 'warning'
+  },
+  ERROR: {
+    type: 'error'
+  }
+};
