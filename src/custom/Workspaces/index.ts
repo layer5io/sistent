@@ -2,6 +2,7 @@ import AssignmentModal from './AssignmentModal';
 import DesignTable from './DesignTable';
 import EnvironmentTable from './EnvironmentTable';
 import WorkspaceCard from './WorkspaceCard';
+import WorkspaceContentMoveModal from './WorkspaceContentMoveModal';
 import WorkspaceEnvironmentSelection from './WorkspaceEnvironmentSelection';
 import WorkspaceRecentActivityModal from './WorkspaceRecentActivityModal';
 import WorkspaceTeamsTable from './WorkspaceTeamsTable';
@@ -23,6 +24,7 @@ export {
   useTeamAssignment,
   useViewAssignment,
   WorkspaceCard,
+  WorkspaceContentMoveModal,
   WorkspaceEnvironmentSelection,
   WorkspaceRecentActivityModal,
   WorkspaceTeamsTable,

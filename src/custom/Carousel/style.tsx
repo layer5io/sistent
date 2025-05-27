@@ -17,10 +17,10 @@ export const CarouselButton = styled('button')(({ theme }) => ({
     color: '#fff'
   },
   '&:first-of-type': {
-    left: '-1.2rem'
+    left: '-0.5rem'
   },
   '&:last-of-type': {
-    right: '-1.2rem'
+    right: '-0.5rem'
   }
 }));
 
@@ -28,7 +28,8 @@ export const CarouselWrapper = styled('div')({
   display: 'flex',
   alignItems: 'center',
   width: '100%',
-  position: 'relative'
+  position: 'relative',
+  padding: '0 3rem'
 });
 
 export const CarouselContainer = styled('div')({
@@ -36,9 +37,11 @@ export const CarouselContainer = styled('div')({
   overflowX: 'auto',
   scrollBehavior: 'smooth',
   scrollSnapType: 'x mandatory',
-  gap: '1rem',
-  padding: '1rem 0',
+  gap: '0.5rem',
+  paddingBottom: '1rem',
   width: '100%',
+  msOverflowStyle: 'none',
+  scrollbarWidth: 'none',
   '&::-webkit-scrollbar': {
     display: 'none'
   },
