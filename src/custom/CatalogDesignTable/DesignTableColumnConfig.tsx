@@ -1,10 +1,9 @@
 import { Lock, Public } from '@mui/icons-material';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import { Theme } from '@mui/material';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { Typography } from '../../base';
 import { PLAYGROUND_MODES } from '../../constants/constants';
-import { ChainIcon, CopyIcon, KanvasIcon, PublishIcon } from '../../icons';
+import { ChainIcon, CopyIcon, KanvasIcon, MoveFileIcon, PublishIcon } from '../../icons';
 import Download from '../../icons/Download/Download';
 import { downloadPattern, slugify } from '../CatalogDetail/helper';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
@@ -267,14 +266,10 @@ export const createDesignsColumnsConfig = ({
             },
 
             {
-              title: isFromWorkspaceTable ? 'Move Design' : 'Delete',
-              disabled: isFromWorkspaceTable ? !isRemoveAllowed : !isDeleteAllowed,
+              title: 'Delete',
+              disabled: !isDeleteAllowed,
               onClick: () => handleDeleteModal(rowData)(),
-              icon: isFromWorkspaceTable ? (
-                <RemoveCircleIcon style={{ color: theme?.palette.icon.default }} />
-              ) : (
-                <L5DeleteIcon />
-              )
+              icon: <L5DeleteIcon />
             }
           ].filter((a) => a?.hidden != true);
 
@@ -298,6 +293,17 @@ export const createDesignsColumnsConfig = ({
             onClick: () => handleClone(rowData?.name, rowData?.id),
             icon: <CopyIcon width={24} height={24} fill={theme?.palette.icon.secondary} />
           };
+
+          const moveAction = {
+            title: 'Move Design',
+            disabled: !isRemoveAllowed,
+            onClick: () => handleDeleteModal(rowData)(),
+            icon: <MoveFileIcon />
+          };
+
+          if (isFromWorkspaceTable) {
+            actionsList.splice(0, 0, moveAction);
+          }
 
           if (rowData.visibility === 'published') {
             actionsList.splice(0, 0, cloneAction);

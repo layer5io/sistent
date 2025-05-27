@@ -71,7 +71,9 @@ To run tests:
 make tests
 ```
 
-#### Using your local Sistent Fork in a Project
+### Using your local Sistent Fork in a Project
+
+#### Method 1: Manual Installation
 
 1. Install your local Sistent package in the project
 
@@ -110,7 +112,7 @@ make build
 make ui-build
 ```
 
-Now your project should reflect changes from your local Sistent fork.
+Now, your project should reflect changes from your local Sistent fork.
 
 If you want to remove the local Sistent fork from your project, run:
 
@@ -118,8 +120,72 @@ If you want to remove the local Sistent fork from your project, run:
 npm uninstall @layer5/sistent
 ```
 
-This will remove the local Sistent package from your project. You will have to install the standard package again after running this command.
+This will remove the local Sistent package from your project. You will have to reinstall the official package using this command:
+```
+npm install @layer5/sistent
+```
 
+#### Method 2: Using `npm link`
+
+1. Create a link of your local Sistent fork
+
+```
+cd <path-to-sistent-on-local-machine>
+
+npm link
+```
+
+This creates a global symlink which points to the local Sistent fork.
+
+2. Link the local Sistent fork to your project
+
+```
+npm link @layer5/sistent
+```
+
+3.Build your local Sistent fork
+
+After making changes to your fork, run this command in your local Sistent package.
+
+```
+make build
+```
+
+4. Run the build command in the project where your local Sistent fork is installed.
+
+```
+# example, Meshery UI
+make ui-build
+```
+
+Now, your project should reflect changes from your local Sistent fork.
+
+5. Verify that your local Sistent fork has been correctly linked.
+
+To verify that the correct link has been created, run this command:
+
+```
+npm ls -g
+
+# Expected output:
+# ├── @layer5/sistent@0.14.11 -> ./../../../../<path-to-local-sistent-fork>
+```
+
+To verify that the created link is correctly used in your project, run this command in the directory where you linked the Sistent fork:
+
+```
+ls -l node_modules/@layer5/sistent
+
+# Expected output:
+# node_modules/@layer5/sistent -> ../../../../../sistent
+```
+
+To revert back to the official package, first unlink the package, then install the official package using the following commands:
+
+```
+npm unlink @layer5/sistent
+npm install @layer5/sistent
+```
 > [!NOTE]
 > Avoid using `type any` in your code. Always specify explicit types to ensure type safety and maintainability.
 
