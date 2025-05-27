@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import React from "react";
+import React, { useContext } from "react";
 import Search from '../../assets/images/Search.svg';
 import SearchDark from '../../assets/images/SearchDark.svg';
 import Weather from '../../assets/images/Weather.svg';
