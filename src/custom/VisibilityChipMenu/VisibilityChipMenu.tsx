@@ -1,5 +1,4 @@
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { Theme, useTheme } from '@mui/material';
 import { MouseEvent, useState } from 'react';
 import { Button, Menu, MenuItem } from '../../base';
 import { iconXSmall } from '../../constants/iconsSizes';
@@ -49,7 +48,11 @@ const StyledButton = styled(Button)(() => ({
   padding: '0px'
 }));
 
-const StyledDiv = styled('div')(({ theme, enabled }: { theme: Theme; enabled: boolean }) => ({
+interface StyledDivProps {
+  enabled: boolean;
+}
+
+const StyledDiv = styled('div')<StyledDivProps>(({ theme, enabled }) => ({
   paddingLeft: '0.3rem',
   height: '1.5rem',
   width: 'auto',
@@ -100,7 +103,7 @@ const VisibilityChipMenu: React.FC<VisibilityChipMenuProps> = ({
     }
     close(e);
   };
-  const theme = useTheme();
+
   return (
     <>
       <StyledButton
@@ -108,7 +111,7 @@ const VisibilityChipMenu: React.FC<VisibilityChipMenuProps> = ({
         onClick={handleOpen}
         data-testid={`design-visibility-${value.toLowerCase()}`}
       >
-        <StyledDiv theme={theme} enabled={enabled}>
+        <StyledDiv enabled={enabled}>
           <span style={{ fontSize: '0.85rem' }}>{value}</span>
           {enabled && <ArrowDropDownIcon style={{ ...iconXSmall }} />}
         </StyledDiv>

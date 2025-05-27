@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TableCell } from '@mui/material';
+import { Grid2, TableCell } from '@mui/material';
 import { MUIDataTableColumn } from 'mui-datatables';
-import { Grid } from '../../base';
 import { styled, useTheme } from '../../theme';
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary.js';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/index.js';
@@ -22,7 +21,7 @@ interface TeamTableProps {
   useNotificationHandlers: any;
   useRemoveUserFromTeamMutation: any;
 }
-const StyledGrid = styled(Grid)(({ theme }) => ({
+const StyledGrid = styled(Grid2)(({ theme }) => ({
   display: 'grid',
   margin: 'auto',
   paddingLeft: '0.5rem',
@@ -63,7 +62,7 @@ const TeamTable: React.FC<TeamTableProps> = ({
                   backgroundColor: `${theme.palette.background.secondary} !important`
                 }}
               >
-                <StyledGrid container xs={12}>
+                <StyledGrid container size={12}>
                   <UsersTable
                     teamID={teamID}
                     isRemoveFromTeamAllowed={isRemoveFromTeamAllowed}

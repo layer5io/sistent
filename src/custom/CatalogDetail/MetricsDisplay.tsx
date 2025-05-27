@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '../../base';
+import { Grid2 } from '../../base';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { MetricsContainer, MetricsData, MetricsSection, MetricsType } from './style';
 
@@ -22,7 +22,15 @@ const MetricsDisplay: React.FC<MetricsDisplayProps> = ({ details }) => {
   ];
 
   return (
-    <Grid item lg={8} md={8} sm={12} xs={12} style={{ marginLeft: 'auto' }}>
+    <Grid2
+      style={{ marginLeft: 'auto' }}
+      size={{
+        lg: 8,
+        md: 8,
+        sm: 12,
+        xs: 12
+      }}
+    >
       <MetricsSection>
         {metrics.map((metric) => (
           <MetricsContainer key={metric.label}>
@@ -31,7 +39,7 @@ const MetricsDisplay: React.FC<MetricsDisplayProps> = ({ details }) => {
           </MetricsContainer>
         ))}
       </MetricsSection>
-    </Grid>
+    </Grid2>
   );
 };
 

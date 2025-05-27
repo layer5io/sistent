@@ -24,7 +24,7 @@ interface AlignProps {
 const Figure = styled('figure')<AlignProps>(({ align }) => ({
   margin: '1rem 0',
   textAlign: align,
-  width: '100%',
+  width: '100%'
 }));
 const FigCaption = styled('figcaption')<AlignProps>(({ align }) => ({
   fontSize: '0.9rem',

@@ -1,5 +1,6 @@
-import { Avatar, Box, Grid, Typography } from '../../base';
+import { Avatar, Box, Grid2, Typography } from '../../base';
 import { MESHERY_CLOUD_PROD } from '../../constants/constants';
+
 import { PersonIcon } from '../../icons';
 import { useTheme } from '../../theme';
 
@@ -22,8 +23,8 @@ const UserTableAvatarInfo: React.FC<UserTableAvatarInfoProps> = ({
   };
 
   return (
-    <Grid container alignItems="center">
-      <Grid item>
+    <Grid2 container alignItems="center">
+      <Grid2>
         <Box
           sx={{
             color: theme.palette.text.default,
@@ -35,14 +36,14 @@ const UserTableAvatarInfo: React.FC<UserTableAvatarInfoProps> = ({
             {profileUrl ? '' : <PersonIcon />}
           </Avatar>
         </Box>
-      </Grid>
-      <Grid item xs>
+      </Grid2>
+      <Grid2 size="grow">
         {userName}
         <Typography variant="body2" color={theme.palette.text.disabled}>
           {userEmail}
         </Typography>
-      </Grid>
-    </Grid>
+      </Grid2>
+    </Grid2>
   );
 };
 

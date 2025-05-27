@@ -2,7 +2,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
-import { Theme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import {
   Box,
@@ -138,7 +137,7 @@ export default function UserInviteModal({
     }
   }, [currentOrgId, providerRolesData, organizationRolesData]);
 
-  function getSelectStyle(ele: string, arr: string[], theme: Theme) {
+  function getSelectStyle(ele: string, arr: string[]) {
     return {
       fontWeight:
         arr.indexOf(ele) === -1
@@ -333,7 +332,7 @@ export default function UserInviteModal({
                   )}
                 >
                   {availableOrgRoles.map((name) => (
-                    <MenuItem key={name} value={name} style={getSelectStyle(name, roles, theme)}>
+                    <MenuItem key={name} value={name} style={getSelectStyle(name, roles)}>
                       {name}
                     </MenuItem>
                   ))}
@@ -360,7 +359,7 @@ export default function UserInviteModal({
                     )}
                   >
                     {availableProviderRoles.map((name) => (
-                      <MenuItem key={name} value={name} style={getSelectStyle(name, roles, theme)}>
+                      <MenuItem key={name} value={name} style={getSelectStyle(name, roles)}>
                         {name}
                       </MenuItem>
                     ))}

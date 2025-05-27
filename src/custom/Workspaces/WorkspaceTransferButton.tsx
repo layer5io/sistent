@@ -1,5 +1,5 @@
 import { SyncAlt as SyncAltIcon } from '@mui/icons-material';
-import { Grid, Typography } from '../../base';
+import { Grid2, Typography } from '../../base';
 import { useTheme } from '../../theme';
 import { getFullFormattedTime, getRelativeTime } from '../../utils';
 import { CustomTooltip } from '../CustomTooltip';
@@ -41,11 +41,11 @@ export const TransferButton: React.FC<TransferButtonProps> = ({
         }
       }}
     >
-      <Grid>
+      <Grid2>
         <TabCount textColor={theme.palette.text.default}>{count}</TabCount>
         <TabTitle textColor={theme.palette.text.default}>{title}</TabTitle>
         <SyncAltIcon sx={{ position: 'absolute', top: '10px', right: '10px' }} />
-      </Grid>
+      </Grid2>
     </PopupButton>
   );
 };
@@ -57,11 +57,11 @@ export const RedirectButton: React.FC<RedirectButtonProps> = ({
 }) => {
   return (
     <PopupButton disabled={disabled} color="primary" sx={{ boxShadow: 'none' }}>
-      <Grid>
+      <Grid2>
         <TabCount>{count}</TabCount>
         <TabTitle>{title}</TabTitle>
         {/* <ArrowForward /> */}
-      </Grid>
+      </Grid2>
     </PopupButton>
   );
 };
@@ -77,7 +77,7 @@ export const RecordRow: React.FC<RecordRowProps> = ({ title, name, date }) => {
 
   return (
     <Record>
-      <Grid xs={10} sx={{ display: 'flex', maxHeight: '140px' }}>
+      <Grid2 sx={{ display: 'flex', maxHeight: '140px' }} size={10}>
         <Typography
           sx={{
             fontSize: 14,
@@ -99,8 +99,8 @@ export const RecordRow: React.FC<RecordRowProps> = ({ title, name, date }) => {
         >
           {name}
         </Typography>
-      </Grid>
-      <Grid xs={2} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      </Grid2>
+      <Grid2 sx={{ display: 'flex', justifyContent: 'flex-end' }} size={2}>
         <CustomTooltip title={date ? getFullFormattedTime(date as string) : ''} placement="top">
           <div>
             <Typography
@@ -116,7 +116,7 @@ export const RecordRow: React.FC<RecordRowProps> = ({ title, name, date }) => {
             </Typography>
           </div>
         </CustomTooltip>
-      </Grid>
+      </Grid2>
     </Record>
   );
 };

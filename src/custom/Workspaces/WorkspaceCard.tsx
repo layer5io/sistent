@@ -1,5 +1,6 @@
-import { useTheme } from '@mui/material';
-import { Backdrop, CircularProgress, Grid } from '../../base';
+import { Grid2, useTheme } from '@mui/material';
+import { Backdrop, CircularProgress } from '../../base';
+
 import { getRelativeTime } from '../../utils';
 import { FlipCard } from '../FlipCard';
 import { RecordRow, RedirectButton, TransferButton } from './WorkspaceTransferButton';
@@ -235,7 +236,7 @@ const CardFront = ({
           {name}
         </CardTitle>
       </WorkspaceCardGrid>
-      <Grid>
+      <Grid2>
         {description ? (
           <DescriptionLabel onClick={(e) => e.stopPropagation()} sx={{ maxHeight: '105px' }}>
             {description}
@@ -243,8 +244,8 @@ const CardFront = ({
         ) : (
           <EmptyDescription onClick={(e) => e.stopPropagation()}>No description</EmptyDescription>
         )}
-      </Grid>
-      <Grid
+      </Grid2>
+      <Grid2
         sx={{
           display: 'flex',
           flexDirection: { xs: 'column', sm: 'row' },
@@ -323,7 +324,7 @@ const CardFront = ({
             </AllocationWorkspace>
           </AllocationColumnGrid>
         )}
-      </Grid>
+      </Grid2>
     </CardFrontWrapper>
   );
 };
@@ -351,8 +352,8 @@ const CardBack = ({
   const theme = useTheme();
   return (
     <CardBackWrapper elevation={2} onClick={onFlipBack}>
-      <CardBackTopGrid xs={12}>
-        <CardBackTitleGrid xs={6}>
+      <CardBackTopGrid size={12}>
+        <CardBackTitleGrid size={6}>
           <BulkSelectCheckbox
             onClick={(e) => e.stopPropagation()}
             onChange={onSelect}
@@ -366,7 +367,7 @@ const CardBack = ({
             {name}
           </CardTitle>
         </CardBackTitleGrid>
-        <CardBackActionsGrid xs={6}>
+        <CardBackActionsGrid size={6}>
           <L5EditIcon
             onClick={onEdit}
             disabled={isEditButtonDisabled}
@@ -381,9 +382,9 @@ const CardBack = ({
           />
         </CardBackActionsGrid>
       </CardBackTopGrid>
-      <Grid sx={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
+      <Grid2 sx={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
         <RecentActivityTitle variant="body2">Recent Activity</RecentActivityTitle>
-      </Grid>
+      </Grid2>
       <RecentActivityGrid>
         {loadingEvents ? (
           <Backdrop sx={{ zIndex: '2010' }} open={loadingEvents}>
@@ -405,13 +406,13 @@ const CardBack = ({
           })
         )}
       </RecentActivityGrid>
-      <DateGrid xs={12}>
-        <DateColumnGrid xs={6}>
+      <DateGrid size={12}>
+        <DateColumnGrid size={6}>
           <DateLabel onClick={(e) => e.stopPropagation()}>
             Updated At: {getRelativeTime(updatedDate)}
           </DateLabel>
         </DateColumnGrid>
-        <DateColumnGrid xs={6}>
+        <DateColumnGrid size={6}>
           <DateLabel onClick={(e) => e.stopPropagation()}>
             Created At: {getRelativeTime(createdDate)}
           </DateLabel>

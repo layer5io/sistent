@@ -1,7 +1,8 @@
 import UnfoldLessIcon from '@mui/icons-material/UnfoldLess';
 import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import React, { useState } from 'react';
-import { Grid, IconButton, Typography } from '../../base';
+import { Grid2, IconButton, Typography } from '../../base';
+
 import { iconSmall, iconXSmall } from '../../constants/iconsSizes';
 import { CopyIcon } from '../../icons';
 import { useTheme } from '../../theme';
@@ -165,7 +166,7 @@ export const KeyValueInRow: React.FC<KeyValueProps> = ({ Key, Value, showFold = 
   return (
     <KeyValueGrid container rowGap={0.5}>
       <React.Fragment key={Key}>
-        <KeyValueGridCell container xs={12} sm={3}>
+        <KeyValueGridCell container size={{ xs: 12, sm: 3 }}>
           <KeyValueGridTitle>{Key}</KeyValueGridTitle>
           {showFold && (
             <IconButton onClick={handleToggleFold}>
@@ -177,7 +178,12 @@ export const KeyValueInRow: React.FC<KeyValueProps> = ({ Key, Value, showFold = 
             </IconButton>
           )}
         </KeyValueGridCell>
-        <Grid item xs={12} sm={9}>
+        <Grid2
+          size={{
+            xs: 12,
+            sm: 9
+          }}
+        >
           <div
             style={{
               maxHeight: showFold && isFolded ? '200px' : 'none',
@@ -186,7 +192,7 @@ export const KeyValueInRow: React.FC<KeyValueProps> = ({ Key, Value, showFold = 
           >
             {React.isValidElement(Value) ? Value : String(Value)}
           </div>
-        </Grid>
+        </Grid2>
       </React.Fragment>
     </KeyValueGrid>
   );

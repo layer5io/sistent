@@ -1,4 +1,4 @@
-import { Grid } from '../../base/Grid';
+import { Grid2 } from '../../base';
 import { Typography } from '../../base/Typography';
 import { LeftAngledArrowIcon } from '../../icons';
 
@@ -32,7 +32,7 @@ function EmptyState({ icon, message, pointerLabel, poiner = false }: EmptyStateP
       }}
     >
       {poiner && (
-        <Grid style={{ display: 'flex', width: '100%', padding: '0 40px' }}>
+        <Grid2 style={{ display: 'flex', width: '100%', padding: '0 40px' }}>
           <LeftAngledArrowIcon />
           <Typography
             sx={{
@@ -49,9 +49,9 @@ function EmptyState({ icon, message, pointerLabel, poiner = false }: EmptyStateP
           >
             {pointerLabel}
           </Typography>
-        </Grid>
+        </Grid2>
       )}
-      <Grid style={{ marginTop: '120px' }}>
+      <Grid2 style={{ marginTop: '120px' }}>
         {icon}
         <Typography
           sx={{
@@ -64,7 +64,7 @@ function EmptyState({ icon, message, pointerLabel, poiner = false }: EmptyStateP
         >
           {message}
         </Typography>
-      </Grid>
+      </Grid2>
     </div>
   );
 }

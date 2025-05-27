@@ -1,12 +1,11 @@
-import { KANVAS_MODE,ResourceType,RESOURCE_TYPE } from "../constants/constants";
-
+import { KANVAS_MODE, RESOURCE_TYPE, ResourceType } from '../constants/constants';
 
 type PathParams = {
-  id:string
-  name: string
-}
+  id: string;
+  name: string;
+};
 
-export const viewPath = ({ id, name }:PathParams) => {
+export const viewPath = ({ id, name }: PathParams) => {
   const currentRoute = new URL(window.location.href);
   const currentURI = currentRoute.origin + currentRoute.pathname;
   const newParams = new URLSearchParams({
@@ -15,11 +14,11 @@ export const viewPath = ({ id, name }:PathParams) => {
     ...(id ? { id } : {}),
     ...(name ? { name } : {})
   });
-  const newURI = currentURI + "?" + newParams.toString();
+  const newURI = currentURI + '?' + newParams.toString();
   return newURI;
 };
 
-export const catalogPath = ({ id, name }:PathParams) => {
+export const catalogPath = ({ id, name }: PathParams) => {
   const currentRoute = new URL(window.location.href);
   const currentURI = currentRoute.origin + currentRoute.pathname;
   const newParams = new URLSearchParams({
@@ -28,7 +27,7 @@ export const catalogPath = ({ id, name }:PathParams) => {
     ...(id ? { id } : {}),
     ...(name ? { name } : {})
   });
-  const newURI = currentURI + "?" + newParams.toString();
+  const newURI = currentURI + '?' + newParams.toString();
   return newURI;
 };
 
@@ -46,15 +45,11 @@ export const getDesignPath = (id?: string) => {
     mode: KANVAS_MODE.DESIGN,
     ...(id ? { design: id } : {})
   });
-  const newURI = currentURI + "?" + newParams.toString();
+  const newURI = currentURI + '?' + newParams.toString();
   return newURI;
 };
 
-export const getShareableResourceRoute = (
-  type: ResourceType,
-  id: string,
-  name: string
-) => {
+export const getShareableResourceRoute = (type: ResourceType, id: string, name: string) => {
   if (type === RESOURCE_TYPE.DESIGN) {
     return getDesignPath(id);
   }
@@ -71,7 +66,7 @@ export const getShareableResourceRoute = (
 };
 
 export const emptyViewPath = () => {
-  return viewPath({id:"",name:""});
+  return viewPath({ id: '', name: '' });
 };
 
 export const getEmptyDesignPath = () => {

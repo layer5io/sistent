@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Box, Button, Card, CardActions, CardContent, Typography } from '../../../base';
-import { styled, useTheme } from '../../../theme';
+import { styled } from '../../../theme';
 import { PrecentageLabel, SliderDiv } from '../styles';
 
 interface ActionButtonCardProps {
@@ -102,7 +102,6 @@ const ActionButtonCard = ({
   playgroundCardBackgroundImgSrc
 }: ActionButtonCardProps) => {
   const completed = completedSteps ? completedSteps.length : 0;
-  const theme = useTheme();
 
   const completedPercentage = (): number => {
     return Math.round((100 / totalSteps) * completed);
@@ -140,7 +139,7 @@ const ActionButtonCard = ({
                   aria-label="Default"
                   valueLabelDisplay="auto"
                 />
-                <PrecentageLabel size="small" completedPercentage={percentage} theme={theme}>
+                <PrecentageLabel size="small" completedPercentage={percentage}>
                   {`${percentage}%`}
                 </PrecentageLabel>
               </ProgressWrapper>
@@ -186,7 +185,7 @@ const ActionButtonCard = ({
                 aria-label="Default"
                 valueLabelDisplay="auto"
               />
-              <PrecentageLabel size="small" completedPercentage={percentage} theme={theme}>
+              <PrecentageLabel size="small" completedPercentage={percentage}>
                 {`${percentage}%`}
               </PrecentageLabel>
             </ProgressWrapper>

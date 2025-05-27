@@ -56,7 +56,7 @@ const Panel_: React.FC<PanelProps> = ({
   if (!isOpen) return null;
   return (
     <Draggable handle=".drag-handle">
-      <PanelContainer theme={theme} intitialPosition={intitialPosition} sx={sx}>
+      <PanelContainer intitialPosition={intitialPosition} sx={sx}>
         <Resizable
           defaultSize={{
             width: defaultSize?.width || '18rem',
@@ -106,9 +106,7 @@ const Panel_: React.FC<PanelProps> = ({
                   </HeaderContainer>
                 </DrawerHeader>
               </div>
-              <PanelBody className="panel-body" theme={theme}>
-                {children}
-              </PanelBody>
+              <PanelBody className="panel-body">{children}</PanelBody>
             </ErrorBoundary>
           </ResizableContent>
         </Resizable>

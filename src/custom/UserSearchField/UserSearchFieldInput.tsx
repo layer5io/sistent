@@ -9,11 +9,12 @@ import {
   CircularProgress,
   FormControlLabel,
   FormGroup,
-  Grid,
+  Grid2,
   TextField,
   Tooltip,
   Typography
 } from '../../base';
+
 import { iconSmall } from '../../constants/iconsSizes';
 import { CloseIcon, PersonIcon } from '../../icons';
 
@@ -213,15 +214,15 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
           <li {...props} id={option.id}>
             <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
               {' '}
-              <Grid container alignItems="center">
-                <Grid item>
+              <Grid2 container alignItems="center">
+                <Grid2>
                   <Box sx={{ color: 'text.secondary', mr: 2 }}>
                     <Avatar alt={option.first_name} src={option.avatar_url}>
                       {option.avatar_url ? '' : <PersonIcon />}
                     </Avatar>
                   </Box>
-                </Grid>
-                <Grid item xs>
+                </Grid2>
+                <Grid2 size="grow">
                   {option.deleted ? (
                     <Typography variant="body2" color="text.secondary">
                       {option.email} (deleted)
@@ -236,13 +237,12 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
                       </Typography>
                     </>
                   )}
-                </Grid>
-              </Grid>
+                </Grid2>
+              </Grid2>
             </Box>
           </li>
         )}
       />
-
       {!isCreate && (
         <FormGroup row={true}>
           <div style={{ display: 'flex', flexWrap: 'nowrap' }}>

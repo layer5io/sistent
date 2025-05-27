@@ -10,6 +10,7 @@ import { NameDiv } from '../CatalogDesignTable/style';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
 import { CustomColumnVisibilityControl } from '../CustomColumnVisibilityControl';
 import { CustomTooltip } from '../CustomTooltip';
+import { ErrorBoundary } from '../ErrorBoundary';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { useWindowDimensions } from '../Helpers/Dimension';
 import {
@@ -330,7 +331,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   const [tableCols, updateCols] = useState(columns);
 
   return (
-    <>
+    <ErrorBoundary>
       <TableHeader style={{ padding: '1rem' }}>
         <Box
           style={{
@@ -398,7 +399,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
         isAssignAllowed={isAssignAllowed}
         isRemoveAllowed={isRemoveAllowed}
       />
-    </>
+    </ErrorBoundary>
   );
 };
 
