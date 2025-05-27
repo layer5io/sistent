@@ -7,7 +7,7 @@ import {
   CircularProgress,
   Divider,
   List,
-  ListItem,
+  ListItemButton,
   ListItemText,
   Typography
 } from '../../base';
@@ -41,7 +41,7 @@ interface Workspace {
   name: string;
 }
 
-const WorkspaceItem = styled(ListItem)({
+const WorkspaceItem = styled(ListItemButton)({
   borderRadius: '8px'
 });
 
