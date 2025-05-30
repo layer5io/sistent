@@ -157,11 +157,12 @@ make lint
 
 ### theme
 
-- Theme directory contains all the theme related files. The theme directory contains the following subdirectories like
-  `Colors`- contains all the colors that are used in the project or theme components.
-  `components` - contains all the theme components like `Button`, `Typography` with brand colors.
-  `typography.ts` - contains all the typography related files like `font-size`, `font-family` etc.
-  `palette.ts` - contains all the tokens that are used in the project and used in components.
+- Theme directory contains all the theme related files. The theme directory contains the following subdirectories like:
+  - `Colors`- contains all the colors that are used in the project or theme components.
+  - `components` - contains all the theme components like `Button`,
+  - `Typography` with brand colors.
+  - [`typography.ts`](https://github.com/layer5io/sistent/blob/master/src/theme/typography.ts) - contains all the typography related files like `font-size`, `font-family` etc.
+  - [`palette.ts`](https://github.com/layer5io/sistent/blob/master/src/theme/palette.ts) - contains all the tokens that are used in the project and used in components.
 
 Through the theme directory, we export the SistentThemeProvider which is used to provide the theme to the project.
 
