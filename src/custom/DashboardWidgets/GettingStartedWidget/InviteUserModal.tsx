@@ -39,6 +39,8 @@ const FormControlSelect = styled(FormControl)(() => ({
 const EMAIL_REGEXP =
   /^[\w!#$%&'*+\-\\/=?^_`{|}~]+(\.[\w!#$%&'*+\-\\/=?^_`{|}~]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/;
 
+const INVITE_EXISTING_USER_ERROR_CODE = 'meshery_cloud-1098';
+
 interface Organization {
   id: string;
   name: string;
@@ -204,9 +206,34 @@ export default function UserInviteModal({
       }).unwrap();
 
       handleSuccess(`Invite send to ${inviteeName.trim() === '' ? inviteeEmail : inviteeName}.`);
-    } catch (e) {
-      console.debug('cannot send user invite', e);
-      handleError(`Invitation to ${inviteeFirstName} ${inviteeLastName} failed.`);
+    } catch (error: any) {
+      console.debug('cannot send user invite, API error:', error);
+      let displayErrorMessage = `Invitation to ${inviteeName.trim() === '' ? inviteeEmail : inviteeName} failed.`;
+      if (
+        error &&
+        error.data &&
+        typeof error.data === 'object' &&
+        error.data.code === INVITE_EXISTING_USER_ERROR_CODE
+      ) {
+        displayErrorMessage =
+          error.data.suggestedRemediation || error.data.message || displayErrorMessage;
+      } else if (
+        error &&
+        error.data &&
+        typeof error.data.message === 'string' &&
+        error.data.message.trim() !== ''
+      ) {
+        displayErrorMessage = error.data.message;
+      } else if (
+        error &&
+        error.data &&
+        typeof error.data === 'string' &&
+        error.data.trim() !== ''
+      ) {
+        displayErrorMessage = error.data;
+      }
+
+      handleError(displayErrorMessage);
     }
     setInviteModal(false);
     setLoading(false);
