@@ -196,6 +196,9 @@ export const lightModePalette: PaletteOptions = {
   primary: {
     main: Colors.KEPPEL
   },
+  secondary: {
+    main: Colors.charcoal[40]
+  },
   background: {
     default: Colors.charcoal[100],
     secondary: Colors.accentGrey[90],
@@ -317,6 +320,9 @@ export const lightModePalette: PaletteOptions = {
 export const darkModePalette: PaletteOptions = {
   primary: {
     main: Colors.KEPPEL
+  },
+  secondary: {
+    main: Colors.charcoal[70]
   },
   background: {
     default: Colors.charcoal[10],
