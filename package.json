@@ -1,5 +1,5 @@
 {
-  "name": "sistent",
+  "name": "@sistent/sistent",
   "version": "0.0.1",
   "description": "Reusable React Components and SVG Icons library",
   "repository": {
