@@ -26,7 +26,8 @@ export const StyledClassWrapper = styled('div')(() => ({
   overflow: 'hidden',
   position: 'absolute',
   top: '-3px',
-  left: '-3px'
+  left: '-3px',
+  zIndex: 10
 }));
 
 export const TechnologyText = styled('div')(() => ({
@@ -126,7 +127,8 @@ export const DesignType = styled('span')(({ theme }) => ({
   textTransform: 'capitalize',
   background: theme.palette.background.brand?.default,
   color: theme.palette.background.constant?.white,
-  borderRadius: '0 1rem 0 2rem'
+  borderRadius: '0 1rem 0 2rem',
+  zIndex: 5
 }));
 export const MetricsCount = styled('p')(({ theme }) => ({
   fontSize: '1rem',
@@ -137,12 +139,15 @@ export const MetricsCount = styled('p')(({ theme }) => ({
   color: theme.palette.mode === 'light' ? DARK_TEAL : SNOW_WHITE,
   fontWeight: '600'
 }));
-export const DesignName = styled(Typography)(({ theme }) => ({
+type DesignNameProps = {
+  hasRibbon?: boolean;
+};
+
+export const DesignName = styled(Typography)<DesignNameProps>(({ theme, hasRibbon }) => ({
   fontWeight: 'bold',
   textTransform: 'capitalize',
   color: theme.palette.text.default,
   fontSize: '1.125rem',
-  marginTop: '2rem',
   padding: '0rem 1rem',
   position: 'relative',
   overflow: 'hidden',
@@ -150,8 +155,11 @@ export const DesignName = styled(Typography)(({ theme }) => ({
   textOverflow: 'ellipsis',
   textAlign: 'center',
   width: '100%',
-  margin: '2rem 0 1.59rem 0',
-  fontFamily: 'inherit'
+  margin: hasRibbon ? '3.5rem 0 1.59rem 0' : '2rem 0 1.59rem 0',
+  fontFamily: 'inherit',
+  ...(hasRibbon && {
+    paddingLeft: '1.5rem'
+  })
 }));
 
 export const MetricsContainerFront = styled('div')<MetricsProps>(({ isDetailed, theme }) => ({
@@ -361,6 +369,8 @@ export const CardFront = styled('div')<DesignCardDivProps>(({ shouldFlip, isDeta
   const boxShadow = `2px 2px 3px 0px ${theme.palette.background.brand?.default}`;
 
   return {
+    position: 'relative',
+    zIndex: 1,
     ...(shouldFlip && {
       position: 'absolute',
       boxShadow,
