@@ -120,7 +120,12 @@ export const ModalBody = styled(Paper)(({ theme }) => ({
   padding: '1rem',
   backgroundColor: theme.palette.background.surfaces,
   overflowY: 'auto',
-  height: '100%'
+  height: '100%',
+  scrollbarWidth: 'none',
+  '&::-webkit-scrollbar': {
+    display: 'none'
+  },
+  '-ms-overflow-style': 'none'
 }));
 
 const StyledFooter = styled('div', {
