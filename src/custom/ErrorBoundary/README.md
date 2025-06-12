@@ -9,7 +9,7 @@ The `ErrorBoundary` component is designed to catch errors that occur within its 
 Wrap your component with the `ErrorBoundary`:
 
 ```tsx
-import { ErrorBoundary } from '@layer5/sistent';
+import { ErrorBoundary } from '@sistent/sistent';
 
 const MyComponent = () => {
   // Your component logic
@@ -43,7 +43,7 @@ const MyComponent = () => {
 Wrap your component using `withErrorBoundary`:
 
 ```tsx
-import { withErrorBoundary } from '@layer5/sistent';
+import { withErrorBoundary } from '@sistent/sistent';
 
 const MyComponent = withErrorBoundary(() => {
   return {
@@ -61,7 +61,7 @@ const MyComponent = withErrorBoundary(() => {
 Wrap your component using withSuppressedErrorBoundary:
 
 ```tsx
-import { withSuppressedErrorBoundary } from '@layer5/sistent';
+import { withSuppressedErrorBoundary } from '@sistent/sistent';
 
 const MyComponent = withSuppressedErrorBoundary(() => {
   return {
