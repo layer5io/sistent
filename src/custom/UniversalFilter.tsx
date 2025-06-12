@@ -35,7 +35,7 @@ export const FilterHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-  color: theme.palette.text.primary
+  color: theme.palette.text.constant?.white
 }));
 
 function UniversalFilter({
