@@ -94,7 +94,7 @@ npm install <path-to-sistent-on-local-machine>
 This will update your Sistent dependency to:
 
 ```
-"@layer5/sistent" : "file:../../sistent"
+"@sistent/sistent" : "file:../../sistent"
 ```
 
 2. Build your local Sistent fork
@@ -117,12 +117,13 @@ Now, your project should reflect changes from your local Sistent fork.
 If you want to remove the local Sistent fork from your project, run:
 
 ```
-npm uninstall @layer5/sistent
+npm uninstall @sistent/sistent
 ```
 
 This will remove the local Sistent package from your project. You will have to reinstall the official package using this command:
+
 ```
-npm install @layer5/sistent
+npm install @sistent/sistent
 ```
 
 #### Method 2: Using `npm link`
@@ -140,7 +141,7 @@ This creates a global symlink which points to the local Sistent fork.
 2. Link the local Sistent fork to your project
 
 ```
-npm link @layer5/sistent
+npm link @sistent/sistent
 ```
 
 3.Build your local Sistent fork
@@ -168,24 +169,25 @@ To verify that the correct link has been created, run this command:
 npm ls -g
 
 # Expected output:
-# ├── @layer5/sistent@0.14.11 -> ./../../../../<path-to-local-sistent-fork>
+# ├── @sistent/sistent@0.14.11 -> ./../../../../<path-to-local-sistent-fork>
 ```
 
 To verify that the created link is correctly used in your project, run this command in the directory where you linked the Sistent fork:
 
 ```
-ls -l node_modules/@layer5/sistent
+ls -l node_modules/@sistent/sistent
 
 # Expected output:
-# node_modules/@layer5/sistent -> ../../../../../sistent
+# node_modules/@sistent/sistent -> ../../../../../sistent
 ```
 
 To revert back to the official package, first unlink the package, then install the official package using the following commands:
 
 ```
-npm unlink @layer5/sistent
-npm install @layer5/sistent
+npm unlink @sistent/sistent
+npm install @sistent/sistent
 ```
+
 > [!NOTE]
 > Avoid using `type any` in your code. Always specify explicit types to ensure type safety and maintainability.
 
