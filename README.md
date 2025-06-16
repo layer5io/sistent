@@ -1,23 +1,6 @@
-# Layer5 Design System Sistent
+# Sistent Design System Sistent
 
-The Sistent Design System from Layer5 provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences.
-
-<hr>
-<h3 align="center"> --> Visit <a href="https://layer5.io/projects/sistent">https://layer5.io/projects/sistent</a></h3>
-<hr>
-
-## Using Sistent
-
-Visit the Sistent website for further instructions.
-
-### Brand
-
-- Layer5 Brand Guide ([PDF](https://layer5.io/brand/brand-guide.pdf))
-- [Layer5 Logos](https://layer5.io/company/brand) (more assets available in shared Community drive).
-
-### Components and Packages
-
-- Design System components in React.js
+The Sistent Design System provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences. Visit the <a href="https://layer5.io/projects/sistent">project website</a> for more information.
 
 ## Contributing to Sistent
 
@@ -230,4 +213,4 @@ Find out more on the <a href="https://layer5.io/community">Layer5 community</a>.
 ✔️<em><strong>Explore more</strong></em> in the <a href="https://layer5.io/community/handbook">Community Handbook</a>.<br />
 </p>
 <p align="center">
-<i>Not sure where to start?</i> Grab an open issue with the <a href="https://github.com/issues?q=is%3Aopen+is%3Aissue+archived%3Afalse+org%3Alayer5io+org%3Ameshery+org%3Alayer5labs+org%3Aservice-mesh-performance+org%3Aservice-mesh-patterns+label%3A%22help+wanted%22+">help-wanted label</a>.</p>
+<i>Not sure where to start?</i> Grab an open issue with the <a href="https://github.com/issues?q=is%3Aopen+is%3Aissue+archived%3Afalse+(org%3Alayer5io+OR+org%3Ameshery+OR+org%3Alayer5labs+OR+org%3Aservice-mesh-performance+OR+org%3Aservice-mesh-patterns+OR+org%3Ameshery-extensions)+label%3A%22help+wanted%22">help-wanted label</a>.</p>
