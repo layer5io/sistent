@@ -61,7 +61,7 @@ export const handleImage = async ({
 export const DEFAULT_DESIGN_VERSION = '0.0.0';
 
 export const getVersion = (design: Pattern) => {
-  if (design.visibility === 'public') {
+  if (design.visibility === 'published') {
     return design?.catalog_data?.published_version || DEFAULT_DESIGN_VERSION;
   }
   try {
