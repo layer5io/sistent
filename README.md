@@ -109,70 +109,114 @@ This will remove the local Sistent package from your project. You will have to r
 npm install @sistent/sistent
 ```
 
-#### Method 2: Using `npm link`
+#### Method 2: Using `npm link` for Local Development
 
-1. Create a link of your local Sistent fork
+The `npm link` workflow allows contributors to test their local changes in Sistent within projects like Meshery UI without publishing the package to npm. It creates a symbolic link from the global `node_modules` to your development version of Sistent, enabling fast feedback during development.
 
+---
+
+### Step-by-Step Instructions
+
+1. **Build and globally link your local Sistent fork**
+
+Navigate to your local Sistent repository and run:
+
+```bash
+make build           # Compile the latest changes using Makefile
+npm link             # Create a global symlink for @sistent/sistent
 ```
-cd <path-to-sistent-on-local-machine>
 
-npm link
-```
+2. **Link Sistent in the consuming project (e.g., Meshery UI)**
 
-This creates a global symlink which points to the local Sistent fork.
+Go to the project where you want to use your local Sistent changes (e.g., Meshery UI):
 
-2. Link the local Sistent fork to your project
-
-```
+```bash
 npm link @sistent/sistent
 ```
 
-3.Build your local Sistent fork
+This command makes the consuming project use your local build of Sistent instead of the npm-published one.
 
-After making changes to your fork, run this command in your local Sistent package.
+3. **Make and reflect changes**
 
-```
-make build
-```
+Whenever you modify files in the Sistent repo:
 
-4. Run the build command in the project where your local Sistent fork is installed.
-
-```
-# example, Meshery UI
-make ui-build
+```bash
+make build           # Rebuild to apply changes
 ```
 
-Now, your project should reflect changes from your local Sistent fork.
+Then, in the consuming project:
 
-5. Verify that your local Sistent fork has been correctly linked.
-
-To verify that the correct link has been created, run this command:
-
-```
-npm ls -g
-
-# Expected output:
-# ├── @sistent/sistent@0.14.11 -> ./../../../../<path-to-local-sistent-fork>
+```bash
+make ui-build        # or equivalent build command
 ```
 
-To verify that the created link is correctly used in your project, run this command in the directory where you linked the Sistent fork:
+Your changes in Sistent will now be reflected in the consuming project.
 
-```
+---
+
+### Verification Steps
+
+To confirm that the project is using the local link:
+
+```bash
 ls -l node_modules/@sistent/sistent
-
-# Expected output:
-# node_modules/@sistent/sistent -> ../../../../../sistent
 ```
 
-To revert back to the official package, first unlink the package, then install the official package using the following commands:
+This should show a symbolic link pointing to your local Sistent directory.
 
+Check globally as well:
+
+```bash
+npm ls -g --depth=0
 ```
+
+Expected output:
+
+```bash
+@layer5/sistent@x.y.z -> /path/to/your/sistent
+```
+
+---
+
+### Revert to Official npm Package
+
+If you want to stop using the local Sistent fork:
+
+```bash
 npm unlink @sistent/sistent
 npm install @sistent/sistent
 ```
 
-> [!NOTE]
-> Avoid using `type any` in your code. Always specify explicit types to ensure type safety and maintainability.
+To remove the global link:
+
+```bash
+npm unlink --global @sistent/sistent
+```
+
+---
+
+### Additional Developer Tips
+
+- **Watch Mode:**  
+  For faster iteration, run Sistent in watch mode to auto-rebuild on file changes:
+
+  ```bash
+  make build-watch
+  ```
+
+- **Run once per setup:**  
+  `npm link` is only needed once per environment. For future changes, just rebuild.
+
+- **Use feature branches:**  
+  Keep your local changes organized with Git branches to avoid confusion during testing.
+
+- **Avoid stale builds:**  
+  Always run `make build` in Sistent and `make ui-build` in Meshery after updates.
+
+---
+
+>  This `npm link` workflow significantly reduces development time by allowing contributors to instantly validate UI or style changes made in Sistent across projects like Meshery.
+
 
 <br/>
 
