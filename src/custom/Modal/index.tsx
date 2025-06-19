@@ -176,7 +176,7 @@ export const Modal: React.FC<ModalProps> = ({
       {...props}
     >
       {title && (
-        <ModalStyledHeader>
+        <ModalStyledHeader className="modal-header">
           {headerIcon && headerIcon}
           <Typography component={'div'} variant="h6">
             {title}
