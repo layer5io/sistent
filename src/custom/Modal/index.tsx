@@ -176,7 +176,7 @@ export const Modal: React.FC<ModalProps> = ({
       {...props}
     >
       {title && (
-        <ModalStyledHeader>
+        <ModalStyledHeader className="modal-header">
           {headerIcon && headerIcon}
           <Typography component={'div'} variant="h6">
             {title}
@@ -206,7 +206,7 @@ export const Modal: React.FC<ModalProps> = ({
 
 export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, variant }) => {
   return (
-    <StyledFooter variant={variant} hasHelpText={!!helpText}>
+    <StyledFooter className="modal-footer" variant={variant} hasHelpText={!!helpText}>
       {helpText && (
         <CustomTooltip title={helpText} variant="standard" placement="top">
           <IconButton>
