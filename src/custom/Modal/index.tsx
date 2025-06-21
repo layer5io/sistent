@@ -14,6 +14,8 @@ interface ModalProps extends DialogProps {
   headerIcon?: React.ReactNode;
   reactNode?: React.ReactNode;
   isFullScreenModeAllowed?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  headerBg?: any;
 }
 
 interface ModalFooterProps {
@@ -21,6 +23,8 @@ interface ModalFooterProps {
   variant?: 'filled' | 'transparent';
   helpText?: string;
   hasHelpText?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  footerBg?: any;
 }
 
 type openModalCallback = (props: {
@@ -72,8 +76,13 @@ const FullscreenExitButton = styled(FullScreenExitIcon)(({ theme }) => ({
   cursor: 'pointer'
 }));
 
-export const ModalStyledHeader = styled('div')(({ theme }) => ({
-  background: theme.palette.mode === 'light' ? lightModalGradient.header : darkModalGradient.header,
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const ModalStyledHeader = styled('div')<{ headerBg?: any }>(({ theme, headerBg }) => ({
+  background: headerBg
+    ? `linear-gradient(90deg, ${headerBg?.secondaryBar}, ${headerBg.mainBar})`
+    : theme.palette.mode === 'light'
+      ? lightModalGradient.header
+      : darkModalGradient.header,
   color: '#eee',
   display: 'flex',
   justifyContent: 'space-between',
@@ -130,12 +139,14 @@ export const ModalBody = styled(Paper)(({ theme }) => ({
 
 const StyledFooter = styled('div', {
   shouldForwardProp: (prop) => prop !== 'variant'
-})<ModalFooterProps>(({ theme, variant, hasHelpText }) => ({
+})<ModalFooterProps>(({ theme, variant, hasHelpText, footerBg }) => ({
   background:
     variant === 'filled'
-      ? theme.palette.mode === 'light'
-        ? lightModalGradient.fotter
-        : darkModalGradient.fotter
+      ? footerBg
+        ? `linear-gradient(90deg, ${footerBg.mainBar}, ${footerBg.secondaryBar})`
+        : theme.palette.mode === 'light'
+          ? lightModalGradient.fotter
+          : darkModalGradient.fotter
       : 'transparent',
   display: 'flex',
   alignItems: 'center',
@@ -158,6 +169,7 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   maxWidth = 'xs',
   isFullScreenModeAllowed,
+  headerBg,
   ...props
 }) => {
   const [fullScreen, setFullScreen] = useState(false);
@@ -176,7 +188,7 @@ export const Modal: React.FC<ModalProps> = ({
       {...props}
     >
       {title && (
-        <ModalStyledHeader className="modal-header">
+        <ModalStyledHeader className="modal-header" headerBg={headerBg}>
           {headerIcon && headerIcon}
           <Typography component={'div'} variant="h6">
             {title}
@@ -204,9 +216,19 @@ export const Modal: React.FC<ModalProps> = ({
   );
 };
 
-export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, variant }) => {
+export const ModalFooter: React.FC<ModalFooterProps> = ({
+  helpText,
+  children,
+  variant,
+  footerBg
+}) => {
   return (
-    <StyledFooter className="modal-footer" variant={variant} hasHelpText={!!helpText}>
+    <StyledFooter
+      className="modal-footer"
+      footerBg={footerBg}
+      variant={variant}
+      hasHelpText={!!helpText}
+    >
       {helpText && (
         <CustomTooltip title={helpText} variant="standard" placement="top">
           <IconButton>
