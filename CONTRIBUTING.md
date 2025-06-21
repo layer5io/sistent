@@ -109,13 +109,35 @@ To test code changes on your local machine, run the following command:
 make tests
 ```
 
-#### Building Docker image
+#### 🐳 Building the Docker Image
 
-To build a Docker image of the project, please ensure you have `Docker` installed to be able to build the image. Now, run the following command to build the Docker image:
+To build a Docker image of the `sistent` project, make sure you have [Docker](https://docs.docker.com/get-docker/) installed and running.
+
+---
+
+**Option 1: Build with Make**  
+This will build the `sistent` image as defined in the `Makefile`:
 
 ```sh
 make docker
 ```
+
+#### Option 2: Build Manually with Docker
+
+If you prefer, you can build the image directly:
+
+```sh
+docker build -t sistent:latest .
+```
+
+#### 🚀 Run and Test the Image
+
+Once built, run the image:
+
+```sh
+docker run -p 8080:8080 sistent:latest
+```
+Open [http://localhost:8080](http://localhost:8080) to verify that the application is running.
 
 You can also refer to this "<a href="https://www.youtube.com/live/lsw9KA__iu4?si=o8gpZdSHcqO2OKxE">Training: contributing to Sistent</a>" and this <a href="https://www.youtube.com/live/yiXkxbibLUU?si=Dybj5qr0VLhLWEpl">Websites call</a> where experienced contributors have taught how to use sistent in your project or Meshery
 
