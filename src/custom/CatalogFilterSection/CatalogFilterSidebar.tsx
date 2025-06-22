@@ -49,6 +49,9 @@ export interface CatalogFilterSidebarProps {
   lists: FilterListType[];
   value?: FilterValues;
   styleProps?: StyleProps;
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  sx?: any;
 }
 
 export type FilterValues = Record<string, string | string[]>;
@@ -70,7 +73,8 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
   lists,
   setData,
   value = {},
-  styleProps
+  styleProps,
+  sx
 }) => {
   const theme = useTheme(); // Get the current theme
   const [openDrawer, setOpenDrawer] = useState<boolean>(false);
@@ -123,9 +127,10 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
           variant="temporary"
           onClose={handleDrawerClose}
           style={{ zIndex: '1399' }}
+          sx={sx}
         >
           <Box sx={{ overflowY: 'hidden', height: '90vh' }}>
-            <FiltersDrawerHeader>
+            <FiltersDrawerHeader className="filters-drawer-header">
               <Typography
                 variant="h6"
                 sx={{ color: theme.palette.text.constant?.white }}
@@ -160,6 +165,7 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
                     : darkModalGradient.fotter,
                 height: '5vh'
               }}
+              className="filters-drawer-footer"
             />
           </Box>
         </Drawer>
