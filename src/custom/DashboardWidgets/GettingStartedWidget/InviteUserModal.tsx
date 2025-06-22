@@ -68,6 +68,9 @@ interface UserInviteModalProps {
   };
   isAssignUserRolesAllowed: boolean;
   useLazyGetTeamsQuery: any;
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  sx?: any;
 }
 
 export default function UserInviteModal({
@@ -81,7 +84,8 @@ export default function UserInviteModal({
   useHandleUserInviteMutation,
   useNotificationHandlers,
   isAssignUserRolesAllowed,
-  useLazyGetTeamsQuery
+  useLazyGetTeamsQuery,
+  sx
 }: UserInviteModalProps) {
   const [inviteeFirstName, setInviteeFirstName] = useState<string>('');
   const [inviteeLastName, setInviteeLastName] = useState<string>('');
@@ -241,6 +245,7 @@ export default function UserInviteModal({
           closeModal={handleInviteModalClose}
           title={'Invite User'}
           headerIcon={<InviteUserIcon height="32" width="32" fill={theme.palette.common.white} />}
+          sx={sx}
         >
           <ModalBody>
             <>

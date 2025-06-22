@@ -194,6 +194,9 @@ interface ShareModalProps {
   shareableLink: string;
   mesheryURL: string; // url to hosted meshery
   currentUser: User;
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  sx?: any;
 }
 
 /**
@@ -212,7 +215,8 @@ const ShareModal: React.FC<ShareModalProps> = ({
   resourceAccessMutator,
   notify,
   useGetAllUsersQuery,
-  shareableLink
+  shareableLink,
+  sx
 }: ShareModalProps): JSX.Element => {
   console.log('amit selectdResource', selectedResource);
   const theme = useTheme();
@@ -422,6 +426,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
             ? `Share ${selectedResource.length} ${dataName}s`
             : `Share ${dataName} "${selectedResource?.name}"`
         }
+        sx={sx}
       >
         <ModalBody>
           <UserShareSearch

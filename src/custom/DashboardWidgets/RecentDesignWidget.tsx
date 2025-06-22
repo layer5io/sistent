@@ -384,12 +384,16 @@ interface CreateDesignModalProps {
   openModal: boolean;
   handleClose: () => void;
   cardData: CardData[];
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  sx?: any;
 }
 
 export const CreateDesignModal: React.FC<CreateDesignModalProps> = ({
   openModal,
   handleClose,
-  cardData
+  cardData,
+  sx
 }) => {
   return (
     <Modal
@@ -397,6 +401,7 @@ export const CreateDesignModal: React.FC<CreateDesignModalProps> = ({
       title="Choose a method to create a design"
       closeModal={handleClose}
       maxWidth="xs"
+      sx={sx}
     >
       <StyledModalBody>
         {cardData.map((card) => (
