@@ -72,7 +72,6 @@ const FullscreenExitButton = styled(FullScreenExitIcon)(({ theme }) => ({
   cursor: 'pointer'
 }));
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const ModalStyledHeader = styled('div')(({ theme }) => ({
   background: theme.palette.mode === 'light' ? lightModalGradient.header : darkModalGradient.header,
   color: '#eee',
