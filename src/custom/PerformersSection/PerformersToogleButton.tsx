@@ -35,6 +35,26 @@ const PerformersSectionButton: React.FC<PerformersSectionButtonProps> = ({ open,
   );
 };
 
+const OpenLeaderBoardButton: React.FC<PerformersSectionButtonProps> = ({ handleClick }) => {
+  return (
+    <CustomTooltip title={'Open Leaderboard'} placement="bottom">
+      <span>
+        <Button
+          variant="contained"
+          onClick={handleClick}
+          sx={{
+            height: '3.7rem',
+            padding: '0.3rem',
+            display: { xs: 'inline-flex', md: 'none' }
+          }}
+        >
+          <TropyIcon style={{ height: '2rem', width: '2rem' }} />
+        </Button>
+      </span>
+    </CustomTooltip>
+  );
+};
+
 export const StateCardSekeleton = () => {
   return (
     <CardSkeleton>
@@ -53,4 +73,4 @@ export const StateCardSekeleton = () => {
     </CardSkeleton>
   );
 };
-export default PerformersSectionButton;
+export { OpenLeaderBoardButton, PerformersSectionButton };
