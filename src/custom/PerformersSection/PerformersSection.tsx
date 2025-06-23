@@ -270,7 +270,13 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
             />
           </Box>
           {onOpenLeaderboard && (
-            <Button variant="contained" onClick={() => onOpenLeaderboard()}>
+            <Button
+              variant="contained"
+              onClick={() => onOpenLeaderboard()}
+              sx={{
+                display: { xs: 'none', md: 'inline-flex' }
+              }}
+            >
               Open Leaderboard
             </Button>
           )}
