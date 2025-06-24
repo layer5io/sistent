@@ -10,6 +10,10 @@ interface PerformersSectionButtonProps {
   handleClick: () => void;
 }
 
+interface OpenLeaderBoardButtonProps {
+  handleClick: () => void;
+}
+
 const PerformersSectionButton: React.FC<PerformersSectionButtonProps> = ({ open, handleClick }) => {
   const theme = useTheme();
 
@@ -35,22 +39,20 @@ const PerformersSectionButton: React.FC<PerformersSectionButtonProps> = ({ open,
   );
 };
 
-const OpenLeaderBoardButton: React.FC<PerformersSectionButtonProps> = ({ handleClick }) => {
+const OpenLeaderBoardButton: React.FC<OpenLeaderBoardButtonProps> = ({ handleClick }) => {
   return (
     <CustomTooltip title={'Open Leaderboard'} placement="bottom">
-      <span>
-        <Button
-          variant="contained"
-          onClick={handleClick}
-          sx={{
-            height: '3.7rem',
-            padding: '0.3rem',
-            display: { xs: 'inline-flex', md: 'none' }
-          }}
-        >
-          <TropyIcon style={{ height: '2rem', width: '2rem' }} />
-        </Button>
-      </span>
+      <Button
+        variant="contained"
+        onClick={handleClick}
+        sx={{
+          height: '3.7rem',
+          padding: '0.3rem',
+          display: { xs: 'inline-flex', sm: 'none' }
+        }}
+      >
+        <TropyIcon style={{ height: '2rem', width: '2rem' }} />
+      </Button>
     </CustomTooltip>
   );
 };
