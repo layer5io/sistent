@@ -42,6 +42,18 @@ const getValidSvgPaths = async (
   return validSvgPaths;
 };
 
+// Parses the pattern file content (YAML) and returns the version field.
+// If parsing fails or version is missing, returns the default version.
+const getWorkingVersionFromPatternFile = (patternFileContent: string) => {
+  try {
+    const patternFile = jsyaml.load(patternFileContent);
+    return patternFile?.version || DEFAULT_DESIGN_VERSION;
+  } catch (e) {
+    console.error('Failed to parse pattern file to get version:', e);
+    return DEFAULT_DESIGN_VERSION;
+  }
+};
+
 interface HandleImageProps {
   technologies: string[];
   basePath?: string;
@@ -60,15 +72,18 @@ export const handleImage = async ({
 };
 export const DEFAULT_DESIGN_VERSION = '0.0.0';
 
+// Returns the version of a design based on its visibility.
+// - For 'published' designs, returns the stable published version.
+// - For 'public' or 'private', returns the working version from the pattern file.
+// - Defaults to the working version if visibility is unrecognized.
 export const getVersion = (design: Pattern) => {
-  if (design.visibility === 'published') {
-    return design?.catalog_data?.published_version || DEFAULT_DESIGN_VERSION;
-  }
-  try {
-    const patternFile = jsyaml.load(design.pattern_file);
-    return patternFile?.version || DEFAULT_DESIGN_VERSION;
-  } catch (e) {
-    console.error(e);
-    return DEFAULT_DESIGN_VERSION;
+  switch (design.visibility) {
+    case 'published':
+      return design?.catalog_data?.published_version || DEFAULT_DESIGN_VERSION;
+    case 'public':
+    case 'private':
+      return getWorkingVersionFromPatternFile(design.pattern_file);
+    default:
+      return getWorkingVersionFromPatternFile(design.pattern_file);
   }
 };
