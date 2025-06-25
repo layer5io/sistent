@@ -7,7 +7,7 @@ import { useMediaQuery, useTheme } from '../../theme';
 import { Carousel } from '../Carousel';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ErrorBoundary } from '../ErrorBoundary';
-import { OpenLeaderBoardButton, StateCardSekeleton } from './PerformersToogleButton';
+import { StateCardSekeleton } from './PerformersToogleButton';
 import {
   CardsContainer,
   ContentWrapper,
@@ -273,16 +273,23 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
           </Box>
           {onOpenLeaderboard && (
             <div>
-              <Button
-                variant="contained"
-                onClick={() => onOpenLeaderboard()}
-                sx={{
-                  display: { xs: 'none', sm: 'inline-flex' }
-                }}
-              >
-                Open Leaderboard
+              <Button variant="contained" onClick={() => onOpenLeaderboard()}>
+                <TropyIcon
+                  style={{
+                    height: '2rem',
+                    width: '2rem',
+                    display: smallScreen ? 'inline-flex' : 'none'
+                  }}
+                />
+                <p
+                  style={{
+                    margin: 0,
+                    display: smallScreen ? 'none' : 'inline-flex'
+                  }}
+                >
+                  Open Leaderboard
+                </p>
               </Button>
-              <OpenLeaderBoardButton handleClick={onOpenLeaderboard} />
             </div>
           )}
         </TitleBox>
