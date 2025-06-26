@@ -3,7 +3,7 @@ import { memo, useMemo } from 'react';
 import { Box, Button } from '../../base';
 import { iconXSmall } from '../../constants/iconsSizes';
 import { LeaderBoardIcon, TropyIcon } from '../../icons';
-import { useTheme } from '../../theme';
+import { useMediaQuery, useTheme } from '../../theme';
 import { Carousel } from '../Carousel';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ErrorBoundary } from '../ErrorBoundary';
@@ -228,6 +228,7 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
 }) => {
   const theme = useTheme();
   const { queries, isLoading, hasError } = useMetricQueries(useGetCatalogFilters);
+  const smallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const stats = useMemo(
     () =>
@@ -265,20 +266,31 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
               style={{
                 height: '2rem',
                 width: '2rem',
-                color: theme.palette.icon.secondary
+                color: theme.palette.icon.secondary,
+                display: smallScreen ? 'none' : 'inline-flex'
               }}
             />
           </Box>
           {onOpenLeaderboard && (
-            <Button
-              variant="contained"
-              onClick={() => onOpenLeaderboard()}
-              sx={{
-                display: { xs: 'none', md: 'inline-flex' }
-              }}
-            >
-              Open Leaderboard
-            </Button>
+            <div>
+              <Button variant="contained" onClick={() => onOpenLeaderboard()}>
+                <TropyIcon
+                  style={{
+                    height: '2rem',
+                    width: '2rem',
+                    display: smallScreen ? 'inline-flex' : 'none'
+                  }}
+                />
+                <p
+                  style={{
+                    margin: 0,
+                    display: smallScreen ? 'none' : 'inline-flex'
+                  }}
+                >
+                  Open Leaderboard
+                </p>
+              </Button>
+            </div>
           )}
         </TitleBox>
         <CardsContainer>
