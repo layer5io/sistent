@@ -206,7 +206,17 @@ export default function UserInviteModal({
       handleSuccess(`Invite send to ${inviteeName.trim() === '' ? inviteeEmail : inviteeName}.`);
     } catch (e) {
       console.debug('cannot send user invite', e);
-      handleError(`Invitation to ${inviteeFirstName} ${inviteeLastName} failed.`);
+      const errorMessage = e.message || e.response?.data?.message || '';
+
+      if (errorMessage.includes('email already exists')) {
+        handleError('Invitation failed: Email address already exists.');
+      } else if (errorMessage.includes('invalid email')) {
+        handleError('Invitation failed: Invalid email format.');
+      } else if (errorMessage.includes('user limit reached')) {
+        handleError('Invitation failed: User limit reached for the organization.');
+      } else {
+        handleError(`Invitation to ${inviteeFirstName} ${inviteeLastName} failed.`);
+      }
     }
     setInviteModal(false);
     setLoading(false);
