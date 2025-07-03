@@ -76,7 +76,7 @@ The `SearchBar` component is a reusable search bar. This component provides a us
 
 ```javascript
 import React, { useState } from 'react';
-import SearchBar from '@layer5/sistent/components';
+import SearchBar from '@sistent/sistent/components';
 
 function App() {
   const [searchText, setSearchText] = useState('');

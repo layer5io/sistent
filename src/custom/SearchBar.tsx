@@ -57,6 +57,13 @@ const customTheme = (theme: Theme) =>
             }
           }
         }
+      },
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            lineHeight: 'auto'
+          }
+        }
       }
     }
   });

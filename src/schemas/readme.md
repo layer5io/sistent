@@ -12,14 +12,14 @@ RJSF Schemas, based on the React JSON Schema Form library, define the structure,
    Include the required schema in your React component by importing it. For example:
 
    ```javascript
-   import MyFormSchema from '@layer5/sistent';
+   import MyFormSchema from '@sistent/sistent';
    ```
 
 1. **Rendering Forms:**
    Integrate the schema into your component to render the form dynamically. Use already created generic RJSF components or use RJSF Form component directly.
 
    ```javascript
-   import { sampleSchema, sampleUiSchema } from '@layer5/sistent';
+   import { sampleSchema, sampleUiSchema } from '@sistent/sistent';
    <Form schema={sampleSchema} uiSchema={sampleUiSchema} onSubmit={handleFormSubmission} />;
    ```
 

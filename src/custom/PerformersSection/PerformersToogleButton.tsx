@@ -10,6 +10,10 @@ interface PerformersSectionButtonProps {
   handleClick: () => void;
 }
 
+interface OpenLeaderBoardButtonProps {
+  handleClick: () => void;
+}
+
 const PerformersSectionButton: React.FC<PerformersSectionButtonProps> = ({ open, handleClick }) => {
   const theme = useTheme();
 
@@ -21,7 +25,7 @@ const PerformersSectionButton: React.FC<PerformersSectionButtonProps> = ({ open,
           onClick={handleClick}
           sx={{
             height: '3.7rem',
-            padding: '0.3rem'
+            padding: '0.3rem 1rem 0.3rem 0.3rem'
           }}
           style={{
             backgroundColor: open ? undefined : theme.palette.background.constant?.disabled
@@ -31,6 +35,24 @@ const PerformersSectionButton: React.FC<PerformersSectionButtonProps> = ({ open,
           {open ? 'Hide Performers' : 'Show Performers'}
         </Button>
       </span>
+    </CustomTooltip>
+  );
+};
+
+const OpenLeaderBoardButton: React.FC<OpenLeaderBoardButtonProps> = ({ handleClick }) => {
+  return (
+    <CustomTooltip title={'Open Leaderboard'} placement="bottom">
+      <Button
+        variant="contained"
+        onClick={handleClick}
+        sx={{
+          height: '3.7rem',
+          padding: '0.3rem',
+          display: { xs: 'inline-flex', sm: 'none' }
+        }}
+      >
+        <TropyIcon style={{ height: '2rem', width: '2rem' }} />
+      </Button>
     </CustomTooltip>
   );
 };
@@ -53,4 +75,4 @@ export const StateCardSekeleton = () => {
     </CardSkeleton>
   );
 };
-export default PerformersSectionButton;
+export { OpenLeaderBoardButton, PerformersSectionButton };
