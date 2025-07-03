@@ -1,6 +1,6 @@
-import InfoIcon from '@mui/icons-material/Info'; // Import your info icon
 import React, { useState } from 'react';
 import { IconButton, Popover } from '../../base';
+import { InfoCircleIcon } from '../../icons';
 import { WHITE } from '../../theme';
 import { RenderMarkdownTooltip } from '../Markdown';
 
@@ -19,7 +19,7 @@ function HelperTextPopover({
   fontWeight = 400,
   variant = 'standard',
   bgColor = '#141414',
-  icon = <InfoIcon fontSize="small" />,
+  icon = <InfoCircleIcon fontSize="small" />,
   ...props
 }: HelperTextPopoverProps): JSX.Element {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
