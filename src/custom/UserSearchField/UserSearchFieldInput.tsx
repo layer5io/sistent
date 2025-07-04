@@ -69,7 +69,6 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
   const [hasInitialFocus, setHasInitialFocus] = useState(true);
   const [inputValue, setInputValue] = useState('');
   const [localUsersData, setLocalUsersData] = useState<User[]>(usersData || []);
-
   useEffect(() => {
     setLocalUsersData(usersData || []);
   }, [usersData]);
@@ -88,7 +87,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
     }
 
     return filteredResults;
-  }, [searchedUsers, currentUserData, usersSearch, hasInitialFocus, localUsersData]);
+  }, [searchedUsers, currentUserData, usersSearch, hasInitialFocus]);
 
   const handleDelete = useCallback(
     (idToDelete: string, event: React.MouseEvent) => {
@@ -141,13 +140,14 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         setHasInitialFocus(true);
       } else {
         const encodedValue = encodeURIComponent(newValue);
+        setUsersSearch(newValue);
         fetchSearchedUsers(encodedValue);
         setError('');
         setOpen(true);
         setHasInitialFocus(false);
       }
     },
-    [fetchSearchedUsers]
+    [fetchSearchedUsers, setUsersSearch]
   );
   return (
     <>
@@ -156,30 +156,20 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         style={{ width: '100%' }}
         open={open}
         options={displayOptions}
-        getOptionLabel={() => inputValue}
+        getOptionLabel={() => ''}
         isOptionEqualToValue={(option, value) => option.user_id === value.user_id}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         inputValue={inputValue}
         onChange={handleAdd}
         onInputChange={handleInputChange}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        filterOptions={(options, { inputValue }) => {
-          return options.filter((option: User) => {
-            const searchStr = inputValue.toLowerCase();
-            return (
-              option.first_name?.toLowerCase().includes(searchStr) ||
-              option.last_name?.toLowerCase().includes(searchStr) ||
-              option.email?.toLowerCase().includes(searchStr)
-            );
-          });
-        }}
+        filterOptions={(options) => options} // -> no need ,we do that on server-side
         loading={isUserSearchLoading}
         disabled={disabled}
         disableClearable
+        freeSolo={false}
         value={undefined}
-        selectOnFocus={false}
+        selectOnFocus={true}
         blurOnSelect={true}
         clearOnBlur={true}
         popupIcon={null}
