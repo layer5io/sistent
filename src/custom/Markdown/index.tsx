@@ -65,6 +65,15 @@ export const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ content }) => {
 };
 
 export const RenderMarkdownTooltip: React.FC<RenderMarkdownProps> = ({ content }) => {
+  const processDescription = (desc: string | undefined): string | undefined => {
+    if (!desc) return desc;
+    try {
+      // -> json.parse will handle esacpe characters
+      return JSON.parse(`"${desc}"`);
+    } catch {
+      return desc;
+    }
+  };
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
@@ -96,7 +105,7 @@ export const RenderMarkdownTooltip: React.FC<RenderMarkdownProps> = ({ content }
         td: ({ ...props }) => <StyledMarkdownTd>{props.children}</StyledMarkdownTd>
       }}
     >
-      {content}
+      {processDescription(content) as string}
     </ReactMarkdown>
   );
 };
