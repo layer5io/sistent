@@ -12,7 +12,7 @@ Before you begin, ensure you have the following installed on your system:
 
 ### How to get started
 
-Make sure you have `npm` on `node@16` and above. The CI workflows checks for in `node@16`, `node@18` and `node@20`
+Make sure you have `npm` on `node@18` and above. The CI workflows checks for in `node@18`, `node@20` and `node@22`
 
 <div>&nbsp;</div>
 
