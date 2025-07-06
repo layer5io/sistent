@@ -6,7 +6,7 @@ import {
   MESHERY_CLOUD_STAGING,
   MESHERY_CLOUD_WS_PROD,
   MESHERY_CLOUD_WS_STAGING
-} from '../constants/constants';
+} from '../../constants/constants';
 
 interface UserProfile {
   [key: string]: unknown;

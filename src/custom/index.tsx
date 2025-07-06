@@ -31,8 +31,7 @@ import {
 import { FeedbackButton } from './Feedback';
 import { FlipCard, FlipCardProps } from './FlipCard';
 import { FormatId } from './FormatId';
-import { useWindowDimensions } from './Helpers/Dimension';
-import { useNotificationHandler } from './Helpers/Notification';
+// Note: useWindowDimensions and useNotificationHandler have been moved to src/hooks/
 import { ColView, updateVisibleColumns } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { LearningCard } from './LearningCard';
 import { BasicMarkdown, RenderMarkdown } from './Markdown';
@@ -116,8 +115,6 @@ export {
   UsersTable,
   VisibilityChipMenu,
   updateVisibleColumns,
-  useNotificationHandler,
-  useWindowDimensions,
   withErrorBoundary,
   withSuppressedErrorBoundary
 };
