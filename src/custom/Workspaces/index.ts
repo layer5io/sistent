@@ -7,10 +7,7 @@ import WorkspaceEnvironmentSelection from './WorkspaceEnvironmentSelection';
 import WorkspaceRecentActivityModal from './WorkspaceRecentActivityModal';
 import WorkspaceTeamsTable from './WorkspaceTeamsTable';
 import WorkspaceViewsTable from './WorkspaceViewsTable';
-import useDesignAssignment from './hooks/useDesignAssignment';
-import useEnvironmentAssignment from './hooks/useEnvironmentAssignment';
-import useTeamAssignment from './hooks/useTeamAssignment';
-import useViewAssignment from './hooks/useViewsAssignment';
+// Note: Workspace hooks have been moved to src/hooks/workspace/
 import { L5DeleteIcon, L5EditIcon } from './styles';
 
 export {
@@ -19,10 +16,6 @@ export {
   EnvironmentTable,
   L5DeleteIcon,
   L5EditIcon,
-  useDesignAssignment,
-  useEnvironmentAssignment,
-  useTeamAssignment,
-  useViewAssignment,
   WorkspaceCard,
   WorkspaceContentMoveModal,
   WorkspaceEnvironmentSelection,
