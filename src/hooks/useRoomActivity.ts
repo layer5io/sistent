@@ -47,9 +47,9 @@ interface UserMapping {
 }
 
 interface UseRoomActivityParams {
-  provider_url: string;
-  getUserProfile: () => Promise<{ data: UserProfile }>;
-  getUserAccessToken: () => Promise<{ data: string }>;
+  provider_url?: string;
+  getUserProfile?: () => Promise<{ data: UserProfile }>;
+  getUserAccessToken?: () => Promise<{ data: string }>;
 }
 
 const SUBSCRIBE_TO_ROOMS_ACTIVITY_MSG: SubscribeToRoomsActivityMessage = {
@@ -136,57 +136,73 @@ const subscribeToRoomActivity = async (
   getUserProfile: () => Promise<{ data: UserProfile }>,
   getUserAccessToken: () => Promise<{ data: string }>
 ): Promise<void> => {
-  const config = await getCollaborationConfig({
-    provider_url,
-    getUserProfile,
-    getUserAccessToken
-  });
+  if (!provider_url || !getUserProfile || !getUserAccessToken) {
+    console.warn('Missing required parameters for subscription');
+    return;
+  }
 
-  // Create the websocket connection with proper headers
-  const ws = new WebSocket(config.signalingUrl[0], ['auth', config.authToken]);
-  wsRef.current = ws;
+  try {
+    const config = await getCollaborationConfig({
+      provider_url,
+      getUserProfile,
+      getUserAccessToken
+    });
 
-  ws.addEventListener('open', () => {
-    console.log('[RoomActivity] connected to room activity');
-    ws.send(JSON.stringify(SUBSCRIBE_TO_ROOMS_ACTIVITY_MSG));
-  });
+    // Create the websocket connection with proper headers
+    const ws = new WebSocket(config.signalingUrl[0], ['auth', config.authToken]);
+    wsRef.current = ws;
 
-  ws.addEventListener('message', (event: MessageEvent) => {
-    console.log('[RoomActivity] new message', event);
-    const data = JSON.parse(event.data) as UserMapChangeMessage;
-    if (data.type === USER_MAP_CHANGE_MSG && data.user_map) {
-      onUserMapChange(data.user_map);
-    }
-  });
+    ws.addEventListener('open', () => {
+      console.log('[RoomActivity] connected to room activity');
+      if (ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify(SUBSCRIBE_TO_ROOMS_ACTIVITY_MSG));
+      }
+    });
 
-  ws.addEventListener('close', () => {
-    console.log('[RoomActivity] subscription to room activity closed');
-  });
+    ws.addEventListener('message', (event: MessageEvent) => {
+      console.log('[RoomActivity] new message', event);
+      const data = JSON.parse(event.data) as UserMapChangeMessage;
+      if (data.type === USER_MAP_CHANGE_MSG && data.user_map) {
+        onUserMapChange(data.user_map);
+      }
+    });
 
-  ws.addEventListener('error', (err: Event) => {
-    console.error('[RoomActivity] error in room activity subscription', err);
-  });
+    ws.addEventListener('close', () => {
+      console.log('[RoomActivity] subscription to room activity closed');
+    });
+
+    ws.addEventListener('error', (err: Event) => {
+      console.error('[RoomActivity] error in room activity subscription', err);
+    });
+  } catch (error) {
+    console.error('[RoomActivity] Failed to subscribe to room activity:', error);
+  }
 };
 
 /**
  * Hook to subscribe to and get room activity data
  */
-export const useRoomActivity = ({
-  provider_url,
-  getUserProfile,
-  getUserAccessToken
-}: UseRoomActivityParams): [UserMapping, MutableRefObject<WebSocket | null>] => {
+export const useRoomActivity = (
+  {
+    provider_url,
+    getUserProfile,
+    getUserAccessToken
+  }: UseRoomActivityParams = {} as UseRoomActivityParams
+): [UserMapping, MutableRefObject<WebSocket | null>] => {
   const [allRoomsUserMapping, setAllRoomsUserMapping] = useState<UserMapping>({});
   const wsRef = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    subscribeToRoomActivity(
-      wsRef,
-      setAllRoomsUserMapping,
-      provider_url,
-      getUserProfile,
-      getUserAccessToken
-    );
+    // -> all parameters check
+    if (provider_url && getUserProfile && getUserAccessToken) {
+      subscribeToRoomActivity(
+        wsRef,
+        setAllRoomsUserMapping,
+        provider_url,
+        getUserProfile,
+        getUserAccessToken
+      );
+    }
 
     const ws = wsRef.current;
 
@@ -202,12 +218,14 @@ export const useRoomActivity = ({
 };
 
 export const subscribeToRoom = (ws: WebSocket, room: string) => {
-  ws.send(
-    JSON.stringify({
-      type: 'subscribe',
-      topic: room
-    })
-  );
+  if (ws.readyState === WebSocket.OPEN) {
+    ws.send(
+      JSON.stringify({
+        type: 'subscribe',
+        topic: room
+      })
+    );
+  }
 };
 
 export const unSubscribeRoom = (ws: WebSocket, room: string) => {
