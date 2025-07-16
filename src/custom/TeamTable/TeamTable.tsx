@@ -16,10 +16,13 @@ interface TeamTableProps {
   columns: MUIDataTableColumn[];
   updateCols: (cols: any) => void;
   isRemoveFromTeamAllowed: boolean;
+  isEditUserAllowed: any;
+  handleEditUser: any;
   org_id: string;
   useGetUsersForOrgQuery: any;
   useNotificationHandlers: any;
   useRemoveUserFromTeamMutation: any;
+  availableRoles?: string[];
 }
 const StyledGrid = styled(Grid2)(({ theme }) => ({
   display: 'grid',
@@ -39,6 +42,8 @@ const TeamTable: React.FC<TeamTableProps> = ({
   columns,
   updateCols,
   isRemoveFromTeamAllowed,
+  isEditUserAllowed,
+  handleEditUser,
   org_id,
   useGetUsersForOrgQuery,
   useNotificationHandlers,
@@ -66,6 +71,8 @@ const TeamTable: React.FC<TeamTableProps> = ({
                   <UsersTable
                     teamID={teamID}
                     isRemoveFromTeamAllowed={isRemoveFromTeamAllowed}
+                    isEditUserAllowed={isEditUserAllowed}
+                    handleEditUser={handleEditUser}
                     org_id={org_id}
                     useGetUsersForOrgQuery={useGetUsersForOrgQuery}
                     useNotificationHandlers={useNotificationHandlers}
