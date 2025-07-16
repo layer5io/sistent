@@ -173,7 +173,7 @@ npm ls -g --depth=0
 Expected output:
 
 ```bash
-@layer5/sistent@x.y.z -> /path/to/your/sistent
+@sistent/sistent@x.y.z -> /path/to/your/sistent
 ```
 
 ---
