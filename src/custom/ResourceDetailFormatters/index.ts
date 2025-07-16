@@ -14,7 +14,7 @@ import {
   TableDataFormatter,
   TextWithLinkFormatter
 } from './Formatter';
-import { useResourceCleanData } from './useResourceCleanData';
+// Note: useResourceCleanData has been moved to src/hooks/data/
 import { convertToReadableUnit, extractPodVolumnTables, splitCamelCaseString } from './utils';
 
 export {
@@ -35,6 +35,5 @@ export {
   splitCamelCaseString,
   StatusFormatter,
   TableDataFormatter,
-  TextWithLinkFormatter,
-  useResourceCleanData
+  TextWithLinkFormatter
 };
