@@ -52,13 +52,17 @@ const NavigationNavbar: React.FC<NavigationNavbarProps> = ({
 
         return (
           <React.Fragment key={item.id}>
-            <MenuItem disabled={!permission} onClick={item.onClick}>
+            <MenuItem
+              disabled={!permission}
+              onClick={item.onClick}
+              data-testid={`nav-item-${item.id}`}
+            >
               <MenuItemList>
                 {item.icon && <IconWrapper>{item.icon}</IconWrapper>}
                 <ListItemText primary={item.title} {...ListItemTextProps} />
               </MenuItemList>
               {item.subItems && (
-                <ListItemText>
+                <ListItemText data-testid={`nav-toggle-${item.id}`}>
                   {isOpen ? (
                     <ExpandLessIcon onClick={(e) => toggleSectionOpen(item.id, e)} />
                   ) : (
@@ -74,6 +78,7 @@ const NavigationNavbar: React.FC<NavigationNavbarProps> = ({
                     key={subItem.id}
                     disabled={!subItem.permission}
                     onClick={subItem.onClick}
+                    data-testid={`nav-subitem-${subItem.id}`}
                   >
                     <MenuItemSubList>
                       {subItem.icon && <SubIconWrapper>{subItem.icon}</SubIconWrapper>}
