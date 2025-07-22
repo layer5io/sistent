@@ -1,4 +1,5 @@
 import React from 'react';
+import { ExternalLinkIcon } from '../../icons';
 import {
   Card2,
   CardActive,
@@ -8,7 +9,8 @@ import {
   CardLink,
   CardParent,
   CardSubdata,
-  CardWrapper
+  CardWrapper,
+  OwnLearningCard
 } from './style';
 
 interface Tutorial {
@@ -28,17 +30,32 @@ interface Props {
   path?: string;
   courseCount: number;
   courseType: string;
+  cardKey?: string;
 }
 
-const OptionalLink: React.FC<React.PropsWithChildren<{ path?: string }>> = ({ path, children }) => {
+const OptionalLink: React.FC<React.PropsWithChildren<{ path?: string; isExternal?: boolean }>> = ({
+  path,
+  children,
+  isExternal
+}) => {
   if (!path) {
     return <>{children}</>;
   }
 
-  return <CardLink href={path}>{children}</CardLink>;
+  return (
+    <CardLink
+      href={path}
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
+    >
+      {children}
+    </CardLink>
+  );
 };
 
-const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType }) => {
+const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType, cardKey }) => {
+  const isCreateLearningPath = cardKey === 'create-learning-path';
+
   return (
     <CardWrapper>
       {tutorial.frontmatter.disabled === 'yes' ? (
@@ -65,37 +82,69 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType
           </CardParent>
         </Card2>
       ) : (
-        <OptionalLink path={path}>
-          <CardActive>
-            <CardParent style={{ borderTop: `5px solid ${tutorial.frontmatter.themeColor}` }}>
-              <div>
-                <CardHead>
-                  <h3>
-                    {tutorial.frontmatter.title
-                      ? tutorial.frontmatter.title
-                      : tutorial.frontmatter.courseTitle}
-                  </h3>
-                  {tutorial.frontmatter.status ? (
-                    <p>
-                      <span>New</span>
-                    </p>
-                  ) : null}
-                </CardHead>
-                <CardDesc>
-                  <p className="summary">{tutorial.frontmatter.description}</p>
-                </CardDesc>
-                <CardSubdata className="card-subdata">
-                  <p>
-                    {courseCount} {courseType}
-                    {courseCount > 1 ? 's' : ''}
-                  </p>
-                </CardSubdata>
-                <CardImage>
-                  <img src={tutorial.frontmatter.cardImage} />
-                </CardImage>
-              </div>
-            </CardParent>
-          </CardActive>
+        <OptionalLink path={path} isExternal={isCreateLearningPath}>
+          {isCreateLearningPath ? (
+            <OwnLearningCard>
+              <CardParent style={{ borderTop: `5px solid ${tutorial.frontmatter.themeColor}` }}>
+                <div>
+                  <CardHead>
+                    <h3>
+                      {tutorial.frontmatter.title
+                        ? tutorial.frontmatter.title
+                        : tutorial.frontmatter.courseTitle}
+                    </h3>
+                    {isCreateLearningPath && path && (
+                      <ExternalLinkIcon width="24px" height="24px" />
+                    )}
+                    {tutorial.frontmatter.status ? (
+                      <p>
+                        <span>New</span>
+                      </p>
+                    ) : null}
+                  </CardHead>
+                  <CardDesc>
+                    <p className="summary">{tutorial.frontmatter.description}</p>
+                  </CardDesc>
+                  <CardImage>
+                    <img src={tutorial.frontmatter.cardImage} />
+                  </CardImage>
+                </div>
+              </CardParent>
+            </OwnLearningCard>
+          ) : (
+            <CardActive>
+              <CardParent style={{ borderTop: `5px solid ${tutorial.frontmatter.themeColor}` }}>
+                <div>
+                  <CardHead>
+                    <h3>
+                      {tutorial.frontmatter.title
+                        ? tutorial.frontmatter.title
+                        : tutorial.frontmatter.courseTitle}
+                    </h3>
+                    {tutorial.frontmatter.status ? (
+                      <p>
+                        <span>New</span>
+                      </p>
+                    ) : null}
+                  </CardHead>
+                  <CardDesc>
+                    <p className="summary">{tutorial.frontmatter.description}</p>
+                  </CardDesc>
+                  {!isCreateLearningPath && (
+                    <CardSubdata className="card-subdata">
+                      <p>
+                        {courseCount} {courseType}
+                        {courseCount > 1 ? 's' : ''}
+                      </p>
+                    </CardSubdata>
+                  )}
+                  <CardImage>
+                    <img src={tutorial.frontmatter.cardImage} />
+                  </CardImage>
+                </div>
+              </CardParent>
+            </CardActive>
+          )}
         </OptionalLink>
       )}
     </CardWrapper>
