@@ -17,6 +17,28 @@ const CardActive = styled('div')(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'light' ? WHITE : BLACK
 }));
 
+const OwnLearningCard = styled('div')(({ theme }) => ({
+  cursor: 'pointer',
+  transition: 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s',
+  '&:hover': {
+    boxShadow: `${theme.palette.background.brand?.default} 0px 0px 19px 6px`
+  },
+  background: `
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        #ccc 10px,
+        #ccc 20px
+      ),
+      linear-gradient(
+        to bottom,
+        #eee,
+        #999
+      )
+    `
+}));
+
 const CardLink = styled('a')({
   color: 'black',
   textDecoration: 'none'
@@ -41,6 +63,7 @@ const Card2 = styled('div')(({ theme }) => ({
 
 const CardHead = styled('div')(({ theme }) => ({
   display: 'flex',
+  justifyContent: 'space-between',
   padding: '1rem',
   '& span': {
     border: `1px solid ${theme.palette.primary.dark}`,
@@ -100,5 +123,6 @@ export {
   CardLink,
   CardParent,
   CardSubdata,
-  CardWrapper
+  CardWrapper,
+  OwnLearningCard
 };
