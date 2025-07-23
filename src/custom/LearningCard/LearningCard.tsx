@@ -30,7 +30,6 @@ interface Props {
   path?: string;
   courseCount: number;
   courseType: string;
-  cardKey?: string;
 }
 
 const OptionalLink: React.FC<React.PropsWithChildren<{ path?: string; isExternal?: boolean }>> = ({
@@ -53,9 +52,8 @@ const OptionalLink: React.FC<React.PropsWithChildren<{ path?: string; isExternal
   );
 };
 
-const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType, cardKey }) => {
-  const isCreateLearningPath = cardKey === 'create-learning-path';
-
+const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType }) => {
+  const isCreateLearningPath = courseType === 'learning-card';
   return (
     <CardWrapper>
       {tutorial.frontmatter.disabled === 'yes' ? (
