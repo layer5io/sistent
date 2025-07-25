@@ -22,35 +22,55 @@ import UserTableAvatarInfo from './UserTableAvatarInfo';
 interface ActionButtonsProps {
   tableMeta: MUIDataTableMeta;
   isRemoveFromTeamAllowed: boolean;
+  isEditUserAllowed: boolean;
   handleRemoveFromTeam: (data: any[]) => () => void;
+  handleEditUser: (data: any[]) => () => void;
   theme?: Theme;
 }
 
 const ActionButtons: React.FC<ActionButtonsProps> = ({
   tableMeta,
   handleRemoveFromTeam,
+  handleEditUser,
   isRemoveFromTeamAllowed,
+  isEditUserAllowed,
   theme
 }) => {
   return (
-    <div>
-      {isRemoveFromTeamAllowed ? (
-        <TableIconsContainer>
-          <TooltipIcon
-            id={`delete_user-${tableMeta.rowIndex}`}
-            onClick={handleRemoveFromTeam(tableMeta.rowData)}
-            title="Remove user membership from team"
-            iconType="delete"
-          >
-            <LogoutIcon fill={theme?.palette.icon.default} />
-          </TooltipIcon>
-        </TableIconsContainer>
+    <TableIconsContainer>
+      {isEditUserAllowed ? (
+        <TooltipIcon
+          id={`edit_user-${tableMeta.rowIndex}`}
+          onClick={handleEditUser(tableMeta.rowData)}
+          title="Edit user"
+          iconType="edit"
+        >
+          <EditIcon fill={theme?.palette.text.primary} />
+        </TooltipIcon>
       ) : (
-        <TableIconsDisabledContainer>
-          <LogoutIcon fill={theme?.palette.icon.disabled} secondaryFill={CHARCOAL} />
-        </TableIconsDisabledContainer>
+        <EditIcon
+          style={{
+            marginRight: '.5rem'
+          }}
+          fill={CHARCOAL}
+          height="30"
+          width="30"
+        />
       )}
-    </div>
+
+      {isRemoveFromTeamAllowed ? (
+        <TooltipIcon
+          id={`delete_user-${tableMeta.rowIndex}`}
+          onClick={handleRemoveFromTeam(tableMeta.rowData)}
+          title="Remove user membership from team"
+          iconType="delete"
+        >
+          <LogoutIcon fill={theme?.palette.text.primary} />
+        </TooltipIcon>
+      ) : (
+        <LogoutIcon fill={CHARCOAL} secondaryFill={CHARCOAL} />
+      )}
+    </TableIconsContainer>
   );
 };
 
@@ -61,6 +81,8 @@ interface UsersTableProps {
   useRemoveUserFromTeamMutation: any;
   useNotificationHandlers: any;
   isRemoveFromTeamAllowed: boolean;
+  isEditUserAllowed: boolean;
+  handleEditUser: (data: any[]) => () => void;
   theme?: Theme;
 }
 
@@ -71,6 +93,8 @@ const UsersTable: React.FC<UsersTableProps> = ({
   useRemoveUserFromTeamMutation,
   useNotificationHandlers,
   isRemoveFromTeamAllowed,
+  isEditUserAllowed,
+  handleEditUser,
   theme
 }) => {
   const [page, setPage] = useState<number>(0);
@@ -91,9 +115,29 @@ const UsersTable: React.FC<UsersTableProps> = ({
     orgId: org_id
   });
 
+  //->calling without teamId filter to get organization roles
+  const { data: fullUserData } = useGetUsersForOrgQuery({
+    page: 0,
+    pagesize: pageSize,
+    search: search,
+    order: sortOrder,
+    orgId: org_id
+  });
+
   const [removeUserFromTeam] = useRemoveUserFromTeamMutation();
 
   const users = userData?.data || [];
+  const fullUsers = fullUserData?.data || [];
+
+  const enrichedUsers = users.map((teamUser: any) => {
+    const fullUser = fullUsers.find((fu: any) => fu.user_id === teamUser.user_id);
+    const teamRoles = teamUser.role_names || [];
+    const organizationRoles = fullUser?.organization_with_user_roles?.role_names || [];
+    return {
+      ...teamUser,
+      role_names: [...teamRoles, ...organizationRoles]
+    };
+  });
   const count = userData?.total_count || 0;
 
   const handleRemoveFromTeam = (data: any[]) => async () => {
@@ -383,7 +427,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
           fullWidth: true
         },
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => {
-          const rowData = users[tableMeta.rowIndex];
+          const rowData = enrichedUsers[tableMeta.rowIndex];
           return parseDeletionTimestamp(rowData);
         }
       }
@@ -412,7 +456,9 @@ const UsersTable: React.FC<UsersTableProps> = ({
             <ActionButtons
               tableMeta={tableMeta}
               handleRemoveFromTeam={handleRemoveFromTeam}
+              handleEditUser={handleEditUser}
               isRemoveFromTeamAllowed={isRemoveFromTeamAllowed}
+              isEditUserAllowed={isEditUserAllowed}
               theme={theme}
             />
           )
@@ -436,7 +482,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       <div style={{ margin: 'auto', width: '100%' }}>
         <ResponsiveDataTable
           columns={columns}
-          data={users}
+          data={enrichedUsers}
           options={options}
           colViews={colViews}
           tableCols={tableCols}
