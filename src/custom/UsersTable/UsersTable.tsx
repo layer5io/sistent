@@ -115,9 +115,29 @@ const UsersTable: React.FC<UsersTableProps> = ({
     orgId: org_id
   });
 
+  //->calling without teamId filter to get organization roles
+  const { data: fullUserData } = useGetUsersForOrgQuery({
+    page: 0,
+    pagesize: pageSize,
+    search: search,
+    order: sortOrder,
+    orgId: org_id
+  });
+
   const [removeUserFromTeam] = useRemoveUserFromTeamMutation();
 
   const users = userData?.data || [];
+  const fullUsers = fullUserData?.data || [];
+
+  const enrichedUsers = users.map((teamUser: any) => {
+    const fullUser = fullUsers.find((fu: any) => fu.user_id === teamUser.user_id);
+    const teamRoles = teamUser.role_names || [];
+    const organizationRoles = fullUser?.organization_with_user_roles?.role_names || [];
+    return {
+      ...teamUser,
+      role_names: [...teamRoles, ...organizationRoles]
+    };
+  });
   const count = userData?.total_count || 0;
 
   const handleRemoveFromTeam = (data: any[]) => async () => {
@@ -407,7 +427,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
           fullWidth: true
         },
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => {
-          const rowData = users[tableMeta.rowIndex];
+          const rowData = enrichedUsers[tableMeta.rowIndex];
           return parseDeletionTimestamp(rowData);
         }
       }
@@ -462,7 +482,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       <div style={{ margin: 'auto', width: '100%' }}>
         <ResponsiveDataTable
           columns={columns}
-          data={users}
+          data={enrichedUsers}
           options={options}
           colViews={colViews}
           tableCols={tableCols}

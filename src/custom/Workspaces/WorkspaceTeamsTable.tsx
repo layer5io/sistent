@@ -147,8 +147,6 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
         useGetUsersForOrgQuery={useGetUsersForOrgQuery}
         useNotificationHandlers={useNotificationHandlers}
         useRemoveUserFromTeamMutation={useRemoveUserFromTeamMutation}
-        isEditUserAllowed={false}
-        handleEditUser={() => {}}
       />
 
       <AssignmentModal

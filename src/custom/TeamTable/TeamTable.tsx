@@ -16,13 +16,12 @@ interface TeamTableProps {
   columns: MUIDataTableColumn[];
   updateCols: (cols: any) => void;
   isRemoveFromTeamAllowed: boolean;
-  isEditUserAllowed: any;
-  handleEditUser: any;
+  isEditUserAllowed?: any;
+  handleEditUser?: any;
   org_id: string;
   useGetUsersForOrgQuery: any;
   useNotificationHandlers: any;
   useRemoveUserFromTeamMutation: any;
-  availableRoles?: string[];
 }
 const StyledGrid = styled(Grid2)(({ theme }) => ({
   display: 'grid',
