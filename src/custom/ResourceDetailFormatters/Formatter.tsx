@@ -57,7 +57,7 @@ import {
   TableDataFormatterProps,
   TextWithLinkFormatterProps
 } from './types';
-import { splitCamelCaseString } from './utils';
+import { parseCpu, splitCamelCaseString } from './utils';
 
 interface ResourceProgressProps {
   title: string;
@@ -368,10 +368,12 @@ export const MemoryUsage: React.FC<MemoryUsageProps> = ({
     return parseInt(kiValue.replace('Ki', '')) * 1024;
   }, []);
 
-  const cpuUsage = useMemo(() => {
+  const reservedCpu = useMemo(() => {
     if (!allocatable || !capacity) return 0;
-    const usedCPU = parseInt(capacity.cpu) - parseInt(allocatable.cpu);
-    return (usedCPU / parseInt(capacity.cpu)) * 100;
+    const usedCPU = parseCpu(capacity.cpu) - parseCpu(allocatable.cpu);
+    const capacityCPU = parseCpu(capacity.cpu);
+
+    return (usedCPU / capacityCPU) * 100;
   }, [allocatable, capacity]);
 
   const memoryUsage = useMemo(() => {
@@ -382,12 +384,14 @@ export const MemoryUsage: React.FC<MemoryUsageProps> = ({
     return (usedMemory / totalMemory) * 100;
   }, [allocatable, capacity]);
 
-  const diskUsage = useMemo(() => {
+  const diskUsagePercent = useMemo(() => {
     if (!allocatable || !capacity) return 0;
-    const totalStorageInBytes = convertKiToBytes(capacity['ephemeral-storage']);
-    const availableStorageInBytes = parseInt(allocatable['ephemeral-storage']);
-    const usedStorageInBytes = totalStorageInBytes - availableStorageInBytes;
-    return (usedStorageInBytes / totalStorageInBytes) * 100;
+
+    const total = convertKiToBytes(capacity['ephemeral-storage']);
+    const available = convertKiToBytes(allocatable['ephemeral-storage']);
+
+    const used = total - available;
+    return (used / total) * 100;
   }, [allocatable, capacity, convertKiToBytes]);
 
   const chartOptions = useCallback(
@@ -439,9 +443,9 @@ export const MemoryUsage: React.FC<MemoryUsageProps> = ({
 
   return (
     <FlexResourceContainer>
-      <ResourceProgress title="CPU Usage" percentage={cpuUsage} type={'CPU'} />
+      <ResourceProgress title="System Reserved Cpu" percentage={reservedCpu} type={'CPU'} />
       <ResourceProgress title="Memory Usage" percentage={memoryUsage} type={'Memory'} />
-      <ResourceProgress title="Disk Usage" percentage={diskUsage} type={'Disk'} />
+      <ResourceProgress title="Disk Usage" percentage={diskUsagePercent} type={'Disk'} />
     </FlexResourceContainer>
   );
 };
