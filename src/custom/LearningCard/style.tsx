@@ -2,7 +2,8 @@ import { styled } from '@mui/material/styles';
 import { BLACK, ONYX_BLACK, SILVER_GRAY, WHITE } from '../../theme';
 
 const CardWrapper = styled('div')({
-  width: '28rem',
+  maxWidth: '28rem',
+  minWidth: '10rem',
   height: '16rem',
   margin: 'auto',
   borderRadius: '1rem'
