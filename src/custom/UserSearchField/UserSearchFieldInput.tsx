@@ -163,7 +163,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         inputValue={inputValue}
         onChange={handleAdd}
         onInputChange={handleInputChange}
-        filterOptions={(options) => options} // -> no need ,we do that on server-side
+        filterOptions={(options) => options}
         loading={isUserSearchLoading}
         disabled={disabled}
         disableClearable
