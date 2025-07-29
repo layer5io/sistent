@@ -2,6 +2,7 @@ import { styled } from '@mui/material/styles';
 import { BLACK, ONYX_BLACK, SILVER_GRAY, WHITE } from '../../theme';
 
 const CardWrapper = styled('div')({
+  width: '100%',
   maxWidth: '28rem',
   minWidth: '10rem',
   height: '16rem',
@@ -102,6 +103,8 @@ const CardDesc = styled('div')(({ theme }) => ({
 const CardSubdata = styled('div')(({ theme }) => ({
   padding: '0 1rem',
   position: 'absolute',
+  display: 'flex',
+  gap: '0.4rem',
   bottom: '0rem',
   p: {
     fontSize: '1rem',

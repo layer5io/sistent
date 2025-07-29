@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Typography } from '../../base';
+import { Grid2, Typography } from '../../base';
 import { ExternalLinkIcon } from '../../icons';
 import { Modal, ModalBody, ModalButtonPrimary, ModalButtonSecondary, ModalFooter } from '../Modal';
+import { CopyToClipboard } from '../ResourceDetailFormatters/Component';
 import {
   Card2,
   CardActive,
@@ -24,6 +25,8 @@ interface Tutorial {
     description: string;
     status?: boolean;
     cardImage: string;
+    type?: string;
+    level?: string;
   };
 }
 
@@ -129,12 +132,16 @@ const LearningCard: React.FC<Props> = ({
               <CardActive>
                 <CardParent style={{ borderTop: `5px solid ${tutorial.frontmatter.themeColor}` }}>
                   <div>
-                    <CardHead>
-                      <h3>
+                    <CardHead style={{ flexDirection: 'column' }}>
+                      <Typography variant="body1" color="textSecondary">
+                        {tutorial.frontmatter.type}
+                      </Typography>
+                      <h3 style={{ margin: '0.2rem 0.1rem' }}>
                         {tutorial.frontmatter.title
                           ? tutorial.frontmatter.title
                           : tutorial.frontmatter.courseTitle}
                       </h3>
+
                       {tutorial.frontmatter.status ? (
                         <p>
                           <span>New</span>
@@ -149,6 +156,13 @@ const LearningCard: React.FC<Props> = ({
                         <p>
                           {courseCount} {courseType}
                           {courseCount > 1 ? 's' : ''}
+                        </p>
+                        <p>
+                          Level:{' '}
+                          {tutorial?.frontmatter?.level
+                            ? tutorial.frontmatter.level.charAt(0).toUpperCase() +
+                              tutorial.frontmatter.level.slice(1)
+                            : ''}
                         </p>
                       </CardSubdata>
                     )}
@@ -172,9 +186,16 @@ const LearningCard: React.FC<Props> = ({
         <ModalBody>
           <Typography variant="body1">{modalContent}</Typography>
           {orgId && (
-            <Typography variant="body1" color="textSecondary">
-              Your Organization ID: {orgId}
-            </Typography>
+            <Grid2 container direction="row" alignItems="center" spacing={1}>
+              <Grid2>
+                <Typography variant="body1" color="textSecondary">
+                  Your Organization ID: {orgId}
+                </Typography>
+              </Grid2>
+              <Grid2>
+                <CopyToClipboard data={orgId} />
+              </Grid2>
+            </Grid2>
           )}
         </ModalBody>
         <ModalFooter variant="filled">
