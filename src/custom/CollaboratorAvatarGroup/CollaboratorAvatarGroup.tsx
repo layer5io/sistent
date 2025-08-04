@@ -1,6 +1,6 @@
 import { ExpandMore } from '@mui/icons-material';
 import { MouseEvent, useState } from 'react';
-import { Avatar, AvatarGroup, Popover, Typography } from '../../base';
+import { Avatar, AvatarGroup, Button, Popover, Typography } from '../../base';
 import { iconSmall } from '../../constants/iconsSizes';
 import { styled, useTheme } from '../../theme';
 import { DARK_TEAL_BLUE } from '../../theme/colors/colors';
@@ -57,10 +57,12 @@ interface Users {
  * @interface CollaboratorAvatarGroupProps
  * @property {Users} users - Object containing user information mapped by client IDs
  * @property {string} providerUrl - Base URL of the provider (e.g., 'https://github.com')
+ * @property {() => void} [onOpenWorkspace] - function to open workspace
  */
 interface CollaboratorAvatarGroupProps {
   users: Users;
   providerUrl: string;
+  onOpenWorkspace?: () => void;
 }
 
 interface StyledAvatarProps {
@@ -114,7 +116,8 @@ const StyledPopover = styled(Popover)(() => ({
 
 const CollaboratorAvatarGroup = ({
   users,
-  providerUrl
+  providerUrl,
+  onOpenWorkspace
 }: CollaboratorAvatarGroupProps): JSX.Element => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -139,7 +142,28 @@ const CollaboratorAvatarGroup = ({
         .slice(0, visibleAvatars)
         .map(([clientID, user]) => {
           return (
-            <CustomTooltip key={clientID} title={user.name} arrow>
+            <CustomTooltip
+              key={clientID}
+              title={
+                <div style={{ justifyContent: 'center' }}>
+                  <Typography style={{ fontSize: '0.9em' }}>{user.name}</Typography>
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    onClick={onOpenWorkspace}
+                    style={{
+                      fontSize: '0.9em',
+                      padding: '2px 8px',
+                      minWidth: 'auto',
+                      marginTop: '4px'
+                    }}
+                  >
+                    Open Recents
+                  </Button>
+                </div>
+              }
+              arrow
+            >
               <StyledAvatar
                 key={clientID}
                 alt={user.name}
