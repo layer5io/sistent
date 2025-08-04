@@ -146,13 +146,13 @@ const CollaboratorAvatarGroup = ({
               key={clientID}
               title={
                 <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-                  <Typography style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', fontSize: '0.9rem' }}>{user.name}</Typography>
+                  <Typography style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', fontSize: '1rem' }}>{user.name}</Typography>
                   <Button
                     size="small"
                     variant="outlined"
                     onClick={onOpenWorkspace}
                     style={{
-                      fontSize: '0.9rem',
+                      fontSize: '1rem',
                       padding: '2px 8px',
                       minWidth: 'auto',
                       marginTop: '4px'
