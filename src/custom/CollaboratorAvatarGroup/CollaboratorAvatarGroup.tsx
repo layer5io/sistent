@@ -146,8 +146,8 @@ const CollaboratorAvatarGroup = ({
               key={clientID}
               title={
                 <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-                  <Divider />
                   <Typography style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', margin: 'auto', fontSize: '1rem' }}>{user.name}</Typography>
+                  <Divider />
                   <Button
                     size="small"
                     variant="outlined"
