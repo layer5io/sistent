@@ -145,8 +145,8 @@ const CollaboratorAvatarGroup = ({
             <CustomTooltip
               key={clientID}
               title={
-                <div style={{ justifyContent: 'center' }}>
-                  <Typography style={{ fontSize: '0.9em' }}>{user.name}</Typography>
+                <div>
+                  <Typography style={{ fontSize: '0.9rem' }}>{user.name}</Typography>
                   <Button
                     size="small"
                     variant="outlined"
