@@ -176,22 +176,31 @@ export const Modal: React.FC<ModalProps> = ({
       {...props}
     >
       {title && (
-        <ModalStyledHeader>
-          {headerIcon && headerIcon}
-          <Typography component={'div'} variant="h6">
+        <ModalStyledHeader data-testid="modal-header">
+          {headerIcon && <Box data-testid="modal-header-icon">{headerIcon}</Box>}
+          <Typography component={'div'} variant="h6" data-testid="modal-title">
             {title}
           </Typography>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div
+            style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+            data-testid="modal-header-actions"
+          >
             {isFullScreenModeAllowed && (
               <CustomTooltip title={fullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}>
                 {fullScreen ? (
-                  <FullscreenExitButton onClick={toggleFullScreen} />
+                  <FullscreenExitButton
+                    onClick={toggleFullScreen}
+                    data-testid="modal-exit-fullscreen-btn"
+                  />
                 ) : (
-                  <FullscreenButton onClick={toggleFullScreen} />
+                  <FullscreenButton
+                    onClick={toggleFullScreen}
+                    data-testid="modal-enter-fullscreen-btn"
+                  />
                 )}
               </CustomTooltip>
             )}
-            <CloseBtn onClick={closeModal}>
+            <CloseBtn onClick={closeModal} data-testid="modal-close-btn">
               <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
             </CloseBtn>
           </div>

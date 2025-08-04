@@ -25,6 +25,7 @@ interface CustomizedStepperPropsI {
   stepLabels: string[];
   children: React.ReactNode;
   icons: React.ComponentType<IconProps>[];
+  'data-testid'?: string;
   ContentWrapper?: React.ComponentType<{ children: React.ReactNode }>;
 }
 
@@ -116,21 +117,29 @@ const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
   activeStep,
   children,
   icons,
-  ContentWrapper = StepContentWrapper
+  ContentWrapper = StepContentWrapper,
+  'data-testid': testId = 'customized-stepper'
 }) => {
   const theme = useTheme();
 
   return (
-    <Stack>
+    <Stack data-testid={testId}>
       <Stack
+        data-testid="stepper-header"
         direction="row"
         justifyContent="center"
         style={{ paddingBlock: '1rem', backgroundColor: theme.palette.background.blur?.heavy }}
       >
-        <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
-          {stepLabels.map((label) => (
-            <Step key={label}>
+        <Stepper
+          alternativeLabel
+          activeStep={activeStep}
+          connector={<ColorlibConnector />}
+          data-testid="stepper-container"
+        >
+          {stepLabels.map((label, index) => (
+            <Step key={label} data-testid={`step-${index}`}>
               <StyledStepLabel
+                data-testid={`step-label-${index}`}
                 StepIconComponent={(props) => <ColorlibStepIcon {...props} icons={icons} />}
               >
                 {label}
@@ -139,7 +148,9 @@ const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
           ))}
         </Stepper>
       </Stack>
-      <ContentWrapper>{children}</ContentWrapper>
+      <ContentWrapper>
+        <Box data-testid="stepper-content">{children}</Box>
+      </ContentWrapper>
     </Stack>
   );
 };

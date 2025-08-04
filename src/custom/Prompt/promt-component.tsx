@@ -108,10 +108,16 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
       id="searchClick"
       headerIcon={headerIcon}
       reactNode={undefined}
+      data-testid="prompt-modal"
     >
       {subtitle && (
-        <ModalBody>
-          <Subtitle id="alert-dialog-description" variant="body1" component="div">
+        <ModalBody data-testid="prompt-body">
+          <Subtitle
+            id="alert-dialog-description"
+            variant="body1"
+            component="div"
+            data-testid="prompt-subtitle"
+          >
             <Typography
               variant="body1"
               component="div"
@@ -124,11 +130,13 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
           </Subtitle>
           {showCheckbox && (
             <FormControlLabel
+              data-testid="prompt-checkbox-label"
               control={
                 <Checkbox
                   checked={getCheckboxState()}
                   onChange={handleCheckboxChange}
                   color="primary"
+                  data-testid="prompt-checkbox"
                 />
               }
               label={<span style={{ fontSize: '1rem' }}>Do not show again</span>}
@@ -136,9 +144,10 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
           )}
         </ModalBody>
       )}
-      <ModalFooter variant="filled" helpText={showInfoIcon}>
-        <ActionComponent>
+      <ModalFooter variant="filled" helpText={showInfoIcon} data-testid="prompt-footer">
+        <ActionComponent data-testid="prompt-actions">
           <ModalButtonSecondary
+            data-testid="prompt-secondary-button"
             onClick={() => {
               hide();
               resolve('CANCEL');
@@ -147,6 +156,7 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
             Cancel
           </ModalButtonSecondary>
           <ModalButtonPrimary
+            data-testid="prompt-primary-button"
             onClick={() => {
               hide();
               resolve(primaryOption);
