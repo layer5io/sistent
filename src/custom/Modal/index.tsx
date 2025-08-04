@@ -2,11 +2,12 @@ import { ButtonProps, DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
-import { iconLarge, iconMedium } from '../../constants/iconsSizes';
-import { CloseIcon, FullScreenIcon, InfoCircleIcon } from '../../icons';
+import { iconLarge } from '../../constants/iconsSizes';
+import { CloseIcon, FullScreenIcon } from '../../icons';
 import FullScreenExitIcon from '../../icons/Fullscreen/FullScreenExitIcon';
 import { darkModalGradient, lightModalGradient } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
+import { HelperTextPopover } from '../HelperTextPopover';
 
 interface ModalProps extends DialogProps {
   closeModal: () => void;
@@ -176,22 +177,31 @@ export const Modal: React.FC<ModalProps> = ({
       {...props}
     >
       {title && (
-        <ModalStyledHeader>
-          {headerIcon && headerIcon}
-          <Typography component={'div'} variant="h6">
+        <ModalStyledHeader data-testid="modal-header">
+          {headerIcon && <Box data-testid="modal-header-icon">{headerIcon}</Box>}
+          <Typography component={'div'} variant="h6" data-testid="modal-title">
             {title}
           </Typography>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div
+            style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+            data-testid="modal-header-actions"
+          >
             {isFullScreenModeAllowed && (
               <CustomTooltip title={fullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}>
                 {fullScreen ? (
-                  <FullscreenExitButton onClick={toggleFullScreen} />
+                  <FullscreenExitButton
+                    onClick={toggleFullScreen}
+                    data-testid="modal-exit-fullscreen-btn"
+                  />
                 ) : (
-                  <FullscreenButton onClick={toggleFullScreen} />
+                  <FullscreenButton
+                    onClick={toggleFullScreen}
+                    data-testid="modal-enter-fullscreen-btn"
+                  />
                 )}
               </CustomTooltip>
             )}
-            <CloseBtn onClick={closeModal}>
+            <CloseBtn onClick={closeModal} data-testid="modal-close-btn">
               <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
             </CloseBtn>
           </div>
@@ -208,11 +218,12 @@ export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, va
   return (
     <StyledFooter variant={variant} hasHelpText={!!helpText}>
       {helpText && (
-        <CustomTooltip title={helpText} variant="standard" placement="top">
-          <IconButton>
-            <InfoCircleIcon {...iconMedium} className="InfoCircleIcon" />
-          </IconButton>
-        </CustomTooltip>
+        // <CustomTooltip title={helpText} variant="standard" placement="top">
+        //   <IconButton>
+        //     <InfoCircleIcon {...iconMedium} className="InfoCircleIcon" />
+        //   </IconButton>
+        // </CustomTooltip>
+        <HelperTextPopover content={helpText} />
       )}
       {children}
     </StyledFooter>

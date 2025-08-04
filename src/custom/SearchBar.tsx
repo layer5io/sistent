@@ -75,6 +75,7 @@ export interface SearchBarProps {
   onClear?: () => void;
   expanded: boolean;
   setExpanded: (expanded: boolean) => void;
+  'data-testid'?: string;
 }
 
 function SearchBar({
@@ -82,7 +83,8 @@ function SearchBar({
   placeholder,
   onClear,
   expanded,
-  setExpanded
+  setExpanded,
+  'data-testid': testId = 'search-bar-wrapper'
 }: SearchBarProps): JSX.Element {
   const [searchText, setSearchText] = React.useState('');
   const searchRef = React.useRef<HTMLInputElement | null>(null);
@@ -142,7 +144,7 @@ function SearchBar({
         }
       }}
     >
-      <div style={{ display: 'flex' }}>
+      <div style={{ display: 'flex' }} data-testid={testId}>
         <ThemeProvider theme={customTheme(theme)}>
           <TextField
             variant="standard"
@@ -150,6 +152,7 @@ function SearchBar({
             onChange={handleSearchChange} // Updated to use the new handler
             inputRef={searchRef}
             placeholder={placeholder}
+            data-testid="searchbar-input"
             style={{
               width: expanded ? '150px' : '0',
               opacity: expanded ? 1 : 0,
@@ -161,14 +164,18 @@ function SearchBar({
           <TooltipIcon
             title="Close"
             onClick={handleClearIconClick}
-            icon={<CloseIcon fill={theme.palette.icon.default} />}
+            icon={
+              <CloseIcon fill={theme.palette.icon.default} data-testid="searchbar-clear-button" />
+            }
             arrow
           />
         ) : (
           <TooltipIcon
             title="Search"
             onClick={handleSearchIconClick}
-            icon={<SearchIcon fill={theme.palette.icon.default} />}
+            icon={
+              <SearchIcon fill={theme.palette.icon.default} data-testid="searchbar-search-button" />
+            }
             arrow
           />
         )}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Typography } from '../../base';
 import {
   Card2,
   CardActive,
@@ -20,6 +21,8 @@ interface Tutorial {
     description: string;
     status?: boolean;
     cardImage: string;
+    type?: string;
+    level?: string;
   };
 }
 
@@ -69,12 +72,16 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType
           <CardActive>
             <CardParent style={{ borderTop: `5px solid ${tutorial.frontmatter.themeColor}` }}>
               <div>
-                <CardHead>
-                  <h3>
+                <CardHead style={{ flexDirection: 'column' }}>
+                  <Typography variant="body1" color="textSecondary">
+                    {tutorial.frontmatter.type}
+                  </Typography>
+                  <h3 style={{ margin: '0.2rem 0.1rem' }}>
                     {tutorial.frontmatter.title
                       ? tutorial.frontmatter.title
                       : tutorial.frontmatter.courseTitle}
                   </h3>
+
                   {tutorial.frontmatter.status ? (
                     <p>
                       <span>New</span>
@@ -88,6 +95,13 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType
                   <p>
                     {courseCount} {courseType}
                     {courseCount > 1 ? 's' : ''}
+                  </p>
+                  <p>
+                    Level:{' '}
+                    {tutorial?.frontmatter?.level
+                      ? tutorial.frontmatter.level.charAt(0).toUpperCase() +
+                        tutorial.frontmatter.level.slice(1)
+                      : ''}
                   </p>
                 </CardSubdata>
                 <CardImage>

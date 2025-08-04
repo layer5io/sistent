@@ -45,13 +45,13 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.RELEASEDRAFTER_PAT }}
-          commit-message: Bump sistent v${{ needs.versions-check.outputs.current }} dependencies
+          commit-message: Update to Sistent v${{ needs.versions-check.outputs.current }} dependencies
           committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
           branch: bump-sistent-bot
           delete-branch: true
-          title: '[Chore]: Bump Sistent v${{ needs.versions-check.outputs.current }}'
+          title: '[Chore]: Update to Sistent v${{ needs.versions-check.outputs.current }}'
           add-paths: |
             ui/package.json
             ui/package-lock.json
@@ -84,13 +84,13 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.RELEASEDRAFTER_PAT }}
-          commit-message: Bump sistent v${{ needs.versions-check.outputs.current }} dependencies
+          commit-message: Update to Sistent v${{ needs.versions-check.outputs.current }} dependencies
           committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
           branch: bump-sistent-bot
           delete-branch: true
-          title: '[Chore]: Bump Sistent v${{needs.versions-check.outputs.current }}'
+          title: '[Chore]: Update to Sistent v${{needs.versions-check.outputs.current }}'
           add-paths: |
             meshmap/package.json
             meshmap/package-lock.json
@@ -128,7 +128,7 @@ jobs:
                   signoff: true
                   branch: bump-sistent-bot
                   delete-branch: true
-                  title: '[Chore]: Bump Sistent v${{ needs.versions-check.outputs.current }}'
+                  title: '[Chore]: Update to Sistent v${{ needs.versions-check.outputs.current }}'
                   add-paths: |
                     package.json
                     package-lock.json
@@ -161,13 +161,13 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.RELEASEDRAFTER_PAT }}
-          commit-message: Bump sistent v${{ needs.versions-check.outputs.current }} dependencies
+          commit-message: Update to Sistent v${{ needs.versions-check.outputs.current }} dependencies
           committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
           branch: bump-sistent-bot
           delete-branch: true
-          title: '[Chore]: Bump Sistent v${{ needs.versions-check.outputs.current }}'
+          title: '[Chore]: Update to Sistent v${{ needs.versions-check.outputs.current }}'
           add-paths: |
             ui/package.json
             ui/package-lock.json

@@ -103,3 +103,24 @@ export const convertToReadableUnit = (value: number): string => {
 
   return `${value.toFixed(2)} ${units[index]}`;
 };
+
+/**
+ * Parses a Kubernetes CPU string (e.g., "100m", "1", "1000000n")
+ * and returns the CPU value in cores as a float.
+ */
+export function parseCpu(cpu: string): number {
+  if (!cpu) return 0;
+
+  if (cpu.endsWith('n')) {
+    // Nanocores → cores
+    return parseInt(cpu.slice(0, -1), 10) / 1_000_000_000;
+  }
+
+  if (cpu.endsWith('m')) {
+    // Millicores → cores
+    return parseInt(cpu.slice(0, -1), 10) / 1000;
+  }
+
+  // No suffix = cores
+  return parseFloat(cpu);
+}
