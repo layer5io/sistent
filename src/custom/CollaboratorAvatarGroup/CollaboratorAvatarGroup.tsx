@@ -158,7 +158,7 @@ const CollaboratorAvatarGroup = ({
                       marginTop: '4px'
                     }}
                   >
-                    Open Collaborator Panel
+                    Open Recents
                   </Button>
                 </div>
               }
