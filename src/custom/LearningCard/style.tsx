@@ -71,11 +71,10 @@ const CardDesc = styled('div')(({ theme }) => ({
 }));
 
 const CardSubdata = styled('div')(({ theme }) => ({
-  padding: '0 1rem',
-  position: 'absolute',
+  margin: '0 1rem',
   display: 'flex',
+  justifyContent: 'space-between',
   gap: '0.4rem',
-  bottom: '0rem',
   p: {
     fontSize: '1rem',
     color: theme.palette.text.primary,

@@ -97,7 +97,7 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType
                     {courseCount > 1 ? 's' : ''}
                   </p>
                   <p>
-                    Level:{' '}
+                    {/* Level:{' '} */}
                     {tutorial?.frontmatter?.level
                       ? tutorial.frontmatter.level.charAt(0).toUpperCase() +
                         tutorial.frontmatter.level.slice(1)
