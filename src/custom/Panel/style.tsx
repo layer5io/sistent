@@ -129,3 +129,17 @@ export const PanelTitle = styled('div')(() => ({
   marginInline: 'auto',
   width: 'fit-content'
 }));
+
+export const ResizeIconContainer = styled('div')(({ theme }) => ({
+  position: 'absolute',
+  bottom: '2px',
+  left: '4px',
+  pointerEvents: 'none',
+  '& svg': {
+    width: '18px',
+    height: '18px',
+    stroke: 'currentColor',
+    fill: 'currentColor',
+    color: theme.palette.text.primary
+  }
+}));
