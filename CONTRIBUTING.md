@@ -148,5 +148,4 @@ This repository and site are available as open source under the terms of the [Ap
 <p>The <a href="https://layer5.io/community">Layer5 community</a> represents the largest collection of service mesh projects and their maintainers in the world.</p>
 
 **Open Source First**
-
 <p>At Layer5, we champion developer-defined infrastructure, giving engineers the power to reshape application delivery. We empower operators in reimagining how they manage modern infrastructure: collaboratively.</p>

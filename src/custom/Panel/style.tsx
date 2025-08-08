@@ -132,8 +132,8 @@ export const PanelTitle = styled('div')(() => ({
 
 export const ResizeIconContainer = styled('div')(({ theme }) => ({
   position: 'absolute',
-  bottom: '-14px',
-  right: '14px',
+  bottom: '2px',
+  left: '4px',
   pointerEvents: 'none',
   '& svg': {
     width: '18px',
