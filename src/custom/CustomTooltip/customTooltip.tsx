@@ -1,6 +1,6 @@
-import { useTheme } from '@mui/material/styles';
 import _ from 'lodash';
 import React from 'react';
+import { useTheme } from '@mui/material/styles';
 import { Tooltip, TooltipProps } from '../../base';
 import { WHITE } from '../../theme';
 import { RenderMarkdownTooltip } from '../Markdown';
@@ -14,7 +14,7 @@ type CustomTooltipProps = {
   variant?: 'standard' | 'small';
   bgColor?: string;
   textColor?: string;
-  useThemeColors?: boolean; // Add prop to enable theme-based colors
+  useThemeColors?: boolean;
   componentsProps?: TooltipProps['componentsProps'];
 } & Omit<TooltipProps, 'title' | 'onClick'>;
 
@@ -28,23 +28,18 @@ function CustomTooltip({
   variant = 'standard',
   bgColor = '#141414',
   textColor = WHITE,
-  useThemeColors = false, // Default to false for backward compatibility
+  useThemeColors = false,
   componentsProps = {},
   ...props
 }: CustomTooltipProps): JSX.Element {
   const theme = useTheme();
-
-  // Determine colors based on theme when useThemeColors is true
-  const tooltipBgColor = useThemeColors
-    ? theme.palette.mode === 'dark'
-      ? '#141414'
-      : '#ffffff'
+  
+  const tooltipBgColor = useThemeColors 
+    ? theme.palette.background.paper
     : bgColor;
-
+    
   const tooltipTextColor = useThemeColors
-    ? theme.palette.mode === 'dark'
-      ? WHITE
-      : '#000000'
+    ? theme.palette.text.primary
     : textColor;
   return (
     <Tooltip
@@ -61,10 +56,9 @@ function CustomTooltip({
               fontWeight: { fontWeight },
               borderRadius: '0.5rem',
               padding: variant === 'standard' ? '0.9rem' : '0.5rem 0.75rem',
-              boxShadow:
-                useThemeColors && theme.palette.mode === 'light'
-                  ? 'rgba(0, 0, 0, 0.1) 0px 4px 10px, rgba(0, 0, 0, 0.05) 0px 2px 4px'
-                  : 'rgba(0, 0, 0, 0.6) 0px 4px 10px, rgba(0, 0, 0, 0.5) 0px 2px 4px'
+              boxShadow: useThemeColors
+                ? theme.shadows[4]
+                : 'rgba(0, 0, 0, 0.6) 0px 4px 10px, rgba(0, 0, 0, 0.5) 0px 2px 4px'
             }
           },
           popper: {
