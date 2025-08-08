@@ -1,6 +1,6 @@
 import { ExpandMore } from '@mui/icons-material';
 import { MouseEvent, useState } from 'react';
-import { Avatar, AvatarGroup, Button, Popover, Typography, Divider } from '../../base';
+import { Avatar, AvatarGroup, Button, Divider, Popover, Typography } from '../../base';
 import { iconSmall } from '../../constants/iconsSizes';
 import { styled, useTheme } from '../../theme';
 import { DARK_TEAL_BLUE } from '../../theme/colors/colors';
@@ -144,9 +144,20 @@ const CollaboratorAvatarGroup = ({
           return (
             <CustomTooltip
               key={clientID}
+              useThemeColors={true} // Enable theme-based colors
               title={
                 <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
-                  <Typography style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', margin: 'auto', fontSize: '1rem' }}>{user.name}</Typography>
+                  <Typography
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      flexDirection: 'column',
+                      margin: 'auto',
+                      fontSize: '1rem'
+                    }}
+                  >
+                    {user.name}
+                  </Typography>
                   <Divider />
                   <Button
                     size="small"
@@ -156,7 +167,7 @@ const CollaboratorAvatarGroup = ({
                       fontSize: '1rem',
                       padding: '2px 8px',
                       minWidth: 'auto',
-                      marginTop: '4px'
+                      marginTop: '8px'
                     }}
                   >
                     Open Recents
