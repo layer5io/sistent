@@ -394,6 +394,7 @@ export const CreateDesignModal: React.FC<CreateDesignModalProps> = ({
   return (
     <Modal
       open={openModal}
+      useBrandColors={true}
       title="Choose a method to create a design"
       closeModal={handleClose}
       maxWidth="xs"

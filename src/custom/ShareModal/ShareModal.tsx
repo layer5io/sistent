@@ -416,6 +416,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
     <div style={{ marginBottom: '1rem' }}>
       <Modal
         open={true}
+        useBrandColors={true}
         closeModal={handleShareModalClose}
         title={
           Array.isArray(selectedResource)
@@ -510,6 +511,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
         <ModalFooter
           variant="filled"
+          useBrandColors={true}
           helpText="You can share your designs or designs for which you have permission to share with other members of your organization and teams, and you can control access permissions. [Learn More](https://docs.layer5.io/kanvas/designer/share-resource)"
         >
           <div

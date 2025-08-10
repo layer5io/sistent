@@ -169,6 +169,7 @@ const WorkspaceContentMoveModal: React.FC<WorkspaceContentMoveModalProps> = ({
   return (
     <Modal
       open={workspaceContentMoveModal}
+      useBrandColors={true}
       headerIcon={<OpenFileIcon />}
       closeModal={() => setWorkspaceContentMoveModal(false)}
       title={getModalTitle(type, selectedContent, multiSelectedContent)}
@@ -215,7 +216,7 @@ const WorkspaceContentMoveModal: React.FC<WorkspaceContentMoveModalProps> = ({
           )}
         </Box>
       </ModalBody>
-      <ModalFooter variant="filled">
+      <ModalFooter variant="filled" useBrandColors={true}>
         <PrimaryActionButtons
           primaryText={'Move'}
           secondaryText="Cancel"

@@ -105,6 +105,7 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
       open={isOpen}
       closeModal={hide}
       title={title}
+      useBrandColors={true}
       id="searchClick"
       headerIcon={headerIcon}
       reactNode={undefined}
@@ -144,7 +145,12 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
           )}
         </ModalBody>
       )}
-      <ModalFooter variant="filled" helpText={showInfoIcon} data-testid="prompt-footer">
+      <ModalFooter
+        variant="filled"
+        helpText={showInfoIcon}
+        data-testid="prompt-footer"
+        useBrandColors={true}
+      >
         <ActionComponent data-testid="prompt-actions">
           <ModalButtonSecondary
             data-testid="prompt-secondary-button"

@@ -61,13 +61,14 @@ const ReusableModal = ({
   return (
     <Modal
       closeModal={handleClose}
+      useBrandColors={true}
       title={modalTitle || ''}
       open={open}
       headerIcon={modalIcon}
       maxWidth={maxWidth ? maxWidth : 'md'}
     >
       <ModalBody>{children}</ModalBody>
-      <ModalFooter variant="filled">
+      <ModalFooter variant="filled" useBrandColors={true}>
         <>
           {cancelButton && (
             <CancelButton variant="outlined" onClick={onCancel}>

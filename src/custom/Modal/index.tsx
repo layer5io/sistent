@@ -14,6 +14,7 @@ interface ModalProps extends DialogProps {
   headerIcon?: React.ReactNode;
   reactNode?: React.ReactNode;
   isFullScreenModeAllowed?: boolean;
+  useBrandColors?: boolean;
 }
 
 interface ModalFooterProps {
@@ -21,6 +22,7 @@ interface ModalFooterProps {
   variant?: 'filled' | 'transparent';
   helpText?: string;
   hasHelpText?: boolean;
+  useBrandColors?: boolean;
 }
 
 type openModalCallback = (props: {
@@ -72,8 +74,14 @@ const FullscreenExitButton = styled(FullScreenExitIcon)(({ theme }) => ({
   cursor: 'pointer'
 }));
 
-export const ModalStyledHeader = styled('div')(({ theme }) => ({
-  background: theme.palette.mode === 'light' ? lightModalGradient.header : darkModalGradient.header,
+export const ModalStyledHeader = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'useBrandColors'
+})<{ useBrandColors?: boolean }>(({ theme, useBrandColors }) => ({
+  background: useBrandColors
+    ? theme.palette.background.brand?.default
+    : theme.palette.mode === 'light'
+      ? lightModalGradient.header
+      : darkModalGradient.header,
   color: '#eee',
   display: 'flex',
   justifyContent: 'space-between',
@@ -129,13 +137,15 @@ export const ModalBody = styled(Paper)(({ theme }) => ({
 }));
 
 const StyledFooter = styled('div', {
-  shouldForwardProp: (prop) => prop !== 'variant'
-})<ModalFooterProps>(({ theme, variant, hasHelpText }) => ({
+  shouldForwardProp: (prop) => prop !== 'variant' && prop !== 'useBrandColors'
+})<ModalFooterProps>(({ theme, variant, hasHelpText, useBrandColors }) => ({
   background:
     variant === 'filled'
-      ? theme.palette.mode === 'light'
-        ? lightModalGradient.fotter
-        : darkModalGradient.fotter
+      ? useBrandColors
+        ? theme.palette.background.brand?.default
+        : theme.palette.mode === 'light'
+          ? lightModalGradient.fotter
+          : darkModalGradient.fotter
       : 'transparent',
   display: 'flex',
   alignItems: 'center',
@@ -158,6 +168,7 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   maxWidth = 'xs',
   isFullScreenModeAllowed,
+  useBrandColors = false,
   ...props
 }) => {
   const [fullScreen, setFullScreen] = useState(false);
@@ -176,7 +187,7 @@ export const Modal: React.FC<ModalProps> = ({
       {...props}
     >
       {title && (
-        <ModalStyledHeader data-testid="modal-header">
+        <ModalStyledHeader data-testid="modal-header" useBrandColors={useBrandColors}>
           {headerIcon && <Box data-testid="modal-header-icon">{headerIcon}</Box>}
           <Typography component={'div'} variant="h6" data-testid="modal-title">
             {title}
@@ -213,9 +224,14 @@ export const Modal: React.FC<ModalProps> = ({
   );
 };
 
-export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, variant }) => {
+export const ModalFooter: React.FC<ModalFooterProps> = ({
+  helpText,
+  children,
+  variant,
+  useBrandColors = false
+}) => {
   return (
-    <StyledFooter variant={variant} hasHelpText={!!helpText}>
+    <StyledFooter variant={variant} hasHelpText={!!helpText} useBrandColors={useBrandColors}>
       {helpText && (
         <CustomTooltip title={helpText} variant="standard" placement="top">
           <IconButton>

@@ -239,6 +239,7 @@ export default function UserInviteModal({
         <Modal
           open={open}
           closeModal={handleInviteModalClose}
+          useBrandColors={true}
           title={'Invite User'}
           headerIcon={<InviteUserIcon height="32" width="32" fill={theme.palette.common.white} />}
         >
@@ -368,7 +369,7 @@ export default function UserInviteModal({
               )}
             </>
           </ModalBody>
-          <ModalFooter helpText={helpText} variant="filled">
+          <ModalFooter helpText={helpText} variant="filled" useBrandColors={true}>
             <PrimaryActionButtons
               primaryText="Send Invite"
               secondaryText="Cancel"

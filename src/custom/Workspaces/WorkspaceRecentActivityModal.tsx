@@ -146,6 +146,7 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
       <Modal
         title={`"${workspaceName}" Recent Activity`}
         open={open}
+        useBrandColors={true}
         closeModal={handleClose}
         headerIcon={<AccessTimeFilledIcon />}
         maxWidth="md"
@@ -229,7 +230,7 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
             </Box>
           )}
         </ModalBody>
-        <ModalFooter variant="filled">
+        <ModalFooter variant="filled" useBrandColors={true}>
           <></>
         </ModalFooter>
       </Modal>

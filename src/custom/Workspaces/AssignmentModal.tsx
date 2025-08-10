@@ -77,6 +77,7 @@ const AssignmentModal: React.FC<AssignmentModalProps> = ({
       open={open}
       closeModal={onClose}
       title={title}
+      useBrandColors={true}
       headerIcon={headerIcon}
       maxWidth="md"
       reactNode={undefined}
@@ -127,7 +128,7 @@ const AssignmentModal: React.FC<AssignmentModalProps> = ({
           />
         )}
       </ModalBody>
-      <ModalFooter variant="filled" helpText={helpText}>
+      <ModalFooter variant="filled" helpText={helpText} useBrandColors={true}>
         <ModalActionDiv>
           <ModalButtonSecondary onClick={onClose}>Cancel</ModalButtonSecondary>
           <ModalButtonPrimary onClick={onAssign} disabled={disableTransfer}>
