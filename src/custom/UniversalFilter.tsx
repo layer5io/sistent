@@ -34,8 +34,7 @@ export const FilterHeader = styled('div')(({ theme }) => ({
   margin: '-1rem -1rem 1rem -1rem',
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center',
-  color: theme.palette.text.constant?.white
+  alignItems: 'center'
 }));
 
 function UniversalFilter({
