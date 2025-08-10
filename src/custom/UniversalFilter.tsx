@@ -26,6 +26,7 @@ export interface UniversalFilterProps {
   handleApplyFilter: () => void;
   showAllOption?: boolean;
   id: string;
+  'data-testid'?: string;
 }
 
 export const FilterHeader = styled('div')(({ theme }) => ({
@@ -45,7 +46,8 @@ function UniversalFilter({
   variant = 'outlined',
   handleApplyFilter,
   showAllOption = true,
-  id
+  id,
+  'data-testid': testId = 'universal-filter'
 }: UniversalFilterProps): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
@@ -78,16 +80,26 @@ function UniversalFilter({
 
   const renderFilterContent = () => (
     <div>
-      <FilterHeader>
+      <FilterHeader data-testid={`${testId}-header`}>
         <h3>Filters: </h3>
       </FilterHeader>
       {Object.keys(filters).map((filterColumn) => {
         const options = filters[filterColumn].options;
         return (
-          <div key={filterColumn} role="presentation">
-            <InputLabel id={filters[filterColumn].name}>{filters[filterColumn].name}</InputLabel>
+          <div
+            key={filterColumn}
+            role="presentation"
+            data-testid={`${testId}-filter-group-${filterColumn}`}
+          >
+            <InputLabel
+              id={filters[filterColumn].name}
+              data-testid={`${testId}-label-${filterColumn}`}
+            >
+              {filters[filterColumn].name}
+            </InputLabel>
             <Select
               defaultValue="All"
+              data-testid={`${testId}-select-${filterColumn}`}
               key={filterColumn}
               value={selectedFilters[filterColumn]}
               variant={variant}
@@ -98,12 +110,23 @@ function UniversalFilter({
                 width: '20rem',
                 marginBottom: '1rem'
               }}
-              inputProps={{ 'aria-label': 'Without label' }}
+              inputProps={{
+                'aria-label': 'Without label',
+                'data-testid': `${testId}-select-${filterColumn}`
+              }}
               displayEmpty
             >
-              {showAllOption && <MenuItem value="All">All</MenuItem>}
+              {showAllOption && (
+                <MenuItem value="All" data-testid={`${testId}-option-all`}>
+                  All
+                </MenuItem>
+              )}
               {options.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
+                <MenuItem
+                  key={option.value}
+                  value={option.value}
+                  data-testid={`${testId}-option-${option.value}`}
+                >
                   {option.label}
                 </MenuItem>
               ))}
@@ -113,7 +136,11 @@ function UniversalFilter({
       })}
 
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Button variant="contained" onClick={handleApplyOnClick}>
+        <Button
+          variant="contained"
+          onClick={handleApplyOnClick}
+          data-testid={`${testId}-apply-btn`}
+        >
           Apply
         </Button>
       </div>
@@ -122,7 +149,7 @@ function UniversalFilter({
 
   return (
     <>
-      <div id={id}>
+      <div id={id} data-testid={testId}>
         <TooltipIcon
           title="Filter"
           onClick={handleClick}
