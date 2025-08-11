@@ -144,7 +144,6 @@ const CollaboratorAvatarGroup = ({
           return (
             <CustomTooltip
               key={clientID}
-              useThemeColors={true} // Enable theme-based colors
               title={
                 <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                   <Typography
