@@ -5,7 +5,6 @@ import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/B
 import { iconLarge } from '../../constants/iconsSizes';
 import { CloseIcon, FullScreenIcon } from '../../icons';
 import FullScreenExitIcon from '../../icons/Fullscreen/FullScreenExitIcon';
-import { darkModalGradient, lightModalGradient } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
 import { HelperTextPopover } from '../HelperTextPopover';
 
@@ -74,7 +73,7 @@ const FullscreenExitButton = styled(FullScreenExitIcon)(({ theme }) => ({
 }));
 
 export const ModalStyledHeader = styled('div')(({ theme }) => ({
-  background: theme.palette.mode === 'light' ? lightModalGradient.header : darkModalGradient.header,
+  background: `linear-gradient(90deg, ${theme.palette?.primary?.main} 0%, ${theme.palette?.primary?.dark || theme.palette?.primary?.main} 100%)`,
   color: '#eee',
   display: 'flex',
   justifyContent: 'space-between',
@@ -134,9 +133,7 @@ const StyledFooter = styled('div', {
 })<ModalFooterProps>(({ theme, variant, hasHelpText }) => ({
   background:
     variant === 'filled'
-      ? theme.palette.mode === 'light'
-        ? lightModalGradient.fotter
-        : darkModalGradient.fotter
+      ? `linear-gradient(90deg, ${theme.palette?.primary?.dark || theme.palette?.primary?.main} 0%, ${theme.palette?.primary?.main} 100%)`
       : 'transparent',
   display: 'flex',
   alignItems: 'center',
