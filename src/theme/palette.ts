@@ -10,6 +10,8 @@ declare module '@mui/material/styles' {
     pressed: string;
     secondary: string;
     tertiary: string;
+    secondaryBar?: string;
+    mainBar?: string;
   }
   // Defines the extended background color options used in the palette.
   interface TypeBackground {
@@ -39,7 +41,7 @@ declare module '@mui/material/styles' {
       table: string;
     };
     inverse?: string;
-    brand?: any;
+    brand?: Interactiveness;
     cta?: Interactiveness;
     info?: Interactiveness;
     success?: Interactiveness;
