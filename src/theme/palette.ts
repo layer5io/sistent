@@ -39,7 +39,7 @@ declare module '@mui/material/styles' {
       table: string;
     };
     inverse?: string;
-    brand?: Interactiveness;
+    brand?: any;
     cta?: Interactiveness;
     info?: Interactiveness;
     success?: Interactiveness;
@@ -224,7 +224,9 @@ export const lightModePalette: PaletteOptions = {
       disabled: Colors.charcoal[90],
       pressed: Colors.keppel[60],
       secondary: Colors.keppel[50],
-      tertiary: Colors.keppel[70]
+      tertiary: Colors.keppel[70],
+      secondaryBar: Colors.TEAL_BLUE,
+      mainBar: Colors.DARK_TEAL_BLUE,
     },
     graphics: {
       default: Colors.carribean[30]
@@ -348,7 +350,9 @@ export const darkModePalette: PaletteOptions = {
       disabled: Colors.charcoal[30],
       pressed: Colors.keppel[60],
       secondary: Colors.keppel[20],
-      tertiary: Colors.keppel[10]
+      tertiary: Colors.keppel[10],
+      secondaryBar: Colors.charcoal[30],
+      mainBar: Colors.accentGrey[30],
     },
     graphics: {
       default: Colors.carribean[40]

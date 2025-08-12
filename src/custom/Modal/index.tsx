@@ -74,7 +74,7 @@ const FullscreenExitButton = styled(FullScreenExitIcon)(({ theme }) => ({
 }));
 
 export const ModalStyledHeader = styled('div')(({ theme }) => ({
-  background: theme.palette.mode === 'light' ? lightModalGradient.header : darkModalGradient.header,
+  background: `linear-gradient(90deg, ${theme.palette.background.brand?.secondaryBar}, ${theme.palette.background.brand?.mainBar})`,
   color: '#eee',
   display: 'flex',
   justifyContent: 'space-between',
@@ -134,9 +134,7 @@ const StyledFooter = styled('div', {
 })<ModalFooterProps>(({ theme, variant, hasHelpText }) => ({
   background:
     variant === 'filled'
-      ? theme.palette.mode === 'light'
-        ? lightModalGradient.fotter
-        : darkModalGradient.fotter
+      ? `linear-gradient(90deg, ${theme.palette.background.brand?.mainBar}, ${theme.palette.background.brand?.secondaryBar})`
       : 'transparent',
   display: 'flex',
   alignItems: 'center',
