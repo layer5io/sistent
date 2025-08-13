@@ -144,6 +144,20 @@ const CollaboratorAvatarGroup = ({
           return (
             <CustomTooltip
               key={clientID}
+              componentsProps={{
+                tooltip: {
+                  sx: {
+                    background: theme.palette.background.paper,
+                    color: theme.palette.text.primary,
+                    boxShadow: theme.shadows[4]
+                  }
+                },
+                arrow: {
+                  sx: {
+                    color: theme.palette.background.paper
+                  }
+                }
+              }}
               title={
                 <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                   <Typography

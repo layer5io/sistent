@@ -27,7 +27,7 @@ export const StyledMarkdownP = styled('p')(({ theme }) => ({
 }));
 
 export const StyledMarkdownTooltipP = styled('p')(({ theme }) => ({
-  color: theme.palette.text.primary,
+  color: theme.palette.text.constant?.white || '#ffffff',
   marginBlock: '0px',
   fontFamily: 'inherit'
 }));
