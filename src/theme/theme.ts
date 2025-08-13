@@ -1,8 +1,8 @@
 import { Interactiveness, PaletteMode, createTheme } from '@mui/material';
-import _ from 'lodash';
 import { components } from './components';
 import { darkModePalette, lightModePalette } from './palette';
 import { typography } from './typography';
+import _ from 'lodash';
 
 export const drawerWidth = 240;
 
@@ -27,7 +27,7 @@ export const createCustomTheme = (mode: PaletteMode, brandPalette?: Interactiven
 
   const themePalette = _.merge({}, basePalette, customBrandedTheme);
 
-  
+
   return createTheme({
     palette: {
       mode,
