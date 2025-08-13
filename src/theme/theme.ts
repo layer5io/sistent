@@ -11,24 +11,23 @@ export const createCustomTheme = (mode: PaletteMode, brandPalette?: Interactiven
 
   console.log('Creating theme with mode:', mode, 'and brandPalette:', brandPalette);
 
-  const customBrandedTheme = brandPalette
-    ? {
-        primary: {
-          main: brandPalette.default,
-          secondary: brandPalette.hover,
-        },
-        secondary: {
-          main: brandPalette.secondary,
-          secondary: brandPalette.secondary,
-        },
-        background: {
-          brand: brandPalette
-        }
-      }
-    : {};
+  const customBrandedTheme = brandPalette ? {
+    primary: {
+        main: brandPalette.default ,
+        secondary: brandPalette.hover,
+    },
+    secondary: {
+      main: brandPalette.secondary,
+      secondary: brandPalette.secondary,
+    },
+    background: {
+      brand: brandPalette
+    }
+  } : {};
 
   const themePalette = _.merge({}, basePalette, customBrandedTheme);
 
+  
   return createTheme({
     palette: {
       mode,

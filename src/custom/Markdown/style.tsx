@@ -1,4 +1,5 @@
 import { styled } from '@mui/material';
+import { text } from '../../theme/colors/colors';
 
 export const StyledMarkdown = styled('a')(({ theme }) => ({
   color: theme.palette.background.brand?.default,
@@ -27,7 +28,7 @@ export const StyledMarkdownP = styled('p')(({ theme }) => ({
 }));
 
 export const StyledMarkdownTooltipP = styled('p')(({ theme }) => ({
-  color: theme.palette.text.constant?.white || '#ffffff',
+  color: theme.palette.text.constant?.white || text.inverse,
   marginBlock: '0px',
   fontFamily: 'inherit'
 }));
