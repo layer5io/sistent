@@ -26,7 +26,7 @@ export const createCustomTheme = (mode: PaletteMode, brandPalette?: Interactiven
   } : {};
 
   const themePalette = _.merge({}, basePalette, customBrandedTheme);
-  
+
 
   return createTheme({
     palette: {
