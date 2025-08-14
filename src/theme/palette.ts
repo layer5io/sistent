@@ -47,6 +47,9 @@ declare module '@mui/material/styles' {
     error?: Interactiveness;
     code?: string;
     surfaces?: string;
+
+    appNavigationBar?: string;
+    secondaryAppNavigationBar?: string;
   }
 
   // Defines the extended text color options used in the palette.
@@ -141,6 +144,9 @@ declare module '@mui/material/styles' {
     To define any additional custom color options, you can extend the interface here.
   */
   interface Palette {
+    surface: SurfaceTokens;
+    interactive: InteractiveTokens;
+    navigation: NavigationTokens;
     border: {
       default: string;
       strong: string;
@@ -164,9 +170,74 @@ declare module '@mui/material/styles' {
       };
     };
   }
+     
+     // surface tokens need to have enough contrast 
+    // with text and interactive elements
+ type    SurfaceTokens = {
+
+       /** main page background, content containers (pure bg color) */
+      primary: string;
+      
+      /** secondary surfaces (slightly darker bg) */
+      secondary: string;
+      
+      /** tertiary surfaces (even darker bg) */
+      tertiary: string;
+      
+      /** floating elements with depth (bg + shadow) */
+      elevated: string;
+      
+      /** modal backdrops (semi-transparent bg) */
+      overlay: string;
+
+      /** highlight surfaces (eg. modal headers , tabs, ) */
+      tint: string;
+      
+      /** high contrast alternative (fg as bg) */
+      inverse: string;
+    }
+
+ type InteractiveTokens  =  {
+        /** default interactive elements (primary color) */
+        primary: string;
+    
+        /** hover state for interactive elements (primary hover tint) */
+        hover: string;
+    
+        /** disabled state for interactive elements (primary disabled tint) */
+        disabled?: string;
+    
+        /** pressed state for interactive elements (primary pressed tint) */
+        pressed: string;
+    
+        /** secondary interactive elements (secondary color) */
+        secondary: string;
+    
+        /** tertiary interactive elements (tertiary color) */
+        tertiary: string;
+    };
+
+type  NavigationTokens =  {
+        /** main navigation bar background */
+        primary: string;
+    
+        /** secondary navigation bar background */
+        secondary: string;
+
+        /** active navigation item background */
+        active: string;
+
+        /** hover state for navigation items */ 
+        hover: string;
+    };
 
   // Defines the options available for the palette.
   interface PaletteOptions {
+
+    surface: SurfaceTokens;
+    interactive: InteractiveTokens;
+    navigation: NavigationTokens;
+
     border: {
       default: string;
       strong: string;
@@ -177,8 +248,11 @@ declare module '@mui/material/styles' {
         alt: string;
       };
     };
+
     icon: {
       default: string;
+      dualTone?: string; // For icons with two colors
+      dualToneInverse?: string; // For icons with two colors in inverse mode (eg on primary colored bg)
       secondary: string;
       brand: string;
       inverse: string;
@@ -192,7 +266,38 @@ declare module '@mui/material/styles' {
   }
 }
 
+export type ThemePalette = PaletteOptions 
+
+
+
 export const lightModePalette: PaletteOptions = {
+
+  surface: {
+    primary: Colors.charcoal[100],
+    secondary: Colors.charcoal[90],
+    tertiary: Colors.charcoal[80],
+    tint: Colors.charcoal[70],
+    elevated: Colors.WHITE,
+    overlay: alpha(Colors.charcoal[90], 0.8),
+    inverse: Colors.charcoal[10]
+  },
+
+    interactive: {
+        primary: Colors.KEPPEL,
+        hover: Colors.keppel[50],
+        disabled: Colors.charcoal[90],
+        pressed: Colors.keppel[60],
+        secondary: Colors.keppel[40],
+        tertiary: Colors.keppel[70]
+    },
+
+    navigation: {
+        primary: Colors.charcoal[100],
+        secondary: Colors.charcoal[90],
+        active: Colors.KEPPEL,
+        hover: Colors.keppel[50]
+    },
+
   primary: {
     main: Colors.KEPPEL
   },
@@ -305,6 +410,8 @@ export const lightModePalette: PaletteOptions = {
   },
   icon: {
     default: Colors.accentGrey[10],
+    dualTone: Colors.KEPPEL,
+    dualToneInverse: Colors.charcoal[10],
     secondary: Colors.charcoal[40],
     brand: Colors.keppel[40],
     inverse: Colors.charcoal[100],
@@ -318,6 +425,32 @@ export const lightModePalette: PaletteOptions = {
 };
 
 export const darkModePalette: PaletteOptions = {
+
+    surface: {
+        primary: Colors.charcoal[10],
+        secondary: Colors.charcoal[20],
+        tertiary: Colors.charcoal[30],
+        elevated: Colors.charcoal[40],
+        overlay: alpha(Colors.charcoal[20], 0.8),
+        tint: Colors.charcoal[50],
+        inverse: Colors.WHITE
+    },
+    interactive: {
+        primary: Colors.KEPPEL,
+        hover: Colors.keppel[50],
+        disabled: Colors.charcoal[30],
+        pressed: Colors.keppel[60],
+        secondary: Colors.keppel[20],
+        tertiary: Colors.keppel[10]
+    },
+
+    navigation: {
+        primary: Colors.charcoal[10],
+        secondary: Colors.charcoal[20],
+        active: Colors.KEPPEL,
+        hover: Colors.keppel[50]
+    },
+
   primary: {
     main: Colors.KEPPEL
   },
@@ -430,6 +563,8 @@ export const darkModePalette: PaletteOptions = {
   icon: {
     default: Colors.charcoal[80],
     secondary: Colors.charcoal[70],
+    dualTone: Colors.KEPPEL,
+    dualToneInverse: Colors.charcoal[100],
     brand: Colors.keppel[40],
     inverse: Colors.charcoal[10],
     weather: Colors.saffron[40],
