@@ -177,7 +177,7 @@ export const Modal: React.FC<ModalProps> = ({
       {...props}
     >
       {title && (
-        <ModalStyledHeader data-testid="modal-header">
+        <ModalStyledHeader id="modal-header" data-testid="modal-header">
           {headerIcon && <Box data-testid="modal-header-icon">{headerIcon}</Box>}
           <Typography component={'div'} variant="h6" data-testid="modal-title">
             {title}
@@ -201,7 +201,7 @@ export const Modal: React.FC<ModalProps> = ({
                 )}
               </CustomTooltip>
             )}
-            <CloseBtn onClick={closeModal} data-testid="modal-close-btn">
+            <CloseBtn onClick={closeModal} id="modal-close-btn" data-testid="modal-close-btn">
               <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
             </CloseBtn>
           </div>
@@ -216,7 +216,7 @@ export const Modal: React.FC<ModalProps> = ({
 
 export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, variant }) => {
   return (
-    <StyledFooter variant={variant} hasHelpText={!!helpText}>
+    <StyledFooter id="modal-footer" variant={variant} hasHelpText={!!helpText}>
       {helpText && (
         // <CustomTooltip title={helpText} variant="standard" placement="top">
         //   <IconButton>
