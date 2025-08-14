@@ -272,15 +272,15 @@ export type ThemePalette = PaletteOptions
 
 export const lightModePalette: PaletteOptions = {
 
-  surface: {
-    primary: Colors.charcoal[100],
-    secondary: Colors.charcoal[90],
-    tertiary: Colors.charcoal[80],
-    tint: Colors.charcoal[70],
-    elevated: Colors.WHITE,
-    overlay: alpha(Colors.charcoal[90], 0.8),
-    inverse: Colors.charcoal[10]
-  },
+    surface: {
+        primary: Colors.charcoal[100],
+        secondary: Colors.charcoal[90],
+        tertiary: Colors.charcoal[80],
+        elevated: Colors.WHITE,
+        overlay: alpha(Colors.charcoal[90], 0.8),
+        inverse: Colors.charcoal[10],
+        tint: `linear-gradient(90deg, ${Colors.TEAL_BLUE} 0%, ${Colors.DARK_TEAL} 100%)`
+    } ,
 
     interactive: {
         primary: Colors.KEPPEL,
@@ -292,8 +292,8 @@ export const lightModePalette: PaletteOptions = {
     },
 
     navigation: {
-        primary: Colors.charcoal[100],
-        secondary: Colors.charcoal[90],
+        primary: "#252e31",
+        secondary: "#294957",
         active: Colors.KEPPEL,
         hover: Colors.keppel[50]
     },
@@ -432,8 +432,8 @@ export const darkModePalette: PaletteOptions = {
         tertiary: Colors.charcoal[30],
         elevated: Colors.charcoal[40],
         overlay: alpha(Colors.charcoal[20], 0.8),
-        tint: Colors.charcoal[50],
-        inverse: Colors.WHITE
+        inverse: Colors.WHITE,
+        tint: `linear-gradient(90deg, ${Colors.charcoal[30]} 0%, ${Colors.accentGrey[30]} 100%)`,
     },
     interactive: {
         primary: Colors.KEPPEL,

@@ -1,4 +1,4 @@
-import { Interactiveness, PaletteMode, createTheme, alpha,darken } from '@mui/material';
+import { PaletteMode, createTheme, alpha,darken } from '@mui/material';
 import { components } from './components';
 import { darkModePalette, lightModePalette, ThemePalette } from './palette';
 import { typography } from './typography';
@@ -30,7 +30,7 @@ export type PrimitivePalette = {
      * Should be visually distinct from `background` to ensure 
      * navigation elements stand out. 
      */
-    NavigationBar: string;
+    navigationBar: string;
 
 
     /**
@@ -125,11 +125,6 @@ export type PrimitivePalette = {
      */
     foreground: string;
 
-    // @deprecated same as primary
-    default?: string;
-    // @deprecated same as secondary
-    hover?: string;
-
 };
 
 import * as Colors from './colors';
@@ -137,8 +132,8 @@ import * as Colors from './colors';
 /**
  * Layer5 ( primitives ) defines the raw, brand-level colors used in the UI.
  */
-export const SistentDefaultPrimitivePalette: PrimitivePalette = {
-    NavigationBar: "#252e31", // used for app navigation bar background
+export const SistentDefaultPrimitivePaletteLight: PrimitivePalette = {
+    navigationBar: "#252e31", // used for app navigation bar background
 
 
     primary: Colors.KEPPEL, // maps to background.brand.default, success.default
@@ -155,39 +150,26 @@ export const SistentDefaultPrimitivePalette: PrimitivePalette = {
 };
 
 
-export const digitalOceanPrimitives: PrimitivePalette = {
-    /** Distinct dark navy so the nav stands out from a white page background. */
-    NavigationBar: "#031B4E",
+export  const SistentDefaultPrimitivePaletteDark: PrimitivePalette = {
+    navigationBar: "#252e31", // used for app navigation bar background
 
-    /** DigitalOcean "Ocean Blue". */
-    primary: "#0069FF",
-    /** White text/icons on primary. */
-    primaryInverted: "#FFFFFF",
+    primary: Colors.KEPPEL, // maps to background.brand.default, success.default
+    primaryInverted: Colors.charcoal[100], // used for text on KEPL background
 
-    /** Slate/dark blue-gray used for secondary emphasis. */
-    secondary: "#2E384D",
-    /** White text/icons on secondary. */
-    secondaryInverted: "#FFFFFF",
+    secondary: Colors.DARK_SLATE_GRAY, // used in secondary.main, text.secondary, borders
+    secondaryInverted: Colors.charcoal[100], // for text on secondary-colored backgrounds
 
-    /** Bright cyan accent used for highlights/CTAs. */
-    accent: "#00A8E8",
-    /** White text/icons on accent. */
-    accentInverted: "#FFFFFF",
+    accent: Colors.saffron[40], // from background.cta.default
+    accentInverted: Colors.charcoal[100], // text on accent
 
-    /** Light UI surface (DO uses a clean white background in light mode). */
-    background: "#FFFFFF",
-    /** Default content color (deep navy used across DO’s UI/text). */
-    foreground: "#031B4E",
-
-    // @deprecated same as primary
-    default: "#0069FF",
-    // @deprecated same as secondary
-    hover: "#2E384D"
+    background: Colors.charcoal[10], // app background, cards, tabs
+    foreground: Colors.charcoal[100] // primary text color on background
 };
 
-export const createCustomTheme = (mode: PaletteMode, primitives: PrimitivePalette = SistentDefaultPrimitivePalette) => {
+export const createCustomTheme = (mode: PaletteMode, primitives?: PrimitivePalette) => {
     const basePalette = mode == 'light' ? lightModePalette : darkModePalette;
-    const p = SistentDefaultPrimitivePalette
+    const defaultPrimitives = mode == 'light' ? SistentDefaultPrimitivePaletteLight : SistentDefaultPrimitivePaletteDark;
+    const p = primitives ? _.merge({},defaultPrimitives , primitives, ) : undefined;
 
     console.log('Creating theme with mode:', mode, 'and brandPalette:', primitives);
 
@@ -199,6 +181,7 @@ export const createCustomTheme = (mode: PaletteMode, primitives: PrimitivePalett
             tertiary: darken(p.background, 0.1),
             elevated: p.background,
             overlay: alpha(p.background, 0.8),
+
             tint: `linear-gradient(90deg, ${alpha(p.secondary,0.8)} 0%, ${p.secondary} 100%)`,
             inverse: p.foreground,
         },
@@ -213,7 +196,7 @@ export const createCustomTheme = (mode: PaletteMode, primitives: PrimitivePalett
         },
 
         navigation: {
-            primary: p.NavigationBar,
+            primary: p.navigationBar,
             secondary: p.secondary,
             active: p.primary,
             hover: alpha(p.primary, 0.85),
@@ -271,7 +254,7 @@ export const createCustomTheme = (mode: PaletteMode, primitives: PrimitivePalett
 
             surfaces: p.background,
 
-            appNavigationBar: p.NavigationBar,
+            appNavigationBar: p.navigationBar,
             secondaryAppNavigationBar: p.secondary,
 
         },

@@ -74,7 +74,7 @@ const FullscreenExitButton = styled(FullScreenExitIcon)(({ theme }) => ({
 }));
 
 export const ModalStyledHeader = styled('div')(({ theme }) => ({
-  background: theme.palette.mode === 'light' ? lightModalGradient.header : darkModalGradient.header,
+  background: theme.palette.surface.tint,
   color: '#eee',
   display: 'flex',
   justifyContent: 'space-between',
@@ -119,7 +119,7 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
 
 export const ModalBody = styled(Paper)(({ theme }) => ({
   padding: '1rem',
-  backgroundColor: theme.palette.background.surfaces,
+  backgroundColor: theme.palette.surface.primary,
   overflowY: 'auto',
   height: '100%',
   scrollbarWidth: 'none',
@@ -134,9 +134,7 @@ const StyledFooter = styled('div', {
 })<ModalFooterProps>(({ theme, variant, hasHelpText }) => ({
   background:
     variant === 'filled'
-      ? theme.palette.mode === 'light'
-        ? lightModalGradient.fotter
-        : darkModalGradient.fotter
+      ? (theme.palette.surface.tint)
       : 'transparent',
   display: 'flex',
   alignItems: 'center',

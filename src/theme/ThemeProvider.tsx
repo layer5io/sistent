@@ -1,7 +1,7 @@
 import { EmotionCache } from '@emotion/react';
-import { CssBaseline, Interactiveness, PaletteMode, Theme, ThemeProvider } from '@mui/material';
+import { CssBaseline,  PaletteMode, Theme, ThemeProvider } from '@mui/material';
 import React from 'react';
-import { createCustomTheme } from './theme';
+import { createCustomTheme,PrimitivePalette } from './theme';
 
 interface SistentProviderContextType {
   emotionCache?: EmotionCache;
@@ -13,7 +13,7 @@ export interface SistentThemeProviderProps {
   children: React.ReactNode;
   emotionCache?: EmotionCache;
   initialMode?: PaletteMode;
-  customTheme?: Interactiveness;
+  customTheme?: PrimitivePalette;
 }
 
 function SistentThemeProvider({
@@ -23,7 +23,7 @@ function SistentThemeProvider({
   customTheme
 }: SistentThemeProviderProps): JSX.Element {
   const theme = React.useMemo<Theme>(
-    () => createCustomTheme(initialMode, customTheme),
+    () => createCustomTheme(initialMode, customTheme ),
     [initialMode, customTheme]
   );
   return (
