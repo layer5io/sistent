@@ -8,8 +8,6 @@ import _ from 'lodash';
 export const drawerWidth = 240;
 
 
-
-
 /**
  * Primitive palette defines the raw, brand-level colors used in the UI.
  * These are foundational tokens that never directly appear in components
@@ -323,4 +321,5 @@ export const createCustomTheme = (mode: PaletteMode, primitives?: PrimitivePalet
         typography: typography(mode),
         breakpoints: {}
     });
+
 };
