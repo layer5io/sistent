@@ -29,8 +29,8 @@ function CustomTooltip({
 }: CustomTooltipProps): JSX.Element {
   return (
     <Tooltip
-      enterTouchDelay={0}
-      leaveTouchDelay={2000}
+      enterDelay={0}
+      leaveDelay={1200}
       componentsProps={_.merge(
         {
           tooltip: {
