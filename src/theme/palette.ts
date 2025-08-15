@@ -170,70 +170,68 @@ declare module '@mui/material/styles' {
       };
     };
   }
-     
-     // surface tokens need to have enough contrast 
-    // with text and interactive elements
- type    SurfaceTokens = {
 
-       /** main page background, content containers (pure bg color) */
-      primary: string;
-      
-      /** secondary surfaces (slightly darker bg) */
-      secondary: string;
-      
-      /** tertiary surfaces (even darker bg) */
-      tertiary: string;
-      
-      /** floating elements with depth (bg + shadow) */
-      elevated: string;
-      
-      /** modal backdrops (semi-transparent bg) */
-      overlay: string;
+  // surface tokens need to have enough contrast
+  // with text and interactive elements
+  type SurfaceTokens = {
+    /** main page background, content containers (pure bg color) */
+    primary: string;
 
-      /** highlight surfaces (eg. modal headers , tabs, ) */
-      tint: string;
-      
-      /** high contrast alternative (fg as bg) */
-      inverse: string;
-    }
+    /** secondary surfaces (slightly darker bg) */
+    secondary: string;
 
- type InteractiveTokens  =  {
-        /** default interactive elements (primary color) */
-        primary: string;
-    
-        /** hover state for interactive elements (primary hover tint) */
-        hover: string;
-    
-        /** disabled state for interactive elements (primary disabled tint) */
-        disabled?: string;
-    
-        /** pressed state for interactive elements (primary pressed tint) */
-        pressed: string;
-    
-        /** secondary interactive elements (secondary color) */
-        secondary: string;
-    
-        /** tertiary interactive elements (tertiary color) */
-        tertiary: string;
-    };
+    /** tertiary surfaces (even darker bg) */
+    tertiary: string;
 
-type  NavigationTokens =  {
-        /** main navigation bar background */
-        primary: string;
-    
-        /** secondary navigation bar background */
-        secondary: string;
+    /** floating elements with depth (bg + shadow) */
+    elevated: string;
 
-        /** active navigation item background */
-        active: string;
+    /** modal backdrops (semi-transparent bg) */
+    overlay: string;
 
-        /** hover state for navigation items */ 
-        hover: string;
-    };
+    /** highlight surfaces (eg. modal headers , tabs, ) */
+    tint: string;
+
+    /** high contrast alternative (fg as bg) */
+    inverse: string;
+  };
+
+  type InteractiveTokens = {
+    /** default interactive elements (primary color) */
+    primary: string;
+
+    /** hover state for interactive elements (primary hover tint) */
+    hover: string;
+
+    /** disabled state for interactive elements (primary disabled tint) */
+    disabled?: string;
+
+    /** pressed state for interactive elements (primary pressed tint) */
+    pressed: string;
+
+    /** secondary interactive elements (secondary color) */
+    secondary: string;
+
+    /** tertiary interactive elements (tertiary color) */
+    tertiary: string;
+  };
+
+  type NavigationTokens = {
+    /** main navigation bar background */
+    primary: string;
+
+    /** secondary navigation bar background */
+    secondary: string;
+
+    /** active navigation item background */
+    active: string;
+
+    /** hover state for navigation items */
+    hover: string;
+  };
 
   // Defines the options available for the palette.
   interface PaletteOptions {
-
     surface: SurfaceTokens;
     interactive: InteractiveTokens;
     navigation: NavigationTokens;
@@ -266,37 +264,34 @@ type  NavigationTokens =  {
   }
 }
 
-export type ThemePalette = PaletteOptions 
-
-
+export type ThemePalette = PaletteOptions;
 
 export const lightModePalette: PaletteOptions = {
+  surface: {
+    primary: Colors.charcoal[100],
+    secondary: Colors.charcoal[90],
+    tertiary: Colors.charcoal[80],
+    elevated: Colors.WHITE,
+    overlay: alpha(Colors.charcoal[90], 0.8),
+    inverse: Colors.charcoal[10],
+    tint: `linear-gradient(90deg, ${Colors.TEAL_BLUE} 0%, ${Colors.DARK_TEAL} 100%)`
+  },
 
-    surface: {
-        primary: Colors.charcoal[100],
-        secondary: Colors.charcoal[90],
-        tertiary: Colors.charcoal[80],
-        elevated: Colors.WHITE,
-        overlay: alpha(Colors.charcoal[90], 0.8),
-        inverse: Colors.charcoal[10],
-        tint: `linear-gradient(90deg, ${Colors.TEAL_BLUE} 0%, ${Colors.DARK_TEAL} 100%)`
-    } ,
+  interactive: {
+    primary: Colors.KEPPEL,
+    hover: Colors.keppel[50],
+    disabled: Colors.charcoal[90],
+    pressed: Colors.keppel[60],
+    secondary: Colors.keppel[40],
+    tertiary: Colors.keppel[70]
+  },
 
-    interactive: {
-        primary: Colors.KEPPEL,
-        hover: Colors.keppel[50],
-        disabled: Colors.charcoal[90],
-        pressed: Colors.keppel[60],
-        secondary: Colors.keppel[40],
-        tertiary: Colors.keppel[70]
-    },
-
-    navigation: {
-        primary: "#252e31",
-        secondary: "#294957",
-        active: Colors.KEPPEL,
-        hover: Colors.keppel[50]
-    },
+  navigation: {
+    primary: '#252e31',
+    secondary: '#294957',
+    active: Colors.KEPPEL,
+    hover: Colors.keppel[50]
+  },
 
   primary: {
     main: Colors.KEPPEL
@@ -425,31 +420,30 @@ export const lightModePalette: PaletteOptions = {
 };
 
 export const darkModePalette: PaletteOptions = {
+  surface: {
+    primary: Colors.charcoal[10],
+    secondary: Colors.charcoal[20],
+    tertiary: Colors.charcoal[30],
+    elevated: Colors.charcoal[40],
+    overlay: alpha(Colors.charcoal[20], 0.8),
+    inverse: Colors.WHITE,
+    tint: `linear-gradient(90deg, ${Colors.charcoal[30]} 0%, ${Colors.accentGrey[30]} 100%)`
+  },
+  interactive: {
+    primary: Colors.KEPPEL,
+    hover: Colors.keppel[50],
+    disabled: Colors.charcoal[30],
+    pressed: Colors.keppel[60],
+    secondary: Colors.keppel[20],
+    tertiary: Colors.keppel[10]
+  },
 
-    surface: {
-        primary: Colors.charcoal[10],
-        secondary: Colors.charcoal[20],
-        tertiary: Colors.charcoal[30],
-        elevated: Colors.charcoal[40],
-        overlay: alpha(Colors.charcoal[20], 0.8),
-        inverse: Colors.WHITE,
-        tint: `linear-gradient(90deg, ${Colors.charcoal[30]} 0%, ${Colors.accentGrey[30]} 100%)`,
-    },
-    interactive: {
-        primary: Colors.KEPPEL,
-        hover: Colors.keppel[50],
-        disabled: Colors.charcoal[30],
-        pressed: Colors.keppel[60],
-        secondary: Colors.keppel[20],
-        tertiary: Colors.keppel[10]
-    },
-
-    navigation: {
-        primary: Colors.charcoal[10],
-        secondary: Colors.charcoal[20],
-        active: Colors.KEPPEL,
-        hover: Colors.keppel[50]
-    },
+  navigation: {
+    primary: Colors.charcoal[10],
+    secondary: Colors.charcoal[20],
+    active: Colors.KEPPEL,
+    hover: Colors.keppel[50]
+  },
 
   primary: {
     main: Colors.KEPPEL
