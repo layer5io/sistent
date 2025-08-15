@@ -9,14 +9,14 @@ import {
   useMediaQuery,
   useTheme
 } from '@mui/material';
-export { darkModePalette, lightModePalette } from './palette';
-export { typography } from './typography';
-export {type PrimitivePalette} from "./theme";
 export * from './colors';
+export { darkModePalette, lightModePalette } from './palette';
+export { type PrimitivePalette } from './theme';
 export {
   default as SistentThemeProvider,
   SistentThemeProviderWithoutBaseLine
 } from './ThemeProvider';
+export { typography } from './typography';
 
 export { ThemeProvider, alpha, createTheme, keyframes, lighten, styled, useMediaQuery, useTheme };
 export type { Theme };

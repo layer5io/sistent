@@ -5,7 +5,6 @@ import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/B
 import { iconLarge } from '../../constants/iconsSizes';
 import { CloseIcon, FullScreenIcon } from '../../icons';
 import FullScreenExitIcon from '../../icons/Fullscreen/FullScreenExitIcon';
-import { darkModalGradient, lightModalGradient } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
 import { HelperTextPopover } from '../HelperTextPopover';
 
@@ -132,10 +131,7 @@ export const ModalBody = styled(Paper)(({ theme }) => ({
 const StyledFooter = styled('div', {
   shouldForwardProp: (prop) => prop !== 'variant'
 })<ModalFooterProps>(({ theme, variant, hasHelpText }) => ({
-  background:
-    variant === 'filled'
-      ? (theme.palette.surface.tint)
-      : 'transparent',
+  background: variant === 'filled' ? theme.palette.surface.tint : 'transparent',
   display: 'flex',
   alignItems: 'center',
   justifyContent: hasHelpText ? 'space-between' : 'end',
