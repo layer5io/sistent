@@ -2,7 +2,7 @@ import { Resizable } from 're-resizable';
 import React from 'react';
 import Draggable from 'react-draggable';
 import { Box, BoxProps, Tooltip } from '../../base';
-import { CloseIcon, CollapseAllIcon, ExpandAllIcon, FullScreenIcon } from '../../icons';
+import { CloseIcon, CollapseAllIcon, ExpandAllIcon, FullScreenIcon, ResizeIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { ErrorBoundary } from '../ErrorBoundary';
 import {
@@ -14,7 +14,8 @@ import {
   PanelBody,
   PanelContainer,
   PanelTitle,
-  ResizableContent
+  ResizableContent,
+  ResizeIconContainer
 } from './style';
 
 export type PanelProps = {
@@ -108,6 +109,9 @@ const Panel_: React.FC<PanelProps> = ({
               </div>
               <PanelBody className="panel-body">{children}</PanelBody>
             </ErrorBoundary>
+            <ResizeIconContainer>
+              <ResizeIcon />
+            </ResizeIconContainer>
           </ResizableContent>
         </Resizable>
       </PanelContainer>

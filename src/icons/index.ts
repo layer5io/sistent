@@ -99,6 +99,7 @@ export * from './Rectangle';
 export * from './Redo';
 export * from './Remove';
 export * from './Reset';
+export * from './Resize';
 export * from './RightArrow';
 export * from './Ring';
 export * from './Save';
