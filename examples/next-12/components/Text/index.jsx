@@ -6,13 +6,10 @@ import { ThemeContext } from '@/lib/context/AppThemeContext';
 import { darkModePalette, lightModePalette } from '@/pages/themes-explorer/palette';
 
 export default function TextColors() {
-  const { mode } = useContext(ThemeContext);
-
-  
+  const { mode } = useContext(ThemeContext);  
   const palette = mode === 'dark' ? darkModePalette : lightModePalette;
   const textColors = palette.text;
 
-  
   const [copiedColor, setCopiedColor] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
