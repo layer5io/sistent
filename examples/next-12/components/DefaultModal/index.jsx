@@ -1,3 +1,4 @@
+import { lightModePalette } from '@/pages/themes-explorer/palette';
 import {
   Button,
   Dialog,
@@ -8,6 +9,7 @@ import {
   Typography
 } from '@layer5/sistent-components';
 import { CloseIcon } from '@layer5/sistent-svg';
+import { Tooltip } from '@mui/material';
 import React from 'react';
 
 export default function DefaultModal() {
@@ -25,7 +27,8 @@ export default function DefaultModal() {
       <Button variant="contained" onClick={handleClickOpen}>
         Open Dialog
       </Button>
-      <Dialog onClose={handleClose} open={open}>
+      <Tooltip title={`lightModePalette.surface.elevated:${lightModePalette.surface.elevated}`}>
+      <Dialog sx={{backgroundColor:lightModePalette.surface.elevated}} onClose={handleClose} open={open}>
         <DialogTitle>Modal Title</DialogTitle>
         <IconButton onClick={handleClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
           <CloseIcon width={24} height={24} />
@@ -51,6 +54,7 @@ export default function DefaultModal() {
           </Button>
         </DialogActions>
       </Dialog>
+      </Tooltip>
     </React.Fragment>
   );
 }

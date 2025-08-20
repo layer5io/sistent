@@ -1,12 +1,11 @@
-import { AppThemeProvider } from '@/lib/providers/AppThemeProvider';
-import { ReduxProvider } from '@/lib/providers/ReduxProvider';
+import { AppThemeContext } from '@/lib/context/AppThemeContext';
 
 export default function App({ Component, pageProps }) {
   return (
-    <ReduxProvider>
-      <AppThemeProvider>
+
+      <AppThemeContext>
         <Component {...pageProps} />
-      </AppThemeProvider>
-    </ReduxProvider>
+      </AppThemeContext>
+
   );
 }
