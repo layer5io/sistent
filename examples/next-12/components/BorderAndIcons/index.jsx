@@ -1,13 +1,16 @@
 'use client';
 
 import { Box, Container, Typography, Paper, Grid, Snackbar, Alert } from '@mui/material';
-import React, { useState } from 'react';
-import { lightModePalette } from '@/pages/themes-explorer/palette';
+import React, { useState, useContext } from 'react';
+import { ThemeContext } from '@/lib/context/AppThemeContext';
+import { darkModePalette, lightModePalette } from '@/pages/themes-explorer/palette';
 import { Palette, Eye, Sun, Send, Star } from 'lucide-react';
 
 export default function BorderAndIconColors() {
-  const borderColors = lightModePalette.border;
-  const iconColors = lightModePalette.icon;
+  const { mode } = useContext(ThemeContext);
+  const palette = mode === 'dark' ? darkModePalette : lightModePalette;
+  const borderColors = palette.border;
+  const iconColors = palette.icon;
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [copiedText, setCopiedText] = useState('');
@@ -42,17 +45,25 @@ export default function BorderAndIconColors() {
     { key: 'neutral.alt', label: 'Neutral Alt', desc: 'Alt neutral icons' },
   ];
 
-  // helper: safely get nested colors (e.g. border.neutral.default)
-  const getColor = (obj, path) => {
-    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-  };
+  const getColor = (obj, path) =>
+    path.split('.').reduce((acc, part) => acc && acc[part], obj);
 
   return (
     <Container maxWidth="xl" sx={{ mt: 4 }}>
-      {/* BORDER COLORS */}
-      <Paper sx={{ p: 3, border: '1px solid #eee', borderRadius: '12px', mb: 4 }}>
-        <Typography sx={{ fontSize: '1rem', fontWeight: 700 }}>Border Colors</Typography>
-        <Typography sx={{ fontSize: '0.85rem', color: '#555', mb: 3 }}>
+
+      <Paper
+        sx={{
+          p: 3,
+          border: `1px solid ${palette.border.default}`,
+          borderRadius: '12px',
+          mb: 4,
+          backgroundColor: palette.surface?.elevated ?? palette.background.elevatedComponents,
+        }}
+      >
+        <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: palette.text.default }}>
+          Border Colors
+        </Typography>
+        <Typography sx={{ fontSize: '0.85rem', color: palette.text.secondary, mb: 3 }}>
           Border colors for different emphasis levels
         </Typography>
 
@@ -64,12 +75,13 @@ export default function BorderAndIconColors() {
                 sx={{
                   p: 2,
                   borderRadius: '12px',
-                  border: '1px solid #eee',
+                  border: `1px solid ${palette.border.default}`,
                   textAlign: 'center',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: 1,
+                  backgroundColor: palette.surface?.primary,
                 }}
               >
                 <Box
@@ -80,20 +92,23 @@ export default function BorderAndIconColors() {
                     borderRadius: '8px',
                     border: `4px solid ${getColor(borderColors, key)}`,
                     cursor: 'pointer',
-                    '&:hover': { boxShadow: '0 0 0 3px rgba(0,0,0,0.1)' },
+                    '&:hover': { boxShadow: `0 0 0 3px ${palette.border.default}33` },
                   }}
                 />
-                <Typography sx={{ fontWeight: 600, fontSize: '0.9rem' }}>{label}</Typography>
-                <Typography sx={{ fontSize: '0.75rem', color: '#555' }}>{desc}</Typography>
+                <Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: palette.text.default }}>
+                  {label}
+                </Typography>
+                <Typography sx={{ fontSize: '0.75rem', color: palette.text.secondary }}>{desc}</Typography>
                 <Typography
                   sx={{
                     fontSize: '0.75rem',
-                    backgroundColor: '#f5f5f5',
+                    backgroundColor: palette.surface?.elevated,
                     borderRadius: '6px',
                     px: 1,
                     py: 0.3,
                     mt: 0.5,
                     fontFamily: 'monospace',
+                    color: palette.text.tertiary,
                   }}
                 >
                   {getColor(borderColors, key)}
@@ -103,9 +118,17 @@ export default function BorderAndIconColors() {
           ))}
         </Grid>
 
-        {/* Border Examples */}
-        <Box sx={{ mt: 4, p: 2, border: '1px solid #eee', borderRadius: '10px' }}>
-          <Typography sx={{ fontSize: '0.95rem', fontWeight: 700, mb: 1 }}>
+ 
+        <Box
+          sx={{
+            mt: 4,
+            p: 2,
+            border: `1px solid ${palette.border.default}`,
+            borderRadius: '10px',
+            backgroundColor: palette.surface?.elevated,
+          }}
+        >
+          <Typography sx={{ fontSize: '0.95rem', fontWeight: 700, mb: 1, color: palette.text.default }}>
             Border Examples
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
@@ -119,6 +142,7 @@ export default function BorderAndIconColors() {
                   py: 1,
                   minWidth: 120,
                   textAlign: 'center',
+                  color: palette.text.default,
                 }}
               >
                 {label} Border
@@ -128,10 +152,18 @@ export default function BorderAndIconColors() {
         </Box>
       </Paper>
 
-      {/* ICON COLORS */}
-      <Paper sx={{ p: 3, border: '1px solid #eee', borderRadius: '12px' }}>
-        <Typography sx={{ fontSize: '1rem', fontWeight: 700 }}>Icon Colors</Typography>
-        <Typography sx={{ fontSize: '0.85rem', color: '#555', mb: 3 }}>
+      <Paper
+        sx={{
+          p: 3,
+          border: `1px solid ${palette.border.default}`,
+          borderRadius: '12px',
+          backgroundColor: palette.surface?.elevated ?? palette.background.elevatedComponents,
+        }}
+      >
+        <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: palette.text.default }}>
+          Icon Colors
+        </Typography>
+        <Typography sx={{ fontSize: '0.85rem', color: palette.text.secondary, mb: 3 }}>
           Icon colors for different contexts and states
         </Typography>
 
@@ -143,12 +175,13 @@ export default function BorderAndIconColors() {
                 sx={{
                   p: 2,
                   borderRadius: '12px',
-                  border: '1px solid #eee',
+                  border: `1px solid ${palette.border.default}`,
                   textAlign: 'center',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: 1,
+                  backgroundColor: palette.surface?.primary,
                 }}
               >
                 <Box
@@ -159,21 +192,24 @@ export default function BorderAndIconColors() {
                     borderRadius: '8px',
                     backgroundColor: getColor(iconColors, key),
                     cursor: 'pointer',
-                    border: '2px solid #ddd',
-                    '&:hover': { boxShadow: '0 0 0 3px rgba(0,0,0,0.1)' },
+                    border: `2px solid ${palette.border.normal}`,
+                    '&:hover': { boxShadow: `0 0 0 3px ${palette.border.default}33` },
                   }}
                 />
-                <Typography sx={{ fontWeight: 600, fontSize: '0.9rem' }}>{label}</Typography>
-                <Typography sx={{ fontSize: '0.75rem', color: '#555' }}>{desc}</Typography>
+                <Typography sx={{ fontWeight: 600, fontSize: '0.9rem', color: palette.text.default }}>
+                  {label}
+                </Typography>
+                <Typography sx={{ fontSize: '0.75rem', color: palette.text.secondary }}>{desc}</Typography>
                 <Typography
                   sx={{
                     fontSize: '0.75rem',
-                    backgroundColor: '#f5f5f5',
+                    backgroundColor: palette.surface?.elevated,
                     borderRadius: '6px',
                     px: 1,
                     py: 0.3,
                     mt: 0.5,
                     fontFamily: 'monospace',
+                    color: palette.text.tertiary,
                   }}
                 >
                   {getColor(iconColors, key)}
@@ -183,9 +219,9 @@ export default function BorderAndIconColors() {
           ))}
         </Grid>
 
-        {/* Icon Examples */}
-        <Box sx={{ mt: 4, p: 2, border: '1px solid #eee', borderRadius: '10px' }}>
-          <Typography sx={{ fontSize: '0.95rem', fontWeight: 700, mb: 1 }}>
+
+        <Box sx={{ mt: 4, p: 2, border: `1px solid ${palette.border.default}`, borderRadius: '10px' }}>
+          <Typography sx={{ fontSize: '0.95rem', fontWeight: 700, mb: 1, color: palette.text.default }}>
             Icon Examples
           </Typography>
           <Box sx={{ display: 'flex', gap: 3 }}>
@@ -198,7 +234,7 @@ export default function BorderAndIconColors() {
         </Box>
       </Paper>
 
-      {/* Snackbar */}
+      
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={2000}

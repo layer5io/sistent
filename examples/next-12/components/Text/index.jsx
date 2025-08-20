@@ -1,15 +1,18 @@
 'use client';
 
 import { Box, Container, Typography, Paper, Snackbar, Alert } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { ThemeContext } from '@/lib/context/AppThemeContext';
 import { darkModePalette, lightModePalette } from '@/pages/themes-explorer/palette';
-import {useContext} from 'react'
 
 export default function TextColors() {
-  const {mode} = useContext(ThemeContext)
-  const textColors = mode==="dark"?lightModePalette.text:darkModePalette.text;
-  // State for snackbar feedback
+  const { mode } = useContext(ThemeContext);
+
+  
+  const palette = mode === 'dark' ? darkModePalette : lightModePalette;
+  const textColors = palette.text;
+
+  
   const [copiedColor, setCopiedColor] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
@@ -24,19 +27,20 @@ export default function TextColors() {
       <Paper
         sx={{
           p: 2,
-          border: '1px solid oklch(0.922 0 0)',
+          border: `1px solid ${palette.border.default}`,
           borderRadius: '10px',
+          backgroundColor: palette.surface?.primary ?? palette.background.default,
         }}
       >
-        <Typography sx={{ fontSize: '1rem', fontWeight: 700 }}>
+        <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: textColors.default }}>
           Text Colors
         </Typography>
 
-        <Typography sx={{ fontSize: '0.85rem', color: '#555', mb: 2 }}>
+        <Typography sx={{ fontSize: '0.85rem', color: textColors.secondary, mb: 2 }}>
           Typography colors for different content hierarchy and semantic meaning
         </Typography>
 
-        {/* Swatches grid */}
+
         <Box
           sx={{
             display: 'flex',
@@ -63,13 +67,9 @@ export default function TextColors() {
                 p: 1.5,
                 textAlign: 'center',
                 borderRadius: '10px',
-                boxShadow: '0px 2px 8px rgba(0,0,0,0.12)',
+                boxShadow: `0px 2px 8px ${palette.surface?.overlay ?? 'rgba(0,0,0,0.12)'}`,
                 cursor: 'pointer',
-              
-                
-
-                  // boxShadow: '0px 4px 12px rgba(0,0,0,0.18)',
-
+                backgroundColor: palette.surface?.elevated,
               }}
             >
               <Box
@@ -78,24 +78,24 @@ export default function TextColors() {
                   height: 70,
                   borderRadius: '8px',
                   background: textColors[key],
-                  border: '1px solid #ddd',
+                  border: `1px solid ${palette.border.normal}`,
                   mb: 1,
                 }}
               />
-              <Typography sx={{ fontSize: '0.85rem', fontWeight: 600 }}>
+              <Typography sx={{ fontSize: '0.85rem', fontWeight: 600, color: textColors.default }}>
                 {key.charAt(0).toUpperCase() + key.slice(1)}
               </Typography>
-              <Typography sx={{ fontSize: '0.75rem', color: '#555' }}>
+              <Typography sx={{ fontSize: '0.75rem', color: textColors.secondary }}>
                 {label}
               </Typography>
-              <Typography sx={{ fontSize: '0.7rem', color: '#888' }}>
+              <Typography sx={{ fontSize: '0.7rem', color: textColors.tertiary }}>
                 {textColors[key]}
               </Typography>
             </Box>
           ))}
         </Box>
 
-        {/* Semantic & hierarchy section */}
+
         <Box
           sx={{
             display: 'flex',
@@ -105,32 +105,43 @@ export default function TextColors() {
           }}
         >
           <Box>
-            <Typography sx={{ fontSize: '0.9rem', fontWeight: 600, mb: 1 }}>
+            <Typography sx={{ fontSize: '0.9rem', fontWeight: 600, mb: 1, color: textColors.default }}>
               Semantic Text Colors
             </Typography>
-            <Typography sx={{ color: textColors.info }} fontSize={"13px"}>Info text color</Typography>
-            <Typography sx={{ color: textColors.success }} fontSize={"13px"}>Success text color</Typography>
-            <Typography sx={{ color: textColors.warning }} fontSize={"13px"}>Warning text color</Typography>
-            <Typography sx={{ color: textColors.error }} fontSize={"13px"}>Error text color</Typography>
+            <Typography sx={{ color: textColors.info }} fontSize={'13px'}>
+              Info text color
+            </Typography>
+            <Typography sx={{ color: textColors.success }} fontSize={'13px'}>
+              Success text color
+            </Typography>
+            <Typography sx={{ color: textColors.warning }} fontSize={'13px'}>
+              Warning text color
+            </Typography>
+            <Typography sx={{ color: textColors.error }} fontSize={'13px'}>
+              Error text color
+            </Typography>
           </Box>
 
           <Box>
-            <Typography  sx={{ fontSize: '0.9rem', fontWeight: 600, mb: 1 }}>
+            <Typography sx={{ fontSize: '0.9rem', fontWeight: 600, mb: 1, color: textColors.default }}>
               Text Hierarchy
             </Typography>
-            <Typography  sx={{ fontSize: '1rem', fontWeight: 700, fontSize: '1.1rem' }}>
+            <Typography sx={{ fontSize: '1.1rem', fontWeight: 700, color: textColors.default }}>
               Primary Heading
             </Typography>
-            <Typography  sx={{fontSize: '1rem', fontWeight: 500 }}>Secondary Heading</Typography>
-            <Typography sx={{ fontSize: '1rem',color: textColors.tertiary }}>
+            <Typography sx={{ fontSize: '1rem', fontWeight: 500, color: textColors.secondary }}>
+              Secondary Heading
+            </Typography>
+            <Typography sx={{ fontSize: '1rem', color: textColors.tertiary }}>
               Tertiary body text
             </Typography>
-            <Typography  sx={{fontSize: '1rem', color: textColors.disabled }}>Disabled text</Typography>
+            <Typography sx={{ fontSize: '1rem', color: textColors.disabled }}>
+              Disabled text
+            </Typography>
           </Box>
         </Box>
       </Paper>
 
-      {/* Snackbar for copy feedback */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={2000}

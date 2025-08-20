@@ -9,26 +9,26 @@ import { ThemeContext } from "@/lib/context/AppThemeContext";
 export default function Surface() {
   const { mode } = useContext(ThemeContext);
 
-  // ✅ pick correct palette
+  
   const palette = mode === "dark" ? darkModePalette : lightModePalette;
   const surfaceColors = palette.surface;
 
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [copiedText, setCopiedText] = React.useState("");
 
-  const handleCopy = (value: string) => {
+  const handleCopy = (value) => {
     navigator.clipboard.writeText(value);
     setCopiedText(value);
     setSnackbarOpen(true);
   };
 
-  const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleClose = (_event, reason) => {
     if (reason === "clickaway") return;
     setSnackbarOpen(false);
   };
 
-  // ✅ descriptions for tokens
-  const descriptions: Record<string, string> = {
+  
+  const descriptions = {
     primary: "Main page background",
     secondary: "Slightly darker background",
     tertiary: "Even darker background",
@@ -52,7 +52,7 @@ export default function Surface() {
           backgroundColor: palette.background.card,
         }}
       >
-        {/* Title */}
+
         <Typography
           sx={{
             fontSize: "1.3rem",
@@ -68,7 +68,7 @@ export default function Surface() {
           Background surfaces with proper contrast for text and interactive elements
         </Typography>
 
-        {/* Token Grid */}
+
         <Container
           maxWidth="xl"
           sx={{
@@ -96,7 +96,7 @@ export default function Surface() {
                 }}
                 onClick={() => handleCopy(displayValue)}
               >
-                {/* Color preview box */}
+
                 <Tooltip title="Click to copy" arrow>
                   <Box
                     sx={{
@@ -111,7 +111,7 @@ export default function Surface() {
                   />
                 </Tooltip>
 
-                {/* Token Name */}
+
                 <Typography
                   variant="subtitle2"
                   sx={{
@@ -122,7 +122,7 @@ export default function Surface() {
                   {name.charAt(0).toUpperCase() + name.slice(1)}
                 </Typography>
 
-                {/* Token Description */}
+
                 <Typography
                   sx={{
                     color: palette.text.secondary,
@@ -133,7 +133,7 @@ export default function Surface() {
                   {descriptions[name] || ""}
                 </Typography>
 
-                {/* Token Value (hash or Gradient) */}
+
                 <Typography
                   sx={{
                     fontSize: "0.75rem",
@@ -149,7 +149,7 @@ export default function Surface() {
         </Container>
       </Box>
 
-      {/* Snackbar for copy feedback */}
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={2000}

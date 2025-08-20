@@ -30,14 +30,14 @@ export default function Footer() {
             variant="subtitle1"
             sx={{
               fontWeight: 700,
-              color: palette.text.default, // 👈 heading color
+              color: palette.text.default, 
             }}
           >
             Design System Palette
           </Typography>
           <Typography
             variant="body2"
-            sx={{ color: palette.text.secondary }} // 👈 description color
+            sx={{ color: palette.text.secondary }} 
           >
             Comprehensive color system with {mode} mode active
           </Typography>
@@ -47,9 +47,9 @@ export default function Footer() {
           sx={{
             padding: "0.4rem 0.8rem",
             borderRadius: "10px",
-            border: `2px solid ${palette.border.strong}`, // 👈 badge border
-            color: palette.text.default, // 👈 badge text color
-            backgroundColor: palette.background.secondary, // 👈 badge bg
+            border: `2px solid ${palette.border.strong}`, 
+            color: palette.text.default, 
+            backgroundColor: palette.background.secondary, 
             textTransform: "none",
             fontSize: "0.75rem",
             fontWeight: 600,

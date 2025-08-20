@@ -73,7 +73,7 @@ export default function IconColorDemo() {
                       onClick={() => handleCopy(color)}
                       sx={{
                         color: color,
-                        fontSize: 32, // bigger icon for easier clicking
+                        fontSize: 32, 
                         "&:hover": {
                           opacity: 0.8,
                         },

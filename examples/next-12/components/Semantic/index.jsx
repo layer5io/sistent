@@ -1,17 +1,19 @@
 'use client';
 
 import { Box, Container, Typography, Paper, Snackbar, Alert, Grid } from '@mui/material';
-import React from 'react';
-import { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { ThemeContext } from '@/lib/context/AppThemeContext';
 import { darkModePalette, lightModePalette } from '@/pages/themes-explorer/palette';
 
 export default function SemanticColors() {
-    const {mode} = useContext(ThemeContext)
-  const semanticGroups = mode==="dark"?lightModePalette.background:darkModePalette.background;
+  const { mode } = useContext(ThemeContext);
 
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [copiedText, setCopiedText] = React.useState('');
+  const palette = mode === 'dark' ? darkModePalette : lightModePalette;
+  const semanticGroups = palette.background; 
+
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [copiedText, setCopiedText] = useState('');
 
   const handleCopy = (value) => {
     navigator.clipboard.writeText(value);
@@ -21,7 +23,7 @@ export default function SemanticColors() {
 
   const handleClose = () => setSnackbarOpen(false);
 
-  // Descriptions for each group
+
   const descriptions = {
     brand: 'Primary brand color with all interaction states',
     cta: 'High-impact CTA elements with interaction states',
@@ -31,12 +33,12 @@ export default function SemanticColors() {
     error: 'Error and critical states',
   };
 
-  // Define the layout explicitly
-  const layout= [
-    ['brand'],          // first row full width
-    ['cta'],            // second row full width
-    ['info', 'success'], // third row 2 columns
-    ['warning', 'error'], // fourth row 2 columns
+  
+  const layout = [
+    ['brand'], 
+    ['cta'], 
+    ['info', 'success'], 
+    ['warning', 'error'], 
   ];
 
   return (
@@ -48,37 +50,31 @@ export default function SemanticColors() {
             if (!states) return null;
 
             return (
-              <Grid
-              item
-              
-                xs={12}
-                md={row.length === 1 ? 12 : 6} // full width if single, half if pair
-                key={groupName}
-              >
+              <Grid item xs={12} md={row.length === 1 ? 12 : 6} key={groupName}>
                 <Paper
                   sx={{
-                    padding:"30px",
-                    // p: 2,
-                    border: '1px solid oklch(0.922 0 0)',
+                    p: 3,
+                    border: `1px solid ${palette.border.default}`, 
                     borderRadius: '10px',
+                    backgroundColor: palette.background.surface, 
                   }}
                 >
-                  {/* Main heading */}
-                  <Typography sx={{ fontSize: '1rem', fontWeight: 700 }}>
+
+                  <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: palette.text.default }}>
                     {groupName.charAt(0).toUpperCase() + groupName.slice(1)} Colors
                   </Typography>
 
-                  {/* Sub-description */}
-                  <Typography sx={{ fontSize: '0.85rem', color: '#555', mb: 1 }}>
+                  
+                  <Typography sx={{ fontSize: '0.85rem', color: palette.text.secondary, mb: 1 }}>
                     {descriptions[groupName]}
                   </Typography>
 
-                  {/* Secondary heading */}
-                  <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, mb: 1 }}>
+                  
+                  <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, mb: 1, color: palette.text.default }}>
                     {groupName.charAt(0).toUpperCase() + groupName.slice(1)} States
                   </Typography>
 
-                  {/* Color chips */}
+                  
                   <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                     {Object.entries(states).map(([state, value]) => (
                       <Box
@@ -89,7 +85,7 @@ export default function SemanticColors() {
                           py: 1,
                           borderRadius: '6px',
                           background: value,
-                          color: '#fff',
+                          color: palette.text.onPrimary, 
                           fontWeight: 600,
                           fontSize: '0.8rem',
                           cursor: 'pointer',
@@ -108,14 +104,22 @@ export default function SemanticColors() {
         </Grid>
       ))}
 
-      {/* Snackbar */}
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={2000}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          sx={{
+            width: '100%',
+            backgroundColor: palette.background.secondary,
+            color: palette.text.default,
+          }}
+        >
           Copied: {copiedText}
         </Alert>
       </Snackbar>

@@ -12,7 +12,7 @@ import { lightModePalette, darkModePalette } from '@/pages/themes-explorer/palet
 export default function TabMenu({ value, setValue }) {
   const { mode } = useContext(ThemeContext);
 
-  // pick palette based on mode
+  
   const palette = mode === 'dark' ? darkModePalette : lightModePalette;
 
   const handleChange = (event, newValue) => {
@@ -28,7 +28,7 @@ export default function TabMenu({ value, setValue }) {
       aria-label="segment tabs"
       sx={{
         marginTop: '2rem',
-        backgroundColor: palette.background.tabs, // 👈 dynamic background
+        backgroundColor: palette.background.tabs, 
         borderRadius: '20px',
       }}
     >
@@ -50,8 +50,8 @@ export default function TabMenu({ value, setValue }) {
             fontSize: '12px',
             fontWeight: 800,
             '&.Mui-selected': {
-              color: palette.primary.main, // 👈 highlight color from theme
-              backgroundColor: palette.background.secondary, // 👈 selected tab color
+              color: palette.primary.main, 
+              backgroundColor: palette.background.secondary, 
               borderRadius: '20px',
             },
           }}

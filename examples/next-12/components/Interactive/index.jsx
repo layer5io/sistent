@@ -13,12 +13,14 @@ import {
   Paper
 } from '@mui/material';
 import { useContext } from 'react';
-
 import * as React from 'react';
 
 export default function Interactive() {
-  const {mode} = useContext(ThemeContext)
-  const surfaceColors = mode==="dark"?lightModePalette.interactive:darkModePalette.interactive;
+  const { mode } = useContext(ThemeContext);
+
+  
+  const palette = mode === 'dark' ? darkModePalette : lightModePalette;
+  const interactiveColors = palette.interactive;
 
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [copiedText, setCopiedText] = React.useState('');
@@ -29,7 +31,7 @@ export default function Interactive() {
     setSnackbarOpen(true);
   };
 
-  const handleClose = (event, reason) => {
+  const handleClose = (_event, reason) => {
     if (reason === 'clickaway') return;
     setSnackbarOpen(false);
   };
@@ -38,18 +40,31 @@ export default function Interactive() {
     <Container maxWidth="100%" sx={{ marginTop: '2rem' }}>
       <Box
         sx={{
-          border: '1px solid oklch(0.922 0 0)',
+          border: `1px solid ${palette.border.default}`, 
           padding: '20px',
           borderRadius: '10px',
-          boxShadow: '0px 4px 20px rgba(0,0,0,0.1)'
+          boxShadow:
+            mode === 'dark'
+              ? '0px 4px 20px rgba(0,0,0,0.4)'
+              : '0px 4px 20px rgba(0,0,0,0.1)',
+          backgroundColor: palette.background.card 
         }}
       >
-        <Typography sx={{ fontSize: '1.3rem', fontWeight: '700' }}>Interactive Tokens</Typography>
-        <Typography sx={{ color: '#737373', fontSize: '0.8rem' }}>
+        <Typography
+          sx={{
+            fontSize: '1.3rem',
+            fontWeight: 700,
+            color: palette.text.default 
+          }}
+        >
+          Interactive Tokens
+        </Typography>
+        <Typography
+          sx={{ color: palette.text.secondary, fontSize: '0.8rem' }}
+        >
           Colors for buttons, links, and interactive elements with all states
         </Typography>
 
-        {/* Token Grid */}
         <Container
           maxWidth="xl"
           sx={{
@@ -60,7 +75,7 @@ export default function Interactive() {
             gap: 4
           }}
         >
-          {Object.entries(surfaceColors).map(([name, value]) => {
+          {Object.entries(interactiveColors).map(([name, value]) => {
             const isGradient = typeof value === 'string' && value.includes('gradient');
             const displayValue = isGradient ? 'Gradient' : value;
 
@@ -72,7 +87,7 @@ export default function Interactive() {
                   display: 'flex',
                   flexDirection: 'column',
                   borderRadius: '20px',
-                  border: '1px solid oklch(0.922 0 0)',
+                  border: `1px solid ${palette.border.normal}`, 
                   paddingY: '10px',
                   alignItems: 'center',
                   textAlign: 'center',
@@ -94,16 +109,22 @@ export default function Interactive() {
                 </Tooltip>
 
                 <Typography
-                  sx={{
-                    fontWeight: '600',
-                    color: '#111'
-                  }}
                   variant="subtitle2"
+                  sx={{
+                    fontWeight: 600,
+                    color: palette.text.default 
+                  }}
                 >
                   {name.charAt(0).toUpperCase() + name.slice(1)}
                 </Typography>
 
-                <Typography sx={{ color: '#737373', fontSize: '0.75rem', mb: 0.5 }}>
+                <Typography
+                  sx={{
+                    color: palette.text.secondary, 
+                    fontSize: '0.75rem',
+                    mb: 0.5
+                  }}
+                >
                   {isGradient
                     ? 'Highlight surfaces'
                     : name === 'primary'
@@ -124,7 +145,7 @@ export default function Interactive() {
                 <Typography
                   sx={{
                     fontSize: '0.75rem',
-                    color: '#000',
+                    color: palette.text.secondary, 
                     fontFamily: 'monospace'
                   }}
                 >
@@ -135,27 +156,33 @@ export default function Interactive() {
           })}
         </Container>
 
-        {/* Interactive Demo Section */}
+
         <Paper
           sx={{
             mt: 4,
             p: 2,
-            border: '1px solid oklch(0.922 0 0)',
+            border: `1px solid ${palette.border.default}`, 
             borderRadius: '10px',
-            background: '#fafafa'
+            backgroundColor: palette.background.card 
           }}
         >
-          <Typography sx={{ fontWeight: '600', mb: 2 }}>Interactive Demo</Typography>
+          <Typography
+            sx={{ fontWeight: 600, mb: 2, color: palette.text.default }}
+          >
+            Interactive Demo
+          </Typography>
 
           <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-            {Object.entries(surfaceColors).map(([name, value]) => (
+            {Object.entries(interactiveColors).map(([name, value]) => (
               <Button
                 key={name}
                 variant="contained"
                 disabled={name === 'disabled'}
                 sx={{
                   backgroundColor: value,
-                  color: name === 'disabled' ? '#888' : '#fff',
+                  color: name === 'disabled'
+                    ? palette.text.secondary
+                    : palette.text.inverse, 
                   textTransform: 'capitalize',
                   '&:hover': {
                     backgroundColor: value
@@ -169,14 +196,22 @@ export default function Interactive() {
         </Paper>
       </Box>
 
-      {/* Snackbar */}
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={2000}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          sx={{
+            width: '100%',
+            backgroundColor: palette.background.secondary, 
+            color: palette.text.default 
+          }}
+        >
           Copied: {copiedText}
         </Alert>
       </Snackbar>

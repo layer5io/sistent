@@ -16,8 +16,12 @@ import { ThemeContext } from '@/lib/context/AppThemeContext';
 import { useContext } from 'react';
 
 export default function Navigation() {
-  const{mode} = useContext(ThemeContext)
-  const navColors = mode==="dark"?lightModePalette.navigation:darkModePalette.navigation;
+  const { mode } = useContext(ThemeContext);
+
+
+  const palette = mode === 'dark' ? darkModePalette : lightModePalette;
+  const navColors = palette.navigation;
+
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [copiedText, setCopiedText] = React.useState('');
 
@@ -36,20 +40,24 @@ export default function Navigation() {
     <Container maxWidth="100%" sx={{ marginTop: '2rem' }}>
       <Box
         sx={{
-          border: '1px solid oklch(0.922 0 0)',
+          border: `1px solid ${palette.border.default}`, 
           padding: '20px',
           borderRadius: '10px',
-          boxShadow: '0px 4px 20px rgba(0,0,0,0.1)'
+          boxShadow:
+            mode === 'dark'
+              ? '0px 4px 20px rgba(0,0,0,0.4)'
+              : '0px 4px 20px rgba(0,0,0,0.1)',
+          backgroundColor: palette.background.card 
         }}
       >
-        <Typography sx={{ fontSize: '1.3rem', fontWeight: '700' }}>
+        <Typography sx={{ fontSize: '1.3rem', fontWeight: '700', color: palette.text.default }}>
           Navigation Tokens
         </Typography>
-        <Typography sx={{ color: '#737373', fontSize: '0.8rem' }}>
+        <Typography sx={{ color: palette.text.secondary, fontSize: '0.8rem' }}>
           Colors for navigation bars, menu items, and navigation states
         </Typography>
 
-        {/* Token Grid */}
+
         <Container
           maxWidth="xl"
           sx={{
@@ -68,11 +76,12 @@ export default function Navigation() {
                 display: 'flex',
                 flexDirection: 'column',
                 borderRadius: '20px',
-                border: '1px solid oklch(0.922 0 0)',
+                border: `1px solid ${palette.border.normal}`, 
                 paddingY: '10px',
                 alignItems: 'center',
                 textAlign: 'center',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                backgroundColor: palette.background.surface 
               }}
               onClick={() => handleCopy(value)}
             >
@@ -84,21 +93,17 @@ export default function Navigation() {
                     background: value,
                     borderRadius: 2,
                     boxShadow: 1,
-                    mb: 1
+                    mb: 1,
+                    border: `1px solid ${palette.border.subtle}` 
                   }}
                 />
               </Tooltip>
 
-              <Typography
-                sx={{ fontWeight: '600', color: '#111' }}
-                variant="subtitle2"
-              >
+              <Typography sx={{ fontWeight: '600', color: palette.text.default }} variant="subtitle2">
                 {name.charAt(0).toUpperCase() + name.slice(1)}
               </Typography>
 
-              <Typography
-                sx={{ color: '#737373', fontSize: '0.75rem', mb: 0.5 }}
-              >
+              <Typography sx={{ color: palette.text.secondary, fontSize: '0.75rem', mb: 0.5 }}>
                 {name === 'primary'
                   ? 'Main nav background'
                   : name === 'secondary'
@@ -113,7 +118,7 @@ export default function Navigation() {
               <Typography
                 sx={{
                   fontSize: '0.75rem',
-                  color: '#000',
+                  color: palette.text.muted, 
                   fontFamily: 'monospace'
                 }}
               >
@@ -123,17 +128,19 @@ export default function Navigation() {
           ))}
         </Container>
 
-        {/* Navigation Demo */}
+
         <Paper
           sx={{
             mt: 4,
             p: 2,
-            border: '1px solid oklch(0.922 0 0)',
+            border: `1px solid ${palette.border.default}`,
             borderRadius: '10px',
-            background: '#fafafa'
+            background: palette.background.surface
           }}
         >
-          <Typography sx={{ fontWeight: '600', mb: 2 }}>Navigation Demo</Typography>
+          <Typography sx={{ fontWeight: '600', mb: 2, color: palette.text.default }}>
+            Navigation Demo
+          </Typography>
 
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
             <Box
@@ -143,7 +150,7 @@ export default function Navigation() {
                 p: 1.5,
                 borderRadius: 2,
                 background: navColors.primary,
-                color: '#fff',
+                color: palette.text.onPrimary, 
                 fontWeight: 600
               }}
             >
@@ -157,7 +164,7 @@ export default function Navigation() {
                 p: 1.5,
                 borderRadius: 2,
                 background: navColors.secondary,
-                color: '#fff',
+                color: palette.text.onSecondary,
                 fontWeight: 600
               }}
             >
@@ -167,14 +174,22 @@ export default function Navigation() {
         </Paper>
       </Box>
 
-      {/* Snackbar */}
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={2000}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+        <Alert
+          onClose={handleClose}
+          severity="success"
+          sx={{
+            width: '100%',
+            backgroundColor: palette.background.secondary,
+            color: palette.text.default
+          }}
+        >
           Copied: {copiedText}
         </Alert>
       </Snackbar>
