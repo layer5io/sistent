@@ -31,7 +31,7 @@ export interface UniversalFilterProps {
 
 export const FilterHeader = styled('div')(({ theme }) => ({
   background: theme.palette.surface.tint,
-  color: '#eee',
+  color: theme.palette.common.white,
   padding: '0.75rem 1rem',
   margin: '-1rem -1rem 1rem -1rem',
   display: 'flex',
