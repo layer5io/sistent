@@ -5,6 +5,12 @@ on:
     workflows: [Publish Node.js Package]
     types:
       - completed
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag to use (optional, uses latest release if not provided)'
+        required: false
+        type: string
 
 jobs:
   versions-check:
@@ -12,15 +18,36 @@ jobs:
     outputs:
       current: ${{ steps.current.outputs.VERSION }}
     steps:
-      - name: Download Version
+      - name: Download Version (workflow_run trigger)
+        if: github.event_name == 'workflow_run'
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
           name: version-number
           github-token: ${{ secrets.GH_ACCESS_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
-      - name: Retrieve Version
+      - name: Retrieve Version from artifact (workflow_run trigger)
+        if: github.event_name == 'workflow_run'
         run: |
           echo "VERSION=$(cat ./number)" >> $GITHUB_OUTPUT
+        id: current_workflow_run
+      - name: Use provided tag or get latest release (workflow_dispatch trigger)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          if [ -n "${{ github.event.inputs.release_tag }}" ]; then
+            echo "VERSION=${{ github.event.inputs.release_tag }}" >> $GITHUB_OUTPUT
+          else
+            # Get latest release tag from GitHub API
+            LATEST_TAG=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r .tag_name)
+            echo "VERSION=${LATEST_TAG}" >> $GITHUB_OUTPUT
+          fi
+        id: current_dispatch
+      - name: Set final version
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_run" ]; then
+            echo "VERSION=${{ steps.current_workflow_run.outputs.VERSION }}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${{ steps.current_dispatch.outputs.VERSION }}" >> $GITHUB_OUTPUT
+          fi
         id: current
   bump-meshery:
     runs-on: ubuntu-latest
