@@ -5,9 +5,9 @@ import FormatColorTextOutlinedIcon from '@mui/icons-material/FormatColorTextOutl
 import NavigationOutlinedIcon from '@mui/icons-material/NavigationOutlined';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { Tab, Tabs } from '@mui/material';
-import { ThemeContext } from '@/lib/context/AppThemeContext';
+import { ThemeContext } from '../../lib/context/AppThemeContext';
 import { useContext } from 'react';
-import { lightModePalette, darkModePalette } from '@/pages/themes-explorer/palette';
+import { lightModePalette, darkModePalette } from '../../pages/themes-explorer/palette';
 
 export default function TabMenu({ value, setValue }) {
   const { mode } = useContext(ThemeContext);

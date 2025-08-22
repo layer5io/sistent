@@ -2,8 +2,8 @@
 
 import { Box, Container, Typography, Paper, Snackbar, Alert, Grid } from '@mui/material';
 import React, { useContext, useState } from 'react';
-import { ThemeContext } from '@/lib/context/AppThemeContext';
-import { darkModePalette, lightModePalette } from '@/pages/themes-explorer/palette';
+import { ThemeContext } from '../../lib/context/AppThemeContext';
+import { darkModePalette, lightModePalette } from '../../pages/themes-explorer/palette';
 
 export default function SemanticColors() {
   const { mode } = useContext(ThemeContext);

@@ -1,11 +1,10 @@
-import { toggleTheme } from '@/lib/redux/theme/themeSlice';
+
 import { IconButton } from '@mui/material';
 import { useContext } from 'react';
 
-import { useDispatch, useSelector } from 'react-redux';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { AppThemeContext, ThemeContext } from '@/lib/context/AppThemeContext';
+import {  ThemeContext } from '../lib/context/AppThemeContext';
 
 function DynamicIcon({ mode }) {
   if (mode === 'dark') {

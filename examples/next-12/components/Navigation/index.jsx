@@ -1,6 +1,6 @@
 'use client';
 
-import { darkModePalette, lightModePalette } from '@/pages/themes-explorer/palette';
+import { darkModePalette, lightModePalette } from '../../pages/themes-explorer/palette';
 import {
   Alert,
   Box,
@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 
-import { ThemeContext } from '@/lib/context/AppThemeContext';
+import { ThemeContext } from '../../lib/context/AppThemeContext';
 import { useContext } from 'react';
 
 export default function Navigation() {

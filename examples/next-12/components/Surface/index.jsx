@@ -3,8 +3,9 @@
 import * as React from "react";
 import { Container, Box, Typography, Tooltip, Snackbar, Alert } from "@mui/material";
 import { useContext } from "react";
-import { lightModePalette, darkModePalette } from "@/pages/themes-explorer/palette";
-import { ThemeContext } from "@/lib/context/AppThemeContext";
+
+import { lightModePalette,darkModePalette } from "../../pages/themes-explorer/palette";
+import { ThemeContext } from "../../lib/context/AppThemeContext";
 
 export default function Surface() {
   const { mode } = useContext(ThemeContext);

@@ -2,9 +2,10 @@
 
 import { Box, Container, Typography, Paper, Grid, Snackbar, Alert } from '@mui/material';
 import React, { useState, useContext } from 'react';
-import { ThemeContext } from '@/lib/context/AppThemeContext';
-import { darkModePalette, lightModePalette } from '@/pages/themes-explorer/palette';
-import { Palette, Eye, Sun, Send, Star } from 'lucide-react';
+import { ThemeContext } from '../../lib/context/AppThemeContext';
+import { darkModePalette, lightModePalette } from '../../pages/themes-explorer/palette';
+import { Palette, RemoveRedEye, WbSunny, Send, Star } from '@mui/icons-material';
+
 
 export default function BorderAndIconColors() {
   const { mode } = useContext(ThemeContext);
@@ -226,8 +227,8 @@ export default function BorderAndIconColors() {
           </Typography>
           <Box sx={{ display: 'flex', gap: 3 }}>
             <Palette size={22} color={iconColors.default} />
-            <Eye size={22} color={iconColors.secondary} />
-            <Sun size={22} color={iconColors.brand} />
+            <RemoveRedEye size={22} color={iconColors.secondary} />
+            <WbSunny size={22} color={iconColors.brand} />
             <Send size={22} color={iconColors.weather} />
             <Star size={22} color={iconColors.dualTone} />
           </Box>

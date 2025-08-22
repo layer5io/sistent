@@ -1,7 +1,7 @@
 'use client';
 
-import { ThemeContext } from '@/lib/context/AppThemeContext';
-import { darkModePalette, lightModePalette } from '@/pages/themes-explorer/palette';
+import { ThemeContext } from '../../lib/context/AppThemeContext';
+import { darkModePalette, lightModePalette } from '../../pages/themes-explorer/palette';
 import {
   Alert,
   Box,

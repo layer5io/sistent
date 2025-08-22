@@ -1,16 +1,16 @@
 import React from 'react';
 
-import ColorsExplorer from '@/components/BorderAndIcons';
-import Footer from '@/components/Footer';
-import Interactive from '@/components/Interactive';
-import Navigation from '@/components/Navigation';
-import SemanticColors from '@/components/Semantic';
-import Surface from '@/components/Surface';
-import TabMenu from '@/components/Tabs';
-import TextColors from '@/components/Text';
+import ColorsExplorer from '../../components/BorderAndIcons';
+import Footer from '../../components/Footer';
+import Interactive from '../../components/Interactive';
+import Navigation from '../../components/Navigation';
+import SemanticColors from '../../components/Semantic';
+import Surface from '../../components/Surface';
+import TabMenu from '../../components/Tabs';
+import TextColors from '../../components/Text';
 import { ColorLens } from '@mui/icons-material';
 import { Box, Typography } from '@mui/material';
-import ModeToggleButton from '@/components/ModeToggleButton';
+import ModeToggleButton from '../../components/ModeToggleButton';
 
 export default function ThemeFunction() {
   const [value, setValue] = React.useState(0);

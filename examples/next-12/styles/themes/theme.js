@@ -3,7 +3,9 @@ import { blueGrey } from '@mui/material/colors';
 
 const createCustomTheme = (paletteType) => {
   const commonPalette = {
-    primary: { main: '#666' },
+    primary: {
+      main: '#477E96'
+    },
     secondary: { main: '#00D3A9' },
     neutral: { main: '#64748B', contrastText: '#FFF' }
   };

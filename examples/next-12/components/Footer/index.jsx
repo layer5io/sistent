@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { Container, Box, Typography } from "@mui/material";
-import { ThemeContext } from "@/lib/context/AppThemeContext";
-import { lightModePalette, darkModePalette } from "@/pages/themes-explorer/palette";
+import { ThemeContext } from "../../lib/context/AppThemeContext";
+import { lightModePalette, darkModePalette } from "../../pages/themes-explorer/palette";
 
 export default function Footer() {
   const { mode } = React.useContext(ThemeContext);

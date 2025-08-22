@@ -5,7 +5,6 @@ import { alpha } from '@mui/material';
  */
 export const KEPPEL = '#00B39F';
 
-
 export const DARK_KEPPEL = '#00A18F';
 export const CARIBBEAN_GREEN = '#00D3A9';
 export const TEAL_BLUE = '#477E96';
@@ -62,11 +61,10 @@ export const keppel = {
   60: '#93E6D1',
   50: '#41CCB3',
   40: '#00B39F',
-  
+
   30: '#007763',
   20: '#006661',
   10: '#00403f'
-  
 };
 
 export const carribean = {
@@ -87,14 +85,12 @@ export const saffron = {
   30: '#c4990a',
   20: '#785400',
   10: '#523600'
-  
 };
 
 /**
  * Grayscale Colors
  */
 export const charcoal = {
-  
   110: '#525252',
   100: '#FDFDFD',
   90: '#EAEDEE',
@@ -105,9 +101,8 @@ export const charcoal = {
   40: '#3C494F',
   30: '#28353A',
   20: '#142126',
-  
-  10: '#000D12'
 
+  10: '#000D12'
 };
 
 export const gray = {
@@ -140,7 +135,6 @@ export const blue = {
   30: '#1272CC',
   20: '#0754A6',
   10: '#003980'
-  
 };
 
 export const green = {
