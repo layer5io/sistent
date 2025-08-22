@@ -1,5 +1,5 @@
 import { PaletteOptions, alpha } from '@mui/material';
-import * as Colors from './colors';
+import * as Colors from './colors/colors';
 
 declare module '@mui/material/styles' {
   // Defines the interaction color options used in the palette.

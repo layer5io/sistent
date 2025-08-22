@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Box, Button, Tooltip } from "@mui/material";
-import { lightModePalette } from "@/pages/themes-explorer/palette";
+import { lightModePalette } from '@/lib/palette';
+import { Box, Button, Tooltip } from '@mui/material';
+import * as React from 'react';
 
-const navItems = ["Home", "About", "Services", "Contact"];
+const navItems = ['Home', 'About', 'Services', 'Contact'];
 
 export default function NavigationMenu() {
   const [activeIndex, setActiveIndex] = React.useState(0);
@@ -12,11 +12,11 @@ export default function NavigationMenu() {
   return (
     <Box
       sx={{
-        width:"95vw",
-        display: "flex",
+        width: '95vw',
+        display: 'flex',
         gap: 2,
         bgcolor: lightModePalette.navigation.primary,
-        p: 1,
+        p: 1
       }}
     >
       {navItems.map((item, index) => (
@@ -24,15 +24,13 @@ export default function NavigationMenu() {
           <Button
             onClick={() => setActiveIndex(index)}
             sx={{
-              color: index === activeIndex ? lightModePalette.navigation.active : "white",
+              color: index === activeIndex ? lightModePalette.navigation.active : 'white',
               backgroundColor:
-                index === activeIndex
-                  ? lightModePalette.navigation.secondary
-                  : "transparent",
-              textTransform: "none",
-              "&:hover": {
-                backgroundColor: lightModePalette.navigation.hover,
-              },
+                index === activeIndex ? lightModePalette.navigation.secondary : 'transparent',
+              textTransform: 'none',
+              '&:hover': {
+                backgroundColor: lightModePalette.navigation.hover
+              }
             }}
           >
             {item}

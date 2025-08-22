@@ -1,12 +1,12 @@
 'use client';
 
-import { Box, Container, Typography, Paper, Snackbar, Alert } from '@mui/material';
-import React, { useState, useContext } from 'react';
+import { Alert, Box, Container, Paper, Snackbar, Typography } from '@mui/material';
+import { useContext, useState } from 'react';
 import { ThemeContext } from '../../lib/context/AppThemeContext';
-import { darkModePalette, lightModePalette } from '../../pages/themes-explorer/palette';
+import { darkModePalette, lightModePalette } from '../../lib/palette';
 
 export default function TextColors() {
-  const { mode } = useContext(ThemeContext);  
+  const { mode } = useContext(ThemeContext);
   const palette = mode === 'dark' ? darkModePalette : lightModePalette;
   const textColors = palette.text;
 
@@ -26,7 +26,7 @@ export default function TextColors() {
           p: 2,
           border: `1px solid ${palette.border.default}`,
           borderRadius: '10px',
-          backgroundColor: palette.surface?.primary ?? palette.background.default,
+          backgroundColor: palette.surface?.primary ?? palette.background.default
         }}
       >
         <Typography sx={{ fontSize: '1rem', fontWeight: 700, color: textColors.default }}>
@@ -37,7 +37,6 @@ export default function TextColors() {
           Typography colors for different content hierarchy and semantic meaning
         </Typography>
 
-
         <Box
           sx={{
             display: 'flex',
@@ -45,7 +44,7 @@ export default function TextColors() {
             flexWrap: 'wrap',
             mb: 3,
             width: '100%',
-            justifyContent: 'space-around',
+            justifyContent: 'space-around'
           }}
         >
           {[
@@ -54,7 +53,7 @@ export default function TextColors() {
             { key: 'tertiary', label: 'Tertiary text' },
             { key: 'disabled', label: 'Disabled text' },
             { key: 'inverse', label: 'Inverse text' },
-            { key: 'brand', label: 'Brand text' },
+            { key: 'brand', label: 'Brand text' }
           ].map(({ key, label }) => (
             <Box
               key={key}
@@ -66,7 +65,7 @@ export default function TextColors() {
                 borderRadius: '10px',
                 boxShadow: `0px 2px 8px ${palette.surface?.overlay ?? 'rgba(0,0,0,0.12)'}`,
                 cursor: 'pointer',
-                backgroundColor: palette.surface?.elevated,
+                backgroundColor: palette.surface?.elevated
               }}
             >
               <Box
@@ -76,7 +75,7 @@ export default function TextColors() {
                   borderRadius: '8px',
                   background: textColors[key],
                   border: `1px solid ${palette.border.normal}`,
-                  mb: 1,
+                  mb: 1
                 }}
               />
               <Typography sx={{ fontSize: '0.85rem', fontWeight: 600, color: textColors.default }}>
@@ -92,17 +91,18 @@ export default function TextColors() {
           ))}
         </Box>
 
-
         <Box
           sx={{
             display: 'flex',
             gap: 8,
             width: '100%',
-            justifyContent: 'space-around',
+            justifyContent: 'space-around'
           }}
         >
           <Box>
-            <Typography sx={{ fontSize: '0.9rem', fontWeight: 600, mb: 1, color: textColors.default }}>
+            <Typography
+              sx={{ fontSize: '0.9rem', fontWeight: 600, mb: 1, color: textColors.default }}
+            >
               Semantic Text Colors
             </Typography>
             <Typography sx={{ color: textColors.info }} fontSize={'13px'}>
@@ -120,7 +120,9 @@ export default function TextColors() {
           </Box>
 
           <Box>
-            <Typography sx={{ fontSize: '0.9rem', fontWeight: 600, mb: 1, color: textColors.default }}>
+            <Typography
+              sx={{ fontSize: '0.9rem', fontWeight: 600, mb: 1, color: textColors.default }}
+            >
               Text Hierarchy
             </Typography>
             <Typography sx={{ fontSize: '1.1rem', fontWeight: 700, color: textColors.default }}>

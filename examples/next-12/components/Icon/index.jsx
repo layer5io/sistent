@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import * as React from "react";
+import { lightModePalette } from '@/lib/palette';
+import InfoIcon from '@mui/icons-material/Info';
 import {
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Grid,
-  Tooltip,
-  IconButton,
-  Snackbar,
   Alert,
   Box,
-} from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
-import { lightModePalette } from "@/pages/themes-explorer/palette";
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  IconButton,
+  Snackbar,
+  Tooltip
+} from '@mui/material';
+import * as React from 'react';
 
 export default function IconColorDemo() {
   const [open, setOpen] = React.useState(false);
-  const [copied, setCopied] = React.useState("");
+  const [copied, setCopied] = React.useState('');
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -29,17 +29,17 @@ export default function IconColorDemo() {
     setCopied(color);
   };
 
-  const flattenColors = (obj ,prefix = "lightMode", seen = new Set()) => {
+  const flattenColors = (obj, prefix = 'lightMode', seen = new Set()) => {
     let colors = [];
     Object.keys(obj).forEach((key) => {
       const value = obj[key];
-      if (typeof value === "string") {
+      if (typeof value === 'string') {
         const token = `${prefix}.${key}`;
         if (!seen.has(token)) {
           colors.push({ token, color: value });
           seen.add(token);
         }
-      } else if (typeof value === "object") {
+      } else if (typeof value === 'object') {
         colors = colors.concat(flattenColors(value, `${prefix}.${key}`, seen));
       }
     });
@@ -64,19 +64,19 @@ export default function IconColorDemo() {
                 <Tooltip title={`${token} (${color})`} arrow>
                   <Box
                     sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center'
                     }}
                   >
                     <IconButton
                       onClick={() => handleCopy(color)}
                       sx={{
                         color: color,
-                        fontSize: 32, 
-                        "&:hover": {
-                          opacity: 0.8,
-                        },
+                        fontSize: 32,
+                        '&:hover': {
+                          opacity: 0.8
+                        }
                       }}
                     >
                       <InfoIcon fontSize="inherit" />
@@ -97,10 +97,10 @@ export default function IconColorDemo() {
       <Snackbar
         open={!!copied}
         autoHideDuration={1000}
-        onClose={() => setCopied("")}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        onClose={() => setCopied('')}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       >
-        <Alert severity="success" sx={{ width: "100%" }}>
+        <Alert severity="success" sx={{ width: '100%' }}>
           Copied {copied} to clipboard!
         </Alert>
       </Snackbar>

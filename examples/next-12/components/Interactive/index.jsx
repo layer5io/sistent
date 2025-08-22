@@ -1,24 +1,14 @@
 'use client';
 
-import { ThemeContext } from '../../lib/context/AppThemeContext';
-import { darkModePalette, lightModePalette } from '../../pages/themes-explorer/palette';
-import {
-  Alert,
-  Box,
-  Button,
-  Container,
-  Snackbar,
-  Tooltip,
-  Typography,
-  Paper
-} from '@mui/material';
-import { useContext } from 'react';
+import { Alert, Box, Button, Container, Paper, Snackbar, Tooltip, Typography } from '@mui/material';
 import * as React from 'react';
+import { useContext } from 'react';
+import { ThemeContext } from '../../lib/context/AppThemeContext';
+import { darkModePalette, lightModePalette } from '../../lib/palette';
 
 export default function Interactive() {
   const { mode } = useContext(ThemeContext);
 
-  
   const palette = mode === 'dark' ? darkModePalette : lightModePalette;
   const interactiveColors = palette.interactive;
 
@@ -40,28 +30,24 @@ export default function Interactive() {
     <Container maxWidth="100%" sx={{ marginTop: '2rem' }}>
       <Box
         sx={{
-          border: `1px solid ${palette.border.default}`, 
+          border: `1px solid ${palette.border.default}`,
           padding: '20px',
           borderRadius: '10px',
           boxShadow:
-            mode === 'dark'
-              ? '0px 4px 20px rgba(0,0,0,0.4)'
-              : '0px 4px 20px rgba(0,0,0,0.1)',
-          backgroundColor: palette.background.card 
+            mode === 'dark' ? '0px 4px 20px rgba(0,0,0,0.4)' : '0px 4px 20px rgba(0,0,0,0.1)',
+          backgroundColor: palette.background.card
         }}
       >
         <Typography
           sx={{
             fontSize: '1.3rem',
             fontWeight: 700,
-            color: palette.text.default 
+            color: palette.text.default
           }}
         >
           Interactive Tokens
         </Typography>
-        <Typography
-          sx={{ color: palette.text.secondary, fontSize: '0.8rem' }}
-        >
+        <Typography sx={{ color: palette.text.secondary, fontSize: '0.8rem' }}>
           Colors for buttons, links, and interactive elements with all states
         </Typography>
 
@@ -87,7 +73,7 @@ export default function Interactive() {
                   display: 'flex',
                   flexDirection: 'column',
                   borderRadius: '20px',
-                  border: `1px solid ${palette.border.normal}`, 
+                  border: `1px solid ${palette.border.normal}`,
                   paddingY: '10px',
                   alignItems: 'center',
                   textAlign: 'center',
@@ -112,7 +98,7 @@ export default function Interactive() {
                   variant="subtitle2"
                   sx={{
                     fontWeight: 600,
-                    color: palette.text.default 
+                    color: palette.text.default
                   }}
                 >
                   {name.charAt(0).toUpperCase() + name.slice(1)}
@@ -120,7 +106,7 @@ export default function Interactive() {
 
                 <Typography
                   sx={{
-                    color: palette.text.secondary, 
+                    color: palette.text.secondary,
                     fontSize: '0.75rem',
                     mb: 0.5
                   }}
@@ -128,24 +114,24 @@ export default function Interactive() {
                   {isGradient
                     ? 'Highlight surfaces'
                     : name === 'primary'
-                    ? 'Default interactive'
-                    : name === 'hover'
-                    ? 'Hover state'
-                    : name === 'pressed'
-                    ? 'Pressed state'
-                    : name === 'secondary'
-                    ? 'Secondary elements'
-                    : name === 'tertiary'
-                    ? 'Tertiary elements'
-                    : name === 'disabled'
-                    ? 'Disabled state'
-                    : ''}
+                      ? 'Default interactive'
+                      : name === 'hover'
+                        ? 'Hover state'
+                        : name === 'pressed'
+                          ? 'Pressed state'
+                          : name === 'secondary'
+                            ? 'Secondary elements'
+                            : name === 'tertiary'
+                              ? 'Tertiary elements'
+                              : name === 'disabled'
+                                ? 'Disabled state'
+                                : ''}
                 </Typography>
 
                 <Typography
                   sx={{
                     fontSize: '0.75rem',
-                    color: palette.text.secondary, 
+                    color: palette.text.secondary,
                     fontFamily: 'monospace'
                   }}
                 >
@@ -156,19 +142,16 @@ export default function Interactive() {
           })}
         </Container>
 
-
         <Paper
           sx={{
             mt: 4,
             p: 2,
-            border: `1px solid ${palette.border.default}`, 
+            border: `1px solid ${palette.border.default}`,
             borderRadius: '10px',
-            backgroundColor: palette.background.card 
+            backgroundColor: palette.background.card
           }}
         >
-          <Typography
-            sx={{ fontWeight: 600, mb: 2, color: palette.text.default }}
-          >
+          <Typography sx={{ fontWeight: 600, mb: 2, color: palette.text.default }}>
             Interactive Demo
           </Typography>
 
@@ -180,9 +163,7 @@ export default function Interactive() {
                 disabled={name === 'disabled'}
                 sx={{
                   backgroundColor: value,
-                  color: name === 'disabled'
-                    ? palette.text.secondary
-                    : palette.text.inverse, 
+                  color: name === 'disabled' ? palette.text.secondary : palette.text.inverse,
                   textTransform: 'capitalize',
                   '&:hover': {
                     backgroundColor: value
@@ -196,7 +177,6 @@ export default function Interactive() {
         </Paper>
       </Box>
 
-
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={2000}
@@ -208,8 +188,8 @@ export default function Interactive() {
           severity="success"
           sx={{
             width: '100%',
-            backgroundColor: palette.background.secondary, 
-            color: palette.text.default 
+            backgroundColor: palette.background.secondary,
+            color: palette.text.default
           }}
         >
           Copied: {copiedText}
