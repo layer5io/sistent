@@ -1,9 +1,9 @@
-import { toggleTheme } from '@/lib/redux/theme/themeSlice';
 import { IconButton } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useContext } from 'react';
 
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import { ThemeContext } from '../lib/context/AppThemeContext';
 
 function DynamicIcon({ mode }) {
   if (mode === 'dark') {
@@ -14,14 +14,9 @@ function DynamicIcon({ mode }) {
 }
 
 function ModeToggleButton() {
-  const dispatch = useDispatch(); // Initialize the useDispatch function
-
-  // Use useSelector to get the darkTheme state from your Redux store
-  const mode = useSelector((state) => (state.theme.darkTheme ? 'dark' : 'light'));
-
+  const { setMode, mode } = useContext(ThemeContext);
   const toggleMode = () => {
-    // Dispatch the toggleTheme action when the button is clicked
-    dispatch(toggleTheme());
+    setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
   return (

@@ -1,3 +1,4 @@
+import { lightModePalette } from '@/lib/palette';
 import {
   Button,
   Dialog,
@@ -8,6 +9,7 @@ import {
   Typography
 } from '@layer5/sistent-components';
 import { CloseIcon } from '@layer5/sistent-svg';
+import { Tooltip } from '@mui/material';
 import React from 'react';
 
 export default function DefaultModal() {
@@ -25,32 +27,39 @@ export default function DefaultModal() {
       <Button variant="contained" onClick={handleClickOpen}>
         Open Dialog
       </Button>
-      <Dialog onClose={handleClose} open={open}>
-        <DialogTitle>Modal Title</DialogTitle>
-        <IconButton onClick={handleClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
-          <CloseIcon width={24} height={24} />
-        </IconButton>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-            in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-            lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-            scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-            auctor fringilla.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" autoFocus onClick={handleClose}>
-            Save changes
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <Tooltip title={`lightModePalette.surface.elevated:${lightModePalette.surface.elevated}`}>
+        <Dialog
+          sx={{ backgroundColor: lightModePalette.surface.elevated }}
+          onClose={handleClose}
+          open={open}
+        >
+          <DialogTitle>Modal Title</DialogTitle>
+          <IconButton onClick={handleClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
+            <CloseIcon width={24} height={24} />
+          </IconButton>
+          <DialogContent dividers>
+            <Typography gutterBottom>
+              Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac
+              facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum
+              at eros.
+            </Typography>
+            <Typography gutterBottom>
+              Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
+              lacus vel augue laoreet rutrum faucibus dolor auctor.
+            </Typography>
+            <Typography gutterBottom>
+              Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
+              scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
+              auctor fringilla.
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained" autoFocus onClick={handleClose}>
+              Save changes
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Tooltip>
     </React.Fragment>
   );
 }

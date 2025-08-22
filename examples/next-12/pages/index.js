@@ -1,4 +1,4 @@
-import ModeToggleButton from '@/components/ModeToggleButton';
+import ModeToggleButton from '../components/ModeToggleButton';
 import { ResponsiveDataTable } from '@layer5/sistent-components';
 import React from 'react';
 
