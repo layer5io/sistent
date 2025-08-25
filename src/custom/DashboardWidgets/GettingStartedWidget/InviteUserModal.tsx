@@ -205,8 +205,12 @@ export default function UserInviteModal({
 
       handleSuccess(`Invite send to ${inviteeName.trim() === '' ? inviteeEmail : inviteeName}.`);
     } catch (e) {
-      console.debug('cannot send user invite', e);
-      handleError(`Invitation to ${inviteeFirstName} ${inviteeLastName} failed.`);
+      console.debug('Error during user invite:', e);
+      const errorMessage =
+        e?.response?.data?.message ||
+        e?.message ||
+        `Invitation to ${inviteeFirstName} ${inviteeLastName} failed.`;
+      handleError(`Invitation failed: ${errorMessage}`);
     }
     setInviteModal(false);
     setLoading(false);
