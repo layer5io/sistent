@@ -18,7 +18,7 @@ function getWindowDimensions(): WindowDimensions {
  *
  * @returns {WindowDimensions} { width, height }
  */
-export function useWindowDimensions(): WindowDimensions {
+function useWindowDimensions(): WindowDimensions {
   const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
 
   React.useEffect(() => {
@@ -46,6 +46,8 @@ export function useWindowDimensions(): WindowDimensions {
 
   return windowDimensions;
 }
+
+export default useWindowDimensions;
 
 /**
  * Represents the width and height of the window.

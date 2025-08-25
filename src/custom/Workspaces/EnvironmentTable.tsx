@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useWindowDimensions } from 'hooks/ui';
+import { useEnvironmentAssignment } from 'hooks/workspaces';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import React, { useState } from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '../../base';
@@ -8,7 +10,6 @@ import { useTheme } from '../../theme';
 import { CustomColumnVisibilityControl } from '../CustomColumnVisibilityControl';
 import { CustomTooltip } from '../CustomTooltip';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
-import { useWindowDimensions } from '../Helpers/Dimension';
 import {
   ColView,
   updateVisibleColumns
@@ -17,7 +18,6 @@ import ResponsiveDataTable, { IconWrapper } from '../ResponsiveDataTable';
 import SearchBar from '../SearchBar';
 import { TooltipIcon } from '../TooltipIconButton';
 import AssignmentModal from './AssignmentModal';
-import useEnvironmentAssignment from './hooks/useEnvironmentAssignment';
 import {
   CellStyle,
   CustomBodyRenderStyle,

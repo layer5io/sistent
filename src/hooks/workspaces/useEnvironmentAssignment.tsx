@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { withDefaultPageArgs } from '../../PerformersSection/PerformersSection';
-import { AssignmentHookResult, Environment } from '../types';
+import { withDefaultPageArgs } from '../../custom/PerformersSection/PerformersSection';
+import { AssignmentHookResult, Environment } from '../../custom/Workspaces/types';
 
 interface UseEnvironmentAssignmentProps {
   workspaceId: string;
