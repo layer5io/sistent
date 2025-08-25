@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Theme } from '@mui/material';
+import { useWindowDimensions } from 'hooks/ui';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { useRef, useState } from 'react';
 import { Box, Tooltip } from '../../base';
@@ -8,7 +9,6 @@ import Github from '../../icons/Github/GithubIcon';
 import Google from '../../icons/Google/GoogleIcon';
 import LogoutIcon from '../../icons/Logout/LogOutIcon';
 import { CHARCOAL, SistentThemeProviderWithoutBaseLine } from '../../theme';
-import { useWindowDimensions } from '../Helpers/Dimension';
 import {
   ColView,
   updateVisibleColumns

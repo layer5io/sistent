@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AddIcon from '@mui/icons-material/Add';
+import { useTeamAssignment } from 'hooks/workspaces';
 import { useState } from 'react';
 import { Button } from '../../base';
 import { TeamsIcon } from '../../icons';
@@ -9,7 +10,6 @@ import SearchBar from '../SearchBar';
 import { TeamTableConfiguration } from '../TeamTable';
 import TeamTable from '../TeamTable/TeamTable';
 import AssignmentModal from './AssignmentModal';
-import useTeamAssignment from './hooks/useTeamAssignment';
 import { TableHeader, TableRightActionHeader } from './styles';
 
 export interface TeamsTableProps {

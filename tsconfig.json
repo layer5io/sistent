@@ -19,6 +19,12 @@
         "resolveJsonModule": true,
         "allowSyntheticDefaultImports": true,
         "importHelpers": true,
+        "baseUrl": ".",
+        "paths": {
+            "@/src/*": ["src/*"],
+            "@/site/*": ["site/*"],
+            "hooks/*": ["src/hooks/*"]
+        }
     },
     "include": [
         "."
