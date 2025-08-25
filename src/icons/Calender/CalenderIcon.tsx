@@ -1,8 +1,10 @@
 import { FC } from 'react';
 import { KEPPEL_GREEN_FILL } from '../../constants/constants';
 import { IconProps } from '../types';
+import { useTheme } from './../../theme/index';
 
 const CalenderIcon: FC<IconProps> = ({ width, height, ...props }) => {
+  const theme = useTheme();
   return (
     <svg
       width={width}
@@ -18,7 +20,7 @@ const CalenderIcon: FC<IconProps> = ({ width, height, ...props }) => {
       <path d="M11 13H4V15H11V13Z" />
       <path
         d="M15.256 20V17.744H13V16.244H15.256V14H16.756V16.244H19V17.744H16.756V20H15.256Z"
-        fill={props.stroke || KEPPEL_GREEN_FILL}
+        fill={theme.palette.interactive.primary}
       />
     </svg>
   );

@@ -2,7 +2,6 @@ import { Box, Button, Checkbox, styled } from '@mui/material';
 import {} from '../../constants/constants';
 import {
   BLACK,
-  BUTTON_MODAL,
   CARIBBEAN_GREEN,
   CHINESE_SILVER,
   CULTURED,
@@ -150,7 +149,7 @@ export const FeedbackSubmitButton = styled(Button)<SubmitProp>(({ isOpen }) => (
 }));
 
 export const FeedbackButton = styled(Button)<RenderPositionType>(({ theme, renderPosition }) => ({
-  backgroundColor: BUTTON_MODAL,
+  backgroundColor: theme.palette.interactive.primary,
   color: CULTURED,
   borderRadius: '5px',
   padding: '10px 20px',
@@ -159,7 +158,7 @@ export const FeedbackButton = styled(Button)<RenderPositionType>(({ theme, rende
   position: 'fixed',
   ...positionMap[renderPosition],
   '&:hover': {
-    backgroundColor: theme.palette.mode === 'dark' ? BLACK : '#213A45'
+    boxShadow: theme.shadows[4]
   }
 }));
 
@@ -250,14 +249,8 @@ export const FeedbackOptionButton = styled(Button)<FeedbackMessageProps>(({ them
   padding: '0rem',
   borderRadius: '0px',
   flexDirection: 'column',
-  borderBottom: isOpen ? `2px solid ${KEPPEL}` : '',
-  background: isOpen
-    ? theme.palette.mode === 'dark'
-      ? BLACK
-      : SNOW_WHITE
-    : theme.palette.mode === 'dark'
-      ? DARK_JUNGLE_GREEN
-      : DARK_SLATE_GRAY,
+  borderBottom: isOpen ? `2px solid ${theme.palette.interactive.primary}` : '',
+  background: isOpen ? SNOW_WHITE : theme.palette.navigation.secondary,
   color: isOpen
     ? theme.palette.mode === 'dark'
       ? SNOW_WHITE
