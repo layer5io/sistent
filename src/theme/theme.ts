@@ -164,8 +164,6 @@ export const createCustomTheme = (mode: PaletteMode, primitives?: PrimitivePalet
     mode == 'light' ? SistentDefaultPrimitivePaletteLight : SistentDefaultPrimitivePaletteDark;
   const p = primitives ? _.merge({}, defaultPrimitives, primitives) : undefined;
 
-  console.log('Creating theme with mode:', mode, 'and brandPalette:', primitives);
-
   const customBrandedTheme: Partial<ThemePalette> = p
     ? {
         surface: {
