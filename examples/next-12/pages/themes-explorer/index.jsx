@@ -1,0 +1,46 @@
+import React from 'react';
+
+import { ColorLens } from '@mui/icons-material';
+import { Box, Typography } from '@mui/material';
+import AllColors from '../../components/AllColors';
+import ColorsExplorer from '../../components/BorderAndIcons';
+import Footer from '../../components/Footer';
+import Interactive from '../../components/Interactive';
+import ModeToggleButton from '../../components/ModeToggleButton';
+import Navigation from '../../components/Navigation';
+import SemanticColors from '../../components/Semantic';
+import Surface from '../../components/Surface';
+import TabMenu from '../../components/Tabs';
+import TextColors from '../../components/Text';
+
+export default function ThemeFunction() {
+  const [value, setValue] = React.useState(0);
+
+  return (
+    <React.Fragment>
+      <ModeToggleButton />
+      <Box sx={{ padding: '20px' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          <ColorLens />
+          <Typography variant="h4" fontWeight="bold">
+            Design System Palette
+          </Typography>
+        </Box>
+        <Typography marginTop="10px" variant="body1" fontWeight="medium" color="#818675ff">
+          Comprehensive color system with surface navigation and semantic tokens
+        </Typography>
+        <TabMenu value={value} setValue={setValue} />
+
+        {value === 0 && <Surface />}
+        {value === 1 && <Interactive />}
+        {value === 2 && <Navigation />}
+        {value === 3 && <SemanticColors />}
+        {value === 4 && <TextColors />}
+        {value === 5 && <ColorsExplorer />}
+        {value === 6 && <AllColors />}
+
+        <Footer />
+      </Box>
+    </React.Fragment>
+  );
+}

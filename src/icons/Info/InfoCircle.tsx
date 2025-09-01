@@ -1,10 +1,11 @@
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
+import { WHITE } from '../../theme/colors';
 import { IconProps } from '../types';
 
 export function InfoCircleIcon({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  fill = 'currentColor',
+  fill = WHITE,
   ...props
 }: IconProps): JSX.Element {
   return (

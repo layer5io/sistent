@@ -6,31 +6,15 @@ const createCustomTheme = (paletteType) => {
     primary: {
       main: '#477E96'
     },
-    secondary: {
-      main: '#00D3A9'
-    },
-    neutral: {
-      main: '#64748B',
-      contrastText: '#FFF'
-    }
+    secondary: { main: '#00D3A9' },
+    neutral: { main: '#64748B', contrastText: '#FFF' }
   };
 
-  const palette =
-    paletteType === 'dark'
-      ? {
-          mode: 'dark',
-          ...commonPalette,
-          secondary: {
-            ...commonPalette.secondary
-          }
-        }
-      : {
-          mode: 'light',
-          ...commonPalette,
-          secondary: {
-            ...commonPalette.secondary
-          }
-        };
+  const palette = {
+    mode: paletteType,
+    ...commonPalette,
+    secondary: { ...commonPalette.secondary }
+  };
 
   const theme = createTheme({
     palette,
@@ -43,13 +27,7 @@ const createCustomTheme = (paletteType) => {
     },
     shape: { borderRadius: 8 },
     breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 960,
-        lg: 1280,
-        xl: 1920
-      }
+      values: { xs: 0, sm: 600, md: 960, lg: 1280, xl: 1920 }
     },
     components: {
       MuiAppBar: {
@@ -61,31 +39,23 @@ const createCustomTheme = (paletteType) => {
             backgroundColor: blueGrey[600]
           }
         }
-      }
-    }
-  });
-
-  const overrides = {
-    // Your overrides here
-  };
-
-  theme.overrides = {
-    ...overrides,
-    MuiCssBaseline: {
-      '@global': {
-        body: {
-          backgroundColor: paletteType === 'dark' ? '#303030' : '#eaeff1',
-          color: paletteType === 'dark' ? '#000000' : '#FFFFFF'
-        },
-        h5: {
-          color: paletteType === 'dark' ? '#000000' : '#FFFFFF'
-        },
-        p: {
-          color: paletteType === 'dark' ? '#000000' : '#FFFFFF'
+      },
+      MuiCssBaseline: {
+        styleOverrides: {
+          body: {
+            backgroundColor: paletteType === 'dark' ? '#303030' : '#eaeff1',
+            color: paletteType === 'dark' ? '#FFFFFF' : '#000000'
+          },
+          h5: {
+            color: paletteType === 'dark' ? '#FFFFFF' : '#000000'
+          },
+          p: {
+            color: paletteType === 'dark' ? '#FFFFFF' : '#000000'
+          }
         }
       }
     }
-  };
+  });
 
   return theme;
 };
