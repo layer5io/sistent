@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { withDefaultPageArgs } from '../../PerformersSection/PerformersSection';
-import { AssignmentHookResult, Team } from '../types';
+import { withDefaultPageArgs } from '../../custom/PerformersSection/PerformersSection';
+import { AssignmentHookResult, Team } from '../../custom/Workspaces/types';
 
 interface UseTeamAssignmentProps {
   workspaceId: string;

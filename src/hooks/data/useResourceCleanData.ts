@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash';
 import moment from 'moment';
-import { GetResourceCleanDataProps, NumberState } from './types';
+import {
+  GetResourceCleanDataProps,
+  NumberState
+} from '../../custom/ResourceDetailFormatters/types';
 
-export const useResourceCleanData = () => {
+const useResourceCleanData = () => {
   const structureNumberStates = (parsedStatus: any, parsedSpec: any): NumberState[] => {
     const numberStates: NumberState[] = [];
 
@@ -182,3 +185,5 @@ export const useResourceCleanData = () => {
 
   return { getResourceCleanData, structureNumberStates, getAge, getStatus, joinwithEqual };
 };
+
+export default useResourceCleanData;
