@@ -23,7 +23,7 @@
     "format:write": "prettier --write \"**/*.{ts,tsx,md}\" --config ./.prettierrc",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 --fix",
-    "prepare": "husky install",
+    "prepare": "husky",
     "test": "jest",
     "versionup:major": "npm version major",
     "versionup:minor": "npm version minor",

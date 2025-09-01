@@ -21,6 +21,7 @@ export interface CustomDialogProps {
   closeComponent: React.ReactNode;
   maxWidth?: DialogProps['maxWidth'];
   onClose: () => void;
+  'data-testid'?: string;
 }
 
 function ModalCard({
@@ -31,29 +32,42 @@ function ModalCard({
   actions,
   hideActions = false,
   content,
-  closeComponent
+  closeComponent,
+  'data-testid': testId = 'modal-card-wrapper'
 }: CustomDialogProps): JSX.Element {
   return (
-    <ModalWrapper>
-      <HeaderModal>
+    <ModalWrapper data-testid={testId}>
+      <HeaderModal data-testid="modal-card-header">
         {leftHeaderIcon && (
-          <div style={{ display: 'flex', alignItems: 'center' }}>{leftHeaderIcon}</div>
+          <div
+            style={{ display: 'flex', alignItems: 'center' }}
+            data-testid="modal-card-header-icon"
+          >
+            {leftHeaderIcon}
+          </div>
         )}
         {title && (
-          <>
-            <div style={{ display: 'flex', alignItems: 'center', color: 'white' }}>
-              <HeaderTypography>{title}</HeaderTypography>
-            </div>
-          </>
+          <div
+            style={{ display: 'flex', alignItems: 'center', color: 'white' }}
+            data-testid="modal-card-title"
+          >
+            <HeaderTypography>{title}</HeaderTypography>
+          </div>
         )}
-
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          {helpText && <>{helpArea}</>}
-          {closeComponent}
+        <div
+          style={{ display: 'flex', alignItems: 'center' }}
+          data-testid="modal-card-header-right"
+        >
+          {helpText && <div data-testid="modal-card-help-area">{helpArea}</div>}
+          <div data-testid="modal-card-close-button">{closeComponent}</div>
         </div>
       </HeaderModal>
-      <ContentContainer>{content}</ContentContainer>
-      {!hideActions && <ButtonContainer>{actions}</ButtonContainer>}
+
+      <ContentContainer data-testid="modal-card-content">{content}</ContentContainer>
+
+      {!hideActions && (
+        <ButtonContainer data-testid="modal-card-actions">{actions}</ButtonContainer>
+      )}
     </ModalWrapper>
   );
 }
