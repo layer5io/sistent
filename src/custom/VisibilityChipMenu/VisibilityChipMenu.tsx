@@ -10,11 +10,12 @@ export const VIEW_VISIBILITY = {
   PUBLISHED: 'published'
 } as const;
 
- 
-export type ViewVisibility = (typeof VIEW_VISIBILITY)[keyof typeof VIEW_VISIBILITY];
+
+/* eslint-disable-next-line no-redeclare */
+export type VIEW_VISIBILITY = (typeof VIEW_VISIBILITY)[keyof typeof VIEW_VISIBILITY];
 
 interface VisibilityChipMenuProps {
-  value: ViewVisibility;
+  value: VIEW_VISIBILITY;
   onChange?: (value: string) => void;
   options?: [string, React.ElementType][];
   enabled: boolean;
