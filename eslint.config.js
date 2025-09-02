@@ -92,7 +92,7 @@ module.exports = [
         },
     },
 
-    // Main configuration - matches your old .eslintrc.js exactly
+    // Main configuration - matches old .eslintrc.js 
     {
         files: ["**/*.{js,jsx,ts,tsx}"],
         ignores: ["**/*.test.{js,jsx,ts,tsx}", "**/__tests__/**/*.{js,jsx,ts,tsx}"],
