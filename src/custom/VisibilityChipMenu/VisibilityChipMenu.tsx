@@ -10,10 +10,11 @@ export const VIEW_VISIBILITY = {
   PUBLISHED: 'published'
 } as const;
 
-export type VIEW_VISIBILITY = (typeof VIEW_VISIBILITY)[keyof typeof VIEW_VISIBILITY];
+ 
+export type ViewVisibility = (typeof VIEW_VISIBILITY)[keyof typeof VIEW_VISIBILITY];
 
 interface VisibilityChipMenuProps {
-  value: VIEW_VISIBILITY;
+  value: ViewVisibility;
   onChange?: (value: string) => void;
   options?: [string, React.ElementType][];
   enabled: boolean;
