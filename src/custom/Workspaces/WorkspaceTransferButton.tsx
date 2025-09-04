@@ -107,7 +107,7 @@ export const RecordRow: React.FC<RecordRowProps> = ({ title, name, date }) => {
               sx={{
                 fontSize: 14,
                 fontStyle: 'italic',
-                color: `${theme.palette.text.disabled}`,
+                color: `${theme.palette.background.constant?.white}99`,
                 paddingRight: '12px',
                 textAlign: 'end'
               }}

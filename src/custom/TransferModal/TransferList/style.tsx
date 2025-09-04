@@ -53,7 +53,7 @@ export const TransferButton = styled(Button)(({ theme }) => ({
   fill: theme.palette.icon.default,
   '&:hover': {
     borderColor: theme.palette.border?.brand,
-    backgroundColor: `${KEPPEL} !important`,
+    backgroundColor: `${theme.palette.interactive.primary} !important`,
     fill: theme.palette.icon.inverse
   }
 }));
