@@ -169,6 +169,12 @@ declare module '@mui/material/styles' {
         alt: string;
       };
     };
+    status: {
+      success: string;
+      warning: string;
+      error: string;
+      info: string;
+    };
   }
 
   // surface tokens need to have enough contrast
@@ -260,6 +266,13 @@ declare module '@mui/material/styles' {
         default: string;
         alt: string;
       };
+    };
+
+    status: {
+      success: string;
+      warning: string;
+      error: string;
+      info: string;
     };
   }
 }
@@ -416,6 +429,12 @@ export const lightModePalette: PaletteOptions = {
       default: Colors.charcoal[40],
       alt: Colors.charcoal[40]
     }
+  },
+  status: {
+    success: Colors.notificationColors.success.main,
+    warning: Colors.notificationColors.warning.main,
+    error: Colors.notificationColors.error.main,
+    info: Colors.notificationColors.info.main
   }
 };
 
@@ -567,5 +586,11 @@ export const darkModePalette: PaletteOptions = {
       default: Colors.accentGrey[100],
       alt: Colors.keppel[40]
     }
+  },
+  status: {
+    success: Colors.notificationColors.success.main,
+    warning: Colors.notificationColors.warning.main,
+    error: Colors.notificationColors.error.main,
+    info: Colors.notificationColors.info.main
   }
 };

@@ -297,6 +297,12 @@ export const createCustomTheme = (mode: PaletteMode, primitives?: PrimitivePalet
             default: alpha(p.foreground, 0.9),
             alt: alpha(p.foreground, 0.8)
           }
+        },
+        status: {
+          success: Colors.notificationColors.success.main,
+          warning: Colors.notificationColors.warning.main,
+          error: Colors.notificationColors.error.main,
+          info: Colors.notificationColors.info.main
         }
       }
     : {};
