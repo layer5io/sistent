@@ -1,5 +1,5 @@
 import { styled, Typography } from '@mui/material';
-import { accentGrey, DARK_PRIMARY_COLOR, GRAY97, slateGray, WHITESMOKE } from '../../theme';
+import { accentGrey, DARK_PRIMARY_COLOR, GRAY97, WHITESMOKE } from '../../theme';
 import { charcoal, DARK_TEAL, SNOW_WHITE } from '../../theme/colors/colors';
 
 type DesignCardProps = {
@@ -52,9 +52,9 @@ export const StyledInnerClassWrapper = styled('div')<StyledInnerClassWrapperProp
   theme
 }) => {
   const mapToColor: Record<string, string> = {
-    community: slateGray.main,
-    official: theme.palette.background.cta?.default || '#EBC017',
-    verified: theme.palette.background.brand?.default || '#00B39F'
+    community: theme.palette.status?.community,
+    official: theme.palette.status?.official,
+    verified: theme.palette.status?.verified
   };
   return {
     font: 'bold 10px sans-serif',

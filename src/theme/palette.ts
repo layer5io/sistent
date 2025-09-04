@@ -174,6 +174,9 @@ declare module '@mui/material/styles' {
       warning: string;
       error: string;
       info: string;
+      community: string;
+      official: string;
+      verified: string;
     };
   }
 
@@ -273,6 +276,9 @@ declare module '@mui/material/styles' {
       warning: string;
       error: string;
       info: string;
+      community: string;
+      official: string;
+      verified: string;
     };
   }
 }
@@ -434,7 +440,10 @@ export const lightModePalette: PaletteOptions = {
     success: Colors.notificationColors.success.main,
     warning: Colors.notificationColors.warning.main,
     error: Colors.notificationColors.error.main,
-    info: Colors.notificationColors.info.main
+    info: Colors.notificationColors.info.main,
+    community: Colors.slateGray.main,
+    official: Colors.saffron[40],
+    verified: Colors.keppel[40]
   }
 };
 
@@ -591,6 +600,9 @@ export const darkModePalette: PaletteOptions = {
     success: Colors.notificationColors.success.main,
     warning: Colors.notificationColors.warning.main,
     error: Colors.notificationColors.error.main,
-    info: Colors.notificationColors.info.main
+    info: Colors.notificationColors.info.main,
+    community: Colors.slateGray.main,
+    official: Colors.saffron[40],
+    verified: Colors.keppel[40]
   }
 };

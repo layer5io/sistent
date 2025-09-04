@@ -299,10 +299,14 @@ export const createCustomTheme = (mode: PaletteMode, primitives?: PrimitivePalet
           }
         },
         status: {
+          //->org-independent status colors
           success: Colors.notificationColors.success.main,
           warning: Colors.notificationColors.warning.main,
           error: Colors.notificationColors.error.main,
-          info: Colors.notificationColors.info.main
+          info: Colors.notificationColors.info.main,
+          community: Colors.slateGray.main,
+          official: Colors.saffron[40],
+          verified: Colors.keppel[40]
         }
       }
     : {};
