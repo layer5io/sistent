@@ -14,6 +14,7 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
       return {
         ...textB2SemiBold,
         fontWeight: 500,
+        lineHeight: '1.25rem',
         '&.MuiButton-contained': {
           color: constant?.white,
           backgroundColor: brand?.default,
