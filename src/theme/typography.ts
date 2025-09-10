@@ -9,6 +9,7 @@ declare module '@mui/material/styles' {
     textH3Medium: React.CSSProperties;
     textB1Regular: React.CSSProperties;
     textB2SemiBold: React.CSSProperties;
+    textB2Medium: React.CSSProperties;
     textB3Regular: React.CSSProperties;
     textL1Bold: React.CSSProperties;
     textL2Regular: React.CSSProperties;
@@ -23,6 +24,7 @@ declare module '@mui/material/styles' {
     textH3Medium?: React.CSSProperties;
     textB1Regular?: React.CSSProperties;
     textB2SemiBold?: React.CSSProperties;
+    textB2Medium?: React.CSSProperties;
     textB3Regular?: React.CSSProperties;
     textL1Bold?: React.CSSProperties;
     textL2Regular?: React.CSSProperties;
@@ -38,6 +40,7 @@ declare module '@mui/material/Typography' {
     textH3Medium: true;
     textB1Regular: true;
     textB2SemiBold: true;
+    textB2Medium: true;
     textB3Regular: true;
     textL1Bold: true;
     textL2Regular: true;
@@ -106,6 +109,18 @@ export const typography = (mode: PaletteMode): TypographyOptions => {
       [theme.breakpoints.down('sm')]: {
         fontSize: '1rem',
         lineHeight: '1.75rem'
+      }
+    },
+    textB2Medium: {
+      fontFamily: ['Qanelas Soft Regular'].join(','),
+      color: mode === 'light' ? common.black : common.white,
+      fontSize: '1rem',
+      fontWeight: 500,
+      lineHeight: '1.25rem',
+      textTransform: 'capitalize',
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '1rem',
+        lineHeight: '1.25rem'
       }
     },
     textB3Regular: {

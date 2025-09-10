@@ -71,6 +71,22 @@ export const TextB2SemiBold = styled(Typography)<{
   }
 }));
 
+export const TextB2Medium = styled(Typography)<{
+  mode?: 'light' | 'dark' | PaletteMode;
+}>(({ theme, mode = 'light' }) => ({
+  fontFamily: ['Qanelas Soft Regular'].join(','),
+  color: mode === 'light' ? common.black : common.white,
+  fontSize: '1rem',
+  fontWeight: 500,
+  lineHeight: '1.25rem',
+  textTransform: 'capitalize',
+  display: 'block',
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1rem',
+    lineHeight: '1.25rem'
+  }
+}));
+
 export const TextB3Regular = styled(Typography)(() => ({
   fontFamily: ['"Open Sans"', 'sans-serif'].join(','),
   fontSize: '0.875rem',

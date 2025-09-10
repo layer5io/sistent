@@ -9,12 +9,10 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
           text: { disabled, constant, neutral: TextNeutral },
           border: { neutral }
         },
-        typography: { textB2SemiBold }
+        typography: { textB2Medium }
       } = theme;
       return {
-        ...textB2SemiBold,
-        fontWeight: 500,
-        lineHeight: '1.25rem',
+        ...textB2Medium,
         '&.MuiButton-contained': {
           color: constant?.white,
           backgroundColor: brand?.default,
