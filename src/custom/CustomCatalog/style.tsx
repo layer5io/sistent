@@ -52,9 +52,11 @@ export const StyledInnerClassWrapper = styled('div')<StyledInnerClassWrapperProp
   theme
 }) => {
   const mapToColor: Record<string, string> = {
-    community: theme.palette.status?.community,
-    official: theme.palette.status?.official,
-    verified: theme.palette.status?.verified
+    community: theme.palette.catalogStatus?.community,
+    official:
+      theme.palette.catalogStatus?.official,
+    verified:
+      theme.palette.catalogStatus?.verified
   };
   return {
     font: 'bold 10px sans-serif',

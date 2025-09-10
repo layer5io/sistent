@@ -303,7 +303,10 @@ export const createCustomTheme = (mode: PaletteMode, primitives?: PrimitivePalet
           success: Colors.notificationColors.success.main,
           warning: Colors.notificationColors.warning.main,
           error: Colors.notificationColors.error.main,
-          info: Colors.notificationColors.info.main,
+          info: Colors.notificationColors.info.main
+        },
+        //->catalog status colors (org-independent)
+        catalogStatus: {
           community: Colors.slateGray.main,
           official: Colors.saffron[40],
           verified: Colors.keppel[40]
