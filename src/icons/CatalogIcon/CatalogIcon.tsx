@@ -6,7 +6,6 @@ import { IconProps } from '../types';
 type CatalogIconProps = {
   primaryFill?: string;
   secondaryFill?: string;
-  tertiaryFill?: string;
 } & IconProps;
 
 export const CatalogIcon: FC<CatalogIconProps> = ({
