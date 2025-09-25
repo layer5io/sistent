@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { Pattern } from '../../CustomCatalog/CustomCard';
-import { withDefaultPageArgs } from '../../PerformersSection/PerformersSection';
-import { AssignmentHookResult } from '../types';
+import { Pattern } from '../../custom/CustomCatalog/CustomCard';
+import { withDefaultPageArgs } from '../../custom/PerformersSection/PerformersSection';
+import { AssignmentHookResult } from '../../custom/Workspaces/types';
 
 interface AddedAndRemovedViews {
   addedviewsIds: string[];
