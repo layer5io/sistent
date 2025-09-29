@@ -359,7 +359,7 @@ export const CardWrapper = styled(Card)(({ theme }) => ({
 
 export const CardBackWrapper = styled(CardWrapper)(({ theme }) => ({
   minHeight: theme.spacing(50),
-  background: 'linear-gradient(180deg, #007366 0%, #000 100%)'
+  background: theme.palette.surface.tint
 }));
 
 export const CardFrontWrapper = styled(CardWrapper)(({ theme }) => ({
