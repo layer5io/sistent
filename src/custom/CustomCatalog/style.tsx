@@ -101,6 +101,7 @@ export const DesignCard = styled('div')<DesignCardProps>(
   })
 );
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const DesignInnerCard = styled('div')<DesignCardDivProps>(({ shouldFlip, isDetailed }) => ({
   position: 'relative',
   width: '100%',
