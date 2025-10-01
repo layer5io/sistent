@@ -107,13 +107,12 @@ export const DesignInnerCard = styled('div')<DesignCardDivProps>(({ shouldFlip, 
   height: '100%',
   textAlign: 'center',
   transition: 'transform 0.6s',
+  boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)',
+  border: '1px solid rgba(0, 0, 0, 0.12)',
+  borderRadius: '0.9375rem',
   ...(shouldFlip && {
     transformOrigin: '50% 50%',
     transformStyle: 'preserve-3d'
-  }),
-  ...(isDetailed && {
-    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-    borderRadius: '0.9375rem'
   })
 }));
 
