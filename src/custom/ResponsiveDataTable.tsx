@@ -11,7 +11,7 @@ import { TooltipIcon } from './TooltipIconButton';
 export const IconWrapper = styled('div', {
   shouldForwardProp: (prop) => prop !== 'disabled'
 })<{ disabled?: boolean }>(({ disabled = false }) => ({
-  width: 'fit-content',
+  width: '100%',
   cursor: disabled ? 'not-allowed' : 'pointer',
   opacity: disabled ? '0.5' : '1',
   display: 'flex',
@@ -72,7 +72,10 @@ export const DataTableEllipsisMenu: React.FC<{
                 <MenuItem
                   key={`${index}-menuitem`}
                   sx={{
-                    width: '-webkit-fill-available'
+                    width: '100%',
+                    '&:hover' : {
+                      backgroundColor: theme.palette.action.hover
+                    }
                   }}
                   onClick={() => handleActionClick(action)}
                   disabled={action.disabled}
@@ -97,9 +100,12 @@ export const DataTableEllipsisMenu: React.FC<{
               return (
                 <IconWrapper key={index} disabled={action.disabled}>
                   <MenuItem
-                    sx={{
-                      width: '-webkit-fill-available'
-                    }}
+                  sx={{
+                    width: '100%',
+                    '&:hover' : {
+                      backgroundColor: theme.palette.action.hover
+                    }
+                  }}
                     onClick={() => handleActionClick(action)}
                     disabled={action.disabled}
                   >
