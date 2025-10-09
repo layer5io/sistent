@@ -17,8 +17,5 @@ export const StyledSearchInput = styled(OutlinedInput)(({ style, theme }) => ({
 export const InputAdornmentEnd = styled(InputAdornment)(({ theme }) => ({
   borderLeft: `1px solid ${theme.palette.background.tertiary}`,
   height: '30px',
-  paddingLeft: '10px',
-  '@media (max-width: 590px)': {
-    paddingLeft: '0px'
-  }
+  paddingLeft: '10px'
 }));

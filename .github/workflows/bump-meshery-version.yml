@@ -39,19 +39,19 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
       - name: Make changes to pull request
         working-directory: ui
-        run: npm install @layer5/sistent@${{needs.versions-check.outputs.current}}
+        run: npm install @sistent/sistent@${{needs.versions-check.outputs.current}}
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.RELEASEDRAFTER_PAT }}
-          commit-message: Bump sistent v${{ needs.versions-check.outputs.current }} dependencies
+          commit-message: Update to Sistent v${{ needs.versions-check.outputs.current }} dependencies
           committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
           branch: bump-sistent-bot
           delete-branch: true
-          title: '[Chore]: Bump Sistent v${{ needs.versions-check.outputs.current }}'
+          title: '[Chore]: Update to Sistent v${{ needs.versions-check.outputs.current }}'
           add-paths: |
             ui/package.json
             ui/package-lock.json
@@ -78,19 +78,19 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
       - name: Make changes to pull request
         working-directory: meshmap
-        run: npm install @layer5/sistent@${{needs.versions-check.outputs.current}}
+        run: npm install @sistent/sistent@${{needs.versions-check.outputs.current}}
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.RELEASEDRAFTER_PAT }}
-          commit-message: Bump sistent v${{ needs.versions-check.outputs.current }} dependencies
+          commit-message: Update to Sistent v${{ needs.versions-check.outputs.current }} dependencies
           committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
           branch: bump-sistent-bot
           delete-branch: true
-          title: '[Chore]: Bump Sistent v${{needs.versions-check.outputs.current }}'
+          title: '[Chore]: Update to Sistent v${{needs.versions-check.outputs.current }}'
           add-paths: |
             meshmap/package.json
             meshmap/package-lock.json
@@ -116,7 +116,7 @@ jobs:
                   cache: "npm"
                   cache-dependency-path: '**/package-lock.json'
               - name: Make changes to pull request
-                run: npm install @layer5/sistent@${{needs.versions-check.outputs.current}} --legacy-peer-deps
+                run: npm install @sistent/sistent@${{needs.versions-check.outputs.current}} --legacy-peer-deps
               - name: Create Pull Request
                 id: cpr
                 uses: peter-evans/create-pull-request@v7
@@ -128,7 +128,7 @@ jobs:
                   signoff: true
                   branch: bump-sistent-bot
                   delete-branch: true
-                  title: '[Chore]: Bump Sistent v${{ needs.versions-check.outputs.current }}'
+                  title: '[Chore]: Update to Sistent v${{ needs.versions-check.outputs.current }}'
                   add-paths: |
                     package.json
                     package-lock.json
@@ -155,19 +155,19 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
       - name: Make changes to pull request
         working-directory: ui
-        run: npm install @layer5/sistent@${{needs.versions-check.outputs.current}}
+        run: npm install @sistent/sistent@${{needs.versions-check.outputs.current}}
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.RELEASEDRAFTER_PAT }}
-          commit-message: Bump sistent v${{ needs.versions-check.outputs.current }} dependencies
+          commit-message: Update to Sistent v${{ needs.versions-check.outputs.current }} dependencies
           committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: true
           branch: bump-sistent-bot
           delete-branch: true
-          title: '[Chore]: Bump Sistent v${{ needs.versions-check.outputs.current }}'
+          title: '[Chore]: Update to Sistent v${{ needs.versions-check.outputs.current }}'
           add-paths: |
             ui/package.json
             ui/package-lock.json

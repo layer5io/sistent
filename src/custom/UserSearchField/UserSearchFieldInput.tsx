@@ -19,7 +19,7 @@ import { iconSmall } from '../../constants/iconsSizes';
 import { CloseIcon, PersonIcon } from '../../icons';
 
 interface User {
-  id: string;
+  user_id: string;
   first_name: string;
   last_name: string;
   email: string;
@@ -47,8 +47,8 @@ interface UserSearchFieldProps {
 }
 
 const UserSearchField: React.FC<UserSearchFieldProps> = ({
-  usersData,
-  setUsersData,
+  usersData, //updatedOrgUsers
+  setUsersData, //setupdatedOrgUsers
   label = 'Add User',
   setDisableSave,
   handleNotifyPref,
@@ -56,12 +56,12 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
   isCreate,
   searchType,
   disabled = false,
-  currentUserData,
-  searchedUsers = [],
+  currentUserData, //current logged in user data
+  searchedUsers = [], //users result by api
   isUserSearchLoading,
-  fetchSearchedUsers,
-  usersSearch,
-  setUsersSearch
+  fetchSearchedUsers, //function to perform search
+  usersSearch, //username value
+  setUsersSearch //state to modify username value
 }) => {
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
@@ -69,7 +69,6 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
   const [hasInitialFocus, setHasInitialFocus] = useState(true);
   const [inputValue, setInputValue] = useState('');
   const [localUsersData, setLocalUsersData] = useState<User[]>(usersData || []);
-
   useEffect(() => {
     setLocalUsersData(usersData || []);
   }, [usersData]);
@@ -80,10 +79,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
     }
 
     const filteredResults = searchedUsers.filter(
-      (user: User) =>
-        user.id !== currentUserData?.id &&
-        !localUsersData.some((selectedUser) => selectedUser.id === user.id) &&
-        !user.deleted_at?.Valid
+      (user: User) => user.user_id !== currentUserData?.user_id
     );
 
     if (!usersSearch && currentUserData) {
@@ -91,13 +87,13 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
     }
 
     return filteredResults;
-  }, [searchedUsers, currentUserData, usersSearch, hasInitialFocus, localUsersData]);
+  }, [searchedUsers, currentUserData, usersSearch, hasInitialFocus]);
 
   const handleDelete = useCallback(
     (idToDelete: string, event: React.MouseEvent) => {
       event.stopPropagation();
 
-      const updatedUsers = localUsersData.filter((user) => user.id !== idToDelete);
+      const updatedUsers = localUsersData.filter((user) => user.user_id !== idToDelete);
       setLocalUsersData(updatedUsers);
       setUsersData(updatedUsers);
 
@@ -112,7 +108,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
     (event: React.SyntheticEvent<Element, Event>, value: User | null) => {
       if (!value) return;
 
-      const isDuplicate = localUsersData.some((user) => user.id === value.id);
+      const isDuplicate = localUsersData.some((user) => user.user_id === value.user_id);
       const isDeleted = value.deleted_at?.Valid === true;
 
       if (isDuplicate || isDeleted) {
@@ -144,15 +140,15 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         setHasInitialFocus(true);
       } else {
         const encodedValue = encodeURIComponent(newValue);
+        setUsersSearch(newValue);
         fetchSearchedUsers(encodedValue);
         setError('');
         setOpen(true);
         setHasInitialFocus(false);
       }
     },
-    [fetchSearchedUsers]
+    [fetchSearchedUsers, setUsersSearch]
   );
-
   return (
     <>
       <Autocomplete
@@ -160,30 +156,20 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         style={{ width: '100%' }}
         open={open}
         options={displayOptions}
-        getOptionLabel={() => inputValue}
-        isOptionEqualToValue={(option, value) => option.id === value.id}
+        getOptionLabel={() => ''}
+        isOptionEqualToValue={(option, value) => option.user_id === value.user_id}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         inputValue={inputValue}
         onChange={handleAdd}
         onInputChange={handleInputChange}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        filterOptions={(options, { inputValue }) => {
-          return options.filter((option: User) => {
-            const searchStr = inputValue.toLowerCase();
-            return (
-              option.first_name?.toLowerCase().includes(searchStr) ||
-              option.last_name?.toLowerCase().includes(searchStr) ||
-              option.email?.toLowerCase().includes(searchStr)
-            );
-          });
-        }}
+        filterOptions={(options) => options}
         loading={isUserSearchLoading}
         disabled={disabled}
         disableClearable
+        freeSolo={false}
         value={undefined}
-        selectOnFocus={false}
+        selectOnFocus={true}
         blurOnSelect={true}
         clearOnBlur={true}
         popupIcon={null}
@@ -211,7 +197,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
           />
         )}
         renderOption={(props, option: User) => (
-          <li {...props} id={option.id}>
+          <li {...props} id={option.user_id}>
             <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
               {' '}
               <Grid2 container alignItems="center">
@@ -270,14 +256,14 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
       >
         {!showAllUsers && localUsersData?.[0] && (
           <Chip
-            key={localUsersData[0].id}
+            key={localUsersData[0].user_id}
             avatar={
               <Avatar alt={localUsersData[0].first_name} src={localUsersData[0].avatar_url}>
                 {!localUsersData[0].avatar_url && localUsersData[0].first_name?.[0]}
               </Avatar>
             }
             label={localUsersData[0].email}
-            onDelete={(e) => handleDelete(localUsersData[0].id, e)}
+            onDelete={(e) => handleDelete(localUsersData[0].user_id, e)}
             deleteIcon={
               <Tooltip title="Remove user">
                 <CloseIcon style={iconSmall} />
@@ -290,14 +276,14 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         {showAllUsers &&
           localUsersData?.map((user) => (
             <Chip
-              key={user.id}
+              key={user.user_id}
               avatar={
                 <Avatar alt={user.first_name} src={user.avatar_url}>
                   {!user.avatar_url && user.first_name?.[0]}
                 </Avatar>
               }
               label={user.email}
-              onDelete={(e) => handleDelete(user.id, e)}
+              onDelete={(e) => handleDelete(user.user_id, e)}
               deleteIcon={
                 <Tooltip title="Remove user">
                   <CloseIcon style={iconSmall} />

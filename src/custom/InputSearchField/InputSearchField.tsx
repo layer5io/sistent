@@ -84,8 +84,7 @@ const InputSearchField: React.FC<InputSearchFieldProps> = ({
       if (value === '') {
         setOpen(false);
       } else {
-        const encodedValue = encodeURIComponent(value);
-        fetchSuggestions(encodedValue);
+        fetchSuggestions(value);
         setError('');
         setOpen(true);
       }

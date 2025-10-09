@@ -175,7 +175,9 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
             <>
               <ClassWrap catalogClassName={pattern?.catalog_data?.content_class ?? ''} />
               <DesignType>{patternType}</DesignType>
-              <DesignName>{pattern.name}</DesignName>
+              <DesignName hasRibbon={!!pattern?.catalog_data?.content_class}>
+                {pattern.name}
+              </DesignName>
             </>
           )}
           <DesignDetailsDiv>

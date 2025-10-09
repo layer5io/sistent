@@ -2,11 +2,11 @@ import { ButtonProps, DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
-import { iconLarge, iconMedium } from '../../constants/iconsSizes';
-import { CloseIcon, FullScreenIcon, InfoCircleIcon } from '../../icons';
+import { iconLarge } from '../../constants/iconsSizes';
+import { CloseIcon, FullScreenIcon } from '../../icons';
 import FullScreenExitIcon from '../../icons/Fullscreen/FullScreenExitIcon';
-import { darkModalGradient, lightModalGradient } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
+import { HelperTextPopover } from '../HelperTextPopover';
 
 interface ModalProps extends DialogProps {
   closeModal: () => void;
@@ -73,7 +73,7 @@ const FullscreenExitButton = styled(FullScreenExitIcon)(({ theme }) => ({
 }));
 
 export const ModalStyledHeader = styled('div')(({ theme }) => ({
-  background: theme.palette.mode === 'light' ? lightModalGradient.header : darkModalGradient.header,
+  background: theme.palette.surface.tint,
   color: '#eee',
   display: 'flex',
   justifyContent: 'space-between',
@@ -118,20 +118,20 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
 
 export const ModalBody = styled(Paper)(({ theme }) => ({
   padding: '1rem',
-  backgroundColor: theme.palette.background.surfaces,
+  backgroundColor: theme.palette.surface.primary,
   overflowY: 'auto',
-  height: '100%'
+  height: '100%',
+  scrollbarWidth: 'none',
+  '&::-webkit-scrollbar': {
+    display: 'none'
+  },
+  '-ms-overflow-style': 'none'
 }));
 
 const StyledFooter = styled('div', {
   shouldForwardProp: (prop) => prop !== 'variant'
 })<ModalFooterProps>(({ theme, variant, hasHelpText }) => ({
-  background:
-    variant === 'filled'
-      ? theme.palette.mode === 'light'
-        ? lightModalGradient.fotter
-        : darkModalGradient.fotter
-      : 'transparent',
+  background: variant === 'filled' ? theme.palette.surface.tint : 'transparent',
   display: 'flex',
   alignItems: 'center',
   justifyContent: hasHelpText ? 'space-between' : 'end',
@@ -171,22 +171,35 @@ export const Modal: React.FC<ModalProps> = ({
       {...props}
     >
       {title && (
-        <ModalStyledHeader>
-          {headerIcon && headerIcon}
-          <Typography component={'div'} variant="h6">
+        <ModalStyledHeader className="modal-header" data-testid="modal-header">
+          {headerIcon && <Box data-testid="modal-header-icon">{headerIcon}</Box>}
+          <Typography component={'div'} variant="h6" data-testid="modal-title">
             {title}
           </Typography>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div
+            style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
+            data-testid="modal-header-actions"
+          >
             {isFullScreenModeAllowed && (
               <CustomTooltip title={fullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}>
                 {fullScreen ? (
-                  <FullscreenExitButton onClick={toggleFullScreen} />
+                  <FullscreenExitButton
+                    onClick={toggleFullScreen}
+                    data-testid="modal-exit-fullscreen-btn"
+                  />
                 ) : (
-                  <FullscreenButton onClick={toggleFullScreen} />
+                  <FullscreenButton
+                    onClick={toggleFullScreen}
+                    data-testid="modal-enter-fullscreen-btn"
+                  />
                 )}
               </CustomTooltip>
             )}
-            <CloseBtn onClick={closeModal}>
+            <CloseBtn
+              onClick={closeModal}
+              className="modal-close-btn"
+              data-testid="modal-close-btn"
+            >
               <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
             </CloseBtn>
           </div>
@@ -201,13 +214,14 @@ export const Modal: React.FC<ModalProps> = ({
 
 export const ModalFooter: React.FC<ModalFooterProps> = ({ helpText, children, variant }) => {
   return (
-    <StyledFooter variant={variant} hasHelpText={!!helpText}>
+    <StyledFooter className="modal-footer" variant={variant} hasHelpText={!!helpText}>
       {helpText && (
-        <CustomTooltip title={helpText} variant="standard" placement="top">
-          <IconButton>
-            <InfoCircleIcon {...iconMedium} className="InfoCircleIcon" />
-          </IconButton>
-        </CustomTooltip>
+        // <CustomTooltip title={helpText} variant="standard" placement="top">
+        //   <IconButton>
+        //     <InfoCircleIcon {...iconMedium} className="InfoCircleIcon" />
+        //   </IconButton>
+        // </CustomTooltip>
+        <HelperTextPopover content={helpText} />
       )}
       {children}
     </StyledFooter>

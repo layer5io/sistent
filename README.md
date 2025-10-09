@@ -1,23 +1,6 @@
-# Layer5 Design System Sistent
+# Sistent Design System Sistent
 
-The Sistent Design System from Layer5 provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences.
-
-<hr>
-<h3 align="center"> --> Visit <a href="https://layer5.io/projects/sistent">https://layer5.io/projects/sistent</a></h3>
-<hr>
-
-## Using Sistent
-
-Visit the Sistent website for further instructions.
-
-### Brand
-
-- Layer5 Brand Guide ([PDF](https://layer5.io/brand/brand-guide.pdf))
-- [Layer5 Logos](https://layer5.io/company/brand) (more assets available in shared Community drive).
-
-### Components and Packages
-
-- Design System components in React.js
+The Sistent Design System provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences. Visit the <a href="https://layer5.io/projects/sistent">project website</a> for more information.
 
 ## Contributing to Sistent
 
@@ -94,7 +77,7 @@ npm install <path-to-sistent-on-local-machine>
 This will update your Sistent dependency to:
 
 ```
-"@layer5/sistent" : "file:../../sistent"
+"@sistent/sistent" : "file:../../sistent"
 ```
 
 2. Build your local Sistent fork
@@ -117,12 +100,13 @@ Now, your project should reflect changes from your local Sistent fork.
 If you want to remove the local Sistent fork from your project, run:
 
 ```
-npm uninstall @layer5/sistent
+npm uninstall @sistent/sistent
 ```
 
 This will remove the local Sistent package from your project. You will have to reinstall the official package using this command:
+
 ```
-npm install @layer5/sistent
+npm install @sistent/sistent
 ```
 
 #### Method 2: Using `npm link`
@@ -140,7 +124,7 @@ This creates a global symlink which points to the local Sistent fork.
 2. Link the local Sistent fork to your project
 
 ```
-npm link @layer5/sistent
+npm link @sistent/sistent
 ```
 
 3.Build your local Sistent fork
@@ -168,24 +152,25 @@ To verify that the correct link has been created, run this command:
 npm ls -g
 
 # Expected output:
-# ├── @layer5/sistent@0.14.11 -> ./../../../../<path-to-local-sistent-fork>
+# ├── @sistent/sistent@0.14.11 -> ./../../../../<path-to-local-sistent-fork>
 ```
 
 To verify that the created link is correctly used in your project, run this command in the directory where you linked the Sistent fork:
 
 ```
-ls -l node_modules/@layer5/sistent
+ls -l node_modules/@sistent/sistent
 
 # Expected output:
-# node_modules/@layer5/sistent -> ../../../../../sistent
+# node_modules/@sistent/sistent -> ../../../../../sistent
 ```
 
 To revert back to the official package, first unlink the package, then install the official package using the following commands:
 
 ```
-npm unlink @layer5/sistent
-npm install @layer5/sistent
+npm unlink @sistent/sistent
+npm install @sistent/sistent
 ```
+
 > [!NOTE]
 > Avoid using `type any` in your code. Always specify explicit types to ensure type safety and maintainability.
 
@@ -228,4 +213,4 @@ Find out more on the <a href="https://layer5.io/community">Layer5 community</a>.
 ✔️<em><strong>Explore more</strong></em> in the <a href="https://layer5.io/community/handbook">Community Handbook</a>.<br />
 </p>
 <p align="center">
-<i>Not sure where to start?</i> Grab an open issue with the <a href="https://github.com/issues?q=is%3Aopen+is%3Aissue+archived%3Afalse+org%3Alayer5io+org%3Ameshery+org%3Alayer5labs+org%3Aservice-mesh-performance+org%3Aservice-mesh-patterns+label%3A%22help+wanted%22+">help-wanted label</a>.</p>
+<i>Not sure where to start?</i> Grab an open issue with the <a href="https://github.com/issues?q=is%3Aopen+is%3Aissue+archived%3Afalse+(org%3Alayer5io+OR+org%3Ameshery+OR+org%3Alayer5labs+OR+org%3Aservice-mesh-performance+OR+org%3Aservice-mesh-patterns+OR+org%3Ameshery-extensions)+label%3A%22help+wanted%22">help-wanted label</a>.</p>

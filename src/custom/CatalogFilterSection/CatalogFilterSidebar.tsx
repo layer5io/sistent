@@ -5,15 +5,10 @@ import { Box, Drawer, Typography } from '../../base';
 import { CloseIcon } from '../../icons';
 import { darkTeal } from '../../theme';
 import { darkModalGradient, lightModalGradient } from '../../theme/colors/colors';
+import { CustomTooltip } from '../CustomTooltip';
 import { CloseBtn } from '../Modal';
 import CatalogFilterSidebarState from './CatalogFilterSidebarState';
-import {
-  FilterButton,
-  FilterDrawerDiv,
-  FilterText,
-  FiltersCardDiv,
-  FiltersDrawerHeader
-} from './style';
+import { FilterButton, FilterDrawerDiv, FiltersCardDiv, FiltersDrawerHeader } from './style';
 
 export interface FilterOption {
   value: string;
@@ -109,13 +104,14 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
         />
       </FiltersCardDiv>
       <FilterDrawerDiv>
-        <FilterButton variant="contained" onClick={handleDrawerOpen}>
-          <FilterAltIcon
-            style={{ height: '28px', width: '28px' }}
-            fill={theme.palette.text.default}
-          />
-          <FilterText>Filters</FilterText>
-        </FilterButton>
+        <CustomTooltip title="Filters" placement="bottom">
+          <FilterButton variant="contained" onClick={handleDrawerOpen}>
+            <FilterAltIcon
+              style={{ height: '28px', width: '28px' }}
+              fill={theme.palette.text.default}
+            />
+          </FilterButton>
+        </CustomTooltip>
 
         <Drawer
           anchor="bottom"

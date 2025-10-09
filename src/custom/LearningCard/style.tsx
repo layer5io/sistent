@@ -2,7 +2,9 @@ import { styled } from '@mui/material/styles';
 import { BLACK, ONYX_BLACK, SILVER_GRAY, WHITE } from '../../theme';
 
 const CardWrapper = styled('div')({
-  width: '28rem',
+  width: '100%',
+  maxWidth: '28rem',
+  minWidth: '10rem',
   height: '16rem',
   margin: 'auto',
   borderRadius: '1rem'
@@ -41,6 +43,7 @@ const Card2 = styled('div')(({ theme }) => ({
 
 const CardHead = styled('div')(({ theme }) => ({
   display: 'flex',
+  justifyContent: 'space-between',
   padding: '1rem',
   '& span': {
     border: `1px solid ${theme.palette.primary.dark}`,
@@ -68,9 +71,10 @@ const CardDesc = styled('div')(({ theme }) => ({
 }));
 
 const CardSubdata = styled('div')(({ theme }) => ({
-  padding: '0 1rem',
-  position: 'absolute',
-  bottom: '0rem',
+  margin: '0 1rem',
+  display: 'flex',
+  justifyContent: 'space-between',
+  gap: '0.4rem',
   p: {
     fontSize: '1rem',
     color: theme.palette.text.primary,
