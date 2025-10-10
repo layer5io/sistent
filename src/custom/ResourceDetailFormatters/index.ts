@@ -1,3 +1,4 @@
+import { useResourceCleanData } from 'hooks/data';
 import { KeyValueInRow, NumberStateFormatter } from './Component';
 import { OperatorDataFormatter } from './Details';
 import {
@@ -14,7 +15,6 @@ import {
   TableDataFormatter,
   TextWithLinkFormatter
 } from './Formatter';
-import { useResourceCleanData } from './useResourceCleanData';
 import { convertToReadableUnit, extractPodVolumnTables, splitCamelCaseString } from './utils';
 
 export {

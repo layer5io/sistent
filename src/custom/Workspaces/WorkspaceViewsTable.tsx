@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Lock, Public } from '@mui/icons-material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import { useWindowDimensions } from 'hooks/ui';
+import { useViewsAssignment } from 'hooks/workspaces';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import React, { useState } from 'react';
 import { Box } from '../../base';
@@ -12,7 +14,6 @@ import { CustomColumnVisibilityControl } from '../CustomColumnVisibilityControl'
 import { CustomTooltip } from '../CustomTooltip';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
-import { useWindowDimensions } from '../Helpers/Dimension';
 import {
   ColView,
   updateVisibleColumns
@@ -23,7 +24,6 @@ import { TooltipIcon } from '../TooltipIconButton';
 import { UserTableAvatarInfo } from '../UsersTable';
 import VisibilityChipMenu, { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import AssignmentModal from './AssignmentModal';
-import useViewAssignment from './hooks/useViewsAssignment';
 import { CellStyle, CustomBodyRenderStyle, L5EditIcon, TableHeader } from './styles';
 
 interface ViewsTableProps {
@@ -270,7 +270,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     }
   ];
 
-  const viewAssignment = useViewAssignment({
+  const viewAssignment = useViewsAssignment({
     workspaceId,
     useGetViewsOfWorkspaceQuery,
     useUnassignViewFromWorkspaceMutation,

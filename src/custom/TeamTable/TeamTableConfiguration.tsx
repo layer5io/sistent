@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useWindowDimensions } from 'hooks/ui';
 import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { useState } from 'react';
 import { DeleteIcon, EditIcon } from '../../icons';
@@ -7,7 +8,6 @@ import { CHARCOAL, useTheme } from '../../theme';
 import { CustomTooltip } from '../CustomTooltip';
 import { FormatId } from '../FormatId';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
-import { useWindowDimensions } from '../Helpers/Dimension';
 import { ColView, updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { IconWrapper } from '../ResponsiveDataTable';
 import { TooltipIcon } from '../TooltipIconButton';
