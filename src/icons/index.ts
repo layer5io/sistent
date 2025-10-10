@@ -1,3 +1,4 @@
+export * from './Academy';
 export * from './Add';
 export * from './AddCircle';
 export * from './Application';
@@ -80,6 +81,7 @@ export * from './Lock';
 export * from './Logout';
 export * from './Mendeley';
 export * from './Menu';
+export * from './Meshery';
 export * from './MesheryFilter';
 export * from './MesheryOperator';
 export * from './MoveFile';

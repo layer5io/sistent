@@ -68,6 +68,7 @@ export {
 export { SetupPreReq } from './SetupPrerequisite';
 export { StyledChapter } from './StyledChapter';
 export { StyledSearchBar } from './StyledSearchBar';
+export { CustomTextField } from './StyledTextField';
 export { Terminal } from './Terminal';
 export { TOC } from './TOCChapter';
 export { TOCLearning } from './TOCLearning';
