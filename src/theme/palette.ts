@@ -169,6 +169,17 @@ declare module '@mui/material/styles' {
         alt: string;
       };
     };
+    status: {
+      success: string;
+      warning: string;
+      error: string;
+      info: string;
+    };
+    catalogStatus: {
+      community: string;
+      official: string;
+      verified: string;
+    };
   }
 
   // surface tokens need to have enough contrast
@@ -260,6 +271,18 @@ declare module '@mui/material/styles' {
         default: string;
         alt: string;
       };
+    };
+
+    status: {
+      success: string;
+      warning: string;
+      error: string;
+      info: string;
+    };
+    catalogStatus: {
+      community: string;
+      official: string;
+      verified: string;
     };
   }
 }
@@ -416,6 +439,17 @@ export const lightModePalette: PaletteOptions = {
       default: Colors.charcoal[40],
       alt: Colors.charcoal[40]
     }
+  },
+  status: {
+    success: Colors.notificationColors.success.main,
+    warning: Colors.notificationColors.warning.main,
+    error: Colors.notificationColors.error.main,
+    info: Colors.notificationColors.info.main
+  },
+  catalogStatus: {
+    community: Colors.slateGray.main,
+    official: Colors.saffron[40],
+    verified: Colors.keppel[40]
   }
 };
 
@@ -567,5 +601,16 @@ export const darkModePalette: PaletteOptions = {
       default: Colors.accentGrey[100],
       alt: Colors.keppel[40]
     }
+  },
+  status: {
+    success: Colors.notificationColors.success.main,
+    warning: Colors.notificationColors.warning.main,
+    error: Colors.notificationColors.error.main,
+    info: Colors.notificationColors.info.main
+  },
+  catalogStatus: {
+    community: Colors.slateGray.main,
+    official: Colors.saffron[40],
+    verified: Colors.keppel[40]
   }
 };
