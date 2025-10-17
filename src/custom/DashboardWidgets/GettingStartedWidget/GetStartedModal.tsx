@@ -75,6 +75,7 @@ interface GetStartedModalProps {
   useLazyGetTeamsQuery: any;
   embedDesignPath: string;
   isFromMeshery: boolean;
+  useGetUserByEmailQuery: any;
 }
 
 const Loading: React.FC<LoadingProps> = ({ showModal, handleClose, style }) => {
@@ -164,7 +165,8 @@ const GetStartedModal: React.FC<GetStartedModalProps> = ({
   isAssignUserRolesAllowed,
   useLazyGetTeamsQuery,
   embedDesignPath,
-  isFromMeshery
+  isFromMeshery,
+  useGetUserByEmailQuery
 }) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [clicked, setClicked] = useState<number | undefined>(undefined);
@@ -309,6 +311,7 @@ const GetStartedModal: React.FC<GetStartedModalProps> = ({
           useNotificationHandlers={useNotificationHandlers}
           isAssignUserRolesAllowed={isAssignUserRolesAllowed}
           useLazyGetTeamsQuery={useLazyGetTeamsQuery}
+          useGetUserByEmailQuery={useGetUserByEmailQuery}
         />
       )}
     </>
