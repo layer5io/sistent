@@ -68,6 +68,7 @@ interface UserInviteModalProps {
   };
   isAssignUserRolesAllowed: boolean;
   useLazyGetTeamsQuery: any;
+  useGetUserByEmailQuery: any;
 }
 
 export default function UserInviteModal({
@@ -81,7 +82,8 @@ export default function UserInviteModal({
   useHandleUserInviteMutation,
   useNotificationHandlers,
   isAssignUserRolesAllowed,
-  useLazyGetTeamsQuery
+  useLazyGetTeamsQuery,
+  useGetUserByEmailQuery
 }: UserInviteModalProps) {
   const [inviteeFirstName, setInviteeFirstName] = useState<string>('');
   const [inviteeLastName, setInviteeLastName] = useState<string>('');
@@ -101,6 +103,13 @@ export default function UserInviteModal({
   const orgs = data?.organizations;
   const defaultOrgSelection = { id: 'none', name: 'None' };
   const [organization, setOrganization] = useState<Organization>(defaultOrgSelection);
+  
+  // Query to check if user exists by email
+  const { data: existingUserData } = useGetUserByEmailQuery(
+    { email: inviteeEmail },
+    { skip: !inviteeEmail || !EMAIL_REGEXP.test(inviteeEmail) }
+  );
+
   const { data: providerRolesData } = useGetUserOrgRolesQuery({
     orgId: currentOrgId,
     all: true,
@@ -180,6 +189,16 @@ export default function UserInviteModal({
       setErrorMessages((state) => ({ ...state, inviteeEmail: 'Email is invalid' }));
       isSuccess = false;
     }
+
+    // Check if user with this email already exists using GetUserByEmail
+    if (isSuccess && existingUserData) {
+      setErrorMessages((state) => ({
+        ...state,
+        inviteeEmail: 'A user with this email already exists'
+      }));
+      isSuccess = false;
+    }
+
     if (isSuccess) handleInvite();
   };
 
