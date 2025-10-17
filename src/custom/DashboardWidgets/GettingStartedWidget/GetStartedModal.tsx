@@ -75,7 +75,7 @@ interface GetStartedModalProps {
   useLazyGetTeamsQuery: any;
   embedDesignPath: string;
   isFromMeshery: boolean;
-  useGetUserByEmailQuery: any;
+  useGetUserByEmailQuery?: any;
 }
 
 const Loading: React.FC<LoadingProps> = ({ showModal, handleClose, style }) => {
