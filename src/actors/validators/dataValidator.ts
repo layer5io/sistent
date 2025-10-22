@@ -7,7 +7,6 @@ import {
   SnapshotFrom,
   assign,
   fromPromise,
-  sendParent,
   setup
 } from 'xstate';
 import { reply } from '../utils';
@@ -53,15 +52,6 @@ interface DataValidationFailedEvent extends EventObject {
     validationPayload: ValidationPayload;
     systemErrors: SystemErrors;
   };
-}
-
-const toSerializable = (data: unknown) => {
-    try {
-        return JSON.parse(JSON.stringify(data));
-    } catch {
-        console.warn('Data is not serializable, using toPlainObject as fallback', data);
-        return {}
-    }
 }
 
 export const dataValidatorCommands = {
@@ -196,7 +186,6 @@ export const dataValidatorMachine = setup({
           target: 'idle',
           actions: [
             'setValidationResults',
-            // send to parent
             reply(
               ({
                 context,
@@ -206,7 +195,7 @@ export const dataValidatorMachine = setup({
                 event: ValidateActorDoneEvent;
               }) =>
                 dataValidatorEvents.dataValidated({
-                  validationPayload: toSerializable(context.validationPayload) as ValidationPayload,
+                  validationPayload: context.validationPayload as ValidationPayload,
                   validationResults: event.output.validationResults
                 })
             ) as any
@@ -218,7 +207,7 @@ export const dataValidatorMachine = setup({
             reply(
               ({ context, event }: { context: ValidationMachineContext; event: ErrorActorEvent }) =>
                 dataValidatorEvents.dataValidationFailed({
-                  validationPayload: toSerializable(context.validationPayload) as ValidationPayload,
+                  validationPayload: context.validationPayload as ValidationPayload,
                   systemErrors: event.error
                 })
             ) as any,
