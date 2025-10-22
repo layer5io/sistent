@@ -53,6 +53,7 @@ export const fromWorkerfiedActor = (
       }
 
       if (event.type === WORKER_EVENTS.PROXY_EVENT) {
+        console.log('Proxy event received from worker', eventFromWorker);
         const proxyEvent = event as ProxyEvent;
         if (proxyEvent.data.to === 'parent' && self._parent) {
           console.log('Relaying to parent', proxyEvent.data);
