@@ -26,7 +26,7 @@ const ProxyActor = setup({
       on: {
         '*': {
           actions: [
-            ({ event, context }) => console.log('Proxying event', event, 'to', context.proxyToId),
+            ({ event, context }) => console.log('Proxying actor event', event, 'to', context.proxyToId),
             ({ event, context }) => postMessage(workerEvents.proxyEvent(event, context.proxyToId))
           ]
         }
@@ -55,6 +55,8 @@ export const workerfyActor = (actor: AnyActorLogic) => {
       proxyToId: 'parent'
     }
   }).start();
+
+  console.log('Worker actor initialized, waiting for commands...');
 
   addEventListener('message', (event) => {
     if (event.data.type === WORKER_COMMANDS.START_ACTOR) {
