@@ -12,6 +12,10 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": ">=22.0.0",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
     "build": "NODE_ENV=production tsup",
     "build:watch": "NODE_ENV=production tsup --watch",
@@ -48,7 +52,9 @@
     "@eslint/js": "^9.34.0",
     "@mui/icons-material": "^6.4.8",
     "@reduxjs/toolkit": "^2.2.5",
-    "@testing-library/react": "^16.2.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
     "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.16",
     "@types/react": "^18.2.45",
@@ -72,6 +78,8 @@
     "notistack": "^3.0.2",
     "prettier": "^3.5.3",
     "prettier-plugin-organize-imports": "^4.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-error-boundary": "^5.0.0",
     "react-markdown": "^8.0.7",
     "react-redux": "^8.1.1",
@@ -111,6 +119,7 @@
     "@layer5/schemas": "^0.0.6-16",
     "@mui/material": "^6.4.8",
     "@types/mui-datatables": "*",
+    "@xstate/react": "^5.0.3",
     "billboard.js": "^3.15.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
@@ -119,6 +128,7 @@
     "re-resizable": "^6.11.2",
     "react-draggable": "^4.4.6",
     "react-share": "^5.1.0",
-    "use-debounce": "^10.0.4"
+    "use-debounce": "^10.0.4",
+    "xstate": "^5.19.2"
   }
 }
