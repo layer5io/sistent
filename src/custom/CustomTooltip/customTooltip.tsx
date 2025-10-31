@@ -1,5 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
+import type { Theme } from '@mui/material/styles';
+import { alpha } from '@mui/material';
 import { Tooltip, TooltipProps } from '../../base';
 import { WHITE } from '../../theme';
 import { RenderMarkdownTooltip } from '../Markdown';
@@ -40,10 +42,16 @@ function CustomTooltip({
               color: WHITE,
               maxWidth: '600px',
               fontSize: fontSize || (variant === 'standard' ? '1rem' : '0.75rem'),
-              fontWeight: { fontWeight },
+              fontWeight: fontWeight,
               borderRadius: '0.5rem',
               padding: variant === 'standard' ? '0.9rem' : '0.5rem 0.75rem',
-              boxShadow: 'rgba(0, 0, 0, 0.6) 0px 4px 10px, rgba(0, 0, 0, 0.5) 0px 2px 4px'
+              boxShadow: (theme: Theme) => {
+                if (theme.palette.mode === 'light') {
+                  return 'rgba(0, 0, 0, 0.6) 0px 4px 10px, rgba(0, 0, 0, 0.5) 0px 2px 4px';
+                }
+                const green = theme.palette.primary.main;
+                return `0 10px 30px ${alpha(green, 0.28)}, 0 2px 8px ${alpha(green, 0.2)}, 0 0 1px ${alpha(green, 0.32)}`;
+              }
             }
           },
           popper: {
