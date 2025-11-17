@@ -1,6 +1,9 @@
 import { Components, Theme } from '@mui/material';
 
 export const MuiMenu: Components<Theme>['MuiMenu'] = {
+  defaultProps: {
+    disableScrollLock: true
+  },
   styleOverrides: {
     paper: {
       '& .MuiMenuItem-root.Mui-selected': {
