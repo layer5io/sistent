@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, KEPPEL_GREEN_FILL } from '../../constants/constants';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 import { useTheme } from './../../theme/index';
 const IdeaIcon: FC<IconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, ...props }) => {

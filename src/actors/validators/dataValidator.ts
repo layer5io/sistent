@@ -119,10 +119,10 @@ export const dataValidatorMachine = setup({
   },
   actions: {
     setReturnAddress: assign({
-      returnAddress: ({ event }) => (event as ValidateDataCommand).returnAddress
+      returnAddress: ({ event }: any) => (event as ValidateDataCommand).returnAddress
     }),
     setValidationPayload: assign({
-      validationPayload: ({ event }) => (event as ValidateDataCommand).data.validationPayload
+      validationPayload: ({ event }: any) => (event as ValidateDataCommand).data.validationPayload
     }),
 
     resetValidationPayload: assign({
@@ -133,7 +133,7 @@ export const dataValidatorMachine = setup({
       validationResults: null
     }),
     setValidationResults: assign({
-      validationResults: ({ event }) => (event as ValidateActorDoneEvent).output.validationResults
+      validationResults: ({ event }: any) => (event as ValidateActorDoneEvent).output.validationResults
     })
   },
   actors: {
@@ -211,9 +211,9 @@ export const dataValidatorMachine = setup({
                   systemErrors: event.error
                 })
             ) as any,
-            ({ event }) => console.error('Failed to validate data', event),
+            ({ event }: any) => console.error('Failed to validate data', event),
             assign({
-              validationResults: ({ event }) => `Failed to validate data: ${event.error || ''}`
+              validationResults: ({ event }: any) => `Failed to validate data: ${(event as ErrorActorEvent).error || ''}`
             })
           ]
         }

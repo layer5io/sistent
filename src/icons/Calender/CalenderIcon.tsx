@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { KEPPEL_GREEN_FILL } from '../../constants/constants';
 import { IconProps } from '../types';
 import { useTheme } from './../../theme/index';
 

@@ -9,7 +9,6 @@ import { Paper } from '../base/Paper';
 import { Select } from '../base/Select';
 import { FilterIcon } from '../icons';
 import { useTheme } from '../theme';
-import { darkModalGradient, lightModalGradient } from '../theme/colors/colors';
 import PopperListener from './PopperListener';
 import { TooltipIcon } from './TooltipIconButton';
 

@@ -1,11 +1,10 @@
 // disbale stict no any for now for full file
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { AnyActorRef, AnyEventObject, assign, enqueueActions, sendTo } from 'xstate';
+import { AnyEventObject, assign, enqueueActions, sendTo } from 'xstate';
 import { AnyActorSystem } from 'xstate/dist/declarations/src/system';
 import { workerEvents } from './worker/events';
 
-type ContextWithReturnAddress = { returnAddress: AnyActorRef };
 
 export const sendToActor = (actor: string, event: AnyEventObject) =>
   sendTo(({ system }: { system: AnyActorSystem }) => {
