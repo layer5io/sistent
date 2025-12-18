@@ -5,6 +5,8 @@ import { AnyActorRef, AnyEventObject, assign, enqueueActions, sendTo } from 'xst
 import { AnyActorSystem } from 'xstate/dist/declarations/src/system';
 import { workerEvents } from './worker/events';
 
+// Type used for context validation in reply() function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type ContextWithReturnAddress = { returnAddress: AnyActorRef };
 
 export const sendToActor = (actor: string, event: AnyEventObject) =>
