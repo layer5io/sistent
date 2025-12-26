@@ -5,6 +5,12 @@ on:
     workflows: [Publish Node.js Package]
     types:
       - completed
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: 'Release tag version (e.g., v1.0.0). Leave empty to use latest release.'
+        required: false
+        type: string
 
 jobs:
   versions-check:
@@ -12,16 +18,43 @@ jobs:
     outputs:
       current: ${{ steps.current.outputs.VERSION }}
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Download Version
+        if: github.event_name == 'workflow_run'
         uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
         with:
           name: version-number
           github-token: ${{ secrets.GH_ACCESS_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
-      - name: Retrieve Version
+      - name: Retrieve Version (Automated Trigger)
+        if: github.event_name == 'workflow_run'
         run: |
           echo "VERSION=$(cat ./number)" >> $GITHUB_OUTPUT
+        id: current-automated
+      - name: Get Latest Release (Manual Trigger - No Input)
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.release_tag == ''
+        id: latest-release
+        run: |
+          LATEST_TAG=$(curl -s https://api.github.com/repos/layer5io/sistent/releases/latest | jq -r '.tag_name')
+          echo "VERSION=${LATEST_TAG#v}" >> $GITHUB_OUTPUT
+      - name: Use Provided Release Tag (Manual Trigger - With Input)
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.release_tag != ''
+        id: manual-release
+        run: |
+          echo "VERSION=${{ github.event.inputs.release_tag }}" >> $GITHUB_OUTPUT
+      - name: Set Final Version
         id: current
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_run" ]; then
+            echo "VERSION=${{ steps.current-automated.outputs.VERSION }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event.inputs.release_tag }}" != "" ]; then
+            echo "VERSION=${{ steps.manual-release.outputs.VERSION }}" >> $GITHUB_OUTPUT
+          else
+            echo "VERSION=${{ steps.latest-release.outputs.VERSION }}" >> $GITHUB_OUTPUT
+          fi
   bump-meshery:
     runs-on: ubuntu-latest
     needs: versions-check
