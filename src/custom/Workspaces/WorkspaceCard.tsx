@@ -354,11 +354,12 @@ const CardBack = ({
     <CardBackWrapper elevation={2} onClick={onFlipBack}>
       <CardBackTopGrid size={12}>
         <CardBackTitleGrid size={6}>
-          <BulkSelectCheckbox
-            onClick={(e) => e.stopPropagation()}
-            onChange={onSelect}
-            disabled={deleted ? true : !isDeleteWorkspaceAllowed}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <BulkSelectCheckbox
+              onChange={onSelect}
+              disabled={deleted ? true : !isDeleteWorkspaceAllowed}
+            />
+          </div>
           <CardTitle
             sx={{ color: theme.palette.background.constant?.white }}
             variant="body2"
@@ -368,18 +369,22 @@ const CardBack = ({
           </CardTitle>
         </CardBackTitleGrid>
         <CardBackActionsGrid size={6}>
-          <L5EditIcon
-            onClick={onEdit}
-            disabled={isEditButtonDisabled}
-            style={{ fill: theme.palette.background.constant?.white }}
-            bulk={true}
-          />
-          <L5DeleteIcon
-            onClick={onDelete}
-            style={{ fill: theme.palette.background.constant?.white }}
-            disabled={isDeleteButtonDisabled}
-            bulk={true}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <L5EditIcon
+              onClick={onEdit}
+              disabled={isEditButtonDisabled}
+              style={!isEditButtonDisabled ? { fill: theme.palette.background.constant?.white } : undefined}
+              bulk={true}
+            />
+          </div>
+          <div onClick={(e) => e.stopPropagation()}>
+            <L5DeleteIcon
+              onClick={onDelete}
+              style={!isDeleteButtonDisabled ? { fill: theme.palette.background.constant?.white } : undefined}
+              disabled={isDeleteButtonDisabled}
+              bulk={true}
+            />
+          </div>
         </CardBackActionsGrid>
       </CardBackTopGrid>
       <Grid2 sx={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
