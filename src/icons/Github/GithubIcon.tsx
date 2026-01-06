@@ -1,12 +1,14 @@
 interface GithubIconProps {
   height?: string | number;
   width?: string | number;
+  fill?: string;
   className?: string;
 }
 
 export default function GithubIcon({
   height = '1.45rem',
   width = '1.45rem',
+  fill = 'currentColor',
   className
 }: GithubIconProps) {
   return (
@@ -18,7 +20,7 @@ export default function GithubIcon({
       viewBox="0 0 400 400"
     >
       <path
-        fill="currentColor"
+        fill={fill}
         fillRule="evenodd"
         clipRule="evenodd"
         d="M203.9,60c-75.6,0-137,61.3-137,137c0,60.5,39.2,111.9,93.7,130c6.8,1.3,9.3-3,9.3-6.6c0-3.3-0.1-11.9-0.2-23.3
