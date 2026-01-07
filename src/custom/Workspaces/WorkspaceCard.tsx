@@ -341,13 +341,10 @@ const CardBack = ({
   recentActivities,
   updatedDate,
   createdDate,
-  deleted,
   isDeleteWorkspaceAllowed,
   isEditWorkspaceAllowed
 }: CardBackProps) => {
   const isWorkspaceSelected = selectedWorkspaces?.includes(workspaceId);
-  const isEditButtonDisabled = isWorkspaceSelected ? true : !isEditWorkspaceAllowed;
-  const isDeleteButtonDisabled = isWorkspaceSelected ? true : !isDeleteWorkspaceAllowed;
 
   const theme = useTheme();
   return (
