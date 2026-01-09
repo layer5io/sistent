@@ -72,6 +72,8 @@
     "notistack": "^3.0.2",
     "prettier": "^3.5.3",
     "prettier-plugin-organize-imports": "^4.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-error-boundary": "^5.0.0",
     "react-markdown": "^8.0.7",
     "react-redux": "^8.1.1",
@@ -84,6 +86,7 @@
     "typescript": "^5.8.2"
   },
   "peerDependencies": {
+    "@meshery/schemas": "^0.8.107",
     "@xstate/react": "^5.0.3",
     "react": "^17.0.2 || ^18.3.1",
     "react-dom": "^17.0.2 || ^18.3.1",
@@ -108,7 +111,6 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@layer5/meshery-design-embed": "^0.4.0",
-    "@layer5/schemas": "^0.0.6-16",
     "@mui/material": "^6.4.8",
     "@types/mui-datatables": "*",
     "billboard.js": "^3.15.0",
