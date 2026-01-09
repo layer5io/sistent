@@ -17,12 +17,6 @@ jobs:
     permissions:
       id-token: write  # Required for OIDC trusted publishing
       contents: write
-
-   publish:
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: read
-      packages: write
     steps:
 
       - name: "Set Package Version"
@@ -43,13 +37,13 @@ jobs:
           NODE_AUTH_TOKEN: ''  # Explicitly empty for install
   
   versions-check:
-    needs: publish
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v7
         id: versions
         with:
-          result-encoding: string
+          result-encoding: strings
           script: |
             let str = `${{github.event.release.tag_name}}`
 
