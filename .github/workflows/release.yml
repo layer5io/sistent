@@ -1,8 +1,16 @@
-name: Publish Node.js Package
+name: Publish NPM Package
 
 on:
   release:
     types: [published]
+
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: "Release Version"
+        required: true
+        default: "v1.0.0"
+        type: string
 env:
   HUSKY: 0
 
@@ -11,7 +19,7 @@ permissions:
   contents: read
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-24.04
 
     permissions:
@@ -37,7 +45,7 @@ jobs:
           NODE_AUTH_TOKEN: ''  # Explicitly empty for install
   
   versions-check:
-    needs: build
+    needs: publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/github-script@v7

@@ -13,7 +13,7 @@ jobs:
       current: ${{ steps.current.outputs.VERSION }}
     steps:
       - name: Download Version
-        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        uses: actions/download-artifact@v7
         with:
           name: version-number
           github-token: ${{ secrets.GH_ACCESS_TOKEN }}
@@ -27,12 +27,12 @@ jobs:
     needs: versions-check
     steps:
       - name: Checkout Meshery code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: meshery/meshery
           fetch-depth: 1
-          token: ${{ secrets.RELEASEDRAFTER_PAT }}
-      - uses: actions/setup-node@v4
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+      - uses: actions/setup-node@v6
         with:
           node-version: '20.x'
           cache: "npm"
@@ -42,9 +42,9 @@ jobs:
         run: npm install @sistent/sistent@${{needs.versions-check.outputs.current}}
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.RELEASEDRAFTER_PAT }}
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
           commit-message: Update to Sistent v${{ needs.versions-check.outputs.current }} dependencies
           committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
@@ -66,12 +66,12 @@ jobs:
     needs: versions-check
     steps:
       - name: Checkout Meshery Extensions code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: layer5labs/meshery-extensions
           fetch-depth: 1
-          token: ${{ secrets.RELEASEDRAFTER_PAT }}
-      - uses: actions/setup-node@v4
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+      - uses: actions/setup-node@v6
         with:
           node-version: '20.x'
           cache: "npm"
@@ -81,9 +81,9 @@ jobs:
         run: npm install @sistent/sistent@${{needs.versions-check.outputs.current}}
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.RELEASEDRAFTER_PAT }}
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
           commit-message: Update to Sistent v${{ needs.versions-check.outputs.current }} dependencies
           committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
@@ -105,12 +105,12 @@ jobs:
             needs: versions-check
             steps:
               - name: Checkout Layer5 code
-                uses: actions/checkout@v4
+                uses: actions/checkout@v6
                 with:
                   repository: layer5io/layer5
                   fetch-depth: 1
-                  token: ${{ secrets.RELEASEDRAFTER_PAT }}
-              - uses: actions/setup-node@v4
+                  token: ${{ secrets.GH_ACCESS_TOKEN }}
+              - uses: actions/setup-node@v6
                 with:
                   node-version: '20.x'
                   cache: "npm"
@@ -119,9 +119,9 @@ jobs:
                 run: npm install @sistent/sistent@${{needs.versions-check.outputs.current}} --legacy-peer-deps
               - name: Create Pull Request
                 id: cpr
-                uses: peter-evans/create-pull-request@v7
+                uses: peter-evans/create-pull-request@v8
                 with:
-                  token: ${{ secrets.RELEASEDRAFTER_PAT }}
+                  token: ${{ secrets.GH_ACCESS_TOKEN }}
                   commit-message: Bump sistent v${{ needs.versions-check.outputs.current }} dependencies
                   committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
                   author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
@@ -143,12 +143,12 @@ jobs:
     needs: versions-check
     steps:
       - name: Checkout Meshery Extensions code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: layer5io/meshery-cloud
           fetch-depth: 1
-          token: ${{ secrets.RELEASEDRAFTER_PAT }}
-      - uses: actions/setup-node@v4
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
+      - uses: actions/setup-node@v6
         with:
           node-version: '20.x'
           cache: "npm"
@@ -158,9 +158,9 @@ jobs:
         run: npm install @sistent/sistent@${{needs.versions-check.outputs.current}}
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
-          token: ${{ secrets.RELEASEDRAFTER_PAT }}
+          token: ${{ secrets.GH_ACCESS_TOKEN }}
           commit-message: Update to Sistent v${{ needs.versions-check.outputs.current }} dependencies
           committer: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
