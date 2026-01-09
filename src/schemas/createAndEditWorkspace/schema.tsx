@@ -1,7 +1,7 @@
 /**
  * Schema for create or edit workspace modals
  */
-import { WorkspaceDefinitionV1Beta1OpenApiSchema } from '@layer5/schemas';
+import { WorkspaceDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
 
 const workspaceSchema = WorkspaceDefinitionV1Beta1OpenApiSchema.components.schemas;
 const createAndEditWorkspace = {

@@ -1,4 +1,4 @@
-import { DesignDefinitionV1Beta1OpenApiSchema } from '@layer5/schemas';
+import { DesignDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
 
 const DesignSchema = DesignDefinitionV1Beta1OpenApiSchema.components.schemas;
 

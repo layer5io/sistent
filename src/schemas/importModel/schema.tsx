@@ -1,4 +1,4 @@
-import { ModelDefinitionV1Beta1OpenApiSchema } from '@layer5/schemas';
+import { ModelDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
 
 const ModelSchema = ModelDefinitionV1Beta1OpenApiSchema.components.schemas;
 const importModelSchema = {

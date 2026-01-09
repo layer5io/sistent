@@ -1,4 +1,4 @@
-import { EnvironmentDefinitionV1Beta1OpenApiSchema } from '@layer5/schemas';
+import { EnvironmentDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
 
 const environmentSchema = EnvironmentDefinitionV1Beta1OpenApiSchema.components.schemas;
 const createAndEditEnvironmentSchema = {
