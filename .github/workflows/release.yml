@@ -1,4 +1,4 @@
-name: Publish NPM Package
+name: Publish Node.js Package
 
 on:
   release:
@@ -6,11 +6,12 @@ on:
 
   workflow_dispatch:
     inputs:
-      release_version:
+      tag_name:
         description: "Release Version"
         required: true
         default: "v1.0.0"
         type: string
+  
 env:
   HUSKY: 0
 
@@ -21,7 +22,7 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-24.04
-
+   
     permissions:
       id-token: write  # Required for OIDC trusted publishing
       contents: write
@@ -48,29 +49,17 @@ jobs:
           npm publish --provenance --access public --verbose
         env:
           NODE_AUTH_TOKEN: ''  # Explicitly empty for install
-  
-  versions-check:
+
+  notify-dependents:
     needs: publish
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    outputs:
+      release-version: ${{ steps.stripped-release-version.outputs.result }}
     steps:
       - uses: actions/github-script@v7
-        id: versions
+        id: stripped-release-version
         with:
           result-encoding: strings
           script: |
-            let str = `${{github.event.release.tag_name}}`
-
-            return str.replace(/^v/, '')
-      - name: Save Release number
-        if: ${{ !cancelled() }}
-        run: |
-          mkdir -p ./version
-          echo ${{ steps.versions.outputs.result }} > ./version/number
-      - name: Upload Version Report
-        if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4.3.6
-        with:
-          name: version-number
-          path: |
-            version/number
-          retention-days: 14
+            let release-version = `${{github.event.release.tag_name}}`
+            return release-version.replace(/^v/, '')
