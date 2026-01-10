@@ -164,6 +164,26 @@ export const red = {
   10: '#660624'
 };
 
+export const magenta = {
+  70: '#FFF0FA',
+  60: '#FFB3E6',
+  50: '#FF66CC',
+  40: '#E600AC',
+  30: '#B30086',
+  20: '#800060',
+  10: '#4D0039'
+};
+
+export const crimson = {
+  70: '#FFE6E6',
+  60: '#FFADAD',
+  50: '#FF7070',
+  40: '#F91313',
+  30: '#CC0F0F',
+  20: '#8C0A0A',
+  10: '#660707'
+};
+
 export const redOrange = {
   70: '#E8BEB3',
   60: '#E1A999',
