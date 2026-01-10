@@ -59,7 +59,7 @@ jobs:
       - uses: actions/github-script@v7
         id: stripped_release_version
         with:
-          result-encoding: strings
+          result-encoding: string
           script: |
             let release_version = `${{github.event.release.tag_name}}`
             return release_version.replace(/^v/, '')
