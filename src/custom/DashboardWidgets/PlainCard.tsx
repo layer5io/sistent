@@ -23,30 +23,34 @@ const StyledResourceList = styled('ul')({
   paddingLeft: '1rem'
 });
 
-const ResourceListItem = styled('li')({
+const ResourceListItem = styled('li')(({ theme }) => ({
   listStyleType: 'none',
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'center'
-});
-
-const StyledResourceIcon = styled('img')({
-  width: '12px',
-  height: '12px',
-  marginRight: '.25rem'
-});
+  alignItems: 'center',
+  gap: '0.25rem',
+  
+  '&:hover': {
+    color: theme.palette.primary.main
+  }
+}));
 
 const StyledResourceLink = styled(Link)({
   fontSize: '1rem',
   fontWeight: '400',
   marginRight: '0.25rem',
-  textDecoration: 'none'
+  textDecoration: 'none',
+  color: 'inherit',
+
+  '&:hover': {
+    textDecoration: 'none'
+  }
 });
 
 interface Resource {
   name: string;
   link: string;
-  icon?: string;
+  icon?: React.ReactNode;
   external?: boolean;
 }
 
@@ -58,41 +62,45 @@ interface PlainCardProps {
 
 export const PlainCard = ({ title, icon, resources }: PlainCardProps): JSX.Element => {
   return (
-    <>
-      <StyledCard>
-        <CardContent>
-          <StyledTitleBox>
-            {icon}
-            <Typography variant="h6" fontWeight="700">
-              {title}
-            </Typography>
-          </StyledTitleBox>
-          <StyledContentBox>
-            <StyledResourceList>
-              {resources.map((item) => (
-                <ResourceListItem key={item.link}>
-                  {item.icon && (
-                    <StyledResourceIcon src={item.icon} alt={`Icon for ${item.name}`} />
-                  )}
-                  <StyledResourceLink
-                    href={item.link}
-                    target={item.external ? '_blank' : '_self'}
-                    rel={item.external ? 'noopener noreferrer' : ''}
-                  >
-                    {item.name}
-                  </StyledResourceLink>
+    <StyledCard>
+      <CardContent>
+        <StyledTitleBox>
+          {icon}
+          <Typography variant="h6" fontWeight="700">
+            {title}
+          </Typography>
+        </StyledTitleBox>
 
-                  {item.external && (
-                    <sup>
-                      <OpenInNewIcon width="12px" height="12px" fill={'white'} />
-                    </sup>
-                  )}
-                </ResourceListItem>
-              ))}
-            </StyledResourceList>
-          </StyledContentBox>
-        </CardContent>
-      </StyledCard>
-    </>
+        <StyledContentBox>
+          <StyledResourceList>
+            {resources.map((item) => (
+              <ResourceListItem key={item.link}>
+                <Box sx={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+                  {item.icon}
+                </Box>
+
+                <StyledResourceLink
+                  href={item.link}
+                  target={item.external ? '_blank' : '_self'}
+                  rel={item.external ? 'noopener noreferrer' : ''}
+                >
+                  {item.name}
+                </StyledResourceLink>
+
+                {item.external && (
+                  <sup>
+                    <OpenInNewIcon
+                      width="12px"
+                      height="12px"
+                      fill="currentColor"
+                    />
+                  </sup>
+                )}
+              </ResourceListItem>
+            ))}
+          </StyledResourceList>
+        </StyledContentBox>
+      </CardContent>
+    </StyledCard>
   );
 };
