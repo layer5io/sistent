@@ -227,7 +227,7 @@ export default function TeamTableConfiguration({
                       id={`edit_team-${tableMeta.rowIndex}`}
                       title="Edit Team"
                       onClick={(ev) => {
-                        isEditTeamAllowed && handleTeamView(ev, tableMeta.rowData);
+                        if (isEditTeamAllowed) handleTeamView(ev, tableMeta.rowData);
                       }}
                       iconType="edit"
                     >
@@ -252,9 +252,9 @@ export default function TeamTableConfiguration({
                     id={`remove_team-${tableMeta.rowIndex}`}
                     title={'Move Team'}
                     onClick={() => {
-                      isRemoveTeamFromWorkspaceAllowed &&
-                        handleRemoveTeamFromWorkspace &&
+                      if (isRemoveTeamFromWorkspaceAllowed && handleRemoveTeamFromWorkspace) {
                         handleRemoveTeamFromWorkspace(tableMeta.rowData[0]);
+                      }
                     }}
                     iconType="delete"
                   >
@@ -267,7 +267,7 @@ export default function TeamTableConfiguration({
                     id={`delete_team-${tableMeta.rowIndex}`}
                     title={'Delete Team'}
                     onClick={(ev: React.MouseEvent) => {
-                      isDeleteTeamAllowed && handleDeleteTeam(ev, tableMeta.rowData);
+                      if (isDeleteTeamAllowed) handleDeleteTeam(ev, tableMeta.rowData);
                     }}
                     iconType="delete"
                   >

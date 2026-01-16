@@ -35,9 +35,6 @@ export const fromWorkerfiedActor = (
   worker: Worker
 ): WorkerActorLogic<EventObject, WorkerInput> => ({
   config: Worker,
-  
-  
-  
 
   start: (state, actorScope) => {
     const { self, system } = actorScope;
@@ -49,7 +46,12 @@ export const fromWorkerfiedActor = (
     };
 
     worker.addEventListener('message', (event) => {
-      console.log('Message received from worker --> ', event,event.data.type == WORKER_EVENTS.PROXY_EVENT,WORKER_EVENTS.PROXY_EVENT);
+      console.log(
+        'Message received from worker --> ',
+        event,
+        event.data.type == WORKER_EVENTS.PROXY_EVENT,
+        WORKER_EVENTS.PROXY_EVENT
+      );
       const eventPayload = event.data;
       if (eventPayload.type === WORKER_EVENTS.STATE_SNAPSHOT) {
         const eventFromWorker = eventPayload as STATE_SNAPSHOT_EVENT;
@@ -58,13 +60,11 @@ export const fromWorkerfiedActor = (
       }
 
       if (eventPayload.type === WORKER_EVENTS.PROXY_EVENT) {
-    
         const proxyEvent = eventPayload as ProxyEvent;
         const targetActorId = proxyEvent.data.to;
         const targetEvent = proxyEvent.data.event;
         const isToParent = targetActorId === 'parent';
         console.log('Proxy event received from worker to', targetActorId, targetEvent, isToParent);
-
 
         if (isToParent && self._parent) {
           console.log('Relaying to parent', proxyEvent.data);
@@ -73,15 +73,12 @@ export const fromWorkerfiedActor = (
         }
         if (!isToParent) {
           const targetActor = system.get(proxyEvent.data.to);
-          console.log('Relaying to system actor', proxyEvent.data, targetActor,system,self);
-          if (targetActor){
+          console.log('Relaying to system actor', proxyEvent.data, targetActor, system, self);
+          if (targetActor) {
             targetActor.send(proxyEvent.data.event);
           }
           return state;
         }
-
-
-
       }
     });
 
@@ -102,8 +99,6 @@ export const fromWorkerfiedActor = (
         error: undefined
       };
     }
-
-
 
     if (event.type == WORKER_EVENTS.STATE_SNAPSHOT) {
       const snapshot = (event as STATE_SNAPSHOT_EVENT).data.snapshot as AnyMachineSnapshot;
