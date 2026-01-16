@@ -15,6 +15,7 @@ interface SearchBarProps {
   sx?: SxProps<Theme>;
   endAdornment?: React.ReactNode;
   debounceTime?: number;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 /**
@@ -38,8 +39,10 @@ function StyledSearchBar({
   sx,
   placeholder,
   endAdornment,
-  debounceTime = 300
+  debounceTime = 300,
+  onKeyDown
 }: SearchBarProps): JSX.Element {
+
   const theme = useTheme();
   const [inputValue, setInputValue] = useState(value);
 
@@ -87,20 +90,22 @@ function StyledSearchBar({
 
   return (
     <StyledSearchInput
-      type="search"
-      label={label}
-      fullWidth
-      value={inputValue}
-      onChange={handleChange}
-      sx={sx}
-      placeholder={placeholder ?? 'Search'}
-      startAdornment={
-        <InputAdornment position="start">
-          <SearchIcon fill={theme.palette.background.neutral?.default} />
-        </InputAdornment>
-      }
-      endAdornment={<InputAdornmentEnd position="end">{endAdornment}</InputAdornmentEnd>}
-    />
+    type="search"
+    label={label}
+    fullWidth
+    value={inputValue}
+    onChange={handleChange}
+    sx={sx}
+    placeholder={placeholder ?? 'Search'}
+    onKeyDown={onKeyDown}
+    startAdornment={
+      <InputAdornment position="start">
+        <SearchIcon fill={theme.palette.background.neutral?.default} />
+      </InputAdornment>
+    }
+    endAdornment={<InputAdornmentEnd position="end">{endAdornment}</InputAdornmentEnd>}
+  />
+
   );
 }
 
