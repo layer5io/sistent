@@ -14,7 +14,6 @@ interface LearningSectionProps {
 
 const LearningSection: React.FC<LearningSectionProps> = ({ filteredAcademyData }) => {
   const theme = useTheme();
-  const userToggledRef = React.useRef(false);
   const [userToggleValue, setUserToggleValue] = useState<boolean | null>(null);
   
   const hasLearningPaths = useMemo(
@@ -30,7 +29,6 @@ const LearningSection: React.FC<LearningSectionProps> = ({ filteredAcademyData }
       const currentValue = prev !== null ? prev : hasLearningPaths;
       return !currentValue;
     });
-    userToggledRef.current = true;
   };
 
   const renderLearningItem = (item: string, index: number) => (

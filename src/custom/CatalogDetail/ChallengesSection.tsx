@@ -14,7 +14,6 @@ interface ChallengesSectionProps {
 
 const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyData }) => {
   const theme = useTheme();
-  const userToggledRef = React.useRef(false);
   const [userToggleValue, setUserToggleValue] = useState<boolean | null>(null);
   
   const hasChallenges = useMemo(
@@ -30,7 +29,6 @@ const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyDa
       const currentValue = prev !== null ? prev : hasChallenges;
       return !currentValue;
     });
-    userToggledRef.current = true;
   };
 
   const renderChallengeItem = (item: string, index: number) => (
