@@ -124,9 +124,11 @@ const useTeamAssignment = ({
 
   const handleAssignTeamsData = (updatedAssignedData: Team[]) => {
     const { addedTeamsIds, removedTeamsIds } = getAddedAndRemovedTeams(updatedAssignedData);
-    addedTeamsIds.length > 0 || removedTeamsIds.length > 0
-      ? setDisableTransferButton(false)
-      : setDisableTransferButton(true);
+    if (addedTeamsIds.length > 0 || removedTeamsIds.length > 0) {
+      setDisableTransferButton(false);
+    } else {
+      setDisableTransferButton(true);
+    }
     setAssignedTeams(updatedAssignedData);
   };
 

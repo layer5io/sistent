@@ -150,7 +150,7 @@ const WorkspaceContentMoveModal: React.FC<WorkspaceContentMoveModalProps> = ({
         message: `Successfully moved ${type === RESOURCE_TYPE.DESIGN ? 'design' : 'view'}${multiSelectedContent.length > 1 ? 's' : ''} to ${selectedWorkspaceForMove!.name}`,
         event_type: EVENT_TYPES.SUCCESS
       });
-    } catch (error) {
+    } catch {
       notify({
         message: `Failed to move ${type === RESOURCE_TYPE.DESIGN ? 'design' : 'view'}. Please try again.`,
         event_type: EVENT_TYPES.ERROR

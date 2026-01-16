@@ -136,9 +136,11 @@ const useEnvironmentAssignment = ({
   const handleAssignEnvironmentsData = (updatedAssignedData: Environment[]) => {
     const { addedEnvironmentsIds, removedEnvironmentsIds } =
       getAddedAndRemovedEnvironments(updatedAssignedData);
-    addedEnvironmentsIds.length > 0 || removedEnvironmentsIds.length > 0
-      ? setDisableTransferButton(false)
-      : setDisableTransferButton(true);
+    if (addedEnvironmentsIds.length > 0 || removedEnvironmentsIds.length > 0) {
+      setDisableTransferButton(false);
+    } else {
+      setDisableTransferButton(true);
+    }
 
     setAssignedEnvironments(updatedAssignedData);
   };

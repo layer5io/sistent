@@ -163,11 +163,12 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
               id={`delete_team-${tableMeta.rowIndex}`}
               title="Remove Environment"
               onClick={() => {
-                isRemoveAllowed &&
+                if (isRemoveAllowed) {
                   unassignEnvironmentFromWorkspace({
                     workspaceId,
                     environmentId: tableMeta.rowData[0]
                   });
+                }
               }}
               iconType="delete"
             >
