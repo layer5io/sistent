@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link, ListItemIcon } from '../../base';
 import { MESHERY_CLOUD_PROD } from '../../constants/constants';
 import { LearningIcon } from '../../icons';
@@ -14,18 +14,17 @@ interface LearningSectionProps {
 
 const LearningSection: React.FC<LearningSectionProps> = ({ filteredAcademyData }) => {
   const theme = useTheme();
-  const [openLearning, setOpenLearning] = useState<boolean>(false);
-  const [autoUpdate, setAutoUpdate] = useState<boolean>(true);
+  const [manualOverride, setManualOverride] = useState<boolean | null>(null);
 
-  useEffect(() => {
-    if (autoUpdate) {
-      setOpenLearning(Boolean((filteredAcademyData?.['learning-path'] ?? []).length > 0));
-    }
-  }, [filteredAcademyData, autoUpdate]);
+  const hasLearningPaths = useMemo(
+    () => (filteredAcademyData?.['learning-path'] ?? []).length > 0,
+    [filteredAcademyData]
+  );
+
+  const openLearning = manualOverride !== null ? manualOverride : hasLearningPaths;
 
   const toggleOpenLearning = (): void => {
-    setOpenLearning((prev) => !prev);
-    setAutoUpdate(false);
+    setManualOverride((prev) => (prev !== null ? !prev : !hasLearningPaths));
   };
 
   const renderLearningItem = (item: string, index: number) => (

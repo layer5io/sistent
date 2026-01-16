@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, ListItemIcon } from '../../base';
 import { MESHERY_CLOUD_PROD } from '../../constants/constants';
 import { ChallengesIcon } from '../../icons';
@@ -14,18 +14,17 @@ interface ChallengesSectionProps {
 
 const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyData }) => {
   const theme = useTheme();
-  const [openChallenges, setOpenChallenges] = useState(false);
-  const [autoUpdate, setAutoUpdate] = useState(true);
+  const [manualOverride, setManualOverride] = useState<boolean | null>(null);
 
-  useEffect(() => {
-    if (autoUpdate) {
-      setOpenChallenges((filteredAcademyData?.['challenges'] ?? []).length > 0);
-    }
-  }, [filteredAcademyData, autoUpdate]);
+  const hasChallenges = useMemo(
+    () => (filteredAcademyData?.['challenges'] ?? []).length > 0,
+    [filteredAcademyData]
+  );
+
+  const openChallenges = manualOverride !== null ? manualOverride : hasChallenges;
 
   const toggleOpenChallenges = () => {
-    setOpenChallenges((prev) => !prev);
-    setAutoUpdate(false);
+    setManualOverride((prev) => (prev !== null ? !prev : !hasChallenges));
   };
 
   const renderChallengeItem = (item: string, index: number) => (
