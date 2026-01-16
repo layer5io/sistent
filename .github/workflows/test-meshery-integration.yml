@@ -36,8 +36,14 @@ jobs:
         working-directory: sistent
         run: |
           npm pack
-          SISTENT_PACKAGE=$(ls sistent-sistent-*.tgz | head -n 1)
+          SISTENT_PACKAGE=$(ls sistent-sistent-*.tgz 2>/dev/null | \
+            head -n 1)
+          if [ -z "$SISTENT_PACKAGE" ]; then
+            echo "Error: No Sistent package found"
+            exit 1
+          fi
           echo "SISTENT_PACKAGE=$SISTENT_PACKAGE" >> $GITHUB_ENV
+          echo "Created package: $SISTENT_PACKAGE"
 
       - name: Checkout Meshery UI
         uses: actions/checkout@v6
