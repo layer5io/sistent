@@ -1,4 +1,4 @@
-import { MUIDataTableColumn } from 'mui-datatables';
+import { MUIDataTableColumn } from '@sistent/mui-datatables';
 import React from 'react';
 import { Box } from '../../base/Box';
 import { Card } from '../../base/Card';
