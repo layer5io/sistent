@@ -5,7 +5,6 @@ on:
     types: [opened, synchronize, reopened]
     paths-ignore:
       - 'system/**/*'
-      - '.github/**/*'
       - '*.md'
 
 jobs:
@@ -75,9 +74,14 @@ jobs:
         run: |
           echo "## Integration Test Results" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Sistent changes were successfully tested" \
-            >> $GITHUB_STEP_SUMMARY
-          echo "   against Meshery UI" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ job.status }}" == "success" ]; then
+            echo "✅ Sistent changes were successfully tested" \
+              >> $GITHUB_STEP_SUMMARY
+            echo "   against Meshery UI" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Integration test failed" \
+              >> $GITHUB_STEP_SUMMARY
+          fi
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Details" >> $GITHUB_STEP_SUMMARY
           echo "- **Sistent Package**: ${{ env.SISTENT_PACKAGE }}" \
@@ -89,4 +93,5 @@ jobs:
             echo "- **Meshery UI Build**: ❌ Failed" \
               >> $GITHUB_STEP_SUMMARY
           fi
-          echo "- **Node Version**: 20" >> $GITHUB_STEP_SUMMARY
+          echo "- **Node Version**: 20" \
+            >> $GITHUB_STEP_SUMMARY
