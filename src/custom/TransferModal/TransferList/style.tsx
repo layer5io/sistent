@@ -1,8 +1,6 @@
 import { Grid2, styled } from '@mui/material';
 import { Button, Chip, Paper, Typography } from '../../../base';
 
-import { KEPPEL } from '../../../theme';
-
 export const StyledChip = styled(Chip)(({ theme }) => ({
   padding: '5px 6px !important',
   color: theme.palette.text.default,

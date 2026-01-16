@@ -10,11 +10,11 @@ interface OrgIconProps {
 }
 
 const OrgIcon: React.FC<OrgIconProps> = ({
-  width =DEFAULT_WIDTH,
+  width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
   fill = KEPPEL_GREEN_FILL,
-  secondaryFill = '#294957',  
-  windowFill = '#F6F8F8', 
+  secondaryFill = '#294957',
+  windowFill = '#F6F8F8'
 }) => (
   <svg
     width={width}
