@@ -103,7 +103,7 @@ export default function UserInviteModal({
   const orgs = data?.organizations;
   const defaultOrgSelection = { id: 'none', name: 'None' };
   const [organization, setOrganization] = useState<Organization>(defaultOrgSelection);
-  
+
   // Query to check if user exists by email (only if hook is provided)
   const { data: existingUserData } = useGetUserByEmailQuery?.(
     { email: inviteeEmail },

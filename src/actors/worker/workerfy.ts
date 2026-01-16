@@ -26,7 +26,8 @@ const ProxyActor = setup({
       on: {
         '*': {
           actions: [
-            ({ event, context }) => console.log('Proxying actor event', event, 'to', context.proxyToId),
+            ({ event, context }) =>
+              console.log('Proxying actor event', event, 'to', context.proxyToId),
             ({ event, context }) => postMessage(workerEvents.proxyEvent(event, context.proxyToId))
           ]
         }
