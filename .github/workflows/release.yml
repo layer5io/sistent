@@ -44,7 +44,7 @@ jobs:
 
       - name: Install, Build, and Publish Package
         run: |
-          npm install
+          npm install --legacy-peer-deps
           npm run build
           npm publish --provenance --access public --verbose
         env:
