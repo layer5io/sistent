@@ -91,15 +91,15 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
   const [reactNode, setReactNode] = useState<React.ReactNode | null>(null);
 
   const openModal: openModalCallback = ({ title, reactNode = null, onClose }) => {
-    title && setTitle(title);
-    onClose && (onCloseRef.current = onClose);
+    if (title) setTitle(title);
+    if (onClose) onCloseRef.current = onClose;
     setOpen(true);
-    reactNode && setReactNode(reactNode);
+    if (reactNode) setReactNode(reactNode);
   };
 
   const closeModal = () => {
     setOpen(false);
-    onCloseRef.current && onCloseRef.current();
+    onCloseRef.current?.();
     setReactNode(null);
     setTitle('');
     onCloseRef.current = null;

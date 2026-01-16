@@ -108,8 +108,8 @@ export function FlipCard({
       onClick={() => {
         if (disableFlip) return;
         setFlipped((flipped) => !flipped);
-        onClick && onClick();
-        onShow && onShow();
+        onClick?.();
+        onShow?.();
       }}
     >
       <InnerCard

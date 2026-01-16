@@ -82,7 +82,7 @@ const AccessListActor: React.FC<AccessListActorProps> = ({
           src={actorData.avatar_url}
           imgProps={{ referrerPolicy: 'no-referrer' }}
           onClick={() => {
-            hostURL && openInNewTab(`${hostURL}/user/${actorData.id}`);
+            if (hostURL) openInNewTab(`${hostURL}/user/${actorData.id}`);
           }}
         />
       </ListItemAvatar>

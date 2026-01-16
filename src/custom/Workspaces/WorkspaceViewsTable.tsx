@@ -254,11 +254,12 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
               id={`delete_view-${tableMeta.rowIndex}`}
               title="Move View"
               onClick={() => {
-                isRemoveAllowed &&
+                if (isRemoveAllowed) {
                   unassignviewFromWorkspace({
                     workspaceId,
                     viewId: tableMeta.rowData[0]
                   });
+                }
               }}
               iconType="delete"
             >

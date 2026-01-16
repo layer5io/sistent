@@ -179,7 +179,7 @@ const ResponsiveDataTable = ({
           if (colToAdd) {
             if (colToAdd.options) {
               colToAdd.options.display = true;
-              updateCols && updateCols([...columns]);
+              updateCols?.([...columns]);
             }
           }
           break;
@@ -189,7 +189,7 @@ const ResponsiveDataTable = ({
           if (colToRemove) {
             if (colToRemove.options) {
               colToRemove.options.display = false;
-              updateCols && updateCols([...columns]);
+              updateCols?.([...columns]);
             }
           }
           break;
@@ -236,7 +236,7 @@ const ResponsiveDataTable = ({
         }
       }
     });
-    updateCols && updateCols([...columns]);
+    updateCols?.([...columns]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columnVisibility, updateCols]);
 
