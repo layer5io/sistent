@@ -11,6 +11,8 @@ jobs:
   test-with-meshery-ui:
     name: Integration Test with Meshery UI
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Checkout Sistent PR
         uses: actions/checkout@v6
