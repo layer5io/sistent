@@ -46,6 +46,7 @@
     "@eslint/compat": "^1.3.2",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.39.2",
+    "@meshery/schemas": "^0.8.107",
     "@mui/icons-material": "^6.4.8",
     "@reduxjs/toolkit": "^2.2.5",
     "@testing-library/react": "^16.2.0",
@@ -80,7 +81,8 @@
     "rollup": "^4.38.0",
     "ts-jest": "^29.3.0",
     "tsup": "^8.4.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "xstate": "^5.19.2"
   },
   "peerDependencies": {
     "@meshery/schemas": "^0.8.107",
