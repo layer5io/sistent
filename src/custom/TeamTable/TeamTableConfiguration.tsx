@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
+import { MUIDataTableColumn, MUIDataTableMeta } from '@sistent/mui-datatables';
 import { useState } from 'react';
 import { DeleteIcon, EditIcon } from '../../icons';
 import LogoutIcon from '../../icons/Logout/LogOutIcon';
