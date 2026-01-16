@@ -50,7 +50,6 @@ function CustomTooltip({
               boxShadow: (themeArg?: Theme) => {
                 const t = themeArg || theme;
                 const isDefaultTheme = t.palette.primary.main === '#1976d2';
-                console.log(isDefaultTheme);
 
                 if (t?.palette?.mode === 'light' && !isDefaultTheme) {
                   return 'rgba(0, 0, 0, 0.6) 0px 4px 10px, rgba(0, 0, 0, 0.5) 0px 2px 4px';
