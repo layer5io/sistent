@@ -63,7 +63,7 @@ jobs:
       - name: Run Meshery UI Tests
         working-directory: meshery/ui
         run: |
-          if grep -q '"test"\s*:' package.json; then
+          if grep -qE '"test"\s*:' package.json; then
             npm run test -- --passWithNoTests
           else
             echo "No tests found in Meshery UI, skipping test step"
