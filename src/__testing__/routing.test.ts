@@ -1,3 +1,4 @@
+import { RESOURCE_TYPE } from '../constants/constants';
 import {
   catalogPath,
   emptyViewPath,
@@ -7,7 +8,6 @@ import {
   getShareableResourceRoute,
   viewPath
 } from '../utils/routing';
-import { RESOURCE_TYPE } from '../constants/constants';
 
 const setLocation = (path: string) => {
   window.history.pushState({}, '', path);

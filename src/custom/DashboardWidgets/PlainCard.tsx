@@ -29,7 +29,7 @@ const ResourceListItem = styled('li')(({ theme }) => ({
   flexDirection: 'row',
   alignItems: 'center',
   gap: '0.25rem',
-  
+
   '&:hover': {
     color: theme.palette.primary.main
   }
@@ -75,9 +75,7 @@ export const PlainCard = ({ title, icon, resources }: PlainCardProps): JSX.Eleme
           <StyledResourceList>
             {resources.map((item) => (
               <ResourceListItem key={item.link}>
-                <Box sx={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
-                  {item.icon}
-                </Box>
+                <Box sx={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>{item.icon}</Box>
 
                 <StyledResourceLink
                   href={item.link}
@@ -89,11 +87,7 @@ export const PlainCard = ({ title, icon, resources }: PlainCardProps): JSX.Eleme
 
                 {item.external && (
                   <sup>
-                    <OpenInNewIcon
-                      width="12px"
-                      height="12px"
-                      fill="currentColor"
-                    />
+                    <OpenInNewIcon width="12px" height="12px" fill="currentColor" />
                   </sup>
                 )}
               </ResourceListItem>

@@ -73,7 +73,7 @@ export const DataTableEllipsisMenu: React.FC<{
                   key={`${index}-menuitem`}
                   sx={{
                     width: '100%',
-                    '&:hover' : {
+                    '&:hover': {
                       backgroundColor: theme.palette.action.hover
                     }
                   }}
@@ -100,12 +100,12 @@ export const DataTableEllipsisMenu: React.FC<{
               return (
                 <IconWrapper key={index} disabled={action.disabled}>
                   <MenuItem
-                  sx={{
-                    width: '100%',
-                    '&:hover' : {
-                      backgroundColor: theme.palette.action.hover
-                    }
-                  }}
+                    sx={{
+                      width: '100%',
+                      '&:hover': {
+                        backgroundColor: theme.palette.action.hover
+                      }
+                    }}
                     onClick={() => handleActionClick(action)}
                     disabled={action.disabled}
                   >
