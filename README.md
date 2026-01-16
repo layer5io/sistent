@@ -54,6 +54,19 @@ To run tests:
 make tests
 ```
 
+### Continuous Integration
+
+#### Automated Integration Testing with Meshery UI
+
+Sistent includes automated integration testing in CI to ensure changes don't break downstream applications. When you create a pull request, the CI automatically:
+
+1. **Builds Sistent** with your changes
+2. **Tests against Meshery UI** by installing your Sistent build into Meshery UI
+3. **Runs Meshery UI's build and tests** to verify compatibility
+4. **Reports results** in the PR checks
+
+This ensures that your Sistent changes are validated against real-world usage in Meshery UI before merging. The workflow runs automatically on all pull requests, providing fast feedback on integration issues.
+
 ### Using your local Sistent Fork in a Project
 
 #### Method 1: Manual Installation
