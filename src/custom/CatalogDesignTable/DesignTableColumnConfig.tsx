@@ -1,6 +1,6 @@
 import { Lock, Public } from '@mui/icons-material';
 import { Theme } from '@mui/material';
-import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
+import { MUIDataTableColumn, MUIDataTableMeta } from '@sistent/mui-datatables';
 import { Typography } from '../../base';
 import { PLAYGROUND_MODES } from '../../constants/constants';
 import { ChainIcon, CopyIcon, KanvasIcon, MoveFileIcon, PublishIcon } from '../../icons';

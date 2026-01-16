@@ -1,4 +1,4 @@
-import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
+import MUIDataTable, { MUIDataTableColumn } from '@sistent/mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { ShareIcon } from '../icons';
