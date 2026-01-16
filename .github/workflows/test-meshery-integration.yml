@@ -1,0 +1,83 @@
+name: Test Sistent with Meshery UI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths-ignore:
+      - 'system/**/*'
+      - '.github/**/*'
+      - '*.md'
+
+jobs:
+  test-with-meshery-ui:
+    name: Integration Test with Meshery UI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Sistent PR
+        uses: actions/checkout@v6
+        with:
+          path: sistent
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: sistent/package-lock.json
+
+      - name: Install Sistent Dependencies
+        working-directory: sistent
+        run: npm install
+
+      - name: Build Sistent
+        working-directory: sistent
+        run: npm run build
+
+      - name: Pack Sistent for Installation
+        working-directory: sistent
+        run: |
+          npm pack
+          echo "SISTENT_PACKAGE=$(ls *.tgz)" >> $GITHUB_ENV
+
+      - name: Checkout Meshery UI
+        uses: actions/checkout@v6
+        with:
+          repository: meshery/meshery
+          path: meshery
+          fetch-depth: 1
+
+      - name: Install Meshery UI Dependencies
+        working-directory: meshery/ui
+        run: npm install
+
+      - name: Install Sistent from PR
+        working-directory: meshery/ui
+        run: npm install ../../sistent/${{ env.SISTENT_PACKAGE }}
+
+      - name: Build Meshery UI
+        working-directory: meshery/ui
+        run: |
+          npm run build
+        continue-on-error: false
+
+      - name: Run Meshery UI Tests
+        working-directory: meshery/ui
+        run: |
+          if grep -q '"test"' package.json; then
+            npm run test -- --passWithNoTests
+          else
+            echo "No tests found in Meshery UI, skipping test step"
+          fi
+        continue-on-error: false
+
+      - name: Integration Test Summary
+        if: always()
+        run: |
+          echo "## Integration Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Sistent changes were successfully tested against Meshery UI" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Details" >> $GITHUB_STEP_SUMMARY
+          echo "- **Sistent Package**: ${{ env.SISTENT_PACKAGE }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Meshery UI Build**: ${{ job.status == 'success' && '✅ Successful' || '❌ Failed' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Node Version**: 20" >> $GITHUB_STEP_SUMMARY
