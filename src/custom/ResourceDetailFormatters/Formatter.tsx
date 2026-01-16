@@ -65,6 +65,10 @@ interface ResourceProgressProps {
   type: string;
 }
 
+interface ResourceProgressWithChartProps extends ResourceProgressProps {
+  chartOptions: (percentage: number, type: string) => ChartOptions;
+}
+
 interface StatusColorType {
   background: string;
   text: string;
@@ -358,7 +362,7 @@ export const StatusChip = ({ status }: { status: string }) => {
   );
 };
 
-const ResourceProgress: React.FC<ResourceProgressProps & { chartOptions: (percentage: number, type: string) => ChartOptions }> = ({ title, percentage, type, chartOptions }) => (
+const ResourceProgress: React.FC<ResourceProgressWithChartProps> = ({ title, percentage, type, chartOptions }) => (
   <ResourceProgressContainer>
     <Typography variant="body1">{title}</Typography>
     <BBChart options={chartOptions(percentage, type)} />

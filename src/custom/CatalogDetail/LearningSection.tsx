@@ -22,7 +22,7 @@ const LearningSection: React.FC<LearningSectionProps> = ({ filteredAcademyData }
   );
   
   // Derive the open state: use user's manual toggle if set, otherwise use hasLearningPaths
-  const openLearning = userToggleValue !== null ? userToggleValue : hasLearningPaths;
+  const openLearning = userToggleValue ?? hasLearningPaths;
 
   const toggleOpenLearning = (): void => {
     setUserToggleValue((prev) => {

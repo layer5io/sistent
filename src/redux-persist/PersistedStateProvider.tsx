@@ -27,9 +27,9 @@ export const PersistedStateProvider: FC<PersistedStateProviderProps> = ({
     const loadState = async () => {
       try {
         dispatch(loadPersistedState());
-        setLoading(false);
       } catch (e) {
         setError(e as Error);
+      } finally {
         setLoading(false);
       }
     };

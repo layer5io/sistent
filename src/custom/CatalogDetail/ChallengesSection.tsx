@@ -22,7 +22,7 @@ const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyDa
   );
   
   // Derive the open state: use user's manual toggle if set, otherwise use hasChallenges
-  const openChallenges = userToggleValue !== null ? userToggleValue : hasChallenges;
+  const openChallenges = userToggleValue ?? hasChallenges;
 
   const toggleOpenChallenges = () => {
     setUserToggleValue((prev) => {
