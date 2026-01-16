@@ -423,7 +423,7 @@ export const MemoryUsage: React.FC<MemoryUsageProps> = ({
 
   const renderResourceProgress = useCallback(
     (title: string, percentage: number, type: string) => (
-      <ResourceProgressContainer key={type}>
+      <ResourceProgressContainer>
         <Typography variant="body1">{title}</Typography>
         <BBChart options={chartOptions(percentage, type)} />
       </ResourceProgressContainer>
