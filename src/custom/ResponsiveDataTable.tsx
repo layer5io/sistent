@@ -1,4 +1,4 @@
-import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
+import MUIDataTable, { MUIDataTableColumn } from '@sistent/mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { ShareIcon } from '../icons';
@@ -179,7 +179,7 @@ const ResponsiveDataTable = ({
           if (colToAdd) {
             if (colToAdd.options) {
               colToAdd.options.display = true;
-              updateCols && updateCols([...columns]);
+              if (updateCols) updateCols([...columns]);
             }
           }
           break;
@@ -189,7 +189,7 @@ const ResponsiveDataTable = ({
           if (colToRemove) {
             if (colToRemove.options) {
               colToRemove.options.display = false;
-              updateCols && updateCols([...columns]);
+              if (updateCols) updateCols([...columns]);
             }
           }
           break;
@@ -236,7 +236,7 @@ const ResponsiveDataTable = ({
         }
       }
     });
-    updateCols && updateCols([...columns]);
+    if (updateCols) updateCols([...columns]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columnVisibility, updateCols]);
 

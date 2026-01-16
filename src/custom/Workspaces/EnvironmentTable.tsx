@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
+import { MUIDataTableColumn, MUIDataTableMeta } from '@sistent/mui-datatables';
 import React, { useState } from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '../../base';
 import { DeleteIcon, EnvironmentIcon } from '../../icons';
@@ -163,11 +163,12 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
               id={`delete_team-${tableMeta.rowIndex}`}
               title="Remove Environment"
               onClick={() => {
-                isRemoveAllowed &&
+                if (isRemoveAllowed) {
                   unassignEnvironmentFromWorkspace({
                     workspaceId,
                     environmentId: tableMeta.rowData[0]
                   });
+                }
               }}
               iconType="delete"
             >

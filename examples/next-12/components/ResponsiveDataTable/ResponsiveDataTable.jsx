@@ -1,4 +1,4 @@
-import MUIDataTable from 'mui-datatables';
+import MUIDataTable from '@sistent/mui-datatables';
 import { useEffect, useState } from 'react';
 
 export function ResponsiveDataTable({ data, columns, options = {}, ...props }) {

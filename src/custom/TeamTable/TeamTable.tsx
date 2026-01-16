@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Grid2, TableCell } from '@mui/material';
-import { MUIDataTableColumn } from 'mui-datatables';
+import { MUIDataTableColumn } from '@sistent/mui-datatables';
 import { styled, useTheme } from '../../theme';
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary.js';
 import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/index.js';

@@ -46,6 +46,7 @@
     "@eslint/compat": "^1.3.2",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.39.2",
+    "@meshery/schemas": "^0.8.107",
     "@mui/icons-material": "^6.4.8",
     "@reduxjs/toolkit": "^2.2.5",
     "@testing-library/react": "^16.2.0",
@@ -80,17 +81,23 @@
     "rollup": "^4.38.0",
     "ts-jest": "^29.3.0",
     "tsup": "^8.4.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "xstate": "^5.19.2"
   },
   "peerDependencies": {
+    "@meshery/schemas": "^0.8.107",
     "@xstate/react": "^5.0.3",
-    "react": "^17.0.2 || ^18.3.1",
-    "react-dom": "^17.0.2 || ^18.3.1",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "xstate": "^5.19.2"
   },
   "overrides": {
     "@mui/icons-material": "^6.4.8",
-    "@mui/material": "^6.4.8"
+    "@mui/material": "^6.4.8",
+    "@meshery/schemas": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   },
   "peerDependenciesMeta": {
     "react": {
@@ -107,14 +114,13 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@layer5/meshery-design-embed": "^0.4.0",
-    "@layer5/schemas": "^0.0.6-16",
     "@mui/material": "^6.4.8",
+    "@sistent/mui-datatables": "^5.1.4",
     "@types/mui-datatables": "*",
     "billboard.js": "^3.15.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
-    "mui-datatables": "github:leecalcote/mui-datatables#decbb0493fdd95d674d2dd748d3d35cefb801195",
     "re-resizable": "^6.11.2",
     "react-draggable": "^4.4.6",
     "react-share": "^5.1.0",
