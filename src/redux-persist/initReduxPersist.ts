@@ -80,7 +80,7 @@ export const initReduxPersist = (actionsToPersist: ActionsToPersist) => {
             inflatedState = JSON.parse(inflatedState);
             dispatch(rehydrateState(path, inflatedState));
           }
-        } catch (e) {
+        } catch {
           console.error(`Error rehydrating state for reducer ${path}`, inflatedState);
         }
       });
