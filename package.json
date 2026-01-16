@@ -83,14 +83,19 @@
     "typescript": "^5.8.2"
   },
   "peerDependencies": {
+    "@meshery/schemas": "^0.8.107",
     "@xstate/react": "^5.0.3",
-    "react": "^17.0.2 || ^18.3.1",
-    "react-dom": "^17.0.2 || ^18.3.1",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "xstate": "^5.19.2"
   },
   "overrides": {
     "@mui/icons-material": "^6.4.8",
-    "@mui/material": "^6.4.8"
+    "@mui/material": "^6.4.8",
+    "@meshery/schemas": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   },
   "peerDependenciesMeta": {
     "react": {
@@ -107,7 +112,6 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@layer5/meshery-design-embed": "^0.4.0",
-    "@layer5/schemas": "^0.0.6-16",
     "@mui/material": "^6.4.8",
     "@types/mui-datatables": "*",
     "billboard.js": "^3.15.0",
