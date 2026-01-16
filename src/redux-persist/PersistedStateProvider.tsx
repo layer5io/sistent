@@ -23,12 +23,18 @@ export const PersistedStateProvider: FC<PersistedStateProviderProps> = ({
     if (!loading) {
       return;
     }
-    try {
-      dispatch(loadPersistedState());
-    } catch (e) {
-      setError(e as Error);
-    }
-    setLoading(false);
+    
+    const loadState = async () => {
+      try {
+        dispatch(loadPersistedState());
+        setLoading(false);
+      } catch (e) {
+        setError(e as Error);
+        setLoading(false);
+      }
+    };
+    
+    loadState();
   }, [loading, dispatch, loadPersistedState]);
 
   if (error) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link, ListItemIcon } from '../../base';
 import { MESHERY_CLOUD_PROD } from '../../constants/constants';
 import { ChallengesIcon } from '../../icons';
@@ -14,18 +14,23 @@ interface ChallengesSectionProps {
 
 const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyData }) => {
   const theme = useTheme();
-  const [openChallenges, setOpenChallenges] = useState(false);
-  const [autoUpdate, setAutoUpdate] = useState(true);
-
-  useEffect(() => {
-    if (autoUpdate) {
-      setOpenChallenges((filteredAcademyData?.['challenges'] ?? []).length > 0);
-    }
-  }, [filteredAcademyData, autoUpdate]);
+  const userToggledRef = React.useRef(false);
+  const [userToggleValue, setUserToggleValue] = useState<boolean | null>(null);
+  
+  const hasChallenges = useMemo(
+    () => (filteredAcademyData?.['challenges'] ?? []).length > 0,
+    [filteredAcademyData]
+  );
+  
+  // Derive the open state: use user's manual toggle if set, otherwise use hasChallenges
+  const openChallenges = userToggleValue !== null ? userToggleValue : hasChallenges;
 
   const toggleOpenChallenges = () => {
-    setOpenChallenges((prev) => !prev);
-    setAutoUpdate(false);
+    setUserToggleValue((prev) => {
+      const currentValue = prev !== null ? prev : hasChallenges;
+      return !currentValue;
+    });
+    userToggledRef.current = true;
   };
 
   const renderChallengeItem = (item: string, index: number) => (

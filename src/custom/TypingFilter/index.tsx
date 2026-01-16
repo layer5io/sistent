@@ -147,7 +147,7 @@ export function TypingFilter({ filterSchema, handleFilter, autoFilter = false }:
       />
       <Popper
         open={filterState.state != FilteringState.IDLE && isPopperOpen}
-        anchorEl={inputFieldRef.current}
+        anchorEl={anchorEl}
         placement="bottom-start"
         style={{ zIndex: 2000 }}
         transition

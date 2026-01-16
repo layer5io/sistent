@@ -2,7 +2,7 @@ import { Hidden as MuiHidden, HiddenProps as MuiHiddenProps } from '@mui/materia
 import React from 'react';
 
 export const Hidden = React.forwardRef<HTMLDivElement, MuiHiddenProps>((props, ref) => {
-  return React.cloneElement(<MuiHidden {...props} />, { ref });
+  return <MuiHidden {...props} ref={ref} />;
 });
 
 export default Hidden;

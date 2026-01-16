@@ -12,6 +12,17 @@ interface ContentClassInfoProps {
   classes: Class[];
 }
 
+interface ClassIconProps {
+  className: string;
+  contentClass: ContentClassType;
+}
+
+const ClassIcon: React.FC<ClassIconProps> = ({ className, contentClass }) => {
+  const Icon = contentClass[className]?.icon;
+  const fill = contentClass[className]?.color;
+  return Icon ? <Icon width="25px" height="25px" fill={fill} /> : null;
+};
+
 const ContentClassInfo: React.FC<ContentClassInfoProps> = ({ contentClass, classes }) => {
   const _classDescription = (className: string): string | undefined => {
     const classObj = classes && classes.find((classObj) => classObj.class === className);
@@ -35,12 +46,6 @@ const ContentClassInfo: React.FC<ContentClassInfoProps> = ({ contentClass, class
     }
   } as const;
 
-  const ClassIcon: React.FC<{ className: string }> = ({ className }) => {
-    const Icon = CONTENT_CLASS[className]?.icon;
-    const fill = CONTENT_CLASS[className]?.color;
-    return Icon ? <Icon width="25px" height="25px" fill={fill} /> : null;
-  };
-
   return (
     <div>
       <Box style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
@@ -61,7 +66,7 @@ const ContentClassInfo: React.FC<ContentClassInfoProps> = ({ contentClass, class
           fontFamily: 'inherit'
         }}
       >
-        <ClassIcon className={contentClass} />
+        <ClassIcon className={contentClass} contentClass={CONTENT_CLASS} />
         {formatToTitleCase(contentClass)}
       </ContentDetailsText>
     </div>

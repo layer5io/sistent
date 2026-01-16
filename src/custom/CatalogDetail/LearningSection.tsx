@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link, ListItemIcon } from '../../base';
 import { MESHERY_CLOUD_PROD } from '../../constants/constants';
 import { LearningIcon } from '../../icons';
@@ -14,18 +14,23 @@ interface LearningSectionProps {
 
 const LearningSection: React.FC<LearningSectionProps> = ({ filteredAcademyData }) => {
   const theme = useTheme();
-  const [openLearning, setOpenLearning] = useState<boolean>(false);
-  const [autoUpdate, setAutoUpdate] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (autoUpdate) {
-      setOpenLearning(Boolean((filteredAcademyData?.['learning-path'] ?? []).length > 0));
-    }
-  }, [filteredAcademyData, autoUpdate]);
+  const userToggledRef = React.useRef(false);
+  const [userToggleValue, setUserToggleValue] = useState<boolean | null>(null);
+  
+  const hasLearningPaths = useMemo(
+    () => Boolean((filteredAcademyData?.['learning-path'] ?? []).length > 0),
+    [filteredAcademyData]
+  );
+  
+  // Derive the open state: use user's manual toggle if set, otherwise use hasLearningPaths
+  const openLearning = userToggleValue !== null ? userToggleValue : hasLearningPaths;
 
   const toggleOpenLearning = (): void => {
-    setOpenLearning((prev) => !prev);
-    setAutoUpdate(false);
+    setUserToggleValue((prev) => {
+      const currentValue = prev !== null ? prev : hasLearningPaths;
+      return !currentValue;
+    });
+    userToggledRef.current = true;
   };
 
   const renderLearningItem = (item: string, index: number) => (

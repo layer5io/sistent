@@ -358,6 +358,13 @@ export const StatusChip = ({ status }: { status: string }) => {
   );
 };
 
+const ResourceProgress: React.FC<ResourceProgressProps & { chartOptions: (percentage: number, type: string) => ChartOptions }> = ({ title, percentage, type, chartOptions }) => (
+  <ResourceProgressContainer>
+    <Typography variant="body1">{title}</Typography>
+    <BBChart options={chartOptions(percentage, type)} />
+  </ResourceProgressContainer>
+);
+
 export const MemoryUsage: React.FC<MemoryUsageProps> = ({
   allocatable,
   capacity,
@@ -427,25 +434,15 @@ export const MemoryUsage: React.FC<MemoryUsageProps> = ({
     [height, width]
   );
 
-  const ResourceProgress = useCallback<React.FC<ResourceProgressProps>>(
-    ({ title, percentage, type }) => (
-      <ResourceProgressContainer>
-        <Typography variant="body1">{title}</Typography>
-        <BBChart options={chartOptions(percentage, type)} />
-      </ResourceProgressContainer>
-    ),
-    [chartOptions]
-  );
-
   if (!allocatable || !capacity) {
     return null;
   }
 
   return (
     <FlexResourceContainer>
-      <ResourceProgress title="System Reserved Cpu" percentage={reservedCpu} type={'CPU'} />
-      <ResourceProgress title="Memory Usage" percentage={memoryUsage} type={'Memory'} />
-      <ResourceProgress title="Disk Usage" percentage={diskUsagePercent} type={'Disk'} />
+      <ResourceProgress title="System Reserved Cpu" percentage={reservedCpu} type={'CPU'} chartOptions={chartOptions} />
+      <ResourceProgress title="Memory Usage" percentage={memoryUsage} type={'Memory'} chartOptions={chartOptions} />
+      <ResourceProgress title="Disk Usage" percentage={diskUsagePercent} type={'Disk'} chartOptions={chartOptions} />
     </FlexResourceContainer>
   );
 };

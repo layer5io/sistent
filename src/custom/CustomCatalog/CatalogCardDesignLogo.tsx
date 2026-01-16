@@ -11,6 +11,21 @@ interface CatalogCardDesignLogoProps {
   style?: React.CSSProperties;
 }
 
+interface SvgComponentProps {
+  type: { type: string };
+  width: string;
+  height: string;
+  style: React.CSSProperties;
+}
+
+const SvgComponent: React.FC<SvgComponentProps> = ({ type, width, height, style }) => {
+  return type.type === 'filter' ? (
+    <MesheryFilterIcon width={width} height={height} style={style} />
+  ) : (
+    <DesignIcon width={width} height={height} style={style} />
+  );
+};
+
 const CatalogCardDesignLogo: React.FC<CatalogCardDesignLogoProps> = ({
   zoomEffect = false,
   imgURL,
@@ -30,14 +45,6 @@ const CatalogCardDesignLogo: React.FC<CatalogCardDesignLogoProps> = ({
 
   const handleZoomClose = () => {
     setIsZoomed(false);
-  };
-
-  const SvgComponent: React.FC<{ type: { type: string } }> = ({ type }) => {
-    return type.type === 'filter' ? (
-      <MesheryFilterIcon width={width} height={height} style={style} />
-    ) : (
-      <DesignIcon width={width} height={height} style={style} />
-    );
   };
 
   return (
@@ -82,11 +89,11 @@ const CatalogCardDesignLogo: React.FC<CatalogCardDesignLogoProps> = ({
               </Dialog>
             </>
           ) : (
-            <SvgComponent type={type} />
+            <SvgComponent type={type} width={width} height={height} style={style} />
           )}
         </div>
       ) : (
-        <SvgComponent type={type} />
+        <SvgComponent type={type} width={width} height={height} style={style} />
       )}
     </>
   );
