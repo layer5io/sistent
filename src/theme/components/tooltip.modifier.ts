@@ -20,14 +20,14 @@ export const MuiTooltip: Components<Theme>['MuiTooltip'] = {
             })();
 
       return {
-        boxShadow: shadow,
+        boxShadow: shadow
       } as const;
     },
 
     arrow: ({ theme }) => {
       return {
-        color: theme.palette.divider,
+        color: theme.palette.divider
       } as const;
-    },
-  },
+    }
+  }
 };
