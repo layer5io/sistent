@@ -17,7 +17,7 @@
     "@mui/icons-material": "^5.14.16",
     "@mui/material": "^5.14.17",
     "@reduxjs/toolkit": "^1.9.7",
-    "mui-datatables": "github:leecalcote/mui-datatables#e09c39cb3c5713c7c157845b3d3e4b7d77c77649",
+    "mui-datatables": "github:leecalcote/mui-datatables#decbb0493fdd95d674d2dd748d3d35cefb801195",
     "next": "14",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
