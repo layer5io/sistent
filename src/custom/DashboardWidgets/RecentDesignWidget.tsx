@@ -24,7 +24,7 @@ import { Modal, ModalBody } from '../Modal';
 interface Resource {
   link: string;
   name: string;
-  icon?: string;
+  icon?: React.ReactNode;
   external?: boolean;
   timestamp: string;
 }
@@ -77,18 +77,17 @@ const ResourcesList = styled('ul')({
   margin: '0'
 });
 
-const ResourceItem = styled('li')({
+const ResourceItem = styled('li')(({ theme }) => ({
   listStyleType: 'none',
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'center'
-});
+  alignItems: 'center',
+  gap: '0.25rem',
 
-const ResourceIcon = styled('img')({
-  width: '12px',
-  height: '12px',
-  marginRight: '.25rem'
-});
+  '&:hover': {
+    color: theme.palette.primary.main
+  }
+}));
 
 const ResourceLink = styled(Link)({
   fontSize: '1rem',
@@ -97,7 +96,12 @@ const ResourceLink = styled(Link)({
   overflow: 'hidden',
   textOverflow: 'ellipsis',
   maxWidth: '12rem',
-  textDecoration: 'none'
+  textDecoration: 'none',
+  color: 'inherit',
+
+  '&:hover': {
+    textDecoration: 'none'
+  }
 });
 
 const TimestampText = styled(Typography)({
@@ -201,12 +205,9 @@ const DesignCard: React.FC<DesignCardProps> = ({
                 <ResourcesList>
                   {resources.map((item) => (
                     <ResourceItem key={item.link}>
-                      {item.icon && (
-                        <ResourceIcon
-                          src={item.icon} // Use item.icon as the source of the image
-                          alt={`Icon for ${item.name}`}
-                        />
-                      )}
+                      <Box sx={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+                           {item.icon}
+                      </Box>
                       <ResourceLink href={item.link}>{item.name}</ResourceLink>
 
                       {item.external == true ? (
