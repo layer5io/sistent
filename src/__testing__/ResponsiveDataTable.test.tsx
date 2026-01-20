@@ -50,7 +50,6 @@ jest.mock('@sistent/mui-datatables', () => {
   };
 });
 
-// eslint-disable-next-line import/first
 import ResponsiveDataTable from '../custom/ResponsiveDataTable';
 
 const mockColumns = [

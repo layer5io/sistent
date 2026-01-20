@@ -35,11 +35,8 @@ const ContentClassInfo: React.FC<ContentClassInfoProps> = ({ contentClass, class
     }
   } as const;
 
-  const ClassIcon: React.FC<{ className: string }> = ({ className }) => {
-    const Icon = CONTENT_CLASS[className]?.icon;
-    const fill = CONTENT_CLASS[className]?.color;
-    return Icon ? <Icon width="25px" height="25px" fill={fill} /> : null;
-  };
+  const Icon = CONTENT_CLASS[contentClass]?.icon;
+  const fill = CONTENT_CLASS[contentClass]?.color;
 
   return (
     <div>
@@ -61,7 +58,7 @@ const ContentClassInfo: React.FC<ContentClassInfoProps> = ({ contentClass, class
           fontFamily: 'inherit'
         }}
       >
-        <ClassIcon className={contentClass} />
+        {Icon ? <Icon width="25px" height="25px" fill={fill} /> : null}
         {formatToTitleCase(contentClass)}
       </ContentDetailsText>
     </div>

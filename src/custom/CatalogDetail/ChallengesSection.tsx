@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, ListItemIcon } from '../../base';
 import { MESHERY_CLOUD_PROD } from '../../constants/constants';
 import { ChallengesIcon } from '../../icons';
@@ -14,18 +14,14 @@ interface ChallengesSectionProps {
 
 const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyData }) => {
   const theme = useTheme();
-  const [openChallenges, setOpenChallenges] = useState(false);
+  const hasChallenges = (filteredAcademyData?.['challenges'] ?? []).length > 0;
+  const [openChallenges, setOpenChallenges] = useState(hasChallenges);
   const [autoUpdate, setAutoUpdate] = useState(true);
-
-  useEffect(() => {
-    if (autoUpdate) {
-      setOpenChallenges((filteredAcademyData?.['challenges'] ?? []).length > 0);
-    }
-  }, [filteredAcademyData, autoUpdate]);
+  const isOpen = autoUpdate ? hasChallenges : openChallenges;
 
   const toggleOpenChallenges = () => {
-    setOpenChallenges((prev) => !prev);
     setAutoUpdate(false);
+    setOpenChallenges(!isOpen);
   };
 
   const renderChallengeItem = (item: string, index: number) => (
@@ -61,7 +57,7 @@ const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyDa
       />
       <CollapsibleSection
         title="Challenges"
-        isOpen={openChallenges}
+        isOpen={isOpen}
         onToggle={toggleOpenChallenges}
         items={filteredAcademyData['challenge'] ?? []}
         renderItem={renderChallengeItem}

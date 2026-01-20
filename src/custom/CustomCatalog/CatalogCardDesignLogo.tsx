@@ -32,13 +32,12 @@ const CatalogCardDesignLogo: React.FC<CatalogCardDesignLogoProps> = ({
     setIsZoomed(false);
   };
 
-  const SvgComponent: React.FC<{ type: { type: string } }> = ({ type }) => {
-    return type.type === 'filter' ? (
+  const renderSvg =
+    type.type === 'filter' ? (
       <MesheryFilterIcon width={width} height={height} style={style} />
     ) : (
       <DesignIcon width={width} height={height} style={style} />
     );
-  };
 
   return (
     <>
@@ -82,11 +81,11 @@ const CatalogCardDesignLogo: React.FC<CatalogCardDesignLogoProps> = ({
               </Dialog>
             </>
           ) : (
-            <SvgComponent type={type} />
+            renderSvg
           )}
         </div>
       ) : (
-        <SvgComponent type={type} />
+        renderSvg
       )}
     </>
   );

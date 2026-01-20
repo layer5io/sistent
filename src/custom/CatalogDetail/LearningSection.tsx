@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, ListItemIcon } from '../../base';
 import { MESHERY_CLOUD_PROD } from '../../constants/constants';
 import { LearningIcon } from '../../icons';
@@ -14,18 +14,14 @@ interface LearningSectionProps {
 
 const LearningSection: React.FC<LearningSectionProps> = ({ filteredAcademyData }) => {
   const theme = useTheme();
-  const [openLearning, setOpenLearning] = useState<boolean>(false);
+  const hasLearning = Boolean((filteredAcademyData?.['learning-path'] ?? []).length > 0);
+  const [openLearning, setOpenLearning] = useState<boolean>(hasLearning);
   const [autoUpdate, setAutoUpdate] = useState<boolean>(true);
-
-  useEffect(() => {
-    if (autoUpdate) {
-      setOpenLearning(Boolean((filteredAcademyData?.['learning-path'] ?? []).length > 0));
-    }
-  }, [filteredAcademyData, autoUpdate]);
+  const isOpen = autoUpdate ? hasLearning : openLearning;
 
   const toggleOpenLearning = (): void => {
-    setOpenLearning((prev) => !prev);
     setAutoUpdate(false);
+    setOpenLearning(!isOpen);
   };
 
   const renderLearningItem = (item: string, index: number) => (
@@ -60,7 +56,7 @@ const LearningSection: React.FC<LearningSectionProps> = ({ filteredAcademyData }
       />
       <CollapsibleSection
         title="Learning Paths"
-        isOpen={openLearning}
+        isOpen={isOpen}
         onToggle={toggleOpenLearning}
         items={filteredAcademyData['learning-path'] || []}
         renderItem={renderLearningItem}
