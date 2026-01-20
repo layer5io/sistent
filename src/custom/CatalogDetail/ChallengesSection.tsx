@@ -17,7 +17,7 @@ const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyDa
   const [manualOverride, setManualOverride] = useState<boolean | null>(null);
 
   const hasChallenges = useMemo(
-    () => (filteredAcademyData?.['challenges'] ?? []).length > 0,
+    () => (filteredAcademyData?.['challenge'] ?? []).length > 0,
     [filteredAcademyData]
   );
 
