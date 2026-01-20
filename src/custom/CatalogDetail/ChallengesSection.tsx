@@ -14,7 +14,9 @@ interface ChallengesSectionProps {
 
 const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyData }) => {
   const theme = useTheme();
-  const hasChallenges = (filteredAcademyData?.['challenges'] ?? []).length > 0;
+  const challenges =
+    filteredAcademyData?.['challenges'] ?? filteredAcademyData?.['challenge'] ?? [];
+  const hasChallenges = challenges.length > 0;
   const [openChallenges, setOpenChallenges] = useState(hasChallenges);
   const [autoUpdate, setAutoUpdate] = useState(true);
   const isOpen = autoUpdate ? hasChallenges : openChallenges;
@@ -59,7 +61,7 @@ const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyDa
         title="Challenges"
         isOpen={isOpen}
         onToggle={toggleOpenChallenges}
-        items={filteredAcademyData['challenge'] ?? []}
+        items={challenges}
         renderItem={renderChallengeItem}
         tooltip="Learn CNCF projects by taking and completing time-based, hands-on labs. [Browse all challenges](/academy/challenges)"
         emptyState="No active challenges for this technology"
