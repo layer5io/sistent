@@ -1,6 +1,8 @@
 module.exports = {
-  preset: 'ts-jest',
   testEnvironment: 'jsdom',
+  transform: {
+    '^.+\\.(t|j)sx?$': ['@swc/jest']
+  },
   coverageThreshold: {
     global: {
       branches: 80,
