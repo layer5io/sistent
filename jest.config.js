@@ -1,7 +1,14 @@
 module.exports = {
   testEnvironment: 'jsdom',
   transform: {
-    '^.+\\.(t|j)sx?$': ['@swc/jest']
+    '^.+\\.(t|j)sx?$': [
+      '@swc/jest',
+      {
+        module: {
+          type: 'commonjs'
+        }
+      }
+    ]
   },
   coverageThreshold: {
     global: {

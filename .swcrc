@@ -14,7 +14,7 @@
     }
   },
   "module": {
-    "type": "commonjs"
+    "type": "es6"
   },
   "sourceMaps": true
 }
