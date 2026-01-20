@@ -43,7 +43,7 @@ describe('routing utilities', () => {
     expect(getShareableResourceRoute(RESOURCE_TYPE.DESIGN, 'd2', 'design')).toBe(
       'http://localhost/workspace?mode=design&design=d2'
     );
-    expect(() => getShareableResourceRoute('filter' as any, 'f1', 'filter')).toThrow(
+    expect(() => getShareableResourceRoute('filter' as unknown as typeof RESOURCE_TYPE[keyof typeof RESOURCE_TYPE], 'f1', 'filter')).toThrow(
       'Unknown resource type filter'
     );
   });

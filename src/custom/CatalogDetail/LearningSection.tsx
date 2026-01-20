@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, ListItemIcon } from '../../base';
 import { MESHERY_CLOUD_PROD } from '../../constants/constants';
 import { LearningIcon } from '../../icons';
@@ -17,9 +17,14 @@ const LearningSection: React.FC<LearningSectionProps> = ({ filteredAcademyData }
   const [openLearning, setOpenLearning] = useState<boolean>(false);
   const [autoUpdate, setAutoUpdate] = useState<boolean>(true);
 
+  const prevDataRef = useRef(filteredAcademyData);
+
   useEffect(() => {
-    if (autoUpdate) {
-      setOpenLearning(Boolean((filteredAcademyData?.['learning-path'] ?? []).length > 0));
+    if (autoUpdate && prevDataRef.current !== filteredAcademyData) {
+      prevDataRef.current = filteredAcademyData;
+      queueMicrotask(() => {
+        setOpenLearning(Boolean((filteredAcademyData?.['learning-path'] ?? []).length > 0));
+      });
     }
   }, [filteredAcademyData, autoUpdate]);
 

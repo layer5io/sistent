@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, ListItemIcon } from '../../base';
 import { MESHERY_CLOUD_PROD } from '../../constants/constants';
 import { ChallengesIcon } from '../../icons';
@@ -17,9 +17,14 @@ const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyDa
   const [openChallenges, setOpenChallenges] = useState(false);
   const [autoUpdate, setAutoUpdate] = useState(true);
 
+  const prevDataRef = useRef(filteredAcademyData);
+
   useEffect(() => {
-    if (autoUpdate) {
-      setOpenChallenges((filteredAcademyData?.['challenges'] ?? []).length > 0);
+    if (autoUpdate && prevDataRef.current !== filteredAcademyData) {
+      prevDataRef.current = filteredAcademyData;
+      queueMicrotask(() => {
+        setOpenChallenges((filteredAcademyData?.['challenges'] ?? []).length > 0);
+      });
     }
   }, [filteredAcademyData, autoUpdate]);
 
