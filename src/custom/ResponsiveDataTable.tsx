@@ -1,4 +1,4 @@
-import MUIDataTable, { MUIDataTableColumn } from 'mui-datatables';
+import MUIDataTable, { MUIDataTableColumn } from '@sistent/mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { ShareIcon } from '../icons';
@@ -73,7 +73,7 @@ export const DataTableEllipsisMenu: React.FC<{
                   key={`${index}-menuitem`}
                   sx={{
                     width: '100%',
-                    '&:hover' : {
+                    '&:hover': {
                       backgroundColor: theme.palette.action.hover
                     }
                   }}
@@ -100,12 +100,12 @@ export const DataTableEllipsisMenu: React.FC<{
               return (
                 <IconWrapper key={index} disabled={action.disabled}>
                   <MenuItem
-                  sx={{
-                    width: '100%',
-                    '&:hover' : {
-                      backgroundColor: theme.palette.action.hover
-                    }
-                  }}
+                    sx={{
+                      width: '100%',
+                      '&:hover': {
+                        backgroundColor: theme.palette.action.hover
+                      }
+                    }}
                     onClick={() => handleActionClick(action)}
                     disabled={action.disabled}
                   >
@@ -179,7 +179,7 @@ const ResponsiveDataTable = ({
           if (colToAdd) {
             if (colToAdd.options) {
               colToAdd.options.display = true;
-              updateCols && updateCols([...columns]);
+              if (updateCols) updateCols([...columns]);
             }
           }
           break;
@@ -189,7 +189,7 @@ const ResponsiveDataTable = ({
           if (colToRemove) {
             if (colToRemove.options) {
               colToRemove.options.display = false;
-              updateCols && updateCols([...columns]);
+              if (updateCols) updateCols([...columns]);
             }
           }
           break;
@@ -236,7 +236,7 @@ const ResponsiveDataTable = ({
         }
       }
     });
-    updateCols && updateCols([...columns]);
+    if (updateCols) updateCols([...columns]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columnVisibility, updateCols]);
 

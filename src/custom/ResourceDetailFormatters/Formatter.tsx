@@ -59,12 +59,6 @@ import {
 } from './types';
 import { parseCpu, splitCamelCaseString } from './utils';
 
-interface ResourceProgressProps {
-  title: string;
-  percentage: number;
-  type: string;
-}
-
 interface StatusColorType {
   background: string;
   text: string;
@@ -427,8 +421,8 @@ export const MemoryUsage: React.FC<MemoryUsageProps> = ({
     [height, width]
   );
 
-  const ResourceProgress = useCallback<React.FC<ResourceProgressProps>>(
-    ({ title, percentage, type }) => (
+  const renderResourceProgress = useCallback(
+    (title: string, percentage: number, type: string) => (
       <ResourceProgressContainer>
         <Typography variant="body1">{title}</Typography>
         <BBChart options={chartOptions(percentage, type)} />
@@ -443,9 +437,9 @@ export const MemoryUsage: React.FC<MemoryUsageProps> = ({
 
   return (
     <FlexResourceContainer>
-      <ResourceProgress title="System Reserved Cpu" percentage={reservedCpu} type={'CPU'} />
-      <ResourceProgress title="Memory Usage" percentage={memoryUsage} type={'Memory'} />
-      <ResourceProgress title="Disk Usage" percentage={diskUsagePercent} type={'Disk'} />
+      {renderResourceProgress('System Reserved Cpu', reservedCpu, 'CPU')}
+      {renderResourceProgress('Memory Usage', memoryUsage, 'Memory')}
+      {renderResourceProgress('Disk Usage', diskUsagePercent, 'Disk')}
     </FlexResourceContainer>
   );
 };

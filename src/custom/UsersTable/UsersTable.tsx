@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Theme } from '@mui/material';
-import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
+import { MUIDataTableColumn, MUIDataTableMeta } from '@sistent/mui-datatables';
 import { useRef, useState } from 'react';
 import { Box, Tooltip } from '../../base';
 import { EditIcon } from '../../icons';

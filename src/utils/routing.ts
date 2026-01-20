@@ -22,7 +22,7 @@ export const catalogPath = ({ id, name }: PathParams) => {
   const currentRoute = new URL(window.location.href);
   const currentURI = currentRoute.origin + currentRoute.pathname;
   const newParams = new URLSearchParams({
-    mode: KANVAS_MODE.DESIGN,
+    mode: KANVAS_MODE.DESIGNER,
     type: RESOURCE_TYPE.CATALOG,
     ...(id ? { id } : {}),
     ...(name ? { name } : {})
@@ -42,7 +42,7 @@ export const getDesignPath = (id?: string) => {
   const currentURI = currentRoute.origin + currentRoute.pathname;
 
   const newParams = new URLSearchParams({
-    mode: KANVAS_MODE.DESIGN,
+    mode: KANVAS_MODE.DESIGNER,
     ...(id ? { design: id } : {})
   });
   const newURI = currentURI + '?' + newParams.toString();

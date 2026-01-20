@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Lock, Public } from '@mui/icons-material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
+import { MUIDataTableColumn, MUIDataTableMeta } from '@sistent/mui-datatables';
 import React, { useState } from 'react';
 import { Box } from '../../base';
 import { EnvironmentIcon } from '../../icons';
@@ -254,11 +254,12 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
               id={`delete_view-${tableMeta.rowIndex}`}
               title="Move View"
               onClick={() => {
-                isRemoveAllowed &&
+                if (isRemoveAllowed) {
                   unassignviewFromWorkspace({
                     workspaceId,
                     viewId: tableMeta.rowData[0]
                   });
+                }
               }}
               iconType="delete"
             >
