@@ -92,7 +92,7 @@ function SearchBar({
   const searchRef = React.useRef<HTMLInputElement | null>(null);
   const theme = useTheme();
 
-  // Debounce the onSearch function
+  // Debounce the onSearch function for normal typing
   const debouncedOnSearch = useCallback(
     debounce((value) => {
       onSearch(value);
@@ -132,15 +132,27 @@ function SearchBar({
     }
   };
 
+  // ✅ New unified keyDown handler
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // Call external onKeyDown if provided
+    if (onKeyDown) {
+      onKeyDown(event);
+    }
+
+    // Trigger onSearch immediately when Enter is pressed
+    if (event.key === 'Enter') {
+      onSearch(searchText);
+    }
+  };
+
   return (
     <ClickAwayListener
       onClickAway={(event) => {
         event.stopPropagation();
         const isTable = (event.target as HTMLElement)?.closest('#ref');
 
-        if (searchText !== '') {
-          return;
-        }
+        if (searchText !== '') return;
+
         if (isTable) {
           handleClearIconClick(event as unknown as React.MouseEvent);
         }
@@ -155,7 +167,7 @@ function SearchBar({
             inputRef={searchRef}
             placeholder={placeholder}
             data-testid="searchbar-input"
-            onKeyDown={onKeyDown}
+            onKeyDown={handleKeyDown} // <-- updated handler
             style={{
               width: expanded ? '150px' : '0',
               opacity: expanded ? 1 : 0,
