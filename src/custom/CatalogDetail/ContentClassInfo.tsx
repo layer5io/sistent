@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Box } from '../../base';
 import { CommunityClassIcon, OfficialClassIcon, VerificationClassIcon } from '../../icons';
 import { KEPPEL, useTheme } from '../../theme';
@@ -20,26 +20,27 @@ const ContentClassInfo: React.FC<ContentClassInfoProps> = ({ contentClass, class
 
   const theme = useTheme();
 
-  const CONTENT_CLASS: ContentClassType = {
-    community: {
-      icon: CommunityClassIcon,
-      color: theme.palette.icon.secondary
-    },
-    official: {
-      icon: OfficialClassIcon,
-      color: '#EBC017'
-    },
-    verified: {
-      icon: VerificationClassIcon,
-      color: theme.palette.primary.brand?.default || KEPPEL
-    }
-  } as const;
+  const CONTENT_CLASS: ContentClassType = useMemo(
+    () => ({
+      community: {
+        icon: CommunityClassIcon,
+        color: theme.palette.icon.secondary
+      },
+      official: {
+        icon: OfficialClassIcon,
+        color: '#EBC017'
+      },
+      verified: {
+        icon: VerificationClassIcon,
+        color: theme.palette.primary.brand?.default || KEPPEL
+      }
+    }),
+    [theme.palette.icon.secondary, theme.palette.primary.brand?.default]
+  );
 
-  const ClassIcon: React.FC<{ className: string }> = ({ className }) => {
-    const Icon = CONTENT_CLASS[className]?.icon;
-    const fill = CONTENT_CLASS[className]?.color;
-    return Icon ? <Icon width="25px" height="25px" fill={fill} /> : null;
-  };
+  const classConfig = CONTENT_CLASS[contentClass];
+  const Icon = classConfig?.icon;
+  const fill = classConfig?.color;
 
   return (
     <div>
@@ -61,7 +62,7 @@ const ContentClassInfo: React.FC<ContentClassInfoProps> = ({ contentClass, class
           fontFamily: 'inherit'
         }}
       >
-        <ClassIcon className={contentClass} />
+        {Icon && <Icon width="25px" height="25px" fill={fill} />}
         {formatToTitleCase(contentClass)}
       </ContentDetailsText>
     </div>
