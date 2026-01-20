@@ -21,7 +21,6 @@ const GoogleIcon: React.FC<GoogleIconProps> = ({ height, width, style }) => {
         fontFamily="none"
         fontSize="none"
         fontWeight="none"
-        textAnchor="none"
         style={{ mixBlendMode: 'normal' }}
       >
         <path d="M0 256V0h256v256z"></path>
@@ -32,7 +31,6 @@ const GoogleIcon: React.FC<GoogleIconProps> = ({ height, width, style }) => {
         fontFamily="none"
         fontSize="none"
         fontWeight="none"
-        textAnchor="none"
         style={{ mixBlendMode: 'normal' }}
       >
         <path

@@ -6,23 +6,23 @@ labels: 'kind/enhancement'
 assignees: ''
 ---
 
-#### Current Behavior
+### Current Behavior
 
 <!-- A brief description of what the problem is. (e.g. I need to be able to...) -->
 
-#### Desired Behavior
+### Desired Behavior
 
 <!-- A brief description of the enhancement. -->
 
-#### Implementation
+### Implementation
 
 <!-- [Optional] Specifics on the approach to fulfilling the feature request. -->
 
-#### Acceptance Tests
+### Acceptance Tests
 
 <!-- [Optional] Stipulations of functional behavior or non-functional items that must be in-place in order for the issue to be closed. -->
 
-#### Mockups
+### Mockups
 
 <!-- [Optional] Any visual diagrams of the desired user interface. -->
 
