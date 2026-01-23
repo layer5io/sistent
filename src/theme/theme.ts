@@ -2,6 +2,7 @@ import { alpha, createTheme, darken, PaletteMode } from '@mui/material';
 import { components } from './components';
 import { darkModePalette, lightModePalette, ThemePalette } from './palette';
 import { typography } from './typography';
+import * as Colors from './colors';
 
 import _ from 'lodash';
 
@@ -120,9 +121,6 @@ export type PrimitivePalette = {
    */
   foreground: string;
 };
-
-import * as Colors from './colors';
-
 /**
  * Layer5 ( primitives ) defines the raw, brand-level colors used in the UI.
  */

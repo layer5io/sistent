@@ -5,6 +5,7 @@ const react = require("eslint-plugin-react");
 const reactHooks = require("eslint-plugin-react-hooks");
 const typescript = require("@typescript-eslint/eslint-plugin");
 const storybook = require("eslint-plugin-storybook");
+const importPlugin = require("eslint-plugin-import");
 const globals = require("globals");
 
 const compat = new FlatCompat({
@@ -64,6 +65,7 @@ module.exports = [
             react,
             "react-hooks": reactHooks,
             "@typescript-eslint": typescript,
+            "import": importPlugin,
             storybook,
         },
 
@@ -79,6 +81,7 @@ module.exports = [
             
             // Storybook recommended rules
             ...storybook.configs.recommended.rules,
+            "import/first": "error",
         },
 
         settings: {
@@ -120,6 +123,7 @@ module.exports = [
             react,
             "react-hooks": reactHooks,
             "@typescript-eslint": typescript,
+            "import": importPlugin,
             storybook,
         },
 
@@ -135,6 +139,7 @@ module.exports = [
             
             // Storybook recommended rules
             ...storybook.configs.recommended.rules,
+            "import/first": "error",
         },
 
         settings: {
