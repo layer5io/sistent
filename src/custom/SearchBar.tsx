@@ -76,6 +76,7 @@ export interface SearchBarProps {
   expanded: boolean;
   setExpanded: (expanded: boolean) => void;
   'data-testid'?: string;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 function SearchBar({
@@ -84,13 +85,14 @@ function SearchBar({
   onClear,
   expanded,
   setExpanded,
-  'data-testid': testId = 'search-bar-wrapper'
+  'data-testid': testId = 'search-bar-wrapper',
+  onKeyDown
 }: SearchBarProps): JSX.Element {
   const [searchText, setSearchText] = React.useState('');
   const searchRef = React.useRef<HTMLInputElement | null>(null);
   const theme = useTheme();
 
-  // Debounce the onSearch function
+  // Debounce the onSearch function for normal typing
   const debouncedOnSearch = useCallback(
     debounce((value) => {
       onSearch(value);
@@ -130,15 +132,27 @@ function SearchBar({
     }
   };
 
+  // ✅ New unified keyDown handler
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // Call external onKeyDown if provided
+    if (onKeyDown) {
+      onKeyDown(event);
+    }
+
+    // Trigger onSearch immediately when Enter is pressed
+    if (event.key === 'Enter') {
+      onSearch(searchText);
+    }
+  };
+
   return (
     <ClickAwayListener
       onClickAway={(event) => {
         event.stopPropagation();
         const isTable = (event.target as HTMLElement)?.closest('#ref');
 
-        if (searchText !== '') {
-          return;
-        }
+        if (searchText !== '') return;
+
         if (isTable) {
           handleClearIconClick(event as unknown as React.MouseEvent);
         }
@@ -149,10 +163,11 @@ function SearchBar({
           <TextField
             variant="standard"
             value={searchText}
-            onChange={handleSearchChange} // Updated to use the new handler
+            onChange={handleSearchChange}
             inputRef={searchRef}
             placeholder={placeholder}
             data-testid="searchbar-input"
+            onKeyDown={handleKeyDown} // <-- updated handler
             style={{
               width: expanded ? '150px' : '0',
               opacity: expanded ? 1 : 0,
