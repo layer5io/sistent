@@ -18,7 +18,7 @@
     "@mui/material": "^5.14.17",
     "@reduxjs/toolkit": "^1.9.7",
     "@sistent/mui-datatables": "^5.1.4",
-    "next": "^15.5.9",
+    "next": "^16.1.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^8.1.3"
