@@ -2,8 +2,8 @@ import React from 'react';
 import { SlackIconProps } from './types';
 
 const SlackIcon: React.FC<SlackIconProps> = ({
-  width = 24,
-  height = 24,
+  width = 40,
+  height = 40,
   primaryColor = '#E01E5A',
   secondaryColor = '#36C5F0',
   tertiaryColor = '#2EB67D',
@@ -14,6 +14,7 @@ const SlackIcon: React.FC<SlackIconProps> = ({
     width={width}
     height={height}
     viewBox="0 0 24 24"
+    fill="none"
     xmlns="http://www.w3.org/2000/svg"
     style={style}
   >
