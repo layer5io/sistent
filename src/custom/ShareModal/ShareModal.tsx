@@ -1,4 +1,5 @@
 import { CircularProgress, SelectChangeEvent } from '@mui/material';
+import { startCase } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import {
   Avatar,
@@ -11,6 +12,7 @@ import {
   MenuItem,
   Typography
 } from '../../base';
+import { VISIBILITY } from '../../constants/constants';
 import { ChainIcon, DeleteIcon, LockIcon, PublicIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { BLACK, WHITE } from '../../theme/colors';
@@ -82,7 +84,7 @@ const AccessListActor: React.FC<AccessListActorProps> = ({
           src={actorData.avatar_url}
           imgProps={{ referrerPolicy: 'no-referrer' }}
           onClick={() => {
-            hostURL && openInNewTab(`${hostURL}/user/${actorData.id}`);
+            if (hostURL) openInNewTab(`${hostURL}/user/${actorData.id}`);
           }}
         />
       </ListItemAvatar>
@@ -162,9 +164,6 @@ export type ResourceAccessArg = {
     notify_users: boolean;
   };
 };
-
-import { startCase } from 'lodash';
-import { VISIBILITY } from '../../constants/constants';
 
 interface ShareModalProps {
   /** Function to close the share modal */

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import _ from 'lodash';
-import { MUIDataTableColumn } from 'mui-datatables';
+import { MUIDataTableColumn } from '@sistent/mui-datatables';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { PublishIcon } from '../../icons';
 import { CHARCOAL } from '../../theme';
@@ -72,7 +72,9 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
           setPageSize(tableState.rowsPerPage);
           break;
         case 'search':
-          setSearch && setSearch(tableState.searchText !== null ? tableState.searchText : '');
+          if (setSearch) {
+            setSearch(tableState.searchText !== null ? tableState.searchText : '');
+          }
           break;
         case 'sort':
           if (

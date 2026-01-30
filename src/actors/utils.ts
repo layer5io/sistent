@@ -5,6 +5,8 @@ import { AnyActorRef, AnyEventObject, assign, enqueueActions, sendTo } from 'xst
 import { AnyActorSystem } from 'xstate/dist/declarations/src/system';
 import { workerEvents } from './worker/events';
 
+// Type used for context validation in reply() function
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type ContextWithReturnAddress = { returnAddress: AnyActorRef };
 
 export const sendToActor = (actor: string, event: AnyEventObject) =>
@@ -40,28 +42,32 @@ export const forwardToActors = (actorSystemIds: string[]) =>
 
 export const deadLetter = (event: AnyEventObject) => ({ type: 'DEAD_LETTER', event });
 
-
-
 function isInWorker() {
   return (
-    typeof self !== 'undefined' &&         // 'self' exists
-    typeof self?.document === 'undefined'        // no Window in worker
+    typeof self !== 'undefined' && // 'self' exists
+    typeof self?.document === 'undefined' // no Window in worker
   );
 }
 
-export const reply = (eventFn: (actionArgs: any, params: any) => AnyEventObject) =>  enqueueActions(({ enqueue, ...actionArgs }, params) => {
-
+export const reply = (eventFn: (actionArgs: any, params: any) => AnyEventObject) =>
+  enqueueActions(({ enqueue, ...actionArgs }, params) => {
     if (!actionArgs.context.returnAddress) {
-        console.warn('No return address specified in context for reply action');
-        return;
+      console.warn('No return address specified in context for reply action');
+      return;
     }
-  if (isInWorker()) {
-        console.log('reply in worker - posting message to main thread', actionArgs.context.returnAddress, eventFn(actionArgs, params));
-        postMessage(workerEvents.proxyEvent(eventFn(actionArgs, params), actionArgs.context.returnAddress));
-        return;
-  }
-   enqueue.sendTo(actionArgs.context.returnAddress, eventFn);
-})
+    if (isInWorker()) {
+      console.log(
+        'reply in worker - posting message to main thread',
+        actionArgs.context.returnAddress,
+        eventFn(actionArgs, params)
+      );
+      postMessage(
+        workerEvents.proxyEvent(eventFn(actionArgs, params), actionArgs.context.returnAddress)
+      );
+      return;
+    }
+    enqueue.sendTo(actionArgs.context.returnAddress, eventFn);
+  });
 
 export const XSTATE_DEBUG_EVENT = 'XSTATE_DEBUG_EVENT';
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
+import { MUIDataTableColumn, MUIDataTableMeta } from '@sistent/mui-datatables';
 import { FacebookShareButton, LinkedinShareButton, TwitterShareButton } from 'react-share';
 import { iconMedium } from '../../constants/iconsSizes';
 import {

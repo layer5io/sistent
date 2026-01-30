@@ -10,7 +10,6 @@ export const VIEW_VISIBILITY = {
   PUBLISHED: 'published'
 } as const;
 
-
 /* eslint-disable-next-line no-redeclare */
 export type VIEW_VISIBILITY = (typeof VIEW_VISIBILITY)[keyof typeof VIEW_VISIBILITY];
 

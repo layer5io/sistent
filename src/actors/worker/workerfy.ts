@@ -26,7 +26,8 @@ const ProxyActor = setup({
       on: {
         '*': {
           actions: [
-            ({ event, context }) => console.log('Proxying actor event', event, 'to', context.proxyToId),
+            ({ event, context }) =>
+              console.log('Proxying actor event', event, 'to', context.proxyToId),
             ({ event, context }) => postMessage(workerEvents.proxyEvent(event, context.proxyToId))
           ]
         }
@@ -70,8 +71,12 @@ export const workerfyActor = (actor: AnyActorLogic) => {
     }
 
     if (event.data.type === WORKER_COMMANDS.STOP_ACTOR) {
-      snapshotSubscription?.unsubscribe && snapshotSubscription.unsubscribe();
-      actorRef?.stop && actorRef.stop();
+      if (snapshotSubscription?.unsubscribe) {
+        snapshotSubscription.unsubscribe();
+      }
+      if (actorRef?.stop) {
+        actorRef.stop();
+      }
     }
 
     if (event.data.type === WORKER_COMMANDS.SEND_EVENT) {
