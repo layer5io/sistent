@@ -1,6 +1,6 @@
 {
   "name": "@sistent/sistent",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Reusable React Components and SVG Icons library",
   "repository": {
     "type": "git",
