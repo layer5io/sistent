@@ -118,6 +118,7 @@ export * from './TachographDigital';
 export * from './Tachometer';
 export * from './Teams';
 export * from './TerminalIcon';
+export * from './Timer';
 export * from './Toolkit';
 export * from './Touch';
 export * from './Triangle';
