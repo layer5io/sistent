@@ -91,6 +91,7 @@ export * from './Organization';
 export * from './PanTool';
 export * from './Pattern';
 export * from './Person';
+export * from './PlayArrow';
 export * from './Pod';
 export * from './Poll';
 export * from './Public';
