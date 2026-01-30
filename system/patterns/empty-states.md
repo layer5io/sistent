@@ -9,24 +9,19 @@ Empty states are essential components used to occupy spaces when no content has 
 The BlankSlate component comprises various elements that work together to inform the user about a feature and guide them on how to proceed. Here are the key elements of the BlankSlate component and how to customize them:
 
 1. **Graphic**
-
    - Graphics should be purposefully placed to convey the intention of the content, whether it's to bring delight, preview an interface element, or represent the feature's goal.
    - Different graphics may hold different meanings and appeal to users, which is why the BlankSlate component offers multiple variations.
 
 2. **Primary Text**
-
    - Use primary text to explain the purpose of the empty state, making users comfortable to engage with the content or start a feature flow. It should be welcoming, human, and clearly convey the feature's intention.
 
 3. **Secondary Text**
-
    - This optional text provides more detailed information about the feature. It should be concise and non-redundant, allowing users to understand the general purpose and benefits of the feature.
 
 4. **Primary Action**
-
    - Encourage the use of one primary action button that leads to a feature or component creation flow. The button copy should be brief yet descriptive. Consider adding an Octicon for further specification if needed.
 
 5. **Secondary Action**
-
    - A secondary action is optional and usually represented by a text link below the primary action button. It guides users to additional content related to the feature, such as "Learn more about X" or "Check out the guide on X."
 
 6. **Border**
