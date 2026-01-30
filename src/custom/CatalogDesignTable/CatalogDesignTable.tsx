@@ -72,7 +72,9 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
           setPageSize(tableState.rowsPerPage);
           break;
         case 'search':
-          setSearch && setSearch(tableState.searchText !== null ? tableState.searchText : '');
+          if (setSearch) {
+            setSearch(tableState.searchText !== null ? tableState.searchText : '');
+          }
           break;
         case 'sort':
           if (
