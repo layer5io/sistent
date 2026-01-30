@@ -33,9 +33,9 @@ interface UserSearchFieldProps {
   setUsersData: React.Dispatch<React.SetStateAction<User[]>>;
   label?: string;
   setDisableSave?: (disable: boolean) => void;
-  // Deprecated: remove notify controls from embedded contexts (e.g., audit filters)
   handleNotifyPref?: () => void;
   notifyUpdate?: boolean;
+  showNotifyCheckbox?: boolean;
   isCreate?: boolean;
   searchType?: string;
   disabled?: boolean;
@@ -54,6 +54,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
   setDisableSave,
   handleNotifyPref,
   notifyUpdate,
+  showNotifyCheckbox = true,
   isCreate,
   searchType,
   disabled = false,
@@ -230,7 +231,23 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
           </li>
         )}
       />
-      {/* Notify checkbox removed */}
+      {showNotifyCheckbox && !isCreate && handleNotifyPref && (
+        <FormGroup row={true}>
+          <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={notifyUpdate}
+                  onChange={handleNotifyPref}
+                  name="notify"
+                  color="primary"
+                />
+              }
+              label={`Notify ${searchType} of membership change`}
+            />
+          </div>
+        </FormGroup>
+      )}
       <Box
         sx={{
           display: 'flex',
