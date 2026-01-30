@@ -35,6 +35,7 @@ interface UserSearchFieldProps {
   setDisableSave?: (disable: boolean) => void;
   handleNotifyPref?: () => void;
   notifyUpdate?: boolean;
+  showNotifyCheckbox?: boolean;
   isCreate?: boolean;
   searchType?: string;
   disabled?: boolean;
@@ -53,6 +54,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
   setDisableSave,
   handleNotifyPref,
   notifyUpdate,
+  showNotifyCheckbox = true,
   isCreate,
   searchType,
   disabled = false,
@@ -229,7 +231,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
           </li>
         )}
       />
-      {!isCreate && (
+      {showNotifyCheckbox && !isCreate && handleNotifyPref && (
         <FormGroup row={true}>
           <div style={{ display: 'flex', flexWrap: 'nowrap' }}>
             <FormControlLabel

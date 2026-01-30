@@ -4,3 +4,10 @@ export interface IconProps {
   fill?: string;
   style?: React.CSSProperties;
 }
+
+export interface SlackIconProps extends IconProps {
+  primaryColor?: string;
+  secondaryColor?: string;
+  tertiaryColor?: string;
+  quaternaryColor?: string;
+}

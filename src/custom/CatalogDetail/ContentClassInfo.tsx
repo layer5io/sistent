@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box } from '../../base';
 import { CommunityClassIcon, OfficialClassIcon, VerificationClassIcon } from '../../icons';
+import { IconProps } from '../../icons/types';
 import { KEPPEL, useTheme } from '../../theme';
 import { InfoTooltip } from '../CustomTooltip';
 import { ContentDetailsPoints, ContentDetailsText } from '../Typography';
@@ -35,11 +36,9 @@ const ContentClassInfo: React.FC<ContentClassInfoProps> = ({ contentClass, class
     }
   } as const;
 
-  const ClassIcon: React.FC<{ className: string }> = ({ className }) => {
-    const Icon = CONTENT_CLASS[className]?.icon;
-    const fill = CONTENT_CLASS[className]?.color;
-    return Icon ? <Icon width="25px" height="25px" fill={fill} /> : null;
-  };
+  const Icon = CONTENT_CLASS[contentClass as keyof ContentClassType]
+    ?.icon as React.ComponentType<IconProps>;
+  const iconFill = CONTENT_CLASS[contentClass as keyof ContentClassType]?.color;
 
   return (
     <div>
@@ -61,7 +60,7 @@ const ContentClassInfo: React.FC<ContentClassInfoProps> = ({ contentClass, class
           fontFamily: 'inherit'
         }}
       >
-        <ClassIcon className={contentClass} />
+        {Icon && <Icon width="25px" height="25px" fill={iconFill} />}
         {formatToTitleCase(contentClass)}
       </ContentDetailsText>
     </div>
