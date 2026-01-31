@@ -246,7 +246,7 @@ const DesignCard: React.FC<DesignCardProps> = ({
                 variant="contained"
                 href={href || undefined}
                 onClick={onClick || undefined}
-                size="small"
+                size="large"
               >
                 {btnTitle}
               </Button>
