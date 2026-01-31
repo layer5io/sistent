@@ -121,6 +121,7 @@ export * from './Teams';
 export * from './TerminalIcon';
 export * from './Toolkit';
 export * from './Touch';
+export * from './TrendingUp'
 export * from './Triangle';
 export * from './Tropy';
 export * from './Undeploy';
