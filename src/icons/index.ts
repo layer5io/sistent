@@ -91,6 +91,7 @@ export * from './OpenInNew';
 export * from './Organization';
 export * from './PanTool';
 export * from './Pattern';
+export * from './People';
 export * from './Person';
 export * from './Pod';
 export * from './Poll';
@@ -121,6 +122,7 @@ export * from './Teams';
 export * from './TerminalIcon';
 export * from './Toolkit';
 export * from './Touch';
+export * from './TrendingUp'
 export * from './Triangle';
 export * from './Tropy';
 export * from './Undeploy';
