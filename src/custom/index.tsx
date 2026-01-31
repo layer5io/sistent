@@ -44,6 +44,7 @@ import ResponsiveDataTable, {
   ResponsiveDataTableProps
 } from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
+import { StyledCardProps } from './StyledCard/StyledCard';
 import { TeamTable, TeamTableConfiguration } from './TeamTable';
 import { TooltipIcon } from './TooltipIconButton';
 import { TransferList } from './TransferModal/TransferList';
@@ -66,6 +67,7 @@ export {
   PerformersSectionButton
 } from './PerformersSection';
 export { SetupPreReq } from './SetupPrerequisite';
+export { StyledCard } from './StyledCard';
 export { StyledChapter } from './StyledChapter';
 export { StyledSearchBar } from './StyledSearchBar';
 export { CustomTextField } from './StyledTextField';
@@ -155,6 +157,7 @@ export type {
   IPopperListener,
   ResponsiveDataTableProps,
   SearchBarProps,
+  StyledCardProps,
   TransferListProps,
   UniversalFilterProps
 };
