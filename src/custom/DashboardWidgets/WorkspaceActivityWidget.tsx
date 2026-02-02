@@ -170,7 +170,7 @@ const WorkspaceActivityCard: React.FC<WorkspaceActivityCardProps> = ({
         </EmptyStateTypography>
       )}
       <CardActions>
-        <Button disabled={false} variant="contained" href={workspacePagePath} size="small">
+        <Button disabled={false} variant="contained" href={workspacePagePath} size="large">
           All Workspaces
         </Button>
       </CardActions>
