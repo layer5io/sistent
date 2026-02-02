@@ -90,7 +90,6 @@ export * from './OpenInNew';
 export * from './Organization';
 export * from './PanTool';
 export * from './Pattern';
-export * from './People';
 export * from './Person';
 export * from './Pod';
 export * from './Poll';
