@@ -2,6 +2,7 @@ export * from './Academy';
 export * from './Add';
 export * from './AddCircle';
 export * from './Application';
+export * from './ArrowBack';
 export * from './ArrowCompress';
 export * from './ArrowExpand';
 export * from './Bell';
