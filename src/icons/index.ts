@@ -100,6 +100,7 @@ export * from './Question';
 export * from './Read';
 export * from './Rectangle';
 export * from './Redo';
+export * from './Refresh';
 export * from './Remove';
 export * from './Reset';
 export * from './Resize';
