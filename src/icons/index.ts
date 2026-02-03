@@ -126,6 +126,7 @@ export * from './Triangle';
 export * from './Tropy';
 export * from './Undeploy';
 export * from './Undo';
+export * from './Upgrade';
 export * from './Validate';
 export * from './View';
 export * from './Visibility';
