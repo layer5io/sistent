@@ -131,5 +131,5 @@ export * from './Visibility';
 export * from './Visualizer';
 export * from './Warning';
 export * from './Workspace';
-export * from './Science/index'
-export * from './Calculate/Calculate'
+export * from './Science'
+export * from './Calculate'
