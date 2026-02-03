@@ -1,10 +1,10 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL } from '../../constants/constants';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH, KEPPEL_GREEN_FILL } from '../../constants/constants';
 import { IconProps } from '../types';
 
 const TrendingUpIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  fill = DEFAULT_FILL,
+  fill = KEPPEL_GREEN_FILL,
   ...props
 }: IconProps): JSX.Element => (
   <svg 
