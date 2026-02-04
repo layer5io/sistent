@@ -83,6 +83,7 @@ export * from './Lock';
 export * from './Logout';
 export * from './Mendeley';
 export * from './Menu';
+export * from './MoreVert';
 export * from './Meshery';
 export * from './MesheryFilter';
 export * from './MesheryOperator';
