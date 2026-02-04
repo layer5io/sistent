@@ -68,6 +68,7 @@ export * from './GetStarted';
 export * from './Github';
 export * from './Google';
 export * from './GridView';
+export * from './GroupAdd';
 export * from './HelpIcon';
 export * from './Idea';
 export * from './InfoOutlined';
