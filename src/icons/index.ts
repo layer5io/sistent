@@ -53,6 +53,7 @@ export * from './ContentClassIcons';
 export * from './Database';
 export * from './Deployments';
 export * from './Design';
+export * from './DiscussForum';
 export * from './Document';
 export * from './Done';
 export * from './Download';
