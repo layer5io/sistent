@@ -1,4 +1,5 @@
 export * from './Academy';
+export * from './AccessTime';
 export * from './Add';
 export * from './AddCircle';
 export * from './Application';
