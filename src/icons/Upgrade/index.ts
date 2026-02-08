@@ -1,1 +1,1 @@
-export { default as UpgradeIcon } from "./UpgradeIcon";
+export { default as UpgradeIcon } from './UpgradeIcon';

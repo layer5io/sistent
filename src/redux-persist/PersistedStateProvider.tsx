@@ -23,14 +23,14 @@ export const PersistedStateProvider: FC<PersistedStateProviderProps> = ({
     if (!loading) {
       return;
     }
-    
+
     let error: Error | null = null;
     try {
       dispatch(loadPersistedState());
     } catch (e) {
       error = e as Error;
     }
-    
+
     // Use queueMicrotask to defer state updates and avoid cascading renders
     queueMicrotask(() => {
       setLoading(false);

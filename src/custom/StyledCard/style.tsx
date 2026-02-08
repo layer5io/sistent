@@ -1,14 +1,12 @@
 import { styled } from '@mui/material';
 import { Link, ListItem } from '../../base';
 
-export const backgroundImg = styled('div')<{ backgroundImage?: string }>(
-  ({ backgroundImage }) => ({
-    backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
-    backgroundPosition: 'right bottom',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat'
-  })
-);
+export const backgroundImg = styled('div')<{ backgroundImage?: string }>(({ backgroundImage }) => ({
+  backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
+  backgroundPosition: 'right bottom',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat'
+}));
 
 export const CustomCode = styled('code')(() => ({
   backgroundColor: '#212121',
