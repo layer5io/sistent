@@ -1,4 +1,4 @@
-import {  DEFAULT_HEIGHT, DEFAULT_WIDTH, KEPPEL_GREEN_FILL } from '../../constants/constants';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH, KEPPEL_GREEN_FILL } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const GroupAddIcon = ({

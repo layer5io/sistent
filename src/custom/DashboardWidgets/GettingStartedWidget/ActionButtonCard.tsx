@@ -147,7 +147,13 @@ const ActionButtonCard = ({
             <CustomComponentWrapper>{customComponent}</CustomComponentWrapper>
             {actionButton && (
               <CardActions>
-                <Button disabled={disabled} size="large" variant="contained" href={href} onClick={onClick}>
+                <Button
+                  disabled={disabled}
+                  size="large"
+                  variant="contained"
+                  href={href}
+                  onClick={onClick}
+                >
                   {btnTitle}
                 </Button>
               </CardActions>
@@ -193,7 +199,13 @@ const ActionButtonCard = ({
           <CustomComponentWrapper>{customComponent}</CustomComponentWrapper>
           {actionButton && (
             <CardActions>
-              <Button disabled={disabled} size="large" variant="contained" href={href} onClick={onClick}>
+              <Button
+                disabled={disabled}
+                size="large"
+                variant="contained"
+                href={href}
+                onClick={onClick}
+              >
                 {showProgress ? (percentage === 100 ? 'Revisit' : btnTitle) : btnTitle}
               </Button>
             </CardActions>
