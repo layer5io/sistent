@@ -1,1 +1,1 @@
-export {default as TrendingUpIcon} from './TrendingUpIcon'; 
+export { default as TrendingUpIcon } from './TrendingUpIcon';
