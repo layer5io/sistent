@@ -273,7 +273,7 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
           </Box>
           {onOpenLeaderboard && (
             <div>
-              <Button variant="contained" onClick={() => onOpenLeaderboard()}>
+              <Button variant="contained" size="large" onClick={() => onOpenLeaderboard()}>
                 <TropyIcon
                   style={{
                     height: '2rem',
