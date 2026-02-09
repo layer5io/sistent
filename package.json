@@ -52,7 +52,7 @@
     "@testing-library/react": "^16.2.0",
     "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.16",
-    "@types/react": "^18.2.45",
+    "@types/react": "^19.2.13",
     "@types/react-dom": "^18.2.18",
     "@types/react-redux": "^7.1.34",
     "@typescript-eslint/eslint-plugin": "^8.53.0",
