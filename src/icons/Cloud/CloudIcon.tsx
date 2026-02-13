@@ -1,11 +1,11 @@
 import { FC } from 'react';
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, KEPPEL_GREEN_FILL } from '../../constants/constants';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH,DEFAULT_FILL } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const CloudIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  fill = KEPPEL_GREEN_FILL,
+  fill = DEFAULT_FILL,
   ...props
 }) => {
   return (
