@@ -33,6 +33,7 @@ export * from './Designer';
 export * from './Detail';
 export * from './DropDownIcon';
 export * from './Error';
+export * from './EmojiEvents';
 export * from './ExpandAll';
 export * from './Favorite';
 export * from './Filter';
