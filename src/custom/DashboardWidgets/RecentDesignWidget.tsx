@@ -206,7 +206,7 @@ const DesignCard: React.FC<DesignCardProps> = ({
                   {resources.map((item) => (
                     <ResourceItem key={item.link}>
                       <Box sx={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
-                           {item.icon}
+                        {item.icon}
                       </Box>
                       <ResourceLink href={item.link}>{item.name}</ResourceLink>
 
@@ -246,7 +246,7 @@ const DesignCard: React.FC<DesignCardProps> = ({
                 variant="contained"
                 href={href || undefined}
                 onClick={onClick || undefined}
-                size="small"
+                size="large"
               >
                 {btnTitle}
               </Button>

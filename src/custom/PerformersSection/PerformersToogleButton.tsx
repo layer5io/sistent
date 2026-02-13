@@ -23,10 +23,7 @@ const PerformersSectionButton: React.FC<PerformersSectionButtonProps> = ({ open,
         <Button
           variant="contained"
           onClick={handleClick}
-          sx={{
-            height: '3.7rem',
-            padding: '0.3rem 1rem 0.3rem 0.3rem'
-          }}
+          size="large"
           style={{
             backgroundColor: open ? undefined : theme.palette.background.constant?.disabled
           }}
