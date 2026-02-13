@@ -1,12 +1,10 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL } from '../../constants/constants';
 import { IconProps } from '../types';
-
-const KEPPEL_GREEN_FILL = '#00B39F';
 
 export const ScienceIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  fill = KEPPEL_GREEN_FILL,
+  fill = DEFAULT_FILL,
   ...props
 }: IconProps): JSX.Element => {
   return (
