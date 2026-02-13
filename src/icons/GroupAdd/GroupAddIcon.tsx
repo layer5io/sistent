@@ -1,10 +1,10 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL } from '../../constants/constants';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL_NONE } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const GroupAddIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  fill = DEFAULT_FILL,
+  fill = DEFAULT_FILL_NONE,
   ...props
 }: IconProps): JSX.Element => {
   return (
