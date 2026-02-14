@@ -79,6 +79,7 @@ export * from './Group';
 export * from './GroupAdd';
 export * from './HelpIcon';
 export * from './Idea';
+export * from './IndeterminateCheckBox';
 export * from './InfoOutlined';
 export * from './InviteUser';
 export * from './Kanvas';
