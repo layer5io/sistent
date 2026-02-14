@@ -29,6 +29,7 @@ export * from './Dashboard';
 export * from './DataObject';
 export * from './Delete';
 export * from './Deploy';
+export * from './Description';
 export * from './Designer';
 export * from './Detail';
 export * from './DropDownIcon';
