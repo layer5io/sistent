@@ -1,10 +1,10 @@
-import { KEPPEL_GREEN_FILL, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
+import { KEPPEL_GREEN_FILL, DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL_NONE } from '../../constants/constants';
 import { IconProps } from '../types';
 
 const DescriptionIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  fill = KEPPEL_GREEN_FILL,
+  fill = DEFAULT_FILL_NONE,
   ...props
 }: IconProps): JSX.Element => (
   <svg
@@ -17,9 +17,7 @@ const DescriptionIcon = ({
     {...props}
   >
     {/* SVG path data from Material UI Description icon will go here */}
-    {/* Example paths based on Material UI icon structure */}
     <path d="M8 4h28v40H8z" />
-    {/* Additional path elements as needed */}
   </svg>
 );
 
