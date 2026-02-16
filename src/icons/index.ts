@@ -145,6 +145,7 @@ export * from './Undeploy';
 export * from './Undo';
 export * from './Upgrade';
 export * from './Validate';
+export * from './Verified';
 export * from './View';
 export * from './Visibility';
 export * from './Visualizer';
