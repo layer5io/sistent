@@ -71,6 +71,7 @@ export * from './EmptyStyle';
 export * from './Environment';
 export * from './Export';
 export * from './ExternalLink';
+export * from './ErrorOutline';
 export * from './Feedback';
 export * from './File';
 export * from './GetStarted';
