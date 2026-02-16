@@ -38,6 +38,7 @@ export * from './EmojiEvents';
 export * from './ExpandAll';
 export * from './Favorite';
 export * from './Filter';
+export * from './FolderRounded';
 export * from './Fullscreen';
 export * from './Hierarchical';
 export * from './Info';
