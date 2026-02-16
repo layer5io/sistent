@@ -55,6 +55,7 @@ export * from './CaretDown';
 export * from './Chain';
 export * from './Challenges';
 export * from './CheckCircle';
+export * from './CheckCircleOutline';
 export * from './ChevronLeft';
 export * from './ContentClassIcons';
 export * from './Database';
