@@ -10,7 +10,7 @@ export const PublishIcon = ({
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 -960 960 960"
+      viewBox="0 0 24 24"
       width={width}
       height={height}
       {...props}
