@@ -1,10 +1,10 @@
-import { DEFAULT_FILL, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
+import { DEFAULT_FILL_NONE, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const CompareArrowsIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  fill = DEFAULT_FILL,
+  fill = DEFAULT_FILL_NONE,
   ...props
 }: IconProps): JSX.Element => {
   return (
