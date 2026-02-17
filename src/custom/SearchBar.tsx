@@ -163,7 +163,7 @@ function SearchBar({
           <TextField
             variant="standard"
             value={searchText}
-            onChange={handleSearchChange}
+            onChange={handleSearchChange}// Updated to use the new handler
             inputRef={searchRef}
             placeholder={placeholder}
             data-testid="searchbar-input"
