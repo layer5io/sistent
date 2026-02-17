@@ -92,7 +92,7 @@ function SearchBar({
   const searchRef = React.useRef<HTMLInputElement | null>(null);
   const theme = useTheme();
 
- 
+  // Debounce the onSearch function
   const debouncedOnSearch = useCallback(
     debounce((value) => {
       onSearch(value);
@@ -167,7 +167,7 @@ function SearchBar({
             inputRef={searchRef}
             placeholder={placeholder}
             data-testid="searchbar-input"
-            onKeyDown={handleKeyDown} // <-- updated handler
+            onKeyDown={handleKeyDown} 
             style={{
               width: expanded ? '150px' : '0',
               opacity: expanded ? 1 : 0,
