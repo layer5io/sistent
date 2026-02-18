@@ -18,6 +18,7 @@ export * from './Close';
 export * from './Cloud';
 export * from './CollapseAll';
 export * from './Column';
+export * from './CompareArrows';
 export * from './Component';
 export * from './Configuration';
 export * from './ContentFilter';
