@@ -75,6 +75,7 @@ export * from './ExternalLink';
 export * from './ErrorOutline';
 export * from './Feedback';
 export * from './File';
+export * from './GetApp';
 export * from './GetStarted';
 export * from './Github';
 export * from './Google';
