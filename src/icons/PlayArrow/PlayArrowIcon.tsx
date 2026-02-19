@@ -1,10 +1,10 @@
-import { KEPPEL_GREEN_FILL, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL_NONE } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const PlayArrowIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  fill = KEPPEL_GREEN_FILL,
+  fill = DEFAULT_FILL_NONE,
   ...props
 }: IconProps): JSX.Element => {
   return (
