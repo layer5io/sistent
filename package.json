@@ -114,7 +114,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@layer5/meshery-design-embed": "^0.4.0",
-    "@meshery/schemas": "^0.8.123",
+    "@meshery/schemas": "^0.8.124",
     "@mui/material": "^6.4.8",
     "@sistent/mui-datatables": "^5.1.4",
     "@types/mui-datatables": "*",
