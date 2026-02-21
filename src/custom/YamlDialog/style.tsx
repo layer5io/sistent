@@ -1,7 +1,7 @@
 import { styled } from '@mui/material';
 import { DialogTitle } from '../../base/DialogTitle';
 
-export const YamlDialogTitleText = styled(DialogTitle)(({ theme }) => ({
+export const YamlDialogTitleText = styled(DialogTitle)(() => ({
   fontWeight: 600,
   fontSize: '1.25rem',
   flex: 1

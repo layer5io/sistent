@@ -33,11 +33,9 @@ const YamlDialog = React.forwardRef<HTMLDivElement, YamlDialogProps>(
       name,
       open,
       fullScreen = false,
-      config_file,
       isReadOnly = false,
       onClose,
       onToggleFullScreen,
-      onYamlChange,
       onUpdate,
       onDelete,
       editorComponent
