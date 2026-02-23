@@ -105,9 +105,9 @@ const CatalogFilterSidebar: React.FC<CatalogFilterSidebarProps> = ({
       </FiltersCardDiv>
       <FilterDrawerDiv>
         <CustomTooltip title="Filters" placement="bottom">
-          <FilterButton variant="contained" onClick={handleDrawerOpen}>
+          <FilterButton variant="contained" size="large" onClick={handleDrawerOpen}>
             <FilterAltIcon
-              style={{ height: '28px', width: '28px' }}
+              style={{ height: '25px', width: '25px' }}
               fill={theme.palette.text.default}
             />
           </FilterButton>
