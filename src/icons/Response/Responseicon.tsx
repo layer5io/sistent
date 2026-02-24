@@ -1,13 +1,13 @@
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { DARK_PRIMARY_COLOR } from '../../theme';
-import { IconProps } from '../types';
+import { CustomIconProps } from '../types';
 
 export const ResponseIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
   primaryFill = DARK_PRIMARY_COLOR,
   ...props
-}: IconProps): JSX.Element => {
+}: CustomIconProps): JSX.Element => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -79,4 +79,4 @@ export const ResponseIcon = ({
   );
 };
 
-// export default FilterIcon;
+export default ResponseIcon;
