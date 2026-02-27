@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Grid2, SwipeableDrawer } from '@mui/material';
+import { Grid as Grid2, SwipeableDrawer } from '@mui/material';
 import { useState } from 'react';
 import {
   Backdrop,

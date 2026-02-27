@@ -7,8 +7,16 @@
     "url": "git+ssh://git@github.com/layer5io/sistent.git"
   },
   "main": "./dist/index.js",
-  "module": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "files": [
     "dist"
   ],
@@ -47,7 +55,7 @@
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.39.2",
     "@meshery/schemas": "^0.8.124",
-    "@mui/icons-material": "^6.4.8",
+    "@mui/icons-material": "^7.3.7",
     "@reduxjs/toolkit": "^2.2.5",
     "@testing-library/react": "^16.2.0",
     "@types/jest": "^29.5.14",
@@ -93,8 +101,8 @@
     "xstate": "^5.25.0"
   },
   "overrides": {
-    "@mui/icons-material": "^6.4.8",
-    "@mui/material": "^6.4.8",
+    "@mui/icons-material": "^7.3.7",
+    "@mui/material": "^7.3.7",
     "@meshery/schemas": {
       "react": "$react",
       "react-dom": "$react-dom"
@@ -115,7 +123,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@layer5/meshery-design-embed": "^0.4.0",
-    "@mui/material": "^6.4.8",
+    "@mui/material": "^7.3.7",
     "@sistent/mui-datatables": "^5.1.4",
     "@types/mui-datatables": "*",
     "billboard.js": "^3.15.0",
