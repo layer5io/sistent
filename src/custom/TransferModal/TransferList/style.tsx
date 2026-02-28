@@ -1,4 +1,4 @@
-import { Grid2, styled } from '@mui/material';
+import { Grid as Grid2, styled } from '@mui/material';
 import { Button, Chip, Paper, Typography } from '../../../base';
 
 export const StyledChip = styled(Chip)(({ theme }) => ({

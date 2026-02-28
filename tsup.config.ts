@@ -10,9 +10,25 @@ export default defineConfig({
   clean: true,
   dts: true,
   format: ['cjs', 'esm'],
-  external: ['react', 'xstate', '@xstate/react', 'react-dom', 'mui-datatables'],
+  external: [
+    'react',
+    'react-dom',
+    'xstate',
+    '@xstate/react',
+    'mui-datatables',
+    '@mui/material',
+    '@mui/system',
+    '@mui/utils',
+    '@mui/icons-material',
+    '@emotion/react',
+    '@emotion/styled'
+  ],
   minify: env === 'production',
   watch: env === 'development',
   sourcemap: env === 'development',
-  tsconfig: path.resolve(__dirname, './tsconfig.json')
+  tsconfig: path.resolve(__dirname, './tsconfig.json'),
+  outExtension: ({ format }) =>
+    format === 'esm'
+      ? { js: '.js' }
+      : { js: '.cjs' }
 });

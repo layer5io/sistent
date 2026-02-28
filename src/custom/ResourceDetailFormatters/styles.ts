@@ -1,4 +1,4 @@
-import { alpha, Grid2 } from '@mui/material';
+import { alpha, Grid as Grid2 } from '@mui/material';
 import { Box, Chip, IconButton, Typography } from '../../base';
 
 import { charcoal, KEPPEL, styled } from '../../theme';
