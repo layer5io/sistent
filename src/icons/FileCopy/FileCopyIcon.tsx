@@ -1,14 +1,12 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL } from '../../constants/constants';
 import { IconProps } from '../types';
 
-export const BuildRoundedIcon = ({
+export const FileCopyIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  fill = '#455a64',
-  style,
+  fill = DEFAULT_FILL,
   ...props
 }: IconProps): JSX.Element => {
-  const _finalFill = style?.fill || fill;
 
   return (
     <svg
@@ -16,13 +14,12 @@ export const BuildRoundedIcon = ({
       viewBox="0 0 24 24"
       width={width}
       height={height}
-      fill={_finalFill}
+      data-testid="file-copy-icon-svg"
       {...props}
     >
-<path d="M0 0h24v24H0z" fill="none" />
-      <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm-1 4l6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2h7zm-1 7h5.5L14 6.5V12z" />
+      <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm-1 4l6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2h7zm-1 7h5.5L14 6.5V12z" fill={fill} />
     </svg>
   );
 };
 
-export default BuildRoundedIcon;
+export default FileCopyIcon;
