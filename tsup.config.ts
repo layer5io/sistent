@@ -6,9 +6,14 @@ const env = process.env.NODE_ENV;
 
 // All deps and peerDeps must stay external — re-bundling packages like
 // MUI / emotion breaks CJS ↔ ESM default-export interop at runtime.
-const external = [
+const external: (string | RegExp)[] = [
   ...Object.keys(pkg.dependencies ?? {}),
-  ...Object.keys(pkg.peerDependencies ?? {})
+  ...Object.keys(pkg.peerDependencies ?? {}),
+  // Safety-net: catch transitive @mui/* and @emotion/* sub-packages that
+  // aren't explicitly listed in dependencies (e.g. @mui/system,
+  // @mui/styled-engine, @mui/utils) so they never get re-bundled.
+  /^@mui\//,
+  /^@emotion\//
 ];
 
 export default defineConfig({
