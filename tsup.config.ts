@@ -1,7 +1,15 @@
 import path from 'path';
 import { defineConfig } from 'tsup';
+import pkg from './package.json';
 
 const env = process.env.NODE_ENV;
+
+// All deps and peerDeps must stay external — re-bundling packages like
+// MUI / emotion breaks CJS ↔ ESM default-export interop at runtime.
+const external = [
+  ...Object.keys(pkg.dependencies ?? {}),
+  ...Object.keys(pkg.peerDependencies ?? {})
+];
 
 export default defineConfig({
   outDir: 'dist',
@@ -10,19 +18,7 @@ export default defineConfig({
   clean: true,
   dts: true,
   format: ['cjs', 'esm'],
-  external: [
-    'react',
-    'react-dom',
-    'xstate',
-    '@xstate/react',
-    'mui-datatables',
-    '@mui/material',
-    '@mui/system',
-    '@mui/utils',
-    '@mui/icons-material',
-    '@emotion/react',
-    '@emotion/styled'
-  ],
+  external,
   minify: env === 'production',
   watch: env === 'development',
   sourcemap: env === 'development',
