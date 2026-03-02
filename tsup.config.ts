@@ -26,9 +26,5 @@ export default defineConfig({
   minify: env === 'production',
   watch: env === 'development',
   sourcemap: env === 'development',
-  tsconfig: path.resolve(__dirname, './tsconfig.json'),
-  outExtension: ({ format }) =>
-    format === 'esm'
-      ? { js: '.js' }
-      : { js: '.cjs' }
+  tsconfig: path.resolve(__dirname, './tsconfig.json')
 });
