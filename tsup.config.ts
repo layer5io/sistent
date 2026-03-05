@@ -8,6 +8,7 @@ const esmOnlyPackages = [
   'react-markdown',
   'rehype-raw',
   'remark-gfm',
+  'react-error-boundary',
 ];
 
 const allDeps = [
