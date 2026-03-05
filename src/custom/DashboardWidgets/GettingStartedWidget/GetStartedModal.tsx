@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Grid2 from '@mui/material/Grid2';
 import { SwipeableDrawer } from '@mui/material';
 import { useState } from 'react';
 import {
@@ -7,6 +6,7 @@ import {
   CircularProgress,
   DialogContent,
   DialogTitle,
+  Grid2,
   ListItem,
   Typography
 } from '../../../base';
