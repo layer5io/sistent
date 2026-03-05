@@ -36,46 +36,65 @@ export const Hidden = ({
   const theme = useTheme();
   const onlyValues = Array.isArray(only) ? only : only ? [only] : [];
 
-  const xsOnly = useMediaQuery(theme.breakpoints.only('xs'));
-  const smOnly = useMediaQuery(theme.breakpoints.only('sm'));
-  const mdOnly = useMediaQuery(theme.breakpoints.only('md'));
-  const lgOnly = useMediaQuery(theme.breakpoints.only('lg'));
-  const xlOnly = useMediaQuery(theme.breakpoints.only('xl'));
+  const conditions: string[] = [];
 
-  const xsUpMatch = useMediaQuery(theme.breakpoints.up('xs'));
-  const smUpMatch = useMediaQuery(theme.breakpoints.up('sm'));
-  const mdUpMatch = useMediaQuery(theme.breakpoints.up('md'));
-  const lgUpMatch = useMediaQuery(theme.breakpoints.up('lg'));
-  const xlUpMatch = useMediaQuery(theme.breakpoints.up('xl'));
+  const extractCondition = (mediaQuery: string) =>
+    mediaQuery.replace(/^@media\s*/i, '');
 
-  const xsDownMatch = useMediaQuery(theme.breakpoints.down('xs'));
-  const smDownMatch = useMediaQuery(theme.breakpoints.down('sm'));
-  const mdDownMatch = useMediaQuery(theme.breakpoints.down('md'));
-  const lgDownMatch = useMediaQuery(theme.breakpoints.down('lg'));
-  const xlDownMatch = useMediaQuery(theme.breakpoints.down('xl'));
+  if (onlyValues.includes('xs')) {
+    conditions.push(extractCondition(theme.breakpoints.only('xs')));
+  }
+  if (onlyValues.includes('sm')) {
+    conditions.push(extractCondition(theme.breakpoints.only('sm')));
+  }
+  if (onlyValues.includes('md')) {
+    conditions.push(extractCondition(theme.breakpoints.only('md')));
+  }
+  if (onlyValues.includes('lg')) {
+    conditions.push(extractCondition(theme.breakpoints.only('lg')));
+  }
+  if (onlyValues.includes('xl')) {
+    conditions.push(extractCondition(theme.breakpoints.only('xl')));
+  }
 
-  const onlyMatches =
-    (onlyValues.includes('xs') && xsOnly) ||
-    (onlyValues.includes('sm') && smOnly) ||
-    (onlyValues.includes('md') && mdOnly) ||
-    (onlyValues.includes('lg') && lgOnly) ||
-    (onlyValues.includes('xl') && xlOnly);
+  if (xsUp) {
+    conditions.push(extractCondition(theme.breakpoints.up('xs')));
+  }
+  if (smUp) {
+    conditions.push(extractCondition(theme.breakpoints.up('sm')));
+  }
+  if (mdUp) {
+    conditions.push(extractCondition(theme.breakpoints.up('md')));
+  }
+  if (lgUp) {
+    conditions.push(extractCondition(theme.breakpoints.up('lg')));
+  }
+  if (xlUp) {
+    conditions.push(extractCondition(theme.breakpoints.up('xl')));
+  }
 
-  const upMatches =
-    (xsUp && xsUpMatch) ||
-    (smUp && smUpMatch) ||
-    (mdUp && mdUpMatch) ||
-    (lgUp && lgUpMatch) ||
-    (xlUp && xlUpMatch);
+  if (xsDown) {
+    conditions.push(extractCondition(theme.breakpoints.down('xs')));
+  }
+  if (smDown) {
+    conditions.push(extractCondition(theme.breakpoints.down('sm')));
+  }
+  if (mdDown) {
+    conditions.push(extractCondition(theme.breakpoints.down('md')));
+  }
+  if (lgDown) {
+    conditions.push(extractCondition(theme.breakpoints.down('lg')));
+  }
+  if (xlDown) {
+    conditions.push(extractCondition(theme.breakpoints.down('xl')));
+  }
 
-  const downMatches =
-    (xsDown && xsDownMatch) ||
-    (smDown && smDownMatch) ||
-    (mdDown && mdDownMatch) ||
-    (lgDown && lgDownMatch) ||
-    (xlDown && xlDownMatch);
+  const mediaQuery =
+    conditions.length > 0 ? `@media ${conditions.join(', ')}` : '@media not all';
 
-  if (onlyMatches || upMatches || downMatches) {
+  const matches = useMediaQuery(mediaQuery);
+
+  if (matches) {
     return null;
   }
 
