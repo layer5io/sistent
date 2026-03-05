@@ -1,25 +1,7 @@
 import path from 'path';
 import { defineConfig } from 'tsup';
-import pkg from './package.json';
 
 const env = process.env.NODE_ENV;
-
-const esmOnlyPackages = [
-  'react-markdown',
-  'rehype-raw',
-  'remark-gfm',
-  'react-error-boundary',
-];
-
-const allDeps = [
-  ...Object.keys(pkg.dependencies ?? {}),
-  ...Object.keys(pkg.peerDependencies ?? {}),
-  ...Object.keys(pkg.devDependencies ?? {}),
-];
-
-const external: (string | RegExp)[] = allDeps.filter(
-  (dep) => !esmOnlyPackages.includes(dep),
-);
 
 export default defineConfig({
   outDir: 'dist',
@@ -28,8 +10,7 @@ export default defineConfig({
   clean: true,
   dts: true,
   format: ['cjs', 'esm'],
-  external,
-  noExternal: esmOnlyPackages,
+  external: ['react', 'xstate', '@xstate/react', 'react-dom', 'mui-datatables'],
   minify: env === 'production',
   watch: env === 'development',
   sourcemap: env === 'development',
