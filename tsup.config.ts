@@ -4,17 +4,21 @@ import pkg from './package.json';
 
 const env = process.env.NODE_ENV;
 
-// All deps and peerDeps must stay external — re-bundling packages like
-// MUI / emotion breaks CJS ↔ ESM default-export interop at runtime.
-const external: (string | RegExp)[] = [
+const esmOnlyPackages = [
+  'react-markdown',
+  'rehype-raw',
+  'remark-gfm',
+];
+
+const allDeps = [
   ...Object.keys(pkg.dependencies ?? {}),
   ...Object.keys(pkg.peerDependencies ?? {}),
-  // Safety-net: catch transitive @mui/* and @emotion/* sub-packages that
-  // aren't explicitly listed in dependencies (e.g. @mui/system,
-  // @mui/styled-engine, @mui/utils) so they never get re-bundled.
-  /^@mui\//,
-  /^@emotion\//
+  ...Object.keys(pkg.devDependencies ?? {}),
 ];
+
+const external: (string | RegExp)[] = allDeps.filter(
+  (dep) => !esmOnlyPackages.includes(dep),
+);
 
 export default defineConfig({
   outDir: 'dist',
@@ -24,6 +28,7 @@ export default defineConfig({
   dts: true,
   format: ['cjs', 'esm'],
   external,
+  noExternal: esmOnlyPackages,
   minify: env === 'production',
   watch: env === 'development',
   sourcemap: env === 'development',
