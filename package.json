@@ -68,7 +68,7 @@
     "globals": "^17.0.0",
     "husky": "^9.1.7",
     "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
+    "jest-environment-jsdom": "^30.2.0",
     "lint-staged": "^15.5.0",
     "notistack": "^3.0.2",
     "prettier": "^3.5.3",
