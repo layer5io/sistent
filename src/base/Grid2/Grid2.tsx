@@ -1,4 +1,4 @@
-import { Grid, GridProps } from '@mui/material';
+import MuiGrid, { Grid2Props as MuiGridProps } from '@mui/material/Grid2';
 import React from 'react';
 
 const Grid2 = React.forwardRef<HTMLDivElement, GridProps>((props, ref) => {
