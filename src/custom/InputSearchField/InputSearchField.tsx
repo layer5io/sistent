@@ -1,4 +1,5 @@
-import { Autocomplete, Grid as Grid2 } from '@mui/material';
+import { Autocomplete } from '@mui/material';
+import Grid2 from '@mui/material/Unstable_Grid2';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Chip, CircularProgress, TextField, Tooltip, Typography } from '../../base';
 

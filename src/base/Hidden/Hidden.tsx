@@ -16,7 +16,7 @@ export interface HiddenProps {
   mdDown?: boolean;
   lgDown?: boolean;
   xlDown?: boolean;
-  implementation?: 'js' | 'css';
+
 }
 
 export const Hidden = ({
