@@ -79,7 +79,7 @@
     "react-redux": "^8.1.1",
     "redux": "^5.0.1",
     "rehype-raw": "^6.1.1",
-    "remark-gfm": "^3.0.1",
+    "remark-gfm": "^4.0.1",
     "rollup": "^4.38.0",
     "ts-jest": "^29.3.0",
     "tsup": "^8.4.0",
