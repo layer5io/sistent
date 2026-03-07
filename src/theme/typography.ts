@@ -1,5 +1,5 @@
 import { PaletteMode, createTheme } from '@mui/material';
-import { TypographyOptions } from '@mui/material/styles/createTypography';
+import { TypographyVariantsOptions } from '@mui/material/styles';
 import { common } from './colors';
 
 declare module '@mui/material/styles' {
@@ -48,7 +48,7 @@ declare module '@mui/material/Typography' {
 
 const theme = createTheme();
 
-export const typography = (mode: PaletteMode): TypographyOptions => {
+export const typography = (mode: PaletteMode): TypographyVariantsOptions => {
   return {
     fontFamily: ['Qanelas Soft Regular', 'Roboto', 'Helvectica', 'Arial', 'sans-serif'].join(','),
     textH1Bold: {
