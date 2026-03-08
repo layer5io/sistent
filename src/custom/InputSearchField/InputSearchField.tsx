@@ -1,6 +1,6 @@
-import { Autocomplete, Grid2 } from '@mui/material';
+import { Autocomplete } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Box, Chip, CircularProgress, TextField, Tooltip, Typography } from '../../base';
+import { Box, Chip, CircularProgress, Grid2, TextField, Tooltip, Typography } from '../../base';
 
 import { iconLarge, iconSmall } from '../../constants/iconsSizes';
 import { CloseIcon, OrgIcon } from '../../icons';
