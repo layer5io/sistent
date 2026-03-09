@@ -39,6 +39,10 @@ export const Hidden = ({
 }: HiddenProps) => {
   const theme = useTheme();
 
+  // Serialize `only` to a stable string so that array literals passed as props
+  // (e.g. only={['xs', 'md']}) don't defeat memoization due to new references.
+  const onlyKey = Array.isArray(only) ? only.join(',') : only ?? '';
+
   const mediaQuery = useMemo(() => {
     const onlyValues = Array.isArray(only) ? only : only ? [only] : [];
     const upProps: Record<Breakpoint, boolean> = { xs: xsUp, sm: smUp, md: mdUp, lg: lgUp, xl: xlUp };
@@ -58,7 +62,8 @@ export const Hidden = ({
     }
 
     return conditions.length > 0 ? `@media ${conditions.join(', ')}` : '@media not all';
-  }, [only, xsUp, smUp, mdUp, lgUp, xlUp, xsDown, smDown, mdDown, lgDown, xlDown, theme.breakpoints]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onlyKey, xsUp, smUp, mdUp, lgUp, xlUp, xsDown, smDown, mdDown, lgDown, xlDown, theme.breakpoints]);
 
   const matches = useMediaQuery(mediaQuery);
 
