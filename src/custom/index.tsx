@@ -52,6 +52,7 @@ import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 import { UserTableAvatarInfo, UsersTable } from './UsersTable';
 import { VisibilityChipMenu } from './VisibilityChipMenu';
+import { YamlDialog } from './YamlDialog';
 export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
 export type { FilterListType } from './CatalogFilterSection';
@@ -75,6 +76,7 @@ export { Terminal } from './Terminal';
 export { TOC } from './TOCChapter';
 export { TOCLearning } from './TOCLearning';
 export { UserSearchField } from './UserSearchField';
+export { YamlDialog } from './YamlDialog';
 
 export {
   ActionButton,

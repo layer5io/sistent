@@ -1,4 +1,4 @@
-import { KEPPEL_GREEN_FILL, DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL_NONE } from '../../constants/constants';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL_NONE } from '../../constants/constants';
 import { IconProps } from '../types';
 
 const DescriptionIcon = ({
