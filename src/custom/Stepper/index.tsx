@@ -1,7 +1,7 @@
 import { Box, Stack, Step, StepConnector, StepLabel, Stepper } from '@mui/material';
 import { stepConnectorClasses } from '@mui/material/StepConnector';
 import { StepIconProps } from '@mui/material/StepIcon';
-import { styled } from '@mui/system';
+import { styled } from '@mui/material/styles';
 import React, { useMemo, useState } from 'react';
 import { IconProps } from '../../icons/types';
 import { useTheme } from '../../theme';
