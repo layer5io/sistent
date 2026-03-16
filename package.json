@@ -115,7 +115,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@layer5/meshery-design-embed": "^0.4.0",
+    "@layer5/meshery-design-embed": "^0.5.0",
     "@mui/material": "^7.3.7",
     "@sistent/mui-datatables": "^6.0.1",
     "@types/mui-datatables": "*",
