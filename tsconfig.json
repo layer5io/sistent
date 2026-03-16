@@ -15,6 +15,10 @@
         "isolatedModules": true,
         "noFallthroughCasesInSwitch": true,
         "jsx": "react-jsx",
+        "types": [
+            "react",
+            "react-dom"
+        ],
         "esModuleInterop": true,
         "resolveJsonModule": true,
         "allowSyntheticDefaultImports": true,

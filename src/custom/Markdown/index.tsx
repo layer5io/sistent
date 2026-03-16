@@ -29,35 +29,37 @@ export const RenderMarkdown: React.FC<RenderMarkdownProps> = ({ content }) => {
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       rehypePlugins={[rehypeRaw]}
-      components={{
-        p: ({ ...props }) => <StyledMarkdownP>{props.children}</StyledMarkdownP>,
-        a: ({ ...props }) => (
+      components={
+        {
+          p: ({ children }: any) => <StyledMarkdownP>{children}</StyledMarkdownP>,
+          a: ({ href, children }: any) => (
           <StyledMarkdown
             onClick={(e) => {
               e.preventDefault();
-              window.open(props.href, '_blank');
+              window.open(href, '_blank');
             }}
-            href={props.href}
+            href={href}
           >
-            {props.children}
+            {children}
           </StyledMarkdown>
         ),
-        h1: ({ ...props }) => <StyledMarkdownH1>{props.children}</StyledMarkdownH1>,
-        h2: ({ ...props }) => <StyledMarkdownH2>{props.children}</StyledMarkdownH2>,
-        h3: ({ ...props }) => <StyledMarkdownH3>{props.children}</StyledMarkdownH3>,
-        h4: ({ ...props }) => <StyledMarkdownH4>{props.children}</StyledMarkdownH4>,
-        h5: ({ ...props }) => <StyledMarkdownH5>{props.children}</StyledMarkdownH5>,
-        h6: ({ ...props }) => <StyledMarkdownH6>{props.children}</StyledMarkdownH6>,
-        blockquote: ({ ...props }) => (
-          <StyledMarkdownBlockquote>{props.children}</StyledMarkdownBlockquote>
+        h1: ({ children }: any) => <StyledMarkdownH1>{children}</StyledMarkdownH1>,
+        h2: ({ children }: any) => <StyledMarkdownH2>{children}</StyledMarkdownH2>,
+        h3: ({ children }: any) => <StyledMarkdownH3>{children}</StyledMarkdownH3>,
+        h4: ({ children }: any) => <StyledMarkdownH4>{children}</StyledMarkdownH4>,
+        h5: ({ children }: any) => <StyledMarkdownH5>{children}</StyledMarkdownH5>,
+        h6: ({ children }: any) => <StyledMarkdownH6>{children}</StyledMarkdownH6>,
+        blockquote: ({ children }: any) => (
+          <StyledMarkdownBlockquote>{children}</StyledMarkdownBlockquote>
         ),
-        ul: ({ ...props }) => <StyledMarkdownUl>{props.children}</StyledMarkdownUl>,
-        li: ({ ...props }) => <StyledMarkdownLi>{props.children}</StyledMarkdownLi>,
-        th: ({ ...props }) => <StyledMarkdownTh>{props.children}</StyledMarkdownTh>,
-        td: ({ ...props }) => <StyledMarkdownTd>{props.children}</StyledMarkdownTd>,
-        pre: ({ ...props }) => <StyledMarkdownPre>{props.children}</StyledMarkdownPre>,
-        code: ({ ...props }) => <StyledMarkdownCode>{props.children}</StyledMarkdownCode>
-      }}
+        ul: ({ children }: any) => <StyledMarkdownUl>{children}</StyledMarkdownUl>,
+        li: ({ children }: any) => <StyledMarkdownLi>{children}</StyledMarkdownLi>,
+        th: ({ children }: any) => <StyledMarkdownTh>{children}</StyledMarkdownTh>,
+        td: ({ children }: any) => <StyledMarkdownTd>{children}</StyledMarkdownTd>,
+        pre: ({ children }: any) => <StyledMarkdownPre>{children}</StyledMarkdownPre>,
+        code: ({ children }: any) => <StyledMarkdownCode>{children}</StyledMarkdownCode>
+        } as any
+      }
     >
       {content}
     </ReactMarkdown>
@@ -77,33 +79,35 @@ export const RenderMarkdownTooltip: React.FC<RenderMarkdownProps> = ({ content }
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
-      components={{
-        p: ({ ...props }) => <StyledMarkdownTooltipP>{props.children}</StyledMarkdownTooltipP>,
-        a: ({ ...props }) => (
+      components={
+        {
+          p: ({ children }: any) => <StyledMarkdownTooltipP>{children}</StyledMarkdownTooltipP>,
+          a: ({ href, children }: any) => (
           <StyledMarkdown
             onClick={(e) => {
-              window.open(props.href, '_blank');
+              window.open(href, '_blank');
               e.stopPropagation();
             }}
             as="a"
           >
-            {props.children}
+            {children}
           </StyledMarkdown>
         ),
-        h1: ({ ...props }) => <StyledMarkdownH1>{props.children}</StyledMarkdownH1>,
-        h2: ({ ...props }) => <StyledMarkdownH2>{props.children}</StyledMarkdownH2>,
-        h3: ({ ...props }) => <StyledMarkdownH3>{props.children}</StyledMarkdownH3>,
-        h4: ({ ...props }) => <StyledMarkdownH4>{props.children}</StyledMarkdownH4>,
-        h5: ({ ...props }) => <StyledMarkdownH5>{props.children}</StyledMarkdownH5>,
-        h6: ({ ...props }) => <StyledMarkdownH6>{props.children}</StyledMarkdownH6>,
-        blockquote: ({ ...props }) => (
-          <StyledMarkdownBlockquote>{props.children}</StyledMarkdownBlockquote>
+        h1: ({ children }: any) => <StyledMarkdownH1>{children}</StyledMarkdownH1>,
+        h2: ({ children }: any) => <StyledMarkdownH2>{children}</StyledMarkdownH2>,
+        h3: ({ children }: any) => <StyledMarkdownH3>{children}</StyledMarkdownH3>,
+        h4: ({ children }: any) => <StyledMarkdownH4>{children}</StyledMarkdownH4>,
+        h5: ({ children }: any) => <StyledMarkdownH5>{children}</StyledMarkdownH5>,
+        h6: ({ children }: any) => <StyledMarkdownH6>{children}</StyledMarkdownH6>,
+        blockquote: ({ children }: any) => (
+          <StyledMarkdownBlockquote>{children}</StyledMarkdownBlockquote>
         ),
-        ul: ({ ...props }) => <StyledMarkdownUl>{props.children}</StyledMarkdownUl>,
-        li: ({ ...props }) => <StyledMarkdownLi>{props.children}</StyledMarkdownLi>,
-        th: ({ ...props }) => <StyledMarkdownTh>{props.children}</StyledMarkdownTh>,
-        td: ({ ...props }) => <StyledMarkdownTd>{props.children}</StyledMarkdownTd>
-      }}
+        ul: ({ children }: any) => <StyledMarkdownUl>{children}</StyledMarkdownUl>,
+        li: ({ children }: any) => <StyledMarkdownLi>{children}</StyledMarkdownLi>,
+        th: ({ children }: any) => <StyledMarkdownTh>{children}</StyledMarkdownTh>,
+        td: ({ children }: any) => <StyledMarkdownTd>{children}</StyledMarkdownTd>
+        } as any
+      }
     >
       {processDescription(content) as string}
     </ReactMarkdown>
@@ -115,19 +119,21 @@ export const BasicMarkdown: React.FC<RenderMarkdownProps> = ({ content }) => {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
-      components={{
-        a: ({ ...props }) => (
+      components={
+        {
+          a: ({ href, children }: any) => (
           <BasicAnchorMarkdown
             onClick={(e) => {
-              window.open(props.href, '_blank');
+              window.open(href, '_blank');
               e.stopPropagation();
             }}
             as="a"
           >
-            {props.children}
+            {children}
           </BasicAnchorMarkdown>
         )
-      }}
+        } as any
+      }
     >
       {content}
     </ReactMarkdown>
