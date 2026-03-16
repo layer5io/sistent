@@ -78,7 +78,7 @@
     "react-markdown": "^8.0.7",
     "react-redux": "^8.1.1",
     "redux": "^5.0.1",
-    "rehype-raw": "^6.1.1",
+    "rehype-raw": "^7.0.0",
     "remark-gfm": "^3.0.1",
     "rollup": "^4.38.0",
     "ts-jest": "^29.3.0",
