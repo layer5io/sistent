@@ -252,11 +252,9 @@ export const FeedbackOptionButton = styled(Button)<FeedbackMessageProps>(({ them
   background: isOpen ? SNOW_WHITE : theme.palette.navigation.secondary,
   color: isOpen
     ? theme.palette.mode === 'dark'
-      ? SNOW_WHITE
-      : BLACK
-    : theme.palette.mode === 'dark'
-      ? SNOW_WHITE
-      : SNOW_WHITE,
+      ? BLACK
+      : SNOW_WHITE
+    : SNOW_WHITE,
   fill: isOpen ? theme.palette.icon.default : SNOW_WHITE,
   stroke: isOpen ? theme.palette.icon.inverse : theme.palette.icon.brand,
   '&:hover': {
