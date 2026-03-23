@@ -1,5 +1,5 @@
 import { useMediaQuery, useTheme } from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -16,8 +16,12 @@ export interface HiddenProps {
   mdDown?: boolean;
   lgDown?: boolean;
   xlDown?: boolean;
-
 }
+
+const BREAKPOINTS: Breakpoint[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+
+const extractCondition = (mediaQuery: string) =>
+  mediaQuery.replace(/^@media\s*/i, '');
 
 export const Hidden = ({
   children,
@@ -34,63 +38,29 @@ export const Hidden = ({
   xlDown = false
 }: HiddenProps) => {
   const theme = useTheme();
-  const onlyValues = Array.isArray(only) ? only : only ? [only] : [];
 
-  const conditions: string[] = [];
+  const onlyKey = Array.isArray(only) ? [...only].sort().join(',') : only ?? '';
 
-  const extractCondition = (mediaQuery: string) =>
-    mediaQuery.replace(/^@media\s*/i, '');
+  const mediaQuery = useMemo(() => {
+    const onlyValues = onlyKey ? (onlyKey.split(',') as Breakpoint[]) : [];
+    const upProps: Record<Breakpoint, boolean> = { xs: xsUp, sm: smUp, md: mdUp, lg: lgUp, xl: xlUp };
+    const downProps: Record<Breakpoint, boolean> = { xs: xsDown, sm: smDown, md: mdDown, lg: lgDown, xl: xlDown };
+    const conditions: string[] = [];
 
-  if (onlyValues.includes('xs')) {
-    conditions.push(extractCondition(theme.breakpoints.only('xs')));
-  }
-  if (onlyValues.includes('sm')) {
-    conditions.push(extractCondition(theme.breakpoints.only('sm')));
-  }
-  if (onlyValues.includes('md')) {
-    conditions.push(extractCondition(theme.breakpoints.only('md')));
-  }
-  if (onlyValues.includes('lg')) {
-    conditions.push(extractCondition(theme.breakpoints.only('lg')));
-  }
-  if (onlyValues.includes('xl')) {
-    conditions.push(extractCondition(theme.breakpoints.only('xl')));
-  }
+    for (const bp of BREAKPOINTS) {
+      if (onlyValues.includes(bp)) {
+        conditions.push(extractCondition(theme.breakpoints.only(bp)));
+      }
+      if (upProps[bp]) {
+        conditions.push(extractCondition(theme.breakpoints.up(bp)));
+      }
+      if (downProps[bp]) {
+        conditions.push(extractCondition(theme.breakpoints.down(bp)));
+      }
+    }
 
-  if (xsUp) {
-    conditions.push(extractCondition(theme.breakpoints.up('xs')));
-  }
-  if (smUp) {
-    conditions.push(extractCondition(theme.breakpoints.up('sm')));
-  }
-  if (mdUp) {
-    conditions.push(extractCondition(theme.breakpoints.up('md')));
-  }
-  if (lgUp) {
-    conditions.push(extractCondition(theme.breakpoints.up('lg')));
-  }
-  if (xlUp) {
-    conditions.push(extractCondition(theme.breakpoints.up('xl')));
-  }
-
-  if (xsDown) {
-    conditions.push(extractCondition(theme.breakpoints.down('xs')));
-  }
-  if (smDown) {
-    conditions.push(extractCondition(theme.breakpoints.down('sm')));
-  }
-  if (mdDown) {
-    conditions.push(extractCondition(theme.breakpoints.down('md')));
-  }
-  if (lgDown) {
-    conditions.push(extractCondition(theme.breakpoints.down('lg')));
-  }
-  if (xlDown) {
-    conditions.push(extractCondition(theme.breakpoints.down('xl')));
-  }
-
-  const mediaQuery =
-    conditions.length > 0 ? `@media ${conditions.join(', ')}` : '@media not all';
+    return conditions.length > 0 ? `@media ${conditions.join(', ')}` : '@media not all';
+  }, [onlyKey, xsUp, smUp, mdUp, lgUp, xlUp, xsDown, smDown, mdDown, lgDown, xlDown, theme.breakpoints]);
 
   const matches = useMediaQuery(mediaQuery);
 
