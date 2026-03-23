@@ -120,6 +120,7 @@
     "@mui/material": "^7.3.9",
     "@sistent/mui-datatables": "^6.1.1",
     "@types/mui-datatables": "*",
+    "@paciolan/remote-component": "^2.13.0",
     "billboard.js": "^3.18.0",
     "js-yaml": "^4.1.1",
     "lodash": "^4.17.23",
