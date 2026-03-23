@@ -249,14 +249,8 @@ export const FeedbackOptionButton = styled(Button)<FeedbackMessageProps>(({ them
   borderRadius: '0px',
   flexDirection: 'column',
   borderBottom: isOpen ? `2px solid ${theme.palette.interactive.primary}` : '',
-  background: isOpen ? SNOW_WHITE : theme.palette.navigation.secondary,
-  color: isOpen
-    ? theme.palette.mode === 'dark'
-      ? SNOW_WHITE
-      : BLACK
-    : theme.palette.mode === 'dark'
-      ? SNOW_WHITE
-      : SNOW_WHITE,
+  background: theme.palette.navigation.secondary,
+  color: SNOW_WHITE,
   fill: isOpen ? theme.palette.icon.default : SNOW_WHITE,
   stroke: isOpen ? theme.palette.icon.inverse : theme.palette.icon.brand,
   '&:hover': {
@@ -264,6 +258,10 @@ export const FeedbackOptionButton = styled(Button)<FeedbackMessageProps>(({ them
     backgroundColor: theme.palette.background.hover,
     fill: theme.palette.icon.default
   }
+  '&:active, &:focus': {
+  backgroundColor: theme.palette.navigation.secondary,
+  color: SNOW_WHITE,
+},
 }));
 
 export const StyledTextArea = styled('textarea')(({ theme }) => ({
