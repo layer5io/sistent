@@ -1,4 +1,4 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL_NONE } from '../../constants/constants';
+import { DEFAULT_FILL_NONE, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const GetAppIcon = ({
@@ -15,10 +15,7 @@ export const GetAppIcon = ({
       viewBox="0 0 24 24"
       {...props}
     >
-      <path
-        d="M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z"
-        fill={fill}
-      />
+      <path d="M19 9h-4V3H9v6H5l7 7zM5 18v2h14v-2z" fill={fill} />
     </svg>
   );
 };

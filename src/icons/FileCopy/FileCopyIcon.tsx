@@ -1,4 +1,4 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL } from '../../constants/constants';
+import { DEFAULT_FILL, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const FileCopyIcon = ({
@@ -7,7 +7,6 @@ export const FileCopyIcon = ({
   fill = DEFAULT_FILL,
   ...props
 }: IconProps): JSX.Element => {
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +16,10 @@ export const FileCopyIcon = ({
       data-testid="file-copy-icon-svg"
       {...props}
     >
-      <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm-1 4l6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2h7zm-1 7h5.5L14 6.5V12z" fill={fill} />
+      <path
+        d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm-1 4l6 6v10c0 1.1-.9 2-2 2H7.99C6.89 23 6 22.1 6 21l.01-14c0-1.1.89-2 1.99-2h7zm-1 7h5.5L14 6.5V12z"
+        fill={fill}
+      />
     </svg>
   );
 };
