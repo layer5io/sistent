@@ -53,7 +53,7 @@ jobs:
           repository: meshery/meshery
           # Pin to last known-good commit before the @mui/x-tree-view v8 upgrade
           # that broke the TreeView import (meshery/meshery#18163).
-          # Update this ref once Meshery UI fixes the migration.
+          # Remove this pin once meshery/meshery#18167 is merged.
           ref: 7c3d02c91365dc776b11ffc50aab277026e86701
           path: meshery
           fetch-depth: 1
