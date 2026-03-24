@@ -62,6 +62,21 @@ jobs:
         working-directory: meshery/ui
         run: npm install ../../sistent/${{ env.SISTENT_PACKAGE }}
 
+      - name: Patch Meshery UI tsconfig for TypeScript 6.x compatibility
+        working-directory: meshery/ui
+        run: |
+          if [ -f tsconfig.json ] && grep -q '"baseUrl"' tsconfig.json; then
+            node -e "
+              const fs = require('fs');
+              const tsconfig = JSON.parse(fs.readFileSync('tsconfig.json', 'utf8'));
+              if (tsconfig.compilerOptions && !tsconfig.compilerOptions.ignoreDeprecations) {
+                tsconfig.compilerOptions.ignoreDeprecations = '6.0';
+                fs.writeFileSync('tsconfig.json', JSON.stringify(tsconfig, null, 2));
+                console.log('Patched tsconfig.json to add ignoreDeprecations: 6.0');
+              }
+            "
+          fi
+
       - name: Build Meshery UI
         working-directory: meshery/ui
         run: |
