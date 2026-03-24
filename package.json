@@ -46,7 +46,7 @@
     "@emotion/cache": "^11.14.0",
     "@eslint/compat": "^2.0.3",
     "@eslint/eslintrc": "^3.3.5",
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "^9.39.4",
     "@meshery/schemas": "^0.9.0",
     "@mui/icons-material": "^7.3.9",
     "@reduxjs/toolkit": "^2.11.2",
@@ -60,7 +60,7 @@
     "@typescript-eslint/parser": "^8.57.2",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^10.1.0",
+    "eslint": "^9.39.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
@@ -83,7 +83,7 @@
     "rollup": "^4.60.0",
     "ts-jest": "^29.4.6",
     "tsup": "^8.5.1",
-    "typescript": "^6.0.2",
+    "typescript": "^5.9.3",
     "xstate": "^5.28.0"
   },
   "peerDependencies": {

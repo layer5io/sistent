@@ -16,7 +16,6 @@ export interface HiddenProps {
   mdDown?: boolean;
   lgDown?: boolean;
   xlDown?: boolean;
-
 }
 
 export const Hidden = ({
@@ -38,8 +37,7 @@ export const Hidden = ({
 
   const conditions: string[] = [];
 
-  const extractCondition = (mediaQuery: string) =>
-    mediaQuery.replace(/^@media\s*/i, '');
+  const extractCondition = (mediaQuery: string) => mediaQuery.replace(/^@media\s*/i, '');
 
   if (onlyValues.includes('xs')) {
     conditions.push(extractCondition(theme.breakpoints.only('xs')));
@@ -89,8 +87,7 @@ export const Hidden = ({
     conditions.push(extractCondition(theme.breakpoints.down('xl')));
   }
 
-  const mediaQuery =
-    conditions.length > 0 ? `@media ${conditions.join(', ')}` : '@media not all';
+  const mediaQuery = conditions.length > 0 ? `@media ${conditions.join(', ')}` : '@media not all';
 
   const matches = useMediaQuery(mediaQuery);
 
