@@ -3,7 +3,6 @@ const tsParser = require("@typescript-eslint/parser");
 const react = require("eslint-plugin-react");
 const reactHooks = require("eslint-plugin-react-hooks");
 const typescript = require("@typescript-eslint/eslint-plugin");
-const importPlugin = require("eslint-plugin-import");
 const globals = require("globals");
 
 module.exports = [
@@ -57,14 +56,12 @@ module.exports = [
             react,
             "react-hooks": reactHooks,
             "@typescript-eslint": typescript,
-            "import": importPlugin,
         },
 
         rules: {
             ...js.configs.recommended.rules,
             ...typescript.configs.recommended.rules,
             ...reactHooks.configs.recommended.rules,
-            "import/first": "error",
         },
 
         settings: {
@@ -106,14 +103,12 @@ module.exports = [
             react,
             "react-hooks": reactHooks,
             "@typescript-eslint": typescript,
-            "import": importPlugin,
         },
 
         rules: {
             ...js.configs.recommended.rules,
             ...typescript.configs.recommended.rules,
             ...reactHooks.configs.recommended.rules,
-            "import/first": "error",
         },
 
         settings: {
