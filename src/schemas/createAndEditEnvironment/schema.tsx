@@ -1,6 +1,7 @@
 import { EnvironmentDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
 
-const environmentSchema = EnvironmentDefinitionV1Beta1OpenApiSchema.components.schemas;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const environmentSchema = (EnvironmentDefinitionV1Beta1OpenApiSchema as any).components.schemas;
 const createAndEditEnvironmentSchema = {
   title: 'Environment',
   required: ['name'],
