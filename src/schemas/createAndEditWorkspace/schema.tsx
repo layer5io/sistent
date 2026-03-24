@@ -3,7 +3,8 @@
  */
 import { WorkspaceDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
 
-const workspaceSchema = WorkspaceDefinitionV1Beta1OpenApiSchema.components.schemas;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const workspaceSchema = (WorkspaceDefinitionV1Beta1OpenApiSchema as any).components.schemas;
 const createAndEditWorkspace = {
   properties: {
     description: {
