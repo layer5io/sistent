@@ -1,18 +1,10 @@
-const { FlatCompat } = require("@eslint/eslintrc");
 const js = require("@eslint/js");
 const tsParser = require("@typescript-eslint/parser");
 const react = require("eslint-plugin-react");
 const reactHooks = require("eslint-plugin-react-hooks");
 const typescript = require("@typescript-eslint/eslint-plugin");
-const storybook = require("eslint-plugin-storybook");
 const importPlugin = require("eslint-plugin-import");
 const globals = require("globals");
-
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
-});
 
 module.exports = [
     // Global ignores
@@ -36,11 +28,11 @@ module.exports = [
             "**/coverage/**",
         ]
     },
-    
+
     // Test files configuration
     {
         files: ["**/*.test.{js,jsx,ts,tsx}", "**/__tests__/**/*.{js,jsx,ts,tsx}"],
-        
+
         languageOptions: {
             globals: {
                 ...globals.browser,
@@ -66,21 +58,12 @@ module.exports = [
             "react-hooks": reactHooks,
             "@typescript-eslint": typescript,
             "import": importPlugin,
-            storybook,
         },
 
         rules: {
-            // ESLint recommended rules
             ...js.configs.recommended.rules,
-            
-            // TypeScript recommended rules
             ...typescript.configs.recommended.rules,
-            
-            // React hooks recommended rules
             ...reactHooks.configs.recommended.rules,
-            
-            // Storybook recommended rules
-            ...storybook.configs.recommended.rules,
             "import/first": "error",
         },
 
@@ -95,11 +78,11 @@ module.exports = [
         },
     },
 
-    // Main configuration - matches old .eslintrc.js 
+    // Main configuration
     {
         files: ["**/*.{js,jsx,ts,tsx}"],
         ignores: ["**/*.test.{js,jsx,ts,tsx}", "**/__tests__/**/*.{js,jsx,ts,tsx}"],
-        
+
         languageOptions: {
             globals: {
                 ...globals.browser,
@@ -124,21 +107,12 @@ module.exports = [
             "react-hooks": reactHooks,
             "@typescript-eslint": typescript,
             "import": importPlugin,
-            storybook,
         },
 
         rules: {
-            // ESLint recommended rules
             ...js.configs.recommended.rules,
-            
-            // TypeScript recommended rules
             ...typescript.configs.recommended.rules,
-            
-            // React hooks recommended rules
             ...reactHooks.configs.recommended.rules,
-            
-            // Storybook recommended rules
-            ...storybook.configs.recommended.rules,
             "import/first": "error",
         },
 
