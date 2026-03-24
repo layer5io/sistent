@@ -62,12 +62,25 @@ jobs:
         working-directory: meshery/ui
         run: npm install ../../sistent/${{ env.SISTENT_PACKAGE }}
 
-      - name: Patch Meshery UI tsconfig for TypeScript 6.x compatibility
+      - name: Patch Meshery UI for Next.js 16.x compatibility
         working-directory: meshery/ui
         run: |
+          # Add ignoreDeprecations for TypeScript 6.x baseUrl deprecation
           if [ -f tsconfig.json ] && grep -q '"baseUrl"' tsconfig.json && ! grep -q '"ignoreDeprecations"' tsconfig.json; then
             sed -i 's/"compilerOptions"\s*:\s*{/"compilerOptions": {\n    "ignoreDeprecations": "6.0",/' tsconfig.json
             echo "Patched tsconfig.json to add ignoreDeprecations: 6.0"
+          fi
+          # Patch package.json build script to use --webpack for Next.js 16 compatibility
+          if [ -f package.json ] && grep -q '"build"' package.json && ! grep -q -- '--webpack' package.json; then
+            node -e "
+              const fs = require('fs');
+              const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+              if (pkg.scripts && pkg.scripts.build) {
+                pkg.scripts.build = pkg.scripts.build.replace('next build', 'next build --webpack');
+                fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+                console.log('Patched build script to use webpack mode');
+              }
+            "
           fi
 
       - name: Build Meshery UI
