@@ -1,1 +1,1 @@
-export {default as ListAltIcon} from './ListAltIcon';
+export { default as ListAltIcon } from './ListAltIcon';

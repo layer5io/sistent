@@ -1,4 +1,4 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL } from '../../constants/constants';
+import { DEFAULT_FILL, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const SimCardIcon = ({
@@ -7,7 +7,6 @@ export const SimCardIcon = ({
   fill = DEFAULT_FILL,
   ...props
 }: IconProps): JSX.Element => {
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +16,10 @@ export const SimCardIcon = ({
       data-testid="sim-card-icon-svg"
       {...props}
     >
-      <path d="M19.99 4c0-1.1-.89-2-1.99-2h-8L4 8v12c0 1.1.9 2 2 2h12.01c1.1 0 1.99-.9 1.99-2l-.01-16zM9 19H7v-2h2v2zm8 0h-2v-2h2v2zm-8-4H7v-4h2v4zm4 4h-2v-4h2v4zm0-6h-2v-2h2v2zm4 2h-2v-4h2v4z" fill={fill}/>
+      <path
+        d="M19.99 4c0-1.1-.89-2-1.99-2h-8L4 8v12c0 1.1.9 2 2 2h12.01c1.1 0 1.99-.9 1.99-2l-.01-16zM9 19H7v-2h2v2zm8 0h-2v-2h2v2zm-8-4H7v-4h2v4zm4 4h-2v-4h2v4zm0-6h-2v-2h2v2zm4 2h-2v-4h2v4z"
+        fill={fill}
+      />
     </svg>
   );
 };
