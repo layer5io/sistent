@@ -9,6 +9,7 @@
         "declaration": true,
         "sourceMap": true,
         "moduleResolution": "Node",
+        "ignoreDeprecations": "5.0",
         "experimentalDecorators": true,
         "skipLibCheck": true,
         "strict": true,
