@@ -9,6 +9,7 @@ import {
   matchesState
 } from 'xstate';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyActorSystem = ActorSystem<any>;
 import { STATE_SNAPSHOT_EVENT, WORKER_EVENTS, workerCommands } from './events';
 
