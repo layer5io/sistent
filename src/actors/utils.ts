@@ -1,4 +1,4 @@
-// disbale stict no any for now for full file
+// Disable strict no-explicit-any rule for this entire file
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {
