@@ -88,7 +88,6 @@
     "xstate": "^5.28.0"
   },
   "peerDependencies": {
-    "@meshery/schemas": "^1.0.1",
     "@xstate/react": "^5.0.3",
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0",
