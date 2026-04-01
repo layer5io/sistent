@@ -8,21 +8,21 @@ const workspaceSchema = (WorkspaceDefinitionV1Beta1OpenApiSchema as any).compone
 const createAndEditWorkspace = {
   properties: {
     description: {
-      description: workspaceSchema.workspacePayload.properties.description.description,
+      description: workspaceSchema.WorkspacePayload.properties.description.description,
       format: 'textarea',
       title: 'Description',
-      type: workspaceSchema.workspacePayload.properties.description.type,
+      type: workspaceSchema.WorkspacePayload.properties.description.type,
       'x-rjsf-grid-area': '12'
     },
     name: {
-      description: workspaceSchema.workspacePayload.properties.name.description,
+      description: workspaceSchema.WorkspacePayload.properties.name.description,
       title: 'Name',
-      type: workspaceSchema.workspacePayload.properties.name.type,
+      type: workspaceSchema.WorkspacePayload.properties.name.type,
       'x-rjsf-grid-area': '12'
     },
     organization: {
-      type: workspaceSchema.workspacePayload.properties.organization_id.type,
-      description: workspaceSchema.workspacePayload.properties.organization_id.description,
+      type: workspaceSchema.WorkspacePayload.properties.organization_id.type,
+      description: workspaceSchema.WorkspacePayload.properties.organization_id.description,
       title: 'Organization',
       enum: [],
       enumNames: [],
