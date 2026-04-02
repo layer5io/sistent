@@ -13,5 +13,6 @@ export default function createEmotionCache() {
     insertionPoint = emotionInsertionPoint ?? undefined;
   }
 
-  return createCache({ key: 'mui-style', insertionPoint });
+  // Use the default "css" key so server/client generated class names stay consistent.
+  return createCache({ key: 'css', insertionPoint });
 }

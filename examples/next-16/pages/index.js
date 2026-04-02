@@ -1,9 +1,22 @@
 import ModeToggleButton from '../components/ModeToggleButton';
-import { ResponsiveDataTable } from '@layer5/sistent-components';
+import dynamic from 'next/dynamic';
 import React from 'react';
 
+const ResponsiveDataTableClient = dynamic(
+  () =>
+    import('../components/ResponsiveDataTable/ResponsiveDataTable.jsx').then((m) => ({
+      default: m.ResponsiveDataTable
+    })),
+  { ssr: false }
+);
+
 export default function Home() {
-  const columns = ['Name', 'Company', 'City', 'State'];
+  const columns = [
+    { name: 'name', label: 'Name' },
+    { name: 'company', label: 'Company' },
+    { name: 'city', label: 'City' },
+    { name: 'state', label: 'State' }
+  ];
 
   const data = [
     ['Joe James', 'Test Corp', 'Yonkers', 'NY'],
@@ -19,7 +32,7 @@ export default function Home() {
   return (
     <React.Fragment>
       <ModeToggleButton />
-      <ResponsiveDataTable
+      <ResponsiveDataTableClient
         title={'Employee List'}
         data={data}
         columns={columns}

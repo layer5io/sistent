@@ -1,5 +1,5 @@
-import { Grid2, useTheme } from '@mui/material';
-import { Backdrop, CircularProgress } from '../../base';
+import { useTheme } from '@mui/material';
+import { Backdrop, CircularProgress, Grid2 } from '../../base';
 
 import { getRelativeTime } from '../../utils';
 import { FlipCard } from '../FlipCard';
