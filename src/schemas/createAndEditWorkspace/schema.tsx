@@ -5,6 +5,10 @@ import { WorkspaceDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const workspaceSchema = (WorkspaceDefinitionV1Beta1OpenApiSchema as any).components.schemas;
+
+/**
+ * Create workspace schema - name is required
+ */
 const createAndEditWorkspace = {
   properties: {
     description: {
@@ -33,4 +37,13 @@ const createAndEditWorkspace = {
   required: ['name', 'organization']
 };
 
+/**
+ * Edit workspace schema - name is optional per WorkspaceUpdatePayload
+ */
+const editWorkspace = {
+  ...createAndEditWorkspace,
+  required: ['organization']
+};
+
 export default createAndEditWorkspace;
+export { editWorkspace };

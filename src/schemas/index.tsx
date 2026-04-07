@@ -4,7 +4,9 @@ import helpAndSupportModalUiSchema from './helpAndSupportModal/uiSchema';
 import createAndEditEnvironmentSchema from './createAndEditEnvironment/schema';
 import createAndEditEnvironmentUiSchema from './createAndEditEnvironment/uiSchema';
 
-import createAndEditWorkspaceSchema from './createAndEditWorkspace/schema';
+import createAndEditWorkspaceSchema, {
+  editWorkspace as editWorkspaceSchema
+} from './createAndEditWorkspace/schema';
 import createAndEditWorkspaceUiSchema from './createAndEditWorkspace/uiSchema';
 
 import helmConnectionSchema from './helmConnection/schema';
@@ -80,6 +82,7 @@ export {
   createAndEditEnvironmentUiSchema,
   createAndEditWorkspaceSchema,
   createAndEditWorkspaceUiSchema,
+  editWorkspaceSchema,
   grafanaCredentialSUiSchema,
   grafanaCredentialSchema,
   helmConnectionSchema,
