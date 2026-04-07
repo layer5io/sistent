@@ -17,6 +17,9 @@ export interface Workspace {
   id: string;
   name: string;
   description?: string;
+  organization_id?: string;
+  owner?: string;
+  metadata?: Record<string, string>;
   created_at: string;
   updated_at: string;
   deleted_at: {

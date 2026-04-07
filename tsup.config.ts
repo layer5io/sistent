@@ -11,6 +11,7 @@ export default defineConfig({
   dts: true,
   format: ['cjs', 'esm'],
   external: ['react', 'xstate', '@xstate/react', 'react-dom', 'mui-datatables'],
+  noExternal: [/^@meshery\/schemas/],
   minify: env === 'production',
   watch: env === 'development',
   sourcemap: env === 'development',
