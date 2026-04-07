@@ -38,7 +38,7 @@ const createAndEditWorkspace = {
 };
 
 /**
- * Edit workspace schema - name is optional per WorkspaceUpdatePayload
+ * Edit workspace schema - name is optional (derived from WorkspacePayload with relaxed requirements)
  */
 const editWorkspace = {
   ...createAndEditWorkspace,
