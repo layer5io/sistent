@@ -63,13 +63,15 @@ const useViewAssignment = ({
   const [unassignviewFromWorkspace] = useUnassignViewFromWorkspaceMutation();
 
   useEffect(() => {
-    const viewsDataRtk = views?.views ? views.views : [];
-    setviewsData((prevData) => [...prevData, ...viewsDataRtk]);
+    const viewsDataRtk: MesheryViewWithLocation[] = views?.views ? views.views : [];
+    const viewsWithId = viewsDataRtk.filter((view) => typeof view.id === 'string');
+    setviewsData((prevData) => [...prevData, ...viewsWithId]);
   }, [views]);
 
   useEffect(() => {
-    const viewsOfWorkspaceDataRtk = viewsOfWorkspace?.views ? viewsOfWorkspace.views : [];
-    setWorkspaceviewsData((prevData) => [...prevData, ...viewsOfWorkspaceDataRtk]);
+    const viewsOfWorkspaceDataRtk: MesheryViewWithLocation[] = viewsOfWorkspace?.views ? viewsOfWorkspace.views : [];
+    const viewsWithId = viewsOfWorkspaceDataRtk.filter((view) => typeof view.id === 'string');
+    setWorkspaceviewsData((prevData) => [...prevData, ...viewsWithId]);
   }, [viewsOfWorkspace]);
 
   const handleAssignviewModal = (e?: React.MouseEvent): void => {
@@ -99,8 +101,8 @@ const useViewAssignment = ({
   };
 
   const getAddedAndRemovedviews = (allAssignedviews: MesheryViewWithLocation[]): AddedAndRemovedViews => {
-    const originalviewsIds = workspaceviewsData.map((view) => view.id).filter((id): id is string => !!id);
-    const updatedviewsIds = allAssignedviews.map((view) => view.id).filter((id): id is string => !!id);
+    const originalviewsIds = workspaceviewsData.map((view) => view.id).filter((id): id is string => typeof id === 'string');
+    const updatedviewsIds = allAssignedviews.map((view) => view.id).filter((id): id is string => typeof id === 'string');
 
     const addedviewsIds = updatedviewsIds.filter((id) => !originalviewsIds.includes(id));
     const removedviewsIds = originalviewsIds.filter((id) => !updatedviewsIds.includes(id));
