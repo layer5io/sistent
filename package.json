@@ -47,7 +47,7 @@
     "@eslint/compat": "^2.0.3",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^9.0.0",
-    "@meshery/schemas": "^1.0.4",
+    "@meshery/schemas": "^1.0.5",
     "@mui/icons-material": "^7.3.9",
     "@reduxjs/toolkit": "^2.11.2",
     "@testing-library/dom": "^10.4.1",

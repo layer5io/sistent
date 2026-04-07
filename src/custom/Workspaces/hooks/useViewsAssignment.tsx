@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
-import { Pattern } from '../../CustomCatalog/CustomCard';
+import type { components } from '@meshery/schemas/constructs/v1beta1/view/View';
 import { withDefaultPageArgs } from '../../PerformersSection/PerformersSection';
 import { AssignmentHookResult } from '../types';
+
+type MesheryViewWithLocation = components['schemas']['MesheryViewWithLocation'];
 
 interface AddedAndRemovedViews {
   addedviewsIds: string[];
@@ -23,16 +25,16 @@ const useViewAssignment = ({
   useAssignViewToWorkspaceMutation,
   useUnassignViewFromWorkspaceMutation,
   isViewsVisible
-}: useViewAssignmentProps): AssignmentHookResult<Pattern> => {
+}: useViewAssignmentProps): AssignmentHookResult<MesheryViewWithLocation> => {
   const [viewsPage, setviewsPage] = useState<number>(0);
-  const [viewsData, setviewsData] = useState<Pattern[]>([]);
+  const [viewsData, setviewsData] = useState<MesheryViewWithLocation[]>([]);
   const viewsPageSize = 25;
   const [viewsOfWorkspacePage, setviewsOfWorkspacePage] = useState<number>(0);
-  const [workspaceviewsData, setWorkspaceviewsData] = useState<Pattern[]>([]);
+  const [workspaceviewsData, setWorkspaceviewsData] = useState<MesheryViewWithLocation[]>([]);
   const [assignviewModal, setAssignviewModal] = useState<boolean>(false);
   const [skipviews, setSkipviews] = useState<boolean>(true);
   const [disableTransferButton, setDisableTransferButton] = useState<boolean>(true);
-  const [assignedviews, setAssignedviews] = useState<Pattern[]>([]);
+  const [assignedviews, setAssignedviews] = useState<MesheryViewWithLocation[]>([]);
 
   const { data: views } = useGetViewsOfWorkspaceQuery(
     withDefaultPageArgs({
@@ -96,9 +98,9 @@ const useViewAssignment = ({
     }
   };
 
-  const getAddedAndRemovedviews = (allAssignedviews: Pattern[]): AddedAndRemovedViews => {
-    const originalviewsIds = workspaceviewsData.map((view) => view.id);
-    const updatedviewsIds = allAssignedviews.map((view) => view.id);
+  const getAddedAndRemovedviews = (allAssignedviews: MesheryViewWithLocation[]): AddedAndRemovedViews => {
+    const originalviewsIds = workspaceviewsData.map((view) => view.id).filter((id): id is string => !!id);
+    const updatedviewsIds = allAssignedviews.map((view) => view.id).filter((id): id is string => !!id);
 
     const addedviewsIds = updatedviewsIds.filter((id) => !originalviewsIds.includes(id));
     const removedviewsIds = originalviewsIds.filter((id) => !updatedviewsIds.includes(id));
@@ -106,7 +108,7 @@ const useViewAssignment = ({
     return { addedviewsIds, removedviewsIds };
   };
 
-  const isViewsActivityOccurred = (allViews: Pattern[]): boolean => {
+  const isViewsActivityOccurred = (allViews: MesheryViewWithLocation[]): boolean => {
     const { addedviewsIds, removedviewsIds } = getAddedAndRemovedviews(allViews);
     return addedviewsIds.length > 0 || removedviewsIds.length > 0;
   };
@@ -135,7 +137,7 @@ const useViewAssignment = ({
     handleAssignviewModalClose();
   };
 
-  const handleAssignviewsData = (updatedAssignedData: Pattern[]): void => {
+  const handleAssignviewsData = (updatedAssignedData: MesheryViewWithLocation[]): void => {
     const { addedviewsIds, removedviewsIds } = getAddedAndRemovedviews(updatedAssignedData);
     setDisableTransferButton(!(addedviewsIds.length > 0 || removedviewsIds.length > 0));
     setAssignedviews(updatedAssignedData);
