@@ -1,8 +1,16 @@
-// disbale stict no any for now for full file
+// Disable strict no-explicit-any rule for this entire file
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { AnyActorRef, AnyEventObject, assign, enqueueActions, sendTo } from 'xstate';
-import { AnyActorSystem } from 'xstate/dist/declarations/src/system';
+import {
+  ActorSystem,
+  AnyActorRef,
+  AnyEventObject,
+  assign,
+  enqueueActions,
+  sendTo
+} from 'xstate';
+
+type AnyActorSystem = ActorSystem<any>;
 import { workerEvents } from './worker/events';
 
 // Type used for context validation in reply() function

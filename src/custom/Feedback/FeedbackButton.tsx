@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import React, { CSSProperties, useState } from 'react';
+import React, { CSSProperties, FC, useState } from 'react';
 import {
   CalenderIcon,
   CloseIcon,
@@ -8,7 +8,8 @@ import {
   QuestionIcon,
   SuccessIcon
 } from '../../icons';
-import { CULTURED } from '../../theme';
+import { IconProps } from '../../icons/types';
+import { useTheme, CULTURED } from '../../theme';
 import { CustomTooltip } from '../CustomTooltip';
 import { ModalButtonPrimary } from '../Modal';
 import { ModalCard } from '../ModalCard';
@@ -35,7 +36,7 @@ const tooltipContent =
   'Some account and system information may be sent to Layer5. We will use it to fix problems and improve our services, subject to our [Privacy Policy](https://layer5.io/company/legal/privacy) and [Terms of Service](https://layer5.io/company/legal/terms-of-service). We may email you for more information or updates.';
 
 interface FeedbackDataItem {
-  icon: JSX.Element;
+  icon: FC<IconProps>;
   label: string;
   placeholder?: string;
   isTextInput: boolean;
@@ -44,19 +45,19 @@ interface FeedbackDataItem {
 
 const feedbackData: FeedbackDataItem[] = [
   {
-    icon: <FeedbackIcon />,
+    icon: FeedbackIcon,
     label: 'Issue',
     placeholder: 'I’m having an issue with...',
     isTextInput: true
   },
   {
-    icon: <IdeaIcon />,
+    icon: IdeaIcon,
     label: 'Suggestion',
     placeholder: 'I have a suggestion about...',
     isTextInput: true
   },
   {
-    icon: <CalenderIcon />,
+    icon: CalenderIcon,
     label: 'Meet Request',
     isTextInput: false,
     innerComponent: (
@@ -99,6 +100,7 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
   defaultMessage = undefined,
   defaultOpen = false
 }) => {
+  const theme = useTheme();
   const [isOpen, setIsOpen] = useState<boolean>(defaultOpen);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [category, setCategory] = useState<FeedbackDataItem | undefined>(feedbackData[0]);
@@ -190,18 +192,18 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
                 <FeedbackForm>
                   <FeedbackOptions>
                     {feedbackData?.map((item) => (
-                      <FeedbackOptionButton
-                        key={item.label}
-                        style={feedbackOptionStyles}
-                        type="button"
-                        onClick={() => {
-                          setCategory(item);
-                        }}
-                        isOpen={category?.label === item.label}
-                      >
-                        <FeedbackMiniIcon>{item.icon}</FeedbackMiniIcon>
-                        <Typography>{item.label}</Typography>
-                      </FeedbackOptionButton>
+                       <FeedbackOptionButton
+                          key={item.label}
+                          style={feedbackOptionStyles}
+                          type="button"
+                          onClick={() => {
+                              setCategory(item);
+                          }}
+                            isOpen={category?.label === item.label}
+                          >
+                          <FeedbackMiniIcon><item.icon fill={category?.label === item.label ? theme.palette.icon.default : undefined}/></FeedbackMiniIcon>
+                          <Typography>{item.label}</Typography>
+                        </FeedbackOptionButton>
                     ))}
                   </FeedbackOptions>
                   {category?.isTextInput ? (
