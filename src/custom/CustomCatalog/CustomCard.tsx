@@ -147,7 +147,6 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
       subBasePath,
       setAvailableTechnologies
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!shouldFlip) {

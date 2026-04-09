@@ -1,7 +1,5 @@
 const js = require("@eslint/js");
 const tsParser = require("@typescript-eslint/parser");
-const react = require("eslint-plugin-react");
-const reactHooks = require("eslint-plugin-react-hooks");
 const typescript = require("@typescript-eslint/eslint-plugin");
 const globals = require("globals");
 
@@ -53,21 +51,12 @@ module.exports = [
         },
 
         plugins: {
-            react,
-            "react-hooks": reactHooks,
             "@typescript-eslint": typescript,
         },
 
         rules: {
             ...js.configs.recommended.rules,
             ...typescript.configs.recommended.rules,
-            ...reactHooks.configs.recommended.rules,
-        },
-
-        settings: {
-            react: {
-                version: "detect",
-            },
         },
 
         linterOptions: {
@@ -100,21 +89,12 @@ module.exports = [
         },
 
         plugins: {
-            react,
-            "react-hooks": reactHooks,
             "@typescript-eslint": typescript,
         },
 
         rules: {
             ...js.configs.recommended.rules,
             ...typescript.configs.recommended.rules,
-            ...reactHooks.configs.recommended.rules,
-        },
-
-        settings: {
-            react: {
-                version: "detect",
-            },
         },
 
         linterOptions: {
