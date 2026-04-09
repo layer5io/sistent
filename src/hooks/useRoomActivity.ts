@@ -63,7 +63,10 @@ const USER_MAP_CHANGE_MSG = 'user_map';
  * @returns {string} - The websocket host
  */
 const getWebsocketHost = (providerHost: string): string => {
-  if (providerHost === MESHERY_CLOUD_PROD) {
+  // Compare against hostnames without protocol since parsedUrl.host
+  // strips the protocol (e.g. "cloud.layer5.io" not "https://cloud.layer5.io")
+  const prodHost = new URL(MESHERY_CLOUD_PROD).host;
+  if (providerHost === prodHost) {
     return MESHERY_CLOUD_WS_PROD;
   } else if (providerHost === MESHERY_CLOUD_STAGING) {
     return MESHERY_CLOUD_WS_STAGING;
