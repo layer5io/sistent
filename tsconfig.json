@@ -9,7 +9,7 @@
         "declaration": true,
         "sourceMap": true,
         "moduleResolution": "bundler",
-        "ignoreDeprecations": "5.0",
+        "ignoreDeprecations": "6.0",
         "experimentalDecorators": true,
         "skipLibCheck": true,
         "strict": true,

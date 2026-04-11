@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Autocomplete } from '@mui/material';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
