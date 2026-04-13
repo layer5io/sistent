@@ -1,6 +1,7 @@
 import { DesignDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
 
-const DesignSchema = DesignDefinitionV1Beta1OpenApiSchema.components.schemas;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DesignSchema = (DesignDefinitionV1Beta1OpenApiSchema as any).components.schemas;
 
 const importDesignSchema = {
   type: 'object',

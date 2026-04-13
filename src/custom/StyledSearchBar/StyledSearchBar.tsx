@@ -51,7 +51,6 @@ function StyledSearchBar({
     if (value !== inputValue) {
       setInputValue(value);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   // Create synthetic event helper

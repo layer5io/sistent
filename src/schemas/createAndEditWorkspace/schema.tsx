@@ -3,25 +3,30 @@
  */
 import { WorkspaceDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
 
-const workspaceSchema = WorkspaceDefinitionV1Beta1OpenApiSchema.components.schemas;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const workspaceSchema = (WorkspaceDefinitionV1Beta1OpenApiSchema as any).components.schemas;
+
+/**
+ * Create workspace schema - name is required
+ */
 const createAndEditWorkspace = {
   properties: {
     description: {
-      description: workspaceSchema.workspacePayload.properties.description.description,
+      description: workspaceSchema.WorkspacePayload.properties.description.description,
       format: 'textarea',
       title: 'Description',
-      type: workspaceSchema.workspacePayload.properties.description.type,
+      type: workspaceSchema.WorkspacePayload.properties.description.type,
       'x-rjsf-grid-area': '12'
     },
     name: {
-      description: workspaceSchema.workspacePayload.properties.name.description,
+      description: workspaceSchema.WorkspacePayload.properties.name.description,
       title: 'Name',
-      type: workspaceSchema.workspacePayload.properties.name.type,
+      type: workspaceSchema.WorkspacePayload.properties.name.type,
       'x-rjsf-grid-area': '12'
     },
     organization: {
-      type: workspaceSchema.workspacePayload.properties.organization_id.type,
-      description: workspaceSchema.workspacePayload.properties.organization_id.description,
+      type: workspaceSchema.WorkspacePayload.properties.organization_id.type,
+      description: workspaceSchema.WorkspacePayload.properties.organization_id.description,
       title: 'Organization',
       enum: [],
       enumNames: [],
@@ -32,4 +37,13 @@ const createAndEditWorkspace = {
   required: ['name', 'organization']
 };
 
+/**
+ * Edit workspace schema - name is optional (derived from WorkspacePayload with relaxed requirements)
+ */
+const editWorkspace = {
+  ...createAndEditWorkspace,
+  required: ['organization']
+};
+
 export default createAndEditWorkspace;
+export { editWorkspace };
