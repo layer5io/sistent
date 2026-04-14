@@ -38,7 +38,6 @@ import { LearningCard } from './LearningCard';
 import { BasicMarkdown, RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
-import { PROMPT_VARIANTS, PromptComponent, type PromptRef } from './Prompt';
 import ResponsiveDataTable, {
   DataTableEllipsisMenu,
   ResponsiveDataTableProps
@@ -75,6 +74,7 @@ export { Terminal } from './Terminal';
 export { TOC } from './TOCChapter';
 export { TOCLearning } from './TOCLearning';
 export { UserSearchField } from './UserSearchField';
+export { PROMPT_VARIANTS, PromptComponent, type PromptRef } from './Prompt';
 
 export {
   ActionButton,
@@ -102,10 +102,7 @@ export {
   InfoTooltip,
   LearningCard,
   ModalCard,
-  PROMPT_VARIANTS,
   PopperListener,
-  PromptComponent,
-  type PromptRef,
   ResponsiveDataTable,
   SearchBar,
   StyledDialogActions,
