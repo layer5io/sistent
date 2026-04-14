@@ -11,7 +11,7 @@ export default defineConfig({
   dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
   format: ['cjs', 'esm'],
   external: ['react', 'xstate', '@xstate/react', 'react-dom', 'mui-datatables'],
-  noExternal: [/^@meshery\/schemas/],
+  noExternal: [/^@meshery\/schemas/, 'rxjs'],
   minify: env === 'production',
   watch: env === 'development',
   sourcemap: env === 'development',
