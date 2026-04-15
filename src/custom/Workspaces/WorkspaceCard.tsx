@@ -341,6 +341,7 @@ const CardBack = ({
   recentActivities,
   updatedDate,
   createdDate,
+  deleted,
   isDeleteWorkspaceAllowed,
   isEditWorkspaceAllowed
 }: CardBackProps) => {
@@ -355,6 +356,7 @@ const CardBack = ({
             <BulkSelectCheckbox
               onClick={(e) => e.stopPropagation()}
               onChange={onSelect}
+              disabled={deleted}
             />
           )}
           <CardTitle
