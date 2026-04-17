@@ -1,7 +1,7 @@
 import { DEFAULT_FILL_NONE, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
-export const AddIconCircleBordered = ({
+export const AddCircleIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
   fill = DEFAULT_FILL_NONE,
@@ -23,4 +23,4 @@ export const AddIconCircleBordered = ({
   );
 };
 
-export default AddIconCircleBordered;
+export default AddCircleIcon;
