@@ -105,6 +105,7 @@ export * from './Logout';
 export * from './Mendeley';
 export * from './Menu';
 export { default as MergeActionIcon } from './MergeActionIcon';
+export * from './MergeOutlinedIcon';
 export * from './Meshery';
 export * from './MesheryFilter';
 export * from './MesheryOperator';
