@@ -142,6 +142,7 @@ export * from './Science';
 export * from './Screenshot';
 export * from './Search';
 export * from './Settings';
+export * from './SettingsIcon';
 export * from './Shapes';
 export * from './Share';
 export * from './SimCard';
