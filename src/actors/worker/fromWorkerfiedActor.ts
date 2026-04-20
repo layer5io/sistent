@@ -1,5 +1,6 @@
 import {
   ActorLogic,
+  ActorSystem,
   AnyEventObject,
   AnyMachineSnapshot,
   EventObject,
@@ -7,7 +8,9 @@ import {
   StateValue,
   matchesState
 } from 'xstate';
-import { AnyActorSystem } from 'xstate/dist/declarations/src/system';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyActorSystem = ActorSystem<any>;
 import { STATE_SNAPSHOT_EVENT, WORKER_EVENTS, workerCommands } from './events';
 
 const instanceStates = /* #__PURE__ */ new WeakMap();

@@ -1,8 +1,8 @@
 import { alpha, createTheme, darken, PaletteMode } from '@mui/material';
+import * as Colors from './colors';
 import { components } from './components';
 import { darkModePalette, lightModePalette, ThemePalette } from './palette';
 import { typography } from './typography';
-import * as Colors from './colors';
 
 import _ from 'lodash';
 

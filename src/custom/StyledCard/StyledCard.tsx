@@ -1,5 +1,5 @@
-import React from 'react';
 import { SxProps, Theme } from '@mui/material';
+import React from 'react';
 import { Box, Button, Card, CardActions, CardContent, Typography } from '../../base';
 
 export interface StyledCardProps {
@@ -43,7 +43,7 @@ function StyledCard({
           </Box>
           {btntitle && (
             <CardActions>
-              <Button variant="contained" size='large' onClick={onclick} disabled={disabled}>
+              <Button variant="contained" size="large" onClick={onclick} disabled={disabled}>
                 {btntitle}
               </Button>
             </CardActions>
