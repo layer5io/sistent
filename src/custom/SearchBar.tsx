@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { Theme, ThemeProvider, createTheme } from '@mui/material/styles';
 import debounce from 'lodash/debounce';
@@ -76,6 +75,7 @@ export interface SearchBarProps {
   expanded: boolean;
   setExpanded: (expanded: boolean) => void;
   'data-testid'?: string;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 function SearchBar({
@@ -84,7 +84,8 @@ function SearchBar({
   onClear,
   expanded,
   setExpanded,
-  'data-testid': testId = 'search-bar-wrapper'
+  'data-testid': testId = 'search-bar-wrapper',
+  onKeyDown
 }: SearchBarProps): JSX.Element {
   const [searchText, setSearchText] = React.useState('');
   const searchRef = React.useRef<HTMLInputElement | null>(null);
@@ -130,15 +131,27 @@ function SearchBar({
     }
   };
 
+ 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    
+    if (onKeyDown) {
+      onKeyDown(event);
+    }
+
+    
+    if (event.key === 'Enter') {
+      onSearch(searchText);
+    }
+  };
+
   return (
     <ClickAwayListener
       onClickAway={(event) => {
         event.stopPropagation();
         const isTable = (event.target as HTMLElement)?.closest('#ref');
 
-        if (searchText !== '') {
-          return;
-        }
+        if (searchText !== '') return;
+
         if (isTable) {
           handleClearIconClick(event as unknown as React.MouseEvent);
         }
@@ -149,10 +162,11 @@ function SearchBar({
           <TextField
             variant="standard"
             value={searchText}
-            onChange={handleSearchChange} // Updated to use the new handler
+            onChange={handleSearchChange}// Updated to use the new handler
             inputRef={searchRef}
             placeholder={placeholder}
             data-testid="searchbar-input"
+            onKeyDown={handleKeyDown} 
             style={{
               width: expanded ? '150px' : '0',
               opacity: expanded ? 1 : 0,
