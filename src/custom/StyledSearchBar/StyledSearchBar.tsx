@@ -89,22 +89,21 @@ function StyledSearchBar({
 
   return (
     <StyledSearchInput
-    type="search"
-    label={label}
-    fullWidth
-    value={inputValue}
-    onChange={handleChange}
-    sx={sx}
-    placeholder={placeholder ?? 'Search'}
-    onKeyDown={onKeyDown}
-    startAdornment={
-      <InputAdornment position="start">
-        <SearchIcon fill={theme.palette.background.neutral?.default} />
-      </InputAdornment>
-    }
-    endAdornment={<InputAdornmentEnd position="end">{endAdornment}</InputAdornmentEnd>}
-  />
-
+      type="search"
+      label={label}
+      fullWidth
+      value={inputValue}
+      onChange={handleChange}
+      sx={sx}
+      placeholder={placeholder ?? 'Search'}
+      onKeyDown={onKeyDown}
+      startAdornment={
+        <InputAdornment position="start">
+          <SearchIcon fill={theme.palette.background.neutral?.default} />
+        </InputAdornment>
+      }
+      endAdornment={<InputAdornmentEnd position="end">{endAdornment}</InputAdornmentEnd>}
+    />
   );
 }
 
