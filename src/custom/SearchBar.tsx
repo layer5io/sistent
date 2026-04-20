@@ -131,14 +131,14 @@ function SearchBar({
     }
   };
 
- 
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    
-    if (onKeyDown) {
-      onKeyDown(event);
+    onKeyDown?.(event);
+
+    if (event.defaultPrevented) {
+      return;
     }
 
-    
     if (event.key === 'Enter') {
       onSearch(searchText);
     }
