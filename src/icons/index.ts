@@ -74,6 +74,7 @@ export * from './Favorite';
 export * from './Feedback';
 export * from './FileCopy';
 export * from './File';
+export * from './FileUpload';
 export { default as FilledCircleIcon } from './FilledCircleIcon';
 export * from './Filter';
 export * from './FolderRounded';
