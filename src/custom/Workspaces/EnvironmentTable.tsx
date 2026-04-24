@@ -40,7 +40,7 @@ const colViews: ColView[] = [
   ['id', 'na'],
   ['name', 'xs'],
   ['description', 'm'],
-  ['organization_id', 'l'],
+  ['organizationId', 'l'],
   ['created_at', 'na'],
   ['updated_at', 'xl'],
   ['actions', 'xs']
@@ -107,7 +107,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       }
     },
     {
-      name: 'organization_id',
+      name: 'organizationId',
       label: 'Organization ID',
       options: {
         filter: false,

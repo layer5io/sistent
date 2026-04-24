@@ -48,7 +48,7 @@ const colViews: ColView[] = [
   ['name', 'xs'],
   ['first_name', 'na'],
   ['last_name', 'na'],
-  ['organization_id', 'xl'],
+  ['organizationId', 'xl'],
   ['created_at', 'na'],
   ['updated_at', 'xl'],
   ['visibility', 'l'],
