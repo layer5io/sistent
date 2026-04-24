@@ -37,7 +37,7 @@ interface CardData {
   video?: string;
 }
 
-type SortOrder = 'updated_at asc' | 'updated_at desc';
+type SortOrder = 'updatedAt asc' | 'updatedAt desc';
 
 interface DesignCardProps {
   title: string;
@@ -144,7 +144,7 @@ const DesignCard: React.FC<DesignCardProps> = ({
   const theme = useTheme();
 
   const handleChange = () => {
-    setSortOrder(sortOrder === 'updated_at desc' ? 'updated_at asc' : 'updated_at desc');
+    setSortOrder(sortOrder === 'updatedAt desc' ? 'updatedAt asc' : 'updatedAt desc');
   };
 
   const handleCreateModalOpen = async () => {
@@ -274,7 +274,7 @@ interface CatalogSortByToggleProps {
 }
 
 const CatalogSortByToggle: React.FC<CatalogSortByToggleProps> = ({ sortOrder, handleChange }) => {
-  const isAscending = sortOrder === 'updated_at asc';
+  const isAscending = sortOrder === 'updatedAt asc';
 
   return (
     <CustomTooltip

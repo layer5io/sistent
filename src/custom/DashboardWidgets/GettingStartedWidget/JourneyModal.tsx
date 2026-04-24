@@ -66,7 +66,7 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
   };
 
   const getRolePermission = (roles?: string[]): boolean => {
-    return roles?.some((role) => profileData?.role_names?.includes(role)) ?? false;
+    return roles?.some((role) => profileData?.roleNames?.includes(role)) ?? false;
   };
 
   const handleStepper = (type: (typeof stepperType)[keyof typeof stepperType]): void => {
