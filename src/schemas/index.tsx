@@ -34,15 +34,37 @@ import grafanaCredentialSchema from './grafanaCredential/schema';
 import grafanaCredentialSUiSchema from './grafanaCredential/uiSchema';
 
 // Re-export @meshery/schemas v1beta1 OpenAPI schemas
+//
+// The v1beta1 re-exports below are kept for backward compatibility with
+// external Sistent consumers. Per Phase 2.K of the identifier-naming
+// migration (wire format = camelCase), new code should import the
+// canonical-version schemas re-exported further down (e.g.
+// `EnvironmentDefinitionV1Beta3OpenApiSchema`,
+// `WorkspaceDefinitionV1Beta3OpenApiSchema`,
+// `ModelDefinitionV1Beta2OpenApiSchema`).
 export {
   BadgeSchema,
   CategoryDefinitionV1Beta1OpenApiSchema,
   ComponentDefinitionV1Beta1OpenApiSchema,
   DesignDefinitionV1Beta1OpenApiSchema,
+  /**
+   * @deprecated Superseded by `EnvironmentDefinitionV1Beta3OpenApiSchema`;
+   *   the v1beta3 Environment API publishes `organizationId` (camelCase)
+   *   on the wire instead of `organization_id`.
+   */
   EnvironmentDefinitionV1Beta1OpenApiSchema,
   InvitationSchema,
+  /**
+   * @deprecated Superseded by `ModelDefinitionV1Beta2OpenApiSchema`;
+   *   the v1beta2 Model API uses camelCase wire identifiers throughout.
+   */
   ModelDefinitionV1Beta1OpenApiSchema,
   SubCategoryDefinitionV1Beta1OpenApiSchema,
+  /**
+   * @deprecated Superseded by `WorkspaceDefinitionV1Beta3OpenApiSchema`;
+   *   the v1beta3 Workspace API publishes `organizationId` (camelCase)
+   *   on the wire instead of `organization_id`.
+   */
   WorkspaceDefinitionV1Beta1OpenApiSchema
 } from '@meshery/schemas';
 
@@ -54,6 +76,13 @@ export {
   InvitationDefinitionV1Beta2OpenApiSchema,
   RelationshipDefinitionV1Beta2OpenApiSchema
 } from '@meshery/schemas';
+
+// Re-export @meshery/schemas canonical (camelCase-on-the-wire) OpenAPI schemas.
+// These are the Phase 2.K / Phase 3 canonical versions: new Sistent consumers
+// should prefer these over the v1beta1 variants re-exported above.
+export { default as ModelDefinitionV1Beta2OpenApiSchema } from '@meshery/schemas/constructs/v1beta2/model/ModelSchema';
+export { default as EnvironmentDefinitionV1Beta3OpenApiSchema } from '@meshery/schemas/constructs/v1beta3/environment/EnvironmentSchema';
+export { default as WorkspaceDefinitionV1Beta3OpenApiSchema } from '@meshery/schemas/constructs/v1beta3/workspace/WorkspaceSchema';
 
 // Re-export @meshery/schemas v1alpha3 OpenAPI schemas
 export { RelationshipDefinitionV1Alpha3OpenApiSchema } from '@meshery/schemas';

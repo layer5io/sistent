@@ -7,6 +7,7 @@ export * from './Alert';
 export * from './Application';
 export * from './ArrowBack';
 export * from './ArrowCompress';
+export * from "./ArrowDownward";
 export * from './ArrowDropDown';
 export * from './ArrowExpand';
 export * from './Article';

@@ -95,7 +95,7 @@ const WorkspaceContentMoveModal: React.FC<WorkspaceContentMoveModalProps> = ({
     {
       page: 0,
       pagesize: 'all',
-      order: 'updated_at desc',
+      order: 'updatedAt desc',
       orgID: currentOrgId
     },
     {
