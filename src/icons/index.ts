@@ -10,6 +10,7 @@ export * from './ArrowCompress';
 export * from "./ArrowDownward";
 export * from './ArrowDropDown';
 export * from './ArrowExpand';
+export * from './ArrowUpward';
 export * from './Article';
 export * from './Bell';
 export * from './BuildRounded';
