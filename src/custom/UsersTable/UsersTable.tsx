@@ -264,7 +264,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
     ['status', 'na'],
     ['joined_at', 'l'],
     ['last_login_time', 'l'],
-    ['deleted_at', 'na']
+    ['deletedAt', 'na']
     // ["actions", "xs"]
   ];
 
@@ -410,7 +410,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       }
     },
     {
-      name: 'deleted_at',
+      name: 'deletedAt',
       label: 'Deleted At',
       options: {
         filter: true,
@@ -440,7 +440,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
         sort: false,
         searchable: false,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) =>
-          getValidColumnValue(tableMeta.rowData, 'deleted_at', columns).Valid !== false ? (
+          getValidColumnValue(tableMeta.rowData, 'deletedAt', columns).Valid !== false ? (
             <TableIconsDisabledContainer>
               <EditIcon
                 style={{

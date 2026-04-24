@@ -30,15 +30,15 @@ interface WorkspaceDetails {
   id: number;
   name: string;
   description: string;
-  deleted_at: { Valid: boolean };
-  updated_at: string;
-  created_at: string;
+  deletedAt: { Valid: boolean };
+  updatedAt: string;
+  createdAt: string;
 }
 
 type Activity = {
   description: string;
   first_name: string;
-  created_at: string;
+  createdAt: string;
 };
 
 interface CardFrontProps {
@@ -162,7 +162,7 @@ const WorkspaceCard = ({
   isEnvironmentsVisible,
   isTeamsVisible
 }: WorkspaceCardProps) => {
-  const deleted = workspaceDetails.deleted_at.Valid;
+  const deleted = workspaceDetails.deletedAt.Valid;
   return (
     <FlipCard
       disableFlip={selectedWorkspaces.includes(workspaceDetails.id) ? true : false}
@@ -198,8 +198,8 @@ const WorkspaceCard = ({
         workspaceId={workspaceDetails?.id}
         loadingEvents={loadingEvents}
         recentActivities={recentActivities}
-        updatedDate={workspaceDetails?.updated_at}
-        createdDate={workspaceDetails?.created_at}
+        updatedDate={workspaceDetails?.updatedAt}
+        createdDate={workspaceDetails?.createdAt}
         deleted={deleted}
         isDeleteWorkspaceAllowed={isDeleteWorkspaceAllowed}
         isEditWorkspaceAllowed={isEditWorkspaceAllowed}
@@ -402,7 +402,7 @@ const CardBack = ({
                 key={index}
                 title={activity?.description}
                 name={activity?.first_name}
-                date={activity?.created_at}
+                date={activity?.createdAt}
               />
             );
           })

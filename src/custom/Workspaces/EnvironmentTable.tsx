@@ -41,8 +41,8 @@ const colViews: ColView[] = [
   ['name', 'xs'],
   ['description', 'm'],
   ['organizationId', 'l'],
-  ['created_at', 'na'],
-  ['updated_at', 'xl'],
+  ['createdAt', 'na'],
+  ['updatedAt', 'xl'],
   ['actions', 'xs']
 ];
 
@@ -76,7 +76,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
+  const [sortOrder, setSortOrder] = useState<string>('updatedAt desc');
   const { data: environmentsOfWorkspace } = useGetEnvironmentsOfWorkspaceQuery({
     workspaceId,
     page: page,
@@ -127,7 +127,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       }
     },
     {
-      name: 'created_at',
+      name: 'createdAt',
       label: 'Created At',
       options: {
         filter: false,
@@ -139,7 +139,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       }
     },
     {
-      name: 'updated_at',
+      name: 'updatedAt',
       label: 'Updated At',
       options: {
         filter: false,

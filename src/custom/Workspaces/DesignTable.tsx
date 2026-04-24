@@ -113,7 +113,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
   const [search, setSearch] = useState('');
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
+  const [sortOrder, setSortOrder] = useState<string>('updatedAt desc');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   const { data: designsOfWorkspace, refetch: refetchWorkspaceDesigns } =

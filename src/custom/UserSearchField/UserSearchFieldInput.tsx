@@ -23,7 +23,7 @@ interface User {
   last_name: string;
   email: string;
   avatar_url?: string;
-  deleted_at?: { Valid: boolean };
+  deletedAt?: { Valid: boolean };
   deleted?: boolean;
 }
 
@@ -110,7 +110,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
       if (!value) return;
 
       const isDuplicate = localUsersData.some((user) => user.user_id === value.user_id);
-      const isDeleted = value.deleted_at?.Valid === true;
+      const isDeleted = value.deletedAt?.Valid === true;
 
       if (isDuplicate || isDeleted) {
         setError(isDuplicate ? 'User already selected' : 'User does not exist');

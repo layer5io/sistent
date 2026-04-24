@@ -71,8 +71,8 @@ export interface Pattern {
     pattern_caveats?: string;
   };
   visibility: string;
-  updated_at: Date;
-  created_at: Date;
+  updatedAt: Date;
+  createdAt: Date;
 }
 
 type CatalogCardProps = {
@@ -303,7 +303,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
                     </div>
                     <DateText>
                       {' '}
-                      {new Date(pattern.updated_at.toString().slice(0, 10)).toLocaleDateString(
+                      {new Date(pattern.updatedAt.toString().slice(0, 10)).toLocaleDateString(
                         'en-US',
                         {
                           day: 'numeric',

@@ -51,8 +51,8 @@ export const colViews: ColView[] = [
   ['id', 'na'],
   ['name', 'xs'],
   ['user', 'xs'],
-  ['created_at', 'na'],
-  ['updated_at', 'l'],
+  ['createdAt', 'na'],
+  ['updatedAt', 'l'],
   ['visibility', 'l'],
   ['user_id', 'na'],
   ['actions', 'xs']
@@ -130,7 +130,7 @@ export const createDesignsColumnsConfig = ({
       }
     },
     {
-      name: 'created_at',
+      name: 'createdAt',
       label: 'Created At',
       options: {
         filter: false,
@@ -142,7 +142,7 @@ export const createDesignsColumnsConfig = ({
       }
     },
     {
-      name: 'updated_at',
+      name: 'updatedAt',
       label: 'Updated At',
       options: {
         filter: false,

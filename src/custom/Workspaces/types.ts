@@ -20,9 +20,9 @@ export interface Workspace {
   organizationId?: string;
   owner?: string;
   metadata?: Record<string, string>;
-  created_at: string;
-  updated_at: string;
-  deleted_at: {
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: {
     Valid: boolean;
   };
 }
@@ -32,8 +32,8 @@ export interface Environment {
   name: string;
   description?: string;
   organizationId: string;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Team {
@@ -42,7 +42,7 @@ export interface Team {
   team_id: string;
   description?: string;
   team_name: string;
-  deleted_at: {
+  deletedAt: {
     Valid: boolean;
   };
 }

@@ -14,7 +14,7 @@ interface User {
   last_name: string;
   email: string;
   avatar_url?: string;
-  deleted_at?: { Valid: boolean };
+  deletedAt?: { Valid: boolean };
 }
 
 interface UserSearchFieldProps {
@@ -175,7 +175,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
                   </Box>
                 </Grid2>
                 <Grid2 size="grow">
-                  {option.deleted_at?.Valid ? (
+                  {option.deletedAt?.Valid ? (
                     <Typography variant="body2" color="text.secondary">
                       {option.email} (deleted)
                     </Typography>

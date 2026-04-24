@@ -49,8 +49,8 @@ const colViews: ColView[] = [
   ['first_name', 'na'],
   ['last_name', 'na'],
   ['organizationId', 'xl'],
-  ['created_at', 'na'],
-  ['updated_at', 'xl'],
+  ['createdAt', 'na'],
+  ['updatedAt', 'xl'],
   ['visibility', 'l'],
   ['actions', 'xs']
 ];
@@ -85,7 +85,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
+  const [sortOrder, setSortOrder] = useState<string>('updatedAt desc');
   const { data: viewsOfWorkspace, refetch } = useGetViewsOfWorkspaceQuery(
     {
       workspaceId,
@@ -185,7 +185,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       }
     },
     {
-      name: 'created_at',
+      name: 'createdAt',
       label: 'Created At',
       options: {
         filter: false,
@@ -197,7 +197,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       }
     },
     {
-      name: 'updated_at',
+      name: 'updatedAt',
       label: 'Updated At',
       options: {
         filter: false,
