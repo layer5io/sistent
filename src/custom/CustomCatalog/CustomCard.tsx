@@ -49,11 +49,11 @@ export interface Pattern {
   lastName?: string;
   avatarUrl: string;
   name: string;
-  download_count: number;
-  clone_count: number;
-  view_count: number;
-  deployment_count: number;
-  share_count: number;
+  downloadCount: number;
+  cloneCount: number;
+  viewCount: number;
+  deploymentCount: number;
+  shareCount: number;
   userData?: {
     version?: string;
     avatarUrl?: string;
@@ -198,11 +198,11 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
           {isDetailed && (
             <MetricsContainerFront isDetailed={isDetailed}>
               {[
-                { Icon: DownloadIcon, count: pattern.download_count },
-                { Icon: CloneIcon, count: pattern.clone_count },
-                { Icon: OpenIcon, count: pattern.view_count },
-                { Icon: DeploymentsIcon, count: pattern.deployment_count },
-                { Icon: ShareIcon, count: pattern.share_count }
+                { Icon: DownloadIcon, count: pattern.downloadCount },
+                { Icon: CloneIcon, count: pattern.cloneCount },
+                { Icon: OpenIcon, count: pattern.viewCount },
+                { Icon: DeploymentsIcon, count: pattern.deploymentCount },
+                { Icon: ShareIcon, count: pattern.shareCount }
               ].map(({ Icon, count }, index) => (
                 <MetricsDiv key={index}>
                   <Icon

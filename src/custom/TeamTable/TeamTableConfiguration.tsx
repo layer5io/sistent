@@ -21,6 +21,10 @@ import {
 import { Team } from '../Workspaces/types';
 
 // currently team does not support bulk team delete
+// TODO(meshery-cloud#?): flip `team_ids` / `team_names` to camelCase once the
+// server's bulk-delete handler lands dual-accept (camel + legacy snake).
+// Deferred from Phase 2.K cascade to avoid a client-only flip that would break
+// the outbound POST body.
 interface DeleteTeamsBtnProps {
   selected: any;
   teams: Team[];
