@@ -38,9 +38,16 @@ jobs:
           scope: "@sistent"
 
       - name: "Set Package Version"
-        uses: reedyuk/npm-version@1.1.1
-        with:
-          version: ${{ github.event.release.tag_name || inputs.tag_name }}
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name || inputs.tag_name }}
+        run: |
+          # Strip a leading 'v' from the release tag (v0.19.0 -> 0.19.0) and
+          # set package.json#version. --allow-same-version makes the step
+          # idempotent when master's package.json already matches the tag
+          # (e.g. the merged PR that cut the release had committed the bump).
+          # --no-git-tag-version prevents npm from creating an extra tag.
+          VERSION="${TAG_NAME#v}"
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
 
       - name: Install, Build, and Publish Package
         run: |
