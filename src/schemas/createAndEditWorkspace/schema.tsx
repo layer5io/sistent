@@ -1,10 +1,10 @@
 /**
  * Schema for create or edit workspace modals
  */
-import { WorkspaceDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
+import WorkspaceDefinitionV1Beta3OpenApiSchema from '@meshery/schemas/constructs/v1beta3/workspace/WorkspaceSchema';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const workspaceSchema = (WorkspaceDefinitionV1Beta1OpenApiSchema as any).components.schemas;
+const workspaceSchema = (WorkspaceDefinitionV1Beta3OpenApiSchema as any).components.schemas;
 
 /**
  * Create workspace schema - name is required
@@ -25,8 +25,8 @@ const createAndEditWorkspace = {
       'x-rjsf-grid-area': '12'
     },
     organization: {
-      type: workspaceSchema.WorkspacePayload.properties.organization_id.type,
-      description: workspaceSchema.WorkspacePayload.properties.organization_id.description,
+      type: workspaceSchema.WorkspacePayload.properties.organizationId.type,
+      description: workspaceSchema.WorkspacePayload.properties.organizationId.description,
       title: 'Organization',
       enum: [],
       enumNames: [],

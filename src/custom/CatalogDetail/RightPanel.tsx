@@ -62,7 +62,7 @@ const RightPanel: React.FC<RightPanelProps> = ({
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
   const { data: userProfile } = useGetUserProfileByIdQuery({
-    id: details.user_id
+    id: details.userId
   });
 
   return (

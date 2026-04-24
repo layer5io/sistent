@@ -34,7 +34,7 @@ function DeleteTeamsBtn({ selected, teams, deleteTeamsModalHandler }: DeleteTeam
   };
   selected?.data.forEach((val: any) => {
     const idx = val.index;
-    deleteTeams['team_ids'].push(teams[idx]?.team_id);
+    deleteTeams['team_ids'].push(teams[idx]?.teamId);
     deleteTeams['team_names'].push(teams[idx]?.team_name);
   });
 
@@ -111,9 +111,9 @@ export default function TeamTableConfiguration({
     ['name', 'xs'],
     ['description', 'm'],
     ['owner', 'l'],
-    ['created_at', 'na'],
-    ['updated_at', 'xl'],
-    ['deleted_at', 'na'],
+    ['createdAt', 'na'],
+    ['updatedAt', 'xl'],
+    ['deletedAt', 'na'],
     ['actions', 'xs']
   ];
 
@@ -159,7 +159,7 @@ export default function TeamTableConfiguration({
       }
     },
     {
-      name: 'created_at',
+      name: 'createdAt',
       label: 'Created At',
       options: {
         filter: false,
@@ -169,7 +169,7 @@ export default function TeamTableConfiguration({
       }
     },
     {
-      name: 'updated_at',
+      name: 'updatedAt',
       label: 'Updated At',
       options: {
         filter: false,
@@ -179,7 +179,7 @@ export default function TeamTableConfiguration({
       }
     },
     {
-      name: 'deleted_at',
+      name: 'deletedAt',
       label: 'Deleted At',
       options: {
         filter: true,
@@ -363,7 +363,7 @@ export default function TeamTableConfiguration({
       }
     },
     isRowSelectable: (dataIndx: number) => {
-      if (teams[dataIndx]['deleted_at'].Valid === true) return false;
+      if (teams[dataIndx]['deletedAt'].Valid === true) return false;
       return true;
     },
     setRowProps: (row: any, rowIndex: number, tableState: any) => {

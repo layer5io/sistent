@@ -99,7 +99,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
 }) => {
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('last_login_time desc');
+  const [sortOrder, setSortOrder] = useState<string>('lastLoginTime desc');
   const [search, setSearch] = useState<string>('');
   const availableRoles: string[] = [];
   const { handleError, handleSuccess, handleInfo } = useNotificationHandlers();
@@ -130,18 +130,21 @@ const UsersTable: React.FC<UsersTableProps> = ({
   const fullUsers = fullUserData?.data || [];
 
   const enrichedUsers = users.map((teamUser: any) => {
-    const fullUser = fullUsers.find((fu: any) => fu.user_id === teamUser.user_id);
-    const teamRoles = teamUser.role_names || [];
+    const fullUser = fullUsers.find((fu: any) => fu.userId === teamUser.userId);
+    const teamRoles = teamUser.roleNames || [];
+    // NOTE: `organization_with_user_roles` is not yet in the canonical schema; the outer
+    // key remains snake_case while the inner `role_names` is not canonical on that shape.
+    // Leave as-is until the containing response type is migrated upstream.
     const organizationRoles = fullUser?.organization_with_user_roles?.role_names || [];
     return {
       ...teamUser,
-      role_names: [...teamRoles, ...organizationRoles]
+      roleNames: [...teamRoles, ...organizationRoles]
     };
   });
   const count = userData?.total_count || 0;
 
   const handleRemoveFromTeam = (data: any[]) => async () => {
-    const user_id = data[0];
+    const userId = data[0];
 
     const response = await ref.current?.show({
       title: `Remove User From Team ?`,
@@ -153,7 +156,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       removeUserFromTeam({
         orgId: org_id,
         teamId: teamID,
-        userId: user_id
+        userId: userId
       })
         .unwrap()
         .then(() => {
@@ -254,23 +257,23 @@ const UsersTable: React.FC<UsersTableProps> = ({
   };
 
   const colViews: ColView[] = [
-    ['user_id', 'na'],
-    ['avatar_url', 'xs'],
+    ['userId', 'na'],
+    ['avatarUrl', 'xs'],
     ['email', 'na'],
     ['username', 'na'],
-    ['first_name', 'na'],
-    ['last_name', 'na'],
-    ['role_names', 'xs'],
+    ['firstName', 'na'],
+    ['lastName', 'na'],
+    ['roleNames', 'xs'],
     ['status', 'na'],
     ['joined_at', 'l'],
-    ['last_login_time', 'l'],
-    ['deleted_at', 'na']
+    ['lastLoginTime', 'l'],
+    ['deletedAt', 'na']
     // ["actions", "xs"]
   ];
 
   const columns: MUIDataTableColumn[] = [
     {
-      name: 'user_id',
+      name: 'userId',
       label: 'User ID',
       options: {
         filter: false,
@@ -279,7 +282,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       }
     },
     {
-      name: 'avatar_url',
+      name: 'avatarUrl',
       label: 'Team Member',
       options: {
         filter: false,
@@ -288,7 +291,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
         customBodyRender: (value: string, tableMeta: MUIDataTableMeta) => (
           <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
             <UserTableAvatarInfo
-              userId={getValidColumnValue(tableMeta.rowData, 'user_id', columns)}
+              userId={getValidColumnValue(tableMeta.rowData, 'userId', columns)}
               userName={`${tableMeta.rowData[4]} ${tableMeta.rowData[5]}`}
               userEmail={tableMeta.rowData[2]}
               profileUrl={value}
@@ -349,7 +352,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       }
     },
     {
-      name: 'first_name',
+      name: 'firstName',
       label: 'First',
       options: {
         filter: false,
@@ -358,7 +361,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       }
     },
     {
-      name: 'last_name',
+      name: 'lastName',
       label: 'Last',
       options: {
         filter: false,
@@ -367,7 +370,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       }
     },
     {
-      name: 'role_names',
+      name: 'roleNames',
       label: 'Roles',
       options: {
         filter: true,
@@ -400,7 +403,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       }
     },
     {
-      name: 'last_login_time',
+      name: 'lastLoginTime',
       label: 'Last Active At',
       options: {
         filter: false,
@@ -410,7 +413,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       }
     },
     {
-      name: 'deleted_at',
+      name: 'deletedAt',
       label: 'Deleted At',
       options: {
         filter: true,
@@ -440,7 +443,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
         sort: false,
         searchable: false,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) =>
-          getValidColumnValue(tableMeta.rowData, 'deleted_at', columns).Valid !== false ? (
+          getValidColumnValue(tableMeta.rowData, 'deletedAt', columns).Valid !== false ? (
             <TableIconsDisabledContainer>
               <EditIcon
                 style={{

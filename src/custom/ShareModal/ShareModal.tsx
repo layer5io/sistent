@@ -80,8 +80,8 @@ const AccessListActor: React.FC<AccessListActorProps> = ({
     <ListItem key={actorData.id} style={{ paddingLeft: '0' }}>
       <ListItemAvatar>
         <Avatar
-          alt={actorData.first_name}
-          src={actorData.avatar_url}
+          alt={actorData.firstName}
+          src={actorData.avatarUrl}
           imgProps={{ referrerPolicy: 'no-referrer' }}
           onClick={() => {
             if (hostURL) openInNewTab(`${hostURL}/user/${actorData.id}`);
@@ -89,7 +89,7 @@ const AccessListActor: React.FC<AccessListActorProps> = ({
         />
       </ListItemAvatar>
       <ListItemText
-        primary={`${actorData.first_name || ''} ${actorData.last_name || ''}`}
+        primary={`${actorData.firstName || ''} ${actorData.lastName || ''}`}
         secondary={actorData.email}
         secondaryTypographyProps={{
           sx: {
@@ -247,7 +247,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
   const handleShareWithNewUsers = async (newUsers: User[]) => {
     const grantAccessList = newUsers.map((user) => ({
-      actor_id: user.user_id,
+      actor_id: user.userId,
       actor_type: 'user'
     }));
     const emails = newUsers.map((u) => u.email);

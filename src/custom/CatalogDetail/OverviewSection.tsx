@@ -111,8 +111,8 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           {showContentDetails ? (
             <ContentRow>
               <h2 style={{ margin: '0' }}>WHAT DOES THIS DESIGN DO?</h2>
-              {details?.catalog_data?.pattern_info ? (
-                <PatternInfo text={decodeURIComponent(details.catalog_data.pattern_info)} />
+              {details?.catalog_data?.patternInfo ? (
+                <PatternInfo text={decodeURIComponent(details.catalog_data.patternInfo)} />
               ) : (
                 <div>No description available</div>
               )}

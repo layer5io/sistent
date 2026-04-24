@@ -214,7 +214,7 @@ const processQueryData = (
     count: pattern[config.countKey],
     patternName: pattern.name || 'Unknown',
     pattern: pattern,
-    userName: pattern.user?.first_name || 'Unknown',
+    userName: pattern.user?.firstName || 'Unknown',
     id: config.id,
     status: pattern?.catalog_data?.content_class
   };
