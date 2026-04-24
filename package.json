@@ -46,7 +46,7 @@
     "@emotion/cache": "^11.14.0",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
-    "@meshery/schemas": "^1.0.5",
+    "@meshery/schemas": "^1.1.1",
     "@mui/icons-material": "^7.3.9",
     "@reduxjs/toolkit": "^2.11.2",
     "@testing-library/dom": "^10.4.1",
