@@ -211,7 +211,7 @@ const ResponsiveDataTable = ({
             'updatedAt',
             'createdAt',
             'deletedAt',
-            'last_login_time',
+            'lastLoginTime',
             'joined_at',
             'last_run',
             'next_run'

@@ -43,11 +43,11 @@ interface ViewsTableProps {
 
 const colViews: ColView[] = [
   ['id', 'na'],
-  ['avatar_url', 'xs'],
+  ['avatarUrl', 'xs'],
   ['email', 'na'],
   ['name', 'xs'],
-  ['first_name', 'na'],
-  ['last_name', 'na'],
+  ['firstName', 'na'],
+  ['lastName', 'na'],
   ['organizationId', 'xl'],
   ['createdAt', 'na'],
   ['updatedAt', 'xl'],
@@ -129,7 +129,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       }
     },
     {
-      name: 'avatar_url',
+      name: 'avatarUrl',
       label: 'Author',
       options: {
         filter: false,
@@ -147,7 +147,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
           return (
             <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
               <UserTableAvatarInfo
-                userId={getValidColumnValue(tableMeta.rowData, 'user_id', columns)}
+                userId={getValidColumnValue(tableMeta.rowData, 'userId', columns)}
                 userName={`${tableMeta.rowData[4]} ${tableMeta.rowData[5]}`}
                 userEmail={tableMeta.rowData[3]}
                 profileUrl={value}
@@ -167,7 +167,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       }
     },
     {
-      name: 'first_name',
+      name: 'firstName',
       label: 'First Name',
       options: {
         filter: false,
@@ -176,7 +176,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       }
     },
     {
-      name: 'last_name',
+      name: 'lastName',
       label: 'Last Name',
       options: {
         filter: false,
@@ -219,7 +219,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
           const rowIndex = tableMeta.rowIndex;
           const viewId = tableMeta.tableData[rowIndex]?.id;
           const viewVisibility = tableMeta.tableData[rowIndex]?.visibility;
-          const ownerId = tableMeta.tableData[rowIndex]?.user_id;
+          const ownerId = tableMeta.tableData[rowIndex]?.userId;
           const isOwner = ownerId === currentUserId;
           const isEnabled = viewVisibility !== VIEW_VISIBILITY.PUBLISHED && isOwner;
           return (

@@ -54,7 +54,7 @@ export const colViews: ColView[] = [
   ['createdAt', 'na'],
   ['updatedAt', 'l'],
   ['visibility', 'l'],
-  ['user_id', 'na'],
+  ['userId', 'na'],
   ['actions', 'xs']
 ];
 
@@ -113,15 +113,15 @@ export const createDesignsColumnsConfig = ({
         sort: true,
         searchable: true,
         customBodyRender: (_, tableMeta: MUIDataTableMeta) => {
-          const firstName = getColumnValue(tableMeta as TableMeta, 'first_name');
-          const lastName = getColumnValue(tableMeta as TableMeta, 'last_name');
-          const avatar_url = getColumnValue(tableMeta as TableMeta, 'avatar_url');
-          const user_id = getColumnValue(tableMeta as TableMeta, 'user_id');
+          const firstName = getColumnValue(tableMeta as TableMeta, 'firstName');
+          const lastName = getColumnValue(tableMeta as TableMeta, 'lastName');
+          const avatarUrl = getColumnValue(tableMeta as TableMeta, 'avatarUrl');
+          const userId = getColumnValue(tableMeta as TableMeta, 'userId');
 
           return (
             <AuthorCell
-              userId={user_id}
-              avatarUrl={avatar_url}
+              userId={userId}
+              avatarUrl={avatarUrl}
               firstName={firstName}
               lastName={lastName}
             />
@@ -164,7 +164,7 @@ export const createDesignsColumnsConfig = ({
           const rowIndex = (tableMeta as TableMeta).rowIndex;
           const designId = (tableMeta as TableMeta).tableData[rowIndex]?.id;
           const designVisibility = (tableMeta as TableMeta).tableData[rowIndex]?.visibility;
-          const ownerId = (tableMeta as TableMeta).tableData[rowIndex]?.user_id;
+          const ownerId = (tableMeta as TableMeta).tableData[rowIndex]?.userId;
           const isOwner = ownerId === currentUserId;
           const isEnabled = designVisibility !== VIEW_VISIBILITY.PUBLISHED && isOwner;
           return (
@@ -187,7 +187,7 @@ export const createDesignsColumnsConfig = ({
       }
     },
     {
-      name: 'user_id',
+      name: 'userId',
       label: 'User ID',
       options: {
         filter: false,

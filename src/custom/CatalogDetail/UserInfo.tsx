@@ -36,20 +36,20 @@ const UserInfo: React.FC<UserInfoProps> = ({
           }}
         >
           <Avatar
-            src={userProfile?.avatar_url}
-            alt={`${userProfile?.first_name} ${userProfile?.last_name}`}
+            src={userProfile?.avatarUrl}
+            alt={`${userProfile?.firstName} ${userProfile?.lastName}`}
             style={{
               height: '28px',
               width: '28px'
             }}
           />
           <RedirectLink
-            href={`${MESHERY_CLOUD_PROD}/user/${details?.user_id}`}
+            href={`${MESHERY_CLOUD_PROD}/user/${details?.userId}`}
             target="_blank"
             rel="noopener noreferrer"
           >
             <span style={{ fontWeight: 'normal' }}>
-              {userProfile?.first_name} {userProfile?.last_name}
+              {userProfile?.firstName} {userProfile?.lastName}
             </span>
           </RedirectLink>
         </ContentDetailsText>

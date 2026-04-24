@@ -39,7 +39,7 @@ export interface Environment {
 export interface Team {
   id: string;
   name: string;
-  team_id: string;
+  teamId: string;
   description?: string;
   team_name: string;
   deletedAt: {

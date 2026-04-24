@@ -39,15 +39,15 @@ export const DesignCardUrl = styled('a')(() => ({
 
 export interface Pattern {
   id: string;
-  user_id: string;
+  userId: string;
   pattern_file: string;
   user: {
-    first_name: string;
-    last_name: string;
+    firstName: string;
+    lastName: string;
   };
-  first_name?: string;
-  last_name?: string;
-  avatar_url: string;
+  firstName?: string;
+  lastName?: string;
+  avatarUrl: string;
   name: string;
   download_count: number;
   clone_count: number;
@@ -67,8 +67,8 @@ export interface Pattern {
     compatibility?: string[];
     published_version?: string;
     type?: string;
-    pattern_info?: string;
-    pattern_caveats?: string;
+    patternInfo?: string;
+    patternCaveats?: string;
   };
   visibility: string;
   updatedAt: Date;

@@ -21,9 +21,9 @@ import { Modal, ModalBody, ModalFooter } from '../Modal';
 interface EventData {
   createdAt: string;
   description: string;
-  first_name: string;
-  last_name: string;
-  avatar_url: string;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string;
 }
 
 interface EventsResponse {
@@ -192,10 +192,10 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
                         marginRight: '1rem'
                       }}
                     >
-                      <Avatar alt={data.first_name} src={data.avatar_url} sx={iconLarge} />
+                      <Avatar alt={data.firstName} src={data.avatarUrl} sx={iconLarge} />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={data.first_name + ' ' + data.last_name}
+                      primary={data.firstName + ' ' + data.lastName}
                       secondary={<>{data.description}</>}
                     />
                   </ListItem>

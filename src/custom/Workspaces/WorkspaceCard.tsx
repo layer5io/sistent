@@ -37,7 +37,7 @@ interface WorkspaceDetails {
 
 type Activity = {
   description: string;
-  first_name: string;
+  firstName: string;
   createdAt: string;
 };
 
@@ -401,7 +401,7 @@ const CardBack = ({
               <RecordRow
                 key={index}
                 title={activity?.description}
-                name={activity?.first_name}
+                name={activity?.firstName}
                 date={activity?.createdAt}
               />
             );

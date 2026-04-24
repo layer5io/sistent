@@ -2,13 +2,13 @@ import { VISIBILITY } from '../constants/constants';
 
 export interface User {
   id: string;
-  user_id: string;
-  first_name: string;
-  last_name: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  avatar_url?: string;
+  avatarUrl?: string;
   deletedAt?: { Valid: boolean };
-  role_names?: string[];
+  roleNames?: string[];
 }
 
 export const canUpdateResource = (
@@ -16,8 +16,8 @@ export const canUpdateResource = (
   currentUser: User,
   resourceOwner: User
 ) => {
-  const isOwner = resourceOwner.user_id == currentUser.user_id;
-  const isAdmin = currentUser.role_names?.includes('admin');
+  const isOwner = resourceOwner.userId == currentUser.userId;
+  const isAdmin = currentUser.roleNames?.includes('admin');
   return isOwner || isAdmin;
 };
 

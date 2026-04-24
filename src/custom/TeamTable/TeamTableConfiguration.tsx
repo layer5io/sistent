@@ -34,7 +34,7 @@ function DeleteTeamsBtn({ selected, teams, deleteTeamsModalHandler }: DeleteTeam
   };
   selected?.data.forEach((val: any) => {
     const idx = val.index;
-    deleteTeams['team_ids'].push(teams[idx]?.team_id);
+    deleteTeams['team_ids'].push(teams[idx]?.teamId);
     deleteTeams['team_names'].push(teams[idx]?.team_name);
   });
 
