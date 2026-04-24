@@ -76,27 +76,27 @@ const METRICS: Record<MetricType, MetricConfig> = {
   view: {
     label: 'Most Opens',
     id: 'open',
-    countKey: 'view_count'
+    countKey: 'viewCount'
   },
   clone: {
     label: 'Most Clones',
     id: 'clone',
-    countKey: 'clone_count'
+    countKey: 'cloneCount'
   },
   download: {
     label: 'Most Downloads',
     id: 'download',
-    countKey: 'download_count'
+    countKey: 'downloadCount'
   },
   deployment: {
     label: 'Most Deploys',
     id: 'deployments',
-    countKey: 'deployment_count'
+    countKey: 'deploymentCount'
   },
   share: {
     label: 'Most Shares',
     id: 'share',
-    countKey: 'share_count'
+    countKey: 'shareCount'
   }
 };
 

@@ -212,9 +212,9 @@ const ResponsiveDataTable = ({
             'createdAt',
             'deletedAt',
             'lastLoginTime',
-            'joined_at',
-            'last_run',
-            'next_run'
+            'joinedAt',
+            'lastRun',
+            'nextRun'
           ].includes(col.name)
         ) {
           col.options.customBodyRender = (value: string | number | boolean | object) => {
