@@ -26,6 +26,7 @@ export * from './CheckCircleOutline';
 export * from './Check';
 export * from './Chevron';
 export * from './ChevronLeft';
+export * from './ChevronRight';
 export * from './Circle';
 export * from './Clone';
 export * from './Close';
