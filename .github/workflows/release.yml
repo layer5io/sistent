@@ -27,6 +27,7 @@ jobs:
       id-token: write  # Required for OIDC trusted publishing
       contents: write
       pull-requests: write  # Required to open the version-bump-back PR
+      issues: write  # peter-evans/create-pull-request needs this to apply labels when falling back to GITHUB_TOKEN
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
@@ -72,8 +73,13 @@ jobs:
           echo "Resolved normalized version: $normalized"
 
       - name: Install, Build, and Publish Package
+        # Use `npm ci` so the install is strictly driven by the committed lockfile
+        # and does not rewrite lockfile metadata beyond what `npm version` already
+        # wrote to the root `packages[""].version` field. This keeps the bump-back
+        # PR's diff scoped to the version change only, addressing the concern that
+        # `npm install` could churn transitive dependency entries in the lockfile.
         run: |
-          npm install --legacy-peer-deps
+          npm ci --legacy-peer-deps
           npm run build
           npm publish --provenance --access public --verbose
         env:
