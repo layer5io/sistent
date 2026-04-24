@@ -25,10 +25,10 @@ import { NameDiv } from './style';
 export const colViews: ColView[] = [
   ['id', 'na'],
   ['name', 'xs'],
-  ['first_name', 'xs'],
-  ['last_name', 'na'],
-  ['created_at', 'na'],
-  ['updated_at', 'l'],
+  ['firstName', 'xs'],
+  ['lastName', 'na'],
+  ['createdAt', 'na'],
+  ['updatedAt', 'l'],
   ['design_type', 'xs'],
   ['class', 'l'],
   ['view_count', 'na'],
@@ -105,38 +105,38 @@ export const createDesignColumns = ({
       }
     },
     {
-      name: 'avatar_url',
+      name: 'avatarUrl',
       label: 'Avatar',
       options: {
         display: false
       }
     },
     {
-      name: 'user_id',
+      name: 'userId',
       label: 'User ID',
       options: {
         display: false
       }
     },
     {
-      name: 'first_name',
+      name: 'firstName',
       label: 'Author',
       options: {
         filter: false,
         sort: true,
         searchable: true,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => {
-          const firstName = getColumnValue(tableMeta, 'first_name');
-          const lastName = getColumnValue(tableMeta, 'last_name');
-          const avatar_url = getColumnValue(tableMeta, 'avatar_url');
-          const user_id = getColumnValue(tableMeta, 'user_id');
+          const firstName = getColumnValue(tableMeta, 'firstName');
+          const lastName = getColumnValue(tableMeta, 'lastName');
+          const avatarUrl = getColumnValue(tableMeta, 'avatarUrl');
+          const userId = getColumnValue(tableMeta, 'userId');
 
           return (
             <AuthorCell
               firstName={firstName}
               lastName={lastName}
-              avatarUrl={avatar_url}
-              userId={user_id}
+              avatarUrl={avatarUrl}
+              userId={userId}
               maxWidth={maxWidth}
             />
           );
@@ -144,14 +144,14 @@ export const createDesignColumns = ({
       }
     },
     {
-      name: 'last_name',
+      name: 'lastName',
       label: 'Last Name',
       options: {
         display: false
       }
     },
     {
-      name: 'created_at',
+      name: 'createdAt',
       label: 'Created At',
       options: {
         filter: false,
@@ -160,7 +160,7 @@ export const createDesignColumns = ({
       }
     },
     {
-      name: 'updated_at',
+      name: 'updatedAt',
       label: 'Updated At',
       options: {
         filter: false,
@@ -240,12 +240,12 @@ export const createDesignColumns = ({
           const rowData = tableMeta.tableData[tableMeta.rowIndex] as Pattern;
 
           function constructMessage() {
-            const currentUser = rowData?.user_id === currentUserId;
+            const currentUser = rowData?.userId === currentUserId;
             if (currentUser) {
               return `Check out my design "${rowData?.name}" on Layer5's Catalog`;
             } else {
               return `Check out ${
-                rowData?.first_name + ' ' + rowData.last_name
+                rowData?.firstName + ' ' + rowData.lastName
               }'s design "${rowData?.name}" on Layer5's Catalog`;
             }
           }

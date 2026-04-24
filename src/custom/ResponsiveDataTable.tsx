@@ -208,10 +208,10 @@ const ResponsiveDataTable = ({
 
         if (
           [
-            'updated_at',
-            'created_at',
-            'deleted_at',
-            'last_login_time',
+            'updatedAt',
+            'createdAt',
+            'deletedAt',
+            'lastLoginTime',
             'joined_at',
             'last_run',
             'next_run'

@@ -50,7 +50,7 @@ export interface StepData {
 }
 
 export interface ProfileData {
-  role_names?: string[];
+  roleNames?: string[];
   preferences?: {
     remoteProviderPreferences?: {
       isKanvasAccessRequest?: boolean;
