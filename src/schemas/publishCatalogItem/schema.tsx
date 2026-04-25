@@ -18,7 +18,7 @@ const publishCatalogItemSchema = {
         'A list of technologies included in or implicated by this design; a list of relevant technology tags.',
       'x-rjsf-grid-area': 6
     },
-    pattern_caveats: {
+    patternCaveats: {
       type: 'string',
       title: 'Caveats and Considerations',
       description:
@@ -27,7 +27,7 @@ const publishCatalogItemSchema = {
       'x-rjsf-grid-area': 12,
       'x-encode-in-uri': true
     },
-    pattern_info: {
+    patternInfo: {
       type: 'string',
       title: 'Description',
       description: 'Purpose of the design along with its intended and unintended uses.',
@@ -54,7 +54,7 @@ const publishCatalogItemSchema = {
       'x-rjsf-grid-area': 6
     }
   },
-  required: ['compatibility', 'pattern_caveats', 'pattern_info', 'type']
+  required: ['compatibility', 'patternCaveats', 'patternInfo', 'type']
 };
 
 export default publishCatalogItemSchema;

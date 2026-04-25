@@ -19,11 +19,11 @@ import { CustomTooltip } from '../CustomTooltip';
 import { Modal, ModalBody, ModalFooter } from '../Modal';
 
 interface EventData {
-  created_at: string;
+  createdAt: string;
   description: string;
-  first_name: string;
-  last_name: string;
-  avatar_url: string;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string;
 }
 
 interface EventsResponse {
@@ -160,7 +160,7 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
               {allEvents.map((data, index) => (
                 <List
                   sx={{ width: '100%', padding: '0' }}
-                  key={`${data.created_at}-${data.description}-${index}`}
+                  key={`${data.createdAt}-${data.description}-${index}`}
                 >
                   <ListItem
                     style={{ padding: '0' }}
@@ -168,7 +168,7 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
                     secondaryAction={
                       <Box display={'flex'} flexDirection="column" alignItems="flex-end" gap={0.2}>
                         {getImage(data.description)}
-                        <CustomTooltip title={getFullFormattedTime(data.created_at)}>
+                        <CustomTooltip title={getFullFormattedTime(data.createdAt)}>
                           <div>
                             <Typography
                               variant="caption"
@@ -178,7 +178,7 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
                                 fontStyle: 'italic'
                               }}
                             >
-                              Updated At: {getFormatDate(data.created_at)}
+                              Updated At: {getFormatDate(data.createdAt)}
                             </Typography>
                           </div>
                         </CustomTooltip>
@@ -192,10 +192,10 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
                         marginRight: '1rem'
                       }}
                     >
-                      <Avatar alt={data.first_name} src={data.avatar_url} sx={iconLarge} />
+                      <Avatar alt={data.firstName} src={data.avatarUrl} sx={iconLarge} />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={data.first_name + ' ' + data.last_name}
+                      primary={data.firstName + ' ' + data.lastName}
                       secondary={<>{data.description}</>}
                     />
                   </ListItem>
