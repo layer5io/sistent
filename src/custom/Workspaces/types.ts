@@ -41,6 +41,9 @@ export interface Team {
   name: string;
   teamId: string;
   description?: string;
+  // TODO(meshery-cloud#?): flip to `teamName` once server renames the SQL alias
+  // (currently aliased to `Team.name`; flipping here without the server rename
+  // would break the wire contract). Deferred from Phase 2.K cascade.
   team_name: string;
   deletedAt: {
     Valid: boolean;

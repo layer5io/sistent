@@ -29,13 +29,13 @@ export const colViews: ColView[] = [
   ['lastName', 'na'],
   ['createdAt', 'na'],
   ['updatedAt', 'l'],
-  ['design_type', 'xs'],
+  ['designType', 'xs'],
   ['class', 'l'],
-  ['view_count', 'na'],
-  ['download_count', 'na'],
-  ['clone_count', 'na'],
-  ['deployment_count', 'na'],
-  ['share_count', 'na'],
+  ['viewCount', 'na'],
+  ['downloadCount', 'na'],
+  ['cloneCount', 'na'],
+  ['deploymentCount', 'na'],
+  ['shareCount', 'na'],
   ['actions', 'xs']
 ];
 
@@ -169,7 +169,7 @@ export const createDesignColumns = ({
       }
     },
     {
-      name: 'design_type',
+      name: 'designType',
       label: 'Type',
       options: {
         filter: true,
@@ -187,7 +187,7 @@ export const createDesignColumns = ({
       }
     },
     {
-      name: 'view_count',
+      name: 'viewCount',
       label: 'Opens',
       options: {
         filter: false,
@@ -195,7 +195,7 @@ export const createDesignColumns = ({
       }
     },
     {
-      name: 'download_count',
+      name: 'downloadCount',
       label: 'Downloads',
       options: {
         filter: false,
@@ -203,7 +203,7 @@ export const createDesignColumns = ({
       }
     },
     {
-      name: 'clone_count',
+      name: 'cloneCount',
       label: 'Clones',
       options: {
         filter: false,
@@ -211,7 +211,7 @@ export const createDesignColumns = ({
       }
     },
     {
-      name: 'deployment_count',
+      name: 'deploymentCount',
       label: 'Deploys',
       options: {
         filter: false,
@@ -219,7 +219,7 @@ export const createDesignColumns = ({
       }
     },
     {
-      name: 'share_count',
+      name: 'shareCount',
       label: 'Shares',
       options: {
         filter: false,

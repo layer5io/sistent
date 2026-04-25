@@ -265,7 +265,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
     ['lastName', 'na'],
     ['roleNames', 'xs'],
     ['status', 'na'],
-    ['joined_at', 'l'],
+    ['joinedAt', 'l'],
     ['lastLoginTime', 'l'],
     ['deletedAt', 'na']
     // ["actions", "xs"]
@@ -393,7 +393,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       }
     },
     {
-      name: 'joined_at',
+      name: 'joinedAt',
       label: 'Joined At',
       options: {
         filter: false,
