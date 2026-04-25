@@ -14,11 +14,11 @@ interface MetricsDisplayProps {
 
 const MetricsDisplay: React.FC<MetricsDisplayProps> = ({ details }) => {
   const metrics: MetricItem[] = [
-    { label: 'Opens', value: details.view_count },
-    { label: 'Downloads', value: details.download_count },
-    { label: 'Deploys', value: details.deployment_count },
-    { label: 'Clones', value: details.clone_count },
-    { label: 'Shares', value: details.share_count }
+    { label: 'Opens', value: details.viewCount },
+    { label: 'Downloads', value: details.downloadCount },
+    { label: 'Deploys', value: details.deploymentCount },
+    { label: 'Clones', value: details.cloneCount },
+    { label: 'Shares', value: details.shareCount }
   ];
 
   return (

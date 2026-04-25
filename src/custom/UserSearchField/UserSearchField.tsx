@@ -9,12 +9,12 @@ import { useTheme } from '../../theme';
 
 interface User {
   id: string;
-  user_id: string;
-  first_name: string;
-  last_name: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  avatar_url?: string;
-  deleted_at?: { Valid: boolean };
+  avatarUrl?: string;
+  deletedAt?: { Valid: boolean };
 }
 
 interface UserSearchFieldProps {
@@ -94,10 +94,10 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
 
   const UserChip = ({ avatarObj, ...props }: { avatarObj: User }) => (
     <Chip
-      key={avatarObj.user_id}
+      key={avatarObj.userId}
       avatar={
-        <Avatar alt={avatarObj.first_name} src={avatarObj.avatar_url}>
-          {avatarObj.avatar_url ? '' : avatarObj.first_name?.charAt(0)}
+        <Avatar alt={avatarObj.firstName} src={avatarObj.avatarUrl}>
+          {avatarObj.avatarUrl ? '' : avatarObj.firstName?.charAt(0)}
         </Avatar>
       }
       label={avatarObj.email}
@@ -169,20 +169,20 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
               <Grid2 container alignItems="center">
                 <Grid2>
                   <Box sx={{ color: 'text.secondary', mr: 2 }}>
-                    <Avatar alt={option.first_name} src={option.avatar_url}>
-                      {option.avatar_url ? '' : <PersonIcon />}
+                    <Avatar alt={option.firstName} src={option.avatarUrl}>
+                      {option.avatarUrl ? '' : <PersonIcon />}
                     </Avatar>
                   </Box>
                 </Grid2>
                 <Grid2 size="grow">
-                  {option.deleted_at?.Valid ? (
+                  {option.deletedAt?.Valid ? (
                     <Typography variant="body2" color="text.secondary">
                       {option.email} (deleted)
                     </Typography>
                   ) : (
                     <>
                       <Typography variant="body2">
-                        {option.first_name} {option.last_name}
+                        {option.firstName} {option.lastName}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         {option.email}
