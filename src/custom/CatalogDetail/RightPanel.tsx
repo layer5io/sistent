@@ -61,9 +61,13 @@ const RightPanel: React.FC<RightPanelProps> = ({
   handleVisibilityChange
 }) => {
   const cleanedType = type.replace('my-', '').replace(/s$/, '');
-  const { data: userProfile } = useGetUserProfileByIdQuery({
-    id: details.user_id
-  });
+  // Skip the lookup when the card has no owner id — firing with an empty or
+  // undefined id reaches the server and surfaces a 400/404 that, upstream,
+  // leaks a plain-text body which RTK Query cannot parse as JSON.
+  const { data: userProfile } = useGetUserProfileByIdQuery(
+    { id: details.userId },
+    { skip: !details.userId }
+  );
 
   return (
     <div>

@@ -8,10 +8,10 @@ import { getFormatDate } from '../../utils';
 
 export const DEFAULT_DATE = 'N/A'; // a constant to represent the default date value
 export const parseDeletionTimestamp = (data: {
-  deleted_at: { Valid: boolean; Time: string | number | Date };
+  deletedAt: { Valid: boolean; Time: string | number | Date };
 }) => {
-  if (data && data.deleted_at && data.deleted_at.Valid === true) {
-    return getFormatDate(data.deleted_at.Time as string);
+  if (data && data.deletedAt && data.deletedAt.Valid === true) {
+    return getFormatDate(data.deletedAt.Time as string);
   } else {
     return DEFAULT_DATE;
   }

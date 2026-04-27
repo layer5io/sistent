@@ -14,10 +14,10 @@ const CaveatsSection: React.FC<CaveatsSectionProps> = ({ details }) => {
       <ContentHeading>
         <h2 style={{ margin: '0' }}>CAVEATS AND CONSIDERATIONS</h2>
       </ContentHeading>
-      {details?.catalog_data?.pattern_caveats ? (
+      {details?.catalog_data?.patternCaveats ? (
         <ContentDetailsText style={{ whiteSpace: 'normal', fontFamily: 'inherit' }}>
           <RenderMarkdown
-            content={decodeURIComponent(details.catalog_data.pattern_caveats || '')}
+            content={decodeURIComponent(details.catalog_data.patternCaveats || '')}
           />
         </ContentDetailsText>
       ) : (

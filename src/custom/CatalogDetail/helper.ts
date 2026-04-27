@@ -59,7 +59,7 @@ export const formatToTitleCase = (value: string): string => {
 interface HeadingProps {
   type: string;
   userProfile?: {
-    first_name?: string;
+    firstName?: string;
   };
   organizationName?: string;
   fetchingOrgError: boolean;
@@ -72,7 +72,7 @@ export const getHeadingText = ({
   fetchingOrgError
 }: HeadingProps): string => {
   const designType = type.toLowerCase() === 'my-designs' ? 'public' : 'published';
-  const firstName = formatToTitleCase(userProfile?.first_name ?? '');
+  const firstName = formatToTitleCase(userProfile?.firstName ?? '');
   const orgText = fetchingOrgError ? '' : `under ${organizationName}`;
 
   return `Other ${designType} design by ${firstName} ${orgText}`;
