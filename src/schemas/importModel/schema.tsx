@@ -1,7 +1,7 @@
-import { ModelDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
+import ModelDefinitionV1Beta2OpenApiSchema from '@meshery/schemas/constructs/v1beta2/model/ModelSchema';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ModelSchema = (ModelDefinitionV1Beta1OpenApiSchema as any).components.schemas;
+const ModelSchema = (ModelDefinitionV1Beta2OpenApiSchema as any).components.schemas;
 const importModelSchema = {
   type: 'object',
   required: ['uploadType'],

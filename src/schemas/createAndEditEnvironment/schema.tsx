@@ -1,7 +1,7 @@
-import { EnvironmentDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
+import EnvironmentDefinitionV1Beta3OpenApiSchema from '@meshery/schemas/constructs/v1beta3/environment/EnvironmentSchema';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const environmentSchema = (EnvironmentDefinitionV1Beta1OpenApiSchema as any).components.schemas;
+const environmentSchema = (EnvironmentDefinitionV1Beta3OpenApiSchema as any).components.schemas;
 const createAndEditEnvironmentSchema = {
   title: 'Environment',
   required: ['name'],
@@ -20,9 +20,9 @@ const createAndEditEnvironmentSchema = {
       'x-rjsf-grid-area': '12'
     },
     organization: {
-      type: environmentSchema.EnvironmentPayload.properties.organization_id.type,
+      type: environmentSchema.EnvironmentPayload.properties.organizationId.type,
       title: 'Organization',
-      description: environmentSchema.EnvironmentPayload.properties.organization_id.description,
+      description: environmentSchema.EnvironmentPayload.properties.organizationId.description,
       enum: [],
       enumNames: [],
       'x-rjsf-grid-area': '12'

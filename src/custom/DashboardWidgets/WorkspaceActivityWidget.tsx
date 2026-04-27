@@ -20,7 +20,7 @@ import { useTheme } from '../../theme';
 import { CustomTooltip } from '../CustomTooltip';
 
 interface Activity {
-  created_at: string;
+  createdAt: string;
   description: string;
 }
 
@@ -145,7 +145,7 @@ const WorkspaceActivityCard: React.FC<WorkspaceActivityCardProps> = ({
           {activities?.map((activity, index) => (
             <CustomTooltip
               key={index}
-              title={moment(activity.created_at).format('LLLL')}
+              title={moment(activity.createdAt).format('LLLL')}
               arrow
               placement="right"
             >
@@ -154,7 +154,7 @@ const WorkspaceActivityCard: React.FC<WorkspaceActivityCardProps> = ({
                   <StyledListItemText
                     primary={
                       <span>
-                        <strong>{moment(activity.created_at).format('MMM D')}:</strong>{' '}
+                        <strong>{moment(activity.createdAt).format('MMM D')}:</strong>{' '}
                         {activity.description}
                       </span>
                     }

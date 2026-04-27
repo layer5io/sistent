@@ -17,12 +17,12 @@ export interface Workspace {
   id: string;
   name: string;
   description?: string;
-  organization_id?: string;
+  organizationId?: string;
   owner?: string;
   metadata?: Record<string, string>;
-  created_at: string;
-  updated_at: string;
-  deleted_at: {
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: {
     Valid: boolean;
   };
 }
@@ -31,18 +31,21 @@ export interface Environment {
   id: string;
   name: string;
   description?: string;
-  organization_id: string;
-  created_at: string;
-  updated_at: string;
+  organizationId: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Team {
   id: string;
   name: string;
-  team_id: string;
+  teamId: string;
   description?: string;
+  // TODO(meshery-cloud#?): flip to `teamName` once server renames the SQL alias
+  // (currently aliased to `Team.name`; flipping here without the server rename
+  // would break the wire contract). Deferred from Phase 2.K cascade.
   team_name: string;
-  deleted_at: {
+  deletedAt: {
     Valid: boolean;
   };
 }
