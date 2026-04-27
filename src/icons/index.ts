@@ -155,6 +155,7 @@ export * from './Star';
 export * from './Success';
 export * from './SupervisedUserCircle';
 export * from './SwapVert';
+export * from './SyncAlt';
 export * from './TableView';
 export * from './TachographDigital';
 export * from './Tachometer';
