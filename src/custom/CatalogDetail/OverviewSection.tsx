@@ -82,10 +82,10 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
                 xs: 6
               }}
             >
-              {details?.catalog_data?.content_class && (
+              {details?.catalogData?.contentClass && (
                 <ContentRow>
                   <ContentClassInfo
-                    contentClass={details.catalog_data.content_class}
+                    contentClass={details.catalogData.contentClass}
                     classes={classes}
                   />
                 </ContentRow>
@@ -111,8 +111,8 @@ const OverviewSection: React.FC<OverviewSectionProps> = ({
           {showContentDetails ? (
             <ContentRow>
               <h2 style={{ margin: '0' }}>WHAT DOES THIS DESIGN DO?</h2>
-              {details?.catalog_data?.patternInfo ? (
-                <PatternInfo text={decodeURIComponent(details.catalog_data.patternInfo)} />
+              {details?.catalogData?.patternInfo ? (
+                <PatternInfo text={decodeURIComponent(details.catalogData.patternInfo)} />
               ) : (
                 <div>No description available</div>
               )}

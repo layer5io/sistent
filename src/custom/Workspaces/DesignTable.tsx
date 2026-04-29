@@ -183,7 +183,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
   useEffect(() => {
     const fetchSchema = async () => {
       const modelNames = _.uniq(
-        meshModelModelsData?.models?.map((model: any) => model.display_name)
+        meshModelModelsData?.models?.map((model: any) => model.displayName)
       );
       const modifiedSchema = _.set(
         _.cloneDeep(publishCatalogItemSchema),
@@ -250,7 +250,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
       {tableHeaderContent}
       <CatalogDesignsTable
         patterns={designsOfWorkspace?.designs || []}
-        totalCount={designsOfWorkspace?.total_count}
+        totalCount={designsOfWorkspace?.totalCount}
         sortOrder={sortOrder}
         setSortOrder={setSortOrder}
         pageSize={pageSize}

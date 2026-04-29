@@ -79,11 +79,11 @@ export const DEFAULT_DESIGN_VERSION = '0.0.0';
 export const getVersion = (design: Pattern) => {
   switch (design.visibility) {
     case 'published':
-      return design?.catalog_data?.published_version || DEFAULT_DESIGN_VERSION;
+      return design?.catalogData?.publishedVersion || DEFAULT_DESIGN_VERSION;
     case 'public':
     case 'private':
-      return getWorkingVersionFromPatternFile(design.pattern_file);
+      return getWorkingVersionFromPatternFile(design.patternFile);
     default:
-      return getWorkingVersionFromPatternFile(design.pattern_file);
+      return getWorkingVersionFromPatternFile(design.patternFile);
   }
 };
