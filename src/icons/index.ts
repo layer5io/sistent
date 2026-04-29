@@ -137,6 +137,7 @@ export * from './Rectangle';
 export * from './Redo';
 export * from './Refresh';
 export * from './Remove';
+export * from './Reply';
 export * from './Reset';
 export * from './Resize';
 export * from './Response';
