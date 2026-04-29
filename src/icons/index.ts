@@ -32,6 +32,7 @@ export * from './Circle';
 export * from './Clone';
 export * from './Close';
 export * from './Cloud';
+export * from './Code';
 export * from './CollapseAll';
 export * from './Column';
 export * from './CompareArrows';
