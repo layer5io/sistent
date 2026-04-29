@@ -68,6 +68,7 @@ export * from './Environment';
 export * from './Error';
 export * from './ErrorOutline';
 export * from './ExpandAll';
+export * from './ExpandLess';
 export * from './ExpandMore';
 export * from './Explore';
 export * from './Export';
