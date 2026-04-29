@@ -292,7 +292,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     filter: false,
     responsive: 'standard',
     selectableRows: 'none',
-    count: viewsOfWorkspace?.total_count,
+    count: viewsOfWorkspace?.totalCount,
     rowsPerPage: pageSize,
     serverSide: true,
     page,
@@ -393,7 +393,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
         handleAssignablePage={viewAssignment.handleAssignablePage}
         handleAssignedPage={viewAssignment.handleAssignedPage}
         originalLeftCount={viewAssignment.data?.length || 0}
-        originalRightCount={viewsOfWorkspace?.total_count || 0}
+        originalRightCount={viewsOfWorkspace?.totalCount || 0}
         onAssign={viewAssignment.handleAssign}
         disableTransfer={viewAssignment.disableTransferButton}
         helpText={`Assign Views to ${workspaceName}`}

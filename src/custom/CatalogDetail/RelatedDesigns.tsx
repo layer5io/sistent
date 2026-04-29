@@ -60,7 +60,7 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
       cardTechnologies={true}
     >
       <CatalogCardDesignLogo
-        imgURL={pattern?.catalog_data?.imageURL}
+        imgURL={pattern?.catalogData?.imageURL}
         height={'5.5rem'}
         width={'100%'}
         zoomEffect={false}
