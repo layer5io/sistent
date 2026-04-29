@@ -201,7 +201,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
     filter: false,
     responsive: 'standard',
     selectableRows: 'none',
-    count: environmentsOfWorkspace?.total_count,
+    count: environmentsOfWorkspace?.totalCount,
     rowsPerPage: pageSize,
     page,
     elevation: 0,
@@ -311,7 +311,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
         handleAssignablePage={environmentAssignment.handleAssignablePage}
         handleAssignedPage={environmentAssignment.handleAssignedPage}
         originalLeftCount={environmentAssignment.data?.length || 0}
-        originalRightCount={environmentsOfWorkspace?.total_count || 0}
+        originalRightCount={environmentsOfWorkspace?.totalCount || 0}
         onAssign={environmentAssignment.handleAssign}
         disableTransfer={environmentAssignment.disableTransferButton}
         helpText={`Assign Environments to ${workspaceName}`}

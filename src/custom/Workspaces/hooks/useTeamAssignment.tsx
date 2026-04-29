@@ -76,14 +76,14 @@ const useTeamAssignment = ({
   };
 
   const handleAssignablePageTeam = () => {
-    const pagesCount = Math.ceil(Number(teams?.total_count) / teamsPageSize);
+    const pagesCount = Math.ceil(Number(teams?.totalCount) / teamsPageSize);
     if (teamsPage < pagesCount - 1) {
       setTeamsPage((prevTeamsPage) => prevTeamsPage + 1);
     }
   };
 
   const handleAssignedPageTeam = () => {
-    const pagesCount = Math.ceil(Number(teamsOfWorkspace?.total_count) / teamsPageSize);
+    const pagesCount = Math.ceil(Number(teamsOfWorkspace?.totalCount) / teamsPageSize);
 
     if (teamsOfWorkspacePage < pagesCount - 1) {
       setTeamsOfWorkspacePage((prevPage) => prevPage + 1);

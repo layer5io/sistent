@@ -40,7 +40,7 @@ export const DesignCardUrl = styled('a')(() => ({
 export interface Pattern {
   id: string;
   userId: string;
-  pattern_file: string;
+  patternFile: string;
   user: {
     firstName: string;
     lastName: string;
@@ -61,11 +61,11 @@ export interface Pattern {
     technologies?: string[];
     updatedAt?: string;
   };
-  catalog_data?: {
-    content_class?: string;
+  catalogData?: {
+    contentClass?: string;
     imageURL?: string[];
     compatibility?: string[];
-    published_version?: string;
+    publishedVersion?: string;
     type?: string;
     patternInfo?: string;
     patternCaveats?: string;
@@ -135,7 +135,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   };
   const theme = useTheme();
 
-  const technologies = pattern.catalog_data?.compatibility || [];
+  const technologies = pattern.catalogData?.compatibility || [];
   const techlimit = 5;
   const [availableTechnologies, setAvailableTechnologies] = useState<string[]>([]);
   const version = getVersion(pattern);
@@ -172,9 +172,9 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
         <CardFront shouldFlip={shouldFlip} isDetailed={isDetailed}>
           {isDetailed && (
             <>
-              <ClassWrap catalogClassName={pattern?.catalog_data?.content_class ?? ''} />
+              <ClassWrap catalogClassName={pattern?.catalogData?.contentClass ?? ''} />
               <DesignType>{patternType}</DesignType>
-              <DesignName hasRibbon={!!pattern?.catalog_data?.content_class}>
+              <DesignName hasRibbon={!!pattern?.catalogData?.contentClass}>
                 {pattern.name}
               </DesignName>
             </>
