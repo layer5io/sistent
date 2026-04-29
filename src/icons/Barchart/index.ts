@@ -1,1 +1,1 @@
-export { default as BarchartIcon } from './Barchart';
+export { default as BarchartIcon } from './BarchartIcon';

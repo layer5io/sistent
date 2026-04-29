@@ -13,7 +13,7 @@ export const BarchartIcon = ({
       height={height}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
-      data-testid="article-icon-svg"
+      data-testid="barchart-icon-svg"
       {...props}
     >
       <path
