@@ -5,6 +5,7 @@ export const ReplyIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
   fill = DEFAULT_FILL_NONE,
+  title,
   ...props
 }: IconProps): JSX.Element => {
   return (
@@ -16,6 +17,7 @@ export const ReplyIcon = ({
       data-testid="reply-icon-svg"
       {...props}
     >
+      {title && <title>{title}</title>}
       <path
         d="M10 9V5l-7 7 7 7v-4.1c5 0 8.5 1.6 11 5.1-1-5-4-10-11-10z"
         fill={fill}
