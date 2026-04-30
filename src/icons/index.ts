@@ -116,6 +116,7 @@ export * from './MesheryFilter';
 export * from './MesheryOperator';
 export * from './Mesh';
 export { default as ModifiedApplicationFileIcon } from './ModifiedApplicationFileIcon';
+export * from './MoreHoriz';
 export * from './MoreVert';
 export * from './MoveFile';
 export * from './Open';
