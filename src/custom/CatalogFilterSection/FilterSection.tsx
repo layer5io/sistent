@@ -65,9 +65,9 @@ const FilterSection: React.FC<FilterSectionProps> = ({
         <Typography
           sx={{
             fontSize: '1rem',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            fontFamily: styleProps.fontFamily
           }}
-          fontFamily={styleProps.fontFamily}
         >
           {(sectionDisplayName || filterKey).toUpperCase()}
         </Typography>
