@@ -22,10 +22,9 @@ npm test -- -t "routing utilities" --runInBand
 
 Current CI runs the main checks on Node 20 and 22. Pull requests also trigger a downstream integration workflow that packs this library and installs it into `meshery/meshery`'s `ui/` app before building and testing there.
 
-Current local baseline on this checkout:
+## Known issues
 
-- `npm run build` fails on unresolved `@meshery/schemas/*` subpath imports used from `src/schemas/`.
-- `npm test` currently fails before test execution with `TS5103: Invalid value for '--ignoreDeprecations'`.
+Local build and test behavior can vary by branch, dependency state, and environment. Verify the current checkout before assuming a failure is expected, and prefer linking tracked issues for any persistent problems rather than documenting transient command failures here.
 
 ## High-level architecture
 
