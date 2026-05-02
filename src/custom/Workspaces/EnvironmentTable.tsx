@@ -254,7 +254,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
           }}
         >
           <TableHeader>
-            <Typography variant="body1" fontWeight={'bold'}>
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
               Assigned Environments
             </Typography>
             <TableRightActionHeader>

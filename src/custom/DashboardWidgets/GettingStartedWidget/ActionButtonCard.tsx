@@ -123,7 +123,7 @@ const ActionButtonCard = ({
         >
           <IconTitleWrapper>
             {icon}
-            <Typography variant="h6" fontWeight="700">
+            <Typography variant="h6" sx={{ fontWeight: 700 }}>
               {title}
             </Typography>
           </IconTitleWrapper>
@@ -177,7 +177,7 @@ const ActionButtonCard = ({
       >
         <IconTitleWrapper>
           {icon}
-          <Typography variant="h6" fontWeight="700" component="div" sx={{ mx: 1 }}>
+          <Typography variant="h6" component="div" sx={{ mx: 1, fontWeight: 700 }}>
             {typeof title === 'string' ? title?.toUpperCase() : title}
           </Typography>
         </IconTitleWrapper>

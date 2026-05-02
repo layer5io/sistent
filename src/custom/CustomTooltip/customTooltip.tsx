@@ -14,7 +14,7 @@ type CustomTooltipProps = {
   fontWeight?: number;
   variant?: 'standard' | 'small';
   bgColor?: string;
-  componentsProps?: TooltipProps['componentsProps'];
+  slotProps?: TooltipProps['slotProps'];
 } & Omit<TooltipProps, 'title' | 'onClick'>;
 
 function CustomTooltip({
@@ -26,7 +26,7 @@ function CustomTooltip({
   fontWeight = 400,
   variant = 'standard',
   bgColor = '#141414',
-  componentsProps = {},
+  slotProps = {},
   ...props
 }: CustomTooltipProps): JSX.Element {
   const theme = useTheme();
@@ -36,7 +36,7 @@ function CustomTooltip({
       enterDelay={150}
       enterNextDelay={400}
       leaveDelay={700}
-      componentsProps={_.merge(
+      slotProps={_.merge(
         {
           tooltip: {
             sx: {
@@ -74,7 +74,7 @@ function CustomTooltip({
             }
           }
         },
-        componentsProps
+        slotProps
       )}
       title={typeof title === 'string' ? <RenderMarkdownTooltip content={title} /> : title}
       placement={placement}

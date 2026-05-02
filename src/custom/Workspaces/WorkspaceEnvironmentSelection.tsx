@@ -149,7 +149,7 @@ const WorkspaceEnvironmentSelection: FunctionComponent<WorkspaceEnvironmentSelec
         size="small"
         disableCloseOnSelect
         getOptionLabel={(option: unknown) => (option as EnvironmentOption).label}
-        renderTags={(value: unknown) =>
+        renderValue={(value: unknown) =>
           (value as EnvironmentOption[]).map((option) => (
             <Chip
               key={option.value}
