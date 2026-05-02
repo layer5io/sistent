@@ -117,7 +117,7 @@ const WorkspaceActivityCard: React.FC<WorkspaceActivityCardProps> = ({
       <HeaderBox>
         <TitleWrapper>
           <WorkspaceIcon {...iconsProps} />
-          <Typography variant="h6" fontWeight="700">
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
             WORKSPACE ACTIVITY
           </Typography>
         </TitleWrapper>
