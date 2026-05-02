@@ -69,12 +69,14 @@ const CatalogCardDesignLogo: React.FC<CatalogCardDesignLogoProps> = ({
                 style={{
                   backgroundColor: 'rgba(0, 0, 0, 0.8)'
                 }}
-                PaperProps={{
-                  style: {
-                    background: 'transparent',
-                    boxShadow: 'none',
-                    overflow: 'hidden',
-                    maxWidth: '60vw'
+                slotProps={{
+                  paper: {
+                    style: {
+                      background: 'transparent',
+                      boxShadow: 'none',
+                      overflow: 'hidden',
+                      maxWidth: '60vw'
+                    }
                   }
                 }}
               >

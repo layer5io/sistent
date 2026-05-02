@@ -184,10 +184,12 @@ function UniversalFilter({
             anchor="bottom"
             open={open}
             onClose={handleClose}
-            PaperProps={{
-              style: {
-                padding: '0 1rem 1rem 1rem',
-                backgroundColor: theme.palette.background.surfaces
+            slotProps={{
+              paper: {
+                style: {
+                  padding: '0 1rem 1rem 1rem',
+                  backgroundColor: theme.palette.background.surfaces
+                }
               }
             }}
           >

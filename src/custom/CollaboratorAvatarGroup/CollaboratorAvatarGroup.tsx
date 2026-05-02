@@ -144,7 +144,7 @@ const CollaboratorAvatarGroup = ({
           return (
             <CustomTooltip
               key={clientID}
-              componentsProps={{
+              slotProps={{
                 tooltip: {
                   sx: {
                     background: theme.palette.background.paper,

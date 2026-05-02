@@ -47,7 +47,7 @@
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
     "@meshery/schemas": "^1.2.0",
-    "@mui/icons-material": "^7.3.9",
+    "@mui/icons-material": "^9.0.0",
     "@reduxjs/toolkit": "^2.11.2",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.2",
@@ -70,8 +70,8 @@
     "notistack": "^3.0.2",
     "prettier": "^3.8.1",
     "prettier-plugin-organize-imports": "^4.3.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "react-error-boundary": "^6.1.1",
     "react-markdown": "^10.1.0",
     "react-redux": "^9.2.0",
@@ -91,8 +91,9 @@
     "xstate": "^5.25.0"
   },
   "overrides": {
-    "@mui/icons-material": "^7.3.9",
-    "@mui/material": "^7.3.9",
+    "@mui/icons-material": "^9.0.0",
+    "@mui/material": "^9.0.0",
+    "@mui/system": "^9.0.0",
     "@meshery/schemas": {
       "react": "$react",
       "react-dom": "$react-dom"
@@ -113,8 +114,8 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@layer5/meshery-design-embed": "^0.6.0",
-    "@mui/material": "^7.3.9",
-    "@mui/system": "^7.3.10",
+    "@mui/material": "^9.0.0",
+    "@mui/system": "^9.0.0",
     "@sistent/mui-datatables": "^6.2.0",
     "@types/mui-datatables": "*",
     "billboard.js": "^3.18.0",
