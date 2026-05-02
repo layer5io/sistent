@@ -19,6 +19,7 @@ export * from './Bus';
 export * from './Cached';
 export * from './Calculate';
 export * from './Calender';
+export * from './Cancel';
 export * from './CaretDown';
 export * from './CatalogIcon';
 export * from './Chain';
