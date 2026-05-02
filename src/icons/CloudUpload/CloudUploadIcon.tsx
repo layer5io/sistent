@@ -10,12 +10,13 @@ export const CloudUploadIcon = ({
 }: IconProps): JSX.Element => {
   return (
     <svg
+      {...props}
       width={width}
       height={height}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       data-testid="cloudupload-icon-svg"
-      {...props}
+    >
     >
       {title && <title>{title}</title>}
       <path d="M0 0h24v24H0z" fill="none" />
