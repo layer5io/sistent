@@ -8,8 +8,8 @@ Use the Make targets when possible; CI runs these same entry points.
 make setup         # npm install
 make build         # npm run build
 make build-watch   # npm run build:watch
-make format-check  # prettier --check "**/*.{ts,tsx,md}"
-make lint          # prettier --write "**/*.{ts,tsx,md}" && eslint .
+make format-check  # prettier --check "**/*.{ts,tsx,md}" --config ./.prettierrc
+make lint          # prettier --write "**/*.{ts,tsx,md}" --config ./.prettierrc && eslint .
 make tests         # jest
 ```
 
