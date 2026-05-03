@@ -91,6 +91,7 @@ export * from './GetApp';
 export * from './GetStarted';
 export * from './Github';
 export * from './Google';
+export * from './GridOn';
 export * from './GridView';
 export * from './GroupAdd';
 export * from './Group';
