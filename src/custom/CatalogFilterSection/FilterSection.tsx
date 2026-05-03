@@ -109,11 +109,19 @@ const FilterSection: React.FC<FilterSectionProps> = ({
               <Stack
                 key={`${option.value}-${index}`}
                 direction="row"
-                alignItems="center"
-                px={'0.5rem'}
-                justifyContent="space-between"
+                sx={{
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  px: '0.5rem'
+                }}
               >
-                <Stack direction="row" alignItems="center" gap="0.35rem">
+                <Stack
+                  direction="row"
+                  sx={{
+                    alignItems: 'center',
+                    gap: '0.35rem'
+                  }}
+                >
                   <Checkbox
                     id={`checkbox-${option.label}`}
                     checked={
@@ -132,7 +140,13 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
                   <Typography fontFamily={styleProps.fontFamily}>{option.label}</Typography>
                 </Stack>
-                <Stack direction="row" alignItems="center" gap="0.35rem">
+                <Stack
+                  direction="row"
+                  sx={{
+                    alignItems: 'center',
+                    gap: '0.35rem'
+                  }}
+                >
                   {option.totalCount !== undefined && `(${option.totalCount || 0})`}
                   {option.description && (
                     <InfoTooltip variant="standard" helpText={option.description} />
