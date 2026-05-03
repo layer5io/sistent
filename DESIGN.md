@@ -3,85 +3,85 @@ version: alpha
 name: Sistent
 description: Open-source dashboard and component-system visual identity with a neutral application shell, teal brand actions, saffron CTAs, and a first-class dark mode.
 colors:
-  primary: "#00B39F"
-  on-primary: "#FDFDFD"
-  primary-hover: "#41CCB3"
-  primary-pressed: "#93E6D1"
-  secondary: "#3C494F"
-  on-secondary: "#FDFDFD"
-  accent: "#EBC017"
-  on-accent: "#000D12"
-  accent-hover: "#FFEB6B"
-  navigation-light: "#252E31"
-  on-navigation-light: "#FDFDFD"
-  navigation-dark: "#000D12"
-  on-navigation-dark: "#FDFDFD"
-  surface-light-app: "#FDFDFD"
-  surface-light-card: "#FFFFFF"
-  surface-light-muted: "#F6F8F8"
-  surface-light-tabs: "#F6F8F8"
-  on-surface-light: "#000D12"
-  surface-dark-app: "#000D12"
-  surface-dark-card: "#121212"
-  surface-dark-muted: "#15272F"
-  surface-dark-tabs: "#1A1A1A"
-  on-surface-dark: "#FDFDFD"
-  on-ribbon: "#FDFDFD"
-  ribbon-community: "#7A848E"
-  ribbon-official: "#EBC017"
-  ribbon-verified: "#00B39F"
+  primary: '#00B39F'
+  on-primary: '#FDFDFD'
+  primary-hover: '#41CCB3'
+  primary-pressed: '#93E6D1'
+  secondary: '#3C494F'
+  on-secondary: '#FDFDFD'
+  accent: '#EBC017'
+  on-accent: '#000D12'
+  accent-hover: '#FFEB6B'
+  navigation-light: '#252E31'
+  on-navigation-light: '#FDFDFD'
+  navigation-dark: '#000D12'
+  on-navigation-dark: '#FDFDFD'
+  surface-light-app: '#FDFDFD'
+  surface-light-card: '#FFFFFF'
+  surface-light-muted: '#F6F8F8'
+  surface-light-tabs: '#F6F8F8'
+  on-surface-light: '#000D12'
+  surface-dark-app: '#000D12'
+  surface-dark-card: '#121212'
+  surface-dark-muted: '#15272F'
+  surface-dark-tabs: '#1A1A1A'
+  on-surface-dark: '#FDFDFD'
+  on-ribbon: '#FDFDFD'
+  ribbon-community: '#7A848E'
+  ribbon-official: '#EBC017'
+  ribbon-verified: '#00B39F'
 typography:
-  text-h1-bold:
-    fontFamily: "Qanelas Soft Regular, Roboto, Helvetica, Arial, sans-serif"
+  textH1Bold:
+    fontFamily: 'Qanelas Soft Regular, Roboto, Helvetica, Arial, sans-serif'
     fontSize: 3.25rem
-    fontWeight: "700"
+    fontWeight: 700
     lineHeight: 4rem
     letterSpacing: -0.02em
-  text-h2-medium:
-    fontFamily: "Qanelas Soft Regular, Roboto, Helvetica, Arial, sans-serif"
+  textH2Medium:
+    fontFamily: 'Qanelas Soft Regular, Roboto, Helvetica, Arial, sans-serif'
     fontSize: 2rem
-    fontWeight: "500"
+    fontWeight: 500
     lineHeight: 2.5rem
-  text-h3-medium:
-    fontFamily: "Qanelas Soft Regular, Roboto, Helvetica, Arial, sans-serif"
+  textH3Medium:
+    fontFamily: 'Qanelas Soft Regular, Roboto, Helvetica, Arial, sans-serif'
     fontSize: 1.5rem
-    fontWeight: "500"
+    fontWeight: 500
     lineHeight: 2.25rem
-  text-b1-regular:
-    fontFamily: "Qanelas Soft Regular, Open Sans, sans-serif"
+  textB1Regular:
+    fontFamily: 'Qanelas Soft Regular, Open Sans, sans-serif'
     fontSize: 1rem
-    fontWeight: "400"
+    fontWeight: 400
     lineHeight: 1.75rem
-  text-b2-semibold:
-    fontFamily: "Qanelas Soft Regular, Open Sans, sans-serif"
+  textB2SemiBold:
+    fontFamily: 'Qanelas Soft Regular, Open Sans, sans-serif'
     fontSize: 1rem
-    fontWeight: "600"
+    fontWeight: 600
     lineHeight: 1.75rem
-  text-b3-regular:
-    fontFamily: "Open Sans, sans-serif"
+  textB3Regular:
+    fontFamily: 'Open Sans, sans-serif'
     fontSize: 0.875rem
-    fontWeight: "400"
+    fontWeight: 400
     lineHeight: 1.5rem
-  text-l1-bold:
-    fontFamily: "Qanelas Soft Regular, Open Sans, sans-serif"
+  textL1Bold:
+    fontFamily: 'Qanelas Soft Regular, Open Sans, sans-serif'
     fontSize: 0.75rem
-    fontWeight: "700"
+    fontWeight: 700
     lineHeight: 1rem
     letterSpacing: 0.02em
-  text-l2-regular:
-    fontFamily: "Open Sans, sans-serif"
+  textL2Regular:
+    fontFamily: 'Open Sans, sans-serif'
     fontSize: 0.75rem
-    fontWeight: "400"
+    fontWeight: 400
     lineHeight: 1.5rem
-  text-c1-regular:
-    fontFamily: "Consolas, monospace"
+  textC1Regular:
+    fontFamily: 'Consolas, monospace'
     fontSize: 0.75rem
-    fontWeight: "400"
+    fontWeight: 400
     lineHeight: 1.5rem
-  text-c2-regular:
-    fontFamily: "Consolas, monospace"
+  textC2Regular:
+    fontFamily: 'Consolas, monospace'
     fontSize: 1rem
-    fontWeight: "400"
+    fontWeight: 400
     lineHeight: 1.75rem
 rounded:
   xs: 2px
@@ -102,20 +102,20 @@ spacing:
   xxl: 24px
   xxxl: 32px
 strokes:
-  light-default: "#EAEDEE"
-  light-strong: "#28353A"
-  light-normal: "#8C999E"
-  dark-default: "#15272F"
-  dark-strong: "#8D9FA7"
-  dark-normal: "#3D4F57"
+  light-default: '#EAEDEE'
+  light-strong: '#28353A'
+  light-normal: '#8C999E'
+  dark-default: '#15272F'
+  dark-strong: '#8D9FA7'
+  dark-normal: '#3D4F57'
 status-colors:
-  info: "#2196F3"
-  success: "#206D24"
-  warning: "#F0A303"
-  error: "#F91313"
+  info: '#2196F3'
+  success: '#206D24'
+  warning: '#F0A303'
+  error: '#F91313'
 icons:
-  light-primary: "#15272F"
-  dark-primary: "#D2D8DA"
+  light-primary: '#15272F'
+  dark-primary: '#D2D8DA'
 motion:
   duration-fast: 150ms
   duration-short: 200ms
@@ -125,176 +125,176 @@ motion:
   easing-standard: ease-out
   easing-emphasized: cubic-bezier(0.2, 0.8, 0.2, 1)
 shadows:
-  card-accent: "2px 2px 3px 0px #00B39F"
-  hover-sm: "0 3px 10px 0px rgba(0, 0, 0, 0.08)"
-  floating-panel-light: "0 4px 16px rgba(234, 237, 238, 0.5)"
-  floating-panel-dark: "0 4px 16px rgba(0, 13, 18, 0.5)"
-  tooltip-light: "0 10px 30px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)"
-  tooltip-dark: "0 10px 30px rgba(0, 179, 159, 0.28), 0 2px 8px rgba(0, 179, 159, 0.20), 0 0 1px rgba(0, 179, 159, 0.32)"
+  card-accent: '2px 2px 3px 0px #00B39F'
+  hover-sm: '0 3px 10px 0px rgba(0, 0, 0, 0.08)'
+  floating-panel-light: '0 4px 16px rgba(234, 237, 238, 0.5)'
+  floating-panel-dark: '0 4px 16px rgba(0, 13, 18, 0.5)'
+  tooltip-light: '0 10px 30px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)'
+  tooltip-dark: '0 10px 30px rgba(0, 179, 159, 0.28), 0 2px 8px rgba(0, 179, 159, 0.20), 0 0 1px rgba(0, 179, 159, 0.32)'
 elevation:
   flat: none
-  raised-sm: "0 3px 10px 0px rgba(0, 0, 0, 0.08)"
-  raised-accent: "2px 2px 3px 0px #00B39F"
-  floating-panel-light: "0 4px 16px rgba(234, 237, 238, 0.5)"
-  floating-panel-dark: "0 4px 16px rgba(0, 13, 18, 0.5)"
-  tooltip-light: "0 10px 30px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)"
-  tooltip-dark: "0 10px 30px rgba(0, 179, 159, 0.28), 0 2px 8px rgba(0, 179, 159, 0.20), 0 0 1px rgba(0, 179, 159, 0.32)"
+  raised-sm: '0 3px 10px 0px rgba(0, 0, 0, 0.08)'
+  raised-accent: '2px 2px 3px 0px #00B39F'
+  floating-panel-light: '0 4px 16px rgba(234, 237, 238, 0.5)'
+  floating-panel-dark: '0 4px 16px rgba(0, 13, 18, 0.5)'
+  tooltip-light: '0 10px 30px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)'
+  tooltip-dark: '0 10px 30px rgba(0, 179, 159, 0.28), 0 2px 8px rgba(0, 179, 159, 0.20), 0 0 1px rgba(0, 179, 159, 0.32)'
 gradients:
-  tint-light: "linear-gradient(90deg, #477E96 0%, #455A64 100%)"
-  tint-dark: "linear-gradient(90deg, #28353A 0%, #3D4F57 100%)"
-  panel-header-light: "linear-gradient(90deg, #3B687B 0%, #507D90 100%)"
-  panel-header-dark: "linear-gradient(90deg, #28353A 0%, #3D4F57 100%)"
+  tint-light: 'linear-gradient(90deg, #477E96 0%, #455A64 100%)'
+  tint-dark: 'linear-gradient(90deg, #28353A 0%, #3D4F57 100%)'
+  panel-header-light: 'linear-gradient(90deg, #3B687B 0%, #507D90 100%)'
+  panel-header-dark: 'linear-gradient(90deg, #28353A 0%, #3D4F57 100%)'
 effects:
-  card-wash: "radial-gradient(circle 3000px at 50% 50%, rgba(30, 33, 23, 0) 0%, rgba(30, 33, 23, 0.05) 10%, rgba(30, 33, 23, 0.1) 100%)"
-  panel-blur-light: "rgba(234, 237, 238, 0.5)"
-  panel-blur-dark: "rgba(0, 13, 18, 0.5)"
+  card-wash: 'radial-gradient(circle 3000px at 50% 50%, rgba(30, 33, 23, 0) 0%, rgba(30, 33, 23, 0.05) 10%, rgba(30, 33, 23, 0.1) 100%)'
+  panel-blur-light: 'rgba(234, 237, 238, 0.5)'
+  panel-blur-dark: 'rgba(0, 13, 18, 0.5)'
 components:
   app-shell-light:
-    backgroundColor: "{colors.surface-light-app}"
-    textColor: "{colors.on-surface-light}"
-    typography: "{typography.text-b1-regular}"
-    padding: "{spacing.xxl}"
+    backgroundColor: '{colors.surface-light-app}'
+    textColor: '{colors.on-surface-light}'
+    typography: '{typography.textB1Regular}'
+    padding: '{spacing.xxl}'
   app-shell-dark:
-    backgroundColor: "{colors.surface-dark-app}"
-    textColor: "{colors.on-surface-dark}"
-    typography: "{typography.text-b1-regular}"
-    padding: "{spacing.xxl}"
+    backgroundColor: '{colors.surface-dark-app}'
+    textColor: '{colors.on-surface-dark}'
+    typography: '{typography.textB1Regular}'
+    padding: '{spacing.xxl}'
   navigation-bar-light:
-    backgroundColor: "{colors.navigation-light}"
-    textColor: "{colors.on-navigation-light}"
-    typography: "{typography.text-b2-semibold}"
-    padding: "{spacing.lg}"
+    backgroundColor: '{colors.navigation-light}'
+    textColor: '{colors.on-navigation-light}'
+    typography: '{typography.textB2SemiBold}'
+    padding: '{spacing.lg}'
   navigation-bar-dark:
-    backgroundColor: "{colors.navigation-dark}"
-    textColor: "{colors.on-navigation-dark}"
-    typography: "{typography.text-b2-semibold}"
-    padding: "{spacing.lg}"
+    backgroundColor: '{colors.navigation-dark}'
+    textColor: '{colors.on-navigation-dark}'
+    typography: '{typography.textB2SemiBold}'
+    padding: '{spacing.lg}'
   button-primary:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    typography: "{typography.text-b2-semibold}"
-    rounded: "{rounded.sm}"
+    backgroundColor: '{colors.primary}'
+    textColor: '{colors.on-primary}'
+    typography: '{typography.textB2SemiBold}'
+    rounded: '{rounded.sm}'
     padding: 6px 16px
   button-primary-hover:
-    backgroundColor: "{colors.primary-hover}"
-    textColor: "{colors.on-primary}"
-    typography: "{typography.text-b2-semibold}"
-    rounded: "{rounded.sm}"
+    backgroundColor: '{colors.primary-hover}'
+    textColor: '{colors.on-primary}'
+    typography: '{typography.textB2SemiBold}'
+    rounded: '{rounded.sm}'
     padding: 6px 16px
   button-primary-pressed:
-    backgroundColor: "{colors.primary-pressed}"
-    textColor: "{colors.on-surface-light}"
-    typography: "{typography.text-b2-semibold}"
-    rounded: "{rounded.sm}"
+    backgroundColor: '{colors.primary-pressed}'
+    textColor: '{colors.on-surface-light}'
+    typography: '{typography.textB2SemiBold}'
+    rounded: '{rounded.sm}'
     padding: 6px 16px
   button-secondary:
-    backgroundColor: "{colors.secondary}"
-    textColor: "{colors.on-secondary}"
-    typography: "{typography.text-b2-semibold}"
-    rounded: "{rounded.sm}"
+    backgroundColor: '{colors.secondary}'
+    textColor: '{colors.on-secondary}'
+    typography: '{typography.textB2SemiBold}'
+    rounded: '{rounded.sm}'
     padding: 6px 16px
   button-cta:
-    backgroundColor: "{colors.accent}"
-    textColor: "{colors.on-accent}"
-    typography: "{typography.text-b2-semibold}"
-    rounded: "{rounded.sm}"
+    backgroundColor: '{colors.accent}'
+    textColor: '{colors.on-accent}'
+    typography: '{typography.textB2SemiBold}'
+    rounded: '{rounded.sm}'
     padding: 6px 16px
   button-cta-hover:
-    backgroundColor: "{colors.accent-hover}"
-    textColor: "{colors.on-accent}"
-    typography: "{typography.text-b2-semibold}"
-    rounded: "{rounded.sm}"
+    backgroundColor: '{colors.accent-hover}'
+    textColor: '{colors.on-accent}'
+    typography: '{typography.textB2SemiBold}'
+    rounded: '{rounded.sm}'
     padding: 6px 16px
   card-standard-light:
-    backgroundColor: "{colors.surface-light-card}"
-    textColor: "{colors.on-surface-light}"
-    rounded: "{rounded.sm}"
-    padding: "{spacing.lg}"
+    backgroundColor: '{colors.surface-light-card}'
+    textColor: '{colors.on-surface-light}'
+    rounded: '{rounded.sm}'
+    padding: '{spacing.lg}'
   card-standard-dark:
-    backgroundColor: "{colors.surface-dark-card}"
-    textColor: "{colors.on-surface-dark}"
-    rounded: "{rounded.sm}"
-    padding: "{spacing.lg}"
+    backgroundColor: '{colors.surface-dark-card}'
+    textColor: '{colors.on-surface-dark}'
+    rounded: '{rounded.sm}'
+    padding: '{spacing.lg}'
   tab-selected-light:
-    backgroundColor: "{colors.surface-light-tabs}"
-    textColor: "{colors.on-surface-light}"
-    typography: "{typography.text-b2-semibold}"
-    rounded: "{rounded.sm}"
+    backgroundColor: '{colors.surface-light-tabs}'
+    textColor: '{colors.on-surface-light}'
+    typography: '{typography.textB2SemiBold}'
+    rounded: '{rounded.sm}'
     padding: 12px 16px
   tab-selected-dark:
-    backgroundColor: "{colors.surface-dark-tabs}"
-    textColor: "{colors.on-surface-dark}"
-    typography: "{typography.text-b2-semibold}"
-    rounded: "{rounded.sm}"
+    backgroundColor: '{colors.surface-dark-tabs}'
+    textColor: '{colors.on-surface-dark}'
+    typography: '{typography.textB2SemiBold}'
+    rounded: '{rounded.sm}'
     padding: 12px 16px
   input-field-light:
     backgroundColor: transparent
-    textColor: "{colors.on-surface-light}"
-    typography: "{typography.text-b1-regular}"
-    rounded: "{rounded.sm}"
+    textColor: '{colors.on-surface-light}'
+    typography: '{typography.textB1Regular}'
+    rounded: '{rounded.sm}'
     padding: 16px 14px
   input-field-dark:
     backgroundColor: transparent
-    textColor: "{colors.on-surface-dark}"
-    typography: "{typography.text-b1-regular}"
-    rounded: "{rounded.sm}"
+    textColor: '{colors.on-surface-dark}'
+    typography: '{typography.textB1Regular}'
+    rounded: '{rounded.sm}'
     padding: 16px 14px
   checkbox:
     backgroundColor: transparent
-    textColor: "{colors.on-surface-light}"
-    rounded: "{rounded.xs}"
+    textColor: '{colors.on-surface-light}'
+    rounded: '{rounded.xs}'
     size: 20px
   modal-header-light:
-    backgroundColor: "linear-gradient(90deg, #477E96 0%, #455A64 100%)"
-    textColor: "{colors.on-primary}"
-    typography: "{typography.text-b1-regular}"
-    rounded: "{rounded.md}"
+    backgroundColor: 'linear-gradient(90deg, #477E96 0%, #455A64 100%)'
+    textColor: '{colors.on-primary}'
+    typography: '{typography.textB1Regular}'
+    rounded: '{rounded.md}'
     height: 52px
     padding: 11px 16px
   modal-header-dark:
-    backgroundColor: "linear-gradient(90deg, #28353A 0%, #3D4F57 100%)"
-    textColor: "{colors.on-surface-dark}"
-    typography: "{typography.text-b1-regular}"
-    rounded: "{rounded.md}"
+    backgroundColor: 'linear-gradient(90deg, #28353A 0%, #3D4F57 100%)'
+    textColor: '{colors.on-surface-dark}'
+    typography: '{typography.textB1Regular}'
+    rounded: '{rounded.md}'
     height: 52px
     padding: 11px 16px
   panel-floating-light:
-    backgroundColor: "rgba(234, 237, 238, 0.5)"
-    textColor: "{colors.on-surface-light}"
-    rounded: "{rounded.lg}"
-    padding: "{spacing.xl}"
+    backgroundColor: 'rgba(234, 237, 238, 0.5)'
+    textColor: '{colors.on-surface-light}'
+    rounded: '{rounded.lg}'
+    padding: '{spacing.xl}'
   panel-floating-dark:
-    backgroundColor: "rgba(0, 13, 18, 0.5)"
-    textColor: "{colors.on-surface-dark}"
-    rounded: "{rounded.lg}"
-    padding: "{spacing.xl}"
+    backgroundColor: 'rgba(0, 13, 18, 0.5)'
+    textColor: '{colors.on-surface-dark}'
+    rounded: '{rounded.lg}'
+    padding: '{spacing.xl}'
   table-header-light:
-    backgroundColor: "{colors.surface-light-muted}"
-    textColor: "{colors.on-surface-light}"
-    typography: "{typography.text-b2-semibold}"
-    padding: "{spacing.lg}"
+    backgroundColor: '{colors.surface-light-muted}'
+    textColor: '{colors.on-surface-light}'
+    typography: '{typography.textB2SemiBold}'
+    padding: '{spacing.lg}'
   table-header-dark:
-    backgroundColor: "{colors.surface-dark-muted}"
-    textColor: "{colors.on-surface-dark}"
-    typography: "{typography.text-b2-semibold}"
-    padding: "{spacing.lg}"
+    backgroundColor: '{colors.surface-dark-muted}'
+    textColor: '{colors.on-surface-dark}'
+    typography: '{typography.textB2SemiBold}'
+    padding: '{spacing.lg}'
   badge-community:
-    backgroundColor: "{colors.ribbon-community}"
-    textColor: "{colors.on-ribbon}"
-    typography: "{typography.text-l1-bold}"
-    rounded: "{rounded.full}"
+    backgroundColor: '{colors.ribbon-community}'
+    textColor: '{colors.on-ribbon}'
+    typography: '{typography.textL1Bold}'
+    rounded: '{rounded.full}'
     padding: 4px 8px
   badge-official:
-    backgroundColor: "{colors.ribbon-official}"
-    textColor: "{colors.on-accent}"
-    typography: "{typography.text-l1-bold}"
-    rounded: "{rounded.full}"
+    backgroundColor: '{colors.ribbon-official}'
+    textColor: '{colors.on-accent}'
+    typography: '{typography.textL1Bold}'
+    rounded: '{rounded.full}'
     padding: 4px 8px
   badge-verified:
-    backgroundColor: "{colors.ribbon-verified}"
-    textColor: "{colors.on-ribbon}"
-    typography: "{typography.text-l1-bold}"
-    rounded: "{rounded.full}"
+    backgroundColor: '{colors.ribbon-verified}'
+    textColor: '{colors.on-ribbon}'
+    typography: '{typography.textL1Bold}'
+    rounded: '{rounded.full}'
     padding: 4px 8px
 ---
 
