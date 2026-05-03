@@ -1,0 +1,1 @@
+export { default as TableChartIcon } from './TableChartIcon';
