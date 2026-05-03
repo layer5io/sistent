@@ -18,13 +18,15 @@ jest.mock('rehype-raw', () => ({
   default: () => {}
 }));
 
+const LEAKED_LAYOUT_ATTR_SELECTOR = '[alignitems],[justifycontent],[gap],[px]';
+
 const renderWithTheme = (ui: React.ReactElement) => {
   return render(<SistentThemeProvider>{ui}</SistentThemeProvider>);
 };
 
 describe('CatalogFilterSection', () => {
   it('applies option row layout via sx instead of leaking raw DOM attributes', () => {
-    renderWithTheme(
+    const { container } = renderWithTheme(
       <FilterSection
         filterKey="contentType"
         sectionDisplayName="Content Type"
@@ -52,13 +54,7 @@ describe('CatalogFilterSection', () => {
     const optionRow = labelGroup?.parentElement;
     const metadataGroup = optionRow?.lastElementChild as HTMLElement | null;
 
-    expect(labelGroup?.getAttribute('alignitems')).toBeNull();
-    expect(labelGroup?.getAttribute('gap')).toBeNull();
-    expect(optionRow?.getAttribute('alignitems')).toBeNull();
-    expect(optionRow?.getAttribute('justifycontent')).toBeNull();
-    expect(optionRow?.getAttribute('px')).toBeNull();
-    expect(metadataGroup?.getAttribute('alignitems')).toBeNull();
-    expect(metadataGroup?.getAttribute('gap')).toBeNull();
+    expect(container.querySelector(LEAKED_LAYOUT_ATTR_SELECTOR)).toBeNull();
 
     expect(window.getComputedStyle(labelGroup as Element).alignItems).toBe('center');
     expect(window.getComputedStyle(optionRow as Element).alignItems).toBe('center');
