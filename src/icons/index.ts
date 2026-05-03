@@ -103,6 +103,7 @@ export { default as InsertChartIcon } from './InsertChartIcon';
 export * from './InviteUser';
 export * from './Kanvas';
 export * from './Kubernetes';
+export * from './Launch';
 export * from './LeaderBoard';
 export * from './Learning';
 export * from './LeftAngledArrow';
