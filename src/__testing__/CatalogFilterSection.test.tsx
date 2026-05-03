@@ -50,11 +50,19 @@ describe('CatalogFilterSection', () => {
     const label = screen.getByText('Learning Path');
     const labelGroup = label.parentElement;
     const optionRow = labelGroup?.parentElement;
+    const metadataGroup = optionRow?.lastElementChild as HTMLElement | null;
 
     expect(labelGroup?.getAttribute('alignitems')).toBeNull();
     expect(labelGroup?.getAttribute('gap')).toBeNull();
     expect(optionRow?.getAttribute('alignitems')).toBeNull();
     expect(optionRow?.getAttribute('justifycontent')).toBeNull();
     expect(optionRow?.getAttribute('px')).toBeNull();
+    expect(metadataGroup?.getAttribute('alignitems')).toBeNull();
+    expect(metadataGroup?.getAttribute('gap')).toBeNull();
+
+    expect(window.getComputedStyle(labelGroup as Element).alignItems).toBe('center');
+    expect(window.getComputedStyle(optionRow as Element).alignItems).toBe('center');
+    expect(window.getComputedStyle(optionRow as Element).justifyContent).toBe('space-between');
+    expect(window.getComputedStyle(metadataGroup as Element).alignItems).toBe('center');
   });
 });
