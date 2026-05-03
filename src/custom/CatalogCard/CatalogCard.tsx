@@ -73,7 +73,7 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
   return (
     <DesignCard outerStyles={outerStyles} onClick={onCardClick}>
       <DesignInnerCard className="innerCard">
-        <ClassWrap catalogClassName={pattern?.catalog_data?.content_class} />
+        <ClassWrap catalogClassName={pattern?.catalogData?.contentClass} />
         <DesignType>{patternType}</DesignType>
         <DesignDetailsDiv>
           <DesignName

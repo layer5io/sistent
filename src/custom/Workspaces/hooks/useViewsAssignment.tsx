@@ -87,14 +87,14 @@ const useViewAssignment = ({
   };
 
   const handleAssignablePageview = (): void => {
-    const pagesCount = Math.ceil(Number(views?.total_count) / viewsPageSize);
+    const pagesCount = Math.ceil(Number(views?.totalCount) / viewsPageSize);
     if (viewsPage < pagesCount - 1) {
       setviewsPage((prevviewsPage) => prevviewsPage + 1);
     }
   };
 
   const handleAssignedPageview = (): void => {
-    const pagesCount = Math.ceil(Number(viewsOfWorkspace?.total_count) / viewsPageSize);
+    const pagesCount = Math.ceil(Number(viewsOfWorkspace?.totalCount) / viewsPageSize);
     if (viewsOfWorkspacePage < pagesCount - 1) {
       setviewsOfWorkspacePage((prevPage) => prevPage + 1);
     }

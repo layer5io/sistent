@@ -216,7 +216,7 @@ const processQueryData = (
     pattern: pattern,
     userName: pattern.user?.firstName || 'Unknown',
     id: config.id,
-    status: pattern?.catalog_data?.content_class
+    status: pattern?.catalogData?.contentClass
   };
 };
 

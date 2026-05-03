@@ -79,7 +79,7 @@ const useEnvironmentAssignment = ({
   };
 
   const handleAssignablePageEnvironment = () => {
-    const pagesCount = Math.ceil(Number(environments?.total_count) / environmentsPageSize);
+    const pagesCount = Math.ceil(Number(environments?.totalCount) / environmentsPageSize);
     if (environmentsPage < pagesCount - 1) {
       setEnvironmentsPage((prevEnvironmentsPage) => prevEnvironmentsPage + 1);
     }
@@ -87,7 +87,7 @@ const useEnvironmentAssignment = ({
 
   const handleAssignedPageEnvironment = () => {
     const pagesCount = Math.ceil(
-      Number(environmentsOfWorkspace?.total_count) / environmentsPageSize
+      Number(environmentsOfWorkspace?.totalCount) / environmentsPageSize
     );
     if (environmentsOfWorkspacePage < pagesCount - 1) {
       setEnvironmentsOfWorkspacePage((prevPage) => prevPage + 1);

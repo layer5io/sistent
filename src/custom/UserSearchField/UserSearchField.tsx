@@ -116,8 +116,8 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           // @ts-ignore
           filterOptions={(x) => x}
           options={filteredOptions}
-          renderTags={(value, getTagProps) =>
-            value.map((user, index) => <UserChip avatarObj={user} {...getTagProps({ index })} />)
+          renderValue={(value, getItemProps) =>
+            value.map((user, index) => <UserChip avatarObj={user} {...getItemProps({ index })} />)
           }
           disableClearable
           includeInputInList

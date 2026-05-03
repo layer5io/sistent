@@ -149,22 +149,16 @@ const WorkspaceEnvironmentSelection: FunctionComponent<WorkspaceEnvironmentSelec
         size="small"
         disableCloseOnSelect
         getOptionLabel={(option: unknown) => (option as EnvironmentOption).label}
-        renderTags={(value: unknown) =>
-          (value as EnvironmentOption[]).map((option) => (
+        renderValue={(value: unknown, getItemProps) =>
+          (value as EnvironmentOption[]).map((option, index) => (
             <Chip
-              key={option.value}
               label={option.label}
               size="small"
               style={{
                 margin: '0.15rem',
                 borderRadius: '0.2rem'
               }}
-              onDelete={() => {
-                unassignEnvironmentFromWorkspace({
-                  workspaceId,
-                  environmentId: option.value
-                });
-              }}
+              {...getItemProps({ index })}
             />
           ))
         }
