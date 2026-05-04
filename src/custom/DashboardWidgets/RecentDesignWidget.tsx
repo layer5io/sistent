@@ -174,7 +174,7 @@ const DesignCard: React.FC<DesignCardProps> = ({
           <HeaderContainer>
             <TitleContainer>
               {icon}
-              <Typography variant="h6" fontWeight="700">
+              <Typography variant="h6" sx={{ fontWeight: 700 }}>
                 {title}
               </Typography>
             </TitleContainer>
@@ -361,10 +361,9 @@ const BoxContainer: React.FC<BoxContainerProps> = ({ title, image, onClick }) =>
           <Typography
             variant="body1"
             align="center"
-            fontWeight="500"
             component="div"
             style={{}}
-            sx={{ mt: 1, mb: 1 }}
+            sx={{ mt: 1, mb: 1, fontWeight: 500 }}
           >
             {title}
           </Typography>

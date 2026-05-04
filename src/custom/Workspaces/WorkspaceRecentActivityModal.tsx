@@ -29,7 +29,7 @@ interface EventData {
 interface EventsResponse {
   data: EventData[];
   page: number;
-  total_count: number;
+  totalCount: number;
 }
 
 interface RecentActivityModalProps {
@@ -88,7 +88,7 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
       }
 
       // Check if we've loaded all events
-      setHasMore((eventsData.page + 1) * _pageSize < eventsData.total_count);
+      setHasMore((eventsData.page + 1) * _pageSize < eventsData.totalCount);
     }
   }, [eventsData, page, _pageSize]);
 

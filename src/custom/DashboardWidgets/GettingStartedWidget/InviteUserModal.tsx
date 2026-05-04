@@ -131,15 +131,15 @@ export default function UserInviteModal({
       const organizationRoles: string[] = [];
 
       if (providerRolesData) {
-        providerRolesData?.roles?.forEach((role: { role_name: string }) =>
-          providerRoles.push(role?.role_name)
+        providerRolesData?.roles?.forEach((role: { roleName: string }) =>
+          providerRoles.push(role?.roleName)
         );
         setAvailableProviderRoles(providerRoles);
       }
 
       if (organizationRolesData) {
-        organizationRolesData?.roles?.forEach((role: { role_name: string }) =>
-          organizationRoles.push(role?.role_name)
+        organizationRolesData?.roles?.forEach((role: { roleName: string }) =>
+          organizationRoles.push(role?.roleName)
         );
         setAvailableOrgRoles(organizationRoles);
       }

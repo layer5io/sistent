@@ -75,7 +75,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
         cardWidth="100%"
       >
         <CatalogCardDesignLogo
-          imgURL={details?.catalog_data?.imageURL}
+          imgURL={details?.catalogData?.imageURL}
           height={'100%'}
           width={'100%'}
           zoomEffect={true}
@@ -103,7 +103,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({
         <TechnologySection
           technologySVGPath={technologySVGPath}
           technologySVGSubpath={technologySVGSubpath}
-          technologies={details.catalog_data?.compatibility || []}
+          technologies={details.catalogData?.compatibility || []}
         />
       )}
       <LearningSection filteredAcademyData={filteredAcademyData} />

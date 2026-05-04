@@ -791,7 +791,7 @@ export const NumberState: React.FC<NumberStateProps> = ({ title, value, quantity
     <NumberStateContainer>
       {title && <NumberStateTitle variant="body1">{title}</NumberStateTitle>}
       <NumberStateValueContainer>
-        <NumberStateValue variant="h2" fontWeight="1000" gutterBottom>
+        <NumberStateValue variant="h2" gutterBottom sx={{ fontWeight: 1000 }}>
           <b>{value}</b>{' '}
         </NumberStateValue>
         <NumberStateQuantity variant="subtitle2" component="div">

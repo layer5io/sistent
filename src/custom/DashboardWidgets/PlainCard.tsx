@@ -66,7 +66,7 @@ export const PlainCard = ({ title, icon, resources }: PlainCardProps): JSX.Eleme
       <CardContent>
         <StyledTitleBox>
           {icon}
-          <Typography variant="h6" fontWeight="700">
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
             {title}
           </Typography>
         </StyledTitleBox>

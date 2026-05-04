@@ -56,18 +56,20 @@ function HelperTextPopover({
           vertical: 'bottom',
           horizontal: 'center'
         }}
-        PaperProps={{
-          sx: {
-            background: bgColor,
-            zIndex: 1501,
-            opacity: '1',
-            color: WHITE,
-            maxWidth: '500px',
-            fontSize: fontSize || (variant === 'standard' ? '1rem' : '0.75rem'),
-            fontWeight: fontWeight,
-            borderRadius: '0.5rem',
-            padding: variant === 'standard' ? '0.9rem' : '0.5rem 0.75rem',
-            boxShadow: 'rgba(0, 0, 0, 0.6) 0px 4px 10px, rgba(0, 0, 0, 0.5) 0px 2px 4px'
+        slotProps={{
+          paper: {
+            sx: {
+              background: bgColor,
+              zIndex: 1501,
+              opacity: '1',
+              color: WHITE,
+              maxWidth: '500px',
+              fontSize: fontSize || (variant === 'standard' ? '1rem' : '0.75rem'),
+              fontWeight: fontWeight,
+              borderRadius: '0.5rem',
+              padding: variant === 'standard' ? '0.9rem' : '0.5rem 0.75rem',
+              boxShadow: 'rgba(0, 0, 0, 0.6) 0px 4px 10px, rgba(0, 0, 0, 0.5) 0px 2px 4px'
+            }
           }
         }}
         {...props}

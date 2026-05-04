@@ -141,7 +141,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
       roleNames: [...teamRoles, ...organizationRoles]
     };
   });
-  const count = userData?.total_count || 0;
+  const count = userData?.totalCount || 0;
 
   const handleRemoveFromTeam = (data: any[]) => async () => {
     const userId = data[0];
