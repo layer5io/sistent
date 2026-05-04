@@ -42,7 +42,7 @@ export const colViews: ColView[] = [
 interface ColumnConfigProps {
   handleShowDetails: (design: Pattern) => void;
   handleClone: (designId: string, name: string) => void;
-  handleCopyUrl: (designId: string, name: string) => void;
+  handleCopyUrl: (designId: string, name: string, id?: string) => void;
   handleOpenPlayground: (designId: string, name: string) => void;
   handleUnpublish?: (design: Pattern) => void;
   maxWidth?: boolean;
@@ -263,7 +263,7 @@ export const createDesignColumns = ({
             },
             {
               title: 'Copy Link',
-              onClick: () => handleCopyUrl(rowData.id, rowData.name),
+              onClick: () => handleCopyUrl(rowData.id, rowData.name, rowData.id),
               icon: <ChainIcon width={'24'} height={'24'} fill={theme.palette.text.primary} />
             },
             {
