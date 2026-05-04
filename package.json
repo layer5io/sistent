@@ -116,7 +116,7 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@layer5/meshery-design-embed": "^0.6.0",
-    "@sistent/mui-datatables": "^7.0.0",
+    "@sistent/mui-datatables": "^7.1.0",
     "@types/mui-datatables": "*",
     "billboard.js": "^3.18.0",
     "js-yaml": "^4.1.1",
