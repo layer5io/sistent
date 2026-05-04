@@ -83,14 +83,14 @@ const useDesignAssignment = ({
   };
 
   const handleAssignablePageDesign = (): void => {
-    const pagesCount = Math.ceil(Number(designs?.total_count) / designsPageSize);
+    const pagesCount = Math.ceil(Number(designs?.totalCount) / designsPageSize);
     if (designsPage < pagesCount - 1) {
       setDesignsPage((prevDesignsPage) => prevDesignsPage + 1);
     }
   };
 
   const handleAssignedPageDesign = (): void => {
-    const pagesCount = Math.ceil(Number(designsOfWorkspace?.total_count) / designsPageSize);
+    const pagesCount = Math.ceil(Number(designsOfWorkspace?.totalCount) / designsPageSize);
     if (designsOfWorkspacePage < pagesCount - 1) {
       setDesignsOfWorkspacePage((prevPage) => prevPage + 1);
     }

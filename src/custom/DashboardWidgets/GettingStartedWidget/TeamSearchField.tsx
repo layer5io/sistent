@@ -13,7 +13,7 @@ interface Team {
   id: string;
   ID: string;
   name: string;
-  deleted_at: {
+  deletedAt: {
     Valid: boolean;
   };
 }
@@ -153,7 +153,7 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
           />
         )}
         renderOption={(props, option) => {
-          if (!option?.deleted_at.Valid) {
+          if (!option?.deletedAt.Valid) {
             return (
               <Box
                 component="li"

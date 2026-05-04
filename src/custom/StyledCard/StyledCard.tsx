@@ -37,7 +37,7 @@ function StyledCard({
             }}
           >
             {icon}
-            <Typography variant="h6" fontWeight="700" component="div" sx={{ mx: 1 }}>
+            <Typography variant="h6" component="div" sx={{ mx: 1, fontWeight: 700 }}>
               {title}
             </Typography>
           </Box>

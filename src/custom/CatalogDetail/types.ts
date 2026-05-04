@@ -1,7 +1,7 @@
 export interface User {
   id: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
 }
 
 export interface FilteredAcademyData {
@@ -57,7 +57,7 @@ export type ContentClassType = {
 };
 
 export type UserProfile = {
-  first_name: string;
-  last_name: string;
-  avatar_url: string;
+  firstName: string;
+  lastName: string;
+  avatarUrl: string;
 };
