@@ -1,63 +1,47 @@
 /**
- * Schema for create or edit workspace modals
+ * Schemas for the create-or-edit workspace modals.
+ *
+ * Source-of-truth: re-exported from `@meshery/schemas` per the form-schema
+ * canonicalization tracked in
+ * https://github.com/meshery/schemas/issues/866 (Phase 3).
+ *
+ * The previously hand-authored object literal has moved to
+ * `meshery/schemas` at
+ * `schemas/constructs/v1beta3/workspace/forms/createOrEdit.json`,
+ * where a Go subset-validator (`validation/forms_test.go`) keeps it
+ * structurally aligned with the canonical OpenAPI Workspace construct.
+ *
+ * Wire-level change: the field formerly keyed as `organization` is
+ * now keyed as `organizationId`, matching canonical
+ * `WorkspacePayload.organizationId`.
+ *
+ * Two exports are published:
+ *
+ *   - default (`createAndEditWorkspaceSchema`): the create-or-edit
+ *     form with `name` and `organizationId` required.
+ *   - named (`editWorkspaceSchema`): a relaxed variant where only
+ *     `organizationId` is required — used by the edit-only modal
+ *     where the existing workspace name is preserved if blank.
+ *
+ * The relaxed-`required` variant is derived locally from the
+ * canonical schema by spreading the canonical and overriding
+ * `required`. Once `@meshery/schemas` ships an
+ * `WorkspaceEditRjsfSchemaV1Beta3` (a relaxed-required canonical
+ * variant), this derivation can be deleted in favor of a direct
+ * re-export.
  */
-// TODO(meshery/schemas#866 — Phase 3): once `@meshery/schemas` ships
-// `WorkspaceCreateOrEditRjsfSchemaV1Beta3` (canonical home:
-// `typescript/forms/v1beta3/workspace/`), flip this file to:
-//
-//     export {
-//       WorkspaceCreateOrEditRjsfSchemaV1Beta3 as default,
-//       WorkspaceEditRjsfSchemaV1Beta3 as editWorkspace,
-//     } from '@meshery/schemas';
-//
-// The published Sistent export names (`createAndEditWorkspaceSchema`
-// and the named `editWorkspaceSchema`) MUST stay the same; only the
-// source flips. Coordinate with the schemas PR so the canonical
-// upstream ships BOTH the create-or-edit form and the relaxed
-// edit-only variant.
-import WorkspaceDefinitionV1Beta3OpenApiSchema from '@meshery/schemas/constructs/v1beta3/workspace/WorkspaceSchema';
+import { WorkspaceCreateOrEditRjsfSchemaV1Beta3 } from '@meshery/schemas';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const workspaceSchema = (WorkspaceDefinitionV1Beta3OpenApiSchema as any).components.schemas;
-
-/**
- * Create workspace schema - name is required
- */
-const createAndEditWorkspace = {
-  properties: {
-    description: {
-      description: workspaceSchema.WorkspacePayload.properties.description.description,
-      format: 'textarea',
-      title: 'Description',
-      type: workspaceSchema.WorkspacePayload.properties.description.type,
-      'x-rjsf-grid-area': '12'
-    },
-    name: {
-      description: workspaceSchema.WorkspacePayload.properties.name.description,
-      title: 'Name',
-      type: workspaceSchema.WorkspacePayload.properties.name.type,
-      'x-rjsf-grid-area': '12'
-    },
-    organization: {
-      type: workspaceSchema.WorkspacePayload.properties.organizationId.type,
-      description: workspaceSchema.WorkspacePayload.properties.organizationId.description,
-      title: 'Organization',
-      enum: [],
-      enumNames: [],
-      'x-rjsf-grid-area': '12'
-    }
-  },
-  type: 'object',
-  required: ['name', 'organization']
+// `editWorkspace` is intentionally typed as a loose record so its
+// emitted `.d.ts` doesn't reference @meshery/schemas's internal
+// `RJSFSchema` type (declared but not currently re-exported by that
+// package — see the follow-up issue against meshery/schemas to add
+// `export type { RJSFSchema, UiSchema }` to the public surface).
+// Once that type is exportable, this annotation can be tightened.
+const editWorkspace: Record<string, unknown> = {
+  ...WorkspaceCreateOrEditRjsfSchemaV1Beta3,
+  required: ['organizationId']
 };
 
-/**
- * Edit workspace schema - name is optional (derived from WorkspacePayload with relaxed requirements)
- */
-const editWorkspace = {
-  ...createAndEditWorkspace,
-  required: ['organization']
-};
-
-export default createAndEditWorkspace;
+export default WorkspaceCreateOrEditRjsfSchemaV1Beta3;
 export { editWorkspace };
