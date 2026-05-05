@@ -1,6 +1,14 @@
 /**
- * Schema for creating grafana credential;
+ * Schema for creating kubernetes credential.
  */
+// TODO(meshery/schemas#866 — Phase 3): once `@meshery/schemas` ships
+// `KubernetesCredentialRjsfSchemaV1Beta1` (canonical home:
+// `typescript/forms/v1beta1/credential/`), flip this file to:
+//
+//     export { KubernetesCredentialRjsfSchemaV1Beta1 as default } from '@meshery/schemas';
+//
+// The published Sistent export name (`kubernetesCredentialSchema`)
+// MUST stay the same; only the source flips.
 const kubernetesCredentialSchema = {
   type: 'object',
   title: 'Kubernetes',

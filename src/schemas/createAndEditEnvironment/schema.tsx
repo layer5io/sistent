@@ -1,3 +1,11 @@
+// TODO(meshery/schemas#866 — Phase 3): once `@meshery/schemas` ships
+// `EnvironmentCreateOrEditRjsfSchemaV1Beta3` (canonical home:
+// `typescript/forms/v1beta3/environment/`), flip this file to:
+//
+//     export { EnvironmentCreateOrEditRjsfSchemaV1Beta3 as default } from '@meshery/schemas';
+//
+// The published Sistent export name (`createAndEditEnvironmentSchema`)
+// MUST stay the same; only the source flips.
 import EnvironmentDefinitionV1Beta3OpenApiSchema from '@meshery/schemas/constructs/v1beta3/environment/EnvironmentSchema';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

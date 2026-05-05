@@ -1,3 +1,12 @@
+// TODO(meshery/schemas#866 — Phase 3): once `@meshery/schemas` ships
+// `FilterImportRjsfSchemaV1Beta2` (canonical home: `typescript/forms/v1beta2/catalog/`
+// — filter is part of the catalog/design family per the form-schemas
+// roadmap), flip this file to:
+//
+//     export { FilterImportRjsfSchemaV1Beta2 as default } from '@meshery/schemas';
+//
+// The published Sistent export name (`importFilterSchema`) MUST stay
+// the same; only the source flips.
 const importFilterSchema = {
   type: 'object',
   properties: {
