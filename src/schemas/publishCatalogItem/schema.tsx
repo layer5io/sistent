@@ -1,60 +1,18 @@
 /**
  * Schema for publish catalog item modal;
- * Can be use for publishing filters and designs
+ * Can be used for publishing filters and designs.
+ *
+ * Source-of-truth: re-exported from `@meshery/schemas` per the form-schema
+ * canonicalization tracked in
+ * https://github.com/meshery/schemas/issues/866 (Phase 1).
+ *
+ * The previously hand-authored object literal has moved to
+ * `meshery/schemas` at `typescript/forms/v1beta2/catalog/publish.json`,
+ * where a Go subset-validator (`validation/forms_test.go`) keeps it
+ * structurally aligned with the canonical OpenAPI Catalog construct.
+ *
+ * The published Sistent export name (`publishCatalogItemSchema`) is
+ * unchanged — only the source of the schema has flipped. Consumers in
+ * `meshery` and `meshery-cloud` keep working without source changes.
  */
-const publishCatalogItemSchema = {
-  type: 'object',
-  properties: {
-    compatibility: {
-      type: 'array',
-      title: 'Technology',
-      items: {
-        enum: ['kubernetes'],
-        type: 'string'
-      },
-      uniqueItems: true,
-      minItems: 1,
-      description:
-        'A list of technologies included in or implicated by this design; a list of relevant technology tags.',
-      'x-rjsf-grid-area': 6
-    },
-    pattern_caveats: {
-      type: 'string',
-      title: 'Caveats and Considerations',
-      description:
-        'Specific stipulations to consider and known behaviors to be aware of when using this design.',
-      format: 'textarea',
-      'x-rjsf-grid-area': 12,
-      'x-encode-in-uri': true
-    },
-    pattern_info: {
-      type: 'string',
-      title: 'Description',
-      description: 'Purpose of the design along with its intended and unintended uses.',
-      format: 'textarea',
-      'x-rjsf-grid-area': 12,
-      'x-encode-in-uri': true
-    },
-    type: {
-      type: 'string',
-      title: 'Type',
-      enum: [
-        'Deployment',
-        'Observability',
-        'Resiliency',
-        'Scaling',
-        'Security',
-        'Traffic-management',
-        'Troubleshooting',
-        'Workloads'
-      ],
-      default: 'Deployment',
-      description:
-        'Categorization of the type of design or operational flow depicted in this design.',
-      'x-rjsf-grid-area': 6
-    }
-  },
-  required: ['compatibility', 'pattern_caveats', 'pattern_info', 'type']
-};
-
-export default publishCatalogItemSchema;
+export { CatalogPublishRjsfSchemaV1Beta2 as default } from '@meshery/schemas';

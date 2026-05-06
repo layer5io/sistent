@@ -43,14 +43,14 @@ interface ViewsTableProps {
 
 const colViews: ColView[] = [
   ['id', 'na'],
-  ['avatar_url', 'xs'],
+  ['avatarUrl', 'xs'],
   ['email', 'na'],
   ['name', 'xs'],
-  ['first_name', 'na'],
-  ['last_name', 'na'],
-  ['organization_id', 'xl'],
-  ['created_at', 'na'],
-  ['updated_at', 'xl'],
+  ['firstName', 'na'],
+  ['lastName', 'na'],
+  ['organizationId', 'xl'],
+  ['createdAt', 'na'],
+  ['updatedAt', 'xl'],
   ['visibility', 'l'],
   ['actions', 'xs']
 ];
@@ -85,7 +85,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
+  const [sortOrder, setSortOrder] = useState<string>('updatedAt desc');
   const { data: viewsOfWorkspace, refetch } = useGetViewsOfWorkspaceQuery(
     {
       workspaceId,
@@ -129,7 +129,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       }
     },
     {
-      name: 'avatar_url',
+      name: 'avatarUrl',
       label: 'Author',
       options: {
         filter: false,
@@ -147,7 +147,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
           return (
             <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
               <UserTableAvatarInfo
-                userId={getValidColumnValue(tableMeta.rowData, 'user_id', columns)}
+                userId={getValidColumnValue(tableMeta.rowData, 'userId', columns)}
                 userName={`${tableMeta.rowData[4]} ${tableMeta.rowData[5]}`}
                 userEmail={tableMeta.rowData[3]}
                 profileUrl={value}
@@ -167,7 +167,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       }
     },
     {
-      name: 'first_name',
+      name: 'firstName',
       label: 'First Name',
       options: {
         filter: false,
@@ -176,7 +176,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       }
     },
     {
-      name: 'last_name',
+      name: 'lastName',
       label: 'Last Name',
       options: {
         filter: false,
@@ -185,7 +185,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       }
     },
     {
-      name: 'created_at',
+      name: 'createdAt',
       label: 'Created At',
       options: {
         filter: false,
@@ -197,7 +197,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
       }
     },
     {
-      name: 'updated_at',
+      name: 'updatedAt',
       label: 'Updated At',
       options: {
         filter: false,
@@ -219,7 +219,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
           const rowIndex = tableMeta.rowIndex;
           const viewId = tableMeta.tableData[rowIndex]?.id;
           const viewVisibility = tableMeta.tableData[rowIndex]?.visibility;
-          const ownerId = tableMeta.tableData[rowIndex]?.user_id;
+          const ownerId = tableMeta.tableData[rowIndex]?.userId;
           const isOwner = ownerId === currentUserId;
           const isEnabled = viewVisibility !== VIEW_VISIBILITY.PUBLISHED && isOwner;
           return (
@@ -292,7 +292,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     filter: false,
     responsive: 'standard',
     selectableRows: 'none',
-    count: viewsOfWorkspace?.total_count,
+    count: viewsOfWorkspace?.totalCount,
     rowsPerPage: pageSize,
     serverSide: true,
     page,
@@ -393,7 +393,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
         handleAssignablePage={viewAssignment.handleAssignablePage}
         handleAssignedPage={viewAssignment.handleAssignedPage}
         originalLeftCount={viewAssignment.data?.length || 0}
-        originalRightCount={viewsOfWorkspace?.total_count || 0}
+        originalRightCount={viewsOfWorkspace?.totalCount || 0}
         onAssign={viewAssignment.handleAssign}
         disableTransfer={viewAssignment.disableTransferButton}
         helpText={`Assign Views to ${workspaceName}`}

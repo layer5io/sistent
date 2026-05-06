@@ -48,7 +48,7 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
 }) => {
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
+  const [sortOrder, setSortOrder] = useState<string>('updatedAt desc');
   const [bulkSelect, setBulkSelect] = useState<boolean>(false);
   const [search, setSearch] = useState<string>('');
   const [isSearchExpanded, setIsSearchExpanded] = useState<boolean>(false);
@@ -79,7 +79,7 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
 
   const tableProps = TeamTableConfiguration({
     teams: teamsOfWorkspace?.teams,
-    count: teamsOfWorkspace?.total_count,
+    count: teamsOfWorkspace?.totalCount,
     page,
     pageSize,
     setPage,
@@ -177,7 +177,7 @@ const TeamsTable: React.FC<TeamsTableProps> = ({
         handleAssignablePage={teamAssignment.handleAssignablePage}
         handleAssignedPage={teamAssignment.handleAssignedPage}
         originalLeftCount={teamAssignment.data?.length || 0}
-        originalRightCount={teamsOfWorkspace?.total_count || 0}
+        originalRightCount={teamsOfWorkspace?.totalCount || 0}
         onAssign={teamAssignment.handleAssign}
         disableTransfer={teamAssignment.disableTransferButton}
         helpText={`Assign Teams to ${workspaceName}`}

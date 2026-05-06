@@ -25,7 +25,8 @@ const PerformersSectionButton: React.FC<PerformersSectionButtonProps> = ({ open,
           onClick={handleClick}
           size="large"
           style={{
-            backgroundColor: open ? undefined : theme.palette.background.constant?.disabled
+            backgroundColor: open ? undefined : theme.palette.background.constant?.disabled,
+            whiteSpace: 'nowrap'
           }}
         >
           <TropyIcon style={{ height: '2rem', width: '2rem', marginRight: '10px' }} />

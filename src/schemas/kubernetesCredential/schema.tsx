@@ -1,74 +1,24 @@
 /**
- * Schema for creating grafana credential;
+ * Schema for the Kubernetes credential modal.
+ *
+ * Source-of-truth: re-exported from `@meshery/schemas` per the form-schema
+ * canonicalization tracked in
+ * https://github.com/meshery/schemas/issues/866 (Phase 3).
+ *
+ * The previously hand-authored object literal has moved to
+ * `meshery/schemas` at
+ * `schemas/constructs/v1beta1/credential/forms/kubernetes.json`,
+ * where a Go subset-validator (`validation/forms_test.go`) keeps it
+ * structurally aligned with the canonical OpenAPI Credential construct
+ * (the kubernetes-specific shape lives inside the canonical free-form
+ * `secret` map).
+ *
+ * Wire-level change: the field formerly keyed as `credentialName` is
+ * now keyed as `name`, matching canonical `Credential.name`. The
+ * Meshery server's Credential endpoint already accepts the canonical
+ * key per its OpenAPI; this brings the form payload into alignment.
+ *
+ * The published Sistent export name (`kubernetesCredentialSchema`)
+ * is unchanged.
  */
-const kubernetesCredentialSchema = {
-  type: 'object',
-  title: 'Kubernetes',
-  properties: {
-    credentialName: {
-      title: 'Credential Name',
-      type: 'string',
-      description: 'Name of your credential'
-    },
-    secret: {
-      type: 'object',
-      title: 'Credential Secret',
-      description: 'Credential secret for the Kubernetes cluster',
-      properties: {
-        clusterName: {
-          type: 'string',
-          title: 'Cluster Name',
-          description: 'Name of the Kubernetes cluster'
-        },
-        clusterServerURL: {
-          type: 'string',
-          title: 'Server URL',
-          description: 'URL of the Kubernetes cluster'
-        },
-        auth: {
-          type: 'object',
-          title: 'Auth',
-          description: 'Kubernetes cluster authentication',
-          properties: {
-            clusterUserName: {
-              type: 'string',
-              title: 'User Name',
-              description: 'Name of the Kubernetes cluster user'
-            },
-            clusterToken: {
-              type: 'string',
-              title: 'Token',
-              description: 'Token of the Kubernetes cluster user'
-            },
-            clusterClientCertificateData: {
-              type: 'string',
-              title: 'Client Certificate Data',
-              description: 'Certificate data of the Kubernetes cluster'
-            },
-            clusterClientKeyData: {
-              type: 'string',
-              title: 'Client Key Data',
-              description: 'Client Key data of the Kubernetes cluster'
-            },
-            clusterCertificateAuthorityData: {
-              type: 'string',
-              title: 'Certificate Authority Data',
-              description: 'Certificate Authority data of the Kubernetes cluster'
-            }
-          },
-          required: [
-            'clusterUserName',
-            'clusterToken',
-            'clusterClientCertificateData',
-            'clusterClientKeyData',
-            'clusterCertificateAuthorityData'
-          ]
-        }
-      },
-      required: ['clusterName', 'clusterServerURL']
-    }
-  },
-  required: ['credentialName']
-};
-
-export default kubernetesCredentialSchema;
+export { KubernetesCredentialRjsfSchemaV1Beta1 as default } from '@meshery/schemas';

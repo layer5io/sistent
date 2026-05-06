@@ -11,7 +11,7 @@ on:
         required: true
         default: "v1.0.0"
         type: string
-  
+
 env:
   HUSKY: 0
 
@@ -22,13 +22,20 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-24.04
-   
+
     permissions:
       id-token: write  # Required for OIDC trusted publishing
       contents: write
+      pull-requests: write  # Required to open the version-bump-back PR
+      issues: write  # peter-evans/create-pull-request needs this to apply labels when falling back to GITHUB_TOKEN
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
+        with:
+          # Check out the release's target branch (typically master) so the
+          # subsequent version-bump commit is based on the branch HEAD, not on
+          # the tag's detached commit. Falls back to master for workflow_dispatch.
+          ref: ${{ github.event.release.target_commitish || 'master' }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -38,17 +45,94 @@ jobs:
           scope: "@sistent"
 
       - name: "Set Package Version"
-        uses: reedyuk/npm-version@1.1.1
-        with:
-          version: ${{ github.event.release.tag_name }}
+        env:
+          TAG_NAME: ${{ github.event.release.tag_name || inputs.tag_name }}
+        run: |
+          # Strip a leading 'v' from the release tag (v0.19.0 -> 0.19.0) and
+          # set package.json#version. --allow-same-version makes the step
+          # idempotent when master's package.json already matches the tag
+          # (i.e., the PR this bump-back step opens has already been merged
+          # before the next release is cut). --no-git-tag-version prevents
+          # npm from creating an extra tag.
+          VERSION="${TAG_NAME#v}"
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
+
+      - name: "Resolve normalized version"
+        id: resolved_version
+        env:
+          RAW_VERSION: ${{ github.event.release.tag_name || inputs.tag_name }}
+        run: |
+          set -euo pipefail
+          # Strip leading 'v' to match what the "Set Package Version" step writes into package.json.
+          normalized="${RAW_VERSION#v}"
+          if [ -z "$normalized" ]; then
+            echo "Could not resolve a normalized version from '$RAW_VERSION'." >&2
+            exit 1
+          fi
+          echo "version=$normalized" >> "$GITHUB_OUTPUT"
+          echo "Resolved normalized version: $normalized"
 
       - name: Install, Build, and Publish Package
+        # Use `npm ci` so the install is strictly driven by the committed lockfile
+        # and does not rewrite lockfile metadata beyond what `npm version` already
+        # wrote to the root `packages[""].version` field. This keeps the bump-back
+        # PR's diff scoped to the version change only, addressing the concern that
+        # `npm install` could churn transitive dependency entries in the lockfile.
         run: |
-          npm install --legacy-peer-deps
+          npm ci --legacy-peer-deps
           npm run build
           npm publish --provenance --access public --verbose
         env:
           NODE_AUTH_TOKEN: ''  # Explicitly empty for install
+
+      # --- Commit the package.json / package-lock.json version bump back to the
+      # release's target branch (typically master) so the branch's on-disk
+      # version tracks what was actually published to npm. Without this step,
+      # master drifts behind npm indefinitely (e.g., master was pinned at
+      # 0.16.5 while npm had published v0.18.8) which confuses contributors
+      # branching off master.
+      #
+      # master has branch protection requiring 1 PR approval, and the
+      # github-actions[bot] identity is NOT in the bypass_pull_request_allowances
+      # list, so a direct push would be rejected. The cross-repo dependent
+      # bumps in notify-dependents.yml already use peter-evans/create-pull-request
+      # for the same reason — we follow that established pattern here.
+      #
+      # continue-on-error: true keeps npm publish success the source of truth
+      # for the workflow's overall conclusion. If the bump-back PR fails to
+      # open for any reason (API rate-limit, transient GitHub outage, etc.),
+      # the publish job still succeeds, which means notify-dependents.yml
+      # (triggered on workflow_run success) still fires and updates the
+      # downstream consumers. A maintainer can always open the bump-back PR
+      # manually if the automated step is skipped.
+      - name: Open PR with package.json version bump
+        if: ${{ success() }}
+        continue-on-error: true
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GH_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
+          commit-message: |
+            chore(release): bump package.json to v${{ steps.resolved_version.outputs.version }} [skip ci]
+          committer: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+          signoff: true
+          branch: release/version-bump/v${{ steps.resolved_version.outputs.version }}
+          base: ${{ github.event.release.target_commitish || 'master' }}
+          delete-branch: true
+          title: "chore(release): bump package.json to v${{ steps.resolved_version.outputs.version }}"
+          add-paths: |
+            package.json
+            package-lock.json
+          body: |
+            Bumps `package.json` and `package-lock.json` to `v${{ steps.resolved_version.outputs.version }}` to match the version just published to npm.
+
+            This PR is auto-generated by the `Publish Node.js Package` workflow after a successful `npm publish --provenance` so that the target branch tracks the published npm version rather than drifting behind it indefinitely. Historically this drift has confused contributors branching off `master` (e.g., `master` was at `0.16.5` while npm had published `v0.18.8`).
+
+            The commit message includes `[skip ci]` so merging this PR does not re-trigger workflows against the bump commit — the content was already CI-gated by the PR that merged into the tag.
+          labels: |
+            chore
+            release
+          draft: false
 
   notify-dependents:
     needs: publish

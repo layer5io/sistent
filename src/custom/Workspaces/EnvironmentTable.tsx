@@ -40,9 +40,9 @@ const colViews: ColView[] = [
   ['id', 'na'],
   ['name', 'xs'],
   ['description', 'm'],
-  ['organization_id', 'l'],
-  ['created_at', 'na'],
-  ['updated_at', 'xl'],
+  ['organizationId', 'l'],
+  ['createdAt', 'na'],
+  ['updatedAt', 'xl'],
   ['actions', 'xs']
 ];
 
@@ -76,7 +76,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
+  const [sortOrder, setSortOrder] = useState<string>('updatedAt desc');
   const { data: environmentsOfWorkspace } = useGetEnvironmentsOfWorkspaceQuery({
     workspaceId,
     page: page,
@@ -107,7 +107,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       }
     },
     {
-      name: 'organization_id',
+      name: 'organizationId',
       label: 'Organization ID',
       options: {
         filter: false,
@@ -127,7 +127,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       }
     },
     {
-      name: 'created_at',
+      name: 'createdAt',
       label: 'Created At',
       options: {
         filter: false,
@@ -139,7 +139,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
       }
     },
     {
-      name: 'updated_at',
+      name: 'updatedAt',
       label: 'Updated At',
       options: {
         filter: false,
@@ -201,7 +201,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
     filter: false,
     responsive: 'standard',
     selectableRows: 'none',
-    count: environmentsOfWorkspace?.total_count,
+    count: environmentsOfWorkspace?.totalCount,
     rowsPerPage: pageSize,
     page,
     elevation: 0,
@@ -254,7 +254,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
           }}
         >
           <TableHeader>
-            <Typography variant="body1" fontWeight={'bold'}>
+            <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
               Assigned Environments
             </Typography>
             <TableRightActionHeader>
@@ -311,7 +311,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
         handleAssignablePage={environmentAssignment.handleAssignablePage}
         handleAssignedPage={environmentAssignment.handleAssignedPage}
         originalLeftCount={environmentAssignment.data?.length || 0}
-        originalRightCount={environmentsOfWorkspace?.total_count || 0}
+        originalRightCount={environmentsOfWorkspace?.totalCount || 0}
         onAssign={environmentAssignment.handleAssign}
         disableTransfer={environmentAssignment.disableTransferButton}
         helpText={`Assign Environments to ${workspaceName}`}

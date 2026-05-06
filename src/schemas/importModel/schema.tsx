@@ -1,6 +1,15 @@
-import { ModelDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
+// TODO(meshery/schemas#866 — Phase 3): once `@meshery/schemas` ships
+// `ModelImportRjsfSchemaV1Beta2` (canonical home: `typescript/forms/v1beta2/model/`),
+// flip this file to:
+//
+//     export { ModelImportRjsfSchemaV1Beta2 as default } from '@meshery/schemas';
+//
+// The published Sistent export name (`importModelSchema`) MUST stay
+// the same; only the source flips.
+import ModelDefinitionV1Beta2OpenApiSchema from '@meshery/schemas/constructs/v1beta2/model/ModelSchema';
 
-const ModelSchema = ModelDefinitionV1Beta1OpenApiSchema.components.schemas;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ModelSchema = (ModelDefinitionV1Beta2OpenApiSchema as any).components.schemas;
 const importModelSchema = {
   type: 'object',
   required: ['uploadType'],

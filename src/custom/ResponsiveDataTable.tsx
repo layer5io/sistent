@@ -208,13 +208,13 @@ const ResponsiveDataTable = ({
 
         if (
           [
-            'updated_at',
-            'created_at',
-            'deleted_at',
-            'last_login_time',
-            'joined_at',
-            'last_run',
-            'next_run'
+            'updatedAt',
+            'createdAt',
+            'deletedAt',
+            'lastLoginTime',
+            'joinedAt',
+            'lastRun',
+            'nextRun'
           ].includes(col.name)
         ) {
           col.options.customBodyRender = (value: string | number | boolean | object) => {
@@ -237,7 +237,6 @@ const ResponsiveDataTable = ({
       }
     });
     if (updateCols) updateCols([...columns]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [columnVisibility, updateCols]);
 
   React.useEffect(() => {

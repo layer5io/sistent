@@ -76,27 +76,27 @@ const METRICS: Record<MetricType, MetricConfig> = {
   view: {
     label: 'Most Opens',
     id: 'open',
-    countKey: 'view_count'
+    countKey: 'viewCount'
   },
   clone: {
     label: 'Most Clones',
     id: 'clone',
-    countKey: 'clone_count'
+    countKey: 'cloneCount'
   },
   download: {
     label: 'Most Downloads',
     id: 'download',
-    countKey: 'download_count'
+    countKey: 'downloadCount'
   },
   deployment: {
     label: 'Most Deploys',
     id: 'deployments',
-    countKey: 'deployment_count'
+    countKey: 'deploymentCount'
   },
   share: {
     label: 'Most Shares',
     id: 'share',
-    countKey: 'share_count'
+    countKey: 'shareCount'
   }
 };
 
@@ -214,9 +214,9 @@ const processQueryData = (
     count: pattern[config.countKey],
     patternName: pattern.name || 'Unknown',
     pattern: pattern,
-    userName: pattern.user?.first_name || 'Unknown',
+    userName: pattern.user?.firstName || 'Unknown',
     id: config.id,
-    status: pattern?.catalog_data?.content_class
+    status: pattern?.catalogData?.contentClass
   };
 };
 

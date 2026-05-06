@@ -1,1 +1,1 @@
-export { default as ResponseIcon } from './responseicon';
+export { default as ResponseIcon } from './Responseicon';
