@@ -1,9 +1,10 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
+import { DEFAULT_FILL_NONE, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const AppRegistrationIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
+  fill = DEFAULT_FILL_NONE,
   ...props
 }: IconProps): JSX.Element => {
   return (
@@ -11,7 +12,7 @@ export const AppRegistrationIcon = ({
       aria-hidden="true"
       viewBox="0 0 24 24"
       data-testid="AppRegistrationIcon"
-      fill={props.fill || 'currentColor'}
+      fill={fill}
       width={width}
       height={height}
       xmlns="http://www.w3.org/2000/svg"

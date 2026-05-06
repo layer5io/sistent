@@ -1,1 +1,1 @@
-export { AppRegistrationIcon } from './AppRegistrationIcon';
+export { default as AppRegistrationIcon } from './AppRegistrationIcon';
