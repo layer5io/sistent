@@ -47,7 +47,7 @@
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
 
-    "@meshery/schemas": "1.2.9",
+    "@meshery/schemas": "1.2.11",
     "@mui/icons-material": "^9.0.0",
     "@mui/material": "^9.0.0",
     "@mui/system": "^9.0.0",
