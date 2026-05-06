@@ -1,14 +1,9 @@
 import { FC } from 'react';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { CARIBBEAN_GREEN, DARK_SLATE_GRAY, KEPPEL, useTheme } from '../../theme';
-import { IconProps } from '../types';
+import { CustomIconProps } from '../types';
 
-type CategoryIconProps = {
-  primaryFill?: string;
-  secondaryFill?: string;
-} & IconProps;
-
-export const CategoryIcon: FC<CategoryIconProps> = ({
+export const CategoryIcon: FC<CustomIconProps> = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
   primaryFill,
@@ -39,5 +34,3 @@ export const CategoryIcon: FC<CategoryIconProps> = ({
     </svg>
   );
 };
-
-export default CategoryIcon;
