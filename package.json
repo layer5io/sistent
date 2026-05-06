@@ -1,6 +1,6 @@
 {
   "name": "@sistent/sistent",
-  "version": "0.21.0",
+  "version": "0.22.0",
   "description": "Reusable React Components and SVG Icons library",
   "repository": {
     "type": "git",
@@ -46,7 +46,7 @@
     "@emotion/cache": "^11.14.0",
     "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^10.0.1",
-    "@meshery/schemas": "^1.2.7",
+    "@meshery/schemas": "^1.2.8",
     "@mui/icons-material": "^9.0.0",
     "@mui/material": "^9.0.0",
     "@mui/system": "^9.0.0",

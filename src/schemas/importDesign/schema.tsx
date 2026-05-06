@@ -1,3 +1,11 @@
+// TODO(meshery/schemas#866 — Phase 3): once `@meshery/schemas` ships
+// `DesignImportRjsfSchemaV1Beta3` (canonical home: `typescript/forms/v1beta3/design/`),
+// flip this file to:
+//
+//     export { DesignImportRjsfSchemaV1Beta3 as default } from '@meshery/schemas';
+//
+// The published Sistent export name (`importDesignSchema`) MUST stay
+// the same; only the source flips.
 import { DesignDefinitionV1Beta1OpenApiSchema } from '@meshery/schemas';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
