@@ -1,0 +1,1 @@
+export { AppRegistrationIcon } from './AppRegistrationIcon';
