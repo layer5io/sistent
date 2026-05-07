@@ -34,3 +34,5 @@ export const CategoryIcon: FC<CustomIconProps> = ({
     </svg>
   );
 };
+
+export default CategoryIcon;
