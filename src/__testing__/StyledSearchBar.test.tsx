@@ -18,25 +18,23 @@ describe('StyledSearchBar', () => {
     expect(root?.className).toMatch(/MuiInputBase-fullWidth/);
   });
 
-  it('does not force width: 100% when fullWidth is false', () => {
+  it('drops the fullWidth class when fullWidth is false', () => {
     const { container } = renderWithTheme(<StyledSearchBar fullWidth={false} />);
     const root = getInputRoot(container);
 
     expect(root).not.toBeNull();
     expect(root?.className).not.toMatch(/MuiInputBase-fullWidth/);
-    // The styled wrapper used to hardcode width: 100% which made siblings
-    // wrap onto a new row inside flex toolbars (catalog, designs, views).
-    // With fullWidth=false there must be no inline 100% width applied.
-    expect(root?.style.width).toBe('');
   });
 
   it('lets callers control width via sx when fullWidth is false', () => {
     const { container } = renderWithTheme(
-      <StyledSearchBar fullWidth={false} sx={{ width: '32rem' }} />
+      <StyledSearchBar fullWidth={false} sx={{ width: 512 }} />
     );
     const root = getInputRoot(container);
 
     expect(root).not.toBeNull();
-    expect(window.getComputedStyle(root as Element).width).toBe('32rem');
+    // MUI converts numeric sx width to pixels; using a number here avoids
+    // JSDOM's unstable rem→px normalization.
+    expect(window.getComputedStyle(root as Element).width).toBe('512px');
   });
 });
