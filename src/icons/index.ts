@@ -22,6 +22,7 @@ export * from './Calender';
 export * from './Cancel';
 export * from './CaretDown';
 export * from './CatalogIcon';
+export * from './CategoryIcon';
 export * from './Chain';
 export * from './Challenges';
 export * from './Chat';
