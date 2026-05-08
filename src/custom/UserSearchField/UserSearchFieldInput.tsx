@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { Autocomplete } from '@mui/material';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -19,12 +18,12 @@ import { iconSmall } from '../../constants/iconsSizes';
 import { CloseIcon, PersonIcon } from '../../icons';
 
 interface User {
-  user_id: string;
-  first_name: string;
-  last_name: string;
+  userId: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  avatar_url?: string;
-  deleted_at?: { Valid: boolean };
+  avatarUrl?: string;
+  deletedAt?: { Valid: boolean };
   deleted?: boolean;
 }
 
@@ -81,7 +80,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
     }
 
     const filteredResults = searchedUsers.filter(
-      (user: User) => user.user_id !== currentUserData?.user_id
+      (user: User) => user.userId !== currentUserData?.userId
     );
 
     if (!usersSearch && currentUserData) {
@@ -95,7 +94,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
     (idToDelete: string, event: React.MouseEvent) => {
       event.stopPropagation();
 
-      const updatedUsers = localUsersData.filter((user) => user.user_id !== idToDelete);
+      const updatedUsers = localUsersData.filter((user) => user.userId !== idToDelete);
       setLocalUsersData(updatedUsers);
       setUsersData(updatedUsers);
 
@@ -110,8 +109,8 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
     (event: React.SyntheticEvent<Element, Event>, value: User | null) => {
       if (!value) return;
 
-      const isDuplicate = localUsersData.some((user) => user.user_id === value.user_id);
-      const isDeleted = value.deleted_at?.Valid === true;
+      const isDuplicate = localUsersData.some((user) => user.userId === value.userId);
+      const isDeleted = value.deletedAt?.Valid === true;
 
       if (isDuplicate || isDeleted) {
         setError(isDuplicate ? 'User already selected' : 'User does not exist');
@@ -159,7 +158,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         open={open}
         options={displayOptions}
         getOptionLabel={() => ''}
-        isOptionEqualToValue={(option, value) => option.user_id === value.user_id}
+        isOptionEqualToValue={(option, value) => option.userId === value.userId}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         inputValue={inputValue}
@@ -199,14 +198,14 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
           />
         )}
         renderOption={(props, option: User) => (
-          <li {...props} id={option.user_id}>
+          <li {...props} id={option.userId}>
             <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
               {' '}
               <Grid2 container alignItems="center">
                 <Grid2>
                   <Box sx={{ color: 'text.secondary', mr: 2 }}>
-                    <Avatar alt={option.first_name} src={option.avatar_url}>
-                      {option.avatar_url ? '' : <PersonIcon />}
+                    <Avatar alt={option.firstName} src={option.avatarUrl}>
+                      {option.avatarUrl ? '' : <PersonIcon />}
                     </Avatar>
                   </Box>
                 </Grid2>
@@ -218,7 +217,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
                   ) : (
                     <>
                       <Typography variant="body2">
-                        {option.first_name} {option.last_name}
+                        {option.firstName} {option.lastName}
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         {option.email}
@@ -258,14 +257,14 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
       >
         {!showAllUsers && localUsersData?.[0] && (
           <Chip
-            key={localUsersData[0].user_id}
+            key={localUsersData[0].userId}
             avatar={
-              <Avatar alt={localUsersData[0].first_name} src={localUsersData[0].avatar_url}>
-                {!localUsersData[0].avatar_url && localUsersData[0].first_name?.[0]}
+              <Avatar alt={localUsersData[0].firstName} src={localUsersData[0].avatarUrl}>
+                {!localUsersData[0].avatarUrl && localUsersData[0].firstName?.[0]}
               </Avatar>
             }
             label={localUsersData[0].email}
-            onDelete={(e) => handleDelete(localUsersData[0].user_id, e)}
+            onDelete={(e) => handleDelete(localUsersData[0].userId, e)}
             deleteIcon={
               <Tooltip title="Remove user">
                 <CloseIcon style={iconSmall} />
@@ -278,14 +277,14 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         {showAllUsers &&
           localUsersData?.map((user) => (
             <Chip
-              key={user.user_id}
+              key={user.userId}
               avatar={
-                <Avatar alt={user.first_name} src={user.avatar_url}>
-                  {!user.avatar_url && user.first_name?.[0]}
+                <Avatar alt={user.firstName} src={user.avatarUrl}>
+                  {!user.avatarUrl && user.firstName?.[0]}
                 </Avatar>
               }
               label={user.email}
-              onDelete={(e) => handleDelete(user.user_id, e)}
+              onDelete={(e) => handleDelete(user.userId, e)}
               deleteIcon={
                 <Tooltip title="Remove user">
                   <CloseIcon style={iconSmall} />

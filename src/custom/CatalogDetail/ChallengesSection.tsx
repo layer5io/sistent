@@ -19,7 +19,6 @@ const ChallengesSection: React.FC<ChallengesSectionProps> = ({ filteredAcademyDa
 
   useEffect(() => {
     if (autoUpdate) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpenChallenges((filteredAcademyData?.['challenges'] ?? []).length > 0);
     }
   }, [filteredAcademyData, autoUpdate]);

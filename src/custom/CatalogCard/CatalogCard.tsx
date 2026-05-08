@@ -73,7 +73,7 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
   return (
     <DesignCard outerStyles={outerStyles} onClick={onCardClick}>
       <DesignInnerCard className="innerCard">
-        <ClassWrap catalogClassName={pattern?.catalog_data?.content_class} />
+        <ClassWrap catalogClassName={pattern?.catalogData?.contentClass} />
         <DesignType>{patternType}</DesignType>
         <DesignDetailsDiv>
           <DesignName
@@ -91,23 +91,23 @@ const CatalogCard: React.FC<CatalogCardProps> = ({
         <MetricsContainerFront>
           <MetricsDiv>
             <DownloadIcon width={18} height={18} />
-            <MetricsCount>{pattern.download_count}</MetricsCount>
+            <MetricsCount>{pattern.downloadCount}</MetricsCount>
           </MetricsDiv>
           <MetricsDiv>
             <CloneIcon width={18} height={18} fill={'#51636B'} />
-            <MetricsCount>{pattern.clone_count}</MetricsCount>
+            <MetricsCount>{pattern.cloneCount}</MetricsCount>
           </MetricsDiv>
           <MetricsDiv>
             <OpenIcon width={18} height={18} fill={'#51636B'} />
-            <MetricsCount>{pattern.view_count}</MetricsCount>
+            <MetricsCount>{pattern.viewCount}</MetricsCount>
           </MetricsDiv>
           <MetricsDiv>
             <DeploymentsIcon width={18} height={18} />
-            <MetricsCount>{pattern.deployment_count}</MetricsCount>
+            <MetricsCount>{pattern.deploymentCount}</MetricsCount>
           </MetricsDiv>
           <MetricsDiv>
             <ShareIcon width={18} height={18} fill={'#51636B'} />
-            <MetricsCount>{pattern.share_count}</MetricsCount>
+            <MetricsCount>{pattern.shareCount}</MetricsCount>
           </MetricsDiv>
         </MetricsContainerFront>
       </DesignInnerCard>

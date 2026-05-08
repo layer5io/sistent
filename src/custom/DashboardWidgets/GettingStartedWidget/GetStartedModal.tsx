@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Grid2, SwipeableDrawer } from '@mui/material';
+import { SwipeableDrawer } from '@mui/material';
 import { useState } from 'react';
 import {
   Backdrop,
   CircularProgress,
   DialogContent,
   DialogTitle,
+  Grid2,
   ListItem,
   Typography
 } from '../../../base';
@@ -49,7 +50,7 @@ export interface StepData {
 }
 
 export interface ProfileData {
-  role_names?: string[];
+  roleNames?: string[];
   preferences?: {
     remoteProviderPreferences?: {
       isKanvasAccessRequest?: boolean;

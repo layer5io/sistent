@@ -53,14 +53,14 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
       pattern={pattern}
       patternType={type}
       onCardClick={() => onSuggestedPatternClick(pattern)}
-      UserName={`${userProfile?.first_name ?? ''} ${userProfile?.last_name ?? ''}`}
-      avatarUrl={userProfile?.avatar_url}
+      UserName={`${userProfile?.firstName ?? ''} ${userProfile?.lastName ?? ''}`}
+      avatarUrl={userProfile?.avatarUrl}
       basePath={technologySVGPath}
       subBasePath={technologySVGSubpath}
       cardTechnologies={true}
     >
       <CatalogCardDesignLogo
-        imgURL={pattern?.catalog_data?.imageURL}
+        imgURL={pattern?.catalogData?.imageURL}
         height={'5.5rem'}
         width={'100%'}
         zoomEffect={false}

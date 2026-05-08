@@ -18,7 +18,6 @@ const LearningSection: React.FC<LearningSectionProps> = ({ filteredAcademyData }
   const [autoUpdate, setAutoUpdate] = useState<boolean>(true);
   useEffect(() => {
     if (autoUpdate) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOpenLearning(Boolean((filteredAcademyData?.['learning-path'] ?? []).length > 0));
     }
   }, [filteredAcademyData, autoUpdate]);

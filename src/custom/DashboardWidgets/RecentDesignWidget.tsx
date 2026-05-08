@@ -37,7 +37,7 @@ interface CardData {
   video?: string;
 }
 
-type SortOrder = 'updated_at asc' | 'updated_at desc';
+type SortOrder = 'updatedAt asc' | 'updatedAt desc';
 
 interface DesignCardProps {
   title: string;
@@ -144,7 +144,7 @@ const DesignCard: React.FC<DesignCardProps> = ({
   const theme = useTheme();
 
   const handleChange = () => {
-    setSortOrder(sortOrder === 'updated_at desc' ? 'updated_at asc' : 'updated_at desc');
+    setSortOrder(sortOrder === 'updatedAt desc' ? 'updatedAt asc' : 'updatedAt desc');
   };
 
   const handleCreateModalOpen = async () => {
@@ -174,7 +174,7 @@ const DesignCard: React.FC<DesignCardProps> = ({
           <HeaderContainer>
             <TitleContainer>
               {icon}
-              <Typography variant="h6" fontWeight="700">
+              <Typography variant="h6" sx={{ fontWeight: 700 }}>
                 {title}
               </Typography>
             </TitleContainer>
@@ -274,7 +274,7 @@ interface CatalogSortByToggleProps {
 }
 
 const CatalogSortByToggle: React.FC<CatalogSortByToggleProps> = ({ sortOrder, handleChange }) => {
-  const isAscending = sortOrder === 'updated_at asc';
+  const isAscending = sortOrder === 'updatedAt asc';
 
   return (
     <CustomTooltip
@@ -361,10 +361,9 @@ const BoxContainer: React.FC<BoxContainerProps> = ({ title, image, onClick }) =>
           <Typography
             variant="body1"
             align="center"
-            fontWeight="500"
             component="div"
             style={{}}
-            sx={{ mt: 1, mb: 1 }}
+            sx={{ mt: 1, mb: 1, fontWeight: 500 }}
           >
             {title}
           </Typography>

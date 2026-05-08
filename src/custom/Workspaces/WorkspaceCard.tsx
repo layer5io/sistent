@@ -1,5 +1,5 @@
-import { Grid2, useTheme } from '@mui/material';
-import { Backdrop, CircularProgress } from '../../base';
+import { useTheme } from '@mui/material';
+import { Backdrop, CircularProgress, Grid2 } from '../../base';
 
 import { getRelativeTime } from '../../utils';
 import { FlipCard } from '../FlipCard';
@@ -30,15 +30,15 @@ interface WorkspaceDetails {
   id: number;
   name: string;
   description: string;
-  deleted_at: { Valid: boolean };
-  updated_at: string;
-  created_at: string;
+  deletedAt: { Valid: boolean };
+  updatedAt: string;
+  createdAt: string;
 }
 
 type Activity = {
   description: string;
-  first_name: string;
-  created_at: string;
+  firstName: string;
+  createdAt: string;
 };
 
 interface CardFrontProps {
@@ -162,7 +162,7 @@ const WorkspaceCard = ({
   isEnvironmentsVisible,
   isTeamsVisible
 }: WorkspaceCardProps) => {
-  const deleted = workspaceDetails.deleted_at.Valid;
+  const deleted = workspaceDetails.deletedAt.Valid;
   return (
     <FlipCard
       disableFlip={selectedWorkspaces.includes(workspaceDetails.id) ? true : false}
@@ -198,8 +198,8 @@ const WorkspaceCard = ({
         workspaceId={workspaceDetails?.id}
         loadingEvents={loadingEvents}
         recentActivities={recentActivities}
-        updatedDate={workspaceDetails?.updated_at}
-        createdDate={workspaceDetails?.created_at}
+        updatedDate={workspaceDetails?.updatedAt}
+        createdDate={workspaceDetails?.createdAt}
         deleted={deleted}
         isDeleteWorkspaceAllowed={isDeleteWorkspaceAllowed}
         isEditWorkspaceAllowed={isEditWorkspaceAllowed}
@@ -346,19 +346,19 @@ const CardBack = ({
   isEditWorkspaceAllowed
 }: CardBackProps) => {
   const isWorkspaceSelected = selectedWorkspaces?.includes(workspaceId);
-  const isEditButtonDisabled = isWorkspaceSelected ? true : !isEditWorkspaceAllowed;
-  const isDeleteButtonDisabled = isWorkspaceSelected ? true : !isDeleteWorkspaceAllowed;
 
   const theme = useTheme();
   return (
     <CardBackWrapper elevation={2} onClick={onFlipBack}>
       <CardBackTopGrid size={12}>
         <CardBackTitleGrid size={6}>
-          <BulkSelectCheckbox
-            onClick={(e) => e.stopPropagation()}
-            onChange={onSelect}
-            disabled={deleted ? true : !isDeleteWorkspaceAllowed}
-          />
+          {isDeleteWorkspaceAllowed && (
+            <BulkSelectCheckbox
+              onClick={(e) => e.stopPropagation()}
+              onChange={onSelect}
+              disabled={deleted}
+            />
+          )}
           <CardTitle
             sx={{ color: theme.palette.background.constant?.white }}
             variant="body2"
@@ -368,18 +368,20 @@ const CardBack = ({
           </CardTitle>
         </CardBackTitleGrid>
         <CardBackActionsGrid size={6}>
-          <L5EditIcon
-            onClick={onEdit}
-            disabled={isEditButtonDisabled}
-            style={{ fill: theme.palette.background.constant?.white }}
-            bulk={true}
-          />
-          <L5DeleteIcon
-            onClick={onDelete}
-            style={{ fill: theme.palette.background.constant?.white }}
-            disabled={isDeleteButtonDisabled}
-            bulk={true}
-          />
+          {!isWorkspaceSelected && isEditWorkspaceAllowed && (
+            <L5EditIcon
+              onClick={onEdit}
+              style={{ fill: theme.palette.background.constant?.white }}
+              bulk={true}
+            />
+          )}
+          {!isWorkspaceSelected && isDeleteWorkspaceAllowed && (
+            <L5DeleteIcon
+              onClick={onDelete}
+              style={{ fill: theme.palette.background.constant?.white }}
+              bulk={true}
+            />
+          )}
         </CardBackActionsGrid>
       </CardBackTopGrid>
       <Grid2 sx={{ display: 'flex', alignItems: 'center', flexDirection: 'row' }}>
@@ -399,8 +401,8 @@ const CardBack = ({
               <RecordRow
                 key={index}
                 title={activity?.description}
-                name={activity?.first_name}
-                date={activity?.created_at}
+                name={activity?.firstName}
+                date={activity?.createdAt}
               />
             );
           })

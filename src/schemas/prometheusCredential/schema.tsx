@@ -1,30 +1,10 @@
 /**
- * Schema for creating prometheus credential;
+ * Re-exports the canonical RJSF form schema for creating a Prometheus
+ * credential from @meshery/schemas. The schema is the authoritative source
+ * for this form and is validated against the v1beta1 credential OpenAPI
+ * construct.
+ *
+ * @see meshery/schemas#866 — migration from hand-authored to canonical
+ * @see meshery/schemas schemas/constructs/v1beta1/credential/forms/prometheus.json
  */
-const prometheusCredentialSchema = {
-  type: 'object',
-  title: 'Prometheus',
-  properties: {
-    credentialName: {
-      title: 'Credential Name',
-      type: 'string',
-      description: 'Name of your credential'
-    },
-    secret: {
-      type: 'object',
-      title: 'Credential Secret',
-      description: 'Credential secret for the Prometheus instance',
-      properties: {
-        prometheusURL: {
-          type: 'string',
-          title: 'URL',
-          description: 'URL of the Prometheus instance'
-        }
-      },
-      required: ['prometheusURL']
-    }
-  },
-  required: ['credentialName']
-};
-
-export default prometheusCredentialSchema;
+export { PrometheusCredentialRjsfSchemaV1Beta1 as default } from '@meshery/schemas';

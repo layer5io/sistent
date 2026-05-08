@@ -35,7 +35,7 @@ jobs:
 
           if [ -z "$release_version" ]; then
             candidate="$WORKFLOW_HEAD_BRANCH"
-            if [[ "$candidate" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            if [[ "$candidate" =~ v?[0-9]+\.[0-9]+\.[0-9]+ ]]; then
               release_version="$candidate"
             fi
           fi
@@ -77,7 +77,7 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
       - name: Make changes to pull request
         working-directory: ui
-        run: npm install @sistent/sistent@^${{ env.RELEASE_VERSION }}
+        run: npm install @sistent/sistent@${{ env.RELEASE_VERSION }}
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v8
@@ -120,7 +120,7 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
       - name: Make changes to pull request
         working-directory: meshmap
-        run: npm install @sistent/sistent@^${{ env.RELEASE_VERSION }}
+        run: npm install @sistent/sistent@${{ env.RELEASE_VERSION }} --legacy-peer-deps
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v8
@@ -163,7 +163,7 @@ jobs:
           cache: "npm"
           cache-dependency-path: '**/package-lock.json'
       - name: Make changes to pull request
-        run: npm install @sistent/sistent@^${{ env.RELEASE_VERSION }} --legacy-peer-deps
+        run: npm install @sistent/sistent@${{ env.RELEASE_VERSION }} --legacy-peer-deps
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v8
@@ -206,7 +206,7 @@ jobs:
           cache-dependency-path: '**/package-lock.json'
       - name: Make changes to pull request
         working-directory: ui
-        run: npm install @sistent/sistent@^${{ env.RELEASE_VERSION }}
+        run: npm install @sistent/sistent@${{ env.RELEASE_VERSION }}
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v8
