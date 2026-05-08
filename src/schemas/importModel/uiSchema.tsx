@@ -1,19 +1,22 @@
+// As of @meshery/schemas v1.2.16, the upstream import-model schema declares
+// `format: "data-url"` on `modelFile` (and `format: "binary"` on the CSV
+// fields), so RJSF routes the conditional file inputs through FileWidget
+// natively — no `'ui:widget': 'file'` override is required here. Consumers
+// register their own FileWidget implementation against RJSF's widget
+// registry (e.g., Meshery's CustomFileWidget) and it picks up the binding.
 const importModelUiSchema = {
   uploadType: {
     'ui:widget': 'radio'
   },
-  // The conditional `file` property in importModelSchema sources its `format`
-  // from @meshery/schemas' ImportBody.oneOf[0].properties.modelFile, which
-  // declares `type: string` with no format. Without an explicit widget,
-  // RJSF falls back to TextWidget — leaving the form without a real
-  // <input type="file"> element, which breaks the File Import flow and the
-  // Playwright test that drives it. Forcing 'ui:widget': 'file' here routes
-  // the field through whichever FileWidget the consumer registers (e.g.,
-  // Meshery's CustomFileWidget) and emits the expected file input.
-  file: {
-    'ui:widget': 'file'
-  },
-  'ui:order': ['uploadType', 'file', 'url', 'csv']
+  'ui:order': [
+    'uploadType',
+    'fileName',
+    'modelFile',
+    'url',
+    'modelCsv',
+    'componentCsv',
+    'relationshipCsv'
+  ]
 };
 
 export default importModelUiSchema;
