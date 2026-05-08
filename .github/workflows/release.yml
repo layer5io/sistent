@@ -36,6 +36,12 @@ jobs:
           # subsequent version-bump commit is based on the branch HEAD, not on
           # the tag's detached commit. Falls back to master for workflow_dispatch.
           ref: ${{ github.event.release.target_commitish || 'master' }}
+          # fetch-depth: 0 gives peter-evans/create-pull-request a full clone so
+          # it does not need to run `git fetch --depth=1 origin
+          # refs/heads/master:refs/heads/master` internally.  That shallow-fetch
+          # fails with "refusing to fetch into branch checked out" because master
+          # is the currently checked-out branch.
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v6

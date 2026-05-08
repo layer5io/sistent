@@ -1,74 +1,10 @@
 /**
- * Schema for creating grafana credential;
+ * Re-exports the canonical RJSF form schema for creating a Kubernetes
+ * credential from @meshery/schemas. The schema is the authoritative source
+ * for this form and is validated against the v1beta1 credential OpenAPI
+ * construct.
+ *
+ * @see meshery/schemas#866 — migration from hand-authored to canonical
+ * @see meshery/schemas schemas/constructs/v1beta1/credential/forms/kubernetes.json
  */
-const kubernetesCredentialSchema = {
-  type: 'object',
-  title: 'Kubernetes',
-  properties: {
-    credentialName: {
-      title: 'Credential Name',
-      type: 'string',
-      description: 'Name of your credential'
-    },
-    secret: {
-      type: 'object',
-      title: 'Credential Secret',
-      description: 'Credential secret for the Kubernetes cluster',
-      properties: {
-        clusterName: {
-          type: 'string',
-          title: 'Cluster Name',
-          description: 'Name of the Kubernetes cluster'
-        },
-        clusterServerURL: {
-          type: 'string',
-          title: 'Server URL',
-          description: 'URL of the Kubernetes cluster'
-        },
-        auth: {
-          type: 'object',
-          title: 'Auth',
-          description: 'Kubernetes cluster authentication',
-          properties: {
-            clusterUserName: {
-              type: 'string',
-              title: 'User Name',
-              description: 'Name of the Kubernetes cluster user'
-            },
-            clusterToken: {
-              type: 'string',
-              title: 'Token',
-              description: 'Token of the Kubernetes cluster user'
-            },
-            clusterClientCertificateData: {
-              type: 'string',
-              title: 'Client Certificate Data',
-              description: 'Certificate data of the Kubernetes cluster'
-            },
-            clusterClientKeyData: {
-              type: 'string',
-              title: 'Client Key Data',
-              description: 'Client Key data of the Kubernetes cluster'
-            },
-            clusterCertificateAuthorityData: {
-              type: 'string',
-              title: 'Certificate Authority Data',
-              description: 'Certificate Authority data of the Kubernetes cluster'
-            }
-          },
-          required: [
-            'clusterUserName',
-            'clusterToken',
-            'clusterClientCertificateData',
-            'clusterClientKeyData',
-            'clusterCertificateAuthorityData'
-          ]
-        }
-      },
-      required: ['clusterName', 'clusterServerURL']
-    }
-  },
-  required: ['credentialName']
-};
-
-export default kubernetesCredentialSchema;
+export { KubernetesCredentialRjsfSchemaV1Beta1 as default } from '@meshery/schemas';
