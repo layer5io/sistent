@@ -42,7 +42,16 @@ type RjsfSchemaShape = {
 const FILE_INPUT_FORMAT = 'data-url';
 const CSV_INPUT_FORMAT = 'binary';
 
-const asSchema = (schema: unknown): RjsfSchemaShape => schema as RjsfSchemaShape;
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null;
+
+const asSchema = (schema: unknown): RjsfSchemaShape => {
+  if (!isRecord(schema)) {
+    throw new Error(`Expected schema object, got ${typeof schema}`);
+  }
+
+  return schema as RjsfSchemaShape;
+};
 
 const getProperty = (schema: unknown, name: string): RjsfStringProperty => {
   const properties = asSchema(schema).properties;
@@ -186,20 +195,33 @@ describe('@meshery/schemas v1.2.16 import-form file inputs', () => {
     });
   });
 
-  it('exposes the data-url FileWidget contract on every primary file input', () => {
-    // A single sweep across all three forms so a downgrade or accidental
-    // revert of any one of them is caught even if the per-form tests above
-    // get reorganized. CSVs are intentionally excluded — they ride
-    // `format: "binary"` plus an explicit ui:widget override (asserted
-    // separately above).
-    const fileFormatBindings: Array<[string, string]> = [
-      ['design.file', getProperty(importDesignSchema, 'file').format ?? ''],
-      ['filter.filterFile', getProperty(importFilterSchema, 'filterFile').format ?? ''],
-      ['model.modelFile', getProperty(importModelSchema, 'modelFile').format ?? '']
+  it('exposes the expected file-format contract on every import payload input', () => {
+    // Sweep all file-bearing inputs so schema regressions are caught in one
+    // place, including the CSV branch that intentionally stays on
+    // `format: "binary"` and relies on uiSchema for FileWidget routing.
+    const fileFormatBindings: Array<[string, string, string]> = [
+      ['design.file', getProperty(importDesignSchema, 'file').format ?? '', FILE_INPUT_FORMAT],
+      [
+        'filter.filterFile',
+        getProperty(importFilterSchema, 'filterFile').format ?? '',
+        FILE_INPUT_FORMAT
+      ],
+      ['model.modelFile', getProperty(importModelSchema, 'modelFile').format ?? '', FILE_INPUT_FORMAT],
+      ['model.modelCsv', getProperty(importModelSchema, 'modelCsv').format ?? '', CSV_INPUT_FORMAT],
+      [
+        'model.componentCsv',
+        getProperty(importModelSchema, 'componentCsv').format ?? '',
+        CSV_INPUT_FORMAT
+      ],
+      [
+        'model.relationshipCsv',
+        getProperty(importModelSchema, 'relationshipCsv').format ?? '',
+        CSV_INPUT_FORMAT
+      ]
     ];
 
-    for (const [label, format] of fileFormatBindings) {
-      expect({ label, format }).toEqual({ label, format: FILE_INPUT_FORMAT });
+    for (const [label, format, expectedFormat] of fileFormatBindings) {
+      expect({ label, format }).toEqual({ label, format: expectedFormat });
     }
   });
 });
