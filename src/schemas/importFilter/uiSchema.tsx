@@ -1,5 +1,8 @@
 const importFilterUiSchema = {
-  'ui:order': ['name', 'uploadType', 'config', 'file', 'url']
+  uploadType: {
+    'ui:widget': 'radio'
+  },
+  'ui:order': ['name', 'uploadType', 'filterFile', 'filterResource']
 };
 
 export default importFilterUiSchema;
