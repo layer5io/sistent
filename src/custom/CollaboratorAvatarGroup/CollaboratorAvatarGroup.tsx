@@ -16,7 +16,7 @@ import { CustomTooltip } from '../CustomTooltip';
  *   'client1': {
  *     name: 'John Doe',
  *     avatarUrl: 'https://example.com/avatar1.jpg',
- *     border_color: '#00B39F',
+ *     borderColor: '#00B39F',
  *     userId: 'user123'
  *   }
  * };
@@ -33,13 +33,13 @@ import { CustomTooltip } from '../CustomTooltip';
  * @interface User
  * @property {string} name - Display name of the user
  * @property {string} avatarUrl - URL to the user's avatar image
- * @property {string} border_color - Color code for the avatar border (e.g., '#00B39F')
+ * @property {string} borderColor - Color code for the avatar border (e.g., '#00B39F')
  * @property {string} userId - Unique identifier for the user
  */
 interface User {
   name: string;
   avatarUrl: string;
-  border_color: string;
+  borderColor: string;
   userId: string;
 }
 
@@ -193,7 +193,7 @@ const CollaboratorAvatarGroup = ({
                 key={clientID}
                 alt={user.name}
                 src={user.avatarUrl}
-                borderColor={user.border_color}
+                borderColor={user.borderColor}
                 imgProps={{ referrerPolicy: 'no-referrer' }}
                 onClick={() => openInNewTab(`${providerUrl}/user/${user.userId}`)}
               />
@@ -242,7 +242,7 @@ const CollaboratorAvatarGroup = ({
                   <StyledAvatar
                     alt={user.name}
                     src={user.avatarUrl}
-                    borderColor={user.border_color}
+                    borderColor={user.borderColor}
                     imgProps={{ referrerPolicy: 'no-referrer' }}
                   />
                   <UserName variant="body1">{user.name}</UserName>
