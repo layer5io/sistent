@@ -15,6 +15,7 @@ export * from './Article';
 export * from './Barchart';
 export * from './Bell';
 export * from './BuildRounded';
+export * from './BrushIcon';
 export * from './Bus';
 export * from './Cached';
 export * from './Calculate';
