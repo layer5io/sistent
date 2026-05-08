@@ -15,9 +15,9 @@ import { CustomTooltip } from '../CustomTooltip';
  * const users = {
  *   'client1': {
  *     name: 'John Doe',
- *     avatar_url: 'https://example.com/avatar1.jpg',
- *     border_color: '#00B39F',
- *     user_id: 'user123'
+ *     avatarUrl: 'https://example.com/avatar1.jpg',
+ *     borderColor: '#00B39F',
+ *     userId: 'user123'
  *   }
  * };
  *
@@ -32,15 +32,15 @@ import { CustomTooltip } from '../CustomTooltip';
  * User object structure representing a collaborator
  * @interface User
  * @property {string} name - Display name of the user
- * @property {string} avatar_url - URL to the user's avatar image
- * @property {string} border_color - Color code for the avatar border (e.g., '#00B39F')
- * @property {string} user_id - Unique identifier for the user
+ * @property {string} avatarUrl - URL to the user's avatar image
+ * @property {string} borderColor - Color code for the avatar border (e.g., '#00B39F')
+ * @property {string} userId - Unique identifier for the user
  */
 interface User {
   name: string;
-  avatar_url: string;
-  border_color: string;
-  user_id: string;
+  avatarUrl: string;
+  borderColor: string;
+  userId: string;
 }
 
 /**
@@ -192,10 +192,10 @@ const CollaboratorAvatarGroup = ({
               <StyledAvatar
                 key={clientID}
                 alt={user.name}
-                src={user.avatar_url}
-                borderColor={user.border_color}
+                src={user.avatarUrl}
+                borderColor={user.borderColor}
                 imgProps={{ referrerPolicy: 'no-referrer' }}
-                onClick={() => openInNewTab(`${providerUrl}/user/${user.user_id}`)}
+                onClick={() => openInNewTab(`${providerUrl}/user/${user.userId}`)}
               />
             </CustomTooltip>
           );
@@ -237,12 +237,12 @@ const CollaboratorAvatarGroup = ({
               .map(([clientID, user]) => (
                 <PopupAvatarWrapper
                   key={clientID}
-                  onClick={() => openInNewTab(`${providerUrl}/user/${user.user_id}`)}
+                  onClick={() => openInNewTab(`${providerUrl}/user/${user.userId}`)}
                 >
                   <StyledAvatar
                     alt={user.name}
-                    src={user.avatar_url}
-                    borderColor={user.border_color}
+                    src={user.avatarUrl}
+                    borderColor={user.borderColor}
                     imgProps={{ referrerPolicy: 'no-referrer' }}
                   />
                   <UserName variant="body1">{user.name}</UserName>

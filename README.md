@@ -2,6 +2,10 @@
 
 The Sistent Design System provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences. Visit the <a href="https://layer5.io/projects/sistent">project website</a> for more information.
 
+## Naming conventions
+
+Sistent components that surface API data (tables, form fields, charts) must use the camelCase-on-the-wire identifiers defined by the Meshery / Layer5 ecosystem contract. See the [identifier-naming contributor guide](https://github.com/meshery/schemas/blob/master/docs/identifier-naming-contributor-guide.md) in `meshery/schemas` — the reader-friendly 26-row naming directory with before/after and do/don't examples — before adding props, column keys, or query-arg types that map to a Meshery or Layer5 Cloud response shape.
+
 ## Contributing to Sistent
 
 ### Prerequisites

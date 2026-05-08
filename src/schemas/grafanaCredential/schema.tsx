@@ -1,35 +1,10 @@
 /**
- * Schema for creating grafana credential;
+ * Re-exports the canonical RJSF form schema for creating a Grafana
+ * credential from @meshery/schemas. The schema is the authoritative source
+ * for this form and is validated against the v1beta1 credential OpenAPI
+ * construct.
+ *
+ * @see meshery/schemas#866 — migration from hand-authored to canonical
+ * @see meshery/schemas schemas/constructs/v1beta1/credential/forms/grafana.json
  */
-const grafanaCredentialSchema = {
-  type: 'object',
-  title: 'Grafana',
-  properties: {
-    credentialName: {
-      title: 'Credential Name',
-      type: 'string',
-      description: 'Name of your credential'
-    },
-    secret: {
-      type: 'object',
-      title: 'Credential Secret',
-      description: 'Credential secret for the Grafana instance',
-      properties: {
-        grafanaURL: {
-          type: 'string',
-          title: 'URL',
-          description: 'URL of the Grafana instance'
-        },
-        grafanaAPIKey: {
-          type: 'string',
-          title: 'API Key',
-          description: 'API Key for the Grafana instance'
-        }
-      },
-      required: ['grafanaURL', 'grafanaAPIKey']
-    }
-  },
-  required: ['credentialName']
-};
-
-export default grafanaCredentialSchema;
+export { GrafanaCredentialRjsfSchemaV1Beta1 as default } from '@meshery/schemas';

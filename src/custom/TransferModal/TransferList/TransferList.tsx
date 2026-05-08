@@ -121,7 +121,6 @@ function TransferList({
 
   React.useEffect(() => {
     assignedData(right);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [right]);
 
   React.useEffect(() => {
@@ -143,7 +142,6 @@ function TransferList({
         observer.unobserve(sentinel);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [assignableData]);
 
   React.useEffect(() => {
@@ -165,7 +163,6 @@ function TransferList({
         observer.unobserve(sentinel);
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [originalAssignedData]);
 
   const handleToggle = (value: ListItemType) => () => {

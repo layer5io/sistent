@@ -108,7 +108,7 @@ const ActionButtons: React.FC<ActionButtonsProps> = ({
             }}
             onClick={() =>
               cleanedType === VIEWS
-                ? downloadYaml(details.pattern_file, details.name)
+                ? downloadYaml(details.patternFile, details.name)
                 : downloadPattern(details.id, details.name, getDownloadUrl)
             }
           >

@@ -113,7 +113,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
   const [search, setSearch] = useState('');
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
-  const [sortOrder, setSortOrder] = useState<string>('updated_at desc');
+  const [sortOrder, setSortOrder] = useState<string>('updatedAt desc');
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   const { data: designsOfWorkspace, refetch: refetchWorkspaceDesigns } =
@@ -183,7 +183,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
   useEffect(() => {
     const fetchSchema = async () => {
       const modelNames = _.uniq(
-        meshModelModelsData?.models?.map((model: any) => model.display_name)
+        meshModelModelsData?.models?.map((model: any) => model.displayName)
       );
       const modifiedSchema = _.set(
         _.cloneDeep(publishCatalogItemSchema),
@@ -250,7 +250,7 @@ const DesignTable: React.FC<DesignTableProps> = ({
       {tableHeaderContent}
       <CatalogDesignsTable
         patterns={designsOfWorkspace?.designs || []}
-        totalCount={designsOfWorkspace?.total_count}
+        totalCount={designsOfWorkspace?.totalCount}
         sortOrder={sortOrder}
         setSortOrder={setSortOrder}
         pageSize={pageSize}

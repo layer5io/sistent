@@ -19,6 +19,17 @@ interface FilterSectionProps {
   customComponent?: React.ComponentType;
 }
 
+const optionRowSx = {
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  px: '0.5rem'
+} as const;
+
+const optionGroupSx = {
+  alignItems: 'center',
+  gap: '0.35rem'
+} as const;
+
 /**
  * @component FilterSection
  * @description A functional component that renders a filter section.
@@ -64,10 +75,10 @@ const FilterSection: React.FC<FilterSectionProps> = ({
       >
         <Typography
           sx={{
-            fontSize: '1rem'
+            fontSize: '1rem',
+            fontWeight: 'bold',
+            fontFamily: styleProps.fontFamily
           }}
-          fontWeight="bold"
-          fontFamily={styleProps.fontFamily}
         >
           {(sectionDisplayName || filterKey).toUpperCase()}
         </Typography>
@@ -106,14 +117,8 @@ const FilterSection: React.FC<FilterSectionProps> = ({
               </Box>
             )}
             {searchedOptions.map((option, index) => (
-              <Stack
-                key={`${option.value}-${index}`}
-                direction="row"
-                alignItems="center"
-                px={'0.5rem'}
-                justifyContent="space-between"
-              >
-                <Stack direction="row" alignItems="center" gap="0.35rem">
+              <Stack key={`${option.value}-${index}`} direction="row" sx={optionRowSx}>
+                <Stack direction="row" sx={optionGroupSx}>
                   <Checkbox
                     id={`checkbox-${option.label}`}
                     checked={
@@ -132,7 +137,7 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
                   <Typography fontFamily={styleProps.fontFamily}>{option.label}</Typography>
                 </Stack>
-                <Stack direction="row" alignItems="center" gap="0.35rem">
+                <Stack direction="row" sx={optionGroupSx}>
                   {option.totalCount !== undefined && `(${option.totalCount || 0})`}
                   {option.description && (
                     <InfoTooltip variant="standard" helpText={option.description} />

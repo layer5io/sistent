@@ -1,1 +1,1 @@
-export {default as ExploreIcon } from './ExploreIcon';
+export { default as ExploreIcon } from './ExploreIcon';
