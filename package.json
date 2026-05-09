@@ -41,7 +41,7 @@
     }
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.5.3",
+    "@commitlint/cli": "^21.0.0",
     "@commitlint/config-conventional": "^20.5.3",
     "@emotion/cache": "^11.14.0",
     "@eslint/eslintrc": "^3.3.5",
