@@ -107,6 +107,7 @@ export * from './IndeterminateCheckBox';
 export * from './Info';
 export * from './InfoOutlined';
 export { default as InsertChartIcon } from './InsertChartIcon';
+export * from './InsertDriveFile';
 export * from './InviteUser';
 export * from './Kanvas';
 export * from './Kubernetes';
