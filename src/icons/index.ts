@@ -99,6 +99,7 @@ export * from './GridOn';
 export * from './GridView';
 export * from './Group';
 export * from './GroupAdd';
+export * from './HandymanIcon';
 export * from './HelpIcon';
 export * from './Hierarchical';
 export * from './Idea';
