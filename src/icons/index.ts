@@ -172,6 +172,7 @@ export * from './Star';
 export * from './Success';
 export * from './SupervisedUserCircle';
 export * from './SwapVert';
+export * from './Sync';
 export * from './SyncAlt';
 export * from './TableChart';
 export * from './TableView';
