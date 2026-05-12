@@ -22,11 +22,11 @@ function renderWithTheme(ui: React.ReactElement) {
 
 describe.each(iconEntries)('%s', (_name, IconComponent) => {
   it('renders an <svg> element and forwards width/height props', () => {
-    const { container } = renderWithTheme(<IconComponent width={32} height={32} />);
+    const { container } = renderWithTheme(<IconComponent width={32} height={24} />);
     const svg = container.querySelector('svg');
 
     expect(svg).not.toBeNull();
     expect(svg!.getAttribute('width')).toBe('32');
-    expect(svg!.getAttribute('height')).toBe('32');
+    expect(svg!.getAttribute('height')).toBe('24');
   });
 });
