@@ -21,7 +21,7 @@ export interface RJSFValidationError {
 export interface RJSFFormModalProps
   extends Omit<
     RJSFFormWrapperProps,
-    'onSubmit' | 'formRef' | 'formData' | 'onChange'
+    'onSubmit' | 'onError' | 'formRef' | 'formData' | 'onChange' | 'children'
   > {
   open: boolean;
   onClose: () => void;
@@ -29,19 +29,26 @@ export interface RJSFFormModalProps
   onSubmit: (formData: any) => void;
   title: string;
   buttonTitle: string;
+  /**
+   * Label for the secondary (cancel) button. Defaults to `'Cancel'`.
+   * Exposed for i18n.
+   */
+  cancelButtonTitle?: string;
   helpText?: string;
   leftHeaderIcon?: React.ReactNode | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   initialData?: any;
   /**
    * Invoked when the user clicks the primary button but the form
-   * fails validation (either `validateForm()` returned false or it
-   * threw during schema compilation). Receives the RJSF error list.
+   * fails validation. Receives the RJSF error list (whatever
+   * `@rjsf/core`'s `onError` would emit). Consumers should surface
+   * the errors through their notification system (toast, inline
+   * error banner, etc.).
    *
-   * Consumers should surface the errors through their notification
-   * system (toast, inline error banner, etc.). If omitted, validation
-   * failures are silently logged to `console.warn` — preventing the
-   * historical "Import button does nothing" dead-button bug.
+   * If omitted, validation failures are logged to `console.warn` —
+   * preventing the historical "Import button does nothing"
+   * dead-button bug while still defaulting to non-noisy behavior
+   * when the consumer hasn't wired up notifications yet.
    */
   onValidationError?: (errors: RJSFValidationError[]) => void;
 }
@@ -52,9 +59,13 @@ export interface RJSFFormModalProps
  * Bundles:
  *   - sistent `Modal` + `ModalBody` + `ModalFooter` chrome
  *   - a `PrimaryActionButtons` submit/cancel pair
- *   - a `validateForm()` guard that surfaces validation errors via
- *     the `onValidationError` callback (so consumers do not have to
- *     reimplement the silent-dead-button-vs-toast logic per repo)
+ *   - canonical RJSF lifecycle wiring: the primary button calls
+ *     `form.submit()`, which triggers Ajv validation inside RJSF and
+ *     fires either `onSubmit` (on success) or `onError` (on validation
+ *     failure). This avoids reading `formRef.state.errors` directly,
+ *     which is unreliable because RJSF's internal `setState` is async
+ *     and the ref may still expose pre-validation errors immediately
+ *     after `validateForm()`.
  *
  * The form's RJSF props (`schema`, `uiSchema`, `widgets`, etc.) are
  * forwarded directly to `RJSFFormWrapper`.
@@ -65,6 +76,7 @@ export function RJSFFormModal({
   onSubmit,
   title,
   buttonTitle,
+  cancelButtonTitle = 'Cancel',
   helpText,
   leftHeaderIcon = null,
   initialData,
@@ -84,13 +96,15 @@ export function RJSFFormModal({
     setFormData(initialData ?? {});
   }, [open, initialData]);
 
-  const handleSubmit = (): void => {
+  const handlePrimaryClick = (): void => {
     if (!formRef.current) {
       return;
     }
-    let isValid: boolean;
+    // Delegate to RJSF's submit lifecycle — this triggers internal
+    // validation and fan-out to `onSubmit` / `onError` props on the
+    // form, which we pass through below.
     try {
-      isValid = formRef.current.validateForm();
+      formRef.current.submit();
     } catch (err) {
       const message = (err as Error)?.message ?? String(err);
       const errors: RJSFValidationError[] = [
@@ -99,22 +113,24 @@ export function RJSFFormModal({
       if (onValidationError) {
         onValidationError(errors);
       } else {
-        console.warn('[RJSFFormModal] validateForm threw:', err);
+        console.warn('[RJSFFormModal] submit threw:', err);
       }
-      return;
     }
-    if (!isValid) {
-      const errors: RJSFValidationError[] =
-        formRef.current.state?.errors ?? [];
-      if (onValidationError) {
-        onValidationError(errors);
-      } else {
-        console.warn('[RJSFFormModal] validateForm returned false:', errors);
-      }
-      return;
-    }
-    onSubmit(formRef.current.state.formData);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleFormSubmit = (e: any): void => {
+    onSubmit(e.formData);
     onClose();
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleFormError = (errors: any[]): void => {
+    if (onValidationError) {
+      onValidationError(errors as RJSFValidationError[]);
+    } else {
+      console.warn('[RJSFFormModal] form validation failed:', errors);
+    }
   };
 
   return (
@@ -126,15 +142,23 @@ export function RJSFFormModal({
             formData={formData}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onChange={(e: any) => setFormData(e.formData)}
+            onSubmit={handleFormSubmit}
+            onError={handleFormError}
             formRef={formRef}
-          />
+          >
+            {/*
+              Suppress RJSF's default in-form submit button — the
+              modal's PrimaryActionButtons owns the submit affordance.
+            */}
+            <></>
+          </RJSFFormWrapper>
         </div>
       </ModalBody>
       <ModalFooter variant="filled" helpText={helpText}>
         <PrimaryActionButtons
           primaryText={buttonTitle}
-          secondaryText="Cancel"
-          primaryButtonProps={{ onClick: handleSubmit }}
+          secondaryText={cancelButtonTitle}
+          primaryButtonProps={{ onClick: handlePrimaryClick }}
           secondaryButtonProps={{ onClick: onClose }}
         />
       </ModalFooter>

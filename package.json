@@ -111,18 +111,6 @@
     }
   },
   "peerDependenciesMeta": {
-    "@rjsf/core": {
-      "optional": true
-    },
-    "@rjsf/mui": {
-      "optional": true
-    },
-    "@rjsf/utils": {
-      "optional": true
-    },
-    "@rjsf/validator-ajv8": {
-      "optional": true
-    },
     "react": {
       "optional": true
     },

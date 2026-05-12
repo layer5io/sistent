@@ -34,6 +34,11 @@ export interface RJSFFormWrapperProps
  * Pairs with `RJSFFormModal` for the common modal-form pattern, or
  * can be embedded directly when the consumer owns the surrounding
  * chrome.
+ *
+ * `children` is passed through unchanged — when omitted, RJSF renders
+ * its own default in-form submit button. Consumers (or
+ * `RJSFFormModal`) that own the submit affordance should explicitly
+ * pass an empty fragment to suppress it.
  */
 export function RJSFFormWrapper({
   formRef,
@@ -48,13 +53,7 @@ export function RJSFFormWrapper({
         ref={formRef as any}
         {...rest}
       >
-        {/*
-          @rjsf/core renders an in-form submit button when `children`
-          is empty. Consumers that own the submit affordance (e.g.
-          `RJSFFormModal`'s footer button) pass an empty fragment so
-          RJSF suppresses its own button.
-        */}
-        {children ?? <></>}
+        {children}
       </MuiRJSFForm>
     </SistentThemeProvider>
   );
