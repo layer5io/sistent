@@ -166,6 +166,7 @@ export * from './DashboardWidgets';
 export * from './Dialog';
 export * from './permissions';
 export * from './ResourceDetailFormatters';
+export * from './RJSFFormWrapper';
 export * from './ShareModal';
 export * from './UserSearchField';
 export * from './Workspaces';
