@@ -56,6 +56,7 @@ export * from './Dashboard';
 export * from './Database';
 export * from './DataObject';
 export * from './Delete';
+export * from './DeleteForever';
 export * from './Deploy';
 export * from './Deployments';
 export * from './Description';
