@@ -66,6 +66,7 @@ export {
   PerformersSectionButton
 } from './PerformersSection';
 export { SetupPreReq } from './SetupPrerequisite';
+export { StyledAccordion, StyledAccordionSummary } from './StyledAccordion';
 export { StyledCard } from './StyledCard';
 export { StyledChapter } from './StyledChapter';
 export { StyledSearchBar } from './StyledSearchBar';
