@@ -4,51 +4,49 @@ import { BUTTON_MODAL_DARK, WHITE } from '../../theme/colors/colors';
 
 export type FlipCardProps = {
   duration?: number;
-  onClick?: () => void;
-  onShow?: () => void;
-  children: [React.ReactNode, React.ReactNode];
   disableFlip?: boolean;
-  padding?: string;
+  frontElement: React.ReactNode;
+  backElement: React.ReactNode;
+  flipAction?: 'hover' | 'click';
 };
 
-/**
- * Helper function to get the front or back child component from the children array
- * @param children Array containing exactly two child components
- * @param key Index to retrieve (0 for front, 1 for back)
- * @throws Error if children is undefined or doesn't contain exactly two components
- * @returns The selected child component
- */
-function GetChild(children: [React.ReactNode, React.ReactNode], key: number) {
-  if (!children) throw Error('FlipCard requires exactly two child components');
-  if (children.length != 2) throw Error('FlipCard requires exactly two child components');
 
-  return children[key];
-}
-
-const Card = styled('div')(({ theme }) => ({
+const Card = styled('div')({
   height: '100%',
-  backgroundColor: 'transparent',
-  perspective: theme.spacing(125)
-}));
+  width: '100%',
+  perspective: '1000px',
+});
 
-const InnerCard = styled('div')(({ theme }) => ({
-  padding: theme.spacing(2),
-  borderRadius: theme.spacing(1),
+const InnerCard = styled('div', {
+  // Prevent 'flipped' prop from leaking to the DOM element
+  shouldForwardProp: (prop) => prop !== 'flipped',
+})<{ flipped: boolean }>(({ flipped }) => ({
+  position: 'relative',
+  height: '100%',
+  width: '100%',
   transformStyle: 'preserve-3d',
-  boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-  backgroundColor: theme.palette.mode === 'dark' ? BUTTON_MODAL_DARK : WHITE,
-  cursor: 'pointer',
-  transformOrigin: '50% 50% 10%'
+  transform: flipped ? 'rotateY(180deg)' : 'rotateY(0deg)',
 }));
 
 const FrontContent = styled('div')({
-  backfaceVisibility: 'hidden'
+  position: 'absolute',
+  height: '100%',
+  width: '100%',
+  backfaceVisibility: 'hidden',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 });
 
 const BackContent = styled('div')({
+  position: 'absolute',
+  height: '100%',
+  width: '100%',
   backfaceVisibility: 'hidden',
-  transform: 'scale(-1, 1)',
-  wordBreak: 'break-word'
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  transform: 'rotateY(180deg)',
 });
 
 /**
@@ -56,78 +54,51 @@ const BackContent = styled('div')({
  *
  * @component
  * @param props.duration - Animation duration in milliseconds (default: 500)
- * @param props.onClick - Callback function triggered on card click
- * @param props.onShow - Additional callback function triggered when card shows new face
- * @param props.children - Array of exactly two child components (front and back)
+ * @param props.flipAction - The action that triggers the flip animation ('hover' or 'click') (default: 'click')
+ * @param props.frontElement - React node to be displayed on the front face of the card
+ * @param props.backElement - React node to be displayed on the back face of the card
  * @param props.disableFlip - When true, prevents the card from flipping (default: false)
  *
  * @example
  * ```tsx
- * <FlipCard>
- *   <div>Front Content</div>
- *   <div>Back Content</div>
- * </FlipCard>
+ * <FlipCard 
+ * frontElement={<div>Front Content</div>} 
+ * backElement={<div>Back Content</div>} 
+ * flipAction="hover"
+ * />
  * ```
  */
 export function FlipCard({
   duration = 500,
-  onClick,
-  onShow,
-  children,
+  frontElement,
+  backElement,
   disableFlip = false,
-  padding
+  flipAction = 'click'
 }: FlipCardProps) {
   const [flipped, setFlipped] = React.useState(false);
-  const [activeBack, setActiveBack] = React.useState(false);
+  
+  const handleFlip = () => {
+    if (!disableFlip) setFlipped((prev) => !prev);
+  };
 
-  const timeout = React.useRef<null | NodeJS.Timeout>(null);
+  // Determine triggers
+  const triggerProps = flipAction === 'click' 
+    ? { onClick: handleFlip } 
+    : { onMouseEnter: () => setFlipped(true), onMouseLeave: () => setFlipped(false) };
 
-  const Front = GetChild(children, 0);
-  const Back = GetChild(children, 1);
-
-  React.useEffect(() => {
-    // This function makes sure that the inner content of the card disappears roughly
-    // after 30 deg rotation has already occured. It will ensure that the user doesn't gets
-    // a "blank" card while the card is rotating
-    //
-    // This guarantee can be offered because of two main reasons:
-    // 1. In sufficiently modern browsers JS and CSS are handled in different threads
-    // hence ones execution doesn't blocks another.
-    // 2. setTimeout will put its callback at the end of current context's end hence ensuring
-    // this callback doesn't gets blocked by another JS process.
-
-    if (timeout.current) clearTimeout(timeout.current);
-
-    timeout.current = setTimeout(() => {
-      setActiveBack(flipped);
-    }, duration / 6);
-  }, [flipped, duration]);
 
   return (
-    <Card
-      onClick={() => {
-        if (disableFlip) return;
-        setFlipped((flipped) => !flipped);
-        if (onClick) {
-          onClick();
-        }
-        if (onShow) {
-          onShow();
-        }
-      }}
-    >
+    <Card {...triggerProps}>
       <InnerCard
+        flipped={flipped}
         style={{
-          transform: flipped ? 'scale(-1,1)' : undefined,
-          transition: `transform ${duration}ms`,
-          padding: padding
+          transition: `transform ${duration}ms`
         }}
       >
-        {!activeBack ? (
-          <FrontContent>{React.isValidElement(Front) ? Front : null}</FrontContent>
-        ) : (
-          <BackContent>{React.isValidElement(Back) ? Back : null}</BackContent>
-        )}
+          <FrontContent>{React.isValidElement(frontElement) ? frontElement : <div>Invalid Front Content</div>}</FrontContent>
+        
+          <BackContent>{React.isValidElement(backElement) ? backElement : <div>Invalid Back Content</div>}</BackContent>
+        
       </InnerCard>
     </Card>
   );
