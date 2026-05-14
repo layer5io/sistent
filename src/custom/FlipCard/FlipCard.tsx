@@ -83,8 +83,22 @@ export function FlipCard({
 
   // Determine triggers
   const triggerProps = flipAction === 'click' 
-    ? { onClick: handleFlip } 
-    : { onMouseEnter: () => setFlipped(true), onMouseLeave: () => setFlipped(false) };
+    ? { 
+        onClick: handleFlip,
+        onKeyDown: (e: React.KeyboardEvent) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleFlip();
+          }
+        },
+        role: 'button',
+        tabIndex: 0,
+        'aria-pressed': flipped
+      } 
+    : { 
+        onMouseEnter: () => !disableFlip && setFlipped(true), 
+        onMouseLeave: () => !disableFlip && setFlipped(false) 
+      };
 
 
   return (
@@ -95,9 +109,9 @@ export function FlipCard({
           transition: `transform ${duration}ms`
         }}
       >
-          <FrontContent>{React.isValidElement(frontElement) ? frontElement : <div>Invalid Front Content</div>}</FrontContent>
+          <FrontContent>{frontElement}</FrontContent>
         
-          <BackContent>{React.isValidElement(backElement) ? backElement : <div>Invalid Back Content</div>}</BackContent>
+          <BackContent>{backElement}</BackContent>
         
       </InnerCard>
     </Card>
