@@ -16,9 +16,9 @@ export const WorkspaceIcon = ({
       width={width}
       fill={fill}
       stroke={fill}
-      stroke-width="2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       {...props}
     >
       <path
