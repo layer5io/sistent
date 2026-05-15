@@ -1,2 +1,5 @@
 /.yarn/releases/** binary
 /.yarn/plugins/** binary
+
+.github/workflows/*.lock.yml linguist-generated=true merge=ours
+.github/aw/actions-lock.json linguist-generated=true merge=ours
