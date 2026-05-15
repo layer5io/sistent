@@ -5,7 +5,8 @@ export * from './Add';
 export * from './AddCircle';
 export * from './Alert';
 export * from './Application';
-export * from './AppRegistration'
+export * from './AppRegistration';
+export * from './AccountTree';
 export * from './ArrowBack';
 export * from './ArrowCompress';
 export * from './ArrowDownward';
