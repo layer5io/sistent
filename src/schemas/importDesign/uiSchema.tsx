@@ -1,8 +1,7 @@
-const importDesignUiSchema = {
-  uploadType: {
-    'ui:widget': 'radio'
-  },
-  'ui:order': ['name', 'uploadType', 'file', 'url']
-};
-
-export default importDesignUiSchema;
+/**
+ * Re-exports the canonical RJSF UI schema for the import-design modal
+ * from @meshery/schemas.
+ *
+ * @see meshery/schemas#866
+ */
+export { DesignImportRjsfUiSchemaV1Beta3 as default } from '@meshery/schemas';

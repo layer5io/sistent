@@ -15,7 +15,13 @@ interface SearchBarProps {
   sx?: SxProps<Theme>;
   endAdornment?: React.ReactNode;
   debounceTime?: number;
-  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  /**
+   * When `true` (default) the search bar fills its container, matching the
+   * historical behavior. Set to `false` when placing the search bar inside a
+   * horizontal flex toolbar so siblings can stay on the same row and the
+   * caller controls width via `sx`.
+   */
+  fullWidth?: boolean;
 }
 
 /**
@@ -29,6 +35,7 @@ interface SearchBarProps {
  * @param {Object} [props.sx] - The style object for the search input.
  * @param {React.ReactNode} [props.endAdornment] - The element to display at the end of the search input.
  * @param {number} [props.debounceTime] - The debounce time for the input change handler.
+ * @param {boolean} [props.fullWidth=true] - Whether the search bar fills its container.
  *
  * @returns {JSX.Element} The rendered StyledSearchBar component.
  */
@@ -40,7 +47,7 @@ function StyledSearchBar({
   placeholder,
   endAdornment,
   debounceTime = 300,
-  onKeyDown
+  fullWidth = true
 }: SearchBarProps): JSX.Element {
 
   const theme = useTheme();
@@ -91,7 +98,7 @@ function StyledSearchBar({
     <StyledSearchInput
       type="search"
       label={label}
-      fullWidth
+      fullWidth={fullWidth}
       value={inputValue}
       onChange={handleChange}
       sx={sx}

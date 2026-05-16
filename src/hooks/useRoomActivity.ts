@@ -13,7 +13,7 @@ interface UserProfile {
 }
 
 interface CollaborationConfigParams {
-  provider_url: string;
+  providerUrl: string;
   getUserProfile: () => Promise<{ data: UserProfile }>;
   getUserAccessToken: () => Promise<{ data: string }>;
 }
@@ -47,7 +47,7 @@ interface UserMapping {
 }
 
 interface UseRoomActivityParams {
-  provider_url?: string;
+  providerUrl?: string;
   getUserProfile?: () => Promise<{ data: UserProfile }>;
   getUserAccessToken?: () => Promise<{ data: string }>;
 }
@@ -100,7 +100,7 @@ const getSignalingUrlFromProviderUrl = (providerUrl: string): string => {
  * Gets collaboration configuration for WebRTC
  */
 export const getCollaborationConfig = async ({
-  provider_url,
+  providerUrl,
   getUserProfile,
   getUserAccessToken
 }: CollaborationConfigParams): Promise<CollaborationConfig> => {
@@ -116,7 +116,7 @@ export const getCollaborationConfig = async ({
   };
 
   return {
-    signalingUrl: [getSignalingUrlFromProviderUrl(provider_url)],
+    signalingUrl: [getSignalingUrlFromProviderUrl(providerUrl)],
     user: userProfile,
     authToken: accessToken,
     refreshAuthToken: refreshToken,
@@ -135,18 +135,18 @@ export const getCollaborationConfig = async ({
 const subscribeToRoomActivity = async (
   wsRef: React.MutableRefObject<WebSocket | null>,
   onUserMapChange: (userMap: UserMapping) => void,
-  provider_url: string,
+  providerUrl: string,
   getUserProfile: () => Promise<{ data: UserProfile }>,
   getUserAccessToken: () => Promise<{ data: string }>
 ): Promise<void> => {
-  if (!provider_url || !getUserProfile || !getUserAccessToken) {
+  if (!providerUrl || !getUserProfile || !getUserAccessToken) {
     console.warn('Missing required parameters for subscription');
     return;
   }
 
   try {
     const config = await getCollaborationConfig({
-      provider_url,
+      providerUrl,
       getUserProfile,
       getUserAccessToken
     });
@@ -187,7 +187,7 @@ const subscribeToRoomActivity = async (
  */
 export const useRoomActivity = (
   {
-    provider_url,
+    providerUrl,
     getUserProfile,
     getUserAccessToken
   }: UseRoomActivityParams = {} as UseRoomActivityParams
@@ -197,11 +197,11 @@ export const useRoomActivity = (
 
   useEffect(() => {
     // -> all parameters check
-    if (provider_url && getUserProfile && getUserAccessToken) {
+    if (providerUrl && getUserProfile && getUserAccessToken) {
       subscribeToRoomActivity(
         wsRef,
         setAllRoomsUserMapping,
-        provider_url,
+        providerUrl,
         getUserProfile,
         getUserAccessToken
       );
@@ -215,7 +215,7 @@ export const useRoomActivity = (
         ws.close();
       }
     };
-  }, [provider_url, getUserProfile, getUserAccessToken]);
+  }, [providerUrl, getUserProfile, getUserAccessToken]);
 
   return [allRoomsUserMapping, wsRef];
 };

@@ -66,6 +66,7 @@ export {
   PerformersSectionButton
 } from './PerformersSection';
 export { SetupPreReq } from './SetupPrerequisite';
+export { StyledAccordion, StyledAccordionSummary } from './StyledAccordion';
 export { StyledCard } from './StyledCard';
 export { StyledChapter } from './StyledChapter';
 export { StyledSearchBar } from './StyledSearchBar';
@@ -166,6 +167,7 @@ export * from './DashboardWidgets';
 export * from './Dialog';
 export * from './permissions';
 export * from './ResourceDetailFormatters';
+export * from './RJSFFormWrapper';
 export * from './ShareModal';
 export * from './UserSearchField';
 export * from './Workspaces';

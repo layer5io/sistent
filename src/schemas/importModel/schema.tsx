@@ -1,65 +1,10 @@
-import ModelDefinitionV1Beta2OpenApiSchema from '@meshery/schemas/constructs/v1beta2/model/ModelSchema';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ModelSchema = (ModelDefinitionV1Beta2OpenApiSchema as any).components.schemas;
-const importModelSchema = {
-  type: 'object',
-  required: ['uploadType'],
-  properties: {
-    uploadType: {
-      type: ModelSchema.ImportRequest.properties.uploadType.type,
-      title: 'Upload method',
-      enum: ['File Import', 'URL Import', 'CSV Import'],
-      enumDescriptions: ModelSchema.ImportRequest.properties.uploadType.enumDescriptions,
-      default: 'Select the Upload Method',
-      'x-rjsf-grid-area': '12',
-      description: ModelSchema.ImportRequest.properties.uploadType.description
-    }
-  },
-  allOf: [
-    {
-      if: {
-        properties: {
-          uploadType: {
-            const: 'File Import'
-          }
-        }
-      },
-      then: {
-        properties: {
-          file: {
-            type: ModelSchema.ImportBody.oneOf[0].properties.modelFile?.type,
-            format: ModelSchema.ImportBody.oneOf[0].properties.modelFile?.format,
-            description: ModelSchema.ImportBody.oneOf[0].properties.modelFile?.description,
-            'x-rjsf-grid-area': '12'
-          }
-        },
-        required: ['file']
-      }
-    },
-    {
-      if: {
-        properties: {
-          uploadType: {
-            const: 'URL Import'
-          }
-        }
-      },
-      then: {
-        properties: {
-          url: {
-            type: ModelSchema.ImportBody.oneOf[1].properties.url?.type,
-            format: ModelSchema.ImportBody.oneOf[1].properties.url?.format,
-            title: 'URL',
-            description: ModelSchema.ImportBody.oneOf[1].properties.url?.description,
-            'x-rjsf-grid-area': '12',
-            disabled: true
-          }
-        },
-        required: ['url']
-      }
-    }
-  ]
-};
-
-export default importModelSchema;
+/**
+ * Re-exports the canonical RJSF form schema for the import-model modal
+ * from @meshery/schemas. The schema is the authoritative source for this
+ * form and is validated against the v1beta2 model ImportRequest OpenAPI
+ * construct.
+ *
+ * @see meshery/schemas#866 — migration from hand-authored to canonical
+ * @see meshery/schemas schemas/constructs/v1beta2/model/forms/import.json
+ */
+export { ModelImportRjsfSchemaV1Beta2 as default } from '@meshery/schemas';
