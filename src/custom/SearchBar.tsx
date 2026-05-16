@@ -1,7 +1,7 @@
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { Theme, ThemeProvider, createTheme } from '@mui/material/styles';
 import debounce from 'lodash/debounce';
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { TextField } from '../base/TextField';
 import { CloseIcon, SearchIcon } from '../icons';
@@ -89,6 +89,7 @@ function SearchBar({
 }: SearchBarProps): JSX.Element {
   const [searchText, setSearchText] = React.useState('');
   const searchRef = React.useRef<HTMLInputElement | null>(null);
+  const searchTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const theme = useTheme();
 
   // Debounce the onSearch function
@@ -131,7 +132,6 @@ function SearchBar({
     }
   };
 
-
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     onKeyDown?.(event);
 
@@ -139,13 +139,13 @@ function SearchBar({
       return;
     }
 
-   if (event.key === "Enter") {
-    if (searchTimeoutRef.current) {
-      clearTimeout(searchTimeoutRef.current);
-      searchTimeoutRef.current = null;
+    if (event.key === 'Enter') {
+      if (searchTimeoutRef.current) {
+        clearTimeout(searchTimeoutRef.current);
+        searchTimeoutRef.current = null;
+      }
+      onSearch(searchText);
     }
-    onSearch(searchText);
-  }
   };
 
   return (
@@ -170,7 +170,7 @@ function SearchBar({
             inputRef={searchRef}
             placeholder={placeholder}
             data-testid="searchbar-input"
-            onKeyDown={handleKeyDown} 
+            onKeyDown={handleKeyDown}
             style={{
               width: expanded ? '150px' : '0',
               opacity: expanded ? 1 : 0,
