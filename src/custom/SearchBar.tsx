@@ -139,9 +139,13 @@ function SearchBar({
       return;
     }
 
-    if (event.key === 'Enter') {
-      onSearch(searchText);
+   if (event.key === "Enter") {
+    if (searchTimeoutRef.current) {
+      clearTimeout(searchTimeoutRef.current);
+      searchTimeoutRef.current = null;
     }
+    onSearch(searchText);
+  }
   };
 
   return (
