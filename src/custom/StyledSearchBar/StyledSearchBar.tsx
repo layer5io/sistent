@@ -8,6 +8,7 @@ import { InputAdornmentEnd, StyledSearchInput } from './style';
 
 interface SearchBarProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   value?: string;
   width?: string;
   label?: string;
@@ -29,6 +30,7 @@ interface SearchBarProps {
  *
  * @param {Object} props - The component props.
  * @param {function} [props.onChange] - Function to handle the change event when the search input value changes.
+ * @param {function} [props.onKeyDown] - Function to handle keyboard events on the search input.
  * @param {string} [props.value] - The current value of the search input.
  * @param {string} [props.label] - The label for the search input.
  * @param {string} [props.placeholder] - The placeholder text for the search input.
@@ -41,6 +43,7 @@ interface SearchBarProps {
  */
 function StyledSearchBar({
   onChange,
+  onKeyDown,
   value = '',
   label,
   sx,
@@ -49,6 +52,7 @@ function StyledSearchBar({
   debounceTime = 300,
   fullWidth = true
 }: SearchBarProps): JSX.Element {
+
   const theme = useTheme();
   const [inputValue, setInputValue] = useState(value);
 
@@ -102,6 +106,7 @@ function StyledSearchBar({
       onChange={handleChange}
       sx={sx}
       placeholder={placeholder ?? 'Search'}
+      onKeyDown={onKeyDown}
       startAdornment={
         <InputAdornment position="start">
           <SearchIcon fill={theme.palette.background.neutral?.default} />
