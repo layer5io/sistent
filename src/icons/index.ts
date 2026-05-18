@@ -114,6 +114,7 @@ export * from './InviteUser';
 export * from './Kanvas';
 export * from './Kubernetes';
 export * from './Launch';
+export * from './LanOutlined';
 export * from './LeaderBoard';
 export * from './Learning';
 export * from './LeftAngledArrow';
