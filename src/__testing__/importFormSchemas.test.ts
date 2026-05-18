@@ -5,24 +5,19 @@ import importFilterUiSchema from '../schemas/importFilter/uiSchema';
 import importModelSchema from '../schemas/importModel/schema';
 import importModelUiSchema from '../schemas/importModel/uiSchema';
 
-// These tests pin the @meshery/schemas v1.2.16 upgrade. The upstream release
-// (meshery/schemas#889) routes import-form file inputs through RJSF's
-// FileWidget by switching the `file`, `filterFile`, and `modelFile`
-// properties to `format: "data-url"`. RJSF maps strings with
-// `format: data-url` to FileWidget natively; before v1.2.16 these fields
-// used `format: byte` (or no format at all on `modelFile`), which RJSF
-// routed to TextWidget — so the rendered form lacked a real
-// <input type="file"> and broke the integration tests that drive the
-// file-import flow.
+// These tests pin the canonical @meshery/schemas import-form contracts.
+// The current upstream schemas keep branch-specific inputs like `file`,
+// `filterFile`, and `modelFile` under conditional `allOf[].then/else`
+// blocks instead of at the schema root, so the test helpers below flatten
+// the top-level and conditional properties before asserting on them.
 //
 // The CSV branch is intentionally not on `data-url`: the upstream schema
 // keeps `format: "binary"` on `modelCsv`/`componentCsv`/`relationshipCsv`,
 // and RJSF does not map `binary` to FileWidget. The canonical contract
 // there is "schema describes the payload, uiSchema picks the widget", so
-// the local uiSchema is responsible for the explicit
-// `'ui:widget': 'file'` override on each CSV field. The tests below pin
-// both halves so a downgrade or accidental drift in either layer is
-// caught.
+// the canonical uiSchema carries the explicit `'ui:widget': 'file'`
+// override on each CSV field. The tests below pin both halves so a
+// downgrade or accidental drift in either layer is caught.
 
 type RjsfStringProperty = {
   type: string;
@@ -31,11 +26,15 @@ type RjsfStringProperty = {
   description?: string;
 };
 
+type RjsfProperties = Record<string, RjsfStringProperty>;
+
 type RjsfSchemaShape = {
-  properties?: Record<string, RjsfStringProperty>;
+  properties?: RjsfProperties;
   allOf?: Array<{
+    properties?: RjsfProperties;
     if?: { properties?: { uploadType?: { const?: string } } };
-    then?: { required?: string[] };
+    then?: { properties?: RjsfProperties; required?: string[] };
+    else?: { properties?: RjsfProperties; required?: string[] };
   }>;
 };
 
@@ -53,8 +52,27 @@ const asSchema = (schema: unknown): RjsfSchemaShape => {
   return schema as RjsfSchemaShape;
 };
 
+const collectProperties = (schema: unknown): RjsfProperties => {
+  const parsedSchema = asSchema(schema);
+  const branchProperties =
+    parsedSchema.allOf?.reduce<RjsfProperties>(
+      (properties, branch) => ({
+        ...properties,
+        ...(branch.properties ?? {}),
+        ...(branch.then?.properties ?? {}),
+        ...(branch.else?.properties ?? {})
+      }),
+      {}
+    ) ?? {};
+
+  return {
+    ...(parsedSchema.properties ?? {}),
+    ...branchProperties
+  };
+};
+
 const getProperty = (schema: unknown, name: string): RjsfStringProperty => {
-  const properties = asSchema(schema).properties;
+  const properties = collectProperties(schema);
   const property = properties?.[name];
   if (!property) {
     throw new Error(`Expected property "${name}" on schema, got ${JSON.stringify(properties)}`);
@@ -62,9 +80,40 @@ const getProperty = (schema: unknown, name: string): RjsfStringProperty => {
   return property;
 };
 
-const propertyNames = (schema: unknown): string[] => Object.keys(asSchema(schema).properties ?? {});
+const propertyNames = (schema: unknown): string[] => Object.keys(collectProperties(schema));
 
-describe('@meshery/schemas v1.2.16 import-form file inputs', () => {
+describe('@meshery/schemas import-form file inputs', () => {
+  it('collects direct `allOf` properties used for schema composition', () => {
+    const composedSchema = {
+      allOf: [
+        {
+          properties: {
+            inheritedField: {
+              type: 'string',
+              title: 'Inherited field'
+            }
+          }
+        },
+        {
+          then: {
+            properties: {
+              conditionalField: {
+                type: 'string',
+                format: FILE_INPUT_FORMAT
+              }
+            }
+          }
+        }
+      ]
+    };
+
+    expect(propertyNames(composedSchema)).toEqual(
+      expect.arrayContaining(['inheritedField', 'conditionalField'])
+    );
+    expect(getProperty(composedSchema, 'inheritedField').title).toBe('Inherited field');
+    expect(getProperty(composedSchema, 'conditionalField').format).toBe(FILE_INPUT_FORMAT);
+  });
+
   describe('DesignImport', () => {
     it('routes the `file` property through RJSF FileWidget via format: data-url', () => {
       const file = getProperty(importDesignSchema, 'file');
@@ -152,13 +201,12 @@ describe('@meshery/schemas v1.2.16 import-form file inputs', () => {
       }
     });
 
-    it('drops the obsolete `file` workaround from the local uiSchema', () => {
-      // Pre-v1.2.16, the local uiSchema overrode
-      // `file: { 'ui:widget': 'file' }` to compensate for the missing
-      // format on `modelFile`. With v1.2.16 the upstream property carries
-      // `format: data-url`, so the override would both target a
-      // non-existent property and shadow the canonical routing.
-      expect((importModelUiSchema as Record<string, unknown>).file).toBeUndefined();
+    it('binds `modelFile` to RJSF FileWidget via the canonical uiSchema', () => {
+      // The canonical upstream uiSchema now explicitly maps `modelFile` to
+      // FileWidget as part of the published form contract, so consumers of
+      // Sistent's re-exported uiSchema inherit the same behavior directly.
+      const widget = (importModelUiSchema as Record<string, { 'ui:widget'?: string }>).modelFile;
+      expect(widget?.['ui:widget']).toBe('file');
     });
 
     it('binds each CSV field to RJSF FileWidget via the local uiSchema', () => {
@@ -206,7 +254,11 @@ describe('@meshery/schemas v1.2.16 import-form file inputs', () => {
         getProperty(importFilterSchema, 'filterFile').format ?? '',
         FILE_INPUT_FORMAT
       ],
-      ['model.modelFile', getProperty(importModelSchema, 'modelFile').format ?? '', FILE_INPUT_FORMAT],
+      [
+        'model.modelFile',
+        getProperty(importModelSchema, 'modelFile').format ?? '',
+        FILE_INPUT_FORMAT
+      ],
       ['model.modelCsv', getProperty(importModelSchema, 'modelCsv').format ?? '', CSV_INPUT_FORMAT],
       [
         'model.componentCsv',

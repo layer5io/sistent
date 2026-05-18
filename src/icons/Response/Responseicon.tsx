@@ -15,7 +15,7 @@ export const ResponseIcon = ({
       width={width}
       height={height}
       fill={props.fill}
-      fill-opacity={props.fillOpacity}
+      fillOpacity={props.fillOpacity}
       {...props}
     >
       <path
