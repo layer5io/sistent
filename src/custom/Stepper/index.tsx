@@ -112,6 +112,10 @@ function ColorlibStepIcon(props: ColorlibStepIconPropsI) {
   );
 }
 
+const stepLabelSlots = {
+  stepIcon: ColorlibStepIcon
+};
+
 const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
   stepLabels,
   activeStep,
@@ -121,6 +125,13 @@ const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
   'data-testid': testId = 'customized-stepper'
 }) => {
   const theme = useTheme();
+
+  const stepLabelSlotProps = useMemo(
+    () => ({
+      stepIcon: { icons } as Partial<ColorlibStepIconPropsI>
+    }),
+    [icons]
+  );
 
   return (
     <Stack data-testid={testId}>
@@ -141,12 +152,8 @@ const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
             <Step key={label} data-testid={`step-${index}`}>
               <StyledStepLabel
                 data-testid={`step-label-${index}`}
-                slots={{
-                  stepIcon: ColorlibStepIcon
-                }}
-                slotProps={{
-                  stepIcon: { icons } as Partial<ColorlibStepIconPropsI>
-                }}
+                slots={stepLabelSlots}
+                slotProps={stepLabelSlotProps}
               >
                 {label}
               </StyledStepLabel>
