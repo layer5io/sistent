@@ -140,7 +140,12 @@ const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
             <Step key={label} data-testid={`step-${index}`}>
               <StyledStepLabel
                 data-testid={`step-label-${index}`}
-                StepIconComponent={(props) => <ColorlibStepIcon {...props} icons={icons} />}
+                slots={{
+                  stepIcon: ColorlibStepIcon
+                }}
+                slotProps={{
+                  stepIcon: { icons } as Partial<ColorlibStepIconPropsI>
+                }}
               >
                 {label}
               </StyledStepLabel>
