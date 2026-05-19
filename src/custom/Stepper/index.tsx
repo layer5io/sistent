@@ -135,6 +135,7 @@ const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
           activeStep={activeStep}
           connector={<ColorlibConnector />}
           data-testid="stepper-container"
+          sx={{ flex: 1 }}
         >
           {stepLabels.map((label, index) => (
             <Step key={label} data-testid={`step-${index}`}>
