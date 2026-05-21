@@ -3,9 +3,17 @@ import React from 'react';
 /**
  * Returns the width and height of the window.
  *
+ * During server-side rendering / static prerender there is no `window`,
+ * so this returns zeroed dimensions instead of throwing a
+ * `ReferenceError`. The real values are picked up on the client after the
+ * `resize` listener (and the first effect-driven read) run.
+ *
  * @returns {WindowDimensions} { width, height }
  */
 function getWindowDimensions(): WindowDimensions {
+  if (typeof window === 'undefined') {
+    return { width: 0, height: 0 };
+  }
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
