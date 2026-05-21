@@ -1,12 +1,12 @@
 import React from 'react';
 
 /**
- * Returns the width and height of the window.
+ * Reads the current window dimensions.
  *
- * During server-side rendering / static prerender there is no `window`,
- * so this returns zeroed dimensions instead of throwing a
- * `ReferenceError`. The real values are picked up on the client after the
- * `resize` listener (and the first effect-driven read) run.
+ * Only invoked on the client - from the mount effect and the resize handler
+ * in `useWindowDimensions`, never during render. The `typeof window` guard is
+ * a defensive net so a stray render-time call can never throw a
+ * `ReferenceError` under SSR / static prerender.
  *
  * @returns {WindowDimensions} { width, height }
  */
@@ -24,12 +24,25 @@ function getWindowDimensions(): WindowDimensions {
 /**
  * Custom hook for getting window dimensions.
  *
+ * State is initialised to zeroed dimensions rather than by reading `window`
+ * in the `useState` initialiser. This keeps the server render and the first
+ * client (hydration) render identical - reading `window` during render would
+ * make them diverge (`0x0` on the server vs the real size on the client) and
+ * trigger a hydration mismatch. The real dimensions are read once on mount
+ * via the effect below and then kept current by the debounced resize listener.
+ *
  * @returns {WindowDimensions} { width, height }
  */
 export function useWindowDimensions(): WindowDimensions {
-  const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = React.useState<WindowDimensions>({
+    width: 0,
+    height: 0
+  });
 
   React.useEffect(() => {
+    // Sync to the real dimensions on mount (client only).
+    setWindowDimensions(getWindowDimensions());
+
     let resizeTimeout: number;
 
     function handleResize() {

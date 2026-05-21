@@ -11,28 +11,16 @@ function Probe() {
 }
 
 describe('useWindowDimensions SSR safety', () => {
-  it('does not throw when window is undefined (server / static prerender)', () => {
+  it('does not read window during render and falls back to 0x0', () => {
     // The `node` environment has no `window`, mirroring Node SSR and
-    // Next.js static-export prerender.
+    // Next.js static-export prerender. Initial state is zeroed and the
+    // mount effect does not run during renderToString, so `window` is
+    // never touched during render.
     expect(typeof window).toBe('undefined');
     let html = '';
     expect(() => {
       html = renderToString(React.createElement(Probe));
     }).not.toThrow();
-    // Falls back to zeroed dimensions instead of reading `window`.
     expect(html).toContain('0x0');
-  });
-
-  it('reads real dimensions when window is present', () => {
-    (global as unknown as { window: { innerWidth: number; innerHeight: number } }).window = {
-      innerWidth: 1280,
-      innerHeight: 800
-    };
-    try {
-      const html = renderToString(React.createElement(Probe));
-      expect(html).toContain('1280x800');
-    } finally {
-      delete (global as unknown as { window?: unknown }).window;
-    }
   });
 });
