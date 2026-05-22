@@ -20,9 +20,8 @@ export const ExtensionIcon: FC<ExtensionIconProps> = ({
     <svg
       width={width}
       height={height}
-      viewBox="0 0 207.46 207.57"
+      viewBox="-12 -18 237.46 237.57"
       xmlns="http://www.w3.org/2000/svg"
-      overflow="visible"
       aria-hidden="true"
       focusable="false"
       className={isHoverEffect ? 'extension-icon-go' : undefined}
