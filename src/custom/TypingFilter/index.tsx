@@ -116,33 +116,35 @@ export function TypingFilter({ filterSchema, handleFilter, autoFilter = false }:
         value={filterState.context?.value}
         onChange={handleFilterChange}
         onFocus={handleFocus}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              {' '}
-              <ContentFilterIcon
-              /*
-                  fill={(theme) => {
-                    theme.palette.iconMain;
-                  }}
-                  */
-              />{' '}
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={handleClear}>
-                {filterState.state !== FilteringState.IDLE && (
-                  <CrossCircleIcon
-                  /*fill={(theme) => {
-                        theme.palette.iconMain;
-                      }}
-                      */
-                  />
-                )}
-              </IconButton>
-            </InputAdornment>
-          )
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                {' '}
+                <ContentFilterIcon
+                /*
+                    fill={(theme) => {
+                      theme.palette.iconMain;
+                    }}
+                    */
+                />{' '}
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={handleClear}>
+                  {filterState.state !== FilteringState.IDLE && (
+                    <CrossCircleIcon
+                    /*fill={(theme) => {
+                          theme.palette.iconMain;
+                        }}
+                        */
+                    />
+                  )}
+                </IconButton>
+              </InputAdornment>
+            )
+          }
         }}
       />
       <Popper

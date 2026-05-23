@@ -109,9 +109,10 @@ function UniversalFilter({
                 width: '20rem',
                 marginBottom: '1rem'
               }}
-              inputProps={{
-                'aria-label': 'Without label',
-                'data-testid': `${testId}-select-${filterColumn}`
+              slotProps={{
+                input: {
+                  'aria-label': 'Without label'
+                }
               }}
               displayEmpty
             >
