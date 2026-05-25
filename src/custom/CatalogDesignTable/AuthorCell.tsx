@@ -32,7 +32,7 @@ const AuthorCell: React.FC<AuthorCellProps> = ({
     <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
       <Grid2
         container
-        alignItems="center"
+        sx={{ alignItems: 'center' }}
         style={maxWidth ? { width: 'max-content' } : { width: '' }}
       >
         <Grid2>

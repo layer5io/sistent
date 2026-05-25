@@ -203,7 +203,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
           <li {...props} id={option.userId}>
             <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
               {' '}
-              <Grid2 container alignItems="center">
+              <Grid2 container sx={{ alignItems: 'center' }}>
                 <Grid2>
                   <Box sx={{ color: 'text.secondary', mr: 2 }}>
                     <Avatar alt={option.firstName} src={option.avatarUrl}>
