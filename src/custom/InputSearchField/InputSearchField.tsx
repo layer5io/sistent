@@ -127,18 +127,20 @@ const InputSearchField: React.FC<InputSearchFieldProps> = ({
             error={!!error}
             helperText={error}
             fullWidth
-            InputLabelProps={{
-              style: {
-                fontFamily: 'inherit'
+            slotProps={{
+              inputLabel: {
+                style: {
+                  fontFamily: 'inherit'
+                }
+              },
+              input: {
+                ...params.slotProps?.input,
+                endAdornment: (
+                  <React.Fragment>
+                    {isLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                  </React.Fragment>
+                )
               }
-            }}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <React.Fragment>
-                  {isLoading ? <CircularProgress color="inherit" size={20} /> : null}
-                </React.Fragment>
-              )
             }}
           />
         )}

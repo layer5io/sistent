@@ -155,11 +155,15 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
                   paddingBlock: '0.1rem'
                 }
               }}
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <>{searchUserLoading ? <CircularProgress color="inherit" size={20} /> : null}</>
-                )
+              slotProps={{
+                input: {
+                  ...params.slotProps?.input,
+                  endAdornment: (
+                    <>
+                      {searchUserLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                    </>
+                  )
+                }
               }}
             />
           )}
