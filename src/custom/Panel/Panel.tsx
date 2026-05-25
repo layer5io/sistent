@@ -81,7 +81,7 @@ const Panel_: React.FC<PanelProps> = ({
             <ErrorBoundary>
               <div className="drag-handle">
                 <DrawerHeader>
-                  <Box display="flex" justifyContent="flex-end" padding="8px">
+                  <Box sx={{ display: 'flex', justifyContent: 'flex-end', padding: '8px' }}>
                     {toggleExpandAll && (
                       <Tooltip title={areAllExpanded ? 'Collapse All' : 'Expand All'}>
                         <CustomIconButton onClick={toggleExpandAll}>

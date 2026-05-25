@@ -147,7 +147,7 @@ const InputSearchField: React.FC<InputSearchFieldProps> = ({
         renderOption={(props, option: Option) => (
           <li {...props} key={option.id}>
             <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
-              <Grid2 container alignItems="center">
+              <Grid2 container sx={{ alignItems: 'center' }}>
                 <Grid2>
                   <Box sx={{ color: 'text.secondary', mr: 2 }}>{iconComponent}</Box>
                 </Grid2>
