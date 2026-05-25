@@ -774,7 +774,7 @@ export const CollapsibleSectionFormatter: React.FC<CollapsibleSectionProps> = ({
     <CollapsibleSectionContainer style={{ marginLeft: margin }}>
       <CollapsibleSectionTitle openSection={openSection} onClick={toggleOpen}>
         <StyledTitle variant="body1">{title}</StyledTitle>
-        <Box sx={{ display: 'flex', gap: 1 }} style={{ marginRight: margin }}>
+        <Box sx={{ display: 'flex', gap: 1, marginRight: `${margin}px` }}>
           <StyledTitle
             variant="body2"
             style={{
