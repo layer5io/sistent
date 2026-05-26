@@ -44,10 +44,14 @@ export function useNeedleSpring(
     s.current = { cur: ROT_ZERO, vel: 0 };
     set(ROT_ZERO);
 
-    const tick = () => {
+    let lastTime = performance.now();
+
+    const tick = (now: number) => {
+      const dt = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
       const { cur, vel } = s.current;
-      const v = vel + (-32.5 * (cur - ROT_REST) - 9 * vel) * 0.016;
-      const c = cur + v * 0.016;
+      const v = vel + (-32.5 * (cur - ROT_REST) - 9 * vel) * dt;
+      const c = cur + v * dt;
       s.current = { cur: c, vel: v };
       set(c);
       if (Math.abs(c - ROT_REST) > 0.05 || Math.abs(v) > 0.05)
@@ -55,7 +59,10 @@ export function useNeedleSpring(
       else { set(ROT_REST); s.current = { cur: ROT_REST, vel: 0 }; raf.current = null; }
     };
 
-    timer.current = setTimeout(() => { raf.current = requestAnimationFrame(tick); }, 60);
+    timer.current = setTimeout(() => {
+      lastTime = performance.now();
+      raf.current = requestAnimationFrame(tick);
+    }, 60);
 
     return () => {
       if (timer.current) {

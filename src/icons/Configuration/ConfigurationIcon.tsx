@@ -1,9 +1,7 @@
 import React, { FC } from 'react';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
-import { PathStyle, injectKeyframes } from './style';
-
-injectKeyframes();
+import { PathStyle, keyframesCSS } from './style';
 
 export interface ConfigurationIconProps extends IconProps {
   isHoverEffect?: boolean;
@@ -25,6 +23,7 @@ export const ConfigurationIcon: FC<ConfigurationIconProps> = ({
       className={isHoverEffect ? 'configuration-icon-go' : undefined}
       {...props}
     >
+      {isHoverEffect ? <style>{keyframesCSS}</style> : null}
       <path
         className="configuration-icon-path1"
         style={PathStyle}

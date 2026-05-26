@@ -19,10 +19,14 @@ export function useAnimationTrigger(
     svg.classList.add('dashboard-icon-go');
 
     const lastPath = svg.querySelector('.dashboard-icon-bl');
-    lastPath?.addEventListener(
-      'animationend',
-      () => svg.classList.remove('dashboard-icon-go'),
-      { once: true }
-    );
+    const handleAnimationEnd = () => {
+      svg.classList.remove('dashboard-icon-go');
+    };
+
+    lastPath?.addEventListener('animationend', handleAnimationEnd, { once: true });
+
+    return () => {
+      lastPath?.removeEventListener('animationend', handleAnimationEnd);
+    };
   }, [isHoverEffect, svgRef]);
 }

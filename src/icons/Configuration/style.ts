@@ -1,7 +1,5 @@
 import React from 'react';
 
-export const StyleID = 'configuration-icon-keyframes';
-
 export const keyframesCSS = `
 @keyframes config-wrench-shake {
   0%   { transform: rotate(-20deg); }
@@ -21,12 +19,3 @@ export const PathStyle: React.CSSProperties = {
   transformBox: 'fill-box',
   transformOrigin: 'center',
 };
-
-export function injectKeyframes(): void {
-  if (typeof document === 'undefined') return;
-  if (document.getElementById(StyleID)) return;
-  const style = document.createElement('style');
-  style.id = StyleID;
-  style.textContent = keyframesCSS;
-  document.head.appendChild(style);
-}
