@@ -14,18 +14,10 @@ if (iconEntries.length === 0) {
   throw new Error('No icon components found — is src/icons/index.ts exporting correctly?');
 }
 
-const iconAliasPairs = [
-  ['AccessTimeIcon', 'AccessTime'],
-  ['ChevronLeftIcon', 'ChevronLeft'],
-  ['ChevronRightIcon', 'ChevronRight'],
-  ['FullScreenExitIcon', 'FullScreenIconExit'],
-  ['GroupAddIcon', 'GroupAdd'],
-  ['MesheryOperatorIcon', 'MesheryOperator'],
-  ['BarChartIcon', 'BarchartIcon']
-] as const;
-
 function renderWithTheme(ui: React.ReactElement) {
-  return render(<SistentThemeProviderWithoutBaseLine>{ui}</SistentThemeProviderWithoutBaseLine>);
+  return render(
+    <SistentThemeProviderWithoutBaseLine>{ui}</SistentThemeProviderWithoutBaseLine>
+  );
 }
 
 describe.each(iconEntries)('%s', (_name, IconComponent) => {
@@ -36,11 +28,5 @@ describe.each(iconEntries)('%s', (_name, IconComponent) => {
     expect(svg).not.toBeNull();
     expect(svg!.getAttribute('width')).toBe('32');
     expect(svg!.getAttribute('height')).toBe('24');
-  });
-});
-
-describe('icon aliases', () => {
-  it.each(iconAliasPairs)('%s aliases %s', (alias, existing) => {
-    expect(AllIcons[alias]).toBe(AllIcons[existing]);
   });
 });

@@ -1,1 +1,2 @@
-export { default as GroupAdd, default as GroupAddIcon } from './GroupAddIcon';
+export { default as GroupAdd } from './GroupAddIcon';
+export { default as GroupAddIcon } from './GroupAddIcon';
