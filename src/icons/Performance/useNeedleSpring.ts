@@ -25,8 +25,13 @@ export function useNeedleSpring(
     const el = needleRef.current;
     if (!el) return;
 
-    raf.current   && cancelAnimationFrame(raf.current);
-    timer.current && clearTimeout(timer.current);
+    if (raf.current) {
+      cancelAnimationFrame(raf.current);
+    }
+
+    if (timer.current) {
+      clearTimeout(timer.current);
+    }
 
     const set = (deg: number) => { el.style.transform = `rotate(${deg}deg)`; };
 
@@ -53,8 +58,13 @@ export function useNeedleSpring(
     timer.current = setTimeout(() => { raf.current = requestAnimationFrame(tick); }, 60);
 
     return () => {
-      timer.current && clearTimeout(timer.current);
-      raf.current   && cancelAnimationFrame(raf.current);
+      if (timer.current) {
+        clearTimeout(timer.current);
+      }
+
+      if (raf.current) {
+        cancelAnimationFrame(raf.current);
+      }
     };
   }, [isHovered, needleRef]);
 }
