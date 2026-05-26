@@ -2,7 +2,7 @@ import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { ONYX_BLACK } from '../../theme';
 import { IconProps } from '../types';
 
-export const ChevronLeft = ({
+export const ChevronLeftIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
   fill,
@@ -24,4 +24,5 @@ export const ChevronLeft = ({
   );
 };
 
-export default ChevronLeft;
+export default ChevronLeftIcon;
+
