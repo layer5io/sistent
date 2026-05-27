@@ -127,25 +127,27 @@ const InputSearchField: React.FC<InputSearchFieldProps> = ({
             error={!!error}
             helperText={error}
             fullWidth
-            InputLabelProps={{
-              style: {
-                fontFamily: 'inherit'
+            slotProps={{
+              inputLabel: {
+                style: {
+                  fontFamily: 'inherit'
+                }
+              },
+              input: {
+                ...params.slotProps?.input,
+                endAdornment: (
+                  <React.Fragment>
+                    {isLoading ? <CircularProgress color="inherit" size={20} /> : null}
+                  </React.Fragment>
+                )
               }
-            }}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <React.Fragment>
-                  {isLoading ? <CircularProgress color="inherit" size={20} /> : null}
-                </React.Fragment>
-              )
             }}
           />
         )}
         renderOption={(props, option: Option) => (
           <li {...props} key={option.id}>
             <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
-              <Grid2 container alignItems="center">
+              <Grid2 container sx={{ alignItems: 'center' }}>
                 <Grid2>
                   <Box sx={{ color: 'text.secondary', mr: 2 }}>{iconComponent}</Box>
                 </Grid2>

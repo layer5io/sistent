@@ -23,6 +23,7 @@ module.exports = [
             "examples/**",
             "**/build/**",
             "**/coverage/**",
+            "**/.claude/**",
         ]
     },
 

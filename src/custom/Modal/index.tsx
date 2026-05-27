@@ -122,10 +122,10 @@ export const ModalBody = styled(Paper)(({ theme }) => ({
   overflowY: 'auto',
   height: '100%',
   scrollbarWidth: 'none',
+  msOverflowStyle: 'none',
   '&::-webkit-scrollbar': {
     display: 'none'
-  },
-  '-ms-overflow-style': 'none'
+  }
 }));
 
 const StyledFooter = styled('div', {

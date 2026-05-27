@@ -178,7 +178,7 @@ const WorkspaceContentMoveModal: React.FC<WorkspaceContentMoveModalProps> = ({
           Current Workspace: <strong>{currentWorkspace.name}</strong>
         </CurrentWorkspaceSection>
         <Divider />
-        <Box display="flex" flexDirection="column" marginTop={'1rem'}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', marginTop: '1rem' }}>
           {isLoading ? (
             <CircularProgress size={24} />
           ) : !filteredWorkspaces?.length ? (

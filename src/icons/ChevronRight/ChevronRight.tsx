@@ -2,7 +2,7 @@ import { DEFAULT_HEIGHT, DEFAULT_WIDTH,DEFAULT_FILL_NONE } from
 '../../constants/constants';
 import { IconProps } from '../types';
 
-export const ChevronRight = ({
+export const ChevronRightIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
   fill = DEFAULT_FILL_NONE,
@@ -25,4 +25,5 @@ export const ChevronRight = ({
   );
 };
 
-export default ChevronRight;
+export default ChevronRightIcon;
+
