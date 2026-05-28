@@ -20,7 +20,10 @@ interface Tutorial {
     courseTitle: string;
     description: string;
     status?: boolean;
-    cardImage: string;
+    // Optional: content authors may omit a banner. An empty string or
+    // undefined value MUST suppress the decorative <img> entirely;
+    // otherwise the browser renders a broken-image icon for src="".
+    cardImage?: string;
     type?: string;
     level?: string;
   };
@@ -61,9 +64,11 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType
               <CardDesc>
                 <p className="summary">{tutorial.frontmatter.description}</p>
               </CardDesc>
-              <CardImage>
-                <img src={tutorial.frontmatter.cardImage} alt={tutorial.frontmatter.title} />
-              </CardImage>
+              {tutorial.frontmatter.cardImage ? (
+                <CardImage>
+                  <img src={tutorial.frontmatter.cardImage} alt={tutorial.frontmatter.title} />
+                </CardImage>
+              ) : null}
             </div>
           </CardParent>
         </Card2>
@@ -104,9 +109,11 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType
                       : ''}
                   </p>
                 </CardSubdata>
-                <CardImage>
-                  <img src={tutorial.frontmatter.cardImage} />
-                </CardImage>
+                {tutorial.frontmatter.cardImage ? (
+                  <CardImage>
+                    <img src={tutorial.frontmatter.cardImage} alt={tutorial.frontmatter.title} />
+                  </CardImage>
+                ) : null}
               </div>
             </CardParent>
           </CardActive>
