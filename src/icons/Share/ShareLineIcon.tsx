@@ -9,7 +9,9 @@ interface ShareLineIconProps {
   secondaryFill?: string;
 }
 
-const ShareLineIcon: React.FC<ShareLineIconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT,
+const ShareLineIcon: React.FC<ShareLineIconProps> = ({ 
+  width = DEFAULT_WIDTH, 
+  height = DEFAULT_HEIGHT,
   style,
   fill = '#3C494F'
 }) => (

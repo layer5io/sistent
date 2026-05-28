@@ -10,7 +10,9 @@ interface TeamsIconProps {
   style?: React.CSSProperties;
 }
 
-const TeamsIcon: React.FC<TeamsIconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT,
+const TeamsIcon: React.FC<TeamsIconProps> = ({ 
+  width = DEFAULT_WIDTH, 
+  height = DEFAULT_HEIGHT,
   fill,
   primaryFill = '#51636B',
   secondaryFill = '#00B39F',

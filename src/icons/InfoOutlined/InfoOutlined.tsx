@@ -10,7 +10,8 @@ interface InfoOutlinedIconProps {
 }
 
 const InfoOutlinedIcon: FC<InfoOutlinedIconProps> = ({
-  height = DEFAULT_HEIGHT, width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT, 
+  width = DEFAULT_WIDTH,
   fill = 'currentColor',
   style = {},
   className = ''

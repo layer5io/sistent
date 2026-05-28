@@ -10,7 +10,9 @@ interface KanvasIconProps {
   secondaryFill?: string;
 }
 
-const KanvasIcon: React.FC<KanvasIconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT,
+const KanvasIcon: React.FC<KanvasIconProps> = ({ 
+  width = DEFAULT_WIDTH, 
+  height = DEFAULT_HEIGHT,
   fill,
   style,
   primaryFill = 'white'
