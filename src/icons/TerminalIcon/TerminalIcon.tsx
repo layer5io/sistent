@@ -1,8 +1,9 @@
 import { FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { ONYX_BLACK } from '../../theme';
 import { IconProps } from '../types';
 
-const TerminalIcon: FC<IconProps> = ({ width, height, fill, ...props }) => {
+const TerminalIcon: FC<IconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, fill, ...props }) => {
   return (
     <svg
       width={width}

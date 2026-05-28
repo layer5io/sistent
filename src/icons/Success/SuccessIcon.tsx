@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { KEPPEL_GREEN_FILL } from '../../constants/constants';
+import { KEPPEL_GREEN_FILL, DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { WHITE } from '../../theme';
 import { IconProps } from '../types';
 
-const SuccessIcon: FC<IconProps> = ({ width, height, ...props }) => {
+const SuccessIcon: FC<IconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, ...props }) => {
   return (
     <svg
       width={width}

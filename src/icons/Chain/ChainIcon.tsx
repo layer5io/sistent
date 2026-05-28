@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface ChainIconProps {
   width: string;
@@ -8,7 +9,7 @@ interface ChainIconProps {
   secondaryFill?: string;
 }
 
-const ChainIcon: React.FC<ChainIconProps> = ({ width, height, style, fill = '#3C494F' }) => (
+const ChainIcon: React.FC<ChainIconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, style, fill = '#3C494F' }) => (
   <svg
     width={width}
     height={height}

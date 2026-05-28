@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface GridViewIconProps {
   width?: string;
@@ -9,8 +10,8 @@ interface GridViewIconProps {
 }
 
 export const GridViewIcon: React.FC<GridViewIconProps> = ({
-  width = '24',
-  height = '28.8',
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
   fill,
   opacity,
   style = {}

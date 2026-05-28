@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface LogoutIconProps {
   width?: number;
@@ -9,8 +10,8 @@ interface LogoutIconProps {
 }
 
 const LogoutIcon: React.FC<LogoutIconProps> = ({
-  width = 24,
-  height = 24,
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
   fill,
   style = {},
   secondaryFill = '#00B39F'

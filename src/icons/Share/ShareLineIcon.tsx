@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface ShareLineIconProps {
   width: string;
@@ -8,9 +9,7 @@ interface ShareLineIconProps {
   secondaryFill?: string;
 }
 
-const ShareLineIcon: React.FC<ShareLineIconProps> = ({
-  width,
-  height,
+const ShareLineIcon: React.FC<ShareLineIconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT,
   style,
   fill = '#3C494F'
 }) => (

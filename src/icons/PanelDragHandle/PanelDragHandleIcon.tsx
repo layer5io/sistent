@@ -1,9 +1,10 @@
 import { FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const PanelDragHandleIcon: FC<IconProps> = ({
-  height = 24,
-  width = 24,
+  height = DEFAULT_HEIGHT,
+  width = DEFAULT_WIDTH,
   fill = '#E8EFF3',
   ...props
 }) => {

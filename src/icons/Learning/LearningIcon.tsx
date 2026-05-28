@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface LearningIconProps {
   width?: string;
@@ -9,8 +10,8 @@ interface LearningIconProps {
 }
 
 const LearningIcon: React.FC<LearningIconProps> = ({
-  width = '32px',
-  height = '32px',
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
   primaryFill = '#FDFDFD',
   secondaryFill = '#FDFDFD',
   style = {}

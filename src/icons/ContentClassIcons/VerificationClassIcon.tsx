@@ -1,8 +1,9 @@
 import { FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { IconProps } from '../types';
 export const VerificationClassIcon: FC<IconProps> = ({
-  width = '16',
-  height = '13',
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
   fill = '#F6F8F8',
   style = {}
 }) => (

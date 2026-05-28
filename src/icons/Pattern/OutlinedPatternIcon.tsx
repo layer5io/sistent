@@ -1,7 +1,8 @@
 import { FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { IconProps } from '../types';
 
-const OutlinedPatternIcon: FC<IconProps> = ({ width, height, ...props }) => {
+const OutlinedPatternIcon: FC<IconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, ...props }) => {
   return (
     <svg
       width={width}

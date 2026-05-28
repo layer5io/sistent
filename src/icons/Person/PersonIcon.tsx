@@ -1,9 +1,8 @@
 import { FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { IconProps } from '../types';
 
-export const PersonIcon: FC<IconProps> = ({
-  width,
-  height,
+export const PersonIcon: FC<IconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT,
   fill = '#5f6368',
   ...props
 }: IconProps) => {

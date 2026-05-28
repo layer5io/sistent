@@ -1,9 +1,10 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { DiscussForumIconProps } from './types';
 
 const DiscussForumIcon: React.FC<DiscussForumIconProps> = ({
-  width = '24px',
-  height = '24px',
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
   fill,
   primaryColor = '#231f20',
   secondaryColor = '#fff9ae',

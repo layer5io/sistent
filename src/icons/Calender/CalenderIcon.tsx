@@ -1,8 +1,9 @@
 import { FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { IconProps } from '../types';
 import { useTheme } from './../../theme/index';
 
-const CalenderIcon: FC<IconProps> = ({ width, height, ...props }) => {
+const CalenderIcon: FC<IconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, ...props }) => {
   const theme = useTheme();
   return (
     <svg

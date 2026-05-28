@@ -1,4 +1,5 @@
 import { CSSProperties, FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface EmptyStyleIconProps {
   width?: string;
@@ -9,8 +10,8 @@ interface EmptyStyleIconProps {
 }
 
 const EmptyStyleIcon: FC<EmptyStyleIconProps> = ({
-  width = '24px',
-  height = '24px',
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
   fill,
   style = {},
   onClick = () => {}

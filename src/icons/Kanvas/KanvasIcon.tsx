@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface KanvasIconProps {
   width: number;
@@ -9,9 +10,7 @@ interface KanvasIconProps {
   secondaryFill?: string;
 }
 
-const KanvasIcon: React.FC<KanvasIconProps> = ({
-  width,
-  height,
+const KanvasIcon: React.FC<KanvasIconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT,
   fill,
   style,
   primaryFill = 'white'

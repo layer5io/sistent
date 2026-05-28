@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface ChallengesIconProps {
   width?: string;
@@ -10,8 +11,8 @@ interface ChallengesIconProps {
 }
 
 const ChallengesIcon: React.FC<ChallengesIconProps> = ({
-  width = '32px',
-  height = '32px',
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
   primaryFill = '#B1B9BC',
   brandFill = '#00B39F',
   secondaryFill = '#51636B',

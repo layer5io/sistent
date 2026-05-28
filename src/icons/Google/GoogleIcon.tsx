@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface GoogleIconProps {
   height: number;
@@ -6,7 +7,7 @@ interface GoogleIconProps {
   style?: React.CSSProperties;
 }
 
-const GoogleIcon: React.FC<GoogleIconProps> = ({ height, width, style }) => {
+const GoogleIcon: React.FC<GoogleIconProps> = ({ height = DEFAULT_HEIGHT, width = DEFAULT_WIDTH, style }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

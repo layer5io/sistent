@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface ExpandAllIconProps {
   height?: string;
@@ -9,8 +10,8 @@ interface ExpandAllIconProps {
 }
 
 const ExpandAllIcon: React.FC<ExpandAllIconProps> = ({
-  height = '24',
-  width = '24',
+  height = DEFAULT_HEIGHT,
+  width = DEFAULT_WIDTH,
   fill = 'none',
   strokeWidth = '2',
   style

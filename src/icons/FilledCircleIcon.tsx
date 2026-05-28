@@ -1,9 +1,8 @@
 import { FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../constants/constants';
 import { IconProps } from './types';
 
-export const FilledCircleIcon: FC<IconProps> = ({
-  width,
-  height,
+export const FilledCircleIcon: FC<IconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT,
   fill = 'currentColor',
   ...props
 }) => {

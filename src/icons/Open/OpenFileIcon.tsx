@@ -1,10 +1,10 @@
 import { FC } from 'react';
-import { DEFAULT_WIDTH } from '../../constants/constants';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const OpenFileIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,
-  height = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
   fill = 'currentColor',
   ...props
 }) => (

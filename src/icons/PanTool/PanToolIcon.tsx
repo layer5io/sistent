@@ -1,7 +1,8 @@
 import { FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { IconProps } from '../types';
 
-export const PanToolIcon: FC<IconProps> = ({ width, height, ...props }) => {
+export const PanToolIcon: FC<IconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, ...props }) => {
   return (
     <svg
       width={width}

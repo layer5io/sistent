@@ -1,8 +1,9 @@
 import { FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { CARIBBEAN_GREEN } from '../../theme';
 import { IconProps } from '../types';
 
-export const MesheryOperator: FC<IconProps> = ({ width = '24px', height = '24px', ...props }) => {
+export const MesheryOperator: FC<IconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, ...props }) => {
   return (
     <svg
       width={width}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface CollapsAllIconProps {
   height?: string;
@@ -9,8 +10,8 @@ interface CollapsAllIconProps {
 }
 
 const CollapsAllIcon: React.FC<CollapsAllIconProps> = ({
-  height = '24',
-  width = '24',
+  height = DEFAULT_HEIGHT,
+  width = DEFAULT_WIDTH,
   fill = 'none',
   strokeWidth = '2',
   style

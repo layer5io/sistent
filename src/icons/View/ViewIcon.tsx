@@ -1,7 +1,8 @@
 import { FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { IconProps } from '../types';
 
-const ViewsIcon: FC<IconProps> = ({ width, height, style = {}, fill }) => (
+const ViewsIcon: FC<IconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, style = {}, fill }) => (
   <svg
     style={style}
     xmlns="http://www.w3.org/2000/svg"

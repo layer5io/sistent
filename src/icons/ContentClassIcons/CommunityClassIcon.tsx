@@ -1,8 +1,9 @@
 import { FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { CustomIconProps } from '../types';
 export const CommunityClassIcon: FC<CustomIconProps> = ({
-  width = '16',
-  height = '13',
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
   fill = '#293B43',
   secondaryFill = '#647176',
   style = {}

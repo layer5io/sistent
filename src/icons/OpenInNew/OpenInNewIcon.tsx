@@ -1,9 +1,10 @@
 import { FC } from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 import { IconProps } from '../types';
 
 const OpenInNewIcon: FC<IconProps> = ({
-  width = '24px',
-  height = '24px',
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
   fill,
   style = {},
   onClick

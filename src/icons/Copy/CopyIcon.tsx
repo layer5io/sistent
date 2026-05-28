@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface CopyIconProps {
   width: number;
@@ -8,7 +9,7 @@ interface CopyIconProps {
   secondaryFill?: string;
 }
 
-const CopyIcon: React.FC<CopyIconProps> = ({ width, height, fill = '#3C494F', style }) => (
+const CopyIcon: React.FC<CopyIconProps> = ({ width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT, fill = '#3C494F', style }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={width}

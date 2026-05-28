@@ -1,4 +1,5 @@
 import React from 'react';
+import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface TrophyIconProps {
   width?: string;
@@ -8,8 +9,8 @@ interface TrophyIconProps {
 }
 
 const TrophyIcon: React.FC<TrophyIconProps> = ({
-  width = '24',
-  height = '24',
+  width = DEFAULT_WIDTH,
+  height = DEFAULT_HEIGHT,
   fill = 'currentColor',
   style = {}
 }) => (
