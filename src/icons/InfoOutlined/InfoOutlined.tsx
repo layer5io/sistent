@@ -2,8 +2,8 @@ import { CSSProperties, FC } from 'react';
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface InfoOutlinedIconProps {
-  height?: number;
-  width?: number;
+  height?: number | string;
+  width?: number | string;
   fill?: string;
   style?: CSSProperties;
   className?: string;

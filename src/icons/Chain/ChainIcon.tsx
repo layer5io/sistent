@@ -2,8 +2,8 @@ import React from 'react';
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface ChainIconProps {
-  width: string;
-  height: string;
+  width?: number | string;
+  height?: number | string;
   fill?: string;
   style?: React.CSSProperties;
   secondaryFill?: string;

@@ -2,8 +2,8 @@ import React from 'react';
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface ShareLineIconProps {
-  width: string;
-  height: string;
+  width?: string | number;
+  height?: string | number;
   fill?: string;
   style?: React.CSSProperties;
   secondaryFill?: string;

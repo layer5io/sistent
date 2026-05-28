@@ -2,8 +2,8 @@ import React from 'react';
 import { DEFAULT_WIDTH, DEFAULT_HEIGHT } from '../../constants/constants';
 
 interface TeamsIconProps {
-  width: string | number;
-  height: string | number;
+  width?: string | number;
+  height?: string | number;
   fill: string;
   primaryFill?: string;
   secondaryFill?: string;
