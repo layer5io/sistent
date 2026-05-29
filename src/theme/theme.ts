@@ -182,20 +182,55 @@ export const readableTextColor = (
  */
 const completePrimitivePalette = (
   defaults: PrimitivePalette,
-  primitives: PrimitivePalette
+  primitives: Partial<PrimitivePalette>
 ): PrimitivePalette => {
   const merged = _.merge({}, defaults, primitives) as PrimitivePalette;
-  const provided = primitives as Partial<PrimitivePalette>;
+  const provided = primitives;
+
+  // Derive a contrast token only when its base color was customized and the
+  // token itself was not explicitly supplied. Base colors the caller left
+  // untouched keep their default inks, so overriding one base never silently
+  // recolors text on a different, unchanged surface.
+  const contrastFor = (
+    inverse: string | undefined,
+    base: string | undefined,
+    surface: string,
+    fallback: string
+  ): string => inverse ?? (base ? readableTextColor(surface) : fallback);
+
   return {
     ...merged,
-    foreground: provided.foreground ?? readableTextColor(merged.background),
-    primaryInverted: provided.primaryInverted ?? readableTextColor(merged.primary),
-    secondaryInverted: provided.secondaryInverted ?? readableTextColor(merged.secondary),
-    accentInverted: provided.accentInverted ?? readableTextColor(merged.accent)
+    foreground: contrastFor(
+      provided.foreground,
+      provided.background,
+      merged.background,
+      merged.foreground
+    ),
+    primaryInverted: contrastFor(
+      provided.primaryInverted,
+      provided.primary,
+      merged.primary,
+      merged.primaryInverted
+    ),
+    secondaryInverted: contrastFor(
+      provided.secondaryInverted,
+      provided.secondary,
+      merged.secondary,
+      merged.secondaryInverted
+    ),
+    accentInverted: contrastFor(
+      provided.accentInverted,
+      provided.accent,
+      merged.accent,
+      merged.accentInverted
+    )
   };
 };
 
-export const createCustomTheme = (mode: PaletteMode, primitives?: PrimitivePalette) => {
+export const createCustomTheme = (
+  mode: PaletteMode,
+  primitives?: Partial<PrimitivePalette>
+) => {
   const basePalette = mode == 'light' ? lightModePalette : darkModePalette;
   const defaultPrimitives =
     mode == 'light' ? SistentDefaultPrimitivePaletteLight : SistentDefaultPrimitivePaletteDark;

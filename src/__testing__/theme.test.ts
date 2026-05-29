@@ -1,6 +1,5 @@
 import {
   createCustomTheme,
-  type PrimitivePalette,
   readableTextColor,
   SistentDefaultPrimitivePaletteLight
 } from '../theme';
@@ -37,7 +36,7 @@ describe('createCustomTheme contrast derivation', () => {
       secondary: '#001f4d',
       accent: '#3a99ff',
       background: '#000000'
-    } as PrimitivePalette);
+    });
 
     expect(theme.palette.text.default).toBe(readableTextColor('#000000'));
     expect(theme.palette.text.default).toBe(LIGHT_INK);
@@ -51,9 +50,30 @@ describe('createCustomTheme contrast derivation', () => {
       navigationBar: '#101010',
       background: '#000000',
       foreground: '#ff0000'
-    } as PrimitivePalette);
+    });
 
     expect(theme.palette.text.default).toBe('#ff0000');
+  });
+
+  it('keeps default contrast tokens for base colors the caller did not customize', () => {
+    // Only `background` is overridden, so its contrast token (foreground)
+    // re-derives — but `primary` is untouched, so its contrast token must
+    // keep the default ink rather than silently re-deriving from KEPPEL.
+    const theme = createCustomTheme('light', { background: '#000000' });
+
+    // background customized -> body text re-derived to stay readable
+    expect(theme.palette.text.default).toBe(LIGHT_INK);
+    // primary untouched -> its contrast token (mapped to elevatedComponents)
+    // is preserved at the default, not recolored
+    expect(theme.palette.background.elevatedComponents).toBe(
+      SistentDefaultPrimitivePaletteLight.primaryInverted
+    );
+  });
+
+  it('accepts a partial palette without a type cast', () => {
+    // Compiles only because the public API takes Partial<PrimitivePalette>.
+    const theme = createCustomTheme('light', { primary: '#003a99' });
+    expect(theme.palette.mode).toBe('light');
   });
 
   it('returns a valid MUI theme with no custom palette', () => {
