@@ -1,4 +1,4 @@
-import { alpha, createTheme, darken, PaletteMode } from '@mui/material';
+import { alpha, createTheme, darken, getContrastRatio, PaletteMode } from '@mui/material';
 import * as Colors from './colors';
 import { components } from './components';
 import { darkModePalette, lightModePalette, ThemePalette } from './palette';
@@ -156,11 +156,50 @@ export const SistentDefaultPrimitivePaletteDark: PrimitivePalette = {
   foreground: Colors.charcoal[100] // primary text color on background
 };
 
+/**
+ * Pick the ink color (light or dark) that reads best on `bg`. Used to derive
+ * the contrast ("text on X") primitives when a brand supplies only its base
+ * colors, so text/icons never inherit an unreadable default on a custom
+ * surface. Defaults to the Sistent light/dark inks to stay on-brand.
+ */
+export const readableTextColor = (
+  bg: string,
+  light: string = Colors.charcoal[100],
+  dark: string = Colors.charcoal[10]
+): string => {
+  try {
+    return getContrastRatio(bg, light) >= getContrastRatio(bg, dark) ? light : dark;
+  } catch {
+    // getContrastRatio throws on an unparseable color; fall back to dark ink.
+    return dark;
+  }
+};
+
+/**
+ * Merge a (possibly partial) brand palette over the defaults, then derive any
+ * contrast token the caller did not explicitly provide from the brand's own
+ * colors. A fully-specified palette passes through unchanged.
+ */
+const completePrimitivePalette = (
+  defaults: PrimitivePalette,
+  primitives: PrimitivePalette
+): PrimitivePalette => {
+  const merged = _.merge({}, defaults, primitives) as PrimitivePalette;
+  const provided = primitives as Partial<PrimitivePalette>;
+  return {
+    ...merged,
+    foreground: provided.foreground ?? readableTextColor(merged.background),
+    primaryInverted: provided.primaryInverted ?? readableTextColor(merged.primary),
+    secondaryInverted: provided.secondaryInverted ?? readableTextColor(merged.secondary),
+    accentInverted: provided.accentInverted ?? readableTextColor(merged.accent)
+  };
+};
+
 export const createCustomTheme = (mode: PaletteMode, primitives?: PrimitivePalette) => {
   const basePalette = mode == 'light' ? lightModePalette : darkModePalette;
   const defaultPrimitives =
     mode == 'light' ? SistentDefaultPrimitivePaletteLight : SistentDefaultPrimitivePaletteDark;
-  const p = primitives ? _.merge({}, defaultPrimitives, primitives) : undefined;
+  const p = primitives ? completePrimitivePalette(defaultPrimitives, primitives) : undefined;
 
   const customBrandedTheme: Partial<ThemePalette> = p
     ? {

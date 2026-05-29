@@ -12,6 +12,8 @@ import {
 export * from './colors';
 export { darkModePalette, lightModePalette } from './palette';
 export {
+  createCustomTheme,
+  readableTextColor,
   SistentDefaultPrimitivePaletteDark,
   SistentDefaultPrimitivePaletteLight,
   type PrimitivePalette
