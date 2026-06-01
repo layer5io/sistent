@@ -92,7 +92,7 @@ export * from './FileCopy';
 export * from './FileUpload';
 export { default as FilledCircleIcon } from './FilledCircleIcon';
 export * from './Filter';
-export * from './FilterNone';
+export * from './FilterAll';
 export * from './FolderRounded';
 export * from './Fullscreen';
 export * from './GetApp';
