@@ -80,7 +80,9 @@ export function hideRootObjectTitle<T extends Record<string, unknown> = Record<s
 ): T {
   const existing = uiSchema?.['ui:options'];
   const existingOptions =
-    typeof existing === 'object' && existing !== null ? (existing as Record<string, unknown>) : {};
+    typeof existing === 'object' && existing !== null && !Array.isArray(existing)
+      ? (existing as Record<string, unknown>)
+      : {};
 
   return {
     ...(uiSchema ?? ({} as T)),

@@ -41,6 +41,12 @@ describe('hideRootObjectTitle', () => {
     });
   });
 
+  it('ignores a malformed (array) ui:options and still suppresses the title', () => {
+    expect(hideRootObjectTitle({ 'ui:options': ['nonsense'] })).toEqual({
+      'ui:options': { label: false }
+    });
+  });
+
   it('does not mutate the input uiSchema', () => {
     const ui = { 'ui:order': ['name'], 'ui:options': { classNames: 'root' } };
     const snapshot = JSON.parse(JSON.stringify(ui));
