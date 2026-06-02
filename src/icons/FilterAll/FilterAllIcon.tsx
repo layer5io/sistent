@@ -4,7 +4,7 @@ import { IconProps } from '../types';
 export const FilterAllIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  fill = KEPPEL_GREEN_FILL,
+  fill = DEFAULT_FILL_NONE, 
   ...props
 }: IconProps): JSX.Element => {
   return (
