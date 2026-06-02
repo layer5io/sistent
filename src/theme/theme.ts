@@ -1,4 +1,4 @@
-import { alpha, createTheme, darken, PaletteMode } from '@mui/material';
+import { alpha, createTheme, darken, getContrastRatio, PaletteMode } from '@mui/material';
 import * as Colors from './colors';
 import { components } from './components';
 import { darkModePalette, lightModePalette, ThemePalette } from './palette';
@@ -156,11 +156,85 @@ export const SistentDefaultPrimitivePaletteDark: PrimitivePalette = {
   foreground: Colors.charcoal[100] // primary text color on background
 };
 
-export const createCustomTheme = (mode: PaletteMode, primitives?: PrimitivePalette) => {
+/**
+ * Pick the ink color (light or dark) that reads best on `bg`. Used to derive
+ * the contrast ("text on X") primitives when a brand supplies only its base
+ * colors, so text/icons never inherit an unreadable default on a custom
+ * surface. Defaults to the Sistent light/dark inks to stay on-brand.
+ */
+export const readableTextColor = (
+  bg: string,
+  light: string = Colors.charcoal[100],
+  dark: string = Colors.charcoal[10]
+): string => {
+  try {
+    return getContrastRatio(bg, light) >= getContrastRatio(bg, dark) ? light : dark;
+  } catch {
+    // getContrastRatio throws on an unparseable color; fall back to dark ink.
+    return dark;
+  }
+};
+
+/**
+ * Merge a (possibly partial) brand palette over the defaults, then derive any
+ * contrast token the caller did not explicitly provide from the brand's own
+ * colors. A fully-specified palette passes through unchanged.
+ */
+const completePrimitivePalette = (
+  defaults: PrimitivePalette,
+  primitives: Partial<PrimitivePalette>
+): PrimitivePalette => {
+  const merged = _.merge({}, defaults, primitives) as PrimitivePalette;
+  const provided = primitives;
+
+  // Derive a contrast token only when its base color was customized and the
+  // token itself was not explicitly supplied. Base colors the caller left
+  // untouched keep their default inks, so overriding one base never silently
+  // recolors text on a different, unchanged surface.
+  const contrastFor = (
+    inverse: string | undefined,
+    base: string | undefined,
+    surface: string,
+    fallback: string
+  ): string => inverse ?? (base ? readableTextColor(surface) : fallback);
+
+  return {
+    ...merged,
+    foreground: contrastFor(
+      provided.foreground,
+      provided.background,
+      merged.background,
+      merged.foreground
+    ),
+    primaryInverted: contrastFor(
+      provided.primaryInverted,
+      provided.primary,
+      merged.primary,
+      merged.primaryInverted
+    ),
+    secondaryInverted: contrastFor(
+      provided.secondaryInverted,
+      provided.secondary,
+      merged.secondary,
+      merged.secondaryInverted
+    ),
+    accentInverted: contrastFor(
+      provided.accentInverted,
+      provided.accent,
+      merged.accent,
+      merged.accentInverted
+    )
+  };
+};
+
+export const createCustomTheme = (
+  mode: PaletteMode,
+  primitives?: Partial<PrimitivePalette>
+) => {
   const basePalette = mode == 'light' ? lightModePalette : darkModePalette;
   const defaultPrimitives =
     mode == 'light' ? SistentDefaultPrimitivePaletteLight : SistentDefaultPrimitivePaletteDark;
-  const p = primitives ? _.merge({}, defaultPrimitives, primitives) : undefined;
+  const p = primitives ? completePrimitivePalette(defaultPrimitives, primitives) : undefined;
 
   const customBrandedTheme: Partial<ThemePalette> = p
     ? {
