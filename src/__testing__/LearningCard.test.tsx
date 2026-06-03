@@ -65,6 +65,31 @@ describe('LearningCard', () => {
     expect(container.querySelector('img')).toBeNull();
   });
 
+  it('lets the card grow for a wrapped title instead of clipping to a fixed height', () => {
+    // Regression: the outer wrapper used a fixed `height: 16rem`. When a long
+    // title wrapped to two lines the inner card (which has its own minHeight)
+    // overflowed the wrapper and overlapped the next card in the flex-wrap
+    // grid. The wrapper must use minHeight so it expands to contain content.
+    const { container } = renderWithTheme(
+      <LearningCard
+        tutorial={{
+          frontmatter: {
+            ...baseFrontmatter,
+            title: 'DigitalOcean Certified AI Engineer (DO-CAIE) Exam'
+          }
+        }}
+        courseCount={2}
+        courseType="exam"
+      />
+    );
+
+    const wrapper = container.firstChild as HTMLElement;
+    const computed = window.getComputedStyle(wrapper);
+    expect(computed.minHeight).toBe('16rem');
+    // No fixed height: a fixed height would re-clip a wrapped title.
+    expect(computed.height).toBe('');
+  });
+
   it('omits the img on the disabled "Coming Soon" branch when cardImage is missing', () => {
     const { container } = renderWithTheme(
       <LearningCard

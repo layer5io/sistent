@@ -5,7 +5,11 @@ const CardWrapper = styled('div')({
   width: '100%',
   maxWidth: '28rem',
   minWidth: '10rem',
-  height: '16rem',
+  // Use minHeight rather than a fixed height so the card grows to contain a
+  // title that wraps to multiple lines. A fixed height let the inner
+  // CardParent (which has its own minHeight) overflow the wrapper, causing
+  // the overflowing content to overlap the next card in the flex-wrap grid.
+  minHeight: '16rem',
   margin: 'auto',
   borderRadius: '1rem'
 });
