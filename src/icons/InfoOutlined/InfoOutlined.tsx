@@ -1,4 +1,5 @@
 import { CSSProperties, FC } from 'react';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL_NONE } from '../../constants/constants';
 
 interface InfoOutlinedIconProps {
   height?: number;
@@ -9,9 +10,9 @@ interface InfoOutlinedIconProps {
 }
 
 const InfoOutlinedIcon: FC<InfoOutlinedIconProps> = ({
-  height,
-  width,
-  fill = 'currentColor',
+  height= DEFAULT_HEIGHT,
+  width= DEFAULT_WIDTH,
+  fill = DEFAULT_FILL_NONE,
   style = {},
   className = ''
 }) => {

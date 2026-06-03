@@ -18,13 +18,27 @@ export interface RJSFValidationError {
   params?: any;
 }
 
-export interface RJSFFormModalProps
-  extends Omit<
-    RJSFFormWrapperProps,
-    'onSubmit' | 'onError' | 'formRef' | 'formData' | 'onChange' | 'children'
-  > {
+export interface RJSFFormModalProps extends Omit<
+  RJSFFormWrapperProps,
+  'onSubmit' | 'onError' | 'formRef' | 'formData' | 'onChange' | 'children'
+> {
   open: boolean;
   onClose: () => void;
+  /**
+   * Suppress the form's ROOT object title and description so its child
+   * fields render directly inside the modal body.
+   *
+   * Defaults to `true`: the modal header (`title` prop) already names
+   * the form, so the canonical schema's root object title would
+   * otherwise be drawn a second time — as a duplicate heading in the
+   * default theme, or as a collapsed accordion in the custom RJSF
+   * templates used downstream. Set to `false` only if you genuinely
+   * want the root object's own title rendered inside the body.
+   *
+   * Implemented through the UI schema (`ui:options.label = false`), so
+   * the canonical `@meshery/schemas` JSON schema is consumed unmodified.
+   */
+  hideRootTitle?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmit: (formData: any) => void;
   title: string;
@@ -81,6 +95,7 @@ export function RJSFFormModal({
   leftHeaderIcon = null,
   initialData,
   onValidationError,
+  hideRootTitle = true,
   ...rest
 }: RJSFFormModalProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -107,9 +122,7 @@ export function RJSFFormModal({
       formRef.current.submit();
     } catch (err) {
       const message = (err as Error)?.message ?? String(err);
-      const errors: RJSFValidationError[] = [
-        { stack: `Form could not be validated: ${message}` }
-      ];
+      const errors: RJSFValidationError[] = [{ stack: `Form could not be validated: ${message}` }];
       if (onValidationError) {
         onValidationError(errors);
       } else {
@@ -139,6 +152,7 @@ export function RJSFFormModal({
         <div style={{ width: '100%' }}>
           <RJSFFormWrapper
             {...rest}
+            hideRootTitle={hideRootTitle}
             formData={formData}
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             onChange={(e: any) => setFormData(e.formData)}

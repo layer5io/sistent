@@ -258,8 +258,10 @@ function TransferList({
                   checked={checked.indexOf(item) !== -1}
                   tabIndex={-1}
                   disableRipple
-                  inputProps={{
-                    'aria-labelledby': labelId
+                  slotProps={{
+                    input: {
+                      'aria-labelledby': labelId
+                    }
                   }}
                 />
               </ListItem>
@@ -288,7 +290,7 @@ function TransferList({
   );
 
   return (
-    <Grid2 container justifyContent="center" alignItems="center">
+    <Grid2 container sx={{ justifyContent: 'center', alignItems: 'center' }}>
       <ListGrid>
         <ListHeading>
           Available {name} ({left.length})
@@ -296,7 +298,7 @@ function TransferList({
         {customList(left, emptyStateIconLeft, emtyStateMessageLeft, 'leftList')}
       </ListGrid>
       <ButtonGrid>
-        <Grid2 container direction="column" alignItems="center">
+        <Grid2 container direction="column" sx={{ alignItems: 'center' }}>
           <TransferButton
             variant="outlined"
             size="small"

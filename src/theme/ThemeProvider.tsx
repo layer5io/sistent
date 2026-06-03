@@ -13,7 +13,7 @@ export interface SistentThemeProviderProps {
   children: React.ReactNode;
   emotionCache?: EmotionCache;
   initialMode?: PaletteMode;
-  customTheme?: PrimitivePalette;
+  customTheme?: Partial<PrimitivePalette>;
 }
 
 function SistentThemeProvider({

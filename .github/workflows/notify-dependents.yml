@@ -72,7 +72,7 @@ jobs:
           token: ${{ secrets.GH_ACCESS_TOKEN }}
       - uses: actions/setup-node@v6
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: "npm"
           cache-dependency-path: '**/package-lock.json'
       - name: Make changes to pull request
@@ -101,7 +101,7 @@ jobs:
           draft: false
 
   bump-meshery-extensions:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: info
     if: ${{ needs.info.outputs.release_version && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
     env:
@@ -115,11 +115,11 @@ jobs:
           token: ${{ secrets.GH_ACCESS_TOKEN }}
       - uses: actions/setup-node@v6
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: "npm"
           cache-dependency-path: '**/package-lock.json'
       - name: Make changes to pull request
-        working-directory: meshmap
+        working-directory: ui
         run: npm install @sistent/sistent@${{ env.RELEASE_VERSION }} --legacy-peer-deps
       - name: Create Pull Request
         id: cpr
@@ -134,8 +134,8 @@ jobs:
           delete-branch: true
           title: '[Chore]: Update to Sistent v${{ env.RELEASE_VERSION }}'
           add-paths: |
-            meshmap/package.json
-            meshmap/package-lock.json
+            ui/package.json
+            ui/package-lock.json
           body: |
             Update to Sistent v${{ env.RELEASE_VERSION }}
 
@@ -144,7 +144,7 @@ jobs:
           draft: false
 
   bump-layer5:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: info
     if: ${{ needs.info.outputs.release_version && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
     env:
@@ -159,7 +159,7 @@ jobs:
           token: ${{ secrets.GH_ACCESS_TOKEN }}
       - uses: actions/setup-node@v6
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: "npm"
           cache-dependency-path: '**/package-lock.json'
       - name: Make changes to pull request
@@ -187,7 +187,7 @@ jobs:
           draft: false
 
   bump-meshery-cloud:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: info
     if: ${{ needs.info.outputs.release_version && (github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success') }}
     env:
@@ -201,7 +201,7 @@ jobs:
           token: ${{ secrets.GH_ACCESS_TOKEN }}
       - uses: actions/setup-node@v6
         with:
-          node-version: '20.x'
+          node-version: '22.x'
           cache: "npm"
           cache-dependency-path: '**/package-lock.json'
       - name: Make changes to pull request
