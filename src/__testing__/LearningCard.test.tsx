@@ -85,9 +85,19 @@ describe('LearningCard', () => {
 
     const wrapper = container.firstChild as HTMLElement;
     const computed = window.getComputedStyle(wrapper);
-    expect(computed.minHeight).toBe('16rem');
-    // No fixed height: a fixed height would re-clip a wrapped title.
-    expect(computed.height).toBe('');
+    // JSDOM may keep rem as-authored or normalize it to px (1rem = 16px), so
+    // accept either form rather than pinning the assertion to one.
+    expect(['16rem', '256px']).toContain(computed.minHeight);
+    // The wrapper must NOT carry a fixed height — that is what re-clips a
+    // wrapped title. (JSDOM reports an unset height as '' or 'auto', so assert
+    // it simply isn't fixed to the baseline rather than matching an exact "".)
+    expect(computed.height).not.toBe('16rem');
+    expect(computed.height).not.toBe('256px');
+    // The wrapper is a flex column so the inner card chain stretches to equal
+    // heights across a flex-wrap row (the consuming grid uses align-items:
+    // stretch); without this a shorter card leaves empty space below its body.
+    expect(computed.display).toBe('flex');
+    expect(computed.flexDirection).toBe('column');
   });
 
   it('omits the img on the disabled "Coming Soon" branch when cardImage is missing', () => {

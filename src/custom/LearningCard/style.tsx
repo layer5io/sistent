@@ -10,12 +10,23 @@ const CardWrapper = styled('div')({
   // CardParent (which has its own minHeight) overflow the wrapper, causing
   // the overflowing content to overlap the next card in the flex-wrap grid.
   minHeight: '16rem',
+  // Lay the wrapper out as a flex column so the inner card chain
+  // (CardLink / CardActive / Card2 / CardParent) can stretch to fill it. The
+  // consuming grid uses the default `align-items: stretch`, so every wrapper
+  // in a row grows to the tallest card; without this stretch a shorter card
+  // would leave empty space below its bordered body.
+  display: 'flex',
+  flexDirection: 'column',
   margin: 'auto',
   borderRadius: '1rem'
 });
 
 const CardActive = styled('div')(({ theme }) => ({
   cursor: 'pointer',
+  // Grow to fill the wrapper and pass the stretch down to CardParent.
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
   transition: 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s',
   '&:hover': {
     boxShadow: `${theme.palette.background.brand?.default} 0px 0px 19px 6px`
@@ -25,13 +36,21 @@ const CardActive = styled('div')(({ theme }) => ({
 
 const CardLink = styled('a')({
   color: 'black',
-  textDecoration: 'none'
+  textDecoration: 'none',
+  // When a card links out, the anchor sits between the wrapper and
+  // CardActive; keep the stretch chain unbroken through it.
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column'
 });
 
 const CardParent = styled('div')(({ theme }) => ({
   borderTop: `5px solid ${theme.palette.background.brand?.default}`,
   borderRadius: '0.25rem',
   minHeight: '16rem',
+  // Fill the stretched wrapper so every bordered card body in a row is the
+  // same height; minHeight keeps the baseline when the row isn't stretched.
+  flex: 1,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-between',
@@ -42,6 +61,11 @@ const CardParent = styled('div')(({ theme }) => ({
 
 const Card2 = styled('div')(({ theme }) => ({
   background: theme.palette.mode === 'light' ? SILVER_GRAY : ONYX_BLACK,
+  // Disabled ("Coming Soon") branch wrapper — keep the stretch chain so its
+  // CardParent matches the height of active cards in the same row.
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
   transition: '0.8s cubic-bezier(0.2, 0.8, 0.2, 1)'
 }));
 
