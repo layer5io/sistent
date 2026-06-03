@@ -183,7 +183,9 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
             error={!!error}
             helperText={error}
             slotProps={{
+              ...params.slotProps,
               inputLabel: {
+                ...params.slotProps?.inputLabel,
                 style: {
                   fontFamily: 'inherit'
                 }
