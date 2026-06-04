@@ -128,7 +128,9 @@ const InputSearchField: React.FC<InputSearchFieldProps> = ({
             helperText={error}
             fullWidth
             slotProps={{
+              ...params.slotProps,
               inputLabel: {
+                ...params.slotProps?.inputLabel,
                 style: {
                   fontFamily: 'inherit'
                 }
