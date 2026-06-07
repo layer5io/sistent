@@ -159,8 +159,10 @@ export const Modal: React.FC<ModalProps> = ({
   const toggleFullScreen = () => {
     setFullScreen((prev) => !prev);
   };
+const { fullScreen: _ignoredFullScreen, fullWidth: _ignoredFullWidth, ...restProps } = props;
   return (
     <StyledDialog
+      {...restProps}
       maxWidth={maxWidth}
       open={open}
       onClose={closeModal}
@@ -168,7 +170,6 @@ export const Modal: React.FC<ModalProps> = ({
       aria-describedby="alert-dialog-slide-description"
       fullScreen={fullScreen}
       fullWidth={!fullScreen}
-      {...props}
     >
       {title && (
         <ModalStyledHeader className="modal-header" data-testid="modal-header">
