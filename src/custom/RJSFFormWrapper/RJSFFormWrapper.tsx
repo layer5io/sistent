@@ -3,6 +3,7 @@ import { Theme as MaterialUITheme } from '@rjsf/mui';
 import validator from '@rjsf/validator-ajv8';
 import React, { type Ref } from 'react';
 import { SistentThemeProvider } from '../../theme';
+import { hideRootObjectTitle } from './hideRootObjectTitle';
 
 const MuiRJSFForm = withTheme(MaterialUITheme);
 
@@ -24,6 +25,21 @@ export interface RJSFFormWrapperProps
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formRef?: Ref<any>;
   children?: React.ReactNode;
+  /**
+   * Suppress the form's ROOT object title and description so its child
+   * fields render directly, without the duplicative object "header".
+   *
+   * This is the standard pattern for rendering the contents of a
+   * schema's top-level object inside a surface that already names it
+   * (most commonly a modal — see `RJSFFormModal`, which defaults this
+   * to `true`). It is implemented purely through the UI schema
+   * (`ui:options.label = false`), so the canonical `@meshery/schemas`
+   * JSON schema is consumed unmodified. See `hideRootObjectTitle`.
+   *
+   * Defaults to `false` here to preserve the behavior of the
+   * general-purpose wrapper when it is embedded with its own chrome.
+   */
+  hideRootTitle?: boolean;
 }
 
 /**
@@ -43,14 +59,18 @@ export interface RJSFFormWrapperProps
 export function RJSFFormWrapper({
   formRef,
   children,
+  hideRootTitle = false,
+  uiSchema,
   ...rest
 }: RJSFFormWrapperProps): JSX.Element {
+  const resolvedUiSchema = hideRootTitle ? hideRootObjectTitle(uiSchema) : uiSchema;
   return (
     <SistentThemeProvider>
       <MuiRJSFForm
         validator={validator}
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ref={formRef as any}
+        uiSchema={resolvedUiSchema}
         {...rest}
       >
         {children}

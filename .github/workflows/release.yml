@@ -29,13 +29,28 @@ jobs:
       pull-requests: write  # Required to open the version-bump-back PR
       issues: write  # peter-evans/create-pull-request needs this to apply labels when falling back to GITHUB_TOKEN
     steps:
+      - name: "Resolve target branch"
+        id: target_branch
+        env:
+          # github.event.release.target_commitish can be a bare branch name
+          # ("master") or a fully-qualified ref ("refs/heads/master") depending
+          # on how the release was created. peter-evans/create-pull-request's
+          # `base` must be a short branch name; a full ref makes it try to fetch
+          # into the checked-out branch and fail with "refusing to fetch into
+          # branch ... checked out" (git exit 128). Strip the refs/heads/ prefix
+          # once here and reuse the result for both checkout and the bump PR.
+          TARGET: ${{ github.event.release.target_commitish || 'master' }}
+        run: |
+          set -euo pipefail
+          echo "name=${TARGET#refs/heads/}" >> "$GITHUB_OUTPUT"
+
       - name: Checkout code
         uses: actions/checkout@v6
         with:
           # Check out the release's target branch (typically master) so the
           # subsequent version-bump commit is based on the branch HEAD, not on
           # the tag's detached commit. Falls back to master for workflow_dispatch.
-          ref: ${{ github.event.release.target_commitish || 'master' }}
+          ref: ${{ steps.target_branch.outputs.name }}
           # fetch-depth: 0 gives peter-evans/create-pull-request a full clone so
           # it does not need to run `git fetch --depth=1 origin
           # refs/heads/master:refs/heads/master` internally.  That shallow-fetch
@@ -123,7 +138,7 @@ jobs:
           author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
           signoff: true
           branch: release/version-bump/v${{ steps.resolved_version.outputs.version }}
-          base: ${{ github.event.release.target_commitish || 'master' }}
+          base: ${{ steps.target_branch.outputs.name }}
           delete-branch: true
           title: "chore(release): bump package.json to v${{ steps.resolved_version.outputs.version }}"
           add-paths: |

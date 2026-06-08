@@ -58,7 +58,7 @@ export default function IconColorDemo() {
       <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
         <DialogTitle>Light Mode Icon Palette</DialogTitle>
         <DialogContent dividers>
-          <Grid container spacing={2} alignItems="center">
+          <Grid container spacing={2} sx={{ alignItems: 'center' }}>
             {allColors.map(({ token, color }) => (
               <Grid item xs={3} sm={2} md={1} key={token}>
                 <Tooltip title={`${token} (${color})`} arrow>

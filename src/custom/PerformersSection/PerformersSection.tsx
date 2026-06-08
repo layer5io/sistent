@@ -260,7 +260,7 @@ const PerformersSection: React.FC<PerformersSectionProps> = ({
     <ErrorBoundary>
       <MainContainer>
         <TitleBox>
-          <Box display={'flex'} alignItems="center" gap={1}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Title>Top Performers</Title>
             <TropyIcon
               style={{
