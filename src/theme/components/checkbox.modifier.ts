@@ -15,7 +15,6 @@ export const MuiCheckbox: Components<Theme>['MuiCheckbox'] = {
       const inverseBackground = ownerState.inverseBackground || false;
 
       return {
-        color: 'transparent',
         '&.Mui-checked': {
           color: defaultText,
           '& .MuiSvgIcon-root': {
@@ -26,6 +25,9 @@ export const MuiCheckbox: Components<Theme>['MuiCheckbox'] = {
             fill: inverseBackground ? inverseColor : defaultText,
             padding: '0px'
           }
+        },
+        '&:not(.Mui-checked):not(.Mui-indeterminate) .MuiSvgIcon-root': {
+          color: 'transparent'
         },
         '& .MuiSvgIcon-root': {
           width: '1.25rem',
