@@ -17,12 +17,20 @@ export interface FilterColumn {
   options: { label: string; value: string }[];
 }
 
+type FilterValue = string | string[] | undefined;
+
+const normalizeFilters = (filters: Record<string, FilterValue>) =>
+  Object.entries(filters).reduce<Record<string, string>>((acc, [key, value]) => {
+    acc[key] = Array.isArray(value) ? (value[0] ?? 'All') : (value ?? 'All');
+    return acc;
+  }, {});
+
 export interface UniversalFilterProps {
   filters: Record<string, FilterColumn>;
-  selectedFilters: Record<string, string>;
-  setSelectedFilters: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  selectedFilters: Record<string, FilterValue>;
+  setSelectedFilters: React.Dispatch<React.SetStateAction<Record<string, FilterValue>>>;
   variant: 'filled' | 'standard' | 'outlined';
-  handleApplyFilter: () => void;
+  handleApplyFilter: (filters?: Record<string, FilterValue>) => void;
   showAllOption?: boolean;
   id: string;
   'data-testid'?: string;
@@ -50,12 +58,20 @@ function UniversalFilter({
 }: UniversalFilterProps): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
+  const [draftFilters, setDraftFilters] = React.useState<Record<string, string>>(
+    normalizeFilters(selectedFilters),
+  );
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  React.useEffect(() => {
+    setDraftFilters(normalizeFilters(selectedFilters));
+  }, [selectedFilters]);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+    setDraftFilters(normalizeFilters(selectedFilters));
     setOpen((prevOpen) => !prevOpen);
   };
 
@@ -66,15 +82,17 @@ function UniversalFilter({
 
   const handleFilterChange = (event: React.ChangeEvent<{ value: string }>, columnName: string) => {
     const value = event.target.value;
-    setSelectedFilters((prevFilters) => ({
+    setDraftFilters((prevFilters) => ({
       ...prevFilters,
       [columnName]: value
     }));
   };
 
   const handleApplyOnClick = () => {
+    const appliedFilters = { ...draftFilters };
+    setSelectedFilters(appliedFilters);
     handleClose();
-    handleApplyFilter();
+    handleApplyFilter(appliedFilters);
   };
 
   const renderFilterContent = () => (
@@ -96,11 +114,10 @@ function UniversalFilter({
             >
               {filters[filterColumn].name}
             </InputLabel>
-            <Select
-              defaultValue="All"
+              <Select
               data-testid={`${testId}-select-${filterColumn}`}
               key={filterColumn}
-              value={selectedFilters[filterColumn]}
+              value={draftFilters[filterColumn] ?? 'All'}
               variant={variant}
               onChange={(e: SelectChangeEvent<unknown>) =>
                 handleFilterChange(e as React.ChangeEvent<{ value: string }>, filterColumn)
@@ -109,6 +126,7 @@ function UniversalFilter({
                 width: '20rem',
                 marginBottom: '1rem'
               }}
+              MenuProps={{ disablePortal: true }}
               slotProps={{
                 input: {
                   'aria-label': 'Without label'
