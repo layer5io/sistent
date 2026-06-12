@@ -202,7 +202,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
           />
         )}
         renderOption={({ key, ...props }, option: User) => (
-          <li key={option.userId} {...props} id={option.userId}>
+          <li key={key} {...props} id={option.userId}>
             <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
               {' '}
               <Grid2 container sx={{ alignItems: 'center' }}>
