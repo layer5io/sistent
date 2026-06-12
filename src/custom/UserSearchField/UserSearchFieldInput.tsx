@@ -201,8 +201,8 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
             }}
           />
         )}
-        renderOption={(props, option: User) => (
-          <li {...props} id={option.userId}>
+        renderOption={({ key, ...props }, option: User) => (
+          <li key={option.userId} {...props} id={option.userId}>
             <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
               {' '}
               <Grid2 container sx={{ alignItems: 'center' }}>

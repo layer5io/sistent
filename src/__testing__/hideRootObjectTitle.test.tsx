@@ -104,9 +104,9 @@ describe('hideRootObjectTitle — RJSF root title/description derivation', () =>
     return recorded;
   };
 
-  it('renders the canonical root title by default (the duplicative heading)', () => {
+  it('reflects the canonical import-design root title behavior', () => {
     const recorded = recordRootRender(importDesignUiSchema);
-    expect(recorded.title).toBe('Import Design');
+    expect(recorded.title).toBe('');
   });
 
   it('suppresses the root title and description after hideRootObjectTitle', () => {
