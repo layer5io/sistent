@@ -17,20 +17,18 @@ export interface FilterColumn {
   options: { label: string; value: string }[];
 }
 
-type FilterValue = string | string[] | undefined;
-
-const normalizeFilters = (filters: Record<string, FilterValue>) =>
-  Object.entries(filters).reduce<Record<string, string>>((acc, [key, value]) => {
-    acc[key] = Array.isArray(value) ? (value[0] ?? 'All') : (value ?? 'All');
+const normalizeFilters = (filters?: Record<string, string> | null): Record<string, string> =>
+  Object.entries(filters ?? {}).reduce<Record<string, string>>((acc, [key, value]) => {
+    acc[key] = value ?? 'All';
     return acc;
   }, {});
 
 export interface UniversalFilterProps {
   filters: Record<string, FilterColumn>;
-  selectedFilters: Record<string, FilterValue>;
-  setSelectedFilters: React.Dispatch<React.SetStateAction<Record<string, FilterValue>>>;
+  selectedFilters: Record<string, string>;
+  setSelectedFilters: React.Dispatch<React.SetStateAction<Record<string, string>>>;
   variant: 'filled' | 'standard' | 'outlined';
-  handleApplyFilter: (filters?: Record<string, FilterValue>) => void;
+  handleApplyFilter: (filters?: Record<string, string>) => void;
   showAllOption?: boolean;
   id: string;
   'data-testid'?: string;
@@ -59,15 +57,20 @@ function UniversalFilter({
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
   const [draftFilters, setDraftFilters] = React.useState<Record<string, string>>(
-    normalizeFilters(selectedFilters),
+    normalizeFilters(selectedFilters)
   );
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  // Track the serialized value rather than the object reference so a parent that
+  // passes a new `selectedFilters` reference with unchanged values (e.g. an inline
+  // object literal) does not reset the user's in-progress draft selections.
+  const serializedSelectedFilters = JSON.stringify(selectedFilters);
+
   React.useEffect(() => {
     setDraftFilters(normalizeFilters(selectedFilters));
-  }, [selectedFilters]);
+  }, [serializedSelectedFilters]);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -102,6 +105,14 @@ function UniversalFilter({
       </FilterHeader>
       {Object.keys(filters).map((filterColumn) => {
         const options = filters[filterColumn].options;
+        const draftValue = draftFilters[filterColumn] ?? 'All';
+        // When the "All" option is hidden, fall back to the first available option
+        // instead of "All" so the Select never holds an out-of-range value.
+        const isValidValue =
+          draftValue === 'All'
+            ? showAllOption
+            : options.some((option) => option.value === draftValue);
+        const selectValue = isValidValue ? draftValue : (options[0]?.value ?? 'All');
         return (
           <div
             key={filterColumn}
@@ -114,10 +125,10 @@ function UniversalFilter({
             >
               {filters[filterColumn].name}
             </InputLabel>
-              <Select
+            <Select
               data-testid={`${testId}-select-${filterColumn}`}
               key={filterColumn}
-              value={draftFilters[filterColumn] ?? 'All'}
+              value={selectValue}
               variant={variant}
               onChange={(e: SelectChangeEvent<unknown>) =>
                 handleFilterChange(e as React.ChangeEvent<{ value: string }>, filterColumn)

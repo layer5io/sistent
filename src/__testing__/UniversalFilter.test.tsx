@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 
 jest.mock('@mui/material', () => ({
   ...jest.requireActual('@mui/material'),
-  useMediaQuery: () => false,
+  useMediaQuery: () => false
 }));
 
 jest.mock('../base/Button', () => ({
@@ -11,15 +12,15 @@ jest.mock('../base/Button', () => ({
     <button onClick={onClick} {...props}>
       {children}
     </button>
-  ),
+  )
 }));
 
 jest.mock('../base/ClickAwayListener', () => ({
-  ClickAwayListener: ({ children }: any) => <div>{children}</div>,
+  ClickAwayListener: ({ children }: any) => <div>{children}</div>
 }));
 
 jest.mock('../base/InputLabel', () => ({
-  InputLabel: ({ children, ...props }: any) => <label {...props}>{children}</label>,
+  InputLabel: ({ children, ...props }: any) => <label {...props}>{children}</label>
 }));
 
 jest.mock('../base/MenuItem', () => ({
@@ -27,30 +28,31 @@ jest.mock('../base/MenuItem', () => ({
     <option value={value} {...props}>
       {children}
     </option>
-  ),
+  )
 }));
 
 jest.mock('../base/Paper', () => ({
-  Paper: ({ children, ...props }: any) => <div {...props}>{children}</div>,
+  Paper: ({ children, ...props }: any) => <div {...props}>{children}</div>
 }));
 
 jest.mock('../base/Select', () => ({
-  Select: ({ children, onChange, MenuProps, slotProps, displayEmpty, ...props }: any) => (
+  Select: ({ children, value, onChange, MenuProps, 'data-testid': dataTestId }: any) => (
     <select
+      data-testid={dataTestId}
       data-disable-portal={String(Boolean(MenuProps?.disablePortal))}
+      value={value}
       onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
         onChange?.({ target: { value: event.target.value } })
       }
-      {...props}
     >
       {children}
     </select>
-  ),
+  )
 }));
 
 jest.mock('../custom/PopperListener', () => ({
   __esModule: true,
-  default: ({ children, open }: any) => (open ? <div>{children}</div> : null),
+  default: ({ children, open }: any) => (open ? <div>{children}</div> : null)
 }));
 
 jest.mock('../custom/TooltipIconButton', () => ({
@@ -58,7 +60,7 @@ jest.mock('../custom/TooltipIconButton', () => ({
     <button aria-label={title} onClick={onClick}>
       {title}
     </button>
-  ),
+  )
 }));
 
 import UniversalFilter from '../custom/UniversalFilter';
@@ -77,15 +79,15 @@ describe('UniversalFilter', () => {
         filters={{
           status: {
             name: 'Status',
-            options: [{ label: 'Enabled', value: 'enabled' }],
-          },
+            options: [{ label: 'Enabled', value: 'enabled' }]
+          }
         }}
         selectedFilters={{ status: 'All' }}
         setSelectedFilters={setSelectedFilters}
         handleApplyFilter={handleApplyFilter}
         variant="outlined"
         id="users-filter"
-      />,
+      />
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Filter' }));
