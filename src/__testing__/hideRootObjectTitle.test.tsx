@@ -77,6 +77,20 @@ describe('hideRootObjectTitle', () => {
  */
 describe('hideRootObjectTitle — RJSF root title/description derivation', () => {
   type Recorded = { title: unknown; description: unknown; properties: string[] };
+  const rootTitleVisibleUiSchema = (() => {
+    const existingOptions = importDesignUiSchema['ui:options'];
+
+    if (typeof existingOptions !== 'object' || existingOptions === null || Array.isArray(existingOptions)) {
+      return importDesignUiSchema;
+    }
+
+    const { label: _label, ...otherOptions } = existingOptions;
+    return {
+      ...importDesignUiSchema,
+      'ui:options': otherOptions
+    };
+  })();
+
   const recordRootRender = (uiSchema: Record<string, unknown>): Recorded => {
     const recorded: Recorded = { title: undefined, description: undefined, properties: [] };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -104,8 +118,8 @@ describe('hideRootObjectTitle — RJSF root title/description derivation', () =>
     return recorded;
   };
 
-  it('renders the canonical root title by default (the duplicative heading)', () => {
-    const recorded = recordRootRender(importDesignUiSchema);
+  it('renders the canonical root title when root-label suppression is not applied', () => {
+    const recorded = recordRootRender(rootTitleVisibleUiSchema);
     expect(recorded.title).toBe('Import Design');
   });
 
