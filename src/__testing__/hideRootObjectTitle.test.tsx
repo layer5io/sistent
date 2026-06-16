@@ -77,6 +77,21 @@ describe('hideRootObjectTitle', () => {
  */
 describe('hideRootObjectTitle — RJSF root title/description derivation', () => {
   type Recorded = { title: unknown; description: unknown; properties: string[] };
+  const rootTitleVisibleUiSchema = (() => {
+    const existingOptions = importDesignUiSchema['ui:options'];
+
+    if (typeof existingOptions !== 'object' || existingOptions === null || Array.isArray(existingOptions)) {
+      return importDesignUiSchema;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { label: _label, ...otherOptions } = existingOptions;
+    return {
+      ...importDesignUiSchema,
+      'ui:options': otherOptions
+    };
+  })();
+
   const recordRootRender = (uiSchema: Record<string, unknown>): Recorded => {
     const recorded: Recorded = { title: undefined, description: undefined, properties: [] };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -104,9 +119,9 @@ describe('hideRootObjectTitle — RJSF root title/description derivation', () =>
     return recorded;
   };
 
-  it('reflects the canonical import-design root title behavior', () => {
-    const recorded = recordRootRender(importDesignUiSchema);
-    expect(recorded.title).toBe('');
+  it('renders the canonical root title when root-label suppression is not applied', () => {
+    const recorded = recordRootRender(rootTitleVisibleUiSchema);
+    expect(recorded.title).toBe('Import Design');
   });
 
   it('suppresses the root title and description after hideRootObjectTitle', () => {
