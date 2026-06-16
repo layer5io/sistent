@@ -201,8 +201,10 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
             }}
           />
         )}
-        renderOption={(props, option: User) => (
-          <li {...props} id={option.userId}>
+        renderOption={(props, option: User) => {
+          const { key, ...restProps } = props;
+          return (
+            <li key={key} {...restProps} id={option.userId}>
             <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
               {' '}
               <Grid2 container sx={{ alignItems: 'center' }}>
@@ -232,7 +234,8 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
               </Grid2>
             </Box>
           </li>
-        )}
+          );
+        }}
       />
       {showNotifyCheckbox && !isCreate && handleNotifyPref && (
         <FormGroup row={true}>
