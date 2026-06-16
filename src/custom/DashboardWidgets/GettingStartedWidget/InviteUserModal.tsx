@@ -210,7 +210,7 @@ export default function UserInviteModal({
 
     try {
       await userInvite({
-        userInvite: {
+        body: {
           first_name: inviteeFirstName,
           last_name: inviteeLastName,
           email: inviteeEmail,
