@@ -84,6 +84,7 @@ describe('hideRootObjectTitle — RJSF root title/description derivation', () =>
       return importDesignUiSchema;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { label: _label, ...otherOptions } = existingOptions;
     return {
       ...importDesignUiSchema,
