@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect, useState } from 'react';
 import type { components } from '@meshery/schemas/constructs/v1beta1/view/View';
+import { useEffect, useState } from 'react';
 import { withDefaultPageArgs } from '../../PerformersSection/PerformersSection';
 import { AssignmentHookResult } from '../types';
 
@@ -69,7 +69,9 @@ const useViewAssignment = ({
   }, [views]);
 
   useEffect(() => {
-    const viewsOfWorkspaceDataRtk: MesheryViewWithLocation[] = viewsOfWorkspace?.views ? viewsOfWorkspace.views : [];
+    const viewsOfWorkspaceDataRtk: MesheryViewWithLocation[] = viewsOfWorkspace?.views
+      ? viewsOfWorkspace.views
+      : [];
     const viewsWithId = viewsOfWorkspaceDataRtk.filter((view) => typeof view.id === 'string');
     setWorkspaceviewsData((prevData) => [...prevData, ...viewsWithId]);
   }, [viewsOfWorkspace]);
@@ -100,9 +102,15 @@ const useViewAssignment = ({
     }
   };
 
-  const getAddedAndRemovedviews = (allAssignedviews: MesheryViewWithLocation[]): AddedAndRemovedViews => {
-    const originalviewsIds = workspaceviewsData.map((view) => view.id).filter((id): id is string => typeof id === 'string');
-    const updatedviewsIds = allAssignedviews.map((view) => view.id).filter((id): id is string => typeof id === 'string');
+  const getAddedAndRemovedviews = (
+    allAssignedviews: MesheryViewWithLocation[]
+  ): AddedAndRemovedViews => {
+    const originalviewsIds = workspaceviewsData
+      .map((view) => view.id)
+      .filter((id): id is string => typeof id === 'string');
+    const updatedviewsIds = allAssignedviews
+      .map((view) => view.id)
+      .filter((id): id is string => typeof id === 'string');
 
     const addedviewsIds = updatedviewsIds.filter((id) => !originalviewsIds.includes(id));
     const removedviewsIds = originalviewsIds.filter((id) => !updatedviewsIds.includes(id));

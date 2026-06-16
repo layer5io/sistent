@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react';
+import { FC, useRef } from 'react';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 import { injectKeyframes, PathStyle } from './styles';
@@ -36,7 +36,7 @@ export const DashboardIcon: FC<DashboardIconProps> = ({
       <path className="dashboard-icon-tl" d="M3 3h8v10H3z" fill={fill} style={PathStyle} />
       <path className="dashboard-icon-tr" d="M13 3h8v6h-8z" fill={fill} style={PathStyle} />
       <path className="dashboard-icon-br" d="M13 11h8v10h-8z" fill={fill} style={PathStyle} />
-      <path className="dashboard-icon-bl" d="M3 15h8v6H3z" fill={fill} style={PathStyle } />
+      <path className="dashboard-icon-bl" d="M3 15h8v6H3z" fill={fill} style={PathStyle} />
     </svg>
   );
 };

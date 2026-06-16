@@ -8,10 +8,10 @@ import {
   StateValue,
   matchesState
 } from 'xstate';
+import { STATE_SNAPSHOT_EVENT, WORKER_EVENTS, workerCommands } from './events';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyActorSystem = ActorSystem<any>;
-import { STATE_SNAPSHOT_EVENT, WORKER_EVENTS, workerCommands } from './events';
 
 const instanceStates = /* #__PURE__ */ new WeakMap();
 

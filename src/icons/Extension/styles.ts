@@ -22,11 +22,11 @@ export const keyframesCSS = `
 `;
 
 export const MainGroupStyle: React.CSSProperties = {
-  transform: 'translate(-12px, 12px)',
+  transform: 'translate(-12px, 12px)'
 };
 
 export const DetailGroupStyle: React.CSSProperties = {
-  transform: 'translate(18px, -18px)',
+  transform: 'translate(18px, -18px)'
 };
 
 export function injectKeyframes(): void {

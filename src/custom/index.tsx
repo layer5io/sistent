@@ -65,6 +65,7 @@ export {
   PerformersSection,
   PerformersSectionButton
 } from './PerformersSection';
+export { PROMPT_VARIANTS, PromptComponent, type PromptRef } from './Prompt';
 export { SetupPreReq } from './SetupPrerequisite';
 export { StyledAccordion, StyledAccordionSummary } from './StyledAccordion';
 export { StyledCard } from './StyledCard';
@@ -75,7 +76,6 @@ export { Terminal } from './Terminal';
 export { TOC } from './TOCChapter';
 export { TOCLearning } from './TOCLearning';
 export { UserSearchField } from './UserSearchField';
-export { PROMPT_VARIANTS, PromptComponent, type PromptRef } from './Prompt';
 
 export {
   ActionButton,
@@ -165,10 +165,10 @@ export * from './CatalogDesignTable';
 export * from './CatalogDetail';
 export * from './DashboardWidgets';
 export * from './Dialog';
+export * from './LiquidGlass';
 export * from './permissions';
 export * from './ResourceDetailFormatters';
 export * from './RJSFFormWrapper';
 export * from './ShareModal';
 export * from './UserSearchField';
 export * from './Workspaces';
-export * from './LiquidGlass';

@@ -37,7 +37,7 @@ export const Hidden = ({
   xlDown = false
 }: HiddenProps) => {
   const theme = useTheme();
-  const onlyKey = Array.isArray(only) ? [...only].sort().join(',') : only ?? '';
+  const onlyKey = Array.isArray(only) ? [...only].sort().join(',') : (only ?? '');
 
   const mediaQuery = useMemo(() => {
     const onlyValues = onlyKey ? (onlyKey.split(',') as Breakpoint[]) : [];
@@ -74,7 +74,20 @@ export const Hidden = ({
     }
 
     return conditions.length > 0 ? `@media ${conditions.join(', ')}` : '@media not all';
-  }, [onlyKey, xsUp, smUp, mdUp, lgUp, xlUp, xsDown, smDown, mdDown, lgDown, xlDown, theme.breakpoints]);
+  }, [
+    onlyKey,
+    xsUp,
+    smUp,
+    mdUp,
+    lgUp,
+    xlUp,
+    xsDown,
+    smDown,
+    mdDown,
+    lgDown,
+    xlDown,
+    theme.breakpoints
+  ]);
 
   const matches = useMediaQuery(mediaQuery);
 

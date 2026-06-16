@@ -25,4 +25,3 @@ export const ChevronLeftIcon = ({
 };
 
 export default ChevronLeftIcon;
-

@@ -66,7 +66,10 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType
               </CardDesc>
               {tutorial.frontmatter.cardImage ? (
                 <CardImage>
-<img src={tutorial.frontmatter.cardImage} alt={tutorial.frontmatter.title || tutorial.frontmatter.courseTitle} />
+                  <img
+                    src={tutorial.frontmatter.cardImage}
+                    alt={tutorial.frontmatter.title || tutorial.frontmatter.courseTitle}
+                  />
                 </CardImage>
               ) : null}
             </div>
@@ -111,7 +114,10 @@ const LearningCard: React.FC<Props> = ({ tutorial, path, courseCount, courseType
                 </CardSubdata>
                 {tutorial.frontmatter.cardImage ? (
                   <CardImage>
-<img src={tutorial.frontmatter.cardImage} alt={tutorial.frontmatter.title || tutorial.frontmatter.courseTitle} />
+                    <img
+                      src={tutorial.frontmatter.cardImage}
+                      alt={tutorial.frontmatter.title || tutorial.frontmatter.courseTitle}
+                    />
                   </CardImage>
                 ) : null}
               </div>

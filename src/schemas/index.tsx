@@ -101,8 +101,8 @@ export {
   cloudBaseApi,
   CURRENT_ORG_KEY,
   DEFAULT_DESIGN_VERSION,
-  mesheryBaseApi,
   MESHERY_PROD_URL,
+  mesheryBaseApi,
   SUPPORTED_SOCIAL_ACCOUNTS
 } from '@meshery/schemas/api';
 
@@ -112,8 +112,8 @@ export {
   createAndEditWorkspaceSchema,
   createAndEditWorkspaceUiSchema,
   editWorkspaceSchema,
-  grafanaCredentialSUiSchema,
   grafanaCredentialSchema,
+  grafanaCredentialSUiSchema,
   helmConnectionSchema,
   helmConnectionUiSchema,
   helpAndSupportModalSchema,

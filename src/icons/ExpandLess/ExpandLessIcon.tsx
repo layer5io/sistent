@@ -1,4 +1,4 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL_NONE } from '../../constants/constants';
+import { DEFAULT_FILL_NONE, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
 const ExpandLessIcon = ({
@@ -18,10 +18,7 @@ const ExpandLessIcon = ({
       {...props}
     >
       {title && <title>{title}</title>}
-      <path
-        d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z"
-        fill={fill}
-      />
+      <path d="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z" fill={fill} />
     </svg>
   );
 };

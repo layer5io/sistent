@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 import { GearStyle, injectKeyframes } from './style';

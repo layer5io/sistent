@@ -21,7 +21,7 @@ export const keyframesCSS = `
 
 export const GearStyle: React.CSSProperties = {
   transformBox: 'fill-box',
-  transformOrigin: 'center',
+  transformOrigin: 'center'
 };
 
 export function injectKeyframes(): void {

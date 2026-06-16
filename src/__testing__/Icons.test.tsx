@@ -15,9 +15,7 @@ if (iconEntries.length === 0) {
 }
 
 function renderWithTheme(ui: React.ReactElement) {
-  return render(
-    <SistentThemeProviderWithoutBaseLine>{ui}</SistentThemeProviderWithoutBaseLine>
-  );
+  return render(<SistentThemeProviderWithoutBaseLine>{ui}</SistentThemeProviderWithoutBaseLine>);
 }
 
 describe.each(iconEntries)('%s', (_name, IconComponent) => {

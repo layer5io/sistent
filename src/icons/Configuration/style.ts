@@ -17,5 +17,5 @@ export const keyframesCSS = `
 
 export const PathStyle: React.CSSProperties = {
   transformBox: 'fill-box',
-  transformOrigin: 'center',
+  transformOrigin: 'center'
 };

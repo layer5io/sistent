@@ -227,10 +227,7 @@ const completePrimitivePalette = (
   };
 };
 
-export const createCustomTheme = (
-  mode: PaletteMode,
-  primitives?: Partial<PrimitivePalette>
-) => {
+export const createCustomTheme = (mode: PaletteMode, primitives?: Partial<PrimitivePalette>) => {
   const basePalette = mode == 'light' ? lightModePalette : darkModePalette;
   const defaultPrimitives =
     mode == 'light' ? SistentDefaultPrimitivePaletteLight : SistentDefaultPrimitivePaletteDark;

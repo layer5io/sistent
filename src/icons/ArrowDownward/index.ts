@@ -1,1 +1,1 @@
-export {default as ArrowDownwardIcon} from "./ArrowDownwardIcon";
+export { default as ArrowDownwardIcon } from './ArrowDownwardIcon';

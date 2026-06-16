@@ -1,4 +1,4 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL_NONE } from '../../constants/constants';
+import { DEFAULT_FILL_NONE, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const CloudUploadIcon = ({
@@ -15,8 +15,8 @@ export const CloudUploadIcon = ({
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       data-testid="cloudupload-icon-svg"
-      role={title ? "img" : undefined}
-      aria-hidden={title ? undefined : "true"}
+      role={title ? 'img' : undefined}
+      aria-hidden={title ? undefined : 'true'}
       {...props}
     >
       {title && <title>{title}</title>}

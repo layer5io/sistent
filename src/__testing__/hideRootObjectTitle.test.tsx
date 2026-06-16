@@ -80,7 +80,11 @@ describe('hideRootObjectTitle — RJSF root title/description derivation', () =>
   const rootTitleVisibleUiSchema = (() => {
     const existingOptions = importDesignUiSchema['ui:options'];
 
-    if (typeof existingOptions !== 'object' || existingOptions === null || Array.isArray(existingOptions)) {
+    if (
+      typeof existingOptions !== 'object' ||
+      existingOptions === null ||
+      Array.isArray(existingOptions)
+    ) {
       return importDesignUiSchema;
     }
 

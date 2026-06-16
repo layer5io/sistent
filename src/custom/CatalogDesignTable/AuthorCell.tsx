@@ -30,10 +30,7 @@ const AuthorCell: React.FC<AuthorCellProps> = ({
 
   return (
     <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
-      <Grid2
-        container
-        sx={{ alignItems: 'center', width: maxWidth ? 'max-content' : undefined }}
-      >
+      <Grid2 container sx={{ alignItems: 'center', width: maxWidth ? 'max-content' : undefined }}>
         <Grid2>
           <Box sx={{ color: 'text.secondary', mr: 1 }}>
             <CustomTooltip title={`View ${displayName}'s Profile`}>

@@ -16,9 +16,7 @@ const CaveatsSection: React.FC<CaveatsSectionProps> = ({ details }) => {
       </ContentHeading>
       {details?.catalogData?.patternCaveats ? (
         <ContentDetailsText style={{ whiteSpace: 'normal', fontFamily: 'inherit' }}>
-          <RenderMarkdown
-            content={decodeURIComponent(details.catalogData.patternCaveats || '')}
-          />
+          <RenderMarkdown content={decodeURIComponent(details.catalogData.patternCaveats || '')} />
         </ContentDetailsText>
       ) : (
         <ContentDetailsText>No caveats registered</ContentDetailsText>

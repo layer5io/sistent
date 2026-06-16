@@ -1,4 +1,4 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL_NONE } from '../../constants/constants';
+import { DEFAULT_FILL_NONE, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const SyncAltIcon = ({
@@ -18,12 +18,8 @@ export const SyncAltIcon = ({
       {...props}
     >
       {title && <title>{title}</title>}
-      <path
-        d="m18 12 4-4-4-4v3H3v2h15zM6 12l-4 4 4 4v-3h15v-2H6z"
-        fill={fill}
-      />
+      <path d="m18 12 4-4-4-4v3H3v2h15zM6 12l-4 4 4 4v-3h15v-2H6z" fill={fill} />
     </svg>
   );
 };
 export default SyncAltIcon;
-

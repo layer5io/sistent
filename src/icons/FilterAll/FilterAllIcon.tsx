@@ -1,10 +1,10 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL_NONE } from '../../constants/constants';
+import { DEFAULT_FILL_NONE, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const FilterAllIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  fill = DEFAULT_FILL_NONE, 
+  fill = DEFAULT_FILL_NONE,
   ...props
 }: IconProps): JSX.Element => {
   return (
@@ -24,4 +24,3 @@ export const FilterAllIcon = ({
 };
 
 export default FilterAllIcon;
-

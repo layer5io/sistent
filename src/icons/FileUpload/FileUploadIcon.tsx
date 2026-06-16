@@ -1,4 +1,4 @@
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL_NONE } from '../../constants/constants';
+import { DEFAULT_FILL_NONE, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
 export const FileUploadIcon = ({
@@ -15,10 +15,7 @@ export const FileUploadIcon = ({
       viewBox="0 0 24 24"
       {...props}
     >
-      <path
-        d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"
-        fill={fill}
-      />
+      <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" fill={fill} />
     </svg>
   );
 };

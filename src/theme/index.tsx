@@ -12,10 +12,10 @@ import {
 export * from './colors';
 export { darkModePalette, lightModePalette } from './palette';
 export {
-  createCustomTheme,
-  readableTextColor,
   SistentDefaultPrimitivePaletteDark,
   SistentDefaultPrimitivePaletteLight,
+  createCustomTheme,
+  readableTextColor,
   type PrimitivePalette
 } from './theme';
 export {

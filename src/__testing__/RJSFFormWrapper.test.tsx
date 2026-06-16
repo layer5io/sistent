@@ -27,21 +27,18 @@ import { RJSFFormWrapper } from '../custom/RJSFFormWrapper/RJSFFormWrapper';
 describe('RJSFFormWrapper (sistent#1533)', () => {
   it('exports a function with stable displayName from the deep path', () => {
     expect(typeof RJSFFormWrapper).toBe('function');
-    expect(
-      (RJSFFormWrapper as unknown as { displayName: string }).displayName
-    ).toBe('RJSFFormWrapper');
+    expect((RJSFFormWrapper as unknown as { displayName: string }).displayName).toBe(
+      'RJSFFormWrapper'
+    );
   });
 
   it.each([
     ['index.ts', 'src/custom/index.ts'],
     ['index.tsx', 'src/custom/index.tsx']
-  ])(
-    'src/custom/%s re-exports the RJSFFormWrapper module',
-    (_label, relPath) => {
-      const full = path.resolve(__dirname, '..', '..', relPath);
-      expect(fs.existsSync(full)).toBe(true);
-      const source = fs.readFileSync(full, 'utf8');
-      expect(source).toMatch(/export\s+\*\s+from\s+['"]\.\/RJSFFormWrapper['"]/);
-    }
-  );
+  ])('src/custom/%s re-exports the RJSFFormWrapper module', (_label, relPath) => {
+    const full = path.resolve(__dirname, '..', '..', relPath);
+    expect(fs.existsSync(full)).toBe(true);
+    const source = fs.readFileSync(full, 'utf8');
+    expect(source).toMatch(/export\s+\*\s+from\s+['"]\.\/RJSFFormWrapper['"]/);
+  });
 });

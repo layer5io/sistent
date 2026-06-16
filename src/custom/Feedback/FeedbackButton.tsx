@@ -9,7 +9,7 @@ import {
   SuccessIcon
 } from '../../icons';
 import { IconProps } from '../../icons/types';
-import { useTheme, CULTURED } from '../../theme';
+import { CULTURED, useTheme } from '../../theme';
 import { CustomTooltip } from '../CustomTooltip';
 import { ModalButtonPrimary } from '../Modal';
 import { ModalCard } from '../ModalCard';
@@ -192,18 +192,26 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
                 <FeedbackForm>
                   <FeedbackOptions>
                     {feedbackData?.map((item) => (
-                       <FeedbackOptionButton
-                          key={item.label}
-                          style={feedbackOptionStyles}
-                          type="button"
-                          onClick={() => {
-                              setCategory(item);
-                          }}
-                            isOpen={category?.label === item.label}
-                          >
-                          <FeedbackMiniIcon><item.icon fill={category?.label === item.label ? theme.palette.icon.default : undefined}/></FeedbackMiniIcon>
-                          <Typography>{item.label}</Typography>
-                        </FeedbackOptionButton>
+                      <FeedbackOptionButton
+                        key={item.label}
+                        style={feedbackOptionStyles}
+                        type="button"
+                        onClick={() => {
+                          setCategory(item);
+                        }}
+                        isOpen={category?.label === item.label}
+                      >
+                        <FeedbackMiniIcon>
+                          <item.icon
+                            fill={
+                              category?.label === item.label
+                                ? theme.palette.icon.default
+                                : undefined
+                            }
+                          />
+                        </FeedbackMiniIcon>
+                        <Typography>{item.label}</Typography>
+                      </FeedbackOptionButton>
                     ))}
                   </FeedbackOptions>
                   {category?.isTextInput ? (
