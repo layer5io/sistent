@@ -180,12 +180,11 @@ export const MetricsContainerFront = styled('div')<MetricsProps>(({ isDetailed, 
   width: '100%'
 }));
 
-export const MetricsDiv = styled('div')(({ theme }) => ({
+export const MetricsDiv = styled('div')(() => ({
   display: 'flex',
   alignItems: 'center',
   gap: '4px',
   fontSize: '0.2rem',
-  color: theme.palette.text.default,
   margin: '0rem',
   padding: '0.1rem'
 }));
