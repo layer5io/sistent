@@ -2,12 +2,16 @@ import React from 'react';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
+type CheckboxIconProps = IconProps & {
+  innerRectStroke?: string;
+};
+
 export const CheckboxIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
-  stroke = 'currentColor',
+  innerRectStroke = 'currentColor',
   ...props
-}: IconProps): JSX.Element => (
+}: CheckboxIconProps): JSX.Element => (
   <svg
     width={width}
     height={height}
@@ -22,7 +26,7 @@ export const CheckboxIcon = ({
       width="18"
       height="18"
       rx="2"
-      stroke={stroke}
+      stroke={innerRectStroke}
       strokeWidth="1.5"
     />
   </svg>
