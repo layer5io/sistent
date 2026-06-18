@@ -14,6 +14,7 @@ interface ModalProps extends DialogProps {
   headerIcon?: React.ReactNode;
   reactNode?: React.ReactNode;
   isFullScreenModeAllowed?: boolean;
+  openFullscreenOnStart?: boolean;
 }
 
 interface ModalFooterProps {
@@ -153,13 +154,19 @@ export const Modal: React.FC<ModalProps> = ({
   children,
   maxWidth = 'xs',
   isFullScreenModeAllowed,
+  openFullscreenOnStart = false,
   ...props
 }) => {
-  const [fullScreen, setFullScreen] = useState(false);
+  const [fullScreen, setFullScreen] = useState(openFullscreenOnStart);
   const toggleFullScreen = () => {
     setFullScreen((prev) => !prev);
   };
-const { fullScreen: _ignoredFullScreen, fullWidth: _ignoredFullWidth, ...restProps } = props;
+  
+  const {
+  fullScreen: _ignoredFullScreen,
+  fullWidth: _ignoredFullWidth,
+  ...restProps
+  } = props;
   return (
     <StyledDialog
       {...restProps}
