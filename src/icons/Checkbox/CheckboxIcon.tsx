@@ -5,6 +5,7 @@ import { IconProps } from '../types';
 export const CheckboxIcon = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
+  stroke = 'currentColor',
   ...props
 }: IconProps): JSX.Element => (
   <svg
@@ -12,8 +13,8 @@ export const CheckboxIcon = ({
     height={height}
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
-    {...props}
     fill="none"
+    {...props}
   >
     <rect
       x="3"
@@ -21,7 +22,7 @@ export const CheckboxIcon = ({
       width="18"
       height="18"
       rx="2"
-      stroke="currentColor"
+      stroke={stroke}
       strokeWidth="1.5"
     />
   </svg>
