@@ -152,7 +152,7 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
               aspectRatio: '16/9',
               width: '100%'
             }}
-            src={data.video}
+            src={data.video ?? undefined}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen={true}
