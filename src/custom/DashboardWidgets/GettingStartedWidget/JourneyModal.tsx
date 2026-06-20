@@ -152,10 +152,11 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
               aspectRatio: '16/9',
               width: '100%'
             }}
-            src="https://www.youtube.com/embed/Do7htKrRzDA?si=5iMQ5a1JUf3qpIiH"
+            src={data.video}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen={true}
+            referrerPolicy="strict-origin-when-cross-origin"
           ></iframe>
         ) : (
           ''
