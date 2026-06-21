@@ -157,6 +157,7 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen={true}
             referrerPolicy="strict-origin-when-cross-origin"
+            loading="lazy"
           ></iframe>
         ) : (
           ''
