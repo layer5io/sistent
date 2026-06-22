@@ -155,12 +155,26 @@ export const Modal: React.FC<ModalProps> = ({
   isFullScreenModeAllowed,
   ...props
 }) => {
-  const [fullScreen, setFullScreen] = useState(false);
+  /*
+   * Use the incoming fullScreen prop only as the initial state.
+   * After initialization, fullscreen is managed internally so, external
+   * fullScreen prop values do not override user-triggered fullscreen toggles.
+   */
+  const {
+    fullScreen: initialFullScreenState = false,
+    fullWidth: _ignoredFullWidth,
+    ...restProps
+  } = props;
+
+  const [fullScreen, setFullScreen] = useState(initialFullScreenState);
+
   const toggleFullScreen = () => {
     setFullScreen((prev) => !prev);
   };
+
   return (
     <StyledDialog
+      {...restProps}
       maxWidth={maxWidth}
       open={open}
       onClose={closeModal}
@@ -168,7 +182,6 @@ export const Modal: React.FC<ModalProps> = ({
       aria-describedby="alert-dialog-slide-description"
       fullScreen={fullScreen}
       fullWidth={!fullScreen}
-      {...props}
     >
       {title && (
         <ModalStyledHeader className="modal-header" data-testid="modal-header">
