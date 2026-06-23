@@ -90,6 +90,8 @@ export interface FeedbackComponentProps {
     | 'right-bottom';
   defaultMessage?: string;
   defaultOpen?: boolean;
+  /** Label for the trigger button. Override for i18n/localization. */
+  buttonText?: string;
 }
 
 export const FeedbackButton: React.FC<FeedbackComponentProps> = ({
@@ -98,7 +100,8 @@ export const FeedbackButton: React.FC<FeedbackComponentProps> = ({
   feedbackOptionStyles,
   renderPosition,
   defaultMessage = undefined,
-  defaultOpen = false
+  defaultOpen = false,
+  buttonText = 'Feedback'
 }) => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState<boolean>(defaultOpen);
@@ -137,7 +140,7 @@ export const FeedbackButton: React.FC<FeedbackComponentProps> = ({
         style={containerStyles}
         renderPosition={renderPosition}
       >
-        Feedback
+        {buttonText}
       </FeedbackTriggerButton>
       <Container isOpen={isOpen} style={containerStyles} renderPosition={renderPosition}>
         {submitted ? (
