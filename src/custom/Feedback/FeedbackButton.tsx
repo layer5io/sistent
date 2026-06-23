@@ -17,7 +17,7 @@ import {
   ActionWrapper,
   CloseButton,
   Container,
-  FeedbackButton,
+  FeedbackTriggerButton,
   FeedbackForm,
   FeedbackMessage,
   FeedbackMiniIcon,
@@ -77,7 +77,7 @@ const feedbackData: FeedbackDataItem[] = [
   }
 ];
 
-interface FeedbackComponentProps {
+export interface FeedbackComponentProps {
   onSubmit: (data: { label: string; message: string }) => void;
   containerStyles?: CSSProperties;
   feedbackOptionStyles?: CSSProperties;
@@ -90,15 +90,18 @@ interface FeedbackComponentProps {
     | 'right-bottom';
   defaultMessage?: string;
   defaultOpen?: boolean;
+  /** Label for the trigger button. Override for i18n/localization. */
+  buttonText?: string;
 }
 
-const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
+export const FeedbackButton: React.FC<FeedbackComponentProps> = ({
   onSubmit,
   containerStyles,
   feedbackOptionStyles,
   renderPosition,
   defaultMessage = undefined,
-  defaultOpen = false
+  defaultOpen = false,
+  buttonText = 'Feedback'
 }) => {
   const theme = useTheme();
   const [isOpen, setIsOpen] = useState<boolean>(defaultOpen);
@@ -132,13 +135,13 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
 
   return (
     <>
-      <FeedbackButton
+      <FeedbackTriggerButton
         onClick={handleFeedback}
         style={containerStyles}
         renderPosition={renderPosition}
       >
-        Feedback
-      </FeedbackButton>
+        {buttonText}
+      </FeedbackTriggerButton>
       <Container isOpen={isOpen} style={containerStyles} renderPosition={renderPosition}>
         {submitted ? (
           <FeedbackMessage isOpen={isOpen}>
@@ -231,5 +234,3 @@ const FeedbackComponent: React.FC<FeedbackComponentProps> = ({
     </>
   );
 };
-
-export default FeedbackComponent;
