@@ -1,5 +1,6 @@
 import { ButtonProps, DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
+import { omit } from 'lodash';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
 import { iconLarge } from '../../constants/iconsSizes';
@@ -166,7 +167,7 @@ export const Modal: React.FC<ModalProps> = ({
   const {
     fullScreen: initialFullScreenState = false,
     ...restProps
-  } = props;
+  } = omit(props, ['fullWidth']);
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
 
