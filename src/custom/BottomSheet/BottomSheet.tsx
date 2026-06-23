@@ -20,12 +20,20 @@ export interface BottomSheetProps {
   children: React.ReactNode;
   /** @default '80vh' */
   maxHeight?: string;
+  closeButtonAriaLabel?: string;
 }
 
 /**
  * BottomSheet — a mobile-friendly dialog that slides up from the bottom of the screen.
  */
-const BottomSheet = ({ open, onClose, title, children, maxHeight = '80vh' }: BottomSheetProps) => {
+const BottomSheet = ({
+  open,
+  onClose,
+  title,
+  children,
+  maxHeight = '80vh',
+  closeButtonAriaLabel = 'Close',
+}: BottomSheetProps) => {
   const titleId = useId();
 
   return (
@@ -65,7 +73,7 @@ const BottomSheet = ({ open, onClose, title, children, maxHeight = '80vh' }: Bot
             >
               {title}
             </Typography>
-            <IconButton aria-label="Close" onClick={onClose} size="small" edge="end">
+            <IconButton aria-label={closeButtonAriaLabel} onClick={onClose} size="small" edge="end">
               <CloseIcon />
             </IconButton>
           </Box>
