@@ -154,8 +154,8 @@ export interface Column {
  * @param onCopy - Called with the row identifier when the user clicks the
  *   action. The caller is responsible for constructing and writing the URL.
  */
-export const getCopyDeepLinkAction = (onCopy: () => void): TableAction => ({
-  title: 'Copy link',
+export const getCopyDeepLinkAction = (onCopy: () => void, title = 'Copy link'): TableAction => ({
+  title,
   icon: <CopyLinkIcon width={20} height={20} />,
   onClick: onCopy,
 });
