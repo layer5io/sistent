@@ -40,18 +40,17 @@ import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
 import ResponsiveDataTable, {
   DataTableEllipsisMenu,
-  getCopyDeepLinkAction,
-  ResponsiveDataTableProps,
-  TableAction
+  ResponsiveDataTableProps
 } from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
 import { StyledCardProps } from './StyledCard/StyledCard';
+import { getCopyDeepLinkAction, TableAction } from './TableActions';
 import { TeamTable, TeamTableConfiguration } from './TeamTable';
 import { TooltipIcon } from './TooltipIconButton';
 import { TransferList } from './TransferModal/TransferList';
 import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
-import { UserTableAvatarInfo, UsersTable } from './UsersTable';
+import { UsersTable, UserTableAvatarInfo } from './UsersTable';
 import { VisibilityChipMenu } from './VisibilityChipMenu';
 export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
@@ -67,6 +66,7 @@ export {
   PerformersSection,
   PerformersSectionButton
 } from './PerformersSection';
+export { PROMPT_VARIANTS, PromptComponent, type PromptRef } from './Prompt';
 export { SetupPreReq } from './SetupPrerequisite';
 export { StyledAccordion, StyledAccordionSummary } from './StyledAccordion';
 export { StyledCard } from './StyledCard';
@@ -77,7 +77,6 @@ export { Terminal } from './Terminal';
 export { TOC } from './TOCChapter';
 export { TOCLearning } from './TOCLearning';
 export { UserSearchField } from './UserSearchField';
-export { PROMPT_VARIANTS, PromptComponent, type PromptRef } from './Prompt';
 
 export {
   ActionButton,
@@ -95,7 +94,6 @@ export {
   CustomImage,
   CustomTooltip,
   DataTableEllipsisMenu,
-  getCopyDeepLinkAction,
   EmptyState,
   EmptyStateCard,
   ErrorBoundary,
@@ -103,6 +101,7 @@ export {
   FeedbackButton,
   FlipCard,
   FormatId,
+  getCopyDeepLinkAction,
   InfoTooltip,
   LearningCard,
   ModalCard,
@@ -117,12 +116,12 @@ export {
   TooltipIcon,
   TransferList,
   UniversalFilter,
-  UserTableAvatarInfo,
-  UsersTable,
-  VisibilityChipMenu,
   updateVisibleColumns,
   useNotificationHandler,
+  UsersTable,
+  UserTableAvatarInfo,
   useWindowDimensions,
+  VisibilityChipMenu,
   withErrorBoundary,
   withSuppressedErrorBoundary
 };
@@ -169,10 +168,10 @@ export * from './CatalogDesignTable';
 export * from './CatalogDetail';
 export * from './DashboardWidgets';
 export * from './Dialog';
+export * from './LiquidGlass';
 export * from './permissions';
 export * from './ResourceDetailFormatters';
 export * from './RJSFFormWrapper';
 export * from './ShareModal';
 export * from './UserSearchField';
 export * from './Workspaces';
-export * from './LiquidGlass';
