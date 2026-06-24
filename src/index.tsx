@@ -18,3 +18,8 @@ export * from './utils';
 // affects other custom components (see consumers' local d.ts augmentations);
 // add them here as they are needed.
 export { FeedbackButton, type FeedbackComponentProps } from './custom/Feedback';
+// `TableAction` and `getCopyDeepLinkAction` live in the leaf `TableActions`
+// module (not `ResponsiveDataTable`, which imports the untyped
+// `@sistent/mui-datatables` and would crash the dts build) precisely so this
+// explicit re-export can force them into the published declaration bundle.
+export { getCopyDeepLinkAction, type TableAction } from './custom/TableActions';

@@ -151,6 +151,42 @@ make lint
 
 - Custom directory contains all the custom components using the theme colors.
 
+#### `ResponsiveDataTable`
+
+`src/custom/ResponsiveDataTable.tsx` wraps `@mui/x-data-grid` (via `@layer5/mui-datatables`) with responsive column visibility and a standardised row action menu. Key exports:
+
+| Export | Description |
+|---|---|
+| `ResponsiveDataTable` | The main table component |
+| `TableAction` | Type for items in the per-row action menu |
+| `getCopyDeepLinkAction` | Helper that builds a "Copy link" `TableAction` |
+
+**`getCopyDeepLinkAction`**
+
+Use this to add a deep-link copy button to any row action menu. The `title` argument is optional and defaults to `'Copy link'` — pass a translated string for i18n:
+
+```tsx
+import { getCopyDeepLinkAction, TableAction } from '@sistent/sistent';
+
+const rowActions: TableAction[] = [
+  getCopyDeepLinkAction(() => copyRowDeepLink(row.id)),
+  // or, with a custom title:
+  getCopyDeepLinkAction(() => copyRowDeepLink(row.id), t('Copy link')),
+];
+```
+
+The helper signature is:
+
+```ts
+getCopyDeepLinkAction(onCopy: () => void, title?: string): TableAction
+```
+
+**Adding a new column to `ResponsiveDataTable`**
+
+1. Define the column in the `columns` array passed to `ResponsiveDataTable`.
+2. Add a breakpoint entry for the column in the `updateVisibleColumns` / `getResponsiveColumnVisibility` utility so it hides gracefully on narrow viewports.
+3. Use `useColumnVisibilityPreference` (from Meshery UI's `utils/hooks`) to merge responsive defaults with user preferences persisted in `localStorage`.
+
 ### icons
 
 - Icons directory contains all the icons that are used in the project or can be used in any of other projects.

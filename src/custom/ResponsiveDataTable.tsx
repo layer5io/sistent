@@ -6,6 +6,7 @@ import { EllipsisIcon } from '../icons/Ellipsis';
 import { FormattedTime } from '../utils';
 import { styled, useTheme } from './../theme';
 import { ColView } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
+import { TableAction } from './TableActions';
 import { TooltipIcon } from './TooltipIconButton';
 
 export const IconWrapper = styled('div', {
@@ -133,14 +134,7 @@ export interface Column {
     display?: boolean;
     sortDescFirst?: boolean;
     customBodyRender?: (value: string | number | boolean | object) => JSX.Element;
-    actionsList?: {
-      title: string;
-      icon: JSX.Element;
-      onClick: () => void;
-      disabled?: boolean;
-      customComponent?: JSX.Element;
-      type?: string;
-    }[];
+    actionsList?: TableAction[];
   };
 }
 
