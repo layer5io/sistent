@@ -40,7 +40,9 @@ import { ModalCard } from './ModalCard';
 import PopperListener, { IPopperListener } from './PopperListener';
 import ResponsiveDataTable, {
   DataTableEllipsisMenu,
-  ResponsiveDataTableProps
+  getCopyDeepLinkAction,
+  ResponsiveDataTableProps,
+  TableAction
 } from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
 import { StyledCardProps } from './StyledCard/StyledCard';
@@ -93,6 +95,7 @@ export {
   CustomImage,
   CustomTooltip,
   DataTableEllipsisMenu,
+  getCopyDeepLinkAction,
   EmptyState,
   EmptyStateCard,
   ErrorBoundary,
@@ -157,6 +160,7 @@ export type {
   ResponsiveDataTableProps,
   SearchBarProps,
   StyledCardProps,
+  TableAction,
   TransferListProps,
   UniversalFilterProps
 };

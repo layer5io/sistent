@@ -1,7 +1,7 @@
 import MUIDataTable, { MUIDataTableColumn } from '@sistent/mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
-import { ShareIcon } from '../icons';
+import { CopyLinkIcon, ShareIcon } from '../icons';
 import { EllipsisIcon } from '../icons/Ellipsis';
 import { FormattedTime } from '../utils';
 import { styled, useTheme } from './../theme';
@@ -123,6 +123,15 @@ export const DataTableEllipsisMenu: React.FC<{
   );
 };
 
+export type TableAction = {
+  title: string;
+  icon: JSX.Element;
+  onClick: () => void;
+  disabled?: boolean;
+  customComponent?: JSX.Element;
+  type?: string;
+};
+
 export interface Column {
   name: string;
   label: string;
@@ -133,16 +142,23 @@ export interface Column {
     display?: boolean;
     sortDescFirst?: boolean;
     customBodyRender?: (value: string | number | boolean | object) => JSX.Element;
-    actionsList?: {
-      title: string;
-      icon: JSX.Element;
-      onClick: () => void;
-      disabled?: boolean;
-      customComponent?: JSX.Element;
-      type?: string;
-    }[];
+    actionsList?: TableAction[];
   };
 }
+
+/**
+ * Returns a pre-built TableAction that copies a deeplink for the given row to
+ * the clipboard. Drop it into any `actionsList` to give users a one-click
+ * "Copy link" entry in the row-action menu.
+ *
+ * @param onCopy - Called with the row identifier when the user clicks the
+ *   action. The caller is responsible for constructing and writing the URL.
+ */
+export const getCopyDeepLinkAction = (onCopy: () => void): TableAction => ({
+  title: 'Copy link',
+  icon: <CopyLinkIcon width={20} height={20} />,
+  onClick: onCopy,
+});
 
 export interface ResponsiveDataTableProps {
   data: string[][];
