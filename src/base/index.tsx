@@ -95,3 +95,4 @@ export * from './Toolbar';
 export * from './Tooltip';
 export * from './Typography';
 export * from './Zoom';
+export * from './FormHelperText';
