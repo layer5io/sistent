@@ -1,3 +1,1 @@
-import FeedbackButton from './FeedbackButton';
-
-export { FeedbackButton };
+export { FeedbackButton, type FeedbackComponentProps } from './FeedbackButton';

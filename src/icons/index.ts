@@ -206,3 +206,4 @@ export * from './Warning';
 export * from './Wasm';
 export * from './Workspace';
 export * from './Zoom';
+export * from './Checkbox';
