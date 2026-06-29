@@ -1,37 +1,33 @@
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import {
-  Box,
-  Button,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography
-} from '@mui/material';
+import { Box, Button, Table, TableBody, TableHead, Typography } from '@mui/material';
 import React from 'react';
 
 // Strict TypeScript interfaces to handle dynamic table data
-export interface PlanFeature {
-  featureName: string;
-  freePlan: boolean | string;
-  teamPlan: boolean | string;
-  enterprisePlan: boolean | string;
-}
-
 export interface SubscriptionTableProps {
   title?: string;
-  features: PlanFeature[];
+  features?: PlanFeature[];
   onPlanSelect?: (planType: 'free' | 'team' | 'enterprise') => void;
+  featuresLabel?: string;
+  freePlanLabel?: string;
+  freePlanButtonLabel?: string;
+  teamPlanLabel?: string;
+  teamPlanButtonLabel?: string;
+  enterprisePlanLabel?: string;
+  enterprisePlanButtonLabel?: string;
 }
 
 export const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
   title = 'Subscription Plans Comparison',
-  features,
-  onPlanSelect
+  features = [],
+  onPlanSelect,
+  featuresLabel = 'Features',
+  freePlanLabel = 'Free Plan',
+  freePlanButtonLabel = 'Get Started',
+  teamPlanLabel = 'Team Plan',
+  teamPlanButtonLabel = 'Upgrade',
+  enterprisePlanLabel = 'Enterprise Plan',
+  enterprisePlanButtonLabel = 'Contact Us'
 }) => {
   // Helper function to render true/false values as Crisp Icons or Text
   const renderValue = (value: boolean | string) => {
@@ -65,21 +61,23 @@ export const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
         </Typography>
       )}
 
-      <TableContainer component={Paper} elevation={2} sx={{ borderRadius: 2, overflow: 'hidden' }}>
+      <StyledTableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="subscription comparison table">
-          <TableHead sx={{ backgroundColor: 'action.hover' }}>
-            <TableRow>
-              <TableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>Features</TableCell>
-              <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-                Free Plan
+          <TableHead>
+            <StyledHeaderRow>
+              <StyledTableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+                {featuresLabel}
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+                {freePlanLabel}
                 <Box sx={{ mt: 1 }}>
                   <Button size="small" variant="outlined" onClick={() => onPlanSelect?.('free')}>
-                    Get Started
+                    {freePlanButtonLabel}
                   </Button>
                 </Box>
-              </TableCell>
-              <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-                Team Plan
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+                {teamPlanLabel}
                 <Box sx={{ mt: 1 }}>
                   <Button
                     size="small"
@@ -87,12 +85,12 @@ export const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                     color="primary"
                     onClick={() => onPlanSelect?.('team')}
                   >
-                    Upgrade
+                    {teamPlanButtonLabel}
                   </Button>
                 </Box>
-              </TableCell>
-              <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-                Enterprise Plan
+              </StyledTableCell>
+              <StyledTableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
+                {enterprisePlanLabel}
                 <Box sx={{ mt: 1 }}>
                   <Button
                     size="small"
@@ -100,11 +98,11 @@ export const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                     color="secondary"
                     onClick={() => onPlanSelect?.('enterprise')}
                   >
-                    Contact Us
+                    {enterprisePlanButtonLabel}
                   </Button>
                 </Box>
-              </TableCell>
-            </TableRow>
+              </StyledTableCell>
+            </StyledHeaderRow>
           </TableHead>
 
           <TableBody>
@@ -116,21 +114,17 @@ export const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                   '&:hover': { backgroundColor: 'action.hover' }
                 }}
               >
-                <TableCell
-                  component="th"
-                  scope="row"
-                  sx={{ fontWeight: 600, color: 'text.primary' }}
-                >
+                <FeatureHeaderCell component="th" scope="row">
                   {row.featureName}
-                </TableCell>
-                <TableCell align="center">{renderValue(row.freePlan)}</TableCell>
-                <TableCell align="center">{renderValue(row.teamPlan)}</TableCell>
-                <TableCell align="center">{renderValue(row.enterprisePlan)}</TableCell>
+                </FeatureHeaderCell>
+                <StyledTableCell align="center">{renderValue(row.freePlan)}</StyledTableCell>
+                <StyledTableCell align="center">{renderValue(row.teamPlan)}</StyledTableCell>
+                <StyledTableCell align="center">{renderValue(row.enterprisePlan)}</StyledTableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </StyledTableContainer>
     </Box>
   );
 };
