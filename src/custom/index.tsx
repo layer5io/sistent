@@ -52,6 +52,7 @@ import { TransferListProps } from './TransferModal/TransferList/TransferList';
 import UniversalFilter, { UniversalFilterProps } from './UniversalFilter';
 import { UsersTable, UserTableAvatarInfo } from './UsersTable';
 import { VisibilityChipMenu } from './VisibilityChipMenu';
+import { ViewSwitch, ViewSwitchProps, ViewMode } from './ViewSwitch';
 export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
 export type { FilterListType } from './CatalogFilterSection';
@@ -121,6 +122,7 @@ export {
   UsersTable,
   UserTableAvatarInfo,
   useWindowDimensions,
+  ViewSwitch,
   VisibilityChipMenu,
   withErrorBoundary,
   withSuppressedErrorBoundary
@@ -161,7 +163,9 @@ export type {
   StyledCardProps,
   TableAction,
   TransferListProps,
-  UniversalFilterProps
+  UniversalFilterProps,
+  ViewMode,
+  ViewSwitchProps
 };
 
 export * from './CatalogDesignTable';
