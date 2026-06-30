@@ -30,7 +30,7 @@ export interface JourneyStep {
   content: React.ReactNode;
   image?: string;
   videoSrc?: string;
-  video?: boolean;
+  video?: string | boolean;
   embed?: boolean;
   previousButton?: boolean;
   isFullScreenModeAllowed?: boolean;

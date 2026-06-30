@@ -3,6 +3,7 @@
 import MesheryDesignEmbedUmd from '@layer5/meshery-design-embed';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
+import { Link, Box } from '@mui/material';
 import { styled } from '../../../theme';
 import { JourneyStep, ProfileData, StepData } from './GetStartedModal';
 import ReusableModal from './ReusableModal';
@@ -37,6 +38,24 @@ export const ModalVideo = styled('video')(() => ({
   aspectRatio: '16/9',
   paddingBlock: '1rem'
 }));
+
+const FallbackLink: React.FC<{ video: string | boolean }> = ({ video }) => {
+  const videoUrl = typeof video === 'string' ? video : 'https://www.youtube.com/embed/Do7htKrRzDA?si=5iMQ5a1JUf3qpIiH';
+  const watchLink = videoUrl.replace('/embed/', '/watch?v=');
+  return (
+    <Box sx={{ textAlign: 'center', my: 2 }}>
+      <Link
+        href={watchLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        underline="hover"
+        sx={{ fontWeight: 'bold' }}
+      >
+        ▶ Having trouble viewing? Watch on YouTube
+      </Link>
+    </Box>
+  );
+};
 
 const JourneyModal: React.FC<JourneyModalProps> = ({
   open,
@@ -147,16 +166,21 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
           ''
         )}
         {data.video !== undefined ? (
-          <iframe
-            style={{
-              aspectRatio: '16/9',
-              width: '100%'
-            }}
-            src="https://www.youtube.com/embed/Do7htKrRzDA?si=5iMQ5a1JUf3qpIiH"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen={true}
-          ></iframe>
+          <div>
+            <iframe
+              style={{
+                aspectRatio: '16/9',
+                width: '100%'
+              }}
+              src={typeof data.video === 'string' ? data.video : 'https://www.youtube.com/embed/Do7htKrRzDA?si=5iMQ5a1JUf3qpIiH'}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen={true}
+              referrerPolicy="strict-origin-when-cross-origin"
+              loading="lazy"
+            ></iframe>
+            <FallbackLink video={data.video} />
+          </div>
         ) : (
           ''
         )}
