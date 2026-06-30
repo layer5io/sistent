@@ -39,8 +39,9 @@ export const ModalVideo = styled('video')(() => ({
   paddingBlock: '1rem'
 }));
 
-const FallbackLink: React.FC<{ video: string }> = ({ video }) => {
-  const watchLink = video.replace('/embed/', '/watch?v=');
+const FallbackLink: React.FC<{ video: string | boolean }> = ({ video }) => {
+  const videoUrl = typeof video === 'string' ? video : 'https://www.youtube.com/embed/Do7htKrRzDA?si=5iMQ5a1JUf3qpIiH';
+  const watchLink = videoUrl.replace('/embed/', '/watch?v=');
   return (
     <Box sx={{ textAlign: 'center', my: 2 }}>
       <Link
@@ -171,7 +172,7 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
                 aspectRatio: '16/9',
                 width: '100%'
               }}
-              src={data.video}
+              src={typeof data.video === 'string' ? data.video : 'https://www.youtube.com/embed/Do7htKrRzDA?si=5iMQ5a1JUf3qpIiH'}
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen={true}
