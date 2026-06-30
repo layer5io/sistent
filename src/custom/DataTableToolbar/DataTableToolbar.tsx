@@ -12,7 +12,6 @@ const ToolbarRoot = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.card,
   borderRadius: theme.spacing(1),
   boxShadow: theme.shadows[2],
-  zIndex: 101,
 
   [theme.breakpoints.down('sm')]: {
     height: 'auto',

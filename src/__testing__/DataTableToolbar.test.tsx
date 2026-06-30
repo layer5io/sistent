@@ -59,6 +59,6 @@ describe('DataTableToolbar', () => {
   it('applies custom sx styles', () => {
     const { container } = renderWithTheme(<DataTableToolbar sx={{ marginTop: '32px' }} />);
     const root = container.firstChild as HTMLElement;
-    expect(root).toBeTruthy();
+    expect(root).toHaveStyle('margin-top: 32px');
   });
 });
