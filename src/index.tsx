@@ -23,6 +23,8 @@ export { FeedbackButton, type FeedbackComponentProps } from './custom/Feedback';
 // `@sistent/mui-datatables` and would crash the dts build) precisely so this
 // explicit re-export can force them into the published declaration bundle.
 export { getCopyDeepLinkAction, type TableAction } from './custom/TableActions';
+
+export { BulkActionToolbar, type BulkActionToolbarProps } from './custom/BulkActionToolbar';
 // Same nested-barrel dts-drop quirk as FeedbackButton above: without this
 // explicit re-export the DangerConfirmationModal declarations (and its exported
 // props types) are dropped from the bundled d.ts, breaking

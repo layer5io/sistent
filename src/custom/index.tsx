@@ -1,6 +1,7 @@
 import { ActionButton } from './ActionButton';
 import { BBChart } from './BBChart';
 import { BookmarkNotification } from './BookmarkNotification';
+import BulkActionToolbar, { BulkActionToolbarProps } from './BulkActionToolbar';
 import { Carousel } from './Carousel';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ChapterCard } from './ChapterCard';
@@ -87,6 +88,7 @@ export {
   ActionButton,
   BBChart,
   BookmarkNotification,
+  BulkActionToolbar,
   Carousel,
   CatalogCardDesignLogo,
   CatalogFilter,
@@ -154,6 +156,7 @@ export { BasicMarkdown, RenderMarkdown };
 export { CustomizedStepper, useStepper } from './Stepper';
 
 export type {
+  BulkActionToolbarProps,
   CatalogFilterProps,
   ColView,
   CustomColumn,
