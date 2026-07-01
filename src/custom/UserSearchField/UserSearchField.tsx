@@ -108,7 +108,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
 
   return (
     <>
-      <Box display="flex" alignItems="center" justifyContent="space-between" gap={1}>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1 }}>
         <Autocomplete
           id="user-search-field"
           sx={{ width: '100%' }}
@@ -155,18 +155,21 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
                   paddingBlock: '0.1rem'
                 }
               }}
-              InputProps={{
-                ...params.InputProps,
-                endAdornment: (
-                  <>{searchUserLoading ? <CircularProgress color="inherit" size={20} /> : null}</>
-                )
+              slotProps={{
+                ...params.slotProps,
+                input: {
+                  ...params.slotProps?.input,
+                  endAdornment: (
+                    <>{searchUserLoading ? <CircularProgress color="inherit" size={20} /> : null}</>
+                  )
+                }
               }}
             />
           )}
           renderOption={(props: React.HTMLAttributes<HTMLLIElement>, option) => (
             // @ts-expect-error Props need to be passed to BOX component to make sure styles getting updated
             <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-              <Grid2 container alignItems="center">
+              <Grid2 container sx={{ alignItems: 'center' }}>
                 <Grid2>
                   <Box sx={{ color: 'text.secondary', mr: 2 }}>
                     <Avatar alt={option.firstName} src={option.avatarUrl}>

@@ -122,10 +122,10 @@ export const ModalBody = styled(Paper)(({ theme }) => ({
   overflowY: 'auto',
   height: '100%',
   scrollbarWidth: 'none',
+  msOverflowStyle: 'none',
   '&::-webkit-scrollbar': {
     display: 'none'
-  },
-  '-ms-overflow-style': 'none'
+  }
 }));
 
 const StyledFooter = styled('div', {
@@ -155,12 +155,28 @@ export const Modal: React.FC<ModalProps> = ({
   isFullScreenModeAllowed,
   ...props
 }) => {
-  const [fullScreen, setFullScreen] = useState(false);
+  /*
+   * Use the incoming fullScreen prop only as the initial state.
+   * After initialization, fullscreen is managed internally so, external
+   * fullScreen prop values do not override user-triggered fullscreen toggles.
+   * fullWidth is derived from fullScreen on StyledDialog below; that explicit
+   * prop is applied after {...restProps}, so any caller-provided fullWidth is
+   * intentionally overridden without needing to strip it here.
+   */
+  const {
+    fullScreen: initialFullScreenState = false,
+    ...restProps
+  } = props;
+
+  const [fullScreen, setFullScreen] = useState(initialFullScreenState);
+
   const toggleFullScreen = () => {
     setFullScreen((prev) => !prev);
   };
+
   return (
     <StyledDialog
+      {...restProps}
       maxWidth={maxWidth}
       open={open}
       onClose={closeModal}
@@ -168,7 +184,6 @@ export const Modal: React.FC<ModalProps> = ({
       aria-describedby="alert-dialog-slide-description"
       fullScreen={fullScreen}
       fullWidth={!fullScreen}
-      {...props}
     >
       {title && (
         <ModalStyledHeader className="modal-header" data-testid="modal-header">

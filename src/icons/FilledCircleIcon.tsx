@@ -19,4 +19,4 @@ export const FilledCircleIcon: FC<IconProps> = ({
   );
 };
 
-export default { Filled: FilledCircleIcon };
+export default FilledCircleIcon;

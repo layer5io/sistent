@@ -1,0 +1,1 @@
+export { CategoryIcon } from './CategoryIcon';
