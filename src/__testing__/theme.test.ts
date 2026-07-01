@@ -3,6 +3,7 @@ import {
   readableTextColor,
   SistentDefaultPrimitivePaletteLight
 } from '../theme';
+import { MuiButton } from '../theme/components/button.modifier';
 
 const LIGHT_INK = SistentDefaultPrimitivePaletteLight.primaryInverted; // charcoal[100] ≈ near-white
 const DARK_INK = SistentDefaultPrimitivePaletteLight.foreground; // charcoal[10] ≈ near-black
@@ -79,5 +80,52 @@ describe('createCustomTheme contrast derivation', () => {
   it('returns a valid MUI theme with no custom palette', () => {
     const theme = createCustomTheme('light');
     expect(theme.palette.mode).toBe('light');
+  });
+});
+
+describe('MuiButton contained honors the semantic color prop', () => {
+  // The MuiButton override function computes styles from the active theme.
+  // Call it directly (MUI would call it as `root({ theme, ownerState })`) so the
+  // assertions read the resolved backgroundColor per contained variant.
+  const rootStyles = (mode: 'light' | 'dark') => {
+    const theme = createCustomTheme(mode);
+    const root = MuiButton.styleOverrides!.root as (arg: { theme: typeof theme }) => Record<
+      string,
+      { backgroundColor?: string; ['&:hover']?: { backgroundColor?: string } }
+    >;
+    return { theme, styles: root({ theme }) };
+  };
+
+  it('paints color="error" contained buttons with the error background, not the brand (keppel)', () => {
+    const { theme, styles } = rootStyles('light');
+    const contained = styles['&.MuiButton-contained'];
+    const containedError = styles['&.MuiButton-containedError'];
+
+    expect(containedError).toBeDefined();
+    // Uses the semantic error background…
+    expect(containedError.backgroundColor).toBe(theme.palette.background.error.default);
+    expect(containedError['&:hover']?.backgroundColor).toBe(
+      theme.palette.background.error.hover
+    );
+    // …and is NOT the brand background that `&.MuiButton-contained` sets — the
+    // regression that made `<Button variant="contained" color="error">` green.
+    expect(containedError.backgroundColor).not.toBe(contained.backgroundColor);
+  });
+
+  it('also honors success and warning contained buttons', () => {
+    const { theme, styles } = rootStyles('light');
+    expect(styles['&.MuiButton-containedSuccess'].backgroundColor).toBe(
+      theme.palette.background.success.default
+    );
+    expect(styles['&.MuiButton-containedWarning'].backgroundColor).toBe(
+      theme.palette.background.warning.default
+    );
+  });
+
+  it('resolves the error background in dark mode too', () => {
+    const { theme, styles } = rootStyles('dark');
+    expect(styles['&.MuiButton-containedError'].backgroundColor).toBe(
+      theme.palette.background.error.default
+    );
   });
 });
