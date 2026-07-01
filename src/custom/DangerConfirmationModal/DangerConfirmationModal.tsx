@@ -1,5 +1,5 @@
 import { DialogProps } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useId, useState } from 'react';
 import { Checkbox, FormControlLabel, FormGroup, TextField, Typography } from '../../base';
 import { iconLarge, iconMedium } from '../../constants/iconsSizes';
 import { IdeaIcon, WarningIcon } from '../../icons';
@@ -118,24 +118,34 @@ export const DangerConfirmationModal: React.FC<DangerConfirmationModalProps> = (
 }) => {
   const theme = useTheme();
   const checkboxList = checkboxes ?? [];
+  const confirmationInputId = useId();
 
   const [typedValue, setTypedValue] = useState('');
   const [checkedState, setCheckedState] = useState<Record<string, boolean>>(() =>
     buildInitialCheckedState(checkboxList)
   );
 
-  // Reset the ephemeral gate state each time the modal opens so a reused
-  // instance never leaks a previous attempt's typed value or ticks. Keyed on
-  // `open` alone: re-seeding on every `checkboxes` identity change would wipe
-  // the user's in-progress selections whenever the parent re-renders.
+  // Serialize only the stable, non-circular checkbox fields for use as an
+  // effect dependency. The `label` is a ReactNode and would throw
+  // (`Converting circular structure to JSON`) if stringified, so it is omitted;
+  // only `id`/`required`/`defaultChecked` affect the seeded state.
+  const serializedCheckboxes = JSON.stringify(
+    checkboxes?.map(({ id, required, defaultChecked }) => ({ id, required, defaultChecked })) ?? []
+  );
+
+  // Reset the ephemeral gate state each time the modal opens (or the checkbox
+  // config genuinely changes) so a reused instance never leaks a previous
+  // attempt's typed value or ticks. Keying on the serialized config - not the
+  // raw array reference - avoids wiping in-progress selections when the parent
+  // re-renders with a new reference carrying unchanged values.
   useEffect(() => {
     if (open) {
       setTypedValue('');
-      setCheckedState(buildInitialCheckedState(checkboxes ?? []));
+      setCheckedState(buildInitialCheckedState(JSON.parse(serializedCheckboxes)));
     }
-  }, [open]);
+  }, [open, serializedCheckboxes]);
 
-  const typedGateSatisfied = !confirmationPhrase || typedValue === confirmationPhrase;
+  const typedGateSatisfied = confirmationPhrase === undefined || typedValue === confirmationPhrase;
   const checkboxGateSatisfied = checkboxList.every(
     (checkbox) => checkbox.required === false || Boolean(checkedState[checkbox.id])
   );
@@ -191,11 +201,11 @@ export const DangerConfirmationModal: React.FC<DangerConfirmationModalProps> = (
 
         {confirmationPhrase !== undefined && (
           <ConfirmField>
-            <ConfirmFieldLabel htmlFor="danger-confirmation-input">
+            <ConfirmFieldLabel htmlFor={confirmationInputId}>
               {resolvedConfirmationLabel}
             </ConfirmFieldLabel>
             <TextField
-              id="danger-confirmation-input"
+              id={confirmationInputId}
               fullWidth
               size="small"
               value={typedValue}
