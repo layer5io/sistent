@@ -29,7 +29,7 @@ describe('readableTextColor', () => {
 describe('createCustomTheme contrast derivation', () => {
   it('derives readable body text when a brand omits the contrast tokens', () => {
     // Only base colors provided; background is dark. The derived foreground
-    // (text.default) must be light so text stays readable — not the Layer5
+    // (text.default) must be light so text stays readable - not the Layer5
     // default dark ink.
     const theme = createCustomTheme('light', {
       navigationBar: '#101010',
@@ -58,7 +58,7 @@ describe('createCustomTheme contrast derivation', () => {
 
   it('keeps default contrast tokens for base colors the caller did not customize', () => {
     // Only `background` is overridden, so its contrast token (foreground)
-    // re-derives — but `primary` is untouched, so its contrast token must
+    // re-derives - but `primary` is untouched, so its contrast token must
     // keep the default ink rather than silently re-deriving from KEPPEL.
     const theme = createCustomTheme('light', { background: '#000000' });
 
@@ -102,12 +102,12 @@ describe('MuiButton contained honors the semantic color prop', () => {
     const containedError = styles['&.MuiButton-containedError'];
 
     expect(containedError).toBeDefined();
-    // Uses the semantic error background…
+    // Uses the semantic error background...
     expect(containedError.backgroundColor).toBe(theme.palette.background.error.default);
     expect(containedError['&:hover']?.backgroundColor).toBe(
       theme.palette.background.error.hover
     );
-    // …and is NOT the brand background that `&.MuiButton-contained` sets — the
+    // ...and is NOT the brand background that `&.MuiButton-contained` sets - the
     // regression that made `<Button variant="contained" color="error">` green.
     expect(containedError.backgroundColor).not.toBe(contained.backgroundColor);
   });
