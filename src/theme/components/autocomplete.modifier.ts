@@ -1,4 +1,4 @@
-import { Theme, Components } from '@mui/material';
+import { Components, Theme } from '@mui/material';
 
 export const MuiAutocomplete: Components<Theme>['MuiAutocomplete'] = {
   styleOverrides: {
