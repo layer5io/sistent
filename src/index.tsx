@@ -25,3 +25,12 @@ export { FeedbackButton, type FeedbackComponentProps } from './custom/Feedback';
 export { getCopyDeepLinkAction, type TableAction } from './custom/TableActions';
 
 export { BulkActionToolbar, type BulkActionToolbarProps } from './custom/BulkActionToolbar';
+// Same nested-barrel dts-drop quirk as FeedbackButton above: without this
+// explicit re-export the DangerConfirmationModal declarations (and its exported
+// props types) are dropped from the bundled d.ts, breaking
+// `import { DangerConfirmationModal } from "@sistent/sistent"` type-checking.
+export {
+  DangerConfirmationModal,
+  type DangerConfirmationCheckbox,
+  type DangerConfirmationModalProps
+} from './custom/DangerConfirmationModal';

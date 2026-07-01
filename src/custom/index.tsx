@@ -57,6 +57,11 @@ export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
 export type { FilterListType } from './CatalogFilterSection';
 export { StyledChartDialog } from './ChartDialog';
+export {
+  DangerConfirmationModal,
+  type DangerConfirmationCheckbox,
+  type DangerConfirmationModalProps
+} from './DangerConfirmationModal';
 export { InputSearchField } from './InputSearchField';
 export { LearningContent } from './LearningContent';
 export { NavigationNavbar } from './NavigationNavbar';
