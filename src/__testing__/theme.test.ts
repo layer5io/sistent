@@ -91,7 +91,7 @@ describe('MuiButton contained honors the semantic color prop', () => {
     const theme = createCustomTheme(mode);
     const root = MuiButton.styleOverrides!.root as (arg: { theme: typeof theme }) => Record<
       string,
-      { backgroundColor?: string; ['&:hover']?: { backgroundColor?: string } }
+      { color?: string; backgroundColor?: string; ['&:hover']?: { backgroundColor?: string } }
     >;
     return { theme, styles: root({ theme }) };
   };
@@ -112,13 +112,28 @@ describe('MuiButton contained honors the semantic color prop', () => {
     expect(containedError.backgroundColor).not.toBe(contained.backgroundColor);
   });
 
-  it('also honors success and warning contained buttons', () => {
+  it('also honors success, warning, and info contained buttons', () => {
     const { theme, styles } = rootStyles('light');
     expect(styles['&.MuiButton-containedSuccess'].backgroundColor).toBe(
       theme.palette.background.success.default
     );
     expect(styles['&.MuiButton-containedWarning'].backgroundColor).toBe(
       theme.palette.background.warning.default
+    );
+    expect(styles['&.MuiButton-containedInfo'].backgroundColor).toBe(
+      theme.palette.background.info.default
+    );
+  });
+
+  it('derives a readable (WCAG) label colour per background, not a hardcoded white', () => {
+    const { theme, styles } = rootStyles('light');
+    // The light yellow warning background must get dark text, not an unreadable
+    // white one - getContrastText picks per luminance.
+    expect(styles['&.MuiButton-containedWarning'].color).toBe(
+      theme.palette.getContrastText(theme.palette.background.warning.default)
+    );
+    expect(styles['&.MuiButton-containedError'].color).toBe(
+      theme.palette.getContrastText(theme.palette.background.error.default)
     );
   });
 
