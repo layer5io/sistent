@@ -1,0 +1,1 @@
+export { default as AssignmentTurnedInIcon } from './AssignmentTurnedInIcon';

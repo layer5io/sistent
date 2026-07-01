@@ -146,9 +146,12 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
             error={error}
             helperText={error ? 'Team Already Selected' : ''}
             fullWidth
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: isLoading ? <CircularProgress color="inherit" size={20} /> : null
+            slotProps={{
+              ...params.slotProps,
+              input: {
+                ...params.slotProps?.input,
+                endAdornment: isLoading ? <CircularProgress color="inherit" size={20} /> : null
+              }
             }}
           />
         )}

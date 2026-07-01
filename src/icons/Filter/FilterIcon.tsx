@@ -13,7 +13,7 @@ export const FilterIcon = ({
       width={width}
       height={height}
       fill={props.fill}
-      fill-opacity={props.fillOpacity}
+      fillOpacity={props.fillOpacity}
       {...props}
     >
       <path d="M0 0h24v24H0z" fill="none" />

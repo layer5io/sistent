@@ -8,3 +8,18 @@ export * from './redux-persist';
 export * from './schemas';
 export * from './theme';
 export * from './utils';
+
+// FeedbackButton's type is dropped from the bundled d.ts when it reaches the
+// entry only through `export * from './custom'`: rollup-plugin-dts (used by
+// tsup for the declaration bundle) fails to propagate certain re-exports
+// through nested barrels, so `import { FeedbackButton } from "@sistent/sistent"`
+// fails type-checking even though the runtime export exists. An explicit
+// re-export forces the declaration into the published bundle. The same quirk
+// affects other custom components (see consumers' local d.ts augmentations);
+// add them here as they are needed.
+export { FeedbackButton, type FeedbackComponentProps } from './custom/Feedback';
+// `TableAction` and `getCopyDeepLinkAction` live in the leaf `TableActions`
+// module (not `ResponsiveDataTable`, which imports the untyped
+// `@sistent/mui-datatables` and would crash the dts build) precisely so this
+// explicit re-export can force them into the published declaration bundle.
+export { getCopyDeepLinkAction, type TableAction } from './custom/TableActions';

@@ -1,4 +1,4 @@
-# Sistent Design System Sistent
+# Sistent Design System
 
 The Sistent Design System provides the open source building blocks to design and implement consistent, accessible, and delightful product experiences. Visit the <a href="https://layer5.io/projects/sistent">project website</a> for more information.
 

@@ -23,7 +23,7 @@ const UserTableAvatarInfo: React.FC<UserTableAvatarInfoProps> = ({
   };
 
   return (
-    <Grid2 container alignItems="center">
+    <Grid2 container sx={{ alignItems: 'center' }}>
       <Grid2>
         <Box
           sx={{

@@ -151,7 +151,7 @@ export const PortsFormatter: React.FC<PortsFormatterProps> = ({ data }) => {
     <Box>
       {data?.map((item, index) => (
         <Details noPadding key={index}>
-          <Box display="flex" alignItems="center">
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {item.name && <Typography variant="body1">{`${item.name}: `} </Typography>}
             <ElementData>{`(${item.containerPort || item.port}/${item.protocol})`}</ElementData>
           </Box>
@@ -311,7 +311,7 @@ export const LabelFormatter: React.FC<LabelFormatterProps> = ({
   };
 
   return (
-    <Box display="flex" gap={1} flexWrap={'wrap'}>
+    <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
       {data.map((item, index) => {
         return (
           <ElementData key={index}>
@@ -501,12 +501,14 @@ export const TableDataFormatter: React.FC<TableDataFormatterProps> = ({
 
   return (
     <Box
-      width={'100%'}
-      display={'flex'}
-      flexDirection={'column'}
-      gap={1}
-      minWidth={'30rem'}
-      marginBlock={1}
+      sx={{
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 1,
+        minWidth: '30rem',
+        marginBlock: 1
+      }}
     >
       {title && <Typography variant="body1">{title}</Typography>}
 
@@ -546,7 +548,14 @@ export const TextWithLinkFormatter: React.FC<TextWithLinkFormatterProps> = ({
   return variant === 'row' ? (
     <KeyValueInRow Key={title} Value={LinkComponent} />
   ) : (
-    <Box display={'flex'} flexDirection={'column'} gap={'0.3rem'} marginBlock={'0.4rem'}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.3rem',
+        marginBlock: '0.4rem'
+      }}
+    >
       <Typography variant="body1">{title}</Typography>
       {LinkComponent}
     </Box>
@@ -562,7 +571,7 @@ const DetailSection: React.FC<DetailSectionProps> = ({
     return null;
   }
   return (
-    <Box width={'100%'}>
+    <Box sx={{ width: '100%' }}>
       <KeyValueInRow
         Key={title}
         Value={
@@ -584,7 +593,7 @@ export const ContainerFormatter: React.FC<ContainerFormatterProps> = ({
   const stateValues = Object.values(state)?.[0] || {};
   const startedAt = stateValues ? stateValues?.startedAt : null;
   return (
-    <Box display="flex" flexDirection="column" gap={'0.5rem'}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
       <KeyValueInRow
         Key={'Status'}
         Value={<StatusFormatter status={status} rightPosition="1rem" />}
@@ -631,11 +640,11 @@ export const ContainerFormatter: React.FC<ContainerFormatterProps> = ({
       <KeyValueInRow
         Key="Volume Mounts"
         Value={
-          <Box display={'flex'} flexDirection={'column'} gap={1}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             {containerSpec?.volumeMounts?.map((item, index) => {
               const roStatus = item?.readOnly ? ' (RO)' : ' (RW)';
               return (
-                <Box display={'flex'} key={index} flexWrap={'wrap'} gap={'0.25rem 0.5rem'}>
+                <Box key={index} sx={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem 0.5rem' }}>
                   <ElementData key={index}>
                     <StyledChip label={item?.mountPath} size="small" />
                   </ElementData>
@@ -716,11 +725,11 @@ export const SecretFormatter: React.FC<SecretFormatterProps> = ({ data }) => {
   const keys = Object.keys(parsedData);
 
   return (
-    <Box display="flex" flexDirection="column" gap={1}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
       {keys.map((key) => (
-        <Box key={key} display="flex" gap={4} alignItems={'center'}>
+        <Box key={key} sx={{ display: 'flex', gap: 4, alignItems: 'center' }}>
           <Typography variant="body1">{key}</Typography>
-          <Box display="flex" alignItems="center" gap={1}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography>{showSecret[key] ? parsedData[key] : '••••••••'}</Typography>
             <IconButton
               size="small"
@@ -765,7 +774,7 @@ export const CollapsibleSectionFormatter: React.FC<CollapsibleSectionProps> = ({
     <CollapsibleSectionContainer style={{ marginLeft: margin }}>
       <CollapsibleSectionTitle openSection={openSection} onClick={toggleOpen}>
         <StyledTitle variant="body1">{title}</StyledTitle>
-        <Box display={'flex'} gap={1} style={{ marginRight: margin }}>
+        <Box sx={{ display: 'flex', gap: 1, marginRight: `${margin}px` }}>
           <StyledTitle
             variant="body2"
             style={{

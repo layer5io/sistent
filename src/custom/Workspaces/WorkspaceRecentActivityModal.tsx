@@ -152,7 +152,7 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
       >
         <ModalBody style={{ maxHeight: '40rem' }}>
           {page === 0 && isEventsLoading ? (
-            <Box display="flex" justifyContent="center" padding={4}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', padding: 4 }}>
               <CircularProgress />
             </Box>
           ) : allEvents.length > 0 ? (
@@ -166,7 +166,14 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
                     style={{ padding: '0' }}
                     alignItems="flex-start"
                     secondaryAction={
-                      <Box display={'flex'} flexDirection="column" alignItems="flex-end" gap={0.2}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'flex-end',
+                          gap: 0.2
+                        }}
+                      >
                         {getImage(data.description)}
                         <CustomTooltip title={getFullFormattedTime(data.createdAt)}>
                           <div>
@@ -210,7 +217,10 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
               />
 
               {isFetching && (
-                <Box display="flex" justifyContent="center" padding={2} ref={_loaderRef}>
+                <Box
+                  sx={{ display: 'flex', justifyContent: 'center', padding: 2 }}
+                  ref={_loaderRef}
+                >
                   <CircularProgress size={24} />
                 </Box>
               )}
@@ -222,7 +232,7 @@ const WorkspaceRecentActivityModal: React.FC<RecentActivityModalProps> = ({
               )}
             </>
           ) : (
-            <Box display="flex" justifyContent="center" padding={4}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', padding: 4 }}>
               <Typography variant="body2" color="textSecondary">
                 No recent activity found for this workspace.
               </Typography>
