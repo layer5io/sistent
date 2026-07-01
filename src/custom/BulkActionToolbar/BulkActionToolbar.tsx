@@ -25,6 +25,8 @@ export interface BulkActionToolbarProps {
   children?: React.ReactNode;
   style?: React.CSSProperties;
   'data-testid'?: string;
+  deselectAllLabel?: string;
+  selectedLabel?: string;
 }
 
 export const BulkActionToolbar: React.FC<BulkActionToolbarProps> = ({
@@ -32,7 +34,9 @@ export const BulkActionToolbar: React.FC<BulkActionToolbarProps> = ({
   onDeselectAll,
   children,
   style = {},
-  'data-testid': testId = 'bulk-action-toolbar'
+  'data-testid': testId = 'bulk-action-toolbar',
+  deselectAllLabel = 'Deselect ALL',
+  selectedLabel = 'selected'
 }) => {
   const theme = useTheme();
 
@@ -46,7 +50,7 @@ export const BulkActionToolbar: React.FC<BulkActionToolbarProps> = ({
     <StyledToolbar style={style} data-testid={testId}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         {onDeselectAll && (
-          <CustomTooltip title="Deselect ALL" arrow>
+          <CustomTooltip title={deselectAllLabel} arrow>
             <IconButton
               onClick={onDeselectAll}
               sx={{ marginRight: theme.spacing(2) }}
@@ -57,7 +61,7 @@ export const BulkActionToolbar: React.FC<BulkActionToolbarProps> = ({
           </CustomTooltip>
         )}
         <Typography variant="subtitle1" sx={{ fontWeight: 600, color: theme.palette.text.default }}>
-          {selectedCount} selected
+          {selectedCount} {selectedLabel}
         </Typography>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: theme.spacing(1) }}>{children}</Box>

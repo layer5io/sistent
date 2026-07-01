@@ -50,4 +50,17 @@ describe('BulkActionToolbar', () => {
     fireEvent.click(deselectButton);
     expect(onDeselectAll).toHaveBeenCalledTimes(1);
   });
+
+  it('renders custom labels when provided', () => {
+    renderWithTheme(
+      <BulkActionToolbar
+        selectedCount={3}
+        onDeselectAll={jest.fn()}
+        deselectAllLabel="Clear Selection"
+        selectedLabel="items chosen"
+      />
+    );
+
+    expect(screen.getByText('3 items chosen')).toBeTruthy();
+  });
 });
