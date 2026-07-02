@@ -38,17 +38,39 @@ describe('DataTableToolbar', () => {
     expect(screen.getByText('Grid/Table')).toBeTruthy();
   });
 
-  it('renders all slots simultaneously', () => {
+  it('renders bulkOperations content in right section', () => {
+    renderWithTheme(<DataTableToolbar bulkOperations={<button>Select All</button>} />);
+    expect(screen.getByRole('button', { name: 'Select All' })).toBeTruthy();
+  });
+
+  it('renders all slots simultaneously with bulkOperations', () => {
     renderWithTheme(
       <DataTableToolbar
         primaryActions={<button>Add</button>}
+        secondaryActions={<button>Export</button>}
+        bulkOperations={<button>Select All</button>}
         search={<input placeholder="Search" />}
         filter={<div>Filter</div>}
       />
     );
     expect(screen.getByRole('button', { name: 'Add' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Export' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Select All' })).toBeTruthy();
     expect(screen.getByPlaceholderText('Search')).toBeTruthy();
     expect(screen.getByText('Filter')).toBeTruthy();
+  });
+
+  it('renders search before filter in DOM order', () => {
+    const { container } = renderWithTheme(
+      <DataTableToolbar
+        search={<span data-testid="search">Search</span>}
+        filter={<span data-testid="filter">Filter</span>}
+      />
+    );
+    const children = container.querySelectorAll('[data-testid="search"], [data-testid="filter"]');
+    expect(children.length).toBe(2);
+    expect(children[0].getAttribute('data-testid')).toBe('search');
+    expect(children[1].getAttribute('data-testid')).toBe('filter');
   });
 
   it('renders without any props (empty state)', () => {

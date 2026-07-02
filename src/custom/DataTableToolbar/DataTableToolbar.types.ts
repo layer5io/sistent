@@ -7,6 +7,9 @@ export interface DataTableToolbarProps {
   /** Left side next to primary: secondary actions (Export, bulk delete) */
   secondaryActions?: React.ReactNode;
 
+  /** Right side: bulk action controls (select all, batch delete) */
+  bulkOperations?: React.ReactNode;
+
   /** Right side: SearchBar component */
   search?: React.ReactNode;
 

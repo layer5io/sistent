@@ -30,28 +30,31 @@ const Section = styled(Box)(({ theme }) => ({
 export function DataTableToolbar({
   primaryActions,
   secondaryActions,
+  bulkOperations,
   search,
   filter,
   columnVisibility,
   viewSwitch,
   sx
 }: DataTableToolbarProps): JSX.Element {
-  const hasLeftContent = Boolean(primaryActions) || Boolean(secondaryActions);
+  const hasLeftContent = Boolean(primaryActions);
   const hasRightContent =
-    Boolean(filter) || Boolean(search) || Boolean(columnVisibility) || Boolean(viewSwitch);
+    Boolean(bulkOperations) ||
+    Boolean(secondaryActions) ||
+    Boolean(filter) ||
+    Boolean(search) ||
+    Boolean(columnVisibility) ||
+    Boolean(viewSwitch);
 
   return (
     <ToolbarRoot sx={sx}>
-      {hasLeftContent && (
-        <Section>
-          {primaryActions}
-          {secondaryActions}
-        </Section>
-      )}
+      {hasLeftContent && <Section>{primaryActions}</Section>}
       {hasRightContent && (
         <Section>
-          {filter}
+          {bulkOperations}
+          {secondaryActions}
           {search}
+          {filter}
           {columnVisibility}
           {viewSwitch}
         </Section>
