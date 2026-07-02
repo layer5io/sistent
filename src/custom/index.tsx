@@ -45,6 +45,7 @@ import ResponsiveDataTable, {
 import SearchBar, { SearchBarProps } from './SearchBar';
 import { StyledCardProps } from './StyledCard/StyledCard';
 import { getCopyDeepLinkAction, TableAction } from './TableActions';
+import { TableToolbar } from './TableToolbar/TableToolbar';
 import { TeamTable, TeamTableConfiguration } from './TeamTable';
 import { TooltipIcon } from './TooltipIconButton';
 import { TransferList } from './TransferModal/TransferList';
@@ -116,6 +117,7 @@ export {
   StyledDialogActions,
   StyledDialogContent,
   StyledDialogTitle,
+  TableToolbar,
   TeamTable,
   TeamTableConfiguration,
   TooltipIcon,
