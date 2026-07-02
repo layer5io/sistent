@@ -1,13 +1,14 @@
 import { styled } from '@mui/material';
 import React from 'react';
 
-interface TableToolbarProps {
+export interface TableToolbarProps {
   leadingContent?: React.ReactNode;
   centerContent?: React.ReactNode;
   endContent?: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
   'data-testid'?: string;
+  ariaLabel?: string;
 }
 
 const TableToolbarRoot = styled('div')(({ theme }) => ({
@@ -47,12 +48,13 @@ export function TableToolbar({
   endContent,
   className,
   style,
-  'data-testid': dataTestId = 'table-toolbar'
+  'data-testid': dataTestId = 'table-toolbar',
+  ariaLabel = 'Table toolbar'
 }: TableToolbarProps): JSX.Element {
   return (
     <TableToolbarRoot
       role="toolbar"
-      aria-label="Table toolbar"
+      aria-label={ariaLabel}
       className={className}
       style={style}
       data-testid={dataTestId}

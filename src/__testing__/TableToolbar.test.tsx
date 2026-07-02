@@ -29,4 +29,10 @@ describe('TableToolbar', () => {
     expect(screen.queryByTestId('table-toolbar-center')).toBeNull();
     expect(screen.getByTestId('table-toolbar-end')).toBeTruthy();
   });
+
+  it('supports a custom aria-label', () => {
+    renderWithTheme(<TableToolbar ariaLabel="Custom toolbar label" />);
+
+    expect(screen.getByRole('toolbar', { name: 'Custom toolbar label' })).toBeTruthy();
+  });
 });
