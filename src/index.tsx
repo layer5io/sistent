@@ -40,6 +40,8 @@ export {
 // declaration into the published bundle.
 export {
   default as UniversalFilter,
+  type DateRange,
   type FilterColumn,
+  type QuickDateRangeOption,
   type UniversalFilterProps
 } from './custom/UniversalFilter';
