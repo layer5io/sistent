@@ -32,3 +32,14 @@ export {
   type DangerConfirmationCheckbox,
   type DangerConfirmationModalProps
 } from './custom/DangerConfirmationModal';
+// Same nested-barrel dts-drop quirk as FeedbackButton above: UniversalFilter
+// (and its FilterColumn / UniversalFilterProps types) reaches the entry only
+// through `export * from './custom'`, so rollup-plugin-dts drops it from the
+// bundled d.ts and `import { UniversalFilter } from "@sistent/sistent"` fails
+// type-checking despite the runtime export. The explicit re-export forces the
+// declaration into the published bundle.
+export {
+  default as UniversalFilter,
+  type FilterColumn,
+  type UniversalFilterProps
+} from './custom/UniversalFilter';
