@@ -1,6 +1,6 @@
 {
   "name": "@sistent/sistent",
-  "version": "0.21.20",
+  "version": "0.21.30",
   "description": "Reusable React Components and SVG Icons library",
   "repository": {
     "type": "git",
@@ -50,6 +50,7 @@
     "@mui/icons-material": "^9.0.0",
     "@mui/material": "^9.0.0",
     "@mui/system": "^9.0.0",
+    "@mui/x-date-pickers": "^9.7.0",
     "@reduxjs/toolkit": "^2.11.2",
     "@rjsf/core": "^6.5.2",
     "@rjsf/mui": "^6.5.2",
@@ -68,6 +69,7 @@
     "@typescript-eslint/parser": "^8.59.1",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
+    "date-fns": "^4.4.0",
     "eslint": "10.4.0",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.6.0",
@@ -95,11 +97,13 @@
     "@mui/icons-material": "^9.0.0",
     "@mui/material": "^9.0.0",
     "@mui/system": "^9.0.0",
+    "@mui/x-date-pickers": "^9.0.0",
     "@rjsf/core": "^6.0.0",
     "@rjsf/mui": "^6.0.0",
     "@rjsf/utils": "^6.0.0",
     "@rjsf/validator-ajv8": "^6.0.0",
     "@xstate/react": "^5.0.3 || ^6.0.0",
+    "date-fns": "^4.0.0",
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "xstate": "^5.25.0"
@@ -111,6 +115,12 @@
     }
   },
   "peerDependenciesMeta": {
+    "@mui/x-date-pickers": {
+      "optional": true
+    },
+    "date-fns": {
+      "optional": true
+    },
     "react": {
       "optional": true
     },

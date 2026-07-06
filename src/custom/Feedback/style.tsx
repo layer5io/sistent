@@ -147,7 +147,7 @@ export const FeedbackSubmitButton = styled(Button)<SubmitProp>(({ isOpen }) => (
   }
 }));
 
-export const FeedbackButton = styled(Button)<RenderPositionType>(({ theme, renderPosition }) => ({
+export const FeedbackTriggerButton = styled(Button)<RenderPositionType>(({ theme, renderPosition }) => ({
   backgroundColor: theme.palette.interactive.primary,
   color: CULTURED,
   borderRadius: '5px',
