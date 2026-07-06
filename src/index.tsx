@@ -23,3 +23,25 @@ export { FeedbackButton, type FeedbackComponentProps } from './custom/Feedback';
 // `@sistent/mui-datatables` and would crash the dts build) precisely so this
 // explicit re-export can force them into the published declaration bundle.
 export { getCopyDeepLinkAction, type TableAction } from './custom/TableActions';
+// Same nested-barrel dts-drop quirk as FeedbackButton above: without this
+// explicit re-export the DangerConfirmationModal declarations (and its exported
+// props types) are dropped from the bundled d.ts, breaking
+// `import { DangerConfirmationModal } from "@sistent/sistent"` type-checking.
+export {
+  DangerConfirmationModal,
+  type DangerConfirmationCheckbox,
+  type DangerConfirmationModalProps
+} from './custom/DangerConfirmationModal';
+// Same nested-barrel dts-drop quirk as FeedbackButton above: UniversalFilter
+// (and its FilterColumn / UniversalFilterProps types) reaches the entry only
+// through `export * from './custom'`, so rollup-plugin-dts drops it from the
+// bundled d.ts and `import { UniversalFilter } from "@sistent/sistent"` fails
+// type-checking despite the runtime export. The explicit re-export forces the
+// declaration into the published bundle.
+export {
+  default as UniversalFilter,
+  type DateRange,
+  type FilterColumn,
+  type QuickDateRangeOption,
+  type UniversalFilterProps
+} from './custom/UniversalFilter';
