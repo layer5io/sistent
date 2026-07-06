@@ -1,9 +1,16 @@
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, Table, TableBody, TableHead, Typography } from '@mui/material';
+import { Box, Button, Table, TableBody, TableHead, TableRow, Typography } from '@mui/material';
 import React from 'react';
+import { FeatureHeaderCell, StyledHeaderRow, StyledTableCell, StyledTableContainer } from './style';
 
-// Strict TypeScript interfaces to handle dynamic table data
+export interface PlanFeature {
+  featureName: string;
+  freePlan: boolean | string;
+  teamPlan: boolean | string;
+  enterprisePlan: boolean | string;
+}
+
 export interface SubscriptionTableProps {
   title?: string;
   features?: PlanFeature[];
@@ -60,7 +67,6 @@ export const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
           {title}
         </Typography>
       )}
-
       <StyledTableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="subscription comparison table">
           <TableHead>
@@ -104,7 +110,6 @@ export const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
               </StyledTableCell>
             </StyledHeaderRow>
           </TableHead>
-
           <TableBody>
             {features.map((row, index) => (
               <TableRow
