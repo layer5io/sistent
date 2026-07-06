@@ -63,6 +63,19 @@ jest.mock('../custom/TooltipIconButton', () => ({
   )
 }));
 
+jest.mock('../base/DateTimePicker', () => ({
+  DateTimePicker: ({ label, value, onChange, 'data-testid': testId }: any) => (
+    <input
+      aria-label={label}
+      data-testid={testId}
+      value={value instanceof Date ? value.toISOString() : ''}
+      onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+        onChange(new Date(event.target.value))
+      }
+    />
+  )
+}));
+
 import UniversalFilter from '../custom/UniversalFilter';
 import { SistentThemeProvider } from '../theme';
 
@@ -103,5 +116,89 @@ describe('UniversalFilter', () => {
 
     expect(setSelectedFilters).toHaveBeenCalledWith({ status: 'enabled' });
     expect(handleApplyFilter).toHaveBeenCalledWith({ status: 'enabled' });
+  });
+
+  it('does not render date range controls when datePicker is not enabled', () => {
+    renderWithTheme(
+      <UniversalFilter
+        filters={{}}
+        selectedFilters={{}}
+        setSelectedFilters={jest.fn()}
+        handleApplyFilter={jest.fn()}
+        variant="outlined"
+        id="events-filter"
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Filter' }));
+
+    expect(screen.queryByTestId('universal-filter-quick-range-select')).toBeNull();
+    expect(screen.queryByTestId('universal-filter-start-date')).toBeNull();
+  });
+
+  it('applies a quick date range immediately, without requiring Apply', () => {
+    const setSelectedDateRange = jest.fn();
+    const lastWeekRange = {
+      startDate: new Date('2024-01-01T00:00:00.000Z'),
+      endDate: new Date('2024-01-08T00:00:00.000Z')
+    };
+
+    renderWithTheme(
+      <UniversalFilter
+        filters={{}}
+        selectedFilters={{}}
+        setSelectedFilters={jest.fn()}
+        handleApplyFilter={jest.fn()}
+        variant="outlined"
+        id="events-filter"
+        datePicker
+        selectedDateRange={{
+          startDate: new Date('2023-01-01T00:00:00.000Z'),
+          endDate: new Date('2023-01-08T00:00:00.000Z')
+        }}
+        setSelectedDateRange={setSelectedDateRange}
+        quickDateRanges={[{ label: 'Last week', getRange: () => lastWeekRange }]}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Filter' }));
+
+    fireEvent.change(screen.getByTestId('universal-filter-quick-range-select'), {
+      target: { value: 'Last week' }
+    });
+
+    expect(setSelectedDateRange).toHaveBeenCalledWith(lastWeekRange);
+  });
+
+  it('clamps the end date to the new start date when the start date moves past it', () => {
+    const setSelectedDateRange = jest.fn();
+
+    renderWithTheme(
+      <UniversalFilter
+        filters={{}}
+        selectedFilters={{}}
+        setSelectedFilters={jest.fn()}
+        handleApplyFilter={jest.fn()}
+        variant="outlined"
+        id="events-filter"
+        datePicker
+        selectedDateRange={{
+          startDate: new Date('2024-01-01T00:00:00.000Z'),
+          endDate: new Date('2024-01-08T00:00:00.000Z')
+        }}
+        setSelectedDateRange={setSelectedDateRange}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Filter' }));
+
+    fireEvent.change(screen.getByTestId('universal-filter-start-date'), {
+      target: { value: '2024-01-15T00:00:00.000Z' }
+    });
+
+    expect(setSelectedDateRange).toHaveBeenCalledWith({
+      startDate: new Date('2024-01-15T00:00:00.000Z'),
+      endDate: new Date('2024-01-15T00:00:00.000Z')
+    });
   });
 });
