@@ -10,7 +10,7 @@ export const ShieldIcon: FC<IconProps> = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
   fill = DEFAULT_FILL,
-  style = {},
+  style,
   ...props
 }) => (
   <svg
