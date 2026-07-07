@@ -20,10 +20,14 @@ const TechnologySection: React.FC<TechnologySectionProps> = ({
   const theme = useTheme();
 
   useEffect(() => {
+    // `compatibility` is an array per the @meshery/schemas contract, but legacy
+    // records can surface a scalar; guard so a non-array never reaches `.map`
+    // (which would crash the design detail page).
+    const technologyList = Array.isArray(technologies) ? technologies : [];
     // Function to check if SVG exists
     const validateTechnologies = async () => {
       const validTechs = await Promise.all(
-        technologies.map(async (tech) => {
+        technologyList.map(async (tech) => {
           const svg_path = `/${technologySVGPath}/${tech.toLowerCase()}/${technologySVGSubpath}/${tech.toLowerCase()}-color.svg`;
           try {
             const response = await fetch(svg_path);
