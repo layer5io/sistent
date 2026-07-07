@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL, KEPPEL_GREEN_FILL } from '../../constants/constants';
 import { CustomIconProps } from '../types';
 
-export const ShieldIcon: FC<CustomIconProps> = ({
+export const SecurityIcon: FC<CustomIconProps> = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
   fill = DEFAULT_FILL,
@@ -35,4 +35,5 @@ export const ShieldIcon: FC<CustomIconProps> = ({
     </g>
   </svg>
 );
-export default ShieldIcon;
+
+export default SecurityIcon;

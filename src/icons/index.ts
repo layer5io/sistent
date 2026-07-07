@@ -207,4 +207,4 @@ export * from './Wasm';
 export * from './Workspace';
 export * from './Zoom';
 export * from './Checkbox';
-export * from './Shield';
+export * from './Security';
