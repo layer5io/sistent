@@ -38,6 +38,20 @@ export const ModalVideo = styled('video')(() => ({
   paddingBlock: '1rem'
 }));
 
+const FallbackLink = styled('div')(({ theme }) => ({
+  textAlign: 'center',
+  marginTop: '0.5rem',
+  marginBottom: '1rem',
+  '& a': {
+    color: theme.palette.text.brand,
+    textDecoration: 'none',
+    fontWeight: 'bold',
+    '&:hover': {
+      textDecoration: 'underline'
+    }
+  }
+}));
+
 const JourneyModal: React.FC<JourneyModalProps> = ({
   open,
   handleClose,
@@ -147,16 +161,28 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
           ''
         )}
         {data.video !== undefined ? (
-          <iframe
-            style={{
-              aspectRatio: '16/9',
-              width: '100%'
-            }}
-            src="https://www.youtube.com/embed/Do7htKrRzDA?si=5iMQ5a1JUf3qpIiH"
-            title="YouTube video player"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen={true}
-          ></iframe>
+          <>
+            <iframe
+              style={{
+                aspectRatio: '16/9',
+                width: '100%'
+              }}
+              src="https://www.youtube.com/embed/Do7htKrRzDA?si=5iMQ5a1JUf3qpIiH"
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen={true}
+              referrerPolicy="strict-origin-when-cross-origin"
+            ></iframe>
+            <FallbackLink>
+              <a
+                href="https://www.youtube.com/watch?v=Do7htKrRzDA"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ▶ Having trouble viewing? Watch on YouTube
+              </a>
+            </FallbackLink>
+          </>
         ) : (
           ''
         )}
