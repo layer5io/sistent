@@ -1,15 +1,13 @@
 import { FC } from 'react';
-import {
-  DEFAULT_HEIGHT,
-  DEFAULT_WIDTH,
-  DEFAULT_FILL
-} from '../../constants/constants';
-import { IconProps } from '../types';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH, DEFAULT_FILL, KEPPEL_GREEN_FILL } from '../../constants/constants';
+import { CustomIconProps } from '../types';
 
-export const ShieldIcon: FC<IconProps> = ({
+export const ShieldIcon: FC<CustomIconProps> = ({
   width = DEFAULT_WIDTH,
   height = DEFAULT_HEIGHT,
   fill = DEFAULT_FILL,
+  primaryFill = DEFAULT_FILL,
+  secondaryFill = KEPPEL_GREEN_FILL,
   style,
   ...props
 }) => (
@@ -17,16 +15,24 @@ export const ShieldIcon: FC<IconProps> = ({
     style={style}
     xmlns="http://www.w3.org/2000/svg"
     height={height}
-    viewBox="0 0 24 24"
+    viewBox="0 0 15 19"
     width={width}
+    fill={fill}
     {...props}
   >
-    <path
-      transform="translate(3.000000, 0.000000)"
-      fill={fill}
-      d="M9,0l-9.7,4.4v6.5C-0.8,17,3.4,22.6,9,24c5.6-1.4,9.7-7,9.7-13.1V4.4L9,0L9,0z"
-    />
+    <g>
+      <polygon fill="none" points="7.4,9 1.6,9 1.6,9 7.4,9 13.1,9 13.1,9" />
+      <polygon fill={secondaryFill} points="7.4,9 13.1,9 13.1,9 13.1,9 13.1,4.3 7.4,1.8" />
+      <path fill={primaryFill} d="M1.6,9c0.4,3.4,2.7,6.4,5.7,7.3V9H1.6z" />
+      <path fill={fill} d="M2.1,14.4C1.8,14,1.5,13.5,1.2,13C1.5,13.5,1.8,14,2.1,14.4z" />
+      <path
+        fill={fill}
+        d="M7.4,0L0,3.3v4.9c0,1.7,0.4,3.4,1.2,4.8c0.3,0.5,0.6,1,0.9,1.4c0.7,0.9,1.4,1.6,2.3,2.3
+		c0.7,0.5,1.4,0.8,2.2,1.1c0.3,0.1,0.5,0.2,0.8,0.2c0.3-0.1,0.5-0.1,0.8-0.2c0.8-0.3,1.5-0.6,2.2-1.1c0.9-0.6,1.7-1.4,2.3-2.3
+		c0.3-0.4,0.6-0.9,0.9-1.4c0.8-1.5,1.2-3.1,1.2-4.8V3.3L7.4,0z M13.1,9L13.1,9c-0.4,3.4-2.7,6.4-5.7,7.3c-3-0.9-5.3-3.9-5.7-7.3h0
+		V4.3l5.7-2.5l5.7,2.5V9z"
+      />
+    </g>
   </svg>
 );
-
 export default ShieldIcon;
