@@ -18,7 +18,10 @@ interface JourneyModalProps {
   };
   profileData?: ProfileData;
   embedDesignPath: string;
+  fallbackText?: string;
 }
+
+const YOUTUBE_VIDEO_ID = 'Do7htKrRzDA';
 
 const stepperType = {
   Previous: 'Previous',
@@ -60,7 +63,8 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
   stepsData,
   useNotificationHandlers,
   profileData,
-  embedDesignPath
+  embedDesignPath,
+  fallbackText = '▶ Having trouble viewing? Watch on YouTube'
 }) => {
   const [currentModal, setCurrentModal] = useState<number>(0);
   const [step, setStep] = useState<StepData | null>(null);
@@ -167,7 +171,7 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
                 aspectRatio: '16/9',
                 width: '100%'
               }}
-              src="https://www.youtube.com/embed/Do7htKrRzDA?si=5iMQ5a1JUf3qpIiH"
+              src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?si=5iMQ5a1JUf3qpIiH`}
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen={true}
@@ -175,11 +179,11 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
             ></iframe>
             <FallbackLink>
               <a
-                href="https://www.youtube.com/watch?v=Do7htKrRzDA"
+                href={`https://www.youtube.com/watch?v=${YOUTUBE_VIDEO_ID}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                ▶ Having trouble viewing? Watch on YouTube
+                {fallbackText}
               </a>
             </FallbackLink>
           </>
