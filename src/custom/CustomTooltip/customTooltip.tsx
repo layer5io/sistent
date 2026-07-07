@@ -27,15 +27,16 @@ function CustomTooltip({
   variant = 'standard',
   bgColor = '#141414',
   slotProps = {},
+  enterDelay = 100,
+  leaveDelay = 0,
   ...props
 }: CustomTooltipProps): JSX.Element {
   const theme = useTheme();
 
   return (
     <Tooltip
-      enterDelay={150}
-      enterNextDelay={400}
-      leaveDelay={700}
+      enterDelay={enterDelay}
+      leaveDelay={leaveDelay}
       slotProps={_.merge(
         {
           tooltip: {
