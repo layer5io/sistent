@@ -20,10 +20,14 @@ const TechnologySection: React.FC<TechnologySectionProps> = ({
   const theme = useTheme();
 
   useEffect(() => {
-    // `compatibility` is an array per the @meshery/schemas contract, but legacy
-    // records can surface a scalar; guard so a non-array never reaches `.map`
-    // (which would crash the design detail page).
-    const technologyList = Array.isArray(technologies) ? technologies : [];
+    // `technologies` (the design's `compatibility` upstream) is an array per the
+    // @meshery/schemas contract, but legacy records can surface a scalar. Wrap a
+    // scalar so it is preserved rather than discarded, then keep only non-empty
+    // strings so a non-array/`null`/non-string value can never reach `.map` or
+    // `tech.toLowerCase()` and crash the design detail page.
+    const technologyList = (Array.isArray(technologies) ? technologies : [technologies]).filter(
+      (tech): tech is string => typeof tech === 'string' && tech.trim() !== ''
+    );
     // Function to check if SVG exists
     const validateTechnologies = async () => {
       const validTechs = await Promise.all(

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dialog } from '../../base';
 import { DesignIcon, MesheryFilterIcon } from '../../icons';
 import { sanitizeCatalogImageUrl } from './Helper';
@@ -39,6 +39,12 @@ const CatalogCardDesignLogo: React.FC<CatalogCardDesignLogoProps> = ({
   // non-absolute values) so we never issue a broken request against the app
   // origin — fall back to the placeholder icon instead.
   const resolvedSrc = sanitizeCatalogImageUrl(imgURL?.[0]);
+
+  // Reset the error state when the resolved source changes so a new, valid
+  // snapshot isn't hidden by a previous image's load failure.
+  useEffect(() => {
+    setImgError(false);
+  }, [resolvedSrc]);
 
   const handleZoomClick = () => {
     if (zoomEffect) {
