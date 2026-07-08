@@ -110,6 +110,10 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
     };
   }, [uniqueId]);
 
+  if (!permissionKey) {
+    return <>{children}</>;
+  }
+
   const tooltipTitle = (
     <Box sx={{ width: '100%', color: '#FFFFFF', p: 0.5 }}>
       {/* Header Row */}
@@ -431,7 +435,7 @@ export const createCanShow = (
         }}
         onClick={onClick}
       >
-        {React.cloneElement(children as React.ReactElement<{ style?: React.CSSProperties; onClick?: React.MouseEventHandler }>, {
+        {React.isValidElement(children) ? React.cloneElement(children as React.ReactElement<{ style?: React.CSSProperties; onClick?: React.MouseEventHandler }>, {
           style: {
             ...((children as React.ReactElement<{ style?: React.CSSProperties; onClick?: React.MouseEventHandler }>).props.style || {}),
             cursor: 'pointer',
@@ -439,7 +443,7 @@ export const createCanShow = (
             opacity: opacity,
           },
           onClick: onClick,
-        })}
+        }) : children}
       </div>
     );
   };

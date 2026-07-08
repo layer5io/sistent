@@ -14,12 +14,12 @@ const ListItem = React.forwardRef<HTMLLIElement, ListItemProps>((props, ref) => 
   if (disabled && permissionKey) {
     return (
       <PermissionShield permissionKey={permissionKey} variant="inline">
-        <MuiListItem {...rest} ref={ref} />
+        <MuiListItem {...rest} ref={ref} disabled={true} />
       </PermissionShield>
     );
   }
 
-  return <MuiListItem {...rest} ref={ref} />;
+  return <MuiListItem {...rest} ref={ref} disabled={disabled} />;
 });
 
 ListItem.displayName = 'ListItem';
