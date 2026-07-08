@@ -1,75 +1,61 @@
 ---
 name: cut-release
-description: Runbook for cutting a release of @sistent/sistent to npm. Use when asked to "cut a release", "release Sistent", "publish a new version", or "ship the next @sistent/sistent". Covers the release-drafter → publish-GitHub-release → npm publish (OIDC provenance) → version-bump-back flow, the workflow_dispatch fallback, preconditions, and verification.
+description: Runbook for cutting a release of @sistent/sistent to npm. Use when asked to "cut a release", "release Sistent", "publish a new version", or "ship the next @sistent/sistent". The flow is: wait for Release Drafter to fold the merged PR into the draft release, then publish that draft — Release Drafter has already set the version and notes, and release.yml handles the npm publish (OIDC provenance) and the auto-merged version-bump-back.
 user-invocable: true
 ---
 
 # Cut a Sistent Release
 
-Publishes a new version of the `@sistent/sistent` npm package. Releasing is **automation-driven**: publishing a GitHub Release (or dispatching the publish workflow) is the trigger — you do **not** run `npm publish` by hand, hand-edit `package.json`'s version, or create a git tag manually. This skill's job is to drive that automation correctly and verify the result.
+Publishes a new version of the `@sistent/sistent` npm package. Releasing is **automation-driven** and requires **no manual preparation**: Release Drafter already computes the next version and writes the release notes, and the publish workflow does the rest. You do **not** run `npm publish`, bump `package.json`, write release notes, or create a git tag by hand.
 
 - **Package:** `@sistent/sistent` (public, scope `@sistent`), published with npm **provenance** via OIDC trusted publishing.
-- **Release branch:** `master` (protected — requires PR approval; `github-actions[bot]` is **not** in the bypass list).
-- **Workflows:** [`.github/workflows/release-drafter.yml`](../../workflows/release-drafter.yml) drafts notes as PRs merge; [`.github/workflows/release.yml`](../../workflows/release.yml) ("Publish Node.js Package") does the actual `npm publish`; `notify-dependents.yml` updates downstream consumers after a successful publish.
+- **Release branch:** `master` (protected — requires PR approval).
+- **Workflows:** [`.github/workflows/release-drafter.yml`](../../workflows/release-drafter.yml) maintains the draft Release; [`.github/workflows/release.yml`](../../workflows/release.yml) ("Publish Node.js Package") does the `npm publish`, then opens **and auto-merges** the version-bump-back PR; `notify-dependents.yml` updates downstream consumers after a successful publish.
 
 ## The release chain (what actually happens)
 
-1. **PRs merge to `master`** → `release-drafter.yml` runs and keeps a **draft GitHub Release** up to date, computing the next version from PR labels (major / minor / patch) and accumulating the changelog.
-2. **A maintainer publishes that draft Release** (sets it non-draft). The tag (e.g. `v0.21.31`) is the version source of truth.
-3. Publishing emits the `release: published` event → **`release.yml`** runs and, on `master`:
-   - Sets `package.json#version` from the tag (`v0.21.31` → `0.21.31`, `npm version --no-git-tag-version --allow-same-version`).
-   - `npm ci --legacy-peer-deps` → `npm run build` → `npm publish --provenance --access public`.
-   - Opens a **version-bump-back PR** (`release/version-bump/vX.Y.Z`) via `peter-evans/create-pull-request` so `master`'s `package.json` / `package-lock.json` track what was published (a direct push is impossible — `master` is protected and the bot isn't a bypass actor).
+1. **A PR merges to `master`** → `release-drafter.yml` runs and updates the **draft GitHub Release**: it folds that PR into the changelog and computes the next version from the PR's labels (major / minor / patch).
+2. **You publish the draft Release.** The tag (e.g. `v0.21.31`) becomes the version source of truth.
+3. Publishing emits `release: published` → **`release.yml`**: sets `package.json#version` from the tag, `npm ci` → `npm run build` → `npm publish --provenance --access public`, then opens the `release/version-bump/vX.Y.Z` PR and **auto-merges it** so `master`'s `package.json`/`package-lock.json` track the published version without sitting idle.
 4. `notify-dependents.yml` fires on the publish workflow's success and bumps downstream consumers (e.g. meshery, meshery-cloud) to the new version.
-
-## Preconditions (verify before publishing)
-
-- **Everything you want in the release is already merged to `master`.** The release ships `master`'s current state, not any open PR. An unmerged PR (e.g. a fix under review) will **not** be in the release — merge it first.
-- **`master` CI is green** on the commit you're releasing.
-- The **draft Release** reflects the intended version and changelog. If the version bump is wrong, it's driven by PR labels — fix labels and let release-drafter re-draft, rather than hand-editing the tag.
 
 ## Procedure
 
-### Option A — publish the drafted release (normal path)
+The only human step is publishing the drafted release — Release Drafter has already done the versioning and notes.
 
-1. Confirm the draft and its target commit:
+1. **Wait for Release Drafter to fold your merged PR into the draft.** After the PR merges to `master`, `release-drafter.yml` runs (a few seconds). Confirm the draft now reflects the merged PR and shows the intended next version:
    ```bash
-   gh release list --repo layer5io/sistent
-   gh release view <vX.Y.Z> --repo layer5io/sistent
+   gh release list --repo layer5io/sistent          # find the draft (isDraft = true)
+   gh release view <vX.Y.Z> --repo layer5io/sistent  # confirm version + notes
    ```
-2. Publish it (this is the trigger — it starts `npm publish`):
+   If the version bump is wrong, it's driven by the merged PR's labels — relabel and let Release Drafter re-draft; do not hand-edit the tag.
+
+2. **Publish the draft Release. That's it.** No version editing, no notes, no tagging:
    ```bash
    gh release edit <vX.Y.Z> --repo layer5io/sistent --draft=false --latest
    ```
+   Publishing triggers `release.yml`, which publishes to npm and auto-merges the version-bump-back PR.
 
-### Option B — manual dispatch (no draft, or re-run a publish)
-
-`release.yml` also accepts `workflow_dispatch` with a `tag_name` input:
-```bash
-gh workflow run release.yml --repo layer5io/sistent -f tag_name=<vX.Y.Z>
-```
-Use this only when you deliberately want to (re)publish a specific version without going through a drafted GitHub Release.
-
-### Verify
+## Verify
 
 1. Watch the publish workflow to success:
    ```bash
-   gh run watch --repo layer5io/sistent $(gh run list --repo layer5io/sistent --workflow release.yml --limit 1 --json databaseId --jq '.[0].databaseId')
+   gh run watch --repo layer5io/sistent \
+     "$(gh run list --repo layer5io/sistent --workflow release.yml --limit 1 --json databaseId --jq '.[0].databaseId')"
    ```
 2. Confirm the version is live on npm:
    ```bash
    npm view @sistent/sistent version
    ```
-3. **Merge the auto-opened `release/version-bump/vX.Y.Z` PR** so `master` stops drifting behind npm. It needs an approving review like any PR (branch protection). If the automated step was skipped, open the bump manually.
-4. Confirm `notify-dependents` opened/updated the downstream consumer bump PRs.
+3. Confirm the `release/version-bump/vX.Y.Z` PR auto-merged (it should close on its own) and that `notify-dependents` opened the downstream consumer bump PRs.
 
 ## What NOT to do
 
-- ❌ Don't `npm publish` locally or `npm version`-tag by hand — the workflow owns publishing (with provenance) and the version is derived from the release tag.
-- ❌ Don't push a `package.json` version bump directly to `master` — it's protected; use the auto-generated bump-back PR.
-- ❌ Don't publish a release expecting it to contain an unmerged PR — merge to `master` first.
-- ❌ Don't delete/republish an already-published npm version — npm publishes are effectively permanent; cut a new patch instead.
+- ❌ Don't `npm publish` locally or `npm version`-tag by hand — the workflow owns publishing (with provenance) and the version comes from the release tag.
+- ❌ Don't edit the draft's version or release notes — Release Drafter owns both; fix PR labels instead.
+- ❌ Don't publish expecting an unmerged PR to be included — the release ships `master`'s current state; merge first, then let Release Drafter update the draft.
+- ❌ Don't republish an already-published npm version — npm publishes are effectively permanent; cut a new patch instead.
 
 ## Permissions note
 
-Cutting a release requires publishing a GitHub Release (or dispatching a workflow) with write access, and it deploys to the public npm registry — an irreversible, outward-facing action. Automated/CI or restricted agent sessions may be blocked from merging protected branches and publishing releases (e.g. `403 "not permitted for this session type"`); in that case, hand these steps to a maintainer with release rights rather than attempting to force them.
+Publishing a release deploys to the public npm registry — an irreversible, outward-facing action, and it runs against a protected branch. Restricted agent / CI sessions can be blocked from publishing releases and merging protected branches (e.g. `403 "not permitted for this session type"`); in that case, hand the publish step to a maintainer with release rights rather than attempting to force it.
