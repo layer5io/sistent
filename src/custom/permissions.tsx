@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { EventBus } from '../actors/eventBus';
-import CustomTooltip from './CustomTooltip/customTooltip';
+import Tooltip from '../base/Tooltip/Tooltip';
 import ShieldIcon from '@mui/icons-material/Shield';
 
 export interface Key {
@@ -137,7 +137,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
         {children}
       </Box>
 
-      <CustomTooltip title={tooltipTitle} placement="top" interactive>
+      <Tooltip title={tooltipTitle} placement="top" interactive>
         <Box
           sx={
             isBadge
@@ -183,7 +183,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
         >
           <ShieldIcon sx={{ fontSize: '14px', color: 'inherit' }} />
         </Box>
-      </CustomTooltip>
+      </Tooltip>
     </Box>
   );
 };
