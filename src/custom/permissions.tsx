@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, ClickAwayListener, Chip } from '@mui/material';
 import { EventBus } from '../actors/eventBus';
 import Tooltip from '../base/Tooltip/Tooltip';
 import ShieldIcon from '@mui/icons-material/Shield';
@@ -64,60 +64,230 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
   children,
   variant = 'inline',
 }) => {
+  const [open, setOpen] = React.useState(false);
+  const uniqueId = React.useId();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setOpen((prev) => {
+      const next = !prev;
+      if (next) {
+        window.dispatchEvent(new CustomEvent('permission-shield-opened', { detail: { id: uniqueId } }));
+      }
+      return next;
+    });
+  };
+
+  React.useEffect(() => {
+    const handleOtherOpen = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail?.id !== uniqueId) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener('permission-shield-opened', handleOtherOpen);
+    return () => {
+      window.removeEventListener('permission-shield-opened', handleOtherOpen);
+    };
+  }, [uniqueId]);
+
   const tooltipTitle = (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, p: 0.5, color: '#FFFFFF' }}>
-      <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-        You don't currently have permission to perform this action.
-      </Typography>
+    <Box sx={{ width: '100%', color: '#FFFFFF', p: 0.5 }}>
+      {/* Header Row */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mb: 1.5,
+          width: '100%',
+        }}
+      >
+        <Typography
+          sx={{
+            fontWeight: 700,
+            fontSize: '1rem',
+            lineHeight: 1.3,
+            color: '#FFFFFF',
+          }}
+        >
+          Access Restricted
+        </Typography>
+
+        {/* Status dot chip */}
+        <Chip
+          size="small"
+          label="Locked"
+          icon={
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: '#EBC024',
+                marginLeft: 6,
+              }}
+            />
+          }
+          sx={{
+            background: 'rgba(235, 192, 36, 0.12)',
+            color: '#EBC024',
+            fontWeight: 600,
+            fontSize: '0.7rem',
+            height: '20px',
+            border: '1px solid rgba(235, 192, 36, 0.25)',
+            '& .MuiChip-label': {
+              paddingLeft: '4px',
+              paddingRight: '6px',
+            },
+          }}
+        />
+      </Box>
+
+      {/* Meta info chips row */}
       {permissionKey.category && (
-        <Box>
-          <Typography
-            variant="caption"
+        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mb: 1.5 }}>
+          <Chip
+            size="small"
+            label={permissionKey.category}
             sx={{
-              display: 'block',
-              fontWeight: 'bold',
-              color: 'rgba(255, 255, 255, 0.7)',
-              textTransform: 'uppercase',
+              background: 'rgba(255, 255, 255, 0.08)',
+              color: 'rgba(255, 255, 255, 0.8)',
+              fontSize: '0.7rem',
+              height: '20px',
             }}
-          >
-            Category
-          </Typography>
-          <Typography variant="body2">{permissionKey.category}</Typography>
+          />
+          {permissionKey.subcategory && (
+            <Chip
+              size="small"
+              label={permissionKey.subcategory}
+              sx={{
+                background: 'rgba(255, 255, 255, 0.08)',
+                color: 'rgba(255, 255, 255, 0.8)',
+                fontSize: '0.7rem',
+                height: '20px',
+              }}
+            />
+          )}
         </Box>
       )}
-      {permissionKey.subcategory && (
-        <Box>
+
+      {/* Divider */}
+      <Box sx={{ height: '1px', background: 'rgba(255, 255, 255, 0.1)', my: 1.25 }} />
+
+      {/* Capabilities Blocked Section */}
+      <Typography
+        sx={{
+          fontSize: '0.7rem',
+          fontWeight: 700,
+          letterSpacing: '0.06em',
+          textTransform: 'uppercase',
+          color: 'rgba(255, 255, 255, 0.7)',
+          mb: 1,
+        }}
+      >
+        Blocked Action
+      </Typography>
+
+      <Box
+        sx={{
+          display: 'inline-flex',
+          borderRadius: '12px',
+          overflow: 'hidden',
+          border: '1px solid rgba(235, 192, 36, 0.35)',
+          fontSize: '0.7rem',
+          fontWeight: 600,
+          lineHeight: 1.4,
+          whiteSpace: 'nowrap',
+          mb: 1.5,
+        }}
+      >
+        <Box
+          sx={{
+            background: 'rgba(235, 192, 36, 0.12)',
+            color: '#EBC024',
+            padding: '1px 8px',
+          }}
+        >
+          {permissionKey.function || permissionKey.subject || 'Action'}
+        </Box>
+        <Box
+          sx={{
+            background: 'rgba(235, 192, 36, 0.32)',
+            color: '#fff',
+            padding: '1px 8px',
+            borderLeft: '1px solid rgba(235, 192, 36, 0.35)',
+          }}
+        >
+          Locked
+        </Box>
+      </Box>
+
+      {/* Divider */}
+      <Box sx={{ height: '1px', background: 'rgba(255, 255, 255, 0.1)', my: 1.25 }} />
+
+      {/* Description Section */}
+      <Typography
+        sx={{
+          fontSize: '0.7rem',
+          fontWeight: 700,
+          letterSpacing: '0.06em',
+          textTransform: 'uppercase',
+          color: 'rgba(255, 255, 255, 0.7)',
+          mb: 0.75,
+        }}
+      >
+        What this permission allows
+      </Typography>
+      <Box
+        component="ul"
+        sx={{
+          paddingLeft: '1.25rem',
+          margin: 0,
+          color: 'rgba(255, 255, 255, 0.9)',
+          fontSize: '0.85rem',
+          lineHeight: 1.45,
+        }}
+      >
+        <Box component="li">
+          {permissionKey.description || `Allows you to perform the ${permissionKey.function || permissionKey.subject || 'selected'} operation.`}
+        </Box>
+      </Box>
+
+      {/* Resource Details / Key Info */}
+      {permissionKey.id && (
+        <>
+          <Box sx={{ height: '1px', background: 'rgba(255, 255, 255, 0.1)', my: 1.25 }} />
           <Typography
-            variant="caption"
             sx={{
-              display: 'block',
-              fontWeight: 'bold',
-              color: 'rgba(255, 255, 255, 0.7)',
+              fontSize: '0.7rem',
+              fontWeight: 700,
+              letterSpacing: '0.06em',
               textTransform: 'uppercase',
+              color: 'rgba(255, 255, 255, 0.7)',
+              mb: 0.75,
             }}
           >
-            Subcategory
+            Resource ID
           </Typography>
-          <Typography variant="body2">{permissionKey.subcategory}</Typography>
-        </Box>
-      )}
-      {(permissionKey.description || permissionKey.function) && (
-        <Box>
           <Typography
-            variant="caption"
             sx={{
-              display: 'block',
-              fontWeight: 'bold',
+              fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+              fontSize: '0.7rem',
+              background: 'rgba(0, 0, 0, 0.2)',
+              padding: '4px 6px',
+              borderRadius: '4px',
               color: 'rgba(255, 255, 255, 0.7)',
-              textTransform: 'uppercase',
+              wordBreak: 'break-all',
             }}
           >
-            Description
+            {permissionKey.id}
           </Typography>
-          <Typography variant="body2">
-            {permissionKey.description || permissionKey.function}
-          </Typography>
-        </Box>
+        </>
       )}
     </Box>
   );
@@ -125,66 +295,95 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
   const isBadge = variant === 'badge';
 
   return (
-    <Box
-      sx={{
-        position: 'relative',
-        display: isBadge ? 'inline-flex' : 'flex',
-        width: isBadge ? 'auto' : '100%',
-        alignItems: 'center',
-      }}
-    >
-      <Box sx={{ width: '100%', opacity: 0.5, pointerEvents: 'none' }}>
-        {children}
-      </Box>
-
-      <Tooltip title={tooltipTitle} placement="top" interactive>
-        <Box
-          sx={
-            isBadge
-              ? {
-                  position: 'absolute',
-                  top: -6,
-                  right: -6,
-                  backgroundColor: 'rgba(30, 30, 30, 0.9)',
-                  color: '#808080',
-                  borderRadius: '50%',
-                  width: 18,
-                  height: 18,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: 2,
-                  cursor: 'help',
-                  zIndex: 10,
-                  pointerEvents: 'auto',
-                  transition: 'color 0.2s ease',
-                  '&:hover': {
-                    color: '#EBC024',
-                  },
-                }
-              : {
-                  position: 'absolute',
-                  top: '50%',
-                  right: 8,
-                  transform: 'translateY(-50%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                  color: '#808080',
-                  transition: 'color 0.2s ease',
-                  zIndex: 10,
-                  pointerEvents: 'auto',
-                  '&:hover': {
-                    color: '#EBC024',
-                  },
-                }
-          }
-        >
-          <ShieldIcon sx={{ fontSize: '14px', color: 'inherit' }} />
+    <ClickAwayListener onClickAway={handleClose}>
+      <Box
+        sx={{
+          position: 'relative',
+          display: isBadge ? 'inline-flex' : 'flex',
+          width: isBadge ? 'auto' : '100%',
+          alignItems: 'center',
+        }}
+      >
+        <Box sx={{ width: '100%', opacity: 0.5, pointerEvents: 'none' }}>
+          {children}
         </Box>
-      </Tooltip>
-    </Box>
+
+        <Tooltip
+          title={tooltipTitle}
+          placement="top"
+          interactive
+          open={open}
+          onClose={handleClose}
+          disableHoverListener
+          disableFocusListener
+          disableTouchListener
+          slotProps={{
+            tooltip: {
+              sx: {
+                background: '#1A1A1A',
+                color: '#FFFFFF',
+                maxWidth: 420,
+                minWidth: 320,
+                padding: '16px',
+                borderLeft: '4px solid #EBC024',
+                borderRadius: '8px',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+                '& .MuiTypography-root': {
+                  color: 'inherit',
+                },
+              },
+            },
+          }}
+        >
+          <Box
+            onClick={handleToggle}
+            sx={
+              isBadge
+                ? {
+                    position: 'absolute',
+                    top: -6,
+                    right: -6,
+                    backgroundColor: 'rgba(30, 30, 30, 0.9)',
+                    color: '#808080',
+                    borderRadius: '50%',
+                    width: 18,
+                    height: 18,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: 2,
+                    cursor: 'help',
+                    zIndex: 10,
+                    pointerEvents: 'auto',
+                    transition: 'color 0.2s ease',
+                    '&:hover': {
+                      color: '#EBC024',
+                    },
+                  }
+                : {
+                    position: 'absolute',
+                    top: '50%',
+                    right: 8,
+                    transform: 'translateY(-50%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    color: '#808080',
+                    transition: 'color 0.2s ease',
+                    zIndex: 10,
+                    pointerEvents: 'auto',
+                    '&:hover': {
+                      color: '#EBC024',
+                    },
+                  }
+            }
+          >
+            <ShieldIcon sx={{ fontSize: '14px', color: 'inherit' }} />
+          </Box>
+        </Tooltip>
+      </Box>
+    </ClickAwayListener>
   );
 };
 
