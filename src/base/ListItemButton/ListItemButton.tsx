@@ -24,5 +24,7 @@ const ListItemButton = React.forwardRef<HTMLDivElement, ListItemButtonProps>((pr
   return <MuiListItemButton {...rest} ref={ref} disabled={disabled} />;
 });
 
+ListItemButton.displayName = 'ListItemButton';
+
 export { ListItemButton };
 export default ListItemButton;

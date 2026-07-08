@@ -4,6 +4,21 @@ import { EventBus } from '../actors/eventBus';
 import Tooltip from '../base/Tooltip/Tooltip';
 import ShieldIcon from '@mui/icons-material/Shield';
 
+const SECTION_HEADING_SX = {
+  fontSize: '0.7rem',
+  fontWeight: 700,
+  letterSpacing: '0.06em',
+  textTransform: 'uppercase' as const,
+  color: 'rgba(255, 255, 255, 0.7)',
+  mb: 0.75,
+};
+
+const DIVIDER_SX = {
+  height: '1px',
+  background: 'rgba(255, 255, 255, 0.1)',
+  my: 1.25,
+};
+
 export interface Key {
   // Backwards compatibility for old CanShow
   subject?: string;
@@ -177,21 +192,10 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
       )}
 
       {/* Divider */}
-      <Box sx={{ height: '1px', background: 'rgba(255, 255, 255, 0.1)', my: 1.25 }} />
+      <Box sx={DIVIDER_SX} />
 
       {/* Capabilities Blocked Section */}
-      <Typography
-        sx={{
-          fontSize: '0.7rem',
-          fontWeight: 700,
-          letterSpacing: '0.06em',
-          textTransform: 'uppercase',
-          color: 'rgba(255, 255, 255, 0.7)',
-          mb: 1,
-        }}
-      >
-        Blocked Action
-      </Typography>
+      <Typography sx={{ ...SECTION_HEADING_SX, mb: 1 }}>Blocked Action</Typography>
 
       <Box
         sx={{
@@ -228,21 +232,10 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
       </Box>
 
       {/* Divider */}
-      <Box sx={{ height: '1px', background: 'rgba(255, 255, 255, 0.1)', my: 1.25 }} />
+      <Box sx={DIVIDER_SX} />
 
       {/* Description Section */}
-      <Typography
-        sx={{
-          fontSize: '0.7rem',
-          fontWeight: 700,
-          letterSpacing: '0.06em',
-          textTransform: 'uppercase',
-          color: 'rgba(255, 255, 255, 0.7)',
-          mb: 0.75,
-        }}
-      >
-        What this permission allows
-      </Typography>
+      <Typography sx={SECTION_HEADING_SX}>What this permission allows</Typography>
       <Box
         component="ul"
         sx={{
@@ -261,19 +254,8 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
       {/* Resource Details / Key Info */}
       {permissionKey.id && (
         <>
-          <Box sx={{ height: '1px', background: 'rgba(255, 255, 255, 0.1)', my: 1.25 }} />
-          <Typography
-            sx={{
-              fontSize: '0.7rem',
-              fontWeight: 700,
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              color: 'rgba(255, 255, 255, 0.7)',
-              mb: 0.75,
-            }}
-          >
-            Resource ID
-          </Typography>
+          <Box sx={DIVIDER_SX} />
+          <Typography sx={SECTION_HEADING_SX}>Resource ID</Typography>
           <Typography
             sx={{
               fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
@@ -311,7 +293,6 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
         <Tooltip
           title={tooltipTitle}
           placement="top"
-          interactive
           open={open}
           onClose={handleClose}
           disableHoverListener
