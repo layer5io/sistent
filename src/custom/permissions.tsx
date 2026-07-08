@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React from 'react';
 import { Box, Typography } from '@mui/material';
 import { EventBus } from '../actors/eventBus';
 import CustomTooltip from './CustomTooltip/customTooltip';
@@ -43,69 +43,6 @@ export interface HasKeyProps<ReasonEvent> {
   invert_action?: InvertAction[];
 }
 
-export type CANFunction = (action: string, subject: string) => boolean;
-
-export interface PermissionContextType {
-  CAN?: CANFunction;
-}
-
-export const PermissionContext = createContext<PermissionContextType>({});
-
-export const PermissionProvider: React.FC<{
-  CAN: CANFunction;
-  children: React.ReactNode;
-}> = ({ CAN, children }) => {
-  return (
-    <PermissionContext.Provider value={{ CAN }}>
-      {children}
-    </PermissionContext.Provider>
-  );
-};
-
-export const usePermissionContext = () => useContext(PermissionContext);
-
-export type PermissionAction = 'disable' | 'hide' | 'showShield' | 'grayOut';
-
-export interface UsePermissionProps {
-  permissionKey?: Key;
-  permissionAction?: PermissionAction;
-}
-
-/**
- * usePermission Hook
- * Evaluates whether the user has the specified permission key using the context CAN function.
- */
-export const usePermission = (props?: UsePermissionProps) => {
-  const { CAN } = usePermissionContext();
-  const permissionKey = props?.permissionKey;
-  const permissionAction = props?.permissionAction || 'disable';
-
-  if (!permissionKey || !CAN) {
-    return {
-      hasPermission: true,
-      action: permissionAction,
-    };
-  }
-
-  // Support both new Key (id, function) and old Key (action, subject)
-  const actionString = permissionKey.id || permissionKey.action || '';
-  const subjectString = permissionKey.function || permissionKey.subject || '';
-
-  if (!actionString || !subjectString) {
-    return {
-      hasPermission: true,
-      action: permissionAction,
-    };
-  }
-
-  const hasPermission = CAN(actionString, subjectString);
-
-  return {
-    hasPermission,
-    action: permissionAction,
-  };
-};
-
 export interface PermissionShieldProps {
   permissionKey: Key;
   children: React.ReactNode;
@@ -114,7 +51,13 @@ export interface PermissionShieldProps {
 
 /**
  * PermissionShield Wrapper Component
- * Grays out its children and attaches a hoverable/clickable shield (lock) icon showing permission metadata.
+ *
+ * Renders children with a shield icon overlay showing permission metadata.
+ * This is a pure visual component — it does NOT check permissions itself.
+ * The consumer is responsible for determining disabled state (e.g. via CAN()).
+ *
+ * Usage in base components: when `disabled` is true AND `permissionKey` is provided,
+ * the component automatically wraps itself in PermissionShield.
  */
 export const PermissionShield: React.FC<PermissionShieldProps> = ({
   permissionKey,

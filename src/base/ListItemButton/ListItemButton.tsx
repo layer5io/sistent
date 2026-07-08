@@ -3,34 +3,25 @@ import {
   ListItemButtonProps as MuiListItemButtonProps
 } from '@mui/material';
 import React from 'react';
-import { Key, PermissionAction, usePermission, PermissionShield } from '../../custom/permissions';
+import { Key, PermissionShield } from '../../custom/permissions';
 
 export interface ListItemButtonProps extends MuiListItemButtonProps {
   permissionKey?: Key;
-  permissionAction?: PermissionAction;
 }
 
 const ListItemButton = React.forwardRef<HTMLDivElement, ListItemButtonProps>((props, ref) => {
-  const { permissionKey, permissionAction = 'disable', ...rest } = props;
-  const { hasPermission, action } = usePermission({ permissionKey, permissionAction });
+  const { permissionKey, disabled, ...rest } = props;
 
-  if (!hasPermission) {
-    switch (action) {
-      case 'hide':
-        return null;
-      case 'showShield':
-        return (
-          <PermissionShield permissionKey={permissionKey!} variant="inline">
-            <MuiListItemButton {...rest} ref={ref} disabled={true} sx={{ width: '100%', ...rest.sx }} />
-          </PermissionShield>
-        );
-      case 'disable':
-      default:
-        return <MuiListItemButton {...rest} ref={ref} disabled={true} />;
-    }
+  // When disabled AND permissionKey is provided, show the shield overlay
+  if (disabled && permissionKey) {
+    return (
+      <PermissionShield permissionKey={permissionKey} variant="inline">
+        <MuiListItemButton {...rest} ref={ref} disabled={true} />
+      </PermissionShield>
+    );
   }
 
-  return <MuiListItemButton {...rest} ref={ref} />;
+  return <MuiListItemButton {...rest} ref={ref} disabled={disabled} />;
 });
 
 export { ListItemButton };
