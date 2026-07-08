@@ -45,3 +45,12 @@ export {
   type QuickDateRangeOption,
   type UniversalFilterProps
 } from './custom/UniversalFilter';
+// Same nested-barrel dts-drop quirk as FeedbackButton above: sanitizeCatalogImageUrl
+// reaches the entry only through `export * from './custom'`, so rollup-plugin-dts
+// drops it from the bundled d.ts and `import { sanitizeCatalogImageUrl } from
+// "@sistent/sistent"` fails type-checking despite the runtime export. It lives in its
+// own dependency-free leaf module (not `Helper.ts`, which imports the untyped
+// `js-yaml` and would crash the dts build the moment the entry re-exports from it —
+// the same rationale as `TableActions` vs `ResponsiveDataTable`) so this explicit
+// re-export forces the declaration into the published bundle.
+export { sanitizeCatalogImageUrl } from './custom/CustomCatalog/sanitizeCatalogImageUrl';
