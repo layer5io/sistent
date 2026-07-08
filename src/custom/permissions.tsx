@@ -251,9 +251,9 @@ export const createCanShow = (
         }}
         onClick={onClick}
       >
-        {React.cloneElement(children as React.ReactElement<any>, {
+        {React.cloneElement(children as React.ReactElement<{ style?: React.CSSProperties; onClick?: React.MouseEventHandler }>, {
           style: {
-            ...((children as React.ReactElement<any>).props.style as React.CSSProperties),
+            ...((children as React.ReactElement<{ style?: React.CSSProperties; onClick?: React.MouseEventHandler }>).props.style || {}),
             cursor: 'pointer',
             pointerEvents,
             opacity: opacity,
