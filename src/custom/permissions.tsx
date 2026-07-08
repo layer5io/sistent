@@ -134,7 +134,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
             color: '#FFFFFF',
           }}
         >
-          Access Restricted
+          {permissionKey.function || permissionKey.subject || 'Access Restricted'}
         </Typography>
 
         {/* Status dot chip */}
@@ -149,6 +149,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                 borderRadius: '50%',
                 background: '#EBC024',
                 marginLeft: 6,
+                marginRight: 0,
               }}
             />
           }
@@ -194,46 +195,6 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           )}
         </Box>
       )}
-
-      {/* Divider */}
-      <Box sx={DIVIDER_SX} />
-
-      {/* Capabilities Blocked Section */}
-      <Typography sx={{ ...SECTION_HEADING_SX, mb: 1 }}>Blocked Action</Typography>
-
-      <Box
-        sx={{
-          display: 'inline-flex',
-          borderRadius: '12px',
-          overflow: 'hidden',
-          border: '1px solid rgba(235, 192, 36, 0.35)',
-          fontSize: '0.7rem',
-          fontWeight: 600,
-          lineHeight: 1.4,
-          whiteSpace: 'nowrap',
-          mb: 1.5,
-        }}
-      >
-        <Box
-          sx={{
-            background: 'rgba(235, 192, 36, 0.12)',
-            color: '#EBC024',
-            padding: '1px 8px',
-          }}
-        >
-          {permissionKey.function || permissionKey.subject || 'Action'}
-        </Box>
-        <Box
-          sx={{
-            background: 'rgba(235, 192, 36, 0.32)',
-            color: '#fff',
-            padding: '1px 8px',
-            borderLeft: '1px solid rgba(235, 192, 36, 0.35)',
-          }}
-        >
-          Locked
-        </Box>
-      </Box>
 
       {/* Divider */}
       <Box sx={DIVIDER_SX} />
