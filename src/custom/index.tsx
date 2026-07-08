@@ -6,7 +6,12 @@ import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter
 import { ChapterCard } from './ChapterCard';
 import { CollaboratorAvatarGroup } from './CollaboratorAvatarGroup';
 import { ConnectionChip } from './ConnectionChip';
-import { CatalogCardDesignLogo, CustomCatalogCard, EmptyStateCard } from './CustomCatalog';
+import {
+  CatalogCardDesignLogo,
+  CustomCatalogCard,
+  EmptyStateCard,
+  sanitizeCatalogImageUrl
+} from './CustomCatalog';
 import {
   CustomColumn,
   CustomColumnVisibilityControl,
@@ -112,6 +117,7 @@ export {
   ModalCard,
   PopperListener,
   ResponsiveDataTable,
+  sanitizeCatalogImageUrl,
   SearchBar,
   StyledDialogActions,
   StyledDialogContent,
