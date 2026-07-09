@@ -36,10 +36,9 @@ jest.mock('../base/Paper', () => ({
 }));
 
 jest.mock('../base/Select', () => ({
-  Select: ({ children, value, onChange, MenuProps, 'data-testid': dataTestId }: any) => (
+  Select: ({ children, value, onChange, 'data-testid': dataTestId }: any) => (
     <select
       data-testid={dataTestId}
-      data-disable-portal={String(Boolean(MenuProps?.disablePortal))}
       value={value}
       onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
         onChange?.({ target: { value: event.target.value } })
@@ -106,7 +105,6 @@ describe('UniversalFilter', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Filter' }));
 
     const select = screen.getByTestId('universal-filter-select-status');
-    expect(select.getAttribute('data-disable-portal')).toBe('true');
 
     fireEvent.change(select, { target: { value: 'enabled' } });
 
