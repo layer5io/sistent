@@ -3,9 +3,28 @@ import {
   ListItemButtonProps as MuiListItemButtonProps
 } from '@mui/material';
 import React from 'react';
+import { Key, PermissionShield } from '../../custom/permissions';
 
-const ListItemButton = React.forwardRef<HTMLDivElement, MuiListItemButtonProps>((props, ref) => {
-  return <MuiListItemButton {...props} ref={ref} />;
+export interface ListItemButtonProps extends MuiListItemButtonProps {
+  permissionKey?: Key;
+}
+
+const ListItemButton = React.forwardRef<HTMLDivElement, ListItemButtonProps>((props, ref) => {
+  const { permissionKey, disabled, ...rest } = props;
+
+  // When disabled AND permissionKey is provided, show the shield overlay
+  if (disabled && permissionKey) {
+    return (
+      <PermissionShield permissionKey={permissionKey} variant="inline">
+        <MuiListItemButton {...rest} ref={ref} disabled={true} />
+      </PermissionShield>
+    );
+  }
+
+  return <MuiListItemButton {...rest} ref={ref} disabled={disabled} />;
 });
 
+ListItemButton.displayName = 'ListItemButton';
+
 export { ListItemButton };
+export default ListItemButton;
