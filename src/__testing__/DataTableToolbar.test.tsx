@@ -81,6 +81,31 @@ describe('DataTableToolbar', () => {
   it('applies custom sx styles', () => {
     const { container } = renderWithTheme(<DataTableToolbar sx={{ marginTop: '32px' }} />);
     const root = container.firstChild as HTMLElement;
-    expect(root).toHaveStyle('margin-top: 32px');
+    expect(window.getComputedStyle(root).marginTop).toBe('32px');
+  });
+
+  it('renders searchHelperText when provided', () => {
+    renderWithTheme(
+      <DataTableToolbar searchHelperText="Search by name, kind, category" />
+    );
+    expect(screen.getByText('Search by name, kind, category')).toBeTruthy();
+  });
+
+  it('renders tabs content when provided', () => {
+    renderWithTheme(
+      <DataTableToolbar tabs={<div>Tab Content</div>} />
+    );
+    expect(screen.getByText('Tab Content')).toBeTruthy();
+  });
+
+  it('renders both searchHelperText and tabs together', () => {
+    renderWithTheme(
+      <DataTableToolbar
+        searchHelperText="Search items"
+        tabs={<div>My Tabs</div>}
+      />
+    );
+    expect(screen.getByText('Search items')).toBeTruthy();
+    expect(screen.getByText('My Tabs')).toBeTruthy();
   });
 });

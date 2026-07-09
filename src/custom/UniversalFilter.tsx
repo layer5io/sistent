@@ -1,7 +1,7 @@
 import { Drawer, styled, useMediaQuery } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
-import { Badge, Button } from '../base';
+import { Button, IconButton } from '../base';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { InputLabel } from '../base/InputLabel';
 import { MenuItem } from '../base/MenuItem';
@@ -175,35 +175,16 @@ function UniversalFilter({
     </div>
   );
 
-  const activeFilterCount = Object.values(selectedFilters).filter(
-    (value) => value && value !== 'All'
-  ).length;
-
   return (
     <>
       <div id={id} data-testid={testId}>
-        <Badge
-          badgeContent={activeFilterCount}
-          color="primary"
-          overlap="circular"
-          invisible={activeFilterCount === 0}
-          sx={{
-            '& .MuiBadge-badge': {
-              fontSize: (t) => t.typography.caption.fontSize,
-              height: 20,
-              minWidth: 20
-            }
-          }}
+        <IconButton
+          onClick={handleClick}
+          data-testid={`${testId}-trigger`}
+          size="small"
         >
-          <Button
-            variant="outlined"
-            onClick={handleClick}
-            startIcon={<FilterIcon fill={theme.palette.icon.default} />}
-            data-testid={`${testId}-trigger`}
-          >
-            Filter
-          </Button>
-        </Badge>
+          <FilterIcon fill={theme.palette.icon.default} />
+        </IconButton>
         {!isMobile ? (
           <PopperListener
             id={open && anchorEl ? 'transition-popper' : undefined}

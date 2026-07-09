@@ -1,4 +1,4 @@
-import { Box } from '../../base';
+import { Box, Typography } from '../../base';
 import { styled } from '../../theme';
 import type { DataTableToolbarProps } from './DataTableToolbar.types';
 
@@ -35,6 +35,8 @@ export function DataTableToolbar({
   filter,
   columnVisibility,
   viewSwitch,
+  searchHelperText,
+  tabs,
   sx
 }: DataTableToolbarProps): JSX.Element {
   const hasLeftContent = Boolean(primaryActions);
@@ -47,18 +49,26 @@ export function DataTableToolbar({
     Boolean(viewSwitch);
 
   return (
-    <ToolbarRoot sx={sx}>
-      {hasLeftContent && <Section>{primaryActions}</Section>}
-      {hasRightContent && (
-        <Section>
-          {bulkOperations}
-          {secondaryActions}
-          {search}
-          {filter}
-          {columnVisibility}
-          {viewSwitch}
-        </Section>
+    <>
+      <ToolbarRoot sx={sx}>
+        {hasLeftContent && <Section>{primaryActions}</Section>}
+        {hasRightContent && (
+          <Section>
+            {bulkOperations}
+            {secondaryActions}
+            {search}
+            {filter}
+            {columnVisibility}
+            {viewSwitch}
+          </Section>
+        )}
+      </ToolbarRoot>
+      {searchHelperText && (
+        <Typography variant="caption" color="textSecondary">
+          {searchHelperText}
+        </Typography>
       )}
-    </ToolbarRoot>
+      {tabs && <Box sx={{ mt: 2 }}>{tabs}</Box>}
+    </>
   );
 }
