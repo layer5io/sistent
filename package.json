@@ -1,6 +1,6 @@
 {
   "name": "@sistent/sistent",
-  "version": "0.21.30",
+  "version": "0.21.31",
   "description": "Reusable React Components and SVG Icons library",
   "repository": {
     "type": "git",
@@ -137,7 +137,7 @@
     "@layer5/meshery-design-embed": "^0.6.0",
     "@sistent/mui-datatables": "^8.0.0",
     "@types/mui-datatables": "*",
-    "billboard.js": "^3.18.0",
+    "billboard.js": "^4.0.3",
     "js-yaml": "^4.1.1",
     "lodash": "^4.18.1",
     "moment": "^2.30.1",
