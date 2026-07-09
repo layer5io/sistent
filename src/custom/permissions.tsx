@@ -1,22 +1,14 @@
+import KeyIcon from '@mui/icons-material/Key';
+import LaunchIcon from '@mui/icons-material/Launch';
+import SecurityIcon from '@mui/icons-material/Security';
 import React from 'react';
-import { Box, Typography, ClickAwayListener, Chip } from '@mui/material';
 import { EventBus } from '../actors/eventBus';
-import Tooltip from '../base/Tooltip/Tooltip';
-import ShieldIcon from '@mui/icons-material/Shield';
-
-const SECTION_HEADING_SX = {
-  fontSize: '0.7rem',
-  fontWeight: 700,
-  letterSpacing: '0.06em',
-  textTransform: 'uppercase' as const,
-  color: 'rgba(255, 255, 255, 0.7)',
-  mb: 0.75,
-};
+import { Box, Chip, ClickAwayListener, Link, Tooltip, Typography } from '../base';
 
 const DIVIDER_SX = {
   height: '1px',
   background: 'rgba(255, 255, 255, 0.1)',
-  my: 1.25,
+  my: 1.25
 };
 
 export interface Key {
@@ -77,9 +69,10 @@ export interface PermissionShieldProps {
 export const PermissionShield: React.FC<PermissionShieldProps> = ({
   permissionKey,
   children,
-  variant = 'inline',
+  variant = 'inline'
 }) => {
   const [open, setOpen] = React.useState(false);
+  const [copied, setCopied] = React.useState(false);
   const uniqueId = React.useId();
 
   const handleClose = () => {
@@ -91,7 +84,9 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
     setOpen((prev) => {
       const next = !prev;
       if (next) {
-        window.dispatchEvent(new CustomEvent('permission-shield-opened', { detail: { id: uniqueId } }));
+        window.dispatchEvent(
+          new CustomEvent('permission-shield-opened', { detail: { id: uniqueId } })
+        );
       }
       return next;
     });
@@ -116,71 +111,112 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
 
   const tooltipTitle = (
     <Box sx={{ width: '100%', color: '#FFFFFF', p: 0.5 }}>
-      {/* Header Row */}
-      <Box
+      {/* Title: AUTHORIZATION REQUIRED — medium gray */}
+      <Typography
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mb: 1.5,
-          width: '100%',
+          fontSize: '0.65rem',
+          fontWeight: 800,
+          color: '#9E9E9E',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          mb: 0.5
         }}
       >
+        Authorization Required
+      </Typography>
+
+      {/* Subtitle */}
+      <Typography
+        sx={{
+          fontSize: '0.75rem',
+          color: 'rgba(255, 255, 255, 0.75)',
+          mb: 1.25,
+          lineHeight: 1.3
+        }}
+      >
+        Missing requisite key
+      </Typography>
+
+      {/* Divider */}
+      <Box sx={DIVIDER_SX} />
+
+      {/* Key Row: KeyIcon (doubles as copy button) + key name */}
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mt: 1, mb: 0.25 }}>
+        <Tooltip title={copied ? 'Copied!' : 'Copy key ID to clipboard'} placement="top">
+          <Box
+            component="span"
+            onClick={(e: React.MouseEvent) => {
+              e.stopPropagation();
+              navigator.clipboard.writeText(permissionKey.id || permissionKey.action || '');
+              setCopied(true);
+              setTimeout(() => setCopied(false), 1500);
+            }}
+            sx={{
+              display: 'inline-flex',
+              cursor: 'pointer',
+              color: copied ? '#EBC024' : 'rgba(255, 255, 255, 0.7)',
+              transition: 'color 0.2s ease',
+              '&:hover': {
+                color: '#EBC024'
+              }
+            }}
+          >
+            <KeyIcon sx={{ fontSize: '1rem' }} />
+          </Box>
+        </Tooltip>
         <Typography
           sx={{
             fontWeight: 700,
-            fontSize: '1rem',
+            fontSize: '0.95rem',
             lineHeight: 1.3,
-            color: '#FFFFFF',
+            color: '#FFFFFF'
           }}
         >
           {permissionKey.function || permissionKey.subject || 'Access Restricted'}
         </Typography>
-
-        {/* Status dot chip */}
-        <Chip
-          size="small"
-          label="Locked"
-          icon={
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: '#EBC024',
-                marginLeft: 6,
-                marginRight: 0,
-              }}
-            />
-          }
-          sx={{
-            background: 'rgba(235, 192, 36, 0.12)',
-            color: '#EBC024',
-            fontWeight: 600,
-            fontSize: '0.7rem',
-            height: '20px',
-            border: '1px solid rgba(235, 192, 36, 0.25)',
-            '& .MuiChip-label': {
-              paddingLeft: '4px',
-              paddingRight: '6px',
-            },
-          }}
-        />
       </Box>
 
-      {/* Meta info chips row */}
-      {permissionKey.category && (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75, mb: 1.5 }}>
-          <Chip
-            size="small"
-            label={permissionKey.category}
-            sx={{
-              background: 'rgba(255, 255, 255, 0.08)',
-              color: 'rgba(255, 255, 255, 0.8)',
-              fontSize: '0.7rem',
-              height: '20px',
-            }}
-          />
+      {/* Description — italicized, equal padding both sides, no divider from key name */}
+      <Box sx={{ px: 1, mb: 1.25 }}>
+        <Typography
+          sx={{
+            fontStyle: 'italic',
+            color: 'rgba(255, 255, 255, 0.7)',
+            fontSize: '0.8rem',
+            lineHeight: 1.4
+          }}
+        >
+          {permissionKey.description ||
+            `Allows you to perform the ${permissionKey.function || permissionKey.subject || 'selected'} operation.`}
+        </Typography>
+      </Box>
+
+      {/* Divider */}
+      <Box sx={DIVIDER_SX} />
+
+      {/* Bottom row: Category/Subcategory chips (left) + Key Reference link (right) */}
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 0.75,
+          mt: 0.5
+        }}
+      >
+        <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap' }}>
+          {permissionKey.category && (
+            <Chip
+              size="small"
+              label={permissionKey.category}
+              sx={{
+                background: 'rgba(255, 255, 255, 0.08)',
+                color: 'rgba(255, 255, 255, 0.8)',
+                fontSize: '0.7rem',
+                height: '20px'
+              }}
+            />
+          )}
           {permissionKey.subcategory && (
             <Chip
               size="small"
@@ -189,53 +225,139 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                 background: 'rgba(255, 255, 255, 0.08)',
                 color: 'rgba(255, 255, 255, 0.8)',
                 fontSize: '0.7rem',
-                height: '20px',
+                height: '20px'
               }}
             />
           )}
         </Box>
-      )}
-
-      {/* Divider */}
-      <Box sx={DIVIDER_SX} />
-
-      {/* Description Section */}
-      <Typography sx={SECTION_HEADING_SX}>What this permission allows</Typography>
-      <Box
-        component="ul"
-        sx={{
-          paddingLeft: '1.25rem',
-          margin: 0,
-          color: 'rgba(255, 255, 255, 0.9)',
-          fontSize: '0.85rem',
-          lineHeight: 1.45,
-        }}
-      >
-        <Box component="li">
-          {permissionKey.description || `Allows you to perform the ${permissionKey.function || permissionKey.subject || 'selected'} operation.`}
-        </Box>
-      </Box>
-
-      {/* Resource Details / Key Info */}
-      {permissionKey.id && (
-        <>
-          <Box sx={DIVIDER_SX} />
-          <Typography sx={SECTION_HEADING_SX}>Resource ID</Typography>
-          <Typography
+        <Link
+          href="https://docs.meshery.io/reference/references/permissions/"
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e: React.MouseEvent) => e.stopPropagation()}
+          sx={{
+            display: 'inline-flex',
+            alignItems: 'baseline',
+            fontSize: '0.75rem',
+            color: '#EBC024',
+            textDecoration: 'none',
+            fontWeight: 600,
+            '&:hover': {
+              textDecoration: 'underline'
+            }
+          }}
+        >
+          Key Reference
+          <Box
+            component="span"
             sx={{
-              fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
-              fontSize: '0.7rem',
-              background: 'rgba(0, 0, 0, 0.2)',
-              padding: '4px 6px',
-              borderRadius: '4px',
-              color: 'rgba(255, 255, 255, 0.7)',
-              wordBreak: 'break-all',
+              fontSize: '10px',
+              ml: '2px',
+              verticalAlign: 'super',
+              lineHeight: 0,
+              position: 'relative',
+              top: '-0.3em'
             }}
           >
-            {permissionKey.id}
-          </Typography>
-        </>
-      )}
+            <LaunchIcon style={{ fontSize: '10px', width: '10px', height: '10px' }} />
+          </Box>
+        </Link>
+      </Box>
+
+      {/* User / Org / Role context — read from sessionStorage */}
+      {(() => {
+        try {
+          const org = JSON.parse(sessionStorage.getItem('currentOrg') || 'null');
+          const user = JSON.parse(sessionStorage.getItem('user') || 'null');
+          const orgName = org?.name;
+          const firstName = user?.firstName || user?.first_name || '';
+          const lastName = user?.lastName || user?.last_name || '';
+          const userName = `${firstName} ${lastName}`.trim() || user?.name || user?.email;
+          const orgId = org?.id;
+          const orgWithRoles = user?.organizations?.organizationsWithRoles?.find(
+            (o: any) => o.id === orgId
+          );
+          const roleNames: string[] = orgWithRoles?.roleNames || user?.roleNames || [];
+
+          if (!orgName && !userName) return null;
+
+          return (
+            <>
+              <Box sx={DIVIDER_SX} />
+              <Box
+                sx={{
+                  background: 'rgba(255, 255, 255, 0.02)',
+                  border: '1px solid rgba(255, 255, 255, 0.05)',
+                  borderRadius: '6px',
+                  p: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 0.75,
+                  mb: 0.75
+                }}
+              >
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+                  <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                    User
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '0.72rem',
+                      color: '#FFFFFF',
+                      fontWeight: 600,
+                      textAlign: 'right'
+                    }}
+                  >
+                    {userName}
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+                  <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                    Org
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '0.72rem',
+                      color: '#FFFFFF',
+                      fontWeight: 600,
+                      textAlign: 'right'
+                    }}
+                  >
+                    {orgName || 'Private Org'}
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+                  <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                    Role(s)
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontSize: '0.72rem',
+                      color: '#FFFFFF',
+                      fontWeight: 600,
+                      textAlign: 'right'
+                    }}
+                  >
+                    {roleNames.length > 0 ? roleNames.join(', ') : 'None'}
+                  </Typography>
+                </Box>
+              </Box>
+              <Typography
+                sx={{
+                  fontSize: '0.68rem',
+                  fontStyle: 'italic',
+                  color: 'rgba(255, 255, 255, 0.45)',
+                  lineHeight: 1.35
+                }}
+              >
+                Seeing this message in error? Contact your Admins to request access.
+              </Typography>
+            </>
+          );
+        } catch {
+          return null;
+        }
+      })()}
     </Box>
   );
 
@@ -248,12 +370,10 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           position: 'relative',
           display: isBadge ? 'inline-flex' : 'flex',
           width: isBadge ? 'auto' : '100%',
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
-        <Box sx={{ width: '100%', opacity: 0.5, pointerEvents: 'none' }}>
-          {children}
-        </Box>
+        <Box sx={{ width: '100%', opacity: 0.5, pointerEvents: 'none' }}>{children}</Box>
 
         <Tooltip
           title={tooltipTitle}
@@ -268,17 +388,14 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
               sx: {
                 background: '#1A1A1A',
                 color: '#FFFFFF',
-                maxWidth: 420,
-                minWidth: 320,
-                padding: '16px',
+                maxWidth: 360,
+                minWidth: 300,
+                padding: '12px',
                 borderLeft: '4px solid #EBC024',
                 borderRadius: '8px',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-                '& .MuiTypography-root': {
-                  color: 'inherit',
-                },
-              },
-            },
+                boxShadow: '0 8px 32px rgba(0,0,0,0.4)'
+              }
+            }
           }}
         >
           <Box
@@ -303,8 +420,8 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                     pointerEvents: 'auto',
                     transition: 'color 0.2s ease',
                     '&:hover': {
-                      color: '#EBC024',
-                    },
+                      color: '#EBC024'
+                    }
                   }
                 : {
                     position: 'absolute',
@@ -320,12 +437,12 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                     zIndex: 10,
                     pointerEvents: 'auto',
                     '&:hover': {
-                      color: '#EBC024',
-                    },
+                      color: '#EBC024'
+                    }
                   }
             }
           >
-            <ShieldIcon sx={{ fontSize: '14px', color: 'inherit' }} />
+            <SecurityIcon sx={{ fontSize: '14px', color: 'inherit' }} />
           </Box>
         </Tooltip>
       </Box>
@@ -345,7 +462,7 @@ export const createCanShow = (
     children,
     notifyOnclick = true,
     predicate,
-    invert_action = ['disable'],
+    invert_action = ['disable']
   }: HasKeyProps<ReasonEvent>) => {
     if (!children) {
       return null;
@@ -362,8 +479,8 @@ export const createCanShow = (
     const reason = predicateRes?.[1] || {
       type: 'MISSING_PERMISSION',
       data: {
-        keyId: actionString,
-      },
+        keyId: actionString
+      }
     };
 
     if (can) {
@@ -392,19 +509,32 @@ export const createCanShow = (
         style={{
           cursor: 'pointer',
           pointerEvents,
-          opacity: opacity,
+          opacity: opacity
         }}
         onClick={onClick}
       >
-        {React.isValidElement(children) ? React.cloneElement(children as React.ReactElement<{ style?: React.CSSProperties; onClick?: React.MouseEventHandler }>, {
-          style: {
-            ...((children as React.ReactElement<{ style?: React.CSSProperties; onClick?: React.MouseEventHandler }>).props.style || {}),
-            cursor: 'pointer',
-            pointerEvents,
-            opacity: opacity,
-          },
-          onClick: onClick,
-        }) : children}
+        {React.isValidElement(children)
+          ? React.cloneElement(
+              children as React.ReactElement<{
+                style?: React.CSSProperties;
+                onClick?: React.MouseEventHandler;
+              }>,
+              {
+                style: {
+                  ...((
+                    children as React.ReactElement<{
+                      style?: React.CSSProperties;
+                      onClick?: React.MouseEventHandler;
+                    }>
+                  ).props.style || {}),
+                  cursor: 'pointer',
+                  pointerEvents,
+                  opacity: opacity
+                },
+                onClick: onClick
+              }
+            )
+          : children}
       </div>
     );
   };
