@@ -90,7 +90,7 @@ describe('UniversalFilter', () => {
       />
     );
 
-    fireEvent.click(screen.getByTestId('universal-filter-trigger'));
+    fireEvent.click(screen.getByRole('button', { name: 'Filter' }));
 
     const select = screen.getByTestId('universal-filter-select-status');
     expect(select.getAttribute('data-disable-portal')).toBe('true');

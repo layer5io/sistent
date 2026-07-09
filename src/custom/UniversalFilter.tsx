@@ -1,7 +1,7 @@
 import { Drawer, styled, useMediaQuery } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
-import { Button, IconButton } from '../base';
+import { Button } from '../base/Button';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { InputLabel } from '../base/InputLabel';
 import { MenuItem } from '../base/MenuItem';
@@ -10,6 +10,7 @@ import { Select } from '../base/Select';
 import { FilterIcon } from '../icons';
 import { useTheme } from '../theme';
 import PopperListener from './PopperListener';
+import { TooltipIcon } from './TooltipIconButton';
 
 export interface FilterColumn {
   name: string;
@@ -178,13 +179,12 @@ function UniversalFilter({
   return (
     <>
       <div id={id} data-testid={testId}>
-        <IconButton
+        <TooltipIcon
+          title="Filter"
           onClick={handleClick}
-          data-testid={`${testId}-trigger`}
-          size="small"
-        >
-          <FilterIcon fill={theme.palette.icon.default} />
-        </IconButton>
+          icon={<FilterIcon fill={theme.palette.icon.default} />}
+          arrow
+        />
         {!isMobile ? (
           <PopperListener
             id={open && anchorEl ? 'transition-popper' : undefined}
