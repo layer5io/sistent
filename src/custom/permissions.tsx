@@ -275,7 +275,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           const userName = `${firstName} ${lastName}`.trim() || user?.name || user?.email;
           const orgId = org?.id;
           const orgWithRoles = user?.organizations?.organizationsWithRoles?.find(
-            (o: any) => o.id === orgId
+            (o: { id?: string; roleNames?: string[] }) => o.id === orgId
           );
           const roleNames: string[] = orgWithRoles?.roleNames || user?.roleNames || [];
 
