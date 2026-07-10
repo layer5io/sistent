@@ -45,3 +45,9 @@ export {
   type QuickDateRangeOption,
   type UniversalFilterProps
 } from './custom/UniversalFilter';
+
+export {
+  PermissionShield,
+  type Key,
+  type PermissionShieldProps
+} from './custom/permissions';
