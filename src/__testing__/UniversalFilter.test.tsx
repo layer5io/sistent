@@ -37,6 +37,8 @@ jest.mock('../base/Paper', () => ({
 
 jest.mock('../base/Select', () => ({
   Select: ({ children, value, onChange, 'data-testid': dataTestId }: any) => (
+    // No MenuProps — the Select menu should portal to document.body (default)
+    // so it positions correctly outside the Popper container.
     <select
       data-testid={dataTestId}
       value={value}
