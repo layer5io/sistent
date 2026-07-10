@@ -25,7 +25,7 @@ function CrossCircleIcon({
       </g>
       <defs>
         <clipPath id="a">
-          <path d="M0 0h24v24H0z" fill={props.stroke || '#FFFFF'} />
+          <path d="M0 0h24v24H0z" fill={props.stroke || '#FFFFFF'} />
         </clipPath>
       </defs>
     </svg>
