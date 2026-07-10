@@ -4,6 +4,7 @@ import SecurityIcon from '@mui/icons-material/Security';
 import React from 'react';
 import { EventBus } from '../actors/eventBus';
 import { Box, Chip, ClickAwayListener, Link, Tooltip, Typography } from '../base';
+import { usePermissionUserContext } from './PermissionProvider';
 
 const DIVIDER_SX = {
   height: '1px',
@@ -74,6 +75,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
   const [open, setOpen] = React.useState(false);
   const [copied, setCopied] = React.useState(false);
   const uniqueId = React.useId();
+  const userContext = usePermissionUserContext();
 
   const handleClose = () => {
     setOpen(false);
@@ -264,100 +266,82 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
         </Link>
       </Box>
 
-      {/* User / Org / Role context — read from sessionStorage */}
-      {(() => {
-        try {
-          const org = JSON.parse(sessionStorage.getItem('currentOrg') || 'null');
-          const user = JSON.parse(sessionStorage.getItem('user') || 'null');
-          const orgName = org?.name;
-          const firstName = user?.firstName || user?.first_name || '';
-          const lastName = user?.lastName || user?.last_name || '';
-          const userName = `${firstName} ${lastName}`.trim() || user?.name || user?.email;
-          const orgId = org?.id;
-          const orgWithRoles = user?.organizations?.organizationsWithRoles?.find(
-            (o: { id?: string; roleNames?: string[] }) => o.id === orgId
-          );
-          const roleNames: string[] = orgWithRoles?.roleNames || user?.roleNames || [];
-
-          if (!orgName && !userName) return null;
-
-          return (
-            <>
-              <Box sx={DIVIDER_SX} />
-              <Box
-                sx={{
-                  background: 'rgba(255, 255, 255, 0.02)',
-                  border: '1px solid rgba(255, 255, 255, 0.05)',
-                  borderRadius: '6px',
-                  p: 1,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 0.75,
-                  mb: 0.75
-                }}
-              >
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-                  <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
-                    User
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: '0.72rem',
-                      color: '#FFFFFF',
-                      fontWeight: 600,
-                      textAlign: 'right'
-                    }}
-                  >
-                    {userName}
-                  </Typography>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-                  <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
-                    Org
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: '0.72rem',
-                      color: '#FFFFFF',
-                      fontWeight: 600,
-                      textAlign: 'right'
-                    }}
-                  >
-                    {orgName || 'Private Org'}
-                  </Typography>
-                </Box>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-                  <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
-                    Role(s)
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontSize: '0.72rem',
-                      color: '#FFFFFF',
-                      fontWeight: 600,
-                      textAlign: 'right'
-                    }}
-                  >
-                    {roleNames.length > 0 ? roleNames.join(', ') : 'None'}
-                  </Typography>
-                </Box>
-              </Box>
+      {/* User / Org / Role context — provided via PermissionProvider */}
+      {userContext && (userContext.userName || userContext.orgName) && (
+        <>
+          <Box sx={DIVIDER_SX} />
+          <Box
+            sx={{
+              background: 'rgba(255, 255, 255, 0.02)',
+              border: '1px solid rgba(255, 255, 255, 0.05)',
+              borderRadius: '6px',
+              p: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 0.75,
+              mb: 0.75
+            }}
+          >
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+              <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                User
+              </Typography>
               <Typography
                 sx={{
-                  fontSize: '0.68rem',
-                  fontStyle: 'italic',
-                  color: 'rgba(255, 255, 255, 0.45)',
-                  lineHeight: 1.35
+                  fontSize: '0.72rem',
+                  color: '#FFFFFF',
+                  fontWeight: 600,
+                  textAlign: 'right'
                 }}
               >
-                Seeing this message in error? Contact your Admins to request access.
+                {userContext.userName}
               </Typography>
-            </>
-          );
-        } catch {
-          return null;
-        }
-      })()}
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+              <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                Org
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: '0.72rem',
+                  color: '#FFFFFF',
+                  fontWeight: 600,
+                  textAlign: 'right'
+                }}
+              >
+                {userContext.orgName || 'Private Org'}
+              </Typography>
+            </Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+              <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                Role(s)
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: '0.72rem',
+                  color: '#FFFFFF',
+                  fontWeight: 600,
+                  textAlign: 'right'
+                }}
+              >
+                {userContext.roleNames && userContext.roleNames.length > 0
+                  ? userContext.roleNames.join(', ')
+                  : 'None'}
+              </Typography>
+            </Box>
+          </Box>
+          <Typography
+            sx={{
+              fontSize: '0.68rem',
+              fontStyle: 'italic',
+              color: 'rgba(255, 255, 255, 0.45)',
+              lineHeight: 1.35
+            }}
+          >
+            Seeing this message in error? Contact your Admins to request access.
+          </Typography>
+        </>
+      )}
     </Box>
   );
 
@@ -539,3 +523,18 @@ export const createCanShow = (
     );
   };
 };
+
+// Re-export PermissionProvider types and hooks
+export {
+  PermissionProvider,
+  usePermission,
+  useHasPermission,
+  usePermissionUserContext
+} from './PermissionProvider';
+export type {
+  PermissionAction,
+  PermissionProviderValue,
+  PermissionUserContext,
+  PermissionProviderProps,
+  PermissionKey
+} from './PermissionProvider';
