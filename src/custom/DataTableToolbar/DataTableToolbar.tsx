@@ -4,7 +4,6 @@ import type { DataTableToolbarProps } from './DataTableToolbar.types';
 
 const ToolbarRoot = styled(Box)(({ theme }) => ({
   display: 'flex',
-  justifyContent: 'space-between',
   alignItems: 'center',
   marginBottom: theme.spacing(4),
   minHeight: theme.spacing(8),
@@ -26,6 +25,10 @@ const Section = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   gap: theme.spacing(1)
 }));
+
+const RightSection = styled(Section)({
+  marginLeft: 'auto'
+});
 
 export function DataTableToolbar({
   primaryActions,
@@ -53,14 +56,14 @@ export function DataTableToolbar({
       <ToolbarRoot sx={sx}>
         {hasLeftContent && <Section>{primaryActions}</Section>}
         {hasRightContent && (
-          <Section>
+          <RightSection>
             {bulkOperations}
             {secondaryActions}
             {search}
             {filter}
             {columnVisibility}
             {viewSwitch}
-          </Section>
+          </RightSection>
         )}
       </ToolbarRoot>
       {searchHelperText && (

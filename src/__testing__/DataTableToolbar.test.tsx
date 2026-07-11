@@ -108,4 +108,44 @@ describe('DataTableToolbar', () => {
     expect(screen.getByText('Search items')).toBeTruthy();
     expect(screen.getByText('My Tabs')).toBeTruthy();
   });
+
+  describe('layout positioning', () => {
+    it('pushes right section to the right when only right content is present', () => {
+      renderWithTheme(<DataTableToolbar search={<span data-testid="right-content">Search</span>} />);
+      const rightContent = screen.getByTestId('right-content');
+      const rightSection = rightContent.parentElement as HTMLElement;
+      // RightSection has marginLeft: auto — check via computed style
+      expect(rightSection).toBeTruthy();
+      expect(window.getComputedStyle(rightSection).marginLeft).toBe('auto');
+    });
+
+    it('keeps left content on the left when only left content is present', () => {
+      renderWithTheme(<DataTableToolbar primaryActions={<button data-testid="left-content">Add</button>} />);
+      const leftContent = screen.getByTestId('left-content');
+      const leftSection = leftContent.parentElement as HTMLElement;
+      // Default Section has no marginLeft override
+      expect(leftSection).toBeTruthy();
+      expect(window.getComputedStyle(leftSection).marginLeft).not.toBe('auto');
+    });
+
+    it('separates left and right content to opposite ends when both are present', () => {
+      renderWithTheme(
+        <DataTableToolbar
+          primaryActions={<button data-testid="left-btn">Add</button>}
+          search={<span data-testid="right-content">Search</span>}
+        />
+      );
+      const leftContent = screen.getByTestId('left-btn');
+      const rightContent = screen.getByTestId('right-content');
+      const leftSection = leftContent.parentElement as HTMLElement;
+      const rightSection = rightContent.parentElement as HTMLElement;
+
+      expect(leftSection).toBeTruthy();
+      expect(rightSection).toBeTruthy();
+      // Left section has no auto margin
+      expect(window.getComputedStyle(leftSection).marginLeft).not.toBe('auto');
+      // Right section has auto margin to push it right
+      expect(window.getComputedStyle(rightSection).marginLeft).toBe('auto');
+    });
+  });
 });
