@@ -54,7 +54,6 @@ export {
   usePermissionUserContext,
   type Key,
   type PermissionAction,
-  type PermissionKey,
   type PermissionProviderProps,
   type PermissionProviderValue,
   type PermissionShieldProps,

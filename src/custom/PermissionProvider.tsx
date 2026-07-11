@@ -1,3 +1,4 @@
+import { Key } from '@meshery/schemas/permissions';
 import React, { createContext, useContext } from 'react';
 
 
@@ -24,23 +25,6 @@ export interface PermissionUserContext {
 }
 
 /**
- * The `Key` interface mirrors the structure defined in `@meshery/schemas`.
- *
- * Re-declared here so that `PermissionProvider` can reference it without
- * importing from the permissions barrel (which would create a circular dep).
- */
-export interface PermissionKey {
-  id?: string;
-  category?: string;
-  subcategory?: string;
-  function?: string;
-  description?: string;
-  // Backwards compatibility for old CanShow
-  subject?: string;
-  action?: string;
-}
-
-/**
  * Value exposed by `PermissionContext`.
  */
 export interface PermissionProviderValue {
@@ -50,7 +34,7 @@ export interface PermissionProviderValue {
    * Sistent never knows *how* permissions are checked (CASL, server lookup,
    * JWT claim, etc.) — it only calls this function.
    */
-  userHasPermission: (key: PermissionKey) => boolean;
+  userHasPermission: (key: Key) => boolean;
 
   /** Optional user context rendered inside the shield tooltip. */
   userContext?: PermissionUserContext;
@@ -67,7 +51,7 @@ export interface PermissionProviderProps {
    * permission key.  The host application is responsible for implementing
    * this — it may delegate to CASL, a server-side API, a JWT claim, etc.
    */
-  userHasPermission: (key: PermissionKey) => boolean;
+  userHasPermission: (key: Key) => boolean;
 
   /**
    * Optional user/org/role context displayed inside the `PermissionShield`
@@ -127,7 +111,7 @@ export const usePermission = (): PermissionProviderValue | null => useContext(Pe
  * - No `key` is supplied, OR
  * - `userHasPermission(key)` returns `true`.
  */
-export const useHasPermission = (key?: PermissionKey): boolean => {
+export const useHasPermission = (key?: Key): boolean => {
   const ctx = usePermission();
   if (!key || !ctx) return true;
   return ctx.userHasPermission(key);

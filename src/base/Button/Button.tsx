@@ -53,7 +53,7 @@ export function Button({
   // User LACKS permission → apply the permissionAction
   switch (permissionAction) {
     case 'hide':
-      return null as unknown as JSX.Element;
+      return <></>;
     case 'disable':
       return (
         <MuiButton {...props} disabled={true}>

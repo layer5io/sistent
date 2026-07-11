@@ -35,7 +35,7 @@ export function MenuItem(props: MenuItemProps): JSX.Element {
   // User LACKS permission → apply the permissionAction
   switch (permissionAction) {
     case 'hide':
-      return null as unknown as JSX.Element;
+      return <></>;
     case 'disable':
       return <MuiMenuItem {...rest} disabled={true} />;
     case 'showShield':

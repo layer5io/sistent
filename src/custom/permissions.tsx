@@ -1,3 +1,5 @@
+import { Key } from '@meshery/schemas/permissions';
+export type { Key };
 import KeyIcon from '@mui/icons-material/Key';
 import LaunchIcon from '@mui/icons-material/Launch';
 import SecurityIcon from '@mui/icons-material/Security';
@@ -11,19 +13,6 @@ const DIVIDER_SX = {
   background: 'rgba(255, 255, 255, 0.1)',
   my: 1.25
 };
-
-export interface Key {
-  // Backwards compatibility for old CanShow
-  subject?: string;
-  action?: string;
-
-  // New Schemas key structure
-  id?: string;
-  category?: string;
-  subcategory?: string;
-  function?: string;
-  description?: string;
-}
 
 export type InvertAction = 'disable' | 'hide';
 
@@ -44,7 +33,7 @@ export type MissingCapabilityReason = {
 export type ReasonEvent = MissingPermissionReason | MissingCapabilityReason;
 
 export interface HasKeyProps<ReasonEvent> {
-  Key?: Key;
+  Key?: Key & { action?: string; subject?: string };
   predicate?: (capabilitiesRegistry: unknown) => [boolean, ReasonEvent];
   children: React.ReactNode;
   notifyOnclick?: boolean;
@@ -149,7 +138,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
             component="span"
             onClick={(e: React.MouseEvent) => {
               e.stopPropagation();
-              navigator.clipboard.writeText(permissionKey.id || permissionKey.action || '');
+              navigator.clipboard.writeText(permissionKey.id || '');
               setCopied(true);
               setTimeout(() => setCopied(false), 1500);
             }}
@@ -174,7 +163,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
             color: '#FFFFFF'
           }}
         >
-          {permissionKey.function || permissionKey.subject || 'Access Restricted'}
+          {permissionKey.function || 'Access Restricted'}
         </Typography>
       </Box>
 
@@ -189,7 +178,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           }}
         >
           {permissionKey.description ||
-            `Allows you to perform the ${permissionKey.function || permissionKey.subject || 'selected'} operation.`}
+            `Allows you to perform the ${permissionKey.function || 'selected'} operation.`}
         </Typography>
       </Box>
 
@@ -282,21 +271,23 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
               mb: 0.75
             }}
           >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-              <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
-                User
-              </Typography>
-              <Typography
-                sx={{
-                  fontSize: '0.72rem',
-                  color: '#FFFFFF',
-                  fontWeight: 600,
-                  textAlign: 'right'
-                }}
-              >
-                {userContext.userName}
-              </Typography>
-            </Box>
+            {userContext.userName && (
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
+                <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                  User
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: '0.72rem',
+                    color: '#FFFFFF',
+                    fontWeight: 600,
+                    textAlign: 'right'
+                  }}
+                >
+                  {userContext.userName}
+                </Typography>
+              </Box>
+            )}
             <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
               <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
                 Org
@@ -535,6 +526,5 @@ export type {
   PermissionAction,
   PermissionProviderValue,
   PermissionUserContext,
-  PermissionProviderProps,
-  PermissionKey
+  PermissionProviderProps
 } from './PermissionProvider';
