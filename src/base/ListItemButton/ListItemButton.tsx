@@ -24,8 +24,8 @@ const ListItemButton = React.forwardRef<HTMLDivElement, ListItemButtonProps>((pr
   const { permissionKey, permissionAction = 'showShield', disabled, ...rest } = props;
   const hasPermission = useHasPermission(permissionKey);
 
-  // No permissionKey or user has permission → render normally
-  if (!permissionKey || hasPermission) {
+  // useHasPermission returns true when no permissionKey is provided (backward compatible)
+  if (hasPermission) {
     return <MuiListItemButton {...rest} ref={ref} disabled={disabled} />;
   }
 
@@ -35,7 +35,7 @@ const ListItemButton = React.forwardRef<HTMLDivElement, ListItemButtonProps>((pr
   }
 
   return (
-    <PermissionShield permissionKey={permissionKey} variant="inline">
+    <PermissionShield permissionKey={permissionKey!} variant="inline">
       <MuiListItemButton {...rest} ref={ref} disabled={true} />
     </PermissionShield>
   );

@@ -24,8 +24,8 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>((
   const { permissionKey, permissionAction = 'showShield', disabled, ...rest } = props;
   const hasPermission = useHasPermission(permissionKey);
 
-  // No permissionKey or user has permission → render normally
-  if (!permissionKey || hasPermission) {
+  // useHasPermission returns true when no permissionKey is provided (backward compatible)
+  if (hasPermission) {
     return <MuiIconButton ref={ref} {...rest} disabled={disabled} />;
   }
 
@@ -35,7 +35,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>((
   }
 
   return (
-    <PermissionShield permissionKey={permissionKey} variant="badge">
+    <PermissionShield permissionKey={permissionKey!} variant="badge">
       <MuiIconButton ref={ref} {...rest} disabled={true} />
     </PermissionShield>
   );

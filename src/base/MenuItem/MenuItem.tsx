@@ -21,8 +21,8 @@ export function MenuItem(props: MenuItemProps): JSX.Element {
   const { permissionKey, permissionAction = 'showShield', disabled, ...rest } = props;
   const hasPermission = useHasPermission(permissionKey);
 
-  // No permissionKey or user has permission → render normally
-  if (!permissionKey || hasPermission) {
+  // useHasPermission returns true when no permissionKey is provided (backward compatible)
+  if (hasPermission) {
     return <MuiMenuItem {...rest} disabled={disabled} />;
   }
 
@@ -32,7 +32,7 @@ export function MenuItem(props: MenuItemProps): JSX.Element {
   }
 
   return (
-    <PermissionShield permissionKey={permissionKey} variant="inline">
+    <PermissionShield permissionKey={permissionKey!} variant="inline">
       <MuiMenuItem {...rest} disabled={true} />
     </PermissionShield>
   );

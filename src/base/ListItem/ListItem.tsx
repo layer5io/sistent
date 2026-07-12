@@ -23,8 +23,8 @@ const ListItem = React.forwardRef<HTMLLIElement, ListItemProps>((props, ref) => 
   delete (rest as Record<string, unknown>).disabled;
   const hasPermission = useHasPermission(permissionKey);
 
-  // No permissionKey or user has permission → render normally
-  if (!permissionKey || hasPermission) {
+  // useHasPermission returns true when no permissionKey is provided (backward compatible)
+  if (hasPermission) {
     return <MuiListItem {...rest} ref={ref} />;
   }
 
@@ -34,7 +34,7 @@ const ListItem = React.forwardRef<HTMLLIElement, ListItemProps>((props, ref) => 
   }
 
   return (
-    <PermissionShield permissionKey={permissionKey} variant="inline">
+    <PermissionShield permissionKey={permissionKey!} variant="inline">
       <MuiListItem {...rest} ref={ref} />
     </PermissionShield>
   );
