@@ -5,12 +5,11 @@ import React, { createContext, useContext } from 'react';
 /**
  * Determines how a component responds when the user lacks the required permission.
  *
- * - `'disable'`    — renders the component in a disabled state (no shield icon).
  * - `'hide'`       — renders nothing (`null`).
  * - `'showShield'` — disables the component, overlays a shield/lock icon, and
  *                     displays permission metadata in a tooltip.
  */
-export type PermissionAction = 'disable' | 'hide' | 'showShield';
+export type PermissionAction = 'hide' | 'showShield';
 
 /**
  * User context displayed inside the PermissionShield tooltip.

@@ -13,7 +13,6 @@ export interface ListItemButtonProps extends MuiListItemButtonProps {
    *
    * - `'showShield'` (default) — disables the button and shows a shield icon
    *   with a permission-metadata tooltip.
-   * - `'disable'` — disables the button without a shield.
    * - `'hide'` — renders nothing.
    *
    * Ignored when `permissionKey` is not provided.
@@ -25,30 +24,21 @@ const ListItemButton = React.forwardRef<HTMLDivElement, ListItemButtonProps>((pr
   const { permissionKey, permissionAction = 'showShield', disabled, ...rest } = props;
   const hasPermission = useHasPermission(permissionKey);
 
-  // No permissionKey → normal behavior (backward compatible)
-  if (!permissionKey) {
-    return <MuiListItemButton {...rest} ref={ref} disabled={disabled} />;
-  }
-
-  // User HAS permission → render normally
-  if (hasPermission) {
+  // No permissionKey or user has permission → render normally
+  if (!permissionKey || hasPermission) {
     return <MuiListItemButton {...rest} ref={ref} disabled={disabled} />;
   }
 
   // User LACKS permission → apply the permissionAction
-  switch (permissionAction) {
-    case 'hide':
-      return null;
-    case 'disable':
-      return <MuiListItemButton {...rest} ref={ref} disabled={true} />;
-    case 'showShield':
-    default:
-      return (
-        <PermissionShield permissionKey={permissionKey} variant="inline">
-          <MuiListItemButton {...rest} ref={ref} disabled={true} />
-        </PermissionShield>
-      );
+  if (permissionAction === 'hide') {
+    return null;
   }
+
+  return (
+    <PermissionShield permissionKey={permissionKey} variant="inline">
+      <MuiListItemButton {...rest} ref={ref} disabled={true} />
+    </PermissionShield>
+  );
 });
 
 ListItemButton.displayName = 'ListItemButton';

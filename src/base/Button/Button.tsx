@@ -12,7 +12,6 @@ export interface ButtonProps extends MuiButtonProps {
    *
    * - `'showShield'` (default) — disables the button and shows a shield icon
    *   with a permission-metadata tooltip.
-   * - `'disable'` — disables the button without a shield.
    * - `'hide'` — renders nothing.
    *
    * Ignored when `permissionKey` is not provided.
@@ -30,18 +29,8 @@ export function Button({
 }: ButtonProps): JSX.Element {
   const hasPermission = useHasPermission(permissionKey);
 
-  // No permissionKey → normal behavior (backward compatible)
-  if (!permissionKey) {
-    return (
-      <MuiButton {...props} disabled={disabled}>
-        {label}
-        {children}
-      </MuiButton>
-    );
-  }
-
-  // User HAS permission → render normally
-  if (hasPermission) {
+  // No permissionKey or user has permission → render normally
+  if (!permissionKey || hasPermission) {
     return (
       <MuiButton {...props} disabled={disabled}>
         {label}
@@ -51,27 +40,18 @@ export function Button({
   }
 
   // User LACKS permission → apply the permissionAction
-  switch (permissionAction) {
-    case 'hide':
-      return <></>;
-    case 'disable':
-      return (
-        <MuiButton {...props} disabled={true}>
-          {label}
-          {children}
-        </MuiButton>
-      );
-    case 'showShield':
-    default:
-      return (
-        <PermissionShield permissionKey={permissionKey} variant="badge">
-          <MuiButton {...props} disabled={true}>
-            {label}
-            {children}
-          </MuiButton>
-        </PermissionShield>
-      );
+  if (permissionAction === 'hide') {
+    return <></>;
   }
+
+  return (
+    <PermissionShield permissionKey={permissionKey} variant="badge">
+      <MuiButton {...props} disabled={true}>
+        {label}
+        {children}
+      </MuiButton>
+    </PermissionShield>
+  );
 }
 
 export const ContainedButton = (props: ButtonProps): JSX.Element => (
