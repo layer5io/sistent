@@ -63,10 +63,9 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             open={isMobileDrawerOpen}
             onClose={() => {
               setIsMobileDrawerOpen(false);
-              onClose?.();
             }}
             onOpen={() => setIsMobileDrawerOpen(true)}
-            swipeAreaWidth={drawerBleeding}
+            swipeAreaWidth={isSidebarOpen ? drawerBleeding : 0}
             disableSwipeToOpen={false}
             ModalProps={{
               keepMounted: true,
@@ -102,9 +101,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
               onClick={() => {
                 const nextState = !isMobileDrawerOpen;
                 setIsMobileDrawerOpen(nextState);
-                if (!nextState) {
-                  onClose?.();
-                }
               }}
             >
               <Box
