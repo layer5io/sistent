@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Drawer } from '../../base';
+import { Box } from '../../base';
 import { useTheme, useMediaQuery } from '../../theme';
 import { SwipeableDrawer } from '@mui/material';
 
@@ -61,7 +61,10 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           <SwipeableDrawer
             anchor="bottom"
             open={isMobileDrawerOpen}
-            onClose={() => setIsMobileDrawerOpen(false)}
+            onClose={() => {
+              setIsMobileDrawerOpen(false);
+              onClose?.();
+            }}
             onOpen={() => setIsMobileDrawerOpen(true)}
             swipeAreaWidth={drawerBleeding}
             disableSwipeToOpen={false}
@@ -96,7 +99,13 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 borderBottom: `1px solid ${theme.palette.divider}`,
                 cursor: 'pointer',
               }}
-              onClick={() => setIsMobileDrawerOpen(!isMobileDrawerOpen)}
+              onClick={() => {
+                const nextState = !isMobileDrawerOpen;
+                setIsMobileDrawerOpen(nextState);
+                if (!nextState) {
+                  onClose?.();
+                }
+              }}
             >
               <Box
                 sx={{

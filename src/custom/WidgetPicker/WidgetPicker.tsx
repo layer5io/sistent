@@ -8,7 +8,7 @@ export interface WidgetItem {
   key: string;
   title: string;
   thumbnail?: string;
-  [key: string]: any; // Allow passing extra widget properties
+  [key: string]: unknown; // Allow passing extra widget properties
 }
 
 export interface WidgetPickerProps {
@@ -16,12 +16,12 @@ export interface WidgetPickerProps {
   widgetsToAdd: WidgetItem[];
   
   /** Callback when a widget is clicked to be added */
-  onAddWidget: (widget: any, key: string) => void;
+  onAddWidget: (widget: Omit<WidgetItem, 'key'>, key: string) => void;
   
   /** Optional callback to close the picker (renders a Close icon if provided) */
   onClose?: () => void;
   
-  /** Custom background color for the header. Defaults to theme.palette.background.card */
+  /** Custom background color for the header. Defaults to theme.palette.background.default */
   headerBackgroundColor?: string;
   
   /** Custom text color for the header. Defaults to theme.palette.text.primary */
