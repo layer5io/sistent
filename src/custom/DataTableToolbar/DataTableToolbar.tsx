@@ -1,6 +1,27 @@
-import { Box, Typography } from '../../base';
-import { styled } from '../../theme';
+import React from 'react';
+import { Box, Card, Checkbox, ClickAwayListener, FormControlLabel, Typography } from '../../base';
+import { ColumnIcon } from '../../icons/Column';
+import { styled, useTheme } from '../../theme';
+import type { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
+import { updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
+import { PopperListener } from '../PopperListener';
+import { TooltipIcon } from '../TooltipIconButton';
 import type { DataTableToolbarProps } from './DataTableToolbar.types';
+
+function useViewportWidth(): number {
+  const [width, setWidth] = React.useState(
+    typeof window !== 'undefined' ? window.innerWidth : 1200
+  );
+
+  React.useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return width;
+}
 
 const ToolbarRoot = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -40,15 +61,121 @@ export function DataTableToolbar({
   viewSwitch,
   searchHelperText,
   tabs,
+  columns,
+  columnVisibilityState,
+  onColumnVisibilityChange,
   sx
 }: DataTableToolbarProps): JSX.Element {
+  const theme = useTheme();
+  const viewportWidth = useViewportWidth();
+
+  // Compute auto-hide visibility from columns config + viewport width
+  const autoHideVisibility = React.useMemo(() => {
+    if (!columns) return {};
+    const colViews: ColView[] = columns.map((col) => [col.name, col.visibleAt || 'xl']);
+    return updateVisibleColumns(colViews, viewportWidth);
+  }, [columns, viewportWidth]);
+
+  // Merged visibility: controlled state wins, else computed defaults
+  const effectiveVisibility = columnVisibilityState ?? autoHideVisibility;
+
+  // Built-in column visibility dropdown state
+  const [dropdownOpen, setDropdownOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null);
+
+  const handleColumnToggle = (colName: string, checked: boolean) => {
+    if (onColumnVisibilityChange) {
+      onColumnVisibilityChange({
+        ...effectiveVisibility,
+        [colName]: checked
+      });
+    }
+  };
+
+  const handleOpenDropdown = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation();
+    if (!anchorEl) {
+      setAnchorEl(event.currentTarget);
+    }
+    setDropdownOpen((prev) => !prev);
+  };
+
+  const handleCloseDropdown = () => {
+    setAnchorEl(null);
+    setDropdownOpen(false);
+  };
+
+  // Determine what column visibility control to render
+  // columns prop takes priority over columnVisibility slot
+  const columnControl = columns ? (
+    <>
+      <TooltipIcon
+        title="View Columns"
+        onClick={handleOpenDropdown}
+        icon={<ColumnIcon fill={theme.palette.icon.default} />}
+        arrow
+      />
+      <PopperListener
+        open={dropdownOpen}
+        anchorEl={anchorEl}
+        placement="bottom-end"
+        modifiers={[
+          {
+            name: 'flip',
+            options: {
+              enabled: false
+            }
+          },
+          {
+            name: 'preventOverflow',
+            options: {
+              enabled: true,
+              boundariesElement: 'scrollParent'
+            }
+          }
+        ]}
+      >
+        <ClickAwayListener onClickAway={handleCloseDropdown}>
+          <div>
+            <Card
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '1rem',
+                boxShadow: dropdownOpen ? '0px 4px 8px rgba(0, 0, 0, 0.2)' : 'none',
+                background: theme.palette.background.surfaces
+              }}
+            >
+              {columns.map((col) => (
+                <FormControlLabel
+                  key={col.name}
+                  control={
+                    <Checkbox
+                      checked={effectiveVisibility[col.name] ?? true}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        handleColumnToggle(col.name, e.target.checked)
+                      }
+                    />
+                  }
+                  label={col.label}
+                />
+              ))}
+            </Card>
+          </div>
+        </ClickAwayListener>
+      </PopperListener>
+    </>
+  ) : (
+    columnVisibility
+  );
+
   const hasLeftContent = Boolean(primaryActions);
   const hasRightContent =
     Boolean(bulkOperations) ||
     Boolean(secondaryActions) ||
     Boolean(filter) ||
     Boolean(search) ||
-    Boolean(columnVisibility) ||
+    Boolean(columnControl) ||
     Boolean(viewSwitch);
 
   return (
@@ -61,7 +188,7 @@ export function DataTableToolbar({
             {secondaryActions}
             {search}
             {filter}
-            {columnVisibility}
+            {columnControl}
             {viewSwitch}
           </RightSection>
         )}
