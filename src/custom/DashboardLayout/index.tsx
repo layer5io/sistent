@@ -22,8 +22,7 @@ export interface DashboardLayoutProps {
   /** Optional fixed height for the sticky sidebar. Defaults to 100vh */
   sidebarHeight?: string | number;
 
-  /** Callback fired when the component requests to be closed (e.g. clicking the backdrop on mobile) */
-  onClose?: () => void;
+
 }
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
@@ -33,7 +32,6 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   sidebarWidth = { xs: '100%', md: '350px' },
   sidebarTopOffset = '0',
   sidebarHeight = '100vh',
-  onClose,
 }) => {
   const theme = useTheme();
   // We use the 'md' breakpoint (900px default) to switch between mobile and desktop layout
