@@ -70,6 +70,14 @@ export const handleImage = async ({
   const validSvgPaths = await getValidSvgPaths(technologies, basePath, subBasePath);
   setAvailableTechnologies(validSvgPaths);
 };
+
+// `sanitizeCatalogImageUrl` is defined in a dependency-free leaf module so
+// `src/index.tsx` can re-export it explicitly for the bundled d.ts without
+// dragging this module's untyped `js-yaml` import into the declaration build
+// (which would crash rollup-plugin-dts). Re-exported here to keep the existing
+// `from './Helper'` import path working for internal consumers.
+export { sanitizeCatalogImageUrl } from './sanitizeCatalogImageUrl';
+
 export const DEFAULT_DESIGN_VERSION = '0.0.0';
 
 // Returns the version of a design based on its visibility.

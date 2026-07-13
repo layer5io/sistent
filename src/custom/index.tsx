@@ -6,7 +6,12 @@ import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter
 import { ChapterCard } from './ChapterCard';
 import { CollaboratorAvatarGroup } from './CollaboratorAvatarGroup';
 import { ConnectionChip } from './ConnectionChip';
-import { CatalogCardDesignLogo, CustomCatalogCard, EmptyStateCard } from './CustomCatalog';
+import {
+  CatalogCardDesignLogo,
+  CustomCatalogCard,
+  EmptyStateCard,
+  sanitizeCatalogImageUrl
+} from './CustomCatalog';
 import {
   CustomColumn,
   CustomColumnVisibilityControl,
@@ -57,6 +62,11 @@ export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
 export type { FilterListType } from './CatalogFilterSection';
 export { StyledChartDialog } from './ChartDialog';
+export {
+  DangerConfirmationModal,
+  type DangerConfirmationCheckbox,
+  type DangerConfirmationModalProps
+} from './DangerConfirmationModal';
 export { InputSearchField } from './InputSearchField';
 export { LearningContent } from './LearningContent';
 export { NavigationNavbar } from './NavigationNavbar';
@@ -109,6 +119,7 @@ export {
   ModalCard,
   PopperListener,
   ResponsiveDataTable,
+  sanitizeCatalogImageUrl,
   SearchBar,
   StyledDialogActions,
   StyledDialogContent,
