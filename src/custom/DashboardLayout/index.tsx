@@ -56,7 +56,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         {children}
       </Box>
       
-      {isSidebarOpen && isMobile && (
+      {isMobile && (
         <>
           <SwipeableDrawer
             anchor="bottom"
