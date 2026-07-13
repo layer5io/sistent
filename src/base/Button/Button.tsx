@@ -1,37 +1,56 @@
 import { Button as MuiButton, type ButtonProps as MuiButtonProps } from '@mui/material';
 import React from 'react';
+import { useHasPermission, type PermissionAction } from '../../custom/PermissionProvider';
 import { Key, PermissionShield } from '../../custom/permissions';
 
 export interface ButtonProps extends MuiButtonProps {
   label?: string;
   children?: React.ReactNode;
   permissionKey?: Key;
+  /**
+   * Determines behavior when the user lacks the required permission.
+   *
+   * - `'showShield'` (default) — disables the button and shows a shield icon
+   *   with a permission-metadata tooltip.
+   * - `'hide'` — renders nothing.
+   *
+   * Ignored when `permissionKey` is not provided.
+   */
+  permissionAction?: PermissionAction;
 }
 
 export function Button({
   label,
   children,
   permissionKey,
+  permissionAction = 'showShield',
   disabled,
   ...props
 }: ButtonProps): JSX.Element {
-  // When disabled AND permissionKey is provided, show the shield overlay
-  if (disabled && permissionKey) {
+  const hasPermission = useHasPermission(permissionKey);
+
+  // useHasPermission returns true when no permissionKey is provided (backward compatible)
+  if (hasPermission) {
     return (
-      <PermissionShield permissionKey={permissionKey} variant="badge">
-        <MuiButton {...props} disabled={true}>
-          {label}
-          {children}
-        </MuiButton>
-      </PermissionShield>
+      <MuiButton {...props} disabled={disabled}>
+        {label}
+        {children}
+      </MuiButton>
     );
   }
 
+  // User LACKS permission → apply the permissionAction
+  if (permissionAction === 'hide') {
+    return <></>;
+  }
+
   return (
-    <MuiButton {...props} disabled={disabled}>
-      {label}
-      {children}
-    </MuiButton>
+    <PermissionShield permissionKey={permissionKey!} variant="badge">
+      <MuiButton {...props} disabled={true}>
+        {label}
+        {children}
+      </MuiButton>
+    </PermissionShield>
   );
 }
 
