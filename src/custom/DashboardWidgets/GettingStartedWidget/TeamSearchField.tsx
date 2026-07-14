@@ -15,7 +15,7 @@ interface Team {
   name: string;
   deletedAt: {
     Valid: boolean;
-  };
+  } | null;
 }
 
 interface TeamSearchFieldProps {
@@ -156,7 +156,7 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
           />
         )}
         renderOption={(props, option) => {
-          if (!option?.deletedAt.Valid) {
+          if (!option?.deletedAt?.Valid) {
             return (
               <Box
                 component="li"
