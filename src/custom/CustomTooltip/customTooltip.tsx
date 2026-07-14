@@ -33,9 +33,6 @@ function CustomTooltip({
 
   return (
     <Tooltip
-      enterDelay={150}
-      enterNextDelay={400}
-      leaveDelay={700}
       slotProps={_.merge(
         {
           tooltip: {
