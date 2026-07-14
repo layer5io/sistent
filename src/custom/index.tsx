@@ -19,7 +19,7 @@ import {
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
 import { CustomImage } from './CustomImage';
 import { CustomTooltip, InfoTooltip } from './CustomTooltip';
-import { DataTableToolbar } from './DataTableToolbar';
+import { DataTableToolbar, type DataTableToolbarProps } from './DataTableToolbar';
 import {
   CustomDialog,
   StyledDialogActions,

@@ -6,22 +6,8 @@ import type { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.ts
 import { updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { PopperListener } from '../PopperListener';
 import { TooltipIcon } from '../TooltipIconButton';
+import { useWindowDimensions } from '../Helpers/Dimension';
 import type { DataTableToolbarProps } from './DataTableToolbar.types';
-
-function useViewportWidth(): number {
-  const [width, setWidth] = React.useState(
-    typeof window !== 'undefined' ? window.innerWidth : 1200
-  );
-
-  React.useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  return width;
-}
 
 const ToolbarRoot = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -67,7 +53,7 @@ export function DataTableToolbar({
   sx
 }: DataTableToolbarProps): JSX.Element {
   const theme = useTheme();
-  const viewportWidth = useViewportWidth();
+  const { width: viewportWidth } = useWindowDimensions();
 
   // Compute auto-hide visibility from columns config + viewport width
   const autoHideVisibility = React.useMemo(() => {

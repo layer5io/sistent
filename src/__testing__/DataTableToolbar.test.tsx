@@ -4,6 +4,29 @@ import React from 'react';
 import { DataTableToolbar } from '../custom/DataTableToolbar';
 import { SistentThemeProvider } from '../theme';
 
+// The toolbar transitively imports CustomTooltip -> Markdown ->
+// react-markdown (ESM-only). Jest's transformIgnorePatterns allowlist excludes
+// the markdown ESM tree, so those leaf modules are stubbed here.
+jest.mock('react-markdown', () => ({
+  __esModule: true,
+  default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
+}));
+
+jest.mock('remark-gfm', () => ({
+  __esModule: true,
+  default: () => {}
+}));
+
+jest.mock('rehype-raw', () => ({
+  __esModule: true,
+  default: () => {}
+}));
+
+jest.mock('@sistent/mui-datatables', () => ({
+  __esModule: true,
+  default: () => null
+}));
+
 const renderWithTheme = (ui: React.ReactElement) =>
   render(<SistentThemeProvider>{ui}</SistentThemeProvider>);
 
