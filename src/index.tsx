@@ -47,7 +47,15 @@ export {
 } from './custom/UniversalFilter';
 
 export {
+  PermissionProvider,
   PermissionShield,
+  usePermission,
+  useHasPermission,
+  usePermissionUserContext,
   type Key,
-  type PermissionShieldProps
+  type PermissionAction,
+  type PermissionProviderProps,
+  type PermissionProviderValue,
+  type PermissionShieldProps,
+  type PermissionUserContext
 } from './custom/permissions';
