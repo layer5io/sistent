@@ -188,7 +188,6 @@ function UniversalFilter({
                 width: '20rem',
                 marginBottom: '1rem'
               }}
-              MenuProps={{ disablePortal: true }}
               slotProps={{
                 input: {
                   'aria-label': 'Without label'

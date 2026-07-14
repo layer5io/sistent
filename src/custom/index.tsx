@@ -6,7 +6,12 @@ import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter
 import { ChapterCard } from './ChapterCard';
 import { CollaboratorAvatarGroup } from './CollaboratorAvatarGroup';
 import { ConnectionChip } from './ConnectionChip';
-import { CatalogCardDesignLogo, CustomCatalogCard, EmptyStateCard } from './CustomCatalog';
+import {
+  CatalogCardDesignLogo,
+  CustomCatalogCard,
+  EmptyStateCard,
+  sanitizeCatalogImageUrl
+} from './CustomCatalog';
 import {
   CustomColumn,
   CustomColumnVisibilityControl,
@@ -14,6 +19,7 @@ import {
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
 import { CustomImage } from './CustomImage';
 import { CustomTooltip, InfoTooltip } from './CustomTooltip';
+import { DataTableToolbar, type DataTableToolbarProps } from './DataTableToolbar';
 import {
   CustomDialog,
   StyledDialogActions,
@@ -99,6 +105,7 @@ export {
   CustomImage,
   CustomTooltip,
   DataTableEllipsisMenu,
+  DataTableToolbar,
   EmptyState,
   EmptyStateCard,
   ErrorBoundary,
@@ -112,6 +119,7 @@ export {
   ModalCard,
   PopperListener,
   ResponsiveDataTable,
+  sanitizeCatalogImageUrl,
   SearchBar,
   StyledDialogActions,
   StyledDialogContent,
@@ -159,6 +167,7 @@ export type {
   CustomColumn,
   CustomColumnVisibilityControlProps,
   CustomDialogProps,
+  DataTableToolbarProps,
   FlipCardProps,
   IPopperListener,
   ResponsiveDataTableProps,
