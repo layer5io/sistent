@@ -19,6 +19,7 @@ import {
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
 import { CustomImage } from './CustomImage';
 import { CustomTooltip, InfoTooltip } from './CustomTooltip';
+import { DataTableToolbar, type DataTableToolbarProps } from './DataTableToolbar';
 import {
   CustomDialog,
   StyledDialogActions,
@@ -104,6 +105,7 @@ export {
   CustomImage,
   CustomTooltip,
   DataTableEllipsisMenu,
+  DataTableToolbar,
   EmptyState,
   EmptyStateCard,
   ErrorBoundary,
@@ -165,6 +167,7 @@ export type {
   CustomColumn,
   CustomColumnVisibilityControlProps,
   CustomDialogProps,
+  DataTableToolbarProps,
   FlipCardProps,
   IPopperListener,
   ResponsiveDataTableProps,
