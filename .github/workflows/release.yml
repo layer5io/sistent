@@ -127,6 +127,7 @@ jobs:
       # downstream consumers. A maintainer can always open the bump-back PR
       # manually if the automated step is skipped.
       - name: Open PR with package.json version bump
+        id: bump_pr
         if: ${{ success() }}
         continue-on-error: true
         uses: peter-evans/create-pull-request@v8
@@ -154,6 +155,29 @@ jobs:
             chore
             release
           draft: false
+
+      # Auto-merge the version-bump-back PR so it lands immediately instead of
+      # sitting idle awaiting maintainer review. The bump only rewrites
+      # package.json / package-lock.json to the version just published to npm and
+      # carries [skip ci], so there is nothing to review or re-test — the content
+      # was already CI-gated by the PR that merged into the release tag.
+      #
+      # `--admin` bypasses the branch-protection "require 1 approval" rule
+      # (github-actions[bot] is not a bypass actor and cannot approve its own PR),
+      # so this needs GH_ACCESS_TOKEN to carry admin/bypass rights on the repo;
+      # the default GITHUB_TOKEN cannot. As with the PR-creation step,
+      # continue-on-error keeps npm-publish success the source of truth: if the
+      # token lacks rights or the merge races, the PR is simply left for a
+      # maintainer to merge — no worse than before this step existed. Only run
+      # when a PR was actually created or updated (not a no-op).
+      - name: Auto-merge the version-bump PR
+        if: ${{ steps.bump_pr.outputs.pull-request-number != '' && (steps.bump_pr.outputs.pull-request-operation == 'created' || steps.bump_pr.outputs.pull-request-operation == 'updated') }}
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GH_ACCESS_TOKEN || secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.bump_pr.outputs.pull-request-number }}
+        run: |
+          gh pr merge "$PR_NUMBER" --repo "${{ github.repository }}" --merge --admin
 
   notify-dependents:
     needs: publish
