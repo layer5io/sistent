@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { DeleteIcon, EditIcon } from '../../icons';
 import LogoutIcon from '../../icons/Logout/LogOutIcon';
 import { CHARCOAL, useTheme } from '../../theme';
+import { isSoftDeleted } from '../../utils/nullTime';
 import { CustomTooltip } from '../CustomTooltip';
 import { FormatId } from '../FormatId';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
@@ -210,7 +211,7 @@ export default function TeamTableConfiguration({
         sort: false,
         searchable: false,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => {
-          if (bulkSelect || tableMeta.rowData[4].Valid) {
+          if (bulkSelect || isSoftDeleted(tableMeta.rowData[4])) {
             return (
               <TableIconsDisabledContainer>
                 <EditIcon
@@ -367,7 +368,7 @@ export default function TeamTableConfiguration({
       }
     },
     isRowSelectable: (dataIndx: number) => {
-      if (teams[dataIndx]['deletedAt'].Valid === true) return false;
+      if (isSoftDeleted(teams[dataIndx]['deletedAt'])) return false;
       return true;
     },
     setRowProps: (row: any, rowIndex: number, tableState: any) => {
@@ -382,7 +383,7 @@ export default function TeamTableConfiguration({
         };
       }
 
-      if (row[6].Valid) {
+      if (isSoftDeleted(row[6])) {
         return {
           style: {
             backgroundColor: theme.palette.icon.disabled

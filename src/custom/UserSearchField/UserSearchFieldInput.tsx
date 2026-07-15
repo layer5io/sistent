@@ -16,6 +16,7 @@ import {
 
 import { iconSmall } from '../../constants/iconsSizes';
 import { CloseIcon, PersonIcon } from '../../icons';
+import { DeletedAt, isSoftDeleted } from '../../utils/nullTime';
 
 interface User {
   userId: string;
@@ -23,7 +24,7 @@ interface User {
   lastName: string;
   email: string;
   avatarUrl?: string;
-  deletedAt?: { Valid: boolean };
+  deletedAt?: DeletedAt;
   deleted?: boolean;
 }
 
@@ -110,7 +111,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
       if (!value) return;
 
       const isDuplicate = localUsersData.some((user) => user.userId === value.userId);
-      const isDeleted = value.deletedAt?.Valid === true;
+      const isDeleted = isSoftDeleted(value.deletedAt);
 
       if (isDuplicate || isDeleted) {
         setError(isDuplicate ? 'User already selected' : 'User does not exist');

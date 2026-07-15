@@ -1,4 +1,4 @@
-import { getFormatDate } from '../../utils';
+import { DeletedAt, getDeletedAtTime, getFormatDate } from '../../utils';
 
 /**
  * Helper function to parse and format the value of a field representing a deletion timestamp in the provided data object.
@@ -7,14 +7,9 @@ import { getFormatDate } from '../../utils';
  */
 
 export const DEFAULT_DATE = 'N/A'; // a constant to represent the default date value
-export const parseDeletionTimestamp = (data: {
-  deletedAt: { Valid: boolean; Time: string | number | Date };
-}) => {
-  if (data && data.deletedAt && data.deletedAt.Valid === true) {
-    return getFormatDate(data.deletedAt.Time as string);
-  } else {
-    return DEFAULT_DATE;
-  }
+export const parseDeletionTimestamp = (data: { deletedAt: DeletedAt }) => {
+  const time = getDeletedAtTime(data?.deletedAt);
+  return time != null ? getFormatDate(time as string) : DEFAULT_DATE;
 };
 
 /**
