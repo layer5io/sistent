@@ -45,7 +45,7 @@ jobs:
           echo "name=${TARGET#refs/heads/}" >> "$GITHUB_OUTPUT"
 
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           # Check out the release's target branch (typically master) so the
           # subsequent version-bump commit is based on the branch HEAD, not on
@@ -59,7 +59,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version: '24'
           registry-url: "https://registry.npmjs.org"

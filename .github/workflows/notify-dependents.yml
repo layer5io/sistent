@@ -65,14 +65,14 @@ jobs:
       RELEASE_VERSION: ${{ needs.info.outputs.release_version }}
     steps:
       - name: Checkout Meshery code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: meshery/meshery
           fetch-depth: 1
           token: ${{ secrets.GH_ACCESS_TOKEN }}
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22.x'
+          node-version: '22'
           cache: "npm"
           cache-dependency-path: ui/package-lock.json
       - name: Make changes to pull request
@@ -108,14 +108,14 @@ jobs:
       RELEASE_VERSION: ${{ needs.info.outputs.release_version }}
     steps:
       - name: Checkout Meshery Extensions code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: layer5labs/meshery-extensions
           fetch-depth: 1
           token: ${{ secrets.GH_ACCESS_TOKEN }}
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22.x'
+          node-version: '22'
           cache: "npm"
           cache-dependency-path: ui/package-lock.json
       - name: Make changes to pull request
@@ -152,14 +152,14 @@ jobs:
 
     steps:
       - name: Checkout Layer5 code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: layer5io/layer5
           fetch-depth: 1
           token: ${{ secrets.GH_ACCESS_TOKEN }}
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22.x'
+          node-version: '22'
           cache: "npm"
           cache-dependency-path: package-lock.json
       - name: Make changes to pull request
@@ -194,14 +194,14 @@ jobs:
       RELEASE_VERSION: ${{ needs.info.outputs.release_version }}
     steps:
       - name: Checkout Meshery Extensions code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: layer5io/meshery-cloud
           fetch-depth: 1
           token: ${{ secrets.GH_ACCESS_TOKEN }}
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22.x'
+          node-version: '22'
           cache: "npm"
           cache-dependency-path: ui/package-lock.json
       - name: Make changes to pull request
