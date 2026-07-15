@@ -66,3 +66,33 @@ describe('UserSearchField type-ahead wiring', () => {
     expect(screen.queryByText('Jane Doe')).not.toBeNull();
   });
 });
+
+describe('UserSearchField v1beta3 user records', () => {
+  // The v1beta3 user construct identifies users by `id` (the wire `userId` is
+  // a deprecated alias) and reduced projections may carry only a username.
+  const v1beta3Alex = {
+    id: 'u-alex',
+    username: 'alex',
+    firstName: 'Alex',
+    lastName: 'Rivera',
+    email: 'alex@example.com'
+  };
+  const usernameOnly = { id: 'u-min', username: 'minimal-user' };
+
+  it('renders and matches records that carry only the canonical id', async () => {
+    const { input } = renderField({
+      usersSearch: 'a',
+      searchedUsers: [v1beta3Alex, usernameOnly],
+      // same person as v1beta3Alex, but shaped like a legacy record
+      currentUserData: { userId: 'u-alex' }
+    });
+
+    fireEvent.change(input, { target: { value: 'a' } });
+
+    // current user is filtered out via id<->userId identity matching
+    await waitFor(() => {
+      expect(screen.queryByText('minimal-user')).not.toBeNull();
+    });
+    expect(screen.queryByText('Alex Rivera')).toBeNull();
+  });
+});

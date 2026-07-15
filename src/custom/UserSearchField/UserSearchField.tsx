@@ -6,17 +6,14 @@ import { useDebounce } from 'use-debounce';
 import { Avatar, Box, Chip, Grid2, TextField, Typography } from '../../base';
 import { PersonIcon } from '../../icons/Person';
 import { useTheme } from '../../theme';
-import { DeletedAt, isSoftDeleted } from '../../utils/nullTime';
-
-interface User {
-  id: string;
-  userId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatarUrl?: string;
-  deletedAt?: DeletedAt;
-}
+import { isSoftDeleted } from '../../utils/nullTime';
+import {
+  getUserContactLabel,
+  getUserDisplayName,
+  getUserIdentifier,
+  isSameUser,
+  User
+} from '../../utils/user';
 
 interface UserSearchFieldProps {
   // Array of user objects currently selected.
@@ -54,7 +51,6 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   // const open = inputValue.trim().length > 0 && suggestions?.length > 0
 
   const handleShareWithNewUsers = async () => {
-    console.log('users to share with', usersToShareWith);
     try {
       setIsSharing(true);
       const result = await shareWithNewUsers(usersToShareWith);
@@ -64,7 +60,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
         setError(result.error);
       }
     } catch (e) {
-      console.log('error while sharing', e);
+      console.error('error while sharing', e);
     } finally {
       setIsSharing(false);
     }
@@ -88,20 +84,20 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   };
 
   const filteredOptions = suggestions.filter(
-    (option: User) => !usersToShareWith.concat(usersData).find((u) => u.email === option.email)
+    (option: User) => !usersToShareWith.concat(usersData).find((u) => isSameUser(u, option))
   );
 
   const isShareDisabled = disabled || isSharing || usersToShareWith.length === 0;
 
   const UserChip = ({ avatarObj, ...props }: { avatarObj: User }) => (
     <Chip
-      key={avatarObj.userId}
+      key={getUserIdentifier(avatarObj)}
       avatar={
-        <Avatar alt={avatarObj.firstName} src={avatarObj.avatarUrl}>
-          {avatarObj.avatarUrl ? '' : avatarObj.firstName?.charAt(0)}
+        <Avatar alt={getUserDisplayName(avatarObj)} src={avatarObj.avatarUrl}>
+          {avatarObj.avatarUrl ? '' : getUserDisplayName(avatarObj).charAt(0)}
         </Avatar>
       }
-      label={avatarObj.email}
+      label={getUserContactLabel(avatarObj) || getUserDisplayName(avatarObj)}
       size="small"
       {...props}
     />
@@ -130,7 +126,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           inputValue={inputValue}
           loading={searchUserLoading}
           value={usersToShareWith}
-          getOptionLabel={(user) => user.email}
+          getOptionLabel={(user) => getUserContactLabel(user) || getUserDisplayName(user)}
           noOptionsText={
             searchUserLoading
               ? 'Loading...'
@@ -140,7 +136,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           }
           onChange={handleAdd}
           onInputChange={handleInputChange}
-          isOptionEqualToValue={(option, value) => option.email === value.email}
+          isOptionEqualToValue={isSameUser}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -167,36 +163,40 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
               }}
             />
           )}
-          renderOption={(props: React.HTMLAttributes<HTMLLIElement>, option) => (
-            // @ts-expect-error Props need to be passed to BOX component to make sure styles getting updated
-            <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-              <Grid2 container sx={{ alignItems: 'center' }}>
-                <Grid2>
-                  <Box sx={{ color: 'text.secondary', mr: 2 }}>
-                    <Avatar alt={option.firstName} src={option.avatarUrl}>
-                      {option.avatarUrl ? '' : <PersonIcon />}
-                    </Avatar>
-                  </Box>
-                </Grid2>
-                <Grid2 size="grow">
-                  {isSoftDeleted(option.deletedAt) ? (
-                    <Typography variant="body2" color="text.secondary">
-                      {option.email} (deleted)
-                    </Typography>
-                  ) : (
-                    <>
-                      <Typography variant="body2">
-                        {option.firstName} {option.lastName}
-                      </Typography>
+          renderOption={(props: React.HTMLAttributes<HTMLLIElement>, option) => {
+            const displayName = getUserDisplayName(option);
+            const contactLabel = getUserContactLabel(option);
+            return (
+              // @ts-expect-error Props need to be passed to BOX component to make sure styles getting updated
+              <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
+                <Grid2 container sx={{ alignItems: 'center' }}>
+                  <Grid2>
+                    <Box sx={{ color: 'text.secondary', mr: 2 }}>
+                      <Avatar alt={displayName} src={option.avatarUrl}>
+                        {option.avatarUrl ? '' : <PersonIcon />}
+                      </Avatar>
+                    </Box>
+                  </Grid2>
+                  <Grid2 size="grow">
+                    {isSoftDeleted(option.deletedAt) ? (
                       <Typography variant="body2" color="text.secondary">
-                        {option.email}
+                        {contactLabel || displayName} (deleted)
                       </Typography>
-                    </>
-                  )}
+                    ) : (
+                      <>
+                        <Typography variant="body2">{displayName}</Typography>
+                        {contactLabel && contactLabel !== displayName && (
+                          <Typography variant="body2" color="text.secondary">
+                            {contactLabel}
+                          </Typography>
+                        )}
+                      </>
+                    )}
+                  </Grid2>
                 </Grid2>
-              </Grid2>
-            </Box>
-          )}
+              </Box>
+            );
+          }}
         />
         <Button
           variant="contained"

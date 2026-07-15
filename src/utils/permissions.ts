@@ -1,23 +1,15 @@
 import { VISIBILITY } from '../constants/constants';
-import { DeletedAt } from './nullTime';
+import { getUserIdentifier, User } from './user';
 
-export interface User {
-  id: string;
-  userId: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  avatarUrl?: string;
-  deletedAt?: DeletedAt;
-  roleNames?: string[];
-}
+export type { User };
 
 export const canUpdateResource = (
   selectedResource: { visibility: string },
   currentUser: User,
   resourceOwner: User
 ) => {
-  const isOwner = resourceOwner.userId == currentUser.userId;
+  const ownerIdentifier = getUserIdentifier(resourceOwner);
+  const isOwner = Boolean(ownerIdentifier) && ownerIdentifier === getUserIdentifier(currentUser);
   const isAdmin = currentUser.roleNames?.includes('admin');
   return isOwner || isAdmin;
 };
