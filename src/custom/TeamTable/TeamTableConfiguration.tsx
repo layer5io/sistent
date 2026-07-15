@@ -211,7 +211,8 @@ export default function TeamTableConfiguration({
         sort: false,
         searchable: false,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) => {
-          if (bulkSelect || isSoftDeleted(tableMeta.rowData[4])) {
+          // rowData index 6 is the `deletedAt` column (see colViews/columns order).
+          if (bulkSelect || isSoftDeleted(tableMeta.rowData[6])) {
             return (
               <TableIconsDisabledContainer>
                 <EditIcon
@@ -383,6 +384,7 @@ export default function TeamTableConfiguration({
         };
       }
 
+      // row index 6 is the `deletedAt` column (see colViews/columns order).
       if (isSoftDeleted(row[6])) {
         return {
           style: {

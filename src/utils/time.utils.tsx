@@ -24,7 +24,7 @@ export const getFullFormattedTime = (date: string): string => {
  * @param {string} date - ISO format date string
  * @returns {string} Formatted date in "Month Day, Year" format (e.g. "Jan 1, 2025")
  */
-export const getFormatDate = (date: string) => {
+export const getFormatDate = (date: string | number | Date) => {
   const options = { year: 'numeric' as const, month: 'short' as const, day: 'numeric' as const };
   const formattedDate = new Date(date).toLocaleDateString('en-US', options);
   return formattedDate;

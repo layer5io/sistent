@@ -9,7 +9,7 @@ import { DeletedAt, getDeletedAtTime, getFormatDate } from '../../utils';
 export const DEFAULT_DATE = 'N/A'; // a constant to represent the default date value
 export const parseDeletionTimestamp = (data: { deletedAt: DeletedAt }) => {
   const time = getDeletedAtTime(data?.deletedAt);
-  return time != null ? getFormatDate(time as string) : DEFAULT_DATE;
+  return time != null ? getFormatDate(time) : DEFAULT_DATE;
 };
 
 /**
