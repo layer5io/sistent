@@ -15,14 +15,14 @@ jobs:
       contents: read
     steps:
       - name: Checkout Sistent PR
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: sistent
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: sistent/package-lock.json
 
@@ -48,7 +48,7 @@ jobs:
           echo "Created package: $SISTENT_PACKAGE"
 
       - name: Checkout Meshery UI
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: meshery/meshery
           # Pin to the commit that added date-fns as a Meshery UI dependency
@@ -106,5 +106,5 @@ jobs:
             else
               echo "- **Meshery UI Build**: ❌ Failed"
             fi
-            echo "- **Node Version**: 20"
+            echo "- **Node Version**: 22"
           } >> $GITHUB_STEP_SUMMARY
