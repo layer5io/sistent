@@ -206,8 +206,11 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         renderOption={(props, option: User) => {
           const displayName = getUserDisplayName(option);
           const contactLabel = getUserContactLabel(option);
+          const isDeleted = option.deleted || isSoftDeleted(option.deletedAt);
           return (
-            <li {...props} id={getUserIdentifier(option)}>
+            // Spread MUI's props untouched: Autocomplete's generated option id
+            // wires up aria-activedescendant and keyboard navigation.
+            <li {...props}>
               <Box sx={{ '& > img': { mr: 2, flexShrink: 0 } }}>
                 {' '}
                 <Grid2 container sx={{ alignItems: 'center' }}>
@@ -219,7 +222,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
                     </Box>
                   </Grid2>
                   <Grid2 size="grow">
-                    {option.deleted ? (
+                    {isDeleted ? (
                       <Typography variant="body2" color="text.secondary">
                         {contactLabel || displayName} (deleted)
                       </Typography>

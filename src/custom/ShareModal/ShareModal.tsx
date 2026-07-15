@@ -250,6 +250,17 @@ const ShareModal: React.FC<ShareModalProps> = ({
   const resourceType = dataName === 'design' ? 'pattern' : dataName;
 
   const handleShareWithNewUsers = async (newUsers: User[]) => {
+    // Fail fast on records without a usable identifier: an empty actor_id
+    // would produce an invalid grant_access payload and a confusing
+    // partial-share result.
+    if (newUsers.some((user) => !getUserIdentifier(user))) {
+      notify({
+        message: `Unable to share ${dataName}: a selected user record is missing its identifier`,
+        event_type: 'error'
+      });
+      return { error: 'missing user identifier' };
+    }
+
     const grantAccessList = newUsers.map((user) => ({
       actor_id: getUserIdentifier(user),
       actor_type: 'user'
@@ -320,6 +331,16 @@ const ShareModal: React.FC<ShareModalProps> = ({
   };
 
   const handleRevokeAccess = async (revokedUsers: User[]) => {
+    // Same guard as sharing: never issue a revoke_access entry with an
+    // empty actor_id.
+    if (revokedUsers.some((user) => !getUserIdentifier(user))) {
+      notify({
+        message: `Unable to revoke access to ${dataName}: the user record is missing its identifier`,
+        event_type: 'error'
+      });
+      return { error: 'missing user identifier' };
+    }
+
     const revokeAccessList = revokedUsers.map((user) => ({
       actor_id: getUserIdentifier(user),
       actor_type: 'user'

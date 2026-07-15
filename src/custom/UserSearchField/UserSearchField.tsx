@@ -83,8 +83,9 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
     }
   };
 
+  const alreadySelectedUsers = usersToShareWith.concat(usersData);
   const filteredOptions = suggestions.filter(
-    (option: User) => !usersToShareWith.concat(usersData).find((u) => isSameUser(u, option))
+    (option: User) => !alreadySelectedUsers.some((u) => isSameUser(u, option))
   );
 
   const isShareDisabled = disabled || isSharing || usersToShareWith.length === 0;

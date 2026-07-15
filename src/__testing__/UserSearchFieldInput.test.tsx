@@ -95,4 +95,47 @@ describe('UserSearchField v1beta3 user records', () => {
     });
     expect(screen.queryByText('Alex Rivera')).toBeNull();
   });
+
+  it('renders soft-deleted v1beta3 records (deletedAt) as deleted options', async () => {
+    // v1beta3 signals soft deletion via `deletedAt`, not the component-local
+    // `deleted` boolean; both must render the "(deleted)" treatment.
+    const deletedByTimestamp = {
+      id: 'u-gone',
+      email: 'gone@example.com',
+      deletedAt: '2026-01-01T00:00:00Z'
+    };
+    const { input } = renderField({
+      usersSearch: 'gone',
+      searchedUsers: [deletedByTimestamp]
+    });
+
+    fireEvent.change(input, { target: { value: 'gone' } });
+
+    await waitFor(() => {
+      expect(screen.queryByText('gone@example.com (deleted)')).not.toBeNull();
+    });
+  });
+
+  it('keeps MUI-generated option ids so aria-activedescendant resolves', async () => {
+    // renderOption must spread the Autocomplete-provided props untouched:
+    // overriding the option `id` with the user identifier orphans the
+    // input's aria-activedescendant reference and breaks keyboard focus.
+    const { input } = renderField({
+      usersSearch: 'a',
+      searchedUsers: [v1beta3Alex, usernameOnly]
+    });
+
+    fireEvent.change(input, { target: { value: 'a' } });
+    await waitFor(() => {
+      expect(screen.getAllByRole('option').length).toBeGreaterThan(0);
+    });
+
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+
+    const activeDescendant = input.getAttribute('aria-activedescendant');
+    expect(activeDescendant).toBeTruthy();
+    const highlighted = document.getElementById(activeDescendant as string);
+    expect(highlighted).not.toBeNull();
+    expect(highlighted?.getAttribute('role')).toBe('option');
+  });
 });
