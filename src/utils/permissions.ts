@@ -1,4 +1,5 @@
 import { VISIBILITY } from '../constants/constants';
+import { DeletedAt } from './nullTime';
 
 export interface User {
   id: string;
@@ -7,7 +8,7 @@ export interface User {
   lastName: string;
   email: string;
   avatarUrl?: string;
-  deletedAt?: { Valid: boolean };
+  deletedAt?: DeletedAt;
   roleNames?: string[];
 }
 
