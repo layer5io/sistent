@@ -13,6 +13,7 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
+  username?: string;
   avatarUrl?: string;
   deletedAt?: { Valid: boolean };
 }
@@ -87,7 +88,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   };
 
   const filteredOptions = suggestions.filter(
-    (option: User) => !usersToShareWith.concat(usersData).find((u) => u.email === option.email)
+    (option: User) => !usersToShareWith.concat(usersData).find((u) => u.userId === option.userId)
   );
 
   const isShareDisabled = disabled || isSharing || usersToShareWith.length === 0;
@@ -129,7 +130,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           inputValue={inputValue}
           loading={searchUserLoading}
           value={usersToShareWith}
-          getOptionLabel={(user) => user.email}
+          getOptionLabel={(user) => user.email ?? user.username ?? ''}
           noOptionsText={
             searchUserLoading
               ? 'Loading...'
@@ -139,7 +140,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           }
           onChange={handleAdd}
           onInputChange={handleInputChange}
-          isOptionEqualToValue={(option, value) => option.email === value.email}
+          isOptionEqualToValue={(option, value) => option.userId === value.userId}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -184,11 +185,13 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
                     </Typography>
                   ) : (
                     <>
-                      <Typography variant="body2">
-                        {option.firstName} {option.lastName}
-                      </Typography>
+                      {(option.firstName || option.lastName) && (
+                        <Typography variant="body2">
+                          {option.firstName} {option.lastName}
+                        </Typography>
+                      )}
                       <Typography variant="body2" color="text.secondary">
-                        {option.email}
+                        {option.email ?? option.username}
                       </Typography>
                     </>
                   )}
