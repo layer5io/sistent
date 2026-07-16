@@ -16,11 +16,15 @@ import { VISIBILITY } from '../../constants/constants';
 import { ChainIcon, DeleteIcon, LockIcon, PublicIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { BLACK, WHITE } from '../../theme/colors';
+import { canShareResourceWithNewUsers, canUpdateResourceVisibility } from '../../utils/permissions';
 import {
-  canShareResourceWithNewUsers,
-  canUpdateResourceVisibility,
+  getUserContactLabel,
+  getUserDisplayName,
+  getUserIdentifier,
+  getUserLabel,
+  isSameUser,
   User
-} from '../../utils/permissions';
+} from '../../utils/user';
 import { CustomTooltip } from '../CustomTooltip';
 import { Modal, ModalBody, ModalButtonSecondary, ModalFooter } from '../Modal';
 import UserShareSearch from '../UserSearchField/UserSearchField';
@@ -44,7 +48,7 @@ const SHARE_MODE = VISIBILITY;
 interface AccessListProps {
   accessList: User[];
   ownerData: User;
-  handleDelete: (email: string) => Promise<{ error: string }>;
+  handleDelete: (actor: User) => Promise<{ error: string }>;
   hostURL?: string | null;
 }
 
@@ -52,7 +56,7 @@ interface AccessListActorProps {
   actor: User;
   isOwner: boolean;
   hostURL?: string | null;
-  handleDelete: (email: string) => Promise<{ error: string }>;
+  handleDelete: (actor: User) => Promise<{ error: string }>;
 }
 
 const AccessListActor: React.FC<AccessListActorProps> = ({
@@ -63,10 +67,10 @@ const AccessListActor: React.FC<AccessListActorProps> = ({
 }) => {
   const theme = useTheme();
   const [isRevoking, setIsRevoking] = useState(false);
-  const revokeAcess = async () => {
+  const revokeAccess = async () => {
     setIsRevoking(true);
     try {
-      await handleDelete(actorData.email);
+      await handleDelete(actorData);
     } finally {
       setIsRevoking(false);
     }
@@ -77,20 +81,20 @@ const AccessListActor: React.FC<AccessListActorProps> = ({
   };
 
   return (
-    <ListItem key={actorData.id} style={{ paddingLeft: '0' }}>
+    <ListItem key={getUserLabel(actorData)} style={{ paddingLeft: '0' }}>
       <ListItemAvatar>
         <Avatar
-          alt={actorData.firstName}
+          alt={getUserDisplayName(actorData)}
           src={actorData.avatarUrl}
           imgProps={{ referrerPolicy: 'no-referrer' }}
           onClick={() => {
-            if (hostURL) openInNewTab(`${hostURL}/user/${actorData.id}`);
+            if (hostURL) openInNewTab(`${hostURL}/user/${getUserIdentifier(actorData)}`);
           }}
         />
       </ListItemAvatar>
       <ListItemText
-        primary={`${actorData.firstName || ''} ${actorData.lastName || ''}`}
-        secondary={actorData.email}
+        primary={getUserDisplayName(actorData)}
+        secondary={getUserContactLabel(actorData)}
         secondaryTypographyProps={{
           sx: {
             color: theme.palette.background.neutral?.pressed
@@ -102,7 +106,7 @@ const AccessListActor: React.FC<AccessListActorProps> = ({
 
         {!isOwner && !isRevoking && (
           <CustomTooltip title="Remove Access" placement="top" arrow>
-            <IconButton edge="end" aria-label="delete" onClick={revokeAcess}>
+            <IconButton edge="end" aria-label="delete" onClick={revokeAccess}>
               <DeleteIcon fill={theme.palette.background.neutral?.default} />
             </IconButton>
           </CustomTooltip>
@@ -135,10 +139,10 @@ const AccessList: React.FC<AccessListProps> = ({
           {accessList.map((actorData) => (
             <AccessListActor
               hostURL={hostURL}
-              key={actorData.id}
+              key={getUserLabel(actorData)}
               actor={actorData}
               handleDelete={handleDelete}
-              isOwner={ownerData.id == actorData.id}
+              isOwner={isSameUser(ownerData, actorData)}
             />
           ))}
         </List>
@@ -213,15 +217,24 @@ const ShareModal: React.FC<ShareModalProps> = ({
   useGetAllUsersQuery,
   shareableLink
 }: ShareModalProps): JSX.Element => {
-  console.log('amit selectdResource', selectedResource);
   const theme = useTheme();
   const [openMenu, setMenu] = useState<boolean>(false);
   const [shareUserData, setShareUserData] = useState<User[]>([]);
+  // `?? ''` keeps the visibility Select controlled even when a broken
+  // caller passes a nullish or empty resource selection.
   const [resourceVisibility, setVisibility] = useState(
-    Array.isArray(selectedResource) ? selectedResource[0].visibility : selectedResource.visibility
+    (Array.isArray(selectedResource)
+      ? selectedResource[0]?.visibility
+      : selectedResource?.visibility) ?? ''
   );
-  console.log('amit resourceVisibility', resourceVisibility);
   const [isUpdatingVisibility, setUpdatingVisibility] = useState(false);
+
+  // The prop type requires a resource, but this is a published component with
+  // untyped consumers; the access handlers read `.id` off it, so a nullish or
+  // empty selection has to be caught before it reaches a payload.
+  const hasSelectedResource = Array.isArray(selectedResource)
+    ? selectedResource.length > 0
+    : Boolean(selectedResource);
 
   const userCanUpdateVisibility = Array.isArray(selectedResource)
     ? selectedResource.every((resource) =>
@@ -246,11 +259,30 @@ const ShareModal: React.FC<ShareModalProps> = ({
   const resourceType = dataName === 'design' ? 'pattern' : dataName;
 
   const handleShareWithNewUsers = async (newUsers: User[]) => {
+    if (!hasSelectedResource) {
+      notify({
+        message: `Unable to share ${dataName}: no ${dataName} is selected`,
+        event_type: 'error'
+      });
+      return { error: 'no resource selected' };
+    }
+
+    // Fail fast on records without a usable identifier: an empty actor_id
+    // would produce an invalid grant_access payload and a confusing
+    // partial-share result.
+    if (newUsers.some((user) => !getUserIdentifier(user))) {
+      notify({
+        message: `Unable to share ${dataName}: a selected user record is missing its identifier`,
+        event_type: 'error'
+      });
+      return { error: 'missing user identifier' };
+    }
+
     const grantAccessList = newUsers.map((user) => ({
-      actor_id: user.userId,
+      actor_id: getUserIdentifier(user),
       actor_type: 'user'
     }));
-    const emails = newUsers.map((u) => u.email);
+    const recipients = newUsers.map(getUserLabel);
 
     if (Array.isArray(selectedResource)) {
       const responses = await Promise.all(
@@ -271,7 +303,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
       if (!hasError) {
         notify({
-          message: `${dataName}s shared with ${emails.join(', ')}`,
+          message: `${dataName}s shared with ${recipients.join(', ')}`,
           event_type: 'success'
         });
       } else {
@@ -298,7 +330,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
     if (!response?.error) {
       notify({
-        message: `${dataName} shared with ${emails.join(', ')}`,
+        message: `${dataName} shared with ${recipients.join(', ')}`,
         event_type: 'success'
       });
     }
@@ -316,11 +348,29 @@ const ShareModal: React.FC<ShareModalProps> = ({
   };
 
   const handleRevokeAccess = async (revokedUsers: User[]) => {
+    if (!hasSelectedResource) {
+      notify({
+        message: `Unable to revoke access to ${dataName}: no ${dataName} is selected`,
+        event_type: 'error'
+      });
+      return { error: 'no resource selected' };
+    }
+
+    // Same guard as sharing: never issue a revoke_access entry with an
+    // empty actor_id.
+    if (revokedUsers.some((user) => !getUserIdentifier(user))) {
+      notify({
+        message: `Unable to revoke access to ${dataName}: the user record is missing its identifier`,
+        event_type: 'error'
+      });
+      return { error: 'missing user identifier' };
+    }
+
     const revokeAccessList = revokedUsers.map((user) => ({
-      actor_id: user.id,
+      actor_id: getUserIdentifier(user),
       actor_type: 'user'
     }));
-    const emails = revokedUsers.map((u) => u.email);
+    const revokees = revokedUsers.map(getUserLabel);
 
     const response = await resourceAccessMutator({
       resourceType,
@@ -333,16 +383,15 @@ const ShareModal: React.FC<ShareModalProps> = ({
     });
 
     if (!response?.error) {
-      const msg = `Access to ${dataName} revoked for  ${emails.join(', ')} `;
       notify({
-        message: msg,
+        message: `Access to ${dataName} revoked for ${revokees.join(', ')}`,
         event_type: 'success'
       });
     }
 
     if (response?.error) {
       notify({
-        message: `failed to revokke access to ${dataName}`,
+        message: `Failed to revoke access to ${dataName}`,
         event_type: 'error'
       });
     }
@@ -352,14 +401,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
     };
   };
 
-  const handleDelete = async (email: string) => {
-    const revoked = shareUserData.find((user) => user.email == email);
-    if (!revoked) {
-      console.error('cant revoke user without acesss');
-      return { error: '' };
-    }
-    return handleRevokeAccess([revoked]);
-  };
+  const handleDelete = async (actor: User) => handleRevokeAccess([actor]);
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const notifyVisibilityChange = (res: any, value: any) => {
