@@ -107,7 +107,10 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
     (option: User) => !alreadySelectedUsers.some((u) => isSameUser(u, option))
   );
 
-  const isShareDisabled = disabled || isSharing || usersToShareWith.length === 0;
+  // The picker itself stays usable until the consumer disables it or a share
+  // is in flight; only the Share button additionally requires a selection.
+  const isPickerDisabled = disabled || isSharing;
+  const isShareDisabled = isPickerDisabled || usersToShareWith.length === 0;
 
   return (
     <>
@@ -127,7 +130,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           filterSelectedOptions
           multiple
           disableListWrap
-          disabled={isSharing}
+          disabled={isPickerDisabled}
           // open={open}
           inputValue={inputValue}
           loading={searchUserLoading}
@@ -151,7 +154,6 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
               helperText={error}
               fullWidth
               label=""
-              disabled={isShareDisabled}
               sx={{
                 '& .MuiOutlinedInput-root': {
                   paddingInline: '0.5rem',

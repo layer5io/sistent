@@ -87,6 +87,23 @@ describe('UserShareSearch with v1beta3 user records', () => {
     );
   });
 
+  it('leaves the search field usable before any user is selected', () => {
+    // Only the Share button is gated on having a selection. Rendering the
+    // search field as disabled while it still accepts input tells the user
+    // the picker is unavailable when it is the only way to make a selection.
+    const { input } = renderSearch();
+
+    expect(input.disabled).toBe(false);
+    expect(input.closest('.MuiOutlinedInput-root')?.className).not.toContain('Mui-disabled');
+    expect((screen.getByRole('button', { name: 'Share' }) as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('disables the search field when the consumer disables the picker', () => {
+    const { input } = renderSearch({ disabled: true });
+
+    expect(input.disabled).toBe(true);
+  });
+
   it('does not resurface users that already have access', async () => {
     // Existing access list arrives as canonical v1beta3 records (id, no
     // userId); the suggestion list must recognize them as the same user.

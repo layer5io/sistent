@@ -229,6 +229,13 @@ const ShareModal: React.FC<ShareModalProps> = ({
   );
   const [isUpdatingVisibility, setUpdatingVisibility] = useState(false);
 
+  // The prop type requires a resource, but this is a published component with
+  // untyped consumers; the access handlers read `.id` off it, so a nullish or
+  // empty selection has to be caught before it reaches a payload.
+  const hasSelectedResource = Array.isArray(selectedResource)
+    ? selectedResource.length > 0
+    : Boolean(selectedResource);
+
   const userCanUpdateVisibility = Array.isArray(selectedResource)
     ? selectedResource.every((resource) =>
         canUpdateResourceVisibility(resource, currentUser, ownerData)
@@ -252,6 +259,14 @@ const ShareModal: React.FC<ShareModalProps> = ({
   const resourceType = dataName === 'design' ? 'pattern' : dataName;
 
   const handleShareWithNewUsers = async (newUsers: User[]) => {
+    if (!hasSelectedResource) {
+      notify({
+        message: `Unable to share ${dataName}: no ${dataName} is selected`,
+        event_type: 'error'
+      });
+      return { error: 'no resource selected' };
+    }
+
     // Fail fast on records without a usable identifier: an empty actor_id
     // would produce an invalid grant_access payload and a confusing
     // partial-share result.
@@ -333,6 +348,14 @@ const ShareModal: React.FC<ShareModalProps> = ({
   };
 
   const handleRevokeAccess = async (revokedUsers: User[]) => {
+    if (!hasSelectedResource) {
+      notify({
+        message: `Unable to revoke access to ${dataName}: no ${dataName} is selected`,
+        event_type: 'error'
+      });
+      return { error: 'no resource selected' };
+    }
+
     // Same guard as sharing: never issue a revoke_access entry with an
     // empty actor_id.
     if (revokedUsers.some((user) => !getUserIdentifier(user))) {
