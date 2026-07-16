@@ -21,6 +21,8 @@ export interface BottomSheetProps {
   /** @default '80vh' */
   maxHeight?: string;
   closeButtonAriaLabel?: string;
+  headerBackgroundColor?: string;
+  headerTextColor?: string;
 }
 
 /**
@@ -33,6 +35,8 @@ const BottomSheet = ({
   children,
   maxHeight = '80vh',
   closeButtonAriaLabel = 'Close',
+  headerBackgroundColor,
+  headerTextColor,
 }: BottomSheetProps) => {
   const titleId = useId();
 
@@ -58,26 +62,43 @@ const BottomSheet = ({
       {title && (
         <>
           <Box
-            sx={{
+            sx={(theme) => ({
               display: 'flex',
+              justifyContent: 'space-between',
               alignItems: 'center',
-              px: 2,
-              py: 1.25,
-              minHeight: 52,
-            }}
+              padding: '1rem',
+              textAlign: 'center',
+              background: headerBackgroundColor || theme.palette.surface.tint,
+              color: headerTextColor || '#eee',
+            })}
           >
             <Typography
               id={titleId}
               variant="subtitle1"
-              sx={{ fontWeight: 600, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+              sx={{ fontWeight: 600, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: 'inherit' }}
             >
               {title}
             </Typography>
-            <IconButton aria-label={closeButtonAriaLabel} onClick={onClose} size="small" edge="end">
+            <IconButton 
+              aria-label={closeButtonAriaLabel} 
+              onClick={onClose} 
+              size="small" 
+              edge="end"
+              sx={{
+                '& svg': {
+                  fill: '#fff',
+                },
+                transform: 'rotate(-90deg)',
+                '&:hover': {
+                  transform: 'rotate(90deg)',
+                  transition: 'all 0.3s ease-in',
+                  cursor: 'pointer',
+                }
+              }}
+            >
               <CloseIcon />
             </IconButton>
           </Box>
-          <Divider />
         </>
       )}
       <DialogContent sx={{ px: 2, py: 1.5, overflowY: 'auto' }}>
