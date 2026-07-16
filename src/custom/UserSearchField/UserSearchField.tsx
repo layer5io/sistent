@@ -84,7 +84,10 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
     }
   };
 
-  const alreadySelectedUsers = usersToShareWith.concat(usersData);
+  // `?? []` tolerates JS consumers of the published package passing a
+  // nullish usersData, mirroring the nullish-currentUser tolerance in
+  // utils/permissions.ts.
+  const alreadySelectedUsers = usersToShareWith.concat(usersData ?? []);
   const filteredOptions = suggestions.filter(
     (option: User) => !alreadySelectedUsers.some((u) => isSameUser(u, option))
   );

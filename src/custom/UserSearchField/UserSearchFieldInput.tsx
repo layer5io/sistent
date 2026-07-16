@@ -18,12 +18,12 @@ import { iconSmall } from '../../constants/iconsSizes';
 import { CloseIcon, PersonIcon } from '../../icons';
 import { isSoftDeleted } from '../../utils/nullTime';
 import {
+  User as BaseUser,
   getUserContactLabel,
   getUserDisplayName,
   getUserIdentifier,
   getUserLabel,
-  isSameUser,
-  User as BaseUser
+  isSameUser
 } from '../../utils/user';
 
 interface User extends BaseUser {
@@ -274,7 +274,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
             key={getUserIdentifier(localUsersData[0])}
             avatar={
               <Avatar alt={getUserDisplayName(localUsersData[0])} src={localUsersData[0].avatarUrl}>
-                {!localUsersData[0].avatarUrl && getUserDisplayName(localUsersData[0])[0]}
+                {!localUsersData[0].avatarUrl && getUserDisplayName(localUsersData[0]).charAt(0)}
               </Avatar>
             }
             label={getUserLabel(localUsersData[0])}
@@ -294,7 +294,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
               key={getUserIdentifier(user)}
               avatar={
                 <Avatar alt={getUserDisplayName(user)} src={user.avatarUrl}>
-                  {!user.avatarUrl && getUserDisplayName(user)[0]}
+                  {!user.avatarUrl && getUserDisplayName(user).charAt(0)}
                 </Avatar>
               }
               label={getUserLabel(user)}
