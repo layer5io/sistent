@@ -221,7 +221,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
   const [openMenu, setMenu] = useState<boolean>(false);
   const [shareUserData, setShareUserData] = useState<User[]>([]);
   const [resourceVisibility, setVisibility] = useState(
-    Array.isArray(selectedResource) ? selectedResource[0].visibility : selectedResource.visibility
+    Array.isArray(selectedResource) ? selectedResource[0]?.visibility : selectedResource?.visibility
   );
   const [isUpdatingVisibility, setUpdatingVisibility] = useState(false);
 

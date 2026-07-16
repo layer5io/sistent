@@ -98,11 +98,9 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
 
       // Identifier-string comparison collapses every identifier-less record
       // (email-only invitees) onto '' and deletes them all together. isSameUser
-      // matches on identifier or email; reference equality is the last resort
-      // for records carrying neither, which isSameUser never matches.
-      const updatedUsers = localUsersData.filter(
-        (user) => user !== userToDelete && !isSameUser(user, userToDelete)
-      );
+      // matches on reference, identifier, or email, so only the selected
+      // record is removed.
+      const updatedUsers = localUsersData.filter((user) => !isSameUser(user, userToDelete));
       setLocalUsersData(updatedUsers);
       setUsersData(updatedUsers);
 

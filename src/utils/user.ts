@@ -58,11 +58,13 @@ export const getUserLabel = (user: User | null | undefined): string =>
   getUserContactLabel(user) || getUserDisplayName(user) || getUserIdentifier(user);
 
 /**
- * Identity comparison across wire shapes: canonical/legacy identifiers when
- * both records carry one, else email. Two records with no comparable field
- * are never considered the same user.
+ * Identity comparison across wire shapes: the same object reference is
+ * trivially the same user, then canonical/legacy identifiers when both
+ * records carry one, else email. Two distinct records with no comparable
+ * field are never considered the same user.
  */
 export const isSameUser = (a: User | null | undefined, b: User | null | undefined): boolean => {
+  if (a && b && a === b) return true;
   const idA = getUserIdentifier(a);
   const idB = getUserIdentifier(b);
   if (idA && idB) return idA === idB;

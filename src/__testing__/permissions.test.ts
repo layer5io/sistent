@@ -31,6 +31,11 @@ describe('canUpdateResource', () => {
     expect(canUpdateResource(privateResource, {}, null)).toBe(false);
     expect(canUpdateResource(privateResource, {}, {})).toBe(false);
   });
+
+  it('denies when the resource is nullish, even for admins', () => {
+    expect(canUpdateResource(null, { id: 'u-1', roleNames: ['admin'] }, { id: 'u-1' })).toBe(false);
+    expect(canUpdateResource(undefined, { id: 'u-1' }, { id: 'u-1' })).toBe(false);
+  });
 });
 
 describe('canShareResourceWithNewUsers', () => {
@@ -41,5 +46,10 @@ describe('canShareResourceWithNewUsers', () => {
   it('falls back to the update permission for private resources', () => {
     expect(canShareResourceWithNewUsers(privateResource, { id: 'u-1' }, { id: 'u-1' })).toBe(true);
     expect(canShareResourceWithNewUsers(privateResource, null, { id: 'u-1' })).toBe(false);
+  });
+
+  it('denies when the resource is nullish', () => {
+    expect(canShareResourceWithNewUsers(null, { id: 'u-1' }, { id: 'u-1' })).toBe(false);
+    expect(canShareResourceWithNewUsers(undefined, { id: 'u-1' }, { id: 'u-1' })).toBe(false);
   });
 });

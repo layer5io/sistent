@@ -24,6 +24,22 @@ interface UserSearchFieldProps {
   useGetAllUsersQuery: any;
 }
 
+// Module scope keeps the component type stable across UserShareSearch
+// renders; defining it inline would remount every chip on each render.
+const UserChip = ({ avatarObj, ...props }: { avatarObj: User }) => (
+  <Chip
+    key={getUserLabel(avatarObj)}
+    avatar={
+      <Avatar alt={getUserDisplayName(avatarObj)} src={avatarObj.avatarUrl}>
+        {avatarObj.avatarUrl ? '' : getUserDisplayName(avatarObj).charAt(0)}
+      </Avatar>
+    }
+    label={getUserLabel(avatarObj)}
+    size="small"
+    {...props}
+  />
+);
+
 const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   usersData,
   disabled = false,
@@ -92,20 +108,6 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   );
 
   const isShareDisabled = disabled || isSharing || usersToShareWith.length === 0;
-
-  const UserChip = ({ avatarObj, ...props }: { avatarObj: User }) => (
-    <Chip
-      key={getUserLabel(avatarObj)}
-      avatar={
-        <Avatar alt={getUserDisplayName(avatarObj)} src={avatarObj.avatarUrl}>
-          {avatarObj.avatarUrl ? '' : getUserDisplayName(avatarObj).charAt(0)}
-        </Avatar>
-      }
-      label={getUserLabel(avatarObj)}
-      size="small"
-      {...props}
-    />
-  );
 
   return (
     <>

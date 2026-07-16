@@ -104,6 +104,11 @@ describe('getUserLabel', () => {
 });
 
 describe('isSameUser', () => {
+  it('matches the same object reference even with no comparable fields', () => {
+    const bare = {};
+    expect(isSameUser(bare, bare)).toBe(true);
+  });
+
   it('matches canonical id against the deprecated userId alias', () => {
     expect(isSameUser({ id: 'same' }, { userId: 'same' })).toBe(true);
   });
@@ -118,7 +123,7 @@ describe('isSameUser', () => {
     expect(isSameUser({ email: 'x@example.com' }, { id: 'a', email: 'x@example.com' })).toBe(true);
   });
 
-  it('never matches records with nothing to compare', () => {
+  it('never matches distinct records with nothing to compare', () => {
     expect(isSameUser({}, {})).toBe(false);
     expect(isSameUser({ email: '' }, { email: '' })).toBe(false);
     expect(isSameUser(null, { id: 'a' })).toBe(false);
