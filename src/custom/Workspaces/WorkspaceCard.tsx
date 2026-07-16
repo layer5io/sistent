@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material';
 import { Backdrop, CircularProgress, Grid2 } from '../../base';
 
-import { getRelativeTime } from '../../utils';
+import { DeletedAt, getRelativeTime, isSoftDeleted } from '../../utils';
 import { FlipCard } from '../FlipCard';
 import { RecordRow, RedirectButton, TransferButton } from './WorkspaceTransferButton';
 import {
@@ -30,7 +30,7 @@ interface WorkspaceDetails {
   id: number;
   name: string;
   description: string;
-  deletedAt: { Valid: boolean };
+  deletedAt: DeletedAt;
   updatedAt: string;
   createdAt: string;
 }
@@ -162,7 +162,7 @@ const WorkspaceCard = ({
   isEnvironmentsVisible,
   isTeamsVisible
 }: WorkspaceCardProps) => {
-  const deleted = workspaceDetails.deletedAt.Valid;
+  const deleted = isSoftDeleted(workspaceDetails.deletedAt);
   return (
     <FlipCard
       disableFlip={selectedWorkspaces.includes(workspaceDetails.id) ? true : false}

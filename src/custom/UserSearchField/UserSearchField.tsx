@@ -6,6 +6,7 @@ import { useDebounce } from 'use-debounce';
 import { Avatar, Box, Chip, Grid2, TextField, Typography } from '../../base';
 import { PersonIcon } from '../../icons/Person';
 import { useTheme } from '../../theme';
+import { DeletedAt, isSoftDeleted } from '../../utils/nullTime';
 
 interface User {
   id: string;
@@ -14,7 +15,7 @@ interface User {
   lastName: string;
   email: string;
   avatarUrl?: string;
-  deletedAt?: { Valid: boolean };
+  deletedAt?: DeletedAt;
 }
 
 interface UserSearchFieldProps {
@@ -178,7 +179,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
                   </Box>
                 </Grid2>
                 <Grid2 size="grow">
-                  {option.deletedAt?.Valid ? (
+                  {isSoftDeleted(option.deletedAt) ? (
                     <Typography variant="body2" color="text.secondary">
                       {option.email} (deleted)
                     </Typography>
