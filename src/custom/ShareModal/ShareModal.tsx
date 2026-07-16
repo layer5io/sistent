@@ -16,10 +16,7 @@ import { VISIBILITY } from '../../constants/constants';
 import { ChainIcon, DeleteIcon, LockIcon, PublicIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { BLACK, WHITE } from '../../theme/colors';
-import {
-  canShareResourceWithNewUsers,
-  canUpdateResourceVisibility
-} from '../../utils/permissions';
+import { canShareResourceWithNewUsers, canUpdateResourceVisibility } from '../../utils/permissions';
 import {
   getUserContactLabel,
   getUserDisplayName,
@@ -84,7 +81,7 @@ const AccessListActor: React.FC<AccessListActorProps> = ({
   };
 
   return (
-    <ListItem key={getUserIdentifier(actorData)} style={{ paddingLeft: '0' }}>
+    <ListItem key={getUserLabel(actorData)} style={{ paddingLeft: '0' }}>
       <ListItemAvatar>
         <Avatar
           alt={getUserDisplayName(actorData)}
@@ -142,7 +139,7 @@ const AccessList: React.FC<AccessListProps> = ({
           {accessList.map((actorData) => (
             <AccessListActor
               hostURL={hostURL}
-              key={getUserIdentifier(actorData)}
+              key={getUserLabel(actorData)}
               actor={actorData}
               handleDelete={handleDelete}
               isOwner={isSameUser(ownerData, actorData)}

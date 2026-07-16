@@ -5,8 +5,8 @@ export type { User };
 
 export const canUpdateResource = (
   selectedResource: { visibility: string },
-  currentUser: User,
-  resourceOwner: User
+  currentUser: User | null | undefined,
+  resourceOwner: User | null | undefined
 ) => {
   const ownerIdentifier = getUserIdentifier(resourceOwner);
   const isOwner = Boolean(ownerIdentifier) && ownerIdentifier === getUserIdentifier(currentUser);
@@ -20,8 +20,8 @@ export const canUpdateResourceVisibility = canUpdateResource;
 
 export const canShareResourceWithNewUsers = (
   selectedResource: { visibility: string },
-  currentUser: User,
-  resourceOwner: User
+  currentUser: User | null | undefined,
+  resourceOwner: User | null | undefined
 ) => {
   if (selectedResource.visibility == VISIBILITY.PUBLIC) {
     return true;

@@ -116,6 +116,39 @@ describe('UserSearchField v1beta3 user records', () => {
     });
   });
 
+  it('removes only the targeted record when selected users carry no identifier', () => {
+    // Email-only invitees all collapse onto the '' identifier, so filtering
+    // by identifier string deleted every one of them at once. Deletion must
+    // match the record itself (isSameUser, then reference equality).
+    const inviteeOne = { email: 'one@example.com' };
+    const inviteeTwo = { email: 'two@example.com' };
+    const { props, container } = renderField({ usersData: [inviteeOne, inviteeTwo] });
+
+    fireEvent.click(screen.getByText('(+1)'));
+
+    const deleteIcons = container.querySelectorAll('.MuiChip-deleteIcon');
+    expect(deleteIcons).toHaveLength(2);
+    fireEvent.click(deleteIcons[0]);
+
+    expect(props.setUsersData).toHaveBeenCalledWith([inviteeTwo]);
+  });
+
+  it('removes records carrying neither identifier nor email by reference', () => {
+    // isSameUser never matches two records with nothing to compare; reference
+    // equality is the last resort that keeps such rows deletable.
+    const ghost = { username: 'ghost' };
+    const other = { username: 'other' };
+    const { props, container } = renderField({ usersData: [ghost, other] });
+
+    fireEvent.click(screen.getByText('(+1)'));
+
+    const deleteIcons = container.querySelectorAll('.MuiChip-deleteIcon');
+    expect(deleteIcons).toHaveLength(2);
+    fireEvent.click(deleteIcons[0]);
+
+    expect(props.setUsersData).toHaveBeenCalledWith([other]);
+  });
+
   it('keeps MUI-generated option ids so aria-activedescendant resolves', async () => {
     // renderOption must spread the Autocomplete-provided props untouched:
     // overriding the option `id` with the user identifier orphans the

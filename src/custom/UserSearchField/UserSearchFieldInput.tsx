@@ -21,7 +21,6 @@ import {
   User as BaseUser,
   getUserContactLabel,
   getUserDisplayName,
-  getUserIdentifier,
   getUserLabel,
   isSameUser
 } from '../../utils/user';
@@ -94,10 +93,16 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
   }, [searchedUsers, currentUserData, usersSearch, hasInitialFocus]);
 
   const handleDelete = useCallback(
-    (idToDelete: string, event: React.MouseEvent) => {
+    (userToDelete: User, event: React.MouseEvent) => {
       event.stopPropagation();
 
-      const updatedUsers = localUsersData.filter((user) => getUserIdentifier(user) !== idToDelete);
+      // Identifier-string comparison collapses every identifier-less record
+      // (email-only invitees) onto '' and deletes them all together. isSameUser
+      // matches on identifier or email; reference equality is the last resort
+      // for records carrying neither, which isSameUser never matches.
+      const updatedUsers = localUsersData.filter(
+        (user) => user !== userToDelete && !isSameUser(user, userToDelete)
+      );
       setLocalUsersData(updatedUsers);
       setUsersData(updatedUsers);
 
@@ -105,7 +110,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         setDisableSave(false);
       }
     },
-    [localUsersData, setUsersData, setDisableSave, fetchSearchedUsers, inputValue]
+    [localUsersData, setUsersData, setDisableSave]
   );
 
   const handleAdd = useCallback(
@@ -271,14 +276,14 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
       >
         {!showAllUsers && localUsersData?.[0] && (
           <Chip
-            key={getUserIdentifier(localUsersData[0])}
+            key={getUserLabel(localUsersData[0])}
             avatar={
               <Avatar alt={getUserDisplayName(localUsersData[0])} src={localUsersData[0].avatarUrl}>
                 {!localUsersData[0].avatarUrl && getUserDisplayName(localUsersData[0]).charAt(0)}
               </Avatar>
             }
             label={getUserLabel(localUsersData[0])}
-            onDelete={(e) => handleDelete(getUserIdentifier(localUsersData[0]), e)}
+            onDelete={(e) => handleDelete(localUsersData[0], e)}
             deleteIcon={
               <Tooltip title="Remove user">
                 <CloseIcon style={iconSmall} />
@@ -291,14 +296,14 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
         {showAllUsers &&
           localUsersData?.map((user) => (
             <Chip
-              key={getUserIdentifier(user)}
+              key={getUserLabel(user)}
               avatar={
                 <Avatar alt={getUserDisplayName(user)} src={user.avatarUrl}>
                   {!user.avatarUrl && getUserDisplayName(user).charAt(0)}
                 </Avatar>
               }
               label={getUserLabel(user)}
-              onDelete={(e) => handleDelete(getUserIdentifier(user), e)}
+              onDelete={(e) => handleDelete(user, e)}
               deleteIcon={
                 <Tooltip title="Remove user">
                   <CloseIcon style={iconSmall} />

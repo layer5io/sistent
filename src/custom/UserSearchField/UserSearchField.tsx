@@ -10,7 +10,6 @@ import { isSoftDeleted } from '../../utils/nullTime';
 import {
   getUserContactLabel,
   getUserDisplayName,
-  getUserIdentifier,
   getUserLabel,
   isSameUser,
   User
@@ -96,7 +95,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
 
   const UserChip = ({ avatarObj, ...props }: { avatarObj: User }) => (
     <Chip
-      key={getUserIdentifier(avatarObj)}
+      key={getUserLabel(avatarObj)}
       avatar={
         <Avatar alt={getUserDisplayName(avatarObj)} src={avatarObj.avatarUrl}>
           {avatarObj.avatarUrl ? '' : getUserDisplayName(avatarObj).charAt(0)}
