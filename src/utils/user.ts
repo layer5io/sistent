@@ -49,6 +49,15 @@ export const getUserContactLabel = (user: User | null | undefined): string =>
   user?.email || user?.username || '';
 
 /**
+ * Guaranteed-non-empty label for chips, option labels, and notification
+ * text: contact label first (email, then username), then display name, then
+ * the raw identifier. Only a record with no identifier at all yields an
+ * empty string, and such records are rejected by the share/revoke guards.
+ */
+export const getUserLabel = (user: User | null | undefined): string =>
+  getUserContactLabel(user) || getUserDisplayName(user) || getUserIdentifier(user);
+
+/**
  * Identity comparison across wire shapes: canonical/legacy identifiers when
  * both records carry one, else email. Two records with no comparable field
  * are never considered the same user.

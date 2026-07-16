@@ -10,7 +10,9 @@ export const canUpdateResource = (
 ) => {
   const ownerIdentifier = getUserIdentifier(resourceOwner);
   const isOwner = Boolean(ownerIdentifier) && ownerIdentifier === getUserIdentifier(currentUser);
-  const isAdmin = currentUser.roleNames?.includes('admin');
+  // Tolerate a nullish currentUser (auth-state transitions in JS consumers):
+  // no user means no permission, consistent with getUserIdentifier above.
+  const isAdmin = currentUser?.roleNames?.includes('admin') ?? false;
   return isOwner || isAdmin;
 };
 

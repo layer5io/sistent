@@ -11,6 +11,7 @@ import {
   getUserContactLabel,
   getUserDisplayName,
   getUserIdentifier,
+  getUserLabel,
   isSameUser,
   User
 } from '../../utils/user';
@@ -98,7 +99,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           {avatarObj.avatarUrl ? '' : getUserDisplayName(avatarObj).charAt(0)}
         </Avatar>
       }
-      label={getUserContactLabel(avatarObj) || getUserDisplayName(avatarObj)}
+      label={getUserLabel(avatarObj)}
       size="small"
       {...props}
     />
@@ -127,7 +128,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
           inputValue={inputValue}
           loading={searchUserLoading}
           value={usersToShareWith}
-          getOptionLabel={(user) => getUserContactLabel(user) || getUserDisplayName(user)}
+          getOptionLabel={(user) => getUserLabel(user)}
           noOptionsText={
             searchUserLoading
               ? 'Loading...'
@@ -181,7 +182,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
                   <Grid2 size="grow">
                     {isSoftDeleted(option.deletedAt) ? (
                       <Typography variant="body2" color="text.secondary">
-                        {contactLabel || displayName} (deleted)
+                        {getUserLabel(option)} (deleted)
                       </Typography>
                     ) : (
                       <>

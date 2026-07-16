@@ -2,6 +2,7 @@ import {
   getUserContactLabel,
   getUserDisplayName,
   getUserIdentifier,
+  getUserLabel,
   isSameUser
 } from '../utils/user';
 
@@ -84,6 +85,21 @@ describe('getUserContactLabel', () => {
 
   it('returns an empty string when neither is present', () => {
     expect(getUserContactLabel({})).toBe('');
+  });
+});
+
+describe('getUserLabel', () => {
+  it('prefers the contact label', () => {
+    expect(getUserLabel(v1beta3SearchableUser)).toBe('jane@example.com');
+  });
+
+  it('falls back to the display name, then the raw identifier', () => {
+    expect(getUserLabel({ id: 'u-1', firstName: 'Jane' })).toBe('Jane');
+    expect(getUserLabel({ id: 'u-1' })).toBe('u-1');
+  });
+
+  it('yields an empty string only for records with no identifier at all', () => {
+    expect(getUserLabel({})).toBe('');
   });
 });
 

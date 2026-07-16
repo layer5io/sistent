@@ -21,6 +21,7 @@ import {
   getUserContactLabel,
   getUserDisplayName,
   getUserIdentifier,
+  getUserLabel,
   isSameUser,
   User as BaseUser
 } from '../../utils/user';
@@ -224,7 +225,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
                   <Grid2 size="grow">
                     {isDeleted ? (
                       <Typography variant="body2" color="text.secondary">
-                        {contactLabel || displayName} (deleted)
+                        {getUserLabel(option)} (deleted)
                       </Typography>
                     ) : (
                       <>
@@ -276,7 +277,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
                 {!localUsersData[0].avatarUrl && getUserDisplayName(localUsersData[0])[0]}
               </Avatar>
             }
-            label={getUserContactLabel(localUsersData[0]) || getUserDisplayName(localUsersData[0])}
+            label={getUserLabel(localUsersData[0])}
             onDelete={(e) => handleDelete(getUserIdentifier(localUsersData[0]), e)}
             deleteIcon={
               <Tooltip title="Remove user">
@@ -296,7 +297,7 @@ const UserSearchField: React.FC<UserSearchFieldProps> = ({
                   {!user.avatarUrl && getUserDisplayName(user)[0]}
                 </Avatar>
               }
-              label={getUserContactLabel(user) || getUserDisplayName(user)}
+              label={getUserLabel(user)}
               onDelete={(e) => handleDelete(getUserIdentifier(user), e)}
               deleteIcon={
                 <Tooltip title="Remove user">

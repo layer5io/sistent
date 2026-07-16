@@ -24,6 +24,7 @@ import {
   getUserContactLabel,
   getUserDisplayName,
   getUserIdentifier,
+  getUserLabel,
   isSameUser,
   User
 } from '../../utils/user';
@@ -265,7 +266,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
       actor_id: getUserIdentifier(user),
       actor_type: 'user'
     }));
-    const recipients = newUsers.map((u) => getUserContactLabel(u) || getUserDisplayName(u));
+    const recipients = newUsers.map(getUserLabel);
 
     if (Array.isArray(selectedResource)) {
       const responses = await Promise.all(
@@ -345,7 +346,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
       actor_id: getUserIdentifier(user),
       actor_type: 'user'
     }));
-    const revokees = revokedUsers.map((u) => getUserContactLabel(u) || getUserDisplayName(u));
+    const revokees = revokedUsers.map(getUserLabel);
 
     const response = await resourceAccessMutator({
       resourceType,
