@@ -52,6 +52,11 @@ export {
 } from './custom/UniversalFilter';
 
 export {
+  DataTableToolbar,
+  type DataTableToolbarProps
+} from './custom/DataTableToolbar';
+
+export {
   PermissionProvider,
   PermissionShield,
   usePermission,

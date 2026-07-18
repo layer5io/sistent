@@ -8,14 +8,13 @@ import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'r
 import { Chip, CircularProgress, TextField, Tooltip } from '../../../base';
 import { iconSmall } from '../../../constants/iconsSizes';
 import { CloseIcon } from '../../../icons';
+import { DeletedAt, isSoftDeleted } from '../../../utils/nullTime';
 
 interface Team {
   id: string;
   ID: string;
   name: string;
-  deletedAt?: {
-    Valid: boolean;
-  } | null;
+  deletedAt?: DeletedAt;
 }
 
 interface TeamSearchFieldProps {
@@ -156,7 +155,7 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
           />
         )}
         renderOption={(props, option) => {
-          if (!option.deletedAt?.Valid) {
+          if (!isSoftDeleted(option.deletedAt)) {
             return (
               <Box
                 component="li"
