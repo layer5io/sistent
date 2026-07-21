@@ -18,10 +18,7 @@ interface JourneyModalProps {
   };
   profileData?: ProfileData;
   embedDesignPath: string;
-  fallbackText?: string;
 }
-
-const YOUTUBE_VIDEO_ID = 'Do7htKrRzDA';
 
 const stepperType = {
   Previous: 'Previous',
@@ -41,20 +38,6 @@ export const ModalVideo = styled('video')(() => ({
   paddingBlock: '1rem'
 }));
 
-const FallbackLink = styled('div')(({ theme }) => ({
-  textAlign: 'center',
-  marginTop: '0.5rem',
-  marginBottom: '1rem',
-  '& a': {
-    color: theme.palette.text.brand,
-    textDecoration: 'none',
-    fontWeight: 'bold',
-    '&:hover': {
-      textDecoration: 'underline'
-    }
-  }
-}));
-
 const JourneyModal: React.FC<JourneyModalProps> = ({
   open,
   handleClose,
@@ -63,8 +46,7 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
   stepsData,
   useNotificationHandlers,
   profileData,
-  embedDesignPath,
-  fallbackText = '▶ Having trouble viewing? Watch on YouTube'
+  embedDesignPath
 }) => {
   const [currentModal, setCurrentModal] = useState<number>(0);
   const [step, setStep] = useState<StepData | null>(null);
@@ -165,28 +147,17 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
           ''
         )}
         {data.video !== undefined ? (
-          <>
-            <iframe
-              style={{
-                aspectRatio: '16/9',
-                width: '100%'
-              }}
-              src={`https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?si=5iMQ5a1JUf3qpIiH`}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen={true}
-              referrerPolicy="strict-origin-when-cross-origin"
-            ></iframe>
-            <FallbackLink>
-              <a
-                href={`https://www.youtube.com/watch?v=${YOUTUBE_VIDEO_ID}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {fallbackText}
-              </a>
-            </FallbackLink>
-          </>
+          <iframe
+            style={{
+              aspectRatio: '16/9',
+              width: '100%'
+            }}
+            src="https://www.youtube.com/embed/Do7htKrRzDA?si=5iMQ5a1JUf3qpIiH"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen={true}
+            referrerPolicy="strict-origin-when-cross-origin"
+          ></iframe>
         ) : (
           ''
         )}
