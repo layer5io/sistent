@@ -120,7 +120,12 @@ jobs:
           cache-dependency-path: ui/package-lock.json
       - name: Make changes to pull request
         working-directory: ui
-        run: npm install @sistent/sistent@${{ env.RELEASE_VERSION }} --legacy-peer-deps
+        # meshery-extensions pins externalized deps (@sistent/sistent among them) to an exact
+        # version in package.json — they're shared singletons with Meshery UI at runtime, and a
+        # range lets `npm install` silently drift the resolved version. --save-exact keeps this
+        # bot consistent with that convention (also enforced by ui/.npmrc and
+        # `make kanvas-validate-mesheryui-compatibility` in that repo).
+        run: npm install @sistent/sistent@${{ env.RELEASE_VERSION }} --legacy-peer-deps --save-exact
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v8
