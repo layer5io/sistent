@@ -188,6 +188,48 @@ npm unlink @sistent/sistent
 npm install @sistent/sistent
 ```
 
+#### Method 3: Using `npm pack`
+
+This method creates a tarball of your local Sistent build and installs it like a regular npm package. It avoids the peer dependency issues that `npm link` sometimes causes.
+
+1. Build your local Sistent fork
+
+```
+cd <path-to-sistent-on-local-machine>
+
+make build
+```
+
+2. Create a tarball
+
+```
+npm pack
+```
+
+This creates a `.tgz` file (e.g., `sistent-sistent-<version>.tgz`) in the Sistent directory.
+
+3. Install the tarball in your project
+
+```
+cd <path-to-your-project>
+
+npm install <path-to-sistent-on-local-machine>/sistent-sistent-<version>.tgz
+```
+
+4. Run the build command in your project
+
+```
+# example, Meshery UI
+make ui-build
+```
+
+To revert back to the official package:
+
+```
+npm uninstall @sistent/sistent
+npm install @sistent/sistent
+```
+
 > [!NOTE]
 > Avoid using `type any` in your code. Always specify explicit types to ensure type safety and maintainability.
 
