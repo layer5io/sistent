@@ -18,6 +18,18 @@ const SRC = path.resolve(__dirname, '..');
 const OPTIONAL_PEERS = ['@mui/x-date-pickers', 'date-fns'];
 
 /**
+ * Peers marked optional that this scan deliberately does not enforce.
+ *
+ * `react` / `react-dom` are marked optional in `package.json`, but every
+ * component in this library imports React at module scope and always will -
+ * scanning for it would fail on the entire `src` tree on the first run. They
+ * are listed here rather than silently skipped so the exemption is a decision
+ * on the record instead of an omission, and so the completeness check below
+ * still notices if a *new* peer is ever marked optional.
+ */
+const UNENFORCED_OPTIONAL_PEERS = ['react', 'react-dom'];
+
+/**
  * Every form that makes the module resolve at load time, and only those.
  *
  * - `import ... from 'x'` and `require('x')` - the obvious ones.
@@ -127,15 +139,27 @@ describe('optional peer dependencies stay out of the eager import graph', () => 
     });
   });
 
-  it('keeps the peers marked optional in package.json', () => {
+  describe('package.json stays in step with what is scanned', () => {
     const pkg = JSON.parse(fs.readFileSync(path.resolve(SRC, '..', 'package.json'), 'utf8')) as {
       peerDependenciesMeta?: Record<string, { optional?: boolean }>;
     };
+    const declaredOptional = Object.entries(pkg.peerDependenciesMeta ?? {})
+      .filter(([, meta]) => meta?.optional)
+      .map(([name]) => name);
 
-    for (const peer of OPTIONAL_PEERS) {
+    it.each(OPTIONAL_PEERS)('keeps %s marked optional', (peer) => {
       // If a peer stops being optional this test's premise changes and the
       // eager-import assertions above should be revisited, not silently kept.
-      expect(pkg.peerDependenciesMeta?.[peer]?.optional).toBe(true);
-    }
+      expect(declaredOptional).toContain(peer);
+    });
+
+    // Without this, marking a new peer optional would quietly create a peer
+    // nothing scans - the guard would keep passing while the class of bug it
+    // exists to prevent reopened behind it.
+    it('scans (or explicitly exempts) every peer marked optional', () => {
+      expect(declaredOptional.slice().sort()).toEqual(
+        [...OPTIONAL_PEERS, ...UNENFORCED_OPTIONAL_PEERS].sort()
+      );
+    });
   });
 });
