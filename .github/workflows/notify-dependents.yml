@@ -31,11 +31,23 @@ jobs:
         run: |
           set -eo pipefail
 
+          # Every candidate below is attacker-influenceable to some degree: the
+          # workflow_dispatch input is free text, and a git refname may legally contain
+          # shell metacharacters such as $, (, ) and quotes. Downstream jobs feed this
+          # value to `npm install`, so it is validated here — the single choke point —
+          # and anything that is not plain semver is rejected outright.
+          # Canonical SemVer 2.0.0 grammar (semver.org) as POSIX ERE: numeric identifiers
+          # carry no leading zeroes, and prerelease/build identifiers cannot be empty.
+          num='(0|[1-9][0-9]*)'
+          pre='(0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*)'
+          build='[0-9a-zA-Z-]+'
+          SEMVER_RE="^${num}\.${num}\.${num}(-${pre}(\.${pre})*)?(\+${build}(\.${build})*)?$"
+
           release_version="$INPUT_RELEASE_VERSION"
 
           if [ -z "$release_version" ]; then
-            candidate="$WORKFLOW_HEAD_BRANCH"
-            if [[ "$candidate" =~ v?[0-9]+\.[0-9]+\.[0-9]+ ]]; then
+            candidate="${WORKFLOW_HEAD_BRANCH#v}"
+            if [[ "$candidate" =~ $SEMVER_RE ]]; then
               release_version="$candidate"
             fi
           fi
@@ -52,6 +64,12 @@ jobs:
 
           if [ -z "$release_version" ]; then
             echo "Release version could not be determined." >&2
+            exit 1
+          fi
+
+          if [[ ! "$release_version" =~ $SEMVER_RE ]]; then
+            echo "Refusing to proceed: resolved release version is not valid semver." >&2
+            printf 'Rejected value: %q\n' "$release_version" >&2
             exit 1
           fi
 
@@ -77,7 +95,7 @@ jobs:
           cache-dependency-path: ui/package-lock.json
       - name: Make changes to pull request
         working-directory: ui
-        run: npm install @sistent/sistent@${{ env.RELEASE_VERSION }}
+        run: npm install "@sistent/sistent@$RELEASE_VERSION"
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v8
@@ -120,7 +138,12 @@ jobs:
           cache-dependency-path: ui/package-lock.json
       - name: Make changes to pull request
         working-directory: ui
-        run: npm install @sistent/sistent@${{ env.RELEASE_VERSION }} --legacy-peer-deps
+        # meshery-extensions pins externalized deps (@sistent/sistent among them) to an exact
+        # version in package.json — they're shared singletons with Meshery UI at runtime, and a
+        # range lets `npm install` silently drift the resolved version. --save-exact keeps this
+        # bot consistent with that convention (also enforced by ui/.npmrc and
+        # `make kanvas-validate-mesheryui-compatibility` in that repo).
+        run: npm install "@sistent/sistent@$RELEASE_VERSION" --legacy-peer-deps --save-exact
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v8
@@ -163,7 +186,7 @@ jobs:
           cache: "npm"
           cache-dependency-path: package-lock.json
       - name: Make changes to pull request
-        run: npm install @sistent/sistent@${{ env.RELEASE_VERSION }} --legacy-peer-deps
+        run: npm install "@sistent/sistent@$RELEASE_VERSION" --legacy-peer-deps
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v8
@@ -206,7 +229,7 @@ jobs:
           cache-dependency-path: ui/package-lock.json
       - name: Make changes to pull request
         working-directory: ui
-        run: npm install @sistent/sistent@${{ env.RELEASE_VERSION }}
+        run: npm install "@sistent/sistent@$RELEASE_VERSION"
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v8
