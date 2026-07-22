@@ -1,6 +1,5 @@
 import { Drawer, styled, useMediaQuery } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { subDays, subMonths, subYears } from 'date-fns';
 import React from 'react';
 import { Button } from '../base/Button';
 import { ClickAwayListener } from '../base/ClickAwayListener';
@@ -11,6 +10,7 @@ import { Paper } from '../base/Paper';
 import { Select } from '../base/Select';
 import { FilterIcon } from '../icons';
 import { useTheme } from '../theme';
+import { subtractDays, subtractMonths, subtractYears } from '../utils/date.utils';
 import PopperListener from './PopperListener';
 import { TooltipIcon } from './TooltipIconButton';
 
@@ -35,12 +35,32 @@ export interface QuickDateRangeOption {
   getRange: () => DateRange;
 }
 
+// Deliberately not `date-fns`: it is an OPTIONAL peer dependency, and this
+// module is reached from the package barrel, so a module-scope import of it made
+// `import { anything } from '@sistent/sistent'` throw
+// `Cannot find module 'date-fns'` for every consumer that took the optional peer
+// at its word and did not install it. See the same note on DateTimePicker.
 const DEFAULT_QUICK_DATE_RANGES: QuickDateRangeOption[] = [
-  { label: 'Last 7 days', getRange: () => ({ startDate: subDays(new Date(), 7), endDate: new Date() }) },
-  { label: 'Last 30 days', getRange: () => ({ startDate: subDays(new Date(), 30), endDate: new Date() }) },
-  { label: 'Last 3 months', getRange: () => ({ startDate: subMonths(new Date(), 3), endDate: new Date() }) },
-  { label: 'Last 6 months', getRange: () => ({ startDate: subMonths(new Date(), 6), endDate: new Date() }) },
-  { label: 'Last 1 year', getRange: () => ({ startDate: subYears(new Date(), 1), endDate: new Date() }) }
+  {
+    label: 'Last 7 days',
+    getRange: () => ({ startDate: subtractDays(new Date(), 7), endDate: new Date() })
+  },
+  {
+    label: 'Last 30 days',
+    getRange: () => ({ startDate: subtractDays(new Date(), 30), endDate: new Date() })
+  },
+  {
+    label: 'Last 3 months',
+    getRange: () => ({ startDate: subtractMonths(new Date(), 3), endDate: new Date() })
+  },
+  {
+    label: 'Last 6 months',
+    getRange: () => ({ startDate: subtractMonths(new Date(), 6), endDate: new Date() })
+  },
+  {
+    label: 'Last 1 year',
+    getRange: () => ({ startDate: subtractYears(new Date(), 1), endDate: new Date() })
+  }
 ];
 
 export interface UniversalFilterProps {
@@ -129,7 +149,8 @@ function UniversalFilter({
   const handleEndDateChange = (newEndDate: Date | null) => {
     if (!newEndDate || !selectedDateRange) return;
     setSelectedDateRange?.({
-      startDate: newEndDate < selectedDateRange.startDate ? newEndDate : selectedDateRange.startDate,
+      startDate:
+        newEndDate < selectedDateRange.startDate ? newEndDate : selectedDateRange.startDate,
       endDate: newEndDate
     });
   };
