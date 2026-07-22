@@ -36,7 +36,12 @@ jobs:
           # shell metacharacters such as $, (, ) and quotes. Downstream jobs feed this
           # value to `npm install`, so it is validated here — the single choke point —
           # and anything that is not plain semver is rejected outright.
-          SEMVER_RE='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$'
+          # Canonical SemVer 2.0.0 grammar (semver.org) as POSIX ERE: numeric identifiers
+          # carry no leading zeroes, and prerelease/build identifiers cannot be empty.
+          num='(0|[1-9][0-9]*)'
+          pre='(0|[1-9][0-9]*|[0-9]*[a-zA-Z-][0-9a-zA-Z-]*)'
+          build='[0-9a-zA-Z-]+'
+          SEMVER_RE="^${num}\.${num}\.${num}(-${pre}(\.${pre})*)?(\+${build}(\.${build})*)?$"
 
           release_version="$INPUT_RELEASE_VERSION"
 
