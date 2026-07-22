@@ -46,22 +46,28 @@ export {
   type UniversalFilterProps
 } from './custom/UniversalFilter';
 
-export {
-  DataTableToolbar,
-  type DataTableToolbarProps
-} from './custom/DataTableToolbar';
+export { DataTableToolbar, type DataTableToolbarProps } from './custom/DataTableToolbar';
 
 // Same nested-barrel dts-drop quirk as FeedbackButton above. `createCanShow` is
 // worse than a missing type: consumers still resolve it at runtime, so the import
 // silently degrades to `any` and its `eventBus` argument stops being
 // variance-checked - the one place a host hands its event bus to sistent.
-export { createCanShow } from './custom/permissions';
+// Its parameter types travel with it: a consumer that cannot name `HasKeyProps`
+// or `ReasonEventPublisher` cannot type the wrapper it builds around the
+// returned component, and falls straight back to `any`.
+export {
+  createCanShow,
+  type HasKeyProps,
+  type InvertAction,
+  type ReasonEvent,
+  type ReasonEventPublisher
+} from './custom/permissions';
 
 export {
   PermissionProvider,
   PermissionShield,
-  usePermission,
   useHasPermission,
+  usePermission,
   usePermissionUserContext,
   type Key,
   type PermissionAction,

@@ -1,16 +1,16 @@
 import { Key } from '@meshery/schemas/permissions';
-export type { Key };
 import KeyIcon from '@mui/icons-material/Key';
 import LaunchIcon from '@mui/icons-material/Launch';
 import SecurityIcon from '@mui/icons-material/Security';
 import React from 'react';
-import { EventBus } from '../actors/eventBus';
 import type {
   MissingCapabilityReason,
   MissingPermissionReason
 } from '../actors/mesheryExtensionContract';
+import { MESHERY_EXTENSION_EVENT } from '../actors/mesheryExtensionContract';
 import { Box, Chip, ClickAwayListener, Link, Tooltip, Typography } from '../base';
 import { usePermissionUserContext } from './PermissionProvider';
+export type { Key };
 
 const DIVIDER_SX = {
   height: '1px',
@@ -28,6 +28,20 @@ export type InvertAction = 'disable' | 'hide';
 export type { MissingCapabilityReason, MissingPermissionReason };
 
 export type ReasonEvent = MissingPermissionReason | MissingCapabilityReason;
+
+/**
+ * The only capability `createCanShow` needs from the bus it is handed.
+ *
+ * Deliberately structural rather than `EventBus<ReasonEvent>`: `EventBus<T>` is
+ * invariant in `T` (it both accepts `T` in `publish` and yields `T` from `on`),
+ * so the host's `EventBus<MesheryExtensionEvent>` — the bus the contract tells
+ * every host to declare — is NOT assignable to `EventBus<ReasonEvent>` and the
+ * integration fails to compile. A publisher that accepts the whole contract
+ * union can obviously accept a reason event, and that is all this needs.
+ */
+export type ReasonEventPublisher = {
+  publish: (event: ReasonEvent) => void;
+};
 
 export interface HasKeyProps<ReasonEvent> {
   Key?: Key & { action?: string; subject?: string };
@@ -427,7 +441,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
 export const createCanShow = (
   getCapabilitiesRegistry = () => {},
   CAN: (action: string, subject: string) => boolean,
-  eventBus: () => EventBus<ReasonEvent>
+  eventBus: () => ReasonEventPublisher
 ) => {
   return ({
     Key,
@@ -448,8 +462,11 @@ export const createCanShow = (
 
     const can = predicateRes ? predicateRes[0] && hasKey : hasKey;
 
-    const reason = predicateRes?.[1] || {
-      type: 'MISSING_PERMISSION',
+    const reason: ReasonEvent = predicateRes?.[1] || {
+      // Named handle, not the raw literal: renaming the event in the contract
+      // must break this publish site rather than silently stop matching the
+      // subscriber's `event.type === ...` on the far side of the bundle boundary.
+      type: MESHERY_EXTENSION_EVENT.MissingPermission,
       data: {
         keyId: actionString
       }
@@ -468,7 +485,6 @@ export const createCanShow = (
     const onClick = notifyOnclick
       ? (e: React.MouseEvent<HTMLDivElement | HTMLElement>) => {
           e.stopPropagation();
-          console.log('cant perform action : reason', reason, eventBus);
           const mesheryEventBus = eventBus();
           mesheryEventBus.publish(reason);
         }
@@ -515,13 +531,13 @@ export const createCanShow = (
 // Re-export PermissionProvider types and hooks
 export {
   PermissionProvider,
-  usePermission,
   useHasPermission,
+  usePermission,
   usePermissionUserContext
 } from './PermissionProvider';
 export type {
   PermissionAction,
+  PermissionProviderProps,
   PermissionProviderValue,
-  PermissionUserContext,
-  PermissionProviderProps
+  PermissionUserContext
 } from './PermissionProvider';
