@@ -63,6 +63,64 @@ describe('Meshery extension contract — event literals', () => {
     expect(isMesheryExtensionEvent('OPEN_DESIGN_IN_EXTENSION')).toBe(false);
     expect(isMesheryExtensionEvent({})).toBe(false);
   });
+
+  it('rejects a known literal carrying a payload this build cannot read', () => {
+    // The rename half of the same skew: the host keeps publishing a literal we
+    // recognise but renames the field inside it, so every subscriber reads
+    // undefined. Narrowing on the discriminant alone would call this valid and
+    // hand the subscriber a payload that throws on first property access.
+    const type = MESHERY_EXTENSION_EVENT.OpenDesignInExtension;
+
+    expect(isMesheryExtensionEvent({ type, data: null })).toBe(false);
+    expect(isMesheryExtensionEvent({ type })).toBe(false);
+    expect(isMesheryExtensionEvent({ type, data: {} })).toBe(false);
+    // `designId` renamed to `id` - recognised literal, unreadable payload.
+    expect(isMesheryExtensionEvent({ type, data: { id: 'd', designName: 'n' } })).toBe(false);
+    expect(isMesheryExtensionEvent({ type, data: { designId: 1, designName: 'n' } })).toBe(false);
+  });
+
+  it('accepts a valid payload for every event literal', () => {
+    const valid: Record<(typeof MESHERY_EXTENSION_EVENT_TYPES)[number], unknown> = {
+      K8S_CONTEXTS_UPDATED: { selectedK8sContexts: ['ctx'] },
+      OPEN_VIEW_SCOPED_TO_DESIGN: { designId: 'd', designName: 'n' },
+      OPEN_DESIGN_IN_EXTENSION: { designId: 'd', designName: 'n' },
+      OPEN_VIEW_IN_EXTENSION: { viewId: 'v', viewName: 'n' },
+      MERGE_DESIGN: { id: 'i', name: 'n' },
+      DISPATCH_TO_MESHERY_STORE: { type: 'redux/action' },
+      FeatureRequiresUserAccount: { feature: 'f' },
+      MISSING_PERMISSION: { keyId: 'k' },
+      MISSING_CAPABILITY: { capabilityId: 'c' }
+    };
+
+    for (const type of MESHERY_EXTENSION_EVENT_TYPES) {
+      expect(isMesheryExtensionEvent({ type, data: valid[type] })).toBe(true);
+    }
+  });
+
+  it('tolerates extra payload fields so additive changes stay compatible', () => {
+    // Only a rename or removal is a contract break. A newer host adding a field
+    // to a payload must not make an older bundle reject the whole event.
+    expect(
+      isMesheryExtensionEvent({
+        type: MESHERY_EXTENSION_EVENT.MergeDesign,
+        data: { id: 'i', name: 'n', addedByANewerHost: true }
+      })
+    ).toBe(true);
+    expect(
+      isMesheryExtensionEvent({
+        type: MESHERY_EXTENSION_EVENT.DispatchToMesheryStore,
+        data: { type: 'redux/action', payload: { a: 1 } }
+      })
+    ).toBe(true);
+  });
+
+  it('does not mistake an inherited Object member for a payload check', () => {
+    // The check table is a plain object, so an event whose `type` names something
+    // on Object.prototype must not resolve to an inherited function and pass.
+    expect(isMesheryExtensionEvent({ type: 'toString', data: {} })).toBe(false);
+    expect(isMesheryExtensionEvent({ type: 'constructor', data: {} })).toBe(false);
+    expect(isMesheryExtensionEvent({ type: 'hasOwnProperty', data: {} })).toBe(false);
+  });
 });
 
 describe('Meshery extension contract — injected capabilities', () => {
@@ -171,5 +229,60 @@ describe('Meshery extension contract — version', () => {
   it('is a positive integer hosts and extensions can compare', () => {
     expect(Number.isInteger(MESHERY_EXTENSION_CONTRACT_VERSION)).toBe(true);
     expect(MESHERY_EXTENSION_CONTRACT_VERSION).toBeGreaterThan(0);
+  });
+
+  it('treats a matching advertised version as compatible', () => {
+    const report = reportInjectedCapabilities({
+      ...satisfyingInjectProps(),
+      contractVersion: MESHERY_EXTENSION_CONTRACT_VERSION
+    });
+
+    expect(report.contractVersionMismatch).toBeNull();
+    expect(isInjectedCapabilityReportSatisfied(report)).toBe(true);
+  });
+
+  it('treats a host that advertises no version as the supported legacy case', () => {
+    // Every host deployed before this handshake existed. They predate the field
+    // rather than disagreeing about it, so flagging them would make the report
+    // fire everywhere at once and teach maintainers to ignore it.
+    const report = reportInjectedCapabilities(satisfyingInjectProps());
+
+    expect(report.contractVersionMismatch).toBeNull();
+    expect(isInjectedCapabilityReportSatisfied(report)).toBe(true);
+    expect(describeInjectedCapabilityReport(report)).toBeNull();
+  });
+
+  it('fails the handshake loudly when the advertised version differs', () => {
+    const report = reportInjectedCapabilities({
+      ...satisfyingInjectProps(),
+      contractVersion: MESHERY_EXTENSION_CONTRACT_VERSION + 1
+    });
+
+    expect(report.contractVersionMismatch).toEqual({
+      host: MESHERY_EXTENSION_CONTRACT_VERSION + 1,
+      extension: MESHERY_EXTENSION_CONTRACT_VERSION
+    });
+    // Every capability is present, so nothing else in the report would catch this.
+    expect(report.missing).toEqual([]);
+    expect(isInjectedCapabilityReportSatisfied(report)).toBe(false);
+
+    const message = describeInjectedCapabilityReport(report);
+    expect(message).toContain(`v${MESHERY_EXTENSION_CONTRACT_VERSION + 1}`);
+    expect(message).toContain(`v${MESHERY_EXTENSION_CONTRACT_VERSION}`);
+  });
+
+  it('treats a non-numeric advertised version as a mismatch rather than trusting it', () => {
+    // `injectProps` is untrusted input; a version we cannot compare is not a
+    // version we may assume matches.
+    const report = reportInjectedCapabilities({
+      ...satisfyingInjectProps(),
+      contractVersion: `${MESHERY_EXTENSION_CONTRACT_VERSION}`
+    });
+
+    expect(report.contractVersionMismatch).toEqual({
+      host: `${MESHERY_EXTENSION_CONTRACT_VERSION}`,
+      extension: MESHERY_EXTENSION_CONTRACT_VERSION
+    });
+    expect(isInjectedCapabilityReportSatisfied(report)).toBe(false);
   });
 });

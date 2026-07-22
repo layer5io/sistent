@@ -156,18 +156,60 @@ export const MESHERY_EXTENSION_EVENT_TYPES = Object.values(
   MESHERY_EXTENSION_EVENT
 ) as readonly MesheryExtensionEventType[];
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null;
+
+const isString = (value: unknown): value is string => typeof value === 'string';
+
+const isStringArray = (value: unknown): value is string[] =>
+  Array.isArray(value) && value.every(isString);
+
 /**
- * Narrows an event received from the bus to a known contract member.
+ * Payload check per event literal, keyed by the literal itself.
+ *
+ * The type discriminant alone is not the contract - the payload shape is half of
+ * it. A host that renames `designId` to `id` keeps publishing a literal this
+ * build recognises while every subscriber reads `undefined`, which is the same
+ * silent no-op the literal map exists to prevent. Checking only required fields
+ * (never rejecting extra ones) keeps additive payload changes compatible while
+ * making a rename or removal visible.
+ *
+ * `satisfies Record<MesheryExtensionEventType, ...>` is the completeness guard:
+ * adding a member to `MesheryExtensionEvent` without a check here fails to
+ * compile, so this table cannot drift behind the union.
+ */
+const MESHERY_EXTENSION_EVENT_DATA_CHECKS = {
+  K8S_CONTEXTS_UPDATED: data => isStringArray(data.selectedK8sContexts),
+  OPEN_VIEW_SCOPED_TO_DESIGN: data => isString(data.designId) && isString(data.designName),
+  OPEN_DESIGN_IN_EXTENSION: data => isString(data.designId) && isString(data.designName),
+  OPEN_VIEW_IN_EXTENSION: data => isString(data.viewId) && isString(data.viewName),
+  MERGE_DESIGN: data => isString(data.id) && isString(data.name),
+  DISPATCH_TO_MESHERY_STORE: data =>
+    isString(data.type) && (data.payload === undefined || isRecord(data.payload)),
+  FeatureRequiresUserAccount: data => isString(data.feature),
+  MISSING_PERMISSION: data => isString(data.keyId),
+  MISSING_CAPABILITY: data => isString(data.capabilityId)
+} as const satisfies Record<MesheryExtensionEventType, (data: Record<string, unknown>) => boolean>;
+
+/**
+ * Narrows an event received from the bus to a known contract member, checking
+ * both the type discriminant and the payload it promises to carry.
  *
  * Subscribers must treat a `false` result as a defect to report, not as something
- * to ignore: it means the publisher is emitting a literal this build has never
- * heard of, which is exactly the host/extension skew that used to present as a
- * silently dead feature.
+ * to ignore. It means the publisher is emitting either a literal this build has
+ * never heard of or a payload this build cannot read - both are the host/extension
+ * skew that used to present as a silently dead feature, and both call for the same
+ * response: say so loudly rather than no-op.
  */
-export const isMesheryExtensionEvent = (event: unknown): event is MesheryExtensionEvent =>
-  typeof event === 'object' &&
-  event !== null &&
-  MESHERY_EXTENSION_EVENT_TYPES.includes((event as { type: MesheryExtensionEventType }).type);
+export const isMesheryExtensionEvent = (event: unknown): event is MesheryExtensionEvent => {
+  if (!isRecord(event)) return false;
+  const type = event.type as MesheryExtensionEventType;
+  // Membership is checked against the literal array before indexing the check
+  // table, so a payload carrying `type: 'toString'` cannot reach an inherited
+  // Object.prototype member and be mistaken for a validator.
+  if (!MESHERY_EXTENSION_EVENT_TYPES.includes(type)) return false;
+  return isRecord(event.data) && MESHERY_EXTENSION_EVENT_DATA_CHECKS[type](event.data);
+};
 
 /* -------------------------------------------------------------------------- */
 /* Injected capabilities                                                        */
@@ -249,6 +291,18 @@ export const MESHERY_EXTENSION_HANDSHAKE_FIELDS = ['contractVersion'] as const;
 
 /** Outcome of comparing a host's `injectProps` against the declared contract. */
 export type InjectedCapabilityReport = {
+  /**
+   * Set when the host advertised a `contractVersion` differing from the one this
+   * build declares, which means a rename or removal happened on one side. `host`
+   * is typed `unknown` because it is untrusted input: a host may advertise
+   * anything, and anything that is not this build's version is a mismatch.
+   *
+   * `null` also covers a host that advertises nothing at all - every host
+   * deployed before the handshake existed. Those predate the field rather than
+   * disagreeing about it, so they are reported as the supported legacy case
+   * instead of drowning the report in mismatches the operator cannot act on.
+   */
+  contractVersionMismatch: { host: unknown; extension: number } | null;
   /** Contract keys the host did not provide. Each one is a dead feature. */
   missing: MesheryExtensionCapability[];
   /** Contract hook keys absent from `injectProps.hooks`. */
@@ -283,7 +337,13 @@ export const reportInjectedCapabilities = (
     ...Object.keys(MESHERY_EXTENSION_DEPRECATED_CAPABILITIES)
   ]);
 
+  const advertisedVersion = provided.contractVersion;
+
   return {
+    contractVersionMismatch:
+      advertisedVersion === undefined || advertisedVersion === MESHERY_EXTENSION_CONTRACT_VERSION
+        ? null
+        : { host: advertisedVersion, extension: MESHERY_EXTENSION_CONTRACT_VERSION },
     missing: MESHERY_EXTENSION_CAPABILITIES.filter(key => provided[key] === undefined),
     // `hooks` itself being absent is already reported as a missing capability;
     // reporting all three hooks again would be noise, so only look inside when
@@ -300,12 +360,15 @@ export const reportInjectedCapabilities = (
 };
 
 /**
- * True when the host satisfied every declared capability. Deprecated and
- * unrecognized keys are informational and do not fail the check — only an
- * outright missing capability is a broken contract.
+ * True when the host advertised a compatible contract version and satisfied every
+ * declared capability. Deprecated and unrecognized keys are informational and do
+ * not fail the check - only an outright missing capability, a missing hook, or a
+ * version disagreement is a broken contract.
  */
 export const isInjectedCapabilityReportSatisfied = (report: InjectedCapabilityReport): boolean =>
-  report.missing.length === 0 && report.missingHooks.length === 0;
+  report.contractVersionMismatch === null &&
+  report.missing.length === 0 &&
+  report.missingHooks.length === 0;
 
 /**
  * Renders a report as a single actionable message naming the offending keys.
@@ -317,6 +380,13 @@ export const describeInjectedCapabilityReport = (
   if (isInjectedCapabilityReportSatisfied(report)) return null;
 
   const parts: string[] = [];
+  if (report.contractVersionMismatch !== null) {
+    const { host, extension } = report.contractVersionMismatch;
+    parts.push(
+      `host advertises contract v${String(host)}, this build declares v${extension}` +
+        ' (a rename or removal happened on one side)'
+    );
+  }
   if (report.missing.length > 0) {
     parts.push(`missing capabilities: ${report.missing.join(', ')}`);
   }
@@ -324,8 +394,8 @@ export const describeInjectedCapabilityReport = (
     parts.push(`missing hooks: ${report.missingHooks.join(', ')}`);
   }
   return (
-    `Meshery host did not satisfy the extension contract (v${MESHERY_EXTENSION_CONTRACT_VERSION}) — ` +
-    `${parts.join('; ')}. The host and this extension bundle were built against ` +
-    'different contract versions; features depending on these keys will not work.'
+    `Meshery host did not satisfy the extension contract (v${MESHERY_EXTENSION_CONTRACT_VERSION}): ` +
+    `${parts.join('; ')}. Host and extension bundle were built against different ` +
+    'contract revisions; the features these keys back will not work.'
   );
 };
