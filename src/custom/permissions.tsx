@@ -5,6 +5,10 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import SecurityIcon from '@mui/icons-material/Security';
 import React from 'react';
 import { EventBus } from '../actors/eventBus';
+import type {
+  MissingCapabilityReason,
+  MissingPermissionReason
+} from '../actors/mesheryExtensionContract';
 import { Box, Chip, ClickAwayListener, Link, Tooltip, Typography } from '../base';
 import { usePermissionUserContext } from './PermissionProvider';
 
@@ -16,19 +20,12 @@ const DIVIDER_SX = {
 
 export type InvertAction = 'disable' | 'hide';
 
-export type MissingPermissionReason = {
-  type: 'MISSING_PERMISSION';
-  data: {
-    keyId: string;
-  };
-};
-
-export type MissingCapabilityReason = {
-  type: 'MISSING_CAPABILITY';
-  data: {
-    capabilityId: string;
-  };
-};
+// These two reason events are published onto whichever bus the caller supplies,
+// which in Meshery is the host <-> extension bus. They are therefore part of the
+// extension contract and are declared there, so the host's typed bus and every
+// extension's subscriber derive them from one place. Re-exported here to keep the
+// long-standing `@sistent/sistent` import paths working.
+export type { MissingCapabilityReason, MissingPermissionReason };
 
 export type ReasonEvent = MissingPermissionReason | MissingCapabilityReason;
 
