@@ -70,6 +70,7 @@ export {
 export { InputSearchField } from './InputSearchField';
 export { LearningContent } from './LearningContent';
 export { NavigationNavbar } from './NavigationNavbar';
+export type { NavigationItem } from './NavigationNavbar';
 export { Note } from './Note';
 export { Panel } from './Panel';
 export {
