@@ -393,9 +393,12 @@ export const describeInjectedCapabilityReport = (
   if (report.missingHooks.length > 0) {
     parts.push(`missing hooks: ${report.missingHooks.join(', ')}`);
   }
+  // Deliberately no closing claim about *why* they disagree. When a version
+  // mismatch is known it is already named above; when it is not, the host and
+  // this bundle disagree while advertising the same version, and asserting a
+  // version skew would send the reader to compare two numbers that match.
   return (
     `Meshery host did not satisfy the extension contract (v${MESHERY_EXTENSION_CONTRACT_VERSION}): ` +
-    `${parts.join('; ')}. Host and extension bundle were built against different ` +
-    'contract revisions; the features these keys back will not work.'
+    `${parts.join('; ')}. The features these keys back will not work.`
   );
 };
