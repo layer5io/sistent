@@ -31,22 +31,37 @@ An optional dependency must be either used conditionally (`React.lazy` / dynamic
 `src/base/DateTimePicker/DateTimePicker.tsx` does) or declared honestly as a real dependency.
 `import type` is fine - it is erased at runtime.
 
-**CI cannot see this**, because the repo always has its own devDependencies installed. It surfaces
-only in a downstream clean install, so the check has to run from a real consumer install - requiring
-`./dist/index.js` in the repo tree proves nothing, since Node resolves the optional peers out of the
-repo's own `node_modules`. Pack the build and load it from a throwaway consumer:
+Two complementary guards, and you need both:
+
+**1. Source level, in CI.** [`src/__testing__/optionalPeerDependencies.test.ts`](src/__testing__/optionalPeerDependencies.test.ts)
+scans `src/` for every load-time form (`import from`, `export ... from`, bare `import`, `require`)
+of an enforced optional peer, and fails `jest` if one appears. `await import()` is deliberately not
+matched - deferring resolution is the fix, not the defect. That file is also the source of truth for
+*which* optional peers are enforced: `react` / `react-dom` are marked optional in `package.json` but
+exempted there on the record, because every component imports React at module scope and always will.
+
+**2. Built artifact, by hand.** The CI guard reads source, so it cannot speak for what the bundler
+actually emitted or for a tarball already on npm. That only shows up in a downstream clean install -
+and requiring `./dist/index.js` from inside the repo tree does not reproduce one, because Node
+resolves the optional peers out of the repo's own `node_modules`. Pack the build and load it from a
+throwaway consumer:
 
 ```bash
 npm run build
-tgz="$PWD/$(npm pack --silent | tail -1)"      # published build: npm pack @sistent/sistent@<version> --silent
-cd "$(mktemp -d)" && npm init -y >/dev/null
-npm install "$tgz"                             # npm installs required peers, NOT optional ones
-ls node_modules/date-fns >/dev/null 2>&1 && echo "WARNING: optional peer present, check is void"
-node -e "require('@sistent/sistent')"          # throws iff an optional peer is required at module scope
+tgz="$PWD/$(npm pack --silent | tail -1)"   # published build: npm pack @sistent/sistent@<version> --silent
+
+( set -e
+  cd "$(mktemp -d)" && npm init -y >/dev/null
+  npm install "$tgz"                        # npm installs required peers, NOT optional ones
+  for p in @mui/x-date-pickers date-fns; do # fail closed: if one is present the load proves nothing
+    [ ! -e "node_modules/$p" ] || { echo "ABORT: optional peer $p is installed"; exit 1; }
+  done
+  node -e "require('@sistent/sistent')"     # throws iff an optional peer resolves at module scope
+) && echo "clean-consumer load OK"
 ```
 
-The same procedure verifies an already-published version - use the `npm pack @sistent/sistent@<version>`
-form and skip the build. Always confirm the optional peers really are absent before trusting a pass.
+Keep that peer list in step with the enforced set in the test above. Use the
+`npm pack @sistent/sistent@<version>` form to verify a release that is already published.
 
 Known live instance: [#1735](https://github.com/layer5io/sistent/issues/1735) (`date-fns` in
 `src/custom/UniversalFilter.tsx`).
