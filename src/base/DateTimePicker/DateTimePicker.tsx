@@ -31,7 +31,7 @@ const LazyDateTimePicker = React.lazy(async () => {
       // not an improvement on an unactionable sync one.
       throw new Error(
         `<DateTimePicker> requires the optional peer dependencies ${OPTIONAL_PEERS}. ` +
-          `Install them, or do not render <DateTimePicker> / <UniversalFilter dateRange>.`,
+          `Install them, or do not render <DateTimePicker> / <UniversalFilter datePicker>.`,
         { cause }
       );
     });

@@ -17,15 +17,38 @@ import path from 'path';
 const SRC = path.resolve(__dirname, '..');
 const OPTIONAL_PEERS = ['@mui/x-date-pickers', 'date-fns'];
 
-/** `import ... from 'x'` / `require('x')`, but NOT `await import('x')`. */
-const eagerImportPattern = (specifier: string) =>
-  new RegExp(
-    String.raw`(?:^|[^.\w])(?:import\s[^;]*?from\s*|require\s*\()\s*['"]${specifier.replace(
-      /[/\\^$*+?.()|[\]{}]/g,
-      '\\$&'
-    )}(?:/[^'"]*)?['"]`,
+/**
+ * Every form that makes the module resolve at load time, and only those.
+ *
+ * - `import ... from 'x'` and `require('x')` - the obvious ones.
+ * - `import 'x'` - a side-effect import still resolves the module; it binds
+ *   nothing, which is exactly why it is easy to miss by eye.
+ * - `export ... from 'x'` - a re-export resolves it too, and this is the form
+ *   most likely to reintroduce the bug: `src/index.tsx` is built almost
+ *   entirely out of `export ... from`, and it is the barrel that turns one
+ *   module's import into every consumer's problem.
+ *
+ * `await import('x')` is deliberately NOT matched - deferring the resolution is
+ * the fix, not the defect.
+ */
+const eagerImportPattern = (specifier: string) => {
+  const escaped = specifier.replace(/[/\\^$*+?.()|[\]{}]/g, '\\$&');
+  // A subpath (`x/sub`) resolves the same package, so it counts.
+  const target = String.raw`['"]${escaped}(?:/[^'"]*)?['"]`;
+
+  return new RegExp(
+    String.raw`(?:^|[^.\w])(?:` +
+      // `import ... from 'x'` / `export ... from 'x'`
+      String.raw`(?:import|export)\s[^;]*?from\s*${target}` +
+      // `import 'x'` - side-effect only. The absence of `(` is what keeps this
+      // from also matching the dynamic `import('x')` above it.
+      String.raw`|import\s*${target}` +
+      // `require('x')`
+      String.raw`|require\s*\(\s*${target}` +
+      String.raw`)`,
     'm'
   );
+};
 
 const collectSourceFiles = (dir: string): string[] =>
   fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
@@ -37,11 +60,16 @@ const collectSourceFiles = (dir: string): string[] =>
   });
 
 /**
- * Type-only imports are erased by the compiler and never reach the bundle, so
- * they are not what breaks a consumer without the peer installed.
+ * Type-only imports and re-exports are erased by the compiler and never reach
+ * the bundle, so they are not what breaks a consumer without the peer
+ * installed - `DateTimePicker` legitimately names its props type this way.
+ *
+ * `export type` is stripped as well as `import type`: the pattern above matches
+ * `export ... from`, so without this a perfectly correct type re-export would
+ * fail the guard and the only way to satisfy it would be to delete a type.
  */
-const stripTypeOnlyImports = (source: string): string =>
-  source.replace(/^\s*import\s+type\s[^;]*;/gm, '');
+const stripTypeOnlyStatements = (source: string): string =>
+  source.replace(/^\s*(?:import|export)\s+type\s[^;]*;/gm, '');
 
 describe('optional peer dependencies stay out of the eager import graph', () => {
   const sourceFiles = collectSourceFiles(SRC);
@@ -54,12 +82,49 @@ describe('optional peer dependencies stay out of the eager import graph', () => 
     const pattern = eagerImportPattern(peer);
 
     const offenders = sourceFiles.filter((file) =>
-      pattern.test(stripTypeOnlyImports(fs.readFileSync(file, 'utf8')))
+      pattern.test(stripTypeOnlyStatements(fs.readFileSync(file, 'utf8')))
     );
 
     // Listing the paths rather than asserting a count: on failure the message
     // names the exact modules to defer, which is the whole remediation.
     expect(offenders.map((file) => path.relative(SRC, file))).toEqual([]);
+  });
+
+  // The scan above is only ever as good as the pattern behind it, and a pattern
+  // that quietly stops matching a form reports the same clean result as a
+  // codebase that is actually clean. These cases pin the forms it must catch -
+  // `export ... from` and the side-effect `import 'x'` were both missed by the
+  // first version of this guard, which would have let the barrel reintroduce
+  // the exact bug this file exists to prevent.
+  describe('the detector itself', () => {
+    const flags = (source: string) =>
+      eagerImportPattern('date-fns').test(stripTypeOnlyStatements(source));
+
+    it.each([
+      ["import { subDays } from 'date-fns';", 'named import'],
+      ["import subDays from 'date-fns';", 'default import'],
+      ["import 'date-fns';", 'side-effect import, binds nothing'],
+      ["import 'date-fns/locale/en-US';", 'side-effect subpath import'],
+      ["export { subDays } from 'date-fns';", 're-export'],
+      ["export * from 'date-fns';", 'star re-export'],
+      ["const { subDays } = require('date-fns');", 'require'],
+      ["import { formatDistance } from 'date-fns/formatDistance';", 'subpath import']
+    ])('flags %j (%s)', (source) => {
+      expect(flags(source)).toBe(true);
+    });
+
+    it.each([
+      [
+        "const { subDays } = await import('date-fns');",
+        'dynamic import is the fix, not the defect'
+      ],
+      ["import type { Duration } from 'date-fns';", 'type-only import is erased'],
+      ["export type { Duration } from 'date-fns';", 'type-only re-export is erased'],
+      ["import { subtractDays } from '../utils/date.utils';", 'unrelated specifier'],
+      ['// mentions date-fns in a comment', 'prose is not an import']
+    ])('does not flag %j (%s)', (source) => {
+      expect(flags(source)).toBe(false);
+    });
   });
 
   it('keeps the peers marked optional in package.json', () => {
