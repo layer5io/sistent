@@ -51,6 +51,12 @@ export {
   type DataTableToolbarProps
 } from './custom/DataTableToolbar';
 
+// Same nested-barrel dts-drop quirk as FeedbackButton above. `createCanShow` is
+// worse than a missing type: consumers still resolve it at runtime, so the import
+// silently degrades to `any` and its `eventBus` argument stops being
+// variance-checked - the one place a host hands its event bus to sistent.
+export { createCanShow } from './custom/permissions';
+
 export {
   PermissionProvider,
   PermissionShield,
