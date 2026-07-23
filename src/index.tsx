@@ -48,6 +48,14 @@ export {
 
 export { DataTableToolbar, type DataTableToolbarProps } from './custom/DataTableToolbar';
 
+// Same nested-barrel dts-drop quirk as FeedbackButton above: reaching the entry
+// only through `export * from './custom'`, rollup-plugin-dts drops both the
+// `NavigationNavbar` component declaration and the `NavigationItem` type from the
+// bundled d.ts, so `import { NavigationNavbar, type NavigationItem } from
+// "@sistent/sistent"` fails type-checking despite the runtime exports existing.
+// The explicit re-export forces both declarations into the published bundle.
+export { NavigationNavbar, type NavigationItem } from './custom/NavigationNavbar';
+
 // Same nested-barrel dts-drop quirk as FeedbackButton above. `createCanShow` is
 // worse than a missing type: consumers still resolve it at runtime, so the import
 // silently degrades to `any` and its `eventBus` argument stops being
