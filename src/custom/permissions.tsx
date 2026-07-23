@@ -390,8 +390,8 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
               isBadge
                 ? {
                     position: 'absolute',
-                    top: -6,
-                    right: -6,
+                    bottom: -6,
+                    left: -6,
                     backgroundColor: 'rgba(30, 30, 30, 0.9)',
                     color: '#808080',
                     borderRadius: '50%',
