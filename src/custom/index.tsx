@@ -50,6 +50,7 @@ import ResponsiveDataTable, {
 } from './ResponsiveDataTable';
 import SearchBar, { SearchBarProps } from './SearchBar';
 import { StyledCardProps } from './StyledCard/StyledCard';
+import { SubscriptionTable } from './SubscriptionTable';
 import { getCopyDeepLinkAction, TableAction } from './TableActions';
 import { TeamTable, TeamTableConfiguration } from './TeamTable';
 import { TooltipIcon } from './TooltipIconButton';
@@ -124,6 +125,7 @@ export {
   StyledDialogActions,
   StyledDialogContent,
   StyledDialogTitle,
+  SubscriptionTable,
   TeamTable,
   TeamTableConfiguration,
   TooltipIcon,
@@ -187,5 +189,6 @@ export * from './permissions';
 export * from './ResourceDetailFormatters';
 export * from './RJSFFormWrapper';
 export * from './ShareModal';
+export * from './SubscriptionTable';
 export * from './UserSearchField';
 export * from './Workspaces';
