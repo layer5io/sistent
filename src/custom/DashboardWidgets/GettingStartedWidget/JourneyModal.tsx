@@ -156,6 +156,7 @@ const JourneyModal: React.FC<JourneyModalProps> = ({
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen={true}
+            referrerPolicy="strict-origin-when-cross-origin"
           ></iframe>
         ) : (
           ''
