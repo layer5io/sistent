@@ -66,6 +66,17 @@ Keep that peer list in step with the enforced set in the test above. Use the
 Known live instance: [#1735](https://github.com/layer5io/sistent/issues/1735) (`date-fns` in
 `src/custom/UniversalFilter.tsx`).
 
+## New public exports need an explicit root re-export
+
+`rollup-plugin-dts` (used by tsup for the declaration bundle) silently drops symbols that reach
+the root barrel only through a nested `export * from './custom'` (or `./base`, etc.) - the runtime
+export in `dist/index.*js` survives, but the declaration is missing from `dist/index.d.ts`, so
+`import { Foo, type FooProps } from '@sistent/sistent'` fails type-checking downstream. When you add
+a new public component or type in a `src/<domain>/` subtree, also add an explicit
+`export { Foo, type FooProps } from './<domain>/Foo';` to `src/index.tsx` (see the documented block
+of examples there, e.g. `FeedbackButton`, `NavigationItem`). Verify by building and grepping
+`dist/index.d.ts` for the symbol - a green `jest`/lint run will not catch this.
+
 ## Repo state that looks broken but is pre-existing
 
 `prettier --check` fails on ~82 files and `tsc --noEmit` reports errors across `src/` (including
