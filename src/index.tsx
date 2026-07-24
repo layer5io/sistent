@@ -32,6 +32,11 @@ export {
   type DangerConfirmationCheckbox,
   type DangerConfirmationModalProps
 } from './custom/DangerConfirmationModal';
+
+export {
+  DashboardLayout,
+  type DashboardLayoutProps
+} from './custom/DashboardLayout';
 // Same nested-barrel dts-drop quirk as FeedbackButton above: UniversalFilter
 // (and its FilterColumn / UniversalFilterProps types) reaches the entry only
 // through `export * from './custom'`, so rollup-plugin-dts drops it from the
@@ -84,3 +89,9 @@ export {
   type PermissionShieldProps,
   type PermissionUserContext
 } from './custom/permissions';
+
+export {
+  WidgetPicker,
+  type WidgetPickerProps,
+  type WidgetItem
+} from './custom/WidgetPicker';
