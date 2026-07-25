@@ -5,7 +5,6 @@ import { DialogContent } from '../../base/DialogContent';
 import { IconButton } from '../../base/IconButton';
 import { Box } from '../../base/Box';
 import { Typography } from '../../base/Typography';
-import { Divider } from '../../base/Divider';
 import { CloseIcon } from '../../icons/Close';
 
 const SlideUp = React.forwardRef<unknown, SlideProps>((props, ref) => (
