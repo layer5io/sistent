@@ -22,6 +22,9 @@ node_modules
 build/**
 dist/**
 
+# `npm pack` output - the clean-consumer check in AGENTS.md writes one here
+*.tgz
+
 packages/dist/**
 packages/design-system/node_modules/**
 

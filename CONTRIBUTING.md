@@ -40,6 +40,11 @@ address (sorry, no pseudonyms or anonymous contributions). An example of signing
 $ commit -s -m “my commit message w/signoff”
 ```
 
+The trailer must match that commit's **own author identity**. `-s` copies your current
+`user.name` / `user.email` into the trailer, so a commit authored under a different identity - a
+repo-local override, a second machine, a co-author's commit you replayed - still fails the check
+even though a `Signed-off-by:` line is present.
+
 To ensure all your commits are signed, you may choose to add this alias to your global `.gitconfig`:
 
 _~/.gitconfig_
@@ -54,6 +59,23 @@ _~/.gitconfig_
 Or you may configure your IDE, for example, Visual Studio Code to automatically sign-off commits for you:
 
 <a href="https://user-images.githubusercontent.com/7570704/64490167-98906400-d25a-11e9-8b8a-5f465b854d49.png" ><img src="https://user-images.githubusercontent.com/7570704/64490167-98906400-d25a-11e9-8b8a-5f465b854d49.png" width="50%"><a>
+
+### Repairing a failed DCO check
+
+DCO is a blocking required check, enforced by the [probot/dco](https://github.com/probot/dco)
+GitHub App rather than by a workflow - there is no file for it under `.github/`, so it is invisible
+from the repository tree until a pull request fails. `.husky/commit-msg` is deliberately empty
+(commit `612608be`), so nothing catches a missing or mismatched sign-off locally either.
+
+To repair, rebase only the commits you authored, then force-push:
+
+```
+git rebase --signoff <last-correctly-signed-sha>
+git push --force-with-lease
+```
+
+Pick that starting point deliberately. `--signoff` adds your trailer to every commit it replays, so
+rebasing the whole branch grafts your sign-off onto a co-author's commit as a second trailer.
 
 ## <a name="contributing-docs">Documentation Contribution Flow</a>
 
@@ -155,10 +177,10 @@ make lint
 
 `src/custom/ResponsiveDataTable.tsx` wraps `@mui/x-data-grid` (via `@layer5/mui-datatables`) with responsive column visibility and a standardised row action menu. Key exports:
 
-| Export | Description |
-|---|---|
-| `ResponsiveDataTable` | The main table component |
-| `TableAction` | Type for items in the per-row action menu |
+| Export                  | Description                                    |
+| ----------------------- | ---------------------------------------------- |
+| `ResponsiveDataTable`   | The main table component                       |
+| `TableAction`           | Type for items in the per-row action menu      |
 | `getCopyDeepLinkAction` | Helper that builds a "Copy link" `TableAction` |
 
 **`getCopyDeepLinkAction`**
@@ -171,7 +193,7 @@ import { getCopyDeepLinkAction, TableAction } from '@sistent/sistent';
 const rowActions: TableAction[] = [
   getCopyDeepLinkAction(() => copyRowDeepLink(row.id)),
   // or, with a custom title:
-  getCopyDeepLinkAction(() => copyRowDeepLink(row.id), t('Copy link')),
+  getCopyDeepLinkAction(() => copyRowDeepLink(row.id), t('Copy link'))
 ];
 ```
 

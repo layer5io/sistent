@@ -1,3 +1,5 @@
+import { DeletedAt } from '../../utils/nullTime';
+
 export interface AssignmentHookResult<T> {
   data: T[];
   workspaceData: T[];
@@ -22,9 +24,7 @@ export interface Workspace {
   metadata?: Record<string, string>;
   createdAt: string;
   updatedAt: string;
-  deletedAt: {
-    Valid: boolean;
-  };
+  deletedAt: DeletedAt;
 }
 
 export interface Environment {
@@ -45,7 +45,5 @@ export interface Team {
   // (currently aliased to `Team.name`; flipping here without the server rename
   // would break the wire contract). Deferred from Phase 2.K cascade.
   team_name: string;
-  deletedAt: {
-    Valid: boolean;
-  };
+  deletedAt: DeletedAt;
 }

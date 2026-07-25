@@ -8,6 +8,7 @@ import Github from '../../icons/Github/GithubIcon';
 import Google from '../../icons/Google/GoogleIcon';
 import LogoutIcon from '../../icons/Logout/LogOutIcon';
 import { CHARCOAL, SistentThemeProviderWithoutBaseLine } from '../../theme';
+import { isSoftDeleted } from '../../utils/nullTime';
 import { useWindowDimensions } from '../Helpers/Dimension';
 import {
   ColView,
@@ -443,7 +444,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
         sort: false,
         searchable: false,
         customBodyRender: (_: string, tableMeta: MUIDataTableMeta) =>
-          getValidColumnValue(tableMeta.rowData, 'deletedAt', columns).Valid !== false ? (
+          isSoftDeleted(getValidColumnValue(tableMeta.rowData, 'deletedAt', columns)) ? (
             <TableIconsDisabledContainer>
               <EditIcon
                 style={{
