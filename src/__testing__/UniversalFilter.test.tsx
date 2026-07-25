@@ -55,6 +55,14 @@ jest.mock('../custom/PopperListener', () => ({
   default: ({ children, open }: any) => (open ? <div>{children}</div> : null)
 }));
 
+jest.mock('../base/Badge', () => ({
+  Badge: ({ children, badgeContent, invisible }: any) => (
+    <div data-testid="filter-badge" data-content={badgeContent} data-invisible={String(invisible)}>
+      {children}
+    </div>
+  )
+}));
+
 jest.mock('../custom/TooltipIconButton', () => ({
   TooltipIcon: ({ onClick, title }: any) => (
     <button aria-label={title} onClick={onClick}>
@@ -103,5 +111,79 @@ describe('UniversalFilter', () => {
 
     expect(setSelectedFilters).toHaveBeenCalledWith({ status: 'enabled' });
     expect(handleApplyFilter).toHaveBeenCalledWith({ status: 'enabled' });
+  });
+
+  it('shows invisible badge when no filters are active', () => {
+    renderWithTheme(
+      <UniversalFilter
+        filters={{
+          status: {
+            name: 'Status',
+            options: [{ label: 'Enabled', value: 'enabled' }]
+          }
+        }}
+        selectedFilters={{ status: 'All' }}
+        setSelectedFilters={jest.fn()}
+        handleApplyFilter={jest.fn()}
+        variant="outlined"
+        id="users-filter"
+      />
+    );
+
+    const badge = screen.getByTestId('filter-badge');
+    expect(badge.getAttribute('data-content')).toBe('0');
+    expect(badge.getAttribute('data-invisible')).toBe('true');
+  });
+
+  it('shows badge with count when a filter is active', () => {
+    renderWithTheme(
+      <UniversalFilter
+        filters={{
+          status: {
+            name: 'Status',
+            options: [{ label: 'Enabled', value: 'enabled' }]
+          }
+        }}
+        selectedFilters={{ status: 'enabled' }}
+        setSelectedFilters={jest.fn()}
+        handleApplyFilter={jest.fn()}
+        variant="outlined"
+        id="users-filter"
+      />
+    );
+
+    const badge = screen.getByTestId('filter-badge');
+    expect(badge.getAttribute('data-content')).toBe('1');
+    expect(badge.getAttribute('data-invisible')).toBe('false');
+  });
+
+  it('counts only non-All filters when multiple filters are present', () => {
+    renderWithTheme(
+      <UniversalFilter
+        filters={{
+          status: {
+            name: 'Status',
+            options: [{ label: 'Enabled', value: 'enabled' }]
+          },
+          priority: {
+            name: 'Priority',
+            options: [{ label: 'High', value: 'High' }]
+          },
+          category: {
+            name: 'Category',
+            options: [{ label: 'Work', value: 'Work' }]
+          }
+        }}
+        selectedFilters={{ status: 'enabled', priority: 'High', category: 'All' }}
+        setSelectedFilters={jest.fn()}
+        handleApplyFilter={jest.fn()}
+        variant="outlined"
+        id="users-filter"
+      />
+    );
+
+    const badge = screen.getByTestId('filter-badge');
+    expect(badge.getAttribute('data-content')).toBe('2');
+    expect(badge.getAttribute('data-invisible')).toBe('false');
   });
 });

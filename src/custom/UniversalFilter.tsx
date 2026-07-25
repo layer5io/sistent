@@ -1,6 +1,7 @@
 import { Drawer, styled, useMediaQuery } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
+import { Badge } from '../base/Badge';
 import { Button } from '../base/Button';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { InputLabel } from '../base/InputLabel';
@@ -62,6 +63,9 @@ function UniversalFilter({
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const activeFilterCount = Object.values(selectedFilters).filter(
+    (value) => value && value !== 'All'
+  ).length;
 
   // Track the serialized value rather than the object reference so a parent that
   // passes a new `selectedFilters` reference with unchanged values (e.g. an inline
@@ -179,12 +183,19 @@ function UniversalFilter({
   return (
     <>
       <div id={id} data-testid={testId}>
-        <TooltipIcon
-          title="Filter"
-          onClick={handleClick}
-          icon={<FilterIcon fill={theme.palette.icon.default} />}
-          arrow
-        />
+        <Badge
+          badgeContent={activeFilterCount}
+          color="primary"
+          overlap="circular"
+          invisible={activeFilterCount === 0}
+        >
+          <TooltipIcon
+            title="Filter"
+            onClick={handleClick}
+            icon={<FilterIcon fill={theme.palette.icon.default} />}
+            arrow
+          />
+        </Badge>
         {!isMobile ? (
           <PopperListener
             id={open && anchorEl ? 'transition-popper' : undefined}
