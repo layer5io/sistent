@@ -153,7 +153,7 @@ function SearchBar({
             placeholder={placeholder}
             data-testid="searchbar-input"
             style={{
-              width: expanded ? '150px' : '0',
+              width: expanded ? '15rem' : '0',
               opacity: expanded ? 1 : 0,
               transition: 'width 0.3s ease, opacity 0.3s ease'
             }}

@@ -1,4 +1,5 @@
 import { Components, Theme } from '@mui/material';
+import { MuiAutocomplete } from './components/autocomplete.modifier';
 import { MuiAppBar } from './components/appbar.modifiter';
 import { MuiButton } from './components/button.modifier';
 import { MuiButtonGroup } from './components/buttongroup.modifier';
@@ -23,6 +24,7 @@ import { MuiTabs } from './components/tabs.modifier';
 import { MuiTooltip } from './components/tooltip.modifier';
 
 export const components: Components<Theme> = {
+  MuiAutocomplete,
   MuiAppBar,
   MuiCard,
   MuiCheckbox,

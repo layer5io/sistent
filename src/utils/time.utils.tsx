@@ -1,5 +1,10 @@
 import moment from 'moment';
-import { CustomTooltip } from '../custom';
+// Leaf path, not the `../custom` barrel: `custom/index` reaches every custom
+// component (and through Markdown, ESM-only `react-markdown`), so importing the
+// barrel from `utils` closes a cycle — `custom/X -> utils -> custom/index -> X`
+// — and forces every consumer of a date helper to load the entire component
+// library. Importing the leaf keeps the dependency to what is actually used.
+import { CustomTooltip } from '../custom/CustomTooltip';
 
 /**
  * Returns the relative time (e.g. "2 hours ago") from a given date string
@@ -24,7 +29,7 @@ export const getFullFormattedTime = (date: string): string => {
  * @param {string} date - ISO format date string
  * @returns {string} Formatted date in "Month Day, Year" format (e.g. "Jan 1, 2025")
  */
-export const getFormatDate = (date: string) => {
+export const getFormatDate = (date: string | number | Date) => {
   const options = { year: 'numeric' as const, month: 'short' as const, day: 'numeric' as const };
   const formattedDate = new Date(date).toLocaleDateString('en-US', options);
   return formattedDate;

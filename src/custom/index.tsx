@@ -6,7 +6,12 @@ import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter
 import { ChapterCard } from './ChapterCard';
 import { CollaboratorAvatarGroup } from './CollaboratorAvatarGroup';
 import { ConnectionChip } from './ConnectionChip';
-import { CatalogCardDesignLogo, CustomCatalogCard, EmptyStateCard } from './CustomCatalog';
+import {
+  CatalogCardDesignLogo,
+  CustomCatalogCard,
+  EmptyStateCard,
+  sanitizeCatalogImageUrl
+} from './CustomCatalog';
 import {
   CustomColumn,
   CustomColumnVisibilityControl,
@@ -14,6 +19,7 @@ import {
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
 import { CustomImage } from './CustomImage';
 import { CustomTooltip, InfoTooltip } from './CustomTooltip';
+import { DataTableToolbar, type DataTableToolbarProps } from './DataTableToolbar';
 import {
   CustomDialog,
   StyledDialogActions,
@@ -56,9 +62,15 @@ export { CatalogCard } from './CatalogCard';
 export { CatalogFilterSidebar } from './CatalogFilterSection';
 export type { FilterListType } from './CatalogFilterSection';
 export { StyledChartDialog } from './ChartDialog';
+export {
+  DangerConfirmationModal,
+  type DangerConfirmationCheckbox,
+  type DangerConfirmationModalProps
+} from './DangerConfirmationModal';
 export { InputSearchField } from './InputSearchField';
 export { LearningContent } from './LearningContent';
 export { NavigationNavbar } from './NavigationNavbar';
+export type { NavigationItem } from './NavigationNavbar';
 export { Note } from './Note';
 export { Panel } from './Panel';
 export {
@@ -94,6 +106,7 @@ export {
   CustomImage,
   CustomTooltip,
   DataTableEllipsisMenu,
+  DataTableToolbar,
   EmptyState,
   EmptyStateCard,
   ErrorBoundary,
@@ -107,6 +120,7 @@ export {
   ModalCard,
   PopperListener,
   ResponsiveDataTable,
+  sanitizeCatalogImageUrl,
   SearchBar,
   StyledDialogActions,
   StyledDialogContent,
@@ -154,6 +168,7 @@ export type {
   CustomColumn,
   CustomColumnVisibilityControlProps,
   CustomDialogProps,
+  DataTableToolbarProps,
   FlipCardProps,
   IPopperListener,
   ResponsiveDataTableProps,

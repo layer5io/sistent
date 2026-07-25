@@ -129,7 +129,9 @@ export const ModalBody = styled(Paper)(({ theme }) => ({
 }));
 
 const StyledFooter = styled('div', {
-  shouldForwardProp: (prop) => prop !== 'variant'
+  // Both are styling-only props; neither may reach the DOM node (otherwise React
+  // warns "unknown prop hasHelpText on a DOM element").
+  shouldForwardProp: (prop) => prop !== 'variant' && prop !== 'hasHelpText'
 })<ModalFooterProps>(({ theme, variant, hasHelpText }) => ({
   background: variant === 'filled' ? theme.palette.surface.tint : 'transparent',
   display: 'flex',
@@ -163,10 +165,7 @@ export const Modal: React.FC<ModalProps> = ({
    * prop is applied after {...restProps}, so any caller-provided fullWidth is
    * intentionally overridden without needing to strip it here.
    */
-  const {
-    fullScreen: initialFullScreenState = false,
-    ...restProps
-  } = props;
+  const { fullScreen: initialFullScreenState = false, ...restProps } = props;
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
 

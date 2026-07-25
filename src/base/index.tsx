@@ -26,6 +26,7 @@ export * from './ClickAwayListener';
 export * from './Collapse';
 export * from './Container';
 export * from './CssBaseLine';
+export * from './DateTimePicker';
 export * from './Dialog';
 export * from './DialogActions';
 export * from './DialogContent';

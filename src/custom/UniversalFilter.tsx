@@ -4,12 +4,14 @@ import React from 'react';
 import { Badge } from '../base/Badge';
 import { Button } from '../base/Button';
 import { ClickAwayListener } from '../base/ClickAwayListener';
+import { DateTimePicker } from '../base/DateTimePicker';
 import { InputLabel } from '../base/InputLabel';
 import { MenuItem } from '../base/MenuItem';
 import { Paper } from '../base/Paper';
 import { Select } from '../base/Select';
 import { FilterIcon } from '../icons';
 import { useTheme } from '../theme';
+import { subtractDays, subtractMonths, subtractYears } from '../utils/date.utils';
 import PopperListener from './PopperListener';
 import { TooltipIcon } from './TooltipIconButton';
 
@@ -24,6 +26,44 @@ const normalizeFilters = (filters?: Record<string, string> | null): Record<strin
     return acc;
   }, {});
 
+export interface DateRange {
+  startDate: Date;
+  endDate: Date;
+}
+
+export interface QuickDateRangeOption {
+  label: string;
+  getRange: () => DateRange;
+}
+
+// Deliberately not `date-fns`: it is an OPTIONAL peer dependency, and this
+// module is reached from the package barrel, so a module-scope import of it made
+// `import { anything } from '@sistent/sistent'` throw
+// `Cannot find module 'date-fns'` for every consumer that took the optional peer
+// at its word and did not install it. See the same note on DateTimePicker.
+const DEFAULT_QUICK_DATE_RANGES: QuickDateRangeOption[] = [
+  {
+    label: 'Last 7 days',
+    getRange: () => ({ startDate: subtractDays(new Date(), 7), endDate: new Date() })
+  },
+  {
+    label: 'Last 30 days',
+    getRange: () => ({ startDate: subtractDays(new Date(), 30), endDate: new Date() })
+  },
+  {
+    label: 'Last 3 months',
+    getRange: () => ({ startDate: subtractMonths(new Date(), 3), endDate: new Date() })
+  },
+  {
+    label: 'Last 6 months',
+    getRange: () => ({ startDate: subtractMonths(new Date(), 6), endDate: new Date() })
+  },
+  {
+    label: 'Last 1 year',
+    getRange: () => ({ startDate: subtractYears(new Date(), 1), endDate: new Date() })
+  }
+];
+
 export interface UniversalFilterProps {
   filters: Record<string, FilterColumn>;
   selectedFilters: Record<string, string>;
@@ -33,6 +73,10 @@ export interface UniversalFilterProps {
   showAllOption?: boolean;
   id: string;
   'data-testid'?: string;
+  datePicker?: boolean;
+  selectedDateRange?: DateRange;
+  setSelectedDateRange?: (range: DateRange) => void;
+  quickDateRanges?: QuickDateRangeOption[];
 }
 
 export const FilterHeader = styled('div')(({ theme }) => ({
@@ -53,7 +97,11 @@ function UniversalFilter({
   handleApplyFilter,
   showAllOption = true,
   id,
-  'data-testid': testId = 'universal-filter'
+  'data-testid': testId = 'universal-filter',
+  datePicker = false,
+  selectedDateRange,
+  setSelectedDateRange,
+  quickDateRanges = DEFAULT_QUICK_DATE_RANGES
 }: UniversalFilterProps): JSX.Element {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [open, setOpen] = React.useState(false);
@@ -85,6 +133,30 @@ function UniversalFilter({
   const handleClose = () => {
     setAnchorEl(null);
     setOpen(false);
+  };
+
+  const handleQuickRangeChange = (event: SelectChangeEvent<unknown>) => {
+    const option = quickDateRanges.find((range) => range.label === event.target.value);
+    if (option) {
+      setSelectedDateRange?.(option.getRange());
+    }
+  };
+
+  const handleStartDateChange = (newStartDate: Date | null) => {
+    if (!newStartDate || !selectedDateRange) return;
+    setSelectedDateRange?.({
+      startDate: newStartDate,
+      endDate: newStartDate > selectedDateRange.endDate ? newStartDate : selectedDateRange.endDate
+    });
+  };
+
+  const handleEndDateChange = (newEndDate: Date | null) => {
+    if (!newEndDate || !selectedDateRange) return;
+    setSelectedDateRange?.({
+      startDate:
+        newEndDate < selectedDateRange.startDate ? newEndDate : selectedDateRange.startDate,
+      endDate: newEndDate
+    });
   };
 
   const handleFilterChange = (event: React.ChangeEvent<{ value: string }>, columnName: string) => {
@@ -141,7 +213,6 @@ function UniversalFilter({
                 width: '20rem',
                 marginBottom: '1rem'
               }}
-              MenuProps={{ disablePortal: true }}
               slotProps={{
                 input: {
                   'aria-label': 'Without label'
@@ -167,6 +238,39 @@ function UniversalFilter({
           </div>
         );
       })}
+
+      {datePicker && selectedDateRange && setSelectedDateRange && (
+        <div role="presentation" data-testid={`${testId}-date-range`}>
+          <InputLabel id={`${testId}-quick-range-label`}>Quick Ranges</InputLabel>
+          <Select
+            data-testid={`${testId}-quick-range-select`}
+            value=""
+            variant={variant}
+            onChange={handleQuickRangeChange}
+            style={{ width: '20rem', marginBottom: '1rem' }}
+            displayEmpty
+          >
+            {quickDateRanges.map((option) => (
+              <MenuItem key={option.label} value={option.label}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
+
+          <DateTimePicker
+            label="Start"
+            value={selectedDateRange.startDate}
+            onChange={handleStartDateChange}
+            data-testid={`${testId}-start-date`}
+          />
+          <DateTimePicker
+            label="End"
+            value={selectedDateRange.endDate}
+            onChange={handleEndDateChange}
+            data-testid={`${testId}-end-date`}
+          />
+        </div>
+      )}
 
       <div style={{ display: 'flex', justifyContent: 'center' }}>
         <Button
@@ -225,10 +329,12 @@ function UniversalFilter({
             anchor="bottom"
             open={open}
             onClose={handleClose}
-            PaperProps={{
-              style: {
-                padding: '0 1rem 1rem 1rem',
-                backgroundColor: theme.palette.background.surfaces
+            slotProps={{
+              paper: {
+                style: {
+                  padding: '0 1rem 1rem 1rem',
+                  backgroundColor: theme.palette.background.surfaces
+                }
               }
             }}
           >
