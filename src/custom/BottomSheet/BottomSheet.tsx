@@ -68,7 +68,7 @@ const BottomSheet = ({
               padding: '1rem',
               textAlign: 'center',
               background: headerBackgroundColor || theme.palette.surface.tint,
-              color: headerTextColor || '#eee',
+              color: headerTextColor || theme.palette.text.primary,
             })}
           >
             <Typography
@@ -83,9 +83,9 @@ const BottomSheet = ({
               onClick={onClose} 
               size="small" 
               edge="end"
-              sx={{
+              sx={(theme) => ({
                 '& svg': {
-                  fill: '#fff',
+                  fill: headerTextColor || theme.palette.text.primary,
                 },
                 transform: 'rotate(-90deg)',
                 '&:hover': {
@@ -93,7 +93,7 @@ const BottomSheet = ({
                   transition: 'all 0.3s ease-in',
                   cursor: 'pointer',
                 }
-              }}
+              })}
             >
               <CloseIcon />
             </IconButton>
