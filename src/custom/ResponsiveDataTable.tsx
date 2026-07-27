@@ -1,4 +1,4 @@
-import MUIDataTable, { MUIDataTableColumn } from '@sistent/mui-datatables';
+import MUIDataTable, { MUIDataTableColumn, MUIDataTableOptions } from '@sistent/mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { ShareIcon } from '../icons';
@@ -142,7 +142,7 @@ export interface Column {
 export interface ResponsiveDataTableProps {
   data: string[][];
   columns: MUIDataTableColumn[];
-  options?: object;
+  options?: MUIDataTableOptions;
   tableCols?: MUIDataTableColumn[];
   updateCols?: ((columns: MUIDataTableColumn[]) => void) | undefined;
   columnVisibility: Record<string, boolean> | undefined;
@@ -159,21 +159,21 @@ const ResponsiveDataTable = ({
   rowsPerPageOptions = [10, 25, 50, 100],
   ...props
 }: ResponsiveDataTableProps): JSX.Element => {
-  // Intercept the noMatch string to render a standardized empty state
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const textLabels: any = (options as any)?.textLabels || {};
+  const textLabels = options?.textLabels || {};
   const bodyTextLabels = textLabels.body || {};
   
-  if (typeof bodyTextLabels.noMatch === 'string') {
-    bodyTextLabels.noMatch = <WidgetEmptyState message={bodyTextLabels.noMatch} />;
-  }
+  const noMatchMessage =
+    typeof bodyTextLabels.noMatch === 'string'
+      ? bodyTextLabels.noMatch
+      : 'No data available';
 
   const updatedOptions = {
     ...options,
     textLabels: {
       ...textLabels,
       body: {
-        ...bodyTextLabels
+        ...bodyTextLabels,
+        noMatch: <WidgetEmptyState message={noMatchMessage} />
       }
     },
     print: false,
