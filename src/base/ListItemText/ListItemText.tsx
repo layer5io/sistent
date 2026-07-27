@@ -3,6 +3,20 @@ import {
   ListItemTextProps as MuiListItemTextProps
 } from '@mui/material';
 
-export function ListItemText(props: MuiListItemTextProps): JSX.Element {
-  return <MuiListItemText {...props} />;
+export function ListItemText({
+  slotProps,
+  ...props
+}: MuiListItemTextProps): JSX.Element {
+  const { primary, secondary, root } = slotProps ?? {};
+
+  return (
+    <MuiListItemText
+      slotProps={{
+        root,
+        primary: { noWrap: true, ...primary },
+        secondary: { noWrap: true, ...secondary }
+      }}
+      {...props}
+    />
+  );
 }
