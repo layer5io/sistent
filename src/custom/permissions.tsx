@@ -1,12 +1,19 @@
 import { Key } from '@meshery/schemas/permissions';
-export type { Key };
 import KeyIcon from '@mui/icons-material/Key';
 import LaunchIcon from '@mui/icons-material/Launch';
 import SecurityIcon from '@mui/icons-material/Security';
 import React from 'react';
-import { EventBus } from '../actors/eventBus';
+import type {
+  MissingCapabilityReason,
+  MissingPermissionReason
+} from '../actors/mesheryExtensionContract';
+import { MESHERY_EXTENSION_EVENT } from '../actors/mesheryExtensionContract';
 import { Box, Chip, ClickAwayListener, Link, Tooltip, Typography } from '../base';
+import { OrgHierarchyIcon } from '../icons/OrgHierarchy';
+import { RoleKeyIcon } from '../icons/RoleKey';
+import { UsersIcon } from '../icons/Users';
 import { usePermissionUserContext } from './PermissionProvider';
+export type { Key };
 
 const DIVIDER_SX = {
   height: '1px',
@@ -14,23 +21,34 @@ const DIVIDER_SX = {
   my: 1.25
 };
 
+/** Monochrome fill used for tooltip-context icons */
+const CONTEXT_ICON_COLOR = '#9E9E9E';
+const CONTEXT_ICON_SIZE = '14';
+
 export type InvertAction = 'disable' | 'hide';
 
-export type MissingPermissionReason = {
-  type: 'MISSING_PERMISSION';
-  data: {
-    keyId: string;
-  };
-};
-
-export type MissingCapabilityReason = {
-  type: 'MISSING_CAPABILITY';
-  data: {
-    capabilityId: string;
-  };
-};
+// These two reason events are published onto whichever bus the caller supplies,
+// which in Meshery is the host <-> extension bus. They are therefore part of the
+// extension contract and are declared there, so the host's typed bus and every
+// extension's subscriber derive them from one place. Re-exported here to keep the
+// long-standing `@sistent/sistent` import paths working.
+export type { MissingCapabilityReason, MissingPermissionReason };
 
 export type ReasonEvent = MissingPermissionReason | MissingCapabilityReason;
+
+/**
+ * The only capability `createCanShow` needs from the bus it is handed.
+ *
+ * Deliberately structural rather than `EventBus<ReasonEvent>`: `EventBus<T>` is
+ * invariant in `T` (it both accepts `T` in `publish` and yields `T` from `on`),
+ * so the host's `EventBus<MesheryExtensionEvent>` — the bus the contract tells
+ * every host to declare — is NOT assignable to `EventBus<ReasonEvent>` and the
+ * integration fails to compile. A publisher that accepts the whole contract
+ * union can obviously accept a reason event, and that is all this needs.
+ */
+export type ReasonEventPublisher = {
+  publish: (event: ReasonEvent) => void;
+};
 
 export interface HasKeyProps<ReasonEvent> {
   Key?: Key & { action?: string; subject?: string };
@@ -272,10 +290,13 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
             }}
           >
             {userContext.userName && (
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-                <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
-                  User
-                </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <UsersIcon width={CONTEXT_ICON_SIZE} height={CONTEXT_ICON_SIZE} primaryFill={CONTEXT_ICON_COLOR} secondaryFill={CONTEXT_ICON_COLOR} style={{ flexShrink: 0 }} />
+                  <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                    User
+                  </Typography>
+                </Box>
                 <Typography
                   sx={{
                     fontSize: '0.72rem',
@@ -288,10 +309,13 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                 </Typography>
               </Box>
             )}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-              <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
-                Org
-              </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <OrgHierarchyIcon width={CONTEXT_ICON_SIZE} height={CONTEXT_ICON_SIZE} fill={CONTEXT_ICON_COLOR} primaryFill={CONTEXT_ICON_COLOR} secondaryFill={CONTEXT_ICON_COLOR} style={{ flexShrink: 0 }} />
+                <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                  Org
+                </Typography>
+              </Box>
               <Typography
                 sx={{
                   fontSize: '0.72rem',
@@ -303,10 +327,13 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                 {userContext.orgName || 'Private Org'}
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-              <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
-                Role(s)
-              </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <RoleKeyIcon width={CONTEXT_ICON_SIZE} height={CONTEXT_ICON_SIZE} fill={CONTEXT_ICON_COLOR} secondaryFill={CONTEXT_ICON_COLOR} style={{ flexShrink: 0 }} />
+                <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                  Role(s)
+                </Typography>
+              </Box>
               <Typography
                 sx={{
                   fontSize: '0.72rem',
@@ -345,7 +372,8 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           position: 'relative',
           display: isBadge ? 'inline-flex' : 'flex',
           width: isBadge ? 'auto' : '100%',
-          alignItems: 'center'
+          alignItems: 'center',
+          cursor: 'not-allowed'
         }}
       >
         <Box sx={{ width: '100%', opacity: 0.5, pointerEvents: 'none' }}>{children}</Box>
@@ -379,8 +407,8 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
               isBadge
                 ? {
                     position: 'absolute',
-                    top: -6,
-                    right: -6,
+                    bottom: -6,
+                    left: -6,
                     backgroundColor: 'rgba(30, 30, 30, 0.9)',
                     color: '#808080',
                     borderRadius: '50%',
@@ -430,7 +458,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
 export const createCanShow = (
   getCapabilitiesRegistry = () => {},
   CAN: (action: string, subject: string) => boolean,
-  eventBus: () => EventBus<ReasonEvent>
+  eventBus: () => ReasonEventPublisher
 ) => {
   return ({
     Key,
@@ -451,8 +479,11 @@ export const createCanShow = (
 
     const can = predicateRes ? predicateRes[0] && hasKey : hasKey;
 
-    const reason = predicateRes?.[1] || {
-      type: 'MISSING_PERMISSION',
+    const reason: ReasonEvent = predicateRes?.[1] || {
+      // Named handle, not the raw literal: renaming the event in the contract
+      // must break this publish site rather than silently stop matching the
+      // subscriber's `event.type === ...` on the far side of the bundle boundary.
+      type: MESHERY_EXTENSION_EVENT.MissingPermission,
       data: {
         keyId: actionString
       }
@@ -471,7 +502,6 @@ export const createCanShow = (
     const onClick = notifyOnclick
       ? (e: React.MouseEvent<HTMLDivElement | HTMLElement>) => {
           e.stopPropagation();
-          console.log('cant perform action : reason', reason, eventBus);
           const mesheryEventBus = eventBus();
           mesheryEventBus.publish(reason);
         }
@@ -518,13 +548,13 @@ export const createCanShow = (
 // Re-export PermissionProvider types and hooks
 export {
   PermissionProvider,
-  usePermission,
   useHasPermission,
+  usePermission,
   usePermissionUserContext
 } from './PermissionProvider';
 export type {
   PermissionAction,
+  PermissionProviderProps,
   PermissionProviderValue,
-  PermissionUserContext,
-  PermissionProviderProps
+  PermissionUserContext
 } from './PermissionProvider';

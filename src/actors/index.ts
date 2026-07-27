@@ -39,3 +39,5 @@ export {
 } from './utils';
 
 export * from './eventBus';
+
+export * from './mesheryExtensionContract';
