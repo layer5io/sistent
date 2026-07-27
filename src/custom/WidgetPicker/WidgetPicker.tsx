@@ -43,14 +43,16 @@ export const WidgetPicker: React.FC<WidgetPickerProps> = ({
 
   return (
     <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        width: '100%',
-        backgroundColor: theme.palette.background.paper,
-        ...containerSx,
-      }}
+      sx={[
+        {
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          width: '100%',
+          backgroundColor: theme.palette.background.paper,
+        },
+        ...(Array.isArray(containerSx) ? containerSx : [containerSx]),
+      ]}
     >
       <Stack
         direction="row"

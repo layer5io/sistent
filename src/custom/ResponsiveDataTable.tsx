@@ -8,6 +8,7 @@ import { styled, useTheme } from './../theme';
 import { ColView } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { TableAction } from './TableActions';
 import { TooltipIcon } from './TooltipIconButton';
+import { WidgetEmptyState } from './WidgetEmptyState';
 
 export const IconWrapper = styled('div', {
   shouldForwardProp: (prop) => prop !== 'disabled'
@@ -158,8 +159,23 @@ const ResponsiveDataTable = ({
   rowsPerPageOptions = [10, 25, 50, 100],
   ...props
 }: ResponsiveDataTableProps): JSX.Element => {
+  // Intercept the noMatch string to render a standardized empty state
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const textLabels: any = (options as any)?.textLabels || {};
+  const bodyTextLabels = textLabels.body || {};
+  
+  if (typeof bodyTextLabels.noMatch === 'string') {
+    bodyTextLabels.noMatch = <WidgetEmptyState message={bodyTextLabels.noMatch} />;
+  }
+
   const updatedOptions = {
     ...options,
+    textLabels: {
+      ...textLabels,
+      body: {
+        ...bodyTextLabels
+      }
+    },
     print: false,
     download: false,
     search: false,

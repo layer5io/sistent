@@ -22,8 +22,6 @@ export interface DashboardLayoutProps {
   /** Optional fixed height for the sticky sidebar. Defaults to 100vh */
   sidebarHeight?: string | number;
 
-  /** Callback fired when the component requests to be closed (e.g. clicking the backdrop on mobile) */
-  onClose?: () => void;
 }
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
@@ -32,8 +30,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   sidebarContent,
   sidebarWidth = { xs: '100%', md: '350px' },
   sidebarTopOffset = '0',
-  sidebarHeight = '100vh',
-  onClose,
+  sidebarHeight = '100vh'
 }) => {
   const theme = useTheme();
   // We use the 'md' breakpoint (900px default) to switch between mobile and desktop layout
@@ -80,6 +77,16 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
             }}
           >
             <Box
+              role="button"
+              tabIndex={0}
+              aria-label="Toggle Sidebar"
+              aria-expanded={isMobileDrawerOpen}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setIsMobileDrawerOpen(!isMobileDrawerOpen);
+                }
+              }}
               sx={{
                 position: 'absolute',
                 top: -drawerBleeding,
@@ -102,7 +109,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
                 sx={{
                   width: 30,
                   height: 6,
-                  backgroundColor: theme.palette.mode === 'light' ? '#e0e0e0' : '#424242',
+                  backgroundColor: theme.palette.divider,
                   borderRadius: 3,
                 }}
               />
