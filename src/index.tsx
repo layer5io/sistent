@@ -95,3 +95,8 @@ export {
   type WidgetPickerProps,
   type WidgetItem
 } from './custom/WidgetPicker';
+
+export {
+  WidgetEmptyState,
+  type WidgetEmptyStateProps
+} from './custom/WidgetEmptyState';

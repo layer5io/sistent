@@ -7,3 +7,4 @@ export * from './Modal';
 export * from './RJSFFormWrapper';
 export * from './StyledAccordion';
 export * from './WidgetPicker';
+export * from './WidgetEmptyState';
