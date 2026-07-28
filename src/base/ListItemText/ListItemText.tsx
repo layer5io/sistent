@@ -2,12 +2,13 @@ import {
   ListItemText as MuiListItemText,
   ListItemTextProps as MuiListItemTextProps
 } from '@mui/material';
+import type { ListItemTextOwnerState } from '@mui/material/ListItemText';
 
 function withNoWrapDefault<T extends object>(
-  slotProp: T | ((ownerState: any) => T) | undefined
+  slotProp: T | ((ownerState: ListItemTextOwnerState) => T) | undefined
 ) {
   if (typeof slotProp === 'function') {
-    return (ownerState: any) => ({
+    return (ownerState: ListItemTextOwnerState) => ({
       noWrap: true,
       ...slotProp(ownerState)
     });
