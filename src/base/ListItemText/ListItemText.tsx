@@ -3,18 +3,30 @@ import {
   ListItemTextProps as MuiListItemTextProps
 } from '@mui/material';
 
+function withNoWrapDefault<T extends object>(
+  slotProp: T | ((ownerState: any) => T) | undefined
+) {
+  if (typeof slotProp === 'function') {
+    return (ownerState: any) => ({
+      noWrap: true,
+      ...slotProp(ownerState)
+    });
+  }
+  return { noWrap: true, ...slotProp };
+}
+
 export function ListItemText({
   slotProps,
   ...props
 }: MuiListItemTextProps): JSX.Element {
-  const { primary, secondary, root } = slotProps ?? {};
+  const { primary, secondary } = slotProps ?? {};
 
   return (
     <MuiListItemText
       slotProps={{
-        root,
-        primary: { noWrap: true, ...primary },
-        secondary: { noWrap: true, ...secondary }
+        ...slotProps,
+        primary: withNoWrapDefault(primary),
+        secondary: withNoWrapDefault(secondary)
       }}
       {...props}
     />
