@@ -1,6 +1,7 @@
 import { ActionButton } from './ActionButton';
 import { BBChart } from './BBChart';
 import { BookmarkNotification } from './BookmarkNotification';
+import { BottomSheet, type BottomSheetProps } from './BottomSheet';
 import { Carousel } from './Carousel';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ChapterCard } from './ChapterCard';
@@ -94,6 +95,7 @@ export {
   ActionButton,
   BBChart,
   BookmarkNotification,
+  BottomSheet,
   Carousel,
   CatalogCardDesignLogo,
   CatalogFilter,
@@ -163,6 +165,7 @@ export { BasicMarkdown, RenderMarkdown };
 export { CustomizedStepper, useStepper } from './Stepper';
 
 export type {
+  BottomSheetProps,
   CatalogFilterProps,
   ColView,
   CustomColumn,
@@ -190,5 +193,3 @@ export * from './RJSFFormWrapper';
 export * from './ShareModal';
 export * from './UserSearchField';
 export * from './Workspaces';
-export * from './LiquidGlass';
-export * from './BottomSheet';

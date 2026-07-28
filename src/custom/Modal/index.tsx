@@ -1,6 +1,5 @@
 import { ButtonProps, DialogProps, styled } from '@mui/material';
 import React, { useRef, useState } from 'react';
-import { omit } from 'lodash';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
 import { iconLarge } from '../../constants/iconsSizes';
@@ -166,10 +165,7 @@ export const Modal: React.FC<ModalProps> = ({
    * prop is applied after {...restProps}, so any caller-provided fullWidth is
    * intentionally overridden without needing to strip it here.
    */
-  const {
-    fullScreen: initialFullScreenState = false,
-    ...restProps
-  } = omit(props, ['fullWidth']);
+  const { fullScreen: initialFullScreenState = false, ...restProps } = props;
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
 

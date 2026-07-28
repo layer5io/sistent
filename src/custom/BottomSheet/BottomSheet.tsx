@@ -1,9 +1,9 @@
-import React, { useId } from 'react';
 import Slide, { SlideProps } from '@mui/material/Slide';
+import React, { useId } from 'react';
+import { Box } from '../../base/Box';
 import { Dialog } from '../../base/Dialog';
 import { DialogContent } from '../../base/DialogContent';
 import { IconButton } from '../../base/IconButton';
-import { Box } from '../../base/Box';
 import { Typography } from '../../base/Typography';
 import { CloseIcon } from '../../icons/Close';
 
@@ -35,7 +35,7 @@ const BottomSheet = ({
   maxHeight = '80vh',
   closeButtonAriaLabel = 'Close',
   headerBackgroundColor,
-  headerTextColor,
+  headerTextColor
 }: BottomSheetProps) => {
   const titleId = useId();
 
@@ -54,8 +54,8 @@ const BottomSheet = ({
           width: '100%',
           maxWidth: '100%',
           borderRadius: '12px 12px 0 0',
-          maxHeight,
-        },
+          maxHeight
+        }
       }}
     >
       {title && (
@@ -68,30 +68,38 @@ const BottomSheet = ({
               padding: '1rem',
               textAlign: 'center',
               background: headerBackgroundColor || theme.palette.surface.tint,
-              color: headerTextColor || theme.palette.text.primary,
+              color: headerTextColor || theme.palette.text.primary
             })}
           >
             <Typography
               id={titleId}
               variant="subtitle1"
-              sx={{ fontWeight: 600, flex: 1, minWidth: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: 'inherit' }}
+              sx={{
+                fontWeight: 600,
+                flex: 1,
+                minWidth: 0,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                color: 'inherit'
+              }}
             >
               {title}
             </Typography>
-            <IconButton 
-              aria-label={closeButtonAriaLabel} 
-              onClick={onClose} 
-              size="small" 
+            <IconButton
+              aria-label={closeButtonAriaLabel}
+              onClick={onClose}
+              size="small"
               edge="end"
               sx={(theme) => ({
                 '& svg': {
-                  fill: headerTextColor || theme.palette.text.primary,
+                  fill: headerTextColor || theme.palette.text.primary
                 },
                 transform: 'rotate(-90deg)',
                 '&:hover': {
                   transform: 'rotate(90deg)',
                   transition: 'all 0.3s ease-in',
-                  cursor: 'pointer',
+                  cursor: 'pointer'
                 }
               })}
             >
@@ -100,9 +108,7 @@ const BottomSheet = ({
           </Box>
         </>
       )}
-      <DialogContent sx={{ px: 2, py: 1.5, overflowY: 'auto' }}>
-        {children}
-      </DialogContent>
+      <DialogContent sx={{ px: 2, py: 1.5, overflowY: 'auto' }}>{children}</DialogContent>
     </Dialog>
   );
 };
