@@ -56,6 +56,14 @@ jest.mock('../custom/PopperListener', () => ({
   default: ({ children, open }: any) => (open ? <div>{children}</div> : null)
 }));
 
+jest.mock('../base/Badge', () => ({
+  Badge: ({ children, badgeContent, invisible }: any) => (
+    <div data-testid="filter-badge" data-content={badgeContent} data-invisible={String(invisible)}>
+      {children}
+    </div>
+  )
+}));
+
 jest.mock('../custom/TooltipIconButton', () => ({
   TooltipIcon: ({ onClick, title }: any) => (
     <button aria-label={title} onClick={onClick}>
