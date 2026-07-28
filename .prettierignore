@@ -8,3 +8,4 @@ site/public
 .yarnrc.yml
 .eslintrc.*js
 .claude/
+.agents/
