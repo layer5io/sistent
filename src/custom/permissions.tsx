@@ -9,6 +9,9 @@ import type {
 } from '../actors/mesheryExtensionContract';
 import { MESHERY_EXTENSION_EVENT } from '../actors/mesheryExtensionContract';
 import { Box, Chip, ClickAwayListener, Link, Tooltip, Typography } from '../base';
+import { OrgHierarchyIcon } from '../icons/OrgHierarchy';
+import { RoleKeyIcon } from '../icons/RoleKey';
+import { UsersIcon } from '../icons/Users';
 import { usePermissionUserContext } from './PermissionProvider';
 export type { Key };
 
@@ -17,6 +20,10 @@ const DIVIDER_SX = {
   background: 'rgba(255, 255, 255, 0.1)',
   my: 1.25
 };
+
+/** Monochrome fill used for tooltip-context icons */
+const CONTEXT_ICON_COLOR = '#9E9E9E';
+const CONTEXT_ICON_SIZE = '14';
 
 export type InvertAction = 'disable' | 'hide';
 
@@ -283,10 +290,13 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
             }}
           >
             {userContext.userName && (
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-                <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
-                  User
-                </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <UsersIcon width={CONTEXT_ICON_SIZE} height={CONTEXT_ICON_SIZE} primaryFill={CONTEXT_ICON_COLOR} secondaryFill={CONTEXT_ICON_COLOR} style={{ flexShrink: 0 }} />
+                  <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                    User
+                  </Typography>
+                </Box>
                 <Typography
                   sx={{
                     fontSize: '0.72rem',
@@ -299,10 +309,13 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                 </Typography>
               </Box>
             )}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-              <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
-                Org
-              </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <OrgHierarchyIcon width={CONTEXT_ICON_SIZE} height={CONTEXT_ICON_SIZE} fill={CONTEXT_ICON_COLOR} primaryFill={CONTEXT_ICON_COLOR} secondaryFill={CONTEXT_ICON_COLOR} style={{ flexShrink: 0 }} />
+                <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                  Org
+                </Typography>
+              </Box>
               <Typography
                 sx={{
                   fontSize: '0.72rem',
@@ -314,10 +327,13 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                 {userContext.orgName || 'Private Org'}
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 1 }}>
-              <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
-                Role(s)
-              </Typography>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                <RoleKeyIcon width={CONTEXT_ICON_SIZE} height={CONTEXT_ICON_SIZE} fill={CONTEXT_ICON_COLOR} secondaryFill={CONTEXT_ICON_COLOR} style={{ flexShrink: 0 }} />
+                <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                  Role(s)
+                </Typography>
+              </Box>
               <Typography
                 sx={{
                   fontSize: '0.72rem',
@@ -356,7 +372,8 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           position: 'relative',
           display: isBadge ? 'inline-flex' : 'flex',
           width: isBadge ? 'auto' : '100%',
-          alignItems: 'center'
+          alignItems: 'center',
+          cursor: 'not-allowed'
         }}
       >
         <Box sx={{ width: '100%', opacity: 0.5, pointerEvents: 'none' }}>{children}</Box>
@@ -390,8 +407,8 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
               isBadge
                 ? {
                     position: 'absolute',
-                    top: -6,
-                    right: -6,
+                    bottom: -6,
+                    left: -6,
                     backgroundColor: 'rgba(30, 30, 30, 0.9)',
                     color: '#808080',
                     borderRadius: '50%',

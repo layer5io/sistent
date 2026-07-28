@@ -4,11 +4,39 @@ This file is the project's committed home for project-intrinsic agent knowledge:
 
 - Add durable project-specific notes here as they are discovered through real work.
 
+## Skills live in `.agents/skills`, and only there
+
+`.agents/skills` is the single source of truth for this repo's agent skills. `.claude/skills` is a
+relative symlink to it (`../.agents/skills`), because Claude Code does not discover `.agents/skills`
+on its own. Add a new skill under `.agents/skills/<name>/SKILL.md`; never add one under
+`.claude/skills`, which would write through the symlink and land in the wrong place conceptually.
+
+There is deliberately no `.codex/skills` or `.opencode/skills` link: both tools already read
+`.agents/skills` natively (Codex via `repo_agents_skill_roots` in `codex-rs/core-skills/src/loader.rs`;
+OpenCode per its skills docs), so a link would be redundant rather than load-bearing.
+
+That rule is aimed at a human, but the actor that will actually write to `.claude/skills` is a tool:
+the AXI skills installer, which produced commit `5482d046` ("Install AXI agent tooling") and
+maintains the tracked `skills-lock.json`. That lockfile records four installer-managed skills -
+`chrome-devtools-axi`, `gh-axi`, `lavish`, `quota-axi` - and the installer's own layout is content
+under `.agents/skills/<name>/` **plus** a per-skill `.claude/skills/<name>` symlink, which is exactly
+what this change replaced with the single directory-level link. So on its next install or update run
+the installer will try to create `.claude/skills/<name>`; because `.claude/skills` is now itself a
+symlink to `../.agents/skills`, that final path component resolves to `.agents/skills/<name>`, which
+already exists as a real directory. Best case it errors with `EEXIST` and does nothing. Worst case an
+installer that force-replaces its destination (`rm -rf` followed by `symlink`) deletes the canonical
+skill directory and leaves a self-referential `.agents/skills/<name> -> ../../.agents/skills/<name>`
+loop, destroying the skill content.
+
+Which of those happens has **not** been established: no installer CLI managing `skills-lock.json` is
+present in this repo or on `PATH`, and the destructive path was deliberately not tested by running
+it. Establish the installer's replace semantics before re-running it against this layout.
+
 ## Releasing
 
 Automation-driven; do not `npm publish`, `npm version`, or tag by hand. Merge to `master`, let
 Release Drafter update the draft, then publish the draft - `release.yml` does the rest.
-Runbook: [`.claude/skills/cut-release/SKILL.md`](.claude/skills/cut-release/SKILL.md).
+Runbook: [`.agents/skills/cut-release/SKILL.md`](.agents/skills/cut-release/SKILL.md).
 
 Resolve "what is currently released" from the npm `latest` dist-tag and publish timestamps
 (`npm view @sistent/sistent dist-tags time --json`), not by eyeballing semver order.
