@@ -30,9 +30,9 @@ fall back to `python3` only if `uv` is unavailable:
 
 ```bash
 if command -v uv >/dev/null 2>&1; then
-  uv run .claude/skills/iterate-pr/scripts/<script>.py [args]
+  uv run .agents/skills/iterate-pr/scripts/<script>.py [args]
 else
-  python3 .claude/skills/iterate-pr/scripts/<script>.py [args]
+  python3 .agents/skills/iterate-pr/scripts/<script>.py [args]
 fi
 ```
 
@@ -73,7 +73,7 @@ Do not fail because hints are missing or unrecognized; default safely.
 Fetches CI check status and extracts failure snippets from logs.
 
 ```bash
-python3 .claude/skills/iterate-pr/scripts/fetch_pr_checks.py [--pr NUMBER]
+python3 .agents/skills/iterate-pr/scripts/fetch_pr_checks.py [--pr NUMBER]
 ```
 
 Returns JSON:
@@ -93,7 +93,7 @@ Returns JSON:
 Fetches and categorizes PR review feedback using the [LOGAF scale](https://develop.sentry.dev/engineering-practices/code-review/#logaf-scale).
 
 ```bash
-python3 .claude/skills/iterate-pr/scripts/fetch_pr_feedback.py [--pr NUMBER]
+python3 .agents/skills/iterate-pr/scripts/fetch_pr_feedback.py [--pr NUMBER]
 ```
 
 Returns JSON with feedback categorized as:
@@ -113,12 +113,12 @@ Each feedback item may also include:
 Replies to PR review threads. Batches multiple replies into a single GraphQL call.
 
 ```bash
-python3 .claude/skills/iterate-pr/scripts/reply_to_thread.py THREAD_ID "body" [THREAD_ID "body" ...]
+python3 .agents/skills/iterate-pr/scripts/reply_to_thread.py THREAD_ID "body" [THREAD_ID "body" ...]
 ```
 
 Arguments are alternating `(thread_id, body)` pairs. The script sends the reply body without adding signatures, attribution, or sign-off text. Example:
 ```bash
-python3 .claude/skills/iterate-pr/scripts/reply_to_thread.py \
+python3 .agents/skills/iterate-pr/scripts/reply_to_thread.py \
   PRRT_abc "Fixed the null check." \
   PRRT_def "Replaced with path-segment counting."
 ```
@@ -135,7 +135,7 @@ Stop if no PR exists for the current branch.
 
 ### 2. Gather Review Feedback
 
-Run `python3 .claude/skills/iterate-pr/scripts/fetch_pr_feedback.py` to get categorized feedback already posted on the PR.
+Run `python3 .agents/skills/iterate-pr/scripts/fetch_pr_feedback.py` to get categorized feedback already posted on the PR.
 
 ### 3. Handle Feedback by Priority and Mode
 
@@ -192,14 +192,14 @@ After processing feedback, reply to PR comments/threads to acknowledge the actio
 - Full modes: reply to every non-resolved feedback item, including informational bot feedback
 
 **How to reply:**
-- If `thread_id` exists (inline review thread), use `python3 .claude/skills/iterate-pr/scripts/reply_to_thread.py`
+- If `thread_id` exists (inline review thread), use `python3 .agents/skills/iterate-pr/scripts/reply_to_thread.py`
 - If no `thread_id` exists, post a PR comment with `gh pr comment <PR_NUMBER> --body "..."`
 - In full modes, a feedback round is incomplete until every item has a corresponding reply
 
 Batch inline replies for a round into a single call:
 
 ```bash
-python3 .claude/skills/iterate-pr/scripts/reply_to_thread.py \
+python3 .agents/skills/iterate-pr/scripts/reply_to_thread.py \
   PRRT_abc "Fixed — description of change." \
   PRRT_def "Not applicable — reason."
 ```
@@ -212,7 +212,7 @@ python3 .claude/skills/iterate-pr/scripts/reply_to_thread.py \
 
 ### 4. Check CI Status
 
-Run `python3 .claude/skills/iterate-pr/scripts/fetch_pr_checks.py` to get structured failure data.
+Run `python3 .agents/skills/iterate-pr/scripts/fetch_pr_checks.py` to get structured failure data.
 
 **Wait if pending:** If review bot checks (sentry, warden, cursor, bugbot, seer, codeql) are still running, wait before proceeding—they post actionable feedback that must be evaluated. Informational bots (codecov) are not worth waiting for.
 
@@ -248,11 +248,11 @@ Always add exactly one sign-off to each commit for the active authenticated GitH
 
 Poll CI status and review feedback in a loop instead of blocking:
 
-1. Run `python3 .claude/skills/iterate-pr/scripts/fetch_pr_checks.py` to get current CI status
+1. Run `python3 .agents/skills/iterate-pr/scripts/fetch_pr_checks.py` to get current CI status
 2. If all checks passed → proceed to exit conditions
 3. If any checks failed (none pending) → return to step 5
 4. If checks are still pending:
-   a. Run `python3 .claude/skills/iterate-pr/scripts/fetch_pr_feedback.py` for new review feedback
+   a. Run `python3 .agents/skills/iterate-pr/scripts/fetch_pr_feedback.py` for new review feedback
    b. Address feedback based on mode:
       - Default mode: new `high`/`medium`
       - Full modes: every new non-resolved item (`high`/`medium`/`low`/`bot`) and reply to each item
@@ -261,7 +261,7 @@ Poll CI status and review feedback in a loop instead of blocking:
       - Prefer Gemini review command (`/gemini review`) when available
       - Otherwise request Copilot review by commenting `@copilot review` on the PR
    e. Sleep 30 seconds (don't increase on subsequent iterations), then repeat from sub-step 1
-5. After all checks pass, do a final feedback check: `sleep 10`, then run `python3 .claude/skills/iterate-pr/scripts/fetch_pr_feedback.py`.
+5. After all checks pass, do a final feedback check: `sleep 10`, then run `python3 .agents/skills/iterate-pr/scripts/fetch_pr_feedback.py`.
    - Default mode: address any new `high`/`medium` feedback; if changes are needed, return to step 6
    - Full modes: address any new non-resolved item; if changes are needed, return to step 6 and re-request review
 
