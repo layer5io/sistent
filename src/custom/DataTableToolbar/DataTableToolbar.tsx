@@ -1,12 +1,13 @@
+import Tooltip from '@mui/material/Tooltip';
 import React from 'react';
-import { Box, Card, Checkbox, ClickAwayListener, FormControlLabel, Typography } from '../../base';
+import { Box, Card, Checkbox, ClickAwayListener, FormControlLabel } from '../../base';
 import { ColumnIcon } from '../../icons/Column';
 import { styled, useTheme } from '../../theme';
+import { useWindowDimensions } from '../Helpers/Dimension';
 import type { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { PopperListener } from '../PopperListener';
 import { TooltipIcon } from '../TooltipIconButton';
-import { useWindowDimensions } from '../Helpers/Dimension';
 import type { DataTableToolbarProps } from './DataTableToolbar.types';
 
 const ToolbarRoot = styled(Box)(({ theme }) => ({
@@ -172,18 +173,19 @@ export function DataTableToolbar({
           <RightSection>
             {bulkOperations}
             {secondaryActions}
-            {search}
+            {search && searchHelperText ? (
+              <Tooltip title={searchHelperText} arrow placement="top">
+                <Box sx={{ display: 'inline-flex' }}>{search}</Box>
+              </Tooltip>
+            ) : (
+              search
+            )}
             {filter}
             {columnControl}
             {viewSwitch}
           </RightSection>
         )}
       </ToolbarRoot>
-      {searchHelperText && (
-        <Typography variant="caption" color="textSecondary">
-          {searchHelperText}
-        </Typography>
-      )}
       {tabs && <Box sx={{ mt: 2 }}>{tabs}</Box>}
     </>
   );

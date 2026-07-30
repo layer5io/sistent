@@ -107,34 +107,33 @@ describe('DataTableToolbar', () => {
     expect(window.getComputedStyle(root).marginTop).toBe('32px');
   });
 
-  it('renders searchHelperText when provided', () => {
-    renderWithTheme(
-      <DataTableToolbar searchHelperText="Search by name, kind, category" />
-    );
-    expect(screen.getByText('Search by name, kind, category')).toBeTruthy();
-  });
-
   it('renders tabs content when provided', () => {
-    renderWithTheme(
-      <DataTableToolbar tabs={<div>Tab Content</div>} />
-    );
+    renderWithTheme(<DataTableToolbar tabs={<div>Tab Content</div>} />);
     expect(screen.getByText('Tab Content')).toBeTruthy();
   });
 
-  it('renders both searchHelperText and tabs together', () => {
+  it('shows searchHelperText as tooltip on hover', () => {
     renderWithTheme(
       <DataTableToolbar
-        searchHelperText="Search items"
-        tabs={<div>My Tabs</div>}
+        search={<input placeholder="Search" />}
+        searchHelperText="Search by name, kind, category"
       />
     );
-    expect(screen.getByText('Search items')).toBeTruthy();
-    expect(screen.getByText('My Tabs')).toBeTruthy();
+    // MUI Tooltip adds aria-label to the wrapper element for accessibility
+    const wrapper = screen.getByPlaceholderText('Search').parentElement!;
+    expect(wrapper.getAttribute('aria-label')).toBe('Search by name, kind, category');
+  });
+
+  it('renders search without tooltip when searchHelperText is not provided', () => {
+    renderWithTheme(<DataTableToolbar search={<input placeholder="Search" />} />);
+    expect(screen.getByPlaceholderText('Search')).toBeTruthy();
   });
 
   describe('layout positioning', () => {
     it('pushes right section to the right when only right content is present', () => {
-      renderWithTheme(<DataTableToolbar search={<span data-testid="right-content">Search</span>} />);
+      renderWithTheme(
+        <DataTableToolbar search={<span data-testid="right-content">Search</span>} />
+      );
       const rightContent = screen.getByTestId('right-content');
       const rightSection = rightContent.parentElement as HTMLElement;
       // RightSection has marginLeft: auto — check via computed style
@@ -143,7 +142,9 @@ describe('DataTableToolbar', () => {
     });
 
     it('keeps left content on the left when only left content is present', () => {
-      renderWithTheme(<DataTableToolbar primaryActions={<button data-testid="left-content">Add</button>} />);
+      renderWithTheme(
+        <DataTableToolbar primaryActions={<button data-testid="left-content">Add</button>} />
+      );
       const leftContent = screen.getByTestId('left-content');
       const leftSection = leftContent.parentElement as HTMLElement;
       // Default Section has no marginLeft override

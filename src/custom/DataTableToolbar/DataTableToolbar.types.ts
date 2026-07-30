@@ -45,7 +45,7 @@ export interface DataTableToolbarProps {
   /** Right side: Grid/table view toggle */
   viewSwitch?: React.ReactNode;
 
-  /** Helper text displayed below the search bar (e.g., "Search by name, kind, category") */
+  /** Helper text displayed as tooltip on search icon (e.g., "Search by name, kind, category") */
   searchHelperText?: string;
 
   /** Tabs rendered below the toolbar, directly above the table */
