@@ -182,7 +182,7 @@ function UniversalFilter({
           <h3>Filters: </h3>
         </FilterHeader>
       )}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {Object.keys(filters).map((filterColumn) => {
         const options = filters[filterColumn].options;
         const draftValue = draftFilters[filterColumn] ?? 'All';
@@ -198,7 +198,6 @@ function UniversalFilter({
             key={filterColumn}
             role="presentation"
             data-testid={`${testId}-filter-group-${filterColumn}`}
-            style={{ width: '100%' }}
           >
             <InputLabel
               id={filters[filterColumn].name}
@@ -215,7 +214,7 @@ function UniversalFilter({
                 handleFilterChange(e as React.ChangeEvent<{ value: string }>, filterColumn)
               }
               style={{
-                width: '100%',
+                width: '20rem',
                 marginBottom: '1rem'
               }}
               slotProps={{
@@ -245,14 +244,14 @@ function UniversalFilter({
       })}
 
       {datePicker && selectedDateRange && setSelectedDateRange && (
-        <div role="presentation" data-testid={`${testId}-date-range`} style={{ width: '100%' }}>
+        <div role="presentation" data-testid={`${testId}-date-range`}>
           <InputLabel id={`${testId}-quick-range-label`}>Quick Ranges</InputLabel>
           <Select
             data-testid={`${testId}-quick-range-select`}
             value=""
             variant={variant}
             onChange={handleQuickRangeChange}
-            style={{ width: '100%', marginBottom: '1rem' }}
+            style={{ width: '20rem', marginBottom: '1rem' }}
             displayEmpty
           >
             {quickDateRanges.map((option) => (
