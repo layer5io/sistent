@@ -46,8 +46,8 @@ const BottomSheet = ({
       fullWidth
       aria-labelledby={title ? titleId : undefined}
       slots={{ transition: SlideUp }}
-      sx={{
-        zIndex: 1600,
+      sx={(theme) => ({
+        zIndex: theme.zIndex.modal,
         '& .MuiDialog-container': { alignItems: 'flex-end' },
         '& .MuiDialog-paper': {
           margin: 0,
@@ -56,7 +56,7 @@ const BottomSheet = ({
           borderRadius: '12px 12px 0 0',
           maxHeight
         }
-      }}
+      })}
     >
       {title && (
         <>
