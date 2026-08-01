@@ -1,4 +1,4 @@
-import { Drawer, styled, useMediaQuery } from '@mui/material';
+import { styled, useMediaQuery } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import React from 'react';
 import { Badge } from '../base/Badge';
@@ -12,6 +12,7 @@ import { Select } from '../base/Select';
 import { FilterIcon } from '../icons';
 import { useTheme } from '../theme';
 import { subtractDays, subtractMonths, subtractYears } from '../utils/date.utils';
+import { BottomSheet } from './BottomSheet';
 import PopperListener from './PopperListener';
 import { TooltipIcon } from './TooltipIconButton';
 
@@ -174,11 +175,14 @@ function UniversalFilter({
     handleApplyFilter(appliedFilters);
   };
 
-  const renderFilterContent = () => (
+  const renderFilterContent = (hideHeader = false) => (
     <div>
-      <FilterHeader data-testid={`${testId}-header`}>
-        <h3>Filters: </h3>
-      </FilterHeader>
+      {!hideHeader && (
+        <FilterHeader data-testid={`${testId}-header`}>
+          <h3>Filters: </h3>
+        </FilterHeader>
+      )}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {Object.keys(filters).map((filterColumn) => {
         const options = filters[filterColumn].options;
         const draftValue = draftFilters[filterColumn] ?? 'All';
@@ -281,6 +285,7 @@ function UniversalFilter({
           Apply
         </Button>
       </div>
+      </div>
     </div>
   );
 
@@ -325,21 +330,9 @@ function UniversalFilter({
             </ClickAwayListener>
           </PopperListener>
         ) : (
-          <Drawer
-            anchor="bottom"
-            open={open}
-            onClose={handleClose}
-            slotProps={{
-              paper: {
-                style: {
-                  padding: '0 1rem 1rem 1rem',
-                  backgroundColor: theme.palette.background.surfaces
-                }
-              }
-            }}
-          >
-            {renderFilterContent()}
-          </Drawer>
+          <BottomSheet open={open} onClose={handleClose} title="Filters">
+            {renderFilterContent(true)}
+          </BottomSheet>
         )}
       </div>
     </>
