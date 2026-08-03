@@ -193,3 +193,5 @@ export * from './RJSFFormWrapper';
 export * from './ShareModal';
 export * from './UserSearchField';
 export * from './Workspaces';
+export * from './WidgetPicker';
+export * from './DashboardLayout';
