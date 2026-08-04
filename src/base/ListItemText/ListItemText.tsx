@@ -6,7 +6,7 @@ import type { ListItemTextOwnerState } from '@mui/material/ListItemText';
 
 function withNoWrapDefault<T extends object>(
   slotProp: T | ((ownerState: ListItemTextOwnerState) => T) | undefined
-):T | ((ownerState: ListItemTextOwnerState) => T) {
+): T | ((ownerState: ListItemTextOwnerState) => T) {
   if (typeof slotProp === 'function') {
     return (ownerState: ListItemTextOwnerState) => ({
       noWrap: true,
