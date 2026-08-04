@@ -418,6 +418,26 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           disableFocusListener
           disableTouchListener
           slotProps={{
+            popper: {
+              modifiers: [
+                {
+                  name: 'flip',
+                  enabled: true,
+                  options: {
+                    fallbackPlacements: ['bottom', 'right', 'left']
+                  }
+                },
+                {
+                  name: 'preventOverflow',
+                  enabled: true,
+                  options: {
+                    boundary: 'viewport',
+                    altAxis: true,
+                    padding: 8
+                  }
+                }
+              ]
+            },
             tooltip: {
               sx: {
                 background: '#1A1A1A',
