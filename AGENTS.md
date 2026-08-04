@@ -153,9 +153,9 @@ MUI enforces `disabled` on non-`<button>` elements (a `MenuItem` renders `<li>`)
 blocks its children the same way (`pointerEvents: 'none'` on the wrapper). jsdom applies neither, so
 `fireEvent.click` on a "disabled" item still fires `onClick`, and a test that only asserts the
 disabled styling proves nothing. Anything that must be genuinely unreachable has to be made inert in
-JS - see `useIsNavigationItemPermitted` in
+JS - see `useIsNavigationItemPermitted` and its callers in
 [`src/custom/NavigationNavbar/navigationNavbar.tsx`](src/custom/NavigationNavbar/navigationNavbar.tsx),
-which withholds both `onClick` and the expand toggle so an unpermitted section cannot navigate or
+which withhold both `onClick` and the expand toggle so an unpermitted section cannot navigate or
 open its children.
 
 ## New public exports need an explicit root re-export

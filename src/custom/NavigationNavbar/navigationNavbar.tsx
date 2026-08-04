@@ -24,6 +24,8 @@ export type NavigationItem = {
   /**
    * Legacy boolean permission flag.
    * When `permissionKey` is provided, this field is ignored.
+   * `false` makes the item inert rather than merely styled as disabled: it
+   * neither navigates nor expands its sub-items.
    * @deprecated Prefer `permissionKey` for automatic PermissionShield support.
    */
   permission?: boolean;

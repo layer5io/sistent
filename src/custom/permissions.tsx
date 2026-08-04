@@ -15,8 +15,8 @@ import { UsersIcon } from '../icons/Users';
 import {
   getPermissionKeyCombinator,
   getPermissionKeys,
-  useUnmetPermissionKeys,
   usePermissionUserContext,
+  useUnmetPermissionKeys,
   type PermissionKeySpec
 } from './PermissionProvider';
 export type { Key };
@@ -82,8 +82,10 @@ const uniqueDefined = (values: (string | undefined)[]): string[] =>
  * PermissionShield Wrapper Component
  *
  * Renders children with a shield icon overlay showing permission metadata.
- * This is a pure visual component — it does NOT check permissions itself.
- * The consumer is responsible for determining disabled state (e.g. via CAN()).
+ * It never decides *whether* to block — the consumer owns the disabled state
+ * (e.g. via CAN()), and a key the user does in fact hold is still displayed.
+ * It does read the provider to work out *which* of the declared keys are unmet,
+ * so a key set can name every missing key instead of only one.
  *
  * Usage in base components: when `disabled` is true AND `permissionKey` is provided,
  * the component automatically wraps itself in PermissionShield.
