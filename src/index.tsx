@@ -72,8 +72,10 @@ export {
 } from './custom/permissions';
 
 export {
+  PERMISSION_SHIELD_CARD_SX,
   PermissionProvider,
   PermissionShield,
+  PermissionShieldContent,
   useHasPermission,
   usePermission,
   usePermissionUserContext,
@@ -81,6 +83,7 @@ export {
   type PermissionAction,
   type PermissionProviderProps,
   type PermissionProviderValue,
+  type PermissionShieldContentProps,
   type PermissionShieldProps,
   type PermissionUserContext
 } from './custom/permissions';
