@@ -306,7 +306,7 @@ export default function UserInviteModal({
                   labelId="org-select-label"
                   id="outlined-org-select"
                   value={organization}
-                  label="Organization Name"
+                  label="Organization"
                   onChange={handleOrgChange}
                   renderValue={(org: any) => org?.name}
                 >
@@ -341,7 +341,7 @@ export default function UserInviteModal({
                   label="Organization Roles"
                   value={orgRoles}
                   onChange={handleOrgRoleChange}
-                  input={<OutlinedInput id="select-multiple-chip" label="Roles" />}
+                  input={<OutlinedInput id="select-multiple-chip" label="Organization Roles" />}
                   renderValue={(selected) => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                       {selected.map((value) => (
