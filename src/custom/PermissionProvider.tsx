@@ -12,6 +12,79 @@ import React, { createContext, useContext } from 'react';
 export type PermissionAction = 'hide' | 'showShield';
 
 /**
+ * A set of permission keys combined by an explicit combinator.
+ *
+ * - `{ anyOf }` — permitted when the user holds *at least one* of the keys.
+ *                 This is what a section/parent affordance is gated on: it is
+ *                 reachable exactly when at least one of its children is.
+ * - `{ allOf }` — permitted when the user holds *every* key.
+ *
+ * The combinator is always explicit; there is no default combination of a bare
+ * list, so a key set can never be read the wrong way round.
+ */
+export type PermissionKeySet = { anyOf: Key[] } | { allOf: Key[] };
+
+/**
+ * Everything a `permissionKey` prop accepts: a single `Key` (the original,
+ * unchanged form) or a `PermissionKeySet`.
+ */
+export type PermissionKeySpec = Key | PermissionKeySet;
+
+/**
+ * `true` when `spec` is a key set rather than a bare `Key`.
+ *
+ * Discriminated on the presence of a combinator property alone, so any value
+ * that is not a key set — including every `Key` ever passed today — takes the
+ * original single-key path untouched.
+ */
+export const isPermissionKeySet = (spec: PermissionKeySpec): spec is PermissionKeySet =>
+  !!spec && typeof spec === 'object' && ('anyOf' in spec || 'allOf' in spec);
+
+/** A non-empty array of key-shaped values. */
+const isKeyList = (value: unknown): value is Key[] =>
+  Array.isArray(value) && value.length > 0 && value.every((k) => !!k && typeof k === 'object');
+
+/**
+ * The keys named by a spec, in declaration order. A malformed set names none.
+ */
+export const getPermissionKeys = (spec: PermissionKeySpec): Key[] => {
+  if (!isPermissionKeySet(spec)) return [spec];
+  const { anyOf, allOf } = spec as { anyOf?: unknown; allOf?: unknown };
+  if (anyOf !== undefined && allOf !== undefined) return [];
+  const keys = anyOf !== undefined ? anyOf : allOf;
+  return isKeyList(keys) ? keys : [];
+};
+
+/**
+ * Resolve a key set against the host's evaluator.
+ *
+ * An empty, non-array, or double-combinator set is **denied**, never granted.
+ * Supplying a set is an explicit statement that the affordance *is* gated, so a
+ * set that cannot be evaluated must not fall through to "permitted" — and note
+ * that `[].every(...)` is vacuously `true`, so `{ allOf: [] }` would otherwise
+ * silently grant access to everyone.
+ */
+const resolvePermissionKeySet = (
+  set: PermissionKeySet,
+  userHasPermission: (key: Key) => boolean
+): boolean => {
+  const { anyOf, allOf } = set as { anyOf?: unknown; allOf?: unknown };
+  if (anyOf !== undefined && allOf !== undefined) return false;
+  if (anyOf !== undefined) return isKeyList(anyOf) && anyOf.some((k) => userHasPermission(k));
+  return isKeyList(allOf) && allOf.every((k) => userHasPermission(k));
+};
+
+/** How a spec's keys combine — used to word the `PermissionShield` tooltip. */
+export type PermissionKeyCombinator = 'single' | 'anyOf' | 'allOf';
+
+export const getPermissionKeyCombinator = (spec: PermissionKeySpec): PermissionKeyCombinator => {
+  if (!isPermissionKeySet(spec)) return 'single';
+  const { anyOf, allOf } = spec as { anyOf?: unknown; allOf?: unknown };
+  if (anyOf !== undefined && allOf !== undefined) return 'single';
+  return anyOf !== undefined ? 'anyOf' : 'allOf';
+};
+
+/**
  * User context displayed inside the PermissionShield tooltip.
  *
  * Passed through the provider so that `PermissionShield` never reads from
@@ -103,17 +176,41 @@ PermissionProvider.displayName = 'PermissionProvider';
 export const usePermission = (): PermissionProviderValue | null => useContext(PermissionContext);
 
 /**
- * Check whether the current user has a given permission key.
+ * Check whether the current user has a given permission key or key set.
  *
  * Returns `true` when:
  * - No `PermissionProvider` is mounted (backward-compatible default), OR
  * - No `key` is supplied, OR
- * - `userHasPermission(key)` returns `true`.
+ * - `userHasPermission(key)` returns `true` for a bare `Key`, OR
+ * - the key set is satisfied — `.some(...)` for `anyOf`, `.every(...)` for `allOf`.
+ *
+ * The no-provider default is unconditional by design: with no provider mounted
+ * the host has not wired up authorization at all, so nothing is evaluated and
+ * nothing is gated. The empty/malformed-set denial in `resolvePermissionKeySet`
+ * applies wherever permissions are actually evaluated.
  */
-export const useHasPermission = (key?: Key): boolean => {
+export const useHasPermission = (key?: PermissionKeySpec): boolean => {
   const ctx = usePermission();
   if (!key || !ctx) return true;
+  if (isPermissionKeySet(key)) return resolvePermissionKeySet(key, ctx.userHasPermission);
   return ctx.userHasPermission(key);
+};
+
+/**
+ * The declared keys the current user does **not** hold, in declaration order.
+ *
+ * `PermissionShield` uses this to explain *every* reason an affordance is
+ * blocked instead of naming one key. With no provider mounted nothing can be
+ * evaluated, so every declared key is reported as unmet: the shield only
+ * renders once the caller has already decided the affordance is blocked, and
+ * the declared keys are then the only explanation available.
+ */
+export const useUnmetPermissionKeys = (spec?: PermissionKeySpec): Key[] => {
+  const ctx = usePermission();
+  if (!spec) return [];
+  const keys = getPermissionKeys(spec);
+  if (!ctx) return keys;
+  return keys.filter((key) => !ctx.userHasPermission(key));
 };
 
 /**
