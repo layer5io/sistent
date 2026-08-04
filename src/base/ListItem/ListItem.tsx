@@ -1,10 +1,18 @@
 import { ListItem as MuiListItem, ListItemProps as MuiListItemProps } from '@mui/material';
 import React from 'react';
-import { useHasPermission, type PermissionAction } from '../../custom/PermissionProvider';
-import { Key, PermissionShield } from '../../custom/permissions';
+import {
+  useHasPermission,
+  type PermissionAction,
+  type PermissionKeySpec
+} from '../../custom/PermissionProvider';
+import { PermissionShield } from '../../custom/permissions';
 
 export interface ListItemProps extends MuiListItemProps {
-  permissionKey?: Key;
+  /**
+   * A single permission key, or a key set — `{ anyOf: [...] }` (any one key
+   * suffices) or `{ allOf: [...] }` (every key required).
+   */
+  permissionKey?: PermissionKeySpec;
   disabled?: boolean;
   /**
    * Determines behavior when the user lacks the required permission.
