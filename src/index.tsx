@@ -88,3 +88,5 @@ export {
   type PermissionShieldProps,
   type PermissionUserContext
 } from './custom/permissions';
+
+export { BottomSheet, type BottomSheetProps } from './custom/BottomSheet';
