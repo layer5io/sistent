@@ -72,6 +72,12 @@ export interface PermissionShieldProps {
   permissionKey: PermissionKeySpec;
   children: React.ReactNode;
   variant?: 'inline' | 'badge';
+  boundaryPadding?: {
+    top?: number;
+    left?: number;
+    right?: number;
+    bottom?: number;
+  };
 }
 
 /** Distinct, defined values in first-seen order — used for the metadata chips. */
@@ -93,13 +99,17 @@ const uniqueDefined = (values: (string | undefined)[]): string[] =>
 export const PermissionShield: React.FC<PermissionShieldProps> = ({
   permissionKey,
   children,
-  variant = 'inline'
+  variant = 'inline',
+  boundaryPadding
 }) => {
   const [open, setOpen] = React.useState(false);
   const [copiedKeyId, setCopiedKeyId] = React.useState<string | null>(null);
   const uniqueId = React.useId();
   const userContext = usePermissionUserContext();
   const unmetKeys = useUnmetPermissionKeys(permissionKey);
+
+  const defaultPadding = { top: 85, left: 270, right: 8, bottom: 8 };
+  const padding = boundaryPadding ? { ...defaultPadding, ...boundaryPadding } : defaultPadding;
 
   const handleClose = () => {
     setOpen(false);
@@ -419,24 +429,29 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           disableTouchListener
           slotProps={{
             popper: {
-              modifiers: [
-                {
-                  name: 'flip',
-                  enabled: true,
-                  options: {
-                    fallbackPlacements: ['bottom', 'right', 'left']
+              popperOptions: {
+                modifiers: [
+                  {
+                    name: 'flip',
+                    enabled: true,
+                    options: {
+                      boundary: 'viewport',
+                      fallbackPlacements: ['right', 'bottom', 'left'],
+                      padding
+                    }
+                  },
+                  {
+                    name: 'preventOverflow',
+                    enabled: true,
+                    options: {
+                      boundary: 'viewport',
+                      tether: false,
+                      altAxis: true,
+                      padding
+                    }
                   }
-                },
-                {
-                  name: 'preventOverflow',
-                  enabled: true,
-                  options: {
-                    boundary: 'viewport',
-                    altAxis: true,
-                    padding: 8
-                  }
-                }
-              ]
+                ]
+              }
             },
             tooltip: {
               sx: {
@@ -444,6 +459,8 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                 color: '#FFFFFF',
                 maxWidth: 360,
                 minWidth: 300,
+                maxHeight: '320px',
+                overflowY: 'auto',
                 padding: '12px',
                 borderLeft: '4px solid #EBC024',
                 borderRadius: '8px',
