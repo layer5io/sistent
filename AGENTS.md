@@ -146,6 +146,18 @@ sheet's human-readable category + function text, while the UUID is stable. Editi
 typo fix, a plural made singular - renames the exported constant and orphans the old one. That is how
 `1.3.35 -> 1.3.36` renamed 10 keys with every UUID unchanged, in a patch release.
 
+## `disabled` on a MUI `MenuItem` does not stop a click
+
+MUI enforces `disabled` on non-`<button>` elements (a `MenuItem` renders `<li>`) purely with
+`pointer-events: none` in the `Mui-disabled` class - the handlers stay attached. `PermissionShield`
+blocks its children the same way (`pointerEvents: 'none'` on the wrapper). jsdom applies neither, so
+`fireEvent.click` on a "disabled" item still fires `onClick`, and a test that only asserts the
+disabled styling proves nothing. Anything that must be genuinely unreachable has to be made inert in
+JS - see `useIsNavigationItemPermitted` and its callers in
+[`src/custom/NavigationNavbar/navigationNavbar.tsx`](src/custom/NavigationNavbar/navigationNavbar.tsx),
+which withhold both `onClick` and the expand toggle so an unpermitted section cannot navigate or
+open its children.
+
 ## New public exports need an explicit root re-export
 
 `rollup-plugin-dts` (used by tsup for the declaration bundle) silently drops symbols that reach

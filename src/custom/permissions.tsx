@@ -12,7 +12,13 @@ import { Box, Chip, ClickAwayListener, Link, Tooltip, Typography } from '../base
 import { OrgHierarchyIcon } from '../icons/OrgHierarchy';
 import { RoleKeyIcon } from '../icons/RoleKey';
 import { UsersIcon } from '../icons/Users';
-import { usePermissionUserContext } from './PermissionProvider';
+import {
+  getPermissionKeyCombinator,
+  getPermissionKeys,
+  usePermissionUserContext,
+  useUnmetPermissionKeys,
+  type PermissionKeySpec
+} from './PermissionProvider';
 export type { Key };
 
 const DIVIDER_SX = {
@@ -59,17 +65,27 @@ export interface HasKeyProps<ReasonEvent> {
 }
 
 export interface PermissionShieldProps {
-  permissionKey: Key;
+  /**
+   * The key, or key set, the blocked affordance is gated on. Every key the user
+   * does not hold is listed in the tooltip.
+   */
+  permissionKey: PermissionKeySpec;
   children: React.ReactNode;
   variant?: 'inline' | 'badge';
 }
+
+/** Distinct, defined values in first-seen order — used for the metadata chips. */
+const uniqueDefined = (values: (string | undefined)[]): string[] =>
+  Array.from(new Set(values.filter((v): v is string => !!v)));
 
 /**
  * PermissionShield Wrapper Component
  *
  * Renders children with a shield icon overlay showing permission metadata.
- * This is a pure visual component — it does NOT check permissions itself.
- * The consumer is responsible for determining disabled state (e.g. via CAN()).
+ * It never decides *whether* to block — the consumer owns the disabled state
+ * (e.g. via CAN()), and a key the user does in fact hold is still displayed.
+ * It does read the provider to work out *which* of the declared keys are unmet,
+ * so a key set can name every missing key instead of only one.
  *
  * Usage in base components: when `disabled` is true AND `permissionKey` is provided,
  * the component automatically wraps itself in PermissionShield.
@@ -80,9 +96,10 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
   variant = 'inline'
 }) => {
   const [open, setOpen] = React.useState(false);
-  const [copied, setCopied] = React.useState(false);
+  const [copiedKeyId, setCopiedKeyId] = React.useState<string | null>(null);
   const uniqueId = React.useId();
   const userContext = usePermissionUserContext();
+  const unmetKeys = useUnmetPermissionKeys(permissionKey);
 
   const handleClose = () => {
     setOpen(false);
@@ -118,6 +135,23 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
     return <>{children}</>;
   }
 
+  // Every key the user is missing, so the tooltip can explain all of them. The
+  // fallback keeps the single-key rendering identical for a caller that shields
+  // a key the user does in fact hold — `PermissionShield` is a pure visual
+  // component and never second-guesses the caller's disabled decision.
+  const declaredKeys = getPermissionKeys(permissionKey);
+  const displayedKeys = unmetKeys.length > 0 ? unmetKeys : declaredKeys;
+  const combinator = getPermissionKeyCombinator(permissionKey);
+  const keyNames = displayedKeys.map((key) => key.function || 'Access Restricted').join(', ');
+  const subtitle =
+    combinator === 'anyOf' && keyNames
+      ? `Needs any of: ${keyNames}`
+      : combinator === 'allOf' && keyNames
+        ? `Needs all of: ${keyNames}`
+        : 'Missing requisite key';
+  const categories = uniqueDefined(displayedKeys.map((key) => key.category));
+  const subcategories = uniqueDefined(displayedKeys.map((key) => key.subcategory));
+
   const tooltipTitle = (
     <Box sx={{ width: '100%', color: '#FFFFFF', p: 0.5 }}>
       {/* Title: AUTHORIZATION REQUIRED — medium gray */}
@@ -143,62 +177,70 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           lineHeight: 1.3
         }}
       >
-        Missing requisite key
+        {subtitle}
       </Typography>
 
       {/* Divider */}
       <Box sx={DIVIDER_SX} />
 
-      {/* Key Row: KeyIcon (doubles as copy button) + key name */}
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mt: 1, mb: 0.25 }}>
-        <Tooltip title={copied ? 'Copied!' : 'Copy key ID to clipboard'} placement="top">
-          <Box
-            component="span"
-            onClick={(e: React.MouseEvent) => {
-              e.stopPropagation();
-              navigator.clipboard.writeText(permissionKey.id || '');
-              setCopied(true);
-              setTimeout(() => setCopied(false), 1500);
-            }}
-            sx={{
-              display: 'inline-flex',
-              cursor: 'pointer',
-              color: copied ? '#EBC024' : 'rgba(255, 255, 255, 0.7)',
-              transition: 'color 0.2s ease',
-              '&:hover': {
-                color: '#EBC024'
-              }
-            }}
-          >
-            <KeyIcon sx={{ fontSize: '1rem' }} />
-          </Box>
-        </Tooltip>
-        <Typography
-          sx={{
-            fontWeight: 700,
-            fontSize: '0.95rem',
-            lineHeight: 1.3,
-            color: '#FFFFFF'
-          }}
-        >
-          {permissionKey.function || 'Access Restricted'}
-        </Typography>
-      </Box>
+      {/* One block per unmet key: KeyIcon (doubles as copy button) + key name,
+          then the key's description */}
+      {displayedKeys.map((key, index) => {
+        const copied = copiedKeyId === (key.id || `#${index}`);
+        return (
+          <React.Fragment key={key.id || index}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mt: 1, mb: 0.25 }}>
+              <Tooltip title={copied ? 'Copied!' : 'Copy key ID to clipboard'} placement="top">
+                <Box
+                  component="span"
+                  onClick={(e: React.MouseEvent) => {
+                    e.stopPropagation();
+                    navigator.clipboard.writeText(key.id || '');
+                    setCopiedKeyId(key.id || `#${index}`);
+                    setTimeout(() => setCopiedKeyId(null), 1500);
+                  }}
+                  sx={{
+                    display: 'inline-flex',
+                    cursor: 'pointer',
+                    color: copied ? '#EBC024' : 'rgba(255, 255, 255, 0.7)',
+                    transition: 'color 0.2s ease',
+                    '&:hover': {
+                      color: '#EBC024'
+                    }
+                  }}
+                >
+                  <KeyIcon sx={{ fontSize: '1rem' }} />
+                </Box>
+              </Tooltip>
+              <Typography
+                sx={{
+                  fontWeight: 700,
+                  fontSize: '0.95rem',
+                  lineHeight: 1.3,
+                  color: '#FFFFFF'
+                }}
+              >
+                {key.function || 'Access Restricted'}
+              </Typography>
+            </Box>
 
-      {/* Description — italicized, equal padding both sides, no divider from key name */}
-      <Box sx={{ px: 1, mb: 1.25 }}>
-        <Typography
-          sx={{
-            fontStyle: 'italic',
-            color: 'rgba(255, 255, 255, 0.7)',
-            fontSize: '0.8rem',
-            lineHeight: 1.4
-          }}
-        >
-          {permissionKey.description ||
-            `Allows you to perform the ${permissionKey.function || 'selected'} operation.`}
-        </Typography>
-      </Box>
+            {/* Description — italicized, equal padding both sides, no divider from key name */}
+            <Box sx={{ px: 1, mb: 1.25 }}>
+              <Typography
+                sx={{
+                  fontStyle: 'italic',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  fontSize: '0.8rem',
+                  lineHeight: 1.4
+                }}
+              >
+                {key.description ||
+                  `Allows you to perform the ${key.function || 'selected'} operation.`}
+              </Typography>
+            </Box>
+          </React.Fragment>
+        );
+      })}
 
       {/* Divider */}
       <Box sx={DIVIDER_SX} />
@@ -214,10 +256,11 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
         }}
       >
         <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap' }}>
-          {permissionKey.category && (
+          {[...categories, ...subcategories].map((label, index) => (
             <Chip
+              key={`${index}-${label}`}
               size="small"
-              label={permissionKey.category}
+              label={label}
               sx={{
                 background: 'rgba(255, 255, 255, 0.08)',
                 color: 'rgba(255, 255, 255, 0.8)',
@@ -225,19 +268,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                 height: '20px'
               }}
             />
-          )}
-          {permissionKey.subcategory && (
-            <Chip
-              size="small"
-              label={permissionKey.subcategory}
-              sx={{
-                background: 'rgba(255, 255, 255, 0.08)',
-                color: 'rgba(255, 255, 255, 0.8)',
-                fontSize: '0.7rem',
-                height: '20px'
-              }}
-            />
-          )}
+          ))}
         </Box>
         <Link
           href="https://docs.meshery.io/reference/references/permissions/"
@@ -387,6 +418,26 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           disableFocusListener
           disableTouchListener
           slotProps={{
+            popper: {
+              modifiers: [
+                {
+                  name: 'flip',
+                  enabled: true,
+                  options: {
+                    fallbackPlacements: ['bottom', 'right', 'left']
+                  }
+                },
+                {
+                  name: 'preventOverflow',
+                  enabled: true,
+                  options: {
+                    boundary: 'viewport',
+                    altAxis: true,
+                    padding: 8
+                  }
+                }
+              ]
+            },
             tooltip: {
               sx: {
                 background: '#1A1A1A',
@@ -548,12 +599,16 @@ export const createCanShow = (
 // Re-export PermissionProvider types and hooks
 export {
   PermissionProvider,
+  isPermissionKeySet,
   useHasPermission,
   usePermission,
-  usePermissionUserContext
+  usePermissionUserContext,
+  useUnmetPermissionKeys
 } from './PermissionProvider';
 export type {
   PermissionAction,
+  PermissionKeySet,
+  PermissionKeySpec,
   PermissionProviderProps,
   PermissionProviderValue,
   PermissionUserContext
