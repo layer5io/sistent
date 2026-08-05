@@ -1,6 +1,7 @@
 import MUIDataTable, { MUIDataTableColumn } from '@sistent/mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
+import { FilterAllIcon } from '../icons/FilterAll/FilterAllIcon';
 import { ShareIcon } from '../icons';
 import { EllipsisIcon } from '../icons/Ellipsis';
 import { FormattedTime } from '../utils';
@@ -237,9 +238,29 @@ const ResponsiveDataTable = ({
     updateColumnsEffect();
   }, [updateColumnsEffect]);
 
+  const DataTableCheckbox = React.useMemo(
+    () =>
+      React.forwardRef((props: Record<string, unknown>, ref: React.Ref<HTMLButtonElement>) => {
+        const isHeaderCheckbox = props['data-description'] === 'row-select-header';
+
+        if (isHeaderCheckbox) {
+          return (
+            <Checkbox
+              {...props}
+              ref={ref}
+              icon={<FilterAllIcon fill="currentColor" />}
+            />
+          );
+        }
+
+        return <Checkbox {...props} ref={ref} />;
+      }),
+    []
+  );
+
   const components = {
     ExpandButton: () => '',
-    Checkbox: Checkbox
+    Checkbox: DataTableCheckbox
   };
 
   return (
