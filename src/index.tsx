@@ -74,13 +74,19 @@ export {
 export {
   PermissionProvider,
   PermissionShield,
+  isPermissionKeySet,
   useHasPermission,
   usePermission,
   usePermissionUserContext,
+  useUnmetPermissionKeys,
   type Key,
   type PermissionAction,
+  type PermissionKeySet,
+  type PermissionKeySpec,
   type PermissionProviderProps,
   type PermissionProviderValue,
   type PermissionShieldProps,
   type PermissionUserContext
 } from './custom/permissions';
+
+export { BottomSheet, type BottomSheetProps } from './custom/BottomSheet';
