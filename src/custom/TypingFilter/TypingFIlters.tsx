@@ -46,7 +46,8 @@ export function TypingFilters({
             <Typography variant="body1">{filter.values}:</Typography>
             <Typography variant="body1">{filter.description}</Typography>
           </ListItem>
-          <Divider light />
+          {/* MUI removed Divider's `light` prop; the opacity is its replacement. */}
+          <Divider sx={{ opacity: 0.6 }} />
         </React.Fragment>
       ))}
     </List>

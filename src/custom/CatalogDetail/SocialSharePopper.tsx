@@ -75,10 +75,13 @@ const SocialSharePopper: React.FC<SocialSharePopperProps> = ({
               open={open}
               onClose={handleClose}
               onClick={handleClose}
-              PaperProps={{
-                sx: {
-                  p: 0,
-                  width: 'auto'
+              // MUI replaced `PaperProps` with the `paper` slot.
+              slotProps={{
+                paper: {
+                  sx: {
+                    p: 0,
+                    width: 'auto'
+                  }
                 }
               }}
               sx={{

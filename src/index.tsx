@@ -92,3 +92,50 @@ export {
 export { BottomSheet, type BottomSheetProps } from './custom/BottomSheet';
 
 export { ActionButton, type ActionButtonProps, type Option } from './custom/ActionButton';
+
+// Same nested-barrel dts-drop quirk as FeedbackButton above. The share/revoke
+// payload builders exist so that hosts stop hand-rolling the
+// `resourceAccessMappingPayload` body they hand to `ShareModal`'s
+// `resourceAccessMutator`: the server drops unrecognised keys silently and
+// still answers 200, so a hand-rolled body fails as a successful no-op.
+// Without the declarations a host cannot type that body at all and falls back
+// to the object literal that caused the bug.
+//
+// The component is dropped by the same quirk, which left hosts able to type the
+// share body but not the component consuming it. This is one instance of a
+// wider gap - most of `src/custom/` reaches `dist/index.js` without reaching
+// `dist/index.d.ts` - so a per-symbol line here is a stopgap, not the fix.
+// AGENTS.md, "New public exports need an explicit root re-export", owns the
+// measurement and the command that reproduces it.
+//
+// Taken from the `./custom/ShareModal` barrel rather than the leaf
+// `resourceAccessPayload` module: that barrel re-exports the builders as well
+// as the component, so one statement is the single source of truth for where
+// all of these come from.
+export {
+  ResourceAccessActorError,
+  ShareModal,
+  buildGrantAccessPayload,
+  buildRevokeAccessPayload,
+  toResourceAccessActors,
+  type ResourceAccessActor,
+  type ResourceAccessArg,
+  type ResourceAccessMappingPayload,
+  type ShareModalProps
+} from './custom/ShareModal';
+
+// Same nested-barrel dts-drop quirk as FeedbackButton above, and the whole
+// `DashboardWidgets` barrel is subject to it - `TeamSearchField` reaches
+// `dist/index.js` but not `dist/index.d.ts`, so a host cannot name the
+// component at all. Its two prop types travel with it: `teamsData` and
+// `setTeamsData` are both keyed on the team-picker record, so a consumer that
+// cannot name it cannot hold the state the component requires and falls back
+// to `any`. Taken from the leaf module because the barrel re-exports only the
+// default. The record is aliased because sistent has a second, wider `Team` -
+// the full v1beta2 construct in `custom/Workspaces/types` - and a bare `Team`
+// at the root would make which one this is ambiguous.
+export {
+  default as TeamSearchField,
+  type Team as TeamPickerRecord,
+  type TeamSearchFieldProps
+} from './custom/DashboardWidgets/GettingStartedWidget/TeamSearchField';

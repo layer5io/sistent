@@ -20,7 +20,7 @@ npm test -- src/__testing__/routing.test.ts --runInBand
 npm test -- -t "routing utilities" --runInBand
 ```
 
-Current CI runs the main checks on Node 20 and 22. Pull requests also trigger a downstream integration workflow that packs this library and installs it into `meshery/meshery`'s `ui/` app before building and testing there.
+CI runs the main checks on the Node versions in the `node-version` matrix of `.github/workflows/node-checks.yml`; read them there rather than from a copy here that can drift. Pull requests also trigger a downstream integration workflow that packs this library and installs it into `meshery/meshery`'s `ui/` app before building and testing there.
 
 ## Known issues
 

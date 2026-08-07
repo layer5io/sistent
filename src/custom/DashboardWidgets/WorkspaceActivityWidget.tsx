@@ -1,3 +1,4 @@
+import type { components as EventComponents } from '@meshery/schemas/constructs/v1beta3/event/Event';
 import { SelectChangeEvent } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import moment from 'moment';
@@ -18,16 +19,19 @@ import { iconMedium } from '../../constants/iconsSizes';
 import { WorkspaceIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import { CustomTooltip } from '../CustomTooltip';
+import { CanonicalWorkspace } from '../Workspaces/types';
 
-interface Activity {
-  createdAt: string;
-  description: string;
-}
+// A row of the workspace activity feed, derived from the canonical v1beta3
+// `EventResult`. Required rather than optional because the widget renders each
+// value directly with no fallback.
+type Activity = Required<
+  Pick<EventComponents['schemas']['EventResult'], 'createdAt' | 'description'>
+>;
 
-interface Workspace {
-  id: string;
-  name: string;
-}
+// The workspace-selector projection: only the two fields this widget renders,
+// derived from the canonical v1beta3 construct so a rename upstream fails here
+// rather than silently rendering `undefined`.
+type Workspace = Pick<CanonicalWorkspace, 'id' | 'name'>;
 
 interface WorkspaceActivityCardProps {
   selectedWorkspace: string;

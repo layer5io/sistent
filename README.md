@@ -16,7 +16,9 @@ Before you begin, ensure you have the following installed on your system:
 
 ### How to get started
 
-Make sure you have `npm` on `node@16` and above. The CI workflows checks for in `node@16`, `node@18` and `node@20`
+Develop on a Node version that CI actually tests. The tested versions are the `node-version` matrix
+in [`.github/workflows/node-checks.yml`](.github/workflows/node-checks.yml) - read them there rather
+than from a copy that can drift.
 
 <div>&nbsp;</div>
 

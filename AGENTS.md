@@ -41,6 +41,13 @@ Runbook: [`.agents/skills/cut-release/SKILL.md`](.agents/skills/cut-release/SKIL
 Resolve "what is currently released" from the npm `latest` dist-tag and publish timestamps
 (`npm view @sistent/sistent dist-tags time --json`), not by eyeballing semver order.
 
+A consumer-visible breaking change - a published type that gains a required field, narrows, or
+changes shape - is a **minor** here, not a major: sistent is pre-1.0, so `major` would assert 1.0
+stability rather than describe the break. Label the PR `minor`, and note that the label is the only
+signal that moves the version: [`.github/release-drafter.yml`](.github/release-drafter.yml) owns the
+label-to-bump mapping and defaults to `patch`, so an unlabelled PR publishes a breaking change as a
+patch.
+
 Verify a published release **by content**, not by the version number moving. Two properties carry
 the three-repo chain, and losing either fails downstream with errors that point nowhere near sistent:
 
@@ -146,6 +153,44 @@ sheet's human-readable category + function text, while the UUID is stable. Editi
 typo fix, a plural made singular - renames the exported constant and orphans the old one. That is how
 `1.3.35 -> 1.3.36` renamed 10 keys with every UUID unchanged, in a patch release.
 
+## Wire shapes are derived from `@meshery/schemas`, never re-declared
+
+Any type that is decoded from or encoded to a Meshery/Layer5 API is owned by `meshery/schemas`.
+Sistent is upstream of every Meshery UI, so a shape hand-copied here propagates to all of them and a
+rename upstream reaches consumers as a silent `undefined` rather than an error. Derive from the
+canonical construct instead
+(`import type { components } from '@meshery/schemas/constructs/<ver>/<c>/<C>'`), and express any
+divergence as an explicit `Pick`/`Omit`/`&` carrying the reason.
+
+**`Omit<T, 'gone'>` where `T` has no `gone` is a silent no-op**, so derivation alone does not survive
+the rename it was adopted to catch: the omit stops removing anything and the override quietly becomes
+an addition. [`src/__testing__/fixtures/schemaConstructAliases.ts`](src/__testing__/fixtures/schemaConstructAliases.ts)
+closes that by asserting every omitted/narrowed key still exists upstream, and is the source of truth
+for which local types are bound to which construct and why each divergence is kept. Read it before
+adding or widening one. It is compiled by a `tsc` guard, not by `jest` - see the `tsc`-over-a-fixture
+note under "Repo state that looks broken but is pre-existing".
+
+When the canonical is the wrong one, keep the narrower local shape, link a filed `meshery/schemas`
+issue from the type's doc comment, and verify the claim against the actual server struct before
+filing - open examples: [#1142](https://github.com/meshery/schemas/issues/1142) (catalog data),
+[#1143](https://github.com/meshery/schemas/issues/1143), [#1144](https://github.com/meshery/schemas/issues/1144)
+(share/revoke), [#1145](https://github.com/meshery/schemas/issues/1145).
+
+Such a workaround needs an expiry date, not just an issue link, or it outlives its upstream fix in
+silence. Pair it with an `// @ts-expect-error` + `RequiresKey<Canonical, 'theMissingKey'>` entry in
+the fixture: the suppression goes unused the moment the canonical gains the key, and tsc reports
+TS2578. `TeamHasNoTeamId`, `EventResultHasNoAvatarUrl` and the two `CatalogDataHasNo*` entries are
+the worked examples.
+
+A wire mismatch here is not loud. meshery-cloud decodes request bodies with a strict `json.Unmarshal`
+into `omitempty` structs and still answers 200, so a stale outbound key name is a successful no-op -
+which is how sistent's share modal granted nothing for three months after the Phase 4 camelCase flip.
+Outbound payload shapes therefore get their own module and a test pinning the literal key names, as
+[`src/custom/ShareModal/resourceAccessPayload.ts`](src/custom/ShareModal/resourceAccessPayload.ts) does.
+Those modules are root-exported so hosts stop hand-rolling the body, which makes them public API: the
+validation that keeps an unusable value off the wire belongs in the builder, not only in the caller
+that happens to render the error. A component-level guard is defence in depth on top of it.
+
 ## `disabled` on a MUI `MenuItem` does not stop a click
 
 MUI enforces `disabled` on non-`<button>` elements (a `MenuItem` renders `<li>`) purely with
@@ -169,6 +214,27 @@ a new public component or type in a `src/<domain>/` subtree, also add an explici
 of examples there, e.g. `FeedbackButton`, `NavigationItem`). Verify by building and grepping
 `dist/index.d.ts` for the symbol - a green `jest`/lint run will not catch this.
 
+The explicit block is a stopgap, not the fix. Measure the real gap before assuming a symbol is
+covered - it is large, and every uncovered symbol is one a consumer must shim locally:
+
+```bash
+npm run build
+node -e 'const f=require("fs"),names=t=>{const s=new Set();
+for(const b of t.matchAll(/export\s*\{([^{}]*)\}\s*;?/g))
+  b[1].split(",").map(x=>x.trim()).filter(Boolean)
+    .forEach(x=>s.add(x.replace(/^type\s+/,"").split(/\s+as\s+/).pop().trim()));
+return s;};
+const rt=names(f.readFileSync("dist/index.mjs","utf8"));
+const dt=names(f.readFileSync("dist/index.d.ts","utf8"));
+console.log([...rt].filter(n=>/^[A-Za-z_$][\w$]*$/.test(n)&&!dt.has(n)).sort().join("\n"))'
+```
+
+As of this change that reports 130 of 729 runtime exports absent from the declaration bundle -
+`WorkspaceCard`, `TeamTable`, `UsersTable`, `CustomImage`, `ErrorBoundary` and most of
+`src/custom/` among them. Adding 130 lines is not the answer; the durable fix is in how the
+declaration bundle is produced. Until then, prefer extending this list over leaving a symbol
+uncovered, and do not read its absence as "that component is intentionally private".
+
 ## Repo state that looks broken but is pre-existing
 
 `prettier --check` fails on dozens of files and `tsc --noEmit` reports errors across `src/`
@@ -180,8 +246,12 @@ A type contract can still be gated, just not by a type-only assertion file: jest
 `@swc/jest`, which strips types without checking them, so such a file passes no matter what it
 asserts. Shell out to `tsc` over a scoped fixture, assert the fixture is in the compiled program
 (`--listFiles`) before trusting an empty diagnostic list, then filter the diagnostics to that
-fixture - [`src/__testing__/navigationItemTitleTypes.test.ts`](src/__testing__/navigationItemTitleTypes.test.ts)
-is the worked pattern, including the checks that keep the filter from turning the guard vacuous.
+fixture. [`src/__testing__/helpers/tscFixture.ts`](src/__testing__/helpers/tscFixture.ts) is that
+harness, and documents each check that keeps the filter from turning the guard vacuous - call
+`typeCheckFixture(fixture, project)` from a new guard rather than copying it, because a fix to one
+copy silently leaves the other unguarded. `navigationItemTitleTypes.test.ts` and
+`schemaConstructAliasTypes.test.ts` are the two worked callers; both assert "compiles the fixture"
+before the emptiness assertions, and the ordering is load-bearing.
 
 ## Every commit needs a sign-off matching its own author
 
