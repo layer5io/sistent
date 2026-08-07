@@ -1,4 +1,4 @@
-import { User, getUserIdentifier } from '../../utils/user';
+import { User, getUserIdentifier, getUserLabel } from '../../utils/user';
 
 /**
  * The wire contract for `POST /api/resources/{resourceType}/{resourceId}/share`.
@@ -29,22 +29,56 @@ export interface ResourceAccessMappingPayload {
 }
 
 /**
- * Maps user records onto share actors, resolving each identifier through the
- * canonical-then-legacy fallback in {@link getUserIdentifier}. Callers must
- * reject records without an identifier before building a payload: an empty
- * `actorId` is accepted by the server as a no-op entry.
+ * Thrown by {@link toResourceAccessActors} for records whose identifier cannot
+ * be resolved. {@link ResourceAccessActorError.actors} carries the offending
+ * records so a caller can name them back to the user.
  */
-export const toResourceAccessActors = (users: User[]): ResourceAccessActor[] =>
-  users.map((user) => ({ actorId: getUserIdentifier(user), actorType: 'user' }));
+export class ResourceAccessActorError extends Error {
+  readonly actors: User[];
 
-/** Payload that grants `users` access and notifies them. */
+  constructor(actors: User[]) {
+    const labels = actors.map((actor) => getUserLabel(actor) || '<unidentifiable record>');
+    super(`Cannot build a resource access payload: ${labels.join(', ')} has no identifier`);
+    this.name = 'ResourceAccessActorError';
+    this.actors = actors;
+  }
+}
+
+/**
+ * Maps user records onto share actors, resolving each identifier through the
+ * canonical-then-legacy fallback in {@link getUserIdentifier}.
+ *
+ * Records that resolve to no identifier are rejected here rather than emitted
+ * as `actorId: ''`. The server's `models.Actor.ActorId` is `core.Uuid`, i.e.
+ * gofrs `uuid.UUID`, whose `UnmarshalText` rejects a zero-length string, so an
+ * empty `actorId` fails `HandleResourceShare`'s `json.Unmarshal` and takes the
+ * whole request down with a 400 - every other actor in the batch included.
+ *
+ * @throws {ResourceAccessActorError} when any record has no identifier.
+ */
+export const toResourceAccessActors = (users: User[]): ResourceAccessActor[] => {
+  const unidentifiable = users.filter((user) => !getUserIdentifier(user));
+  if (unidentifiable.length > 0) throw new ResourceAccessActorError(unidentifiable);
+
+  return users.map((user) => ({ actorId: getUserIdentifier(user), actorType: 'user' }));
+};
+
+/**
+ * Payload that grants `users` access and notifies them.
+ *
+ * @throws {ResourceAccessActorError} when any record has no identifier.
+ */
 export const buildGrantAccessPayload = (users: User[]): ResourceAccessMappingPayload => ({
   grantAccess: toResourceAccessActors(users),
   revokeAccess: [],
   notifyUsers: true
 });
 
-/** Payload that revokes `users`' access and notifies them. */
+/**
+ * Payload that revokes `users`' access and notifies them.
+ *
+ * @throws {ResourceAccessActorError} when any record has no identifier.
+ */
 export const buildRevokeAccessPayload = (users: User[]): ResourceAccessMappingPayload => ({
   grantAccess: [],
   revokeAccess: toResourceAccessActors(users),

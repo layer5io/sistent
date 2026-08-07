@@ -168,11 +168,20 @@ filing - open examples: [#1142](https://github.com/meshery/schemas/issues/1142) 
 [#1143](https://github.com/meshery/schemas/issues/1143), [#1144](https://github.com/meshery/schemas/issues/1144)
 (share/revoke), [#1145](https://github.com/meshery/schemas/issues/1145).
 
+Such a workaround needs an expiry date, not just an issue link, or it outlives its upstream fix in
+silence. Pair it with an `// @ts-expect-error` + `RequiresKey<Canonical, 'theMissingKey'>` entry in
+the fixture: the suppression goes unused the moment the canonical gains the key, and tsc reports
+TS2578. `TeamHasNoTeamId`, `EventResultHasNoAvatarUrl` and the two `CatalogDataHasNo*` entries are
+the worked examples.
+
 A wire mismatch here is not loud. meshery-cloud decodes request bodies with a strict `json.Unmarshal`
 into `omitempty` structs and still answers 200, so a stale outbound key name is a successful no-op -
 which is how sistent's share modal granted nothing for three months after the Phase 4 camelCase flip.
 Outbound payload shapes therefore get their own module and a test pinning the literal key names, as
 [`src/custom/ShareModal/resourceAccessPayload.ts`](src/custom/ShareModal/resourceAccessPayload.ts) does.
+Those modules are root-exported so hosts stop hand-rolling the body, which makes them public API: the
+validation that keeps an unusable value off the wire belongs in the builder, not only in the caller
+that happens to render the error. A component-level guard is defence in depth on top of it.
 
 ## `disabled` on a MUI `MenuItem` does not stop a click
 
@@ -208,8 +217,12 @@ A type contract can still be gated, just not by a type-only assertion file: jest
 `@swc/jest`, which strips types without checking them, so such a file passes no matter what it
 asserts. Shell out to `tsc` over a scoped fixture, assert the fixture is in the compiled program
 (`--listFiles`) before trusting an empty diagnostic list, then filter the diagnostics to that
-fixture - [`src/__testing__/navigationItemTitleTypes.test.ts`](src/__testing__/navigationItemTitleTypes.test.ts)
-is the worked pattern, including the checks that keep the filter from turning the guard vacuous.
+fixture. [`src/__testing__/helpers/tscFixture.ts`](src/__testing__/helpers/tscFixture.ts) is that
+harness, and documents each check that keeps the filter from turning the guard vacuous - call
+`typeCheckFixture(fixture, project)` from a new guard rather than copying it, because a fix to one
+copy silently leaves the other unguarded. `navigationItemTitleTypes.test.ts` and
+`schemaConstructAliasTypes.test.ts` are the two worked callers; both assert "compiles the fixture"
+before the emptiness assertions, and the ordering is load-bearing.
 
 ## Every commit needs a sign-off matching its own author
 

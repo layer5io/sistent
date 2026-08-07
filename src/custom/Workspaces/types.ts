@@ -41,6 +41,15 @@ export interface AssignmentHookResult<T> {
  *    some provider endpoints still emit the legacy Go `sql.NullTime`
  *    `{ Valid, Time }` object. See `src/utils/nullTime.ts` for the crash that
  *    reading `.Valid` off a value typed to the canonical shape produced.
+ *
+ * And one narrowing, inherited rather than chosen: `metadata` arrives as the
+ * canonical `Record<string, never>`, which is what openapi-typescript emits for
+ * a free-form object with no declared properties - an artifact of the generator,
+ * not a statement that the map is empty. It reads as `never` for every key.
+ * Nothing in sistent reads `workspace.metadata` today, so it is carried through
+ * unchanged rather than re-widened locally: a local override would be exactly
+ * the hand-copied shape this derivation exists to eliminate. The first caller
+ * that needs it should get the canonical fixed in `meshery/schemas` instead.
  */
 export type Workspace = Omit<CanonicalWorkspace, 'organizationId' | 'deletedAt'> & {
   organizationId?: CanonicalWorkspace['organizationId'];

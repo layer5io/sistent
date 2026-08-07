@@ -2,6 +2,7 @@ import ShareModal from './ShareModal';
 
 export { ShareModal };
 export {
+  ResourceAccessActorError,
   buildGrantAccessPayload,
   buildRevokeAccessPayload,
   toResourceAccessActors,

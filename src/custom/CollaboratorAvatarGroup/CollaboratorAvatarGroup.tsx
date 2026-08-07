@@ -144,7 +144,9 @@ const CollaboratorAvatarGroup = ({
           return (
             <CustomTooltip
               key={clientID}
-              componentsProps={{
+              // MUI replaced `componentsProps` with `slotProps`, which is also
+              // the only one `CustomTooltip` merges over its own defaults.
+              slotProps={{
                 tooltip: {
                   sx: {
                     background: theme.palette.background.paper,
@@ -194,7 +196,8 @@ const CollaboratorAvatarGroup = ({
                 alt={user.name}
                 src={user.avatarUrl}
                 borderColor={user.borderColor}
-                imgProps={{ referrerPolicy: 'no-referrer' }}
+                // MUI replaced `imgProps` with the `img` slot.
+                slotProps={{ img: { referrerPolicy: 'no-referrer' } }}
                 onClick={() => openInNewTab(`${providerUrl}/user/${user.userId}`)}
               />
             </CustomTooltip>
@@ -243,7 +246,8 @@ const CollaboratorAvatarGroup = ({
                     alt={user.name}
                     src={user.avatarUrl}
                     borderColor={user.borderColor}
-                    imgProps={{ referrerPolicy: 'no-referrer' }}
+                    // MUI replaced `imgProps` with the `img` slot.
+                    slotProps={{ img: { referrerPolicy: 'no-referrer' } }}
                   />
                   <UserName variant="body1">{user.name}</UserName>
                 </PopupAvatarWrapper>

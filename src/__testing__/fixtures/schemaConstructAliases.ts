@@ -52,6 +52,7 @@ type CanonicalEnvironment = EnvironmentComponents['schemas']['Environment'];
 type CanonicalTeam = TeamComponents['schemas']['Team'];
 type CanonicalSearchableUser = UserComponents['schemas']['SearchableUser'];
 type CanonicalPattern = DesignComponents['schemas']['MesheryPattern'];
+type CanonicalCatalogData = NonNullable<CanonicalPattern['catalogData']>;
 type CanonicalEventResult = EventComponents['schemas']['EventResult'];
 type CanonicalEventsPage = EventComponents['schemas']['EventsPage'];
 
@@ -108,6 +109,22 @@ export type WorkspaceTimestampsAreCanonical = Expect<
   IsExact<Workspace['createdAt'], CanonicalWorkspace['createdAt']>
 >;
 
+// `metadata` is the one field sistent narrows rather than widens, and it does so
+// only by carrying the canonical through: openapi-typescript emits
+// `Record<string, never>` for a free-form object, so every key reads as `never`.
+// The first assertion pins that sistent does not quietly re-declare it; the
+// second pins the claim in `Workspace`'s doc comment that the shape is a
+// generator artifact, and fails the moment `meshery/schemas` gives `metadata`
+// real properties - which is the signal that the doc comment, not the type, is
+// what needs updating.
+export type WorkspaceMetadataIsCanonical = Expect<
+  IsExact<Workspace['metadata'], CanonicalWorkspace['metadata']>
+>;
+
+export type WorkspaceMetadataIsAGeneratorArtifact = Expect<
+  IsExact<NonNullable<CanonicalWorkspace['metadata']>, Record<string, never>>
+>;
+
 export type PatternCreatedAtIsCanonical = Expect<
   IsExact<Pattern['createdAt'], CanonicalPattern['createdAt']>
 >;
@@ -149,6 +166,31 @@ export type ExpectRejectsAMismatch = Expect<IsExact<CanonicalWorkspace['id'], nu
 // signal to consume the canonical field instead of the `id` / `name` fallback.
 // @ts-expect-error - the canonical team construct has no `teamId`
 export type TeamHasNoTeamId = RequiresKey<CanonicalTeam, 'teamId'>;
+
+// The same technique used as an expiry date on the two workarounds whose doc
+// comments promise their own removal. Both are suppressed errors today; the
+// moment the upstream fix lands the suppression goes unused, tsc reports TS2578
+// here, and the local workaround has to go with it.
+//
+// Each assertion stays on one line: `@ts-expect-error` only suppresses the line
+// directly below it, and tsc reports a constraint violation on the offending
+// type *argument*, so wrapping the generic pushes the error out of the
+// directive's reach and leaves both an unsuppressed TS2344 and an unused TS2578.
+//
+// `WorkspaceRecentActivityModal`'s `EventData` adds `avatarUrl` because the
+// server emits it and the canonical does not model it -
+// https://github.com/meshery/schemas/issues/1145.
+// @ts-expect-error - the canonical event construct has no `avatarUrl`
+export type EventResultHasNoAvatarUrl = RequiresKey<CanonicalEventResult, 'avatarUrl'>;
+
+// `CustomCard`'s `PatternCatalogData` keeps a hand-written shape because the
+// canonical declares `class` / `snapshotURL` while every server emits
+// `contentClass` / `imageURL` - https://github.com/meshery/schemas/issues/1142.
+// One assertion per renamed field, so each expires on its own.
+// @ts-expect-error - the canonical catalog data declares `class`, not `contentClass`
+export type CatalogDataHasNoContentClass = RequiresKey<CanonicalCatalogData, 'contentClass'>;
+// @ts-expect-error - the canonical catalog data declares `snapshotURL`, not `imageURL`
+export type CatalogDataHasNoImageUrl = RequiresKey<CanonicalCatalogData, 'imageURL'>;
 
 // --- Subpath resolution, formerly propped up by a local ambient shim --------
 //

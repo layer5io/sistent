@@ -100,10 +100,17 @@ export { ActionButton, type ActionButtonProps, type Option } from './custom/Acti
 // still answers 200, so a hand-rolled body fails as a successful no-op.
 // Without the declarations a host cannot type that body at all and falls back
 // to the object literal that caused the bug.
+//
+// Taken from the leaf `resourceAccessPayload` module rather than the
+// `ShareModal` barrel, for the same reason as `TableActions` above: these are
+// three pure functions, and routing them through the barrel would make the
+// declaration bundle a root file out of `ShareModal.tsx` and gate the build on
+// that component's whole type surface.
 export {
+  ResourceAccessActorError,
   buildGrantAccessPayload,
   buildRevokeAccessPayload,
   toResourceAccessActors,
   type ResourceAccessActor,
   type ResourceAccessMappingPayload
-} from './custom/ShareModal';
+} from './custom/ShareModal/resourceAccessPayload';

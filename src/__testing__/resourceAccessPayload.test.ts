@@ -1,4 +1,5 @@
 import {
+  ResourceAccessActorError,
   buildGrantAccessPayload,
   buildRevokeAccessPayload,
   toResourceAccessActors
@@ -39,6 +40,16 @@ const legacyAliasUser = {
   email: 'legacy@example.com'
 };
 
+// A record neither identifier resolves on. `models.Actor.ActorId` is
+// `core.Uuid` (gofrs `uuid.UUID`), whose `UnmarshalText` rejects a zero-length
+// string, so emitting `actorId: ''` fails the handler's `json.Unmarshal` and
+// takes the whole request down with a 400 - the valid actors alongside it
+// included. The builders are public API, so the rejection has to live in them
+// and not only in `ShareModal`'s handlers.
+const unidentifiableUser = {
+  email: 'ghost@example.com'
+};
+
 describe('resource access mapping payload', () => {
   describe('toResourceAccessActors', () => {
     it('emits the canonical camelCase actor keys', () => {
@@ -56,6 +67,32 @@ describe('resource access mapping payload', () => {
       expect(toResourceAccessActors([legacyAliasUser])).toEqual([
         { actorId: legacyAliasUser.userId, actorType: 'user' }
       ]);
+    });
+
+    it('rejects a record whose identifier cannot be resolved', () => {
+      expect(() => toResourceAccessActors([unidentifiableUser])).toThrow(ResourceAccessActorError);
+    });
+
+    it('rejects the whole batch when any one record is unidentifiable', () => {
+      expect(() => toResourceAccessActors([jane, unidentifiableUser])).toThrow(
+        ResourceAccessActorError
+      );
+    });
+
+    it('names the offending records on the error', () => {
+      let thrown: ResourceAccessActorError | undefined;
+      try {
+        toResourceAccessActors([jane, unidentifiableUser]);
+      } catch (error) {
+        thrown = error as ResourceAccessActorError;
+      }
+
+      expect(thrown?.actors).toEqual([unidentifiableUser]);
+      expect(thrown?.message).toContain(unidentifiableUser.email);
+    });
+
+    it('accepts an empty list', () => {
+      expect(toResourceAccessActors([])).toEqual([]);
     });
   });
 
@@ -75,6 +112,12 @@ describe('resource access mapping payload', () => {
         notifyUsers: true
       });
     });
+
+    it('never emits an empty actorId', () => {
+      expect(() => buildGrantAccessPayload([unidentifiableUser])).toThrow(
+        ResourceAccessActorError
+      );
+    });
   });
 
   describe('buildRevokeAccessPayload', () => {
@@ -84,6 +127,12 @@ describe('resource access mapping payload', () => {
         revokeAccess: [{ actorId: jane.id, actorType: 'user' }],
         notifyUsers: true
       });
+    });
+
+    it('never emits an empty actorId', () => {
+      expect(() => buildRevokeAccessPayload([unidentifiableUser])).toThrow(
+        ResourceAccessActorError
+      );
     });
   });
 });
