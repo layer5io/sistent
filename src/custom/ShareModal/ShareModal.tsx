@@ -285,13 +285,19 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
     const recipients = newUsers.map(getUserLabel);
 
+    // Built once, above the branch: the actor list is identical for every
+    // resource in a bulk share, and this keeps the builder's throw on a single
+    // path immediately below the guard that makes it unreachable rather than
+    // one per iteration inside a `Promise.all`.
+    const grantPayload = buildGrantAccessPayload(newUsers);
+
     if (Array.isArray(selectedResource)) {
       const responses = await Promise.all(
         selectedResource.map((resource) =>
           resourceAccessMutator({
             resourceType,
             resourceId: resource.id,
-            resourceAccessMappingPayload: buildGrantAccessPayload(newUsers)
+            resourceAccessMappingPayload: grantPayload
           })
         )
       );
@@ -318,7 +324,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
     const response = await resourceAccessMutator({
       resourceType,
       resourceId: !Array.isArray(selectedResource) ? selectedResource.id : selectedResource[0].id,
-      resourceAccessMappingPayload: buildGrantAccessPayload(newUsers)
+      resourceAccessMappingPayload: grantPayload
     });
 
     if (!response?.error) {

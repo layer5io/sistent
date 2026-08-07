@@ -101,11 +101,11 @@ export { ActionButton, type ActionButtonProps, type Option } from './custom/Acti
 // Without the declarations a host cannot type that body at all and falls back
 // to the object literal that caused the bug.
 //
-// Taken from the leaf `resourceAccessPayload` module rather than the
-// `ShareModal` barrel, for the same reason as `TableActions` above: these are
-// three pure functions, and routing them through the barrel would make the
-// declaration bundle a root file out of `ShareModal.tsx` and gate the build on
-// that component's whole type surface.
+// Taken from the leaf `resourceAccessPayload` module because that is where the
+// builders live. The block below re-exports the component from the barrel, so
+// `ShareModal.tsx` is a declaration-bundle root either way and there is nothing
+// left to keep apart: collapse the two blocks freely, the barrel already
+// re-exports all six symbols.
 export {
   ResourceAccessActorError,
   buildGrantAccessPayload,
@@ -116,7 +116,7 @@ export {
 } from './custom/ShareModal/resourceAccessPayload';
 // The component itself is dropped by the same quirk, which left hosts able to
 // type the share body but not the component consuming it. This is one instance
-// of a wider gap: 131 runtime exports reach `dist/index.js` without reaching
+// of a wider gap: 129 runtime exports reach `dist/index.js` without reaching
 // `dist/index.d.ts`, so a per-symbol line here is a stopgap, not the fix.
 export {
   ShareModal,

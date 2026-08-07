@@ -2,6 +2,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
+import type { components as OrganizationComponents } from '@meshery/schemas/constructs/v1beta2/organization/Organization';
 import { useEffect, useState } from 'react';
 import {
   Box,
@@ -17,7 +18,7 @@ import { InviteUserIcon } from '../../../icons';
 import { styled, useTheme } from '../../../theme';
 import { Modal, ModalBody, ModalFooter, PrimaryActionButtons } from '../../Modal';
 import { withDefaultPageArgs } from '../../PerformersSection/PerformersSection';
-import TeamSearchField from './TeamSearchField';
+import TeamSearchField, { type Team } from './TeamSearchField';
 
 const CreateUserInputField = styled(TextField)(() => ({
   width: 'auto'
@@ -39,15 +40,29 @@ const FormControlSelect = styled(FormControl)(() => ({
 const EMAIL_REGEXP =
   /^[\w!#$%&'*+\-\\/=?^_`{|}~]+(\.[\w!#$%&'*+\-\\/=?^_`{|}~]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$/;
 
-interface Organization {
-  id: string;
-  name: string;
-}
+/** The canonical v1beta2 organization construct, as `getOrgs` serves it. */
+type CanonicalOrganization = OrganizationComponents['schemas']['Organization'];
 
-interface Team {
-  id: string;
-  name: string;
-}
+/**
+ * The organization-picker projection: the two fields this modal renders and
+ * submits, derived from the canonical v1beta2 construct so that a rename
+ * upstream fails here rather than silently rendering `undefined`.
+ *
+ * No divergence from the canonical - both fields are required there too. The
+ * `{ id: 'none', name: 'None' }` sentinel this modal starts from is a local
+ * "no organization selected" placeholder, not a wire record, and satisfies the
+ * projection unchanged.
+ *
+ * The derivation is not enforced while this file carries `@ts-nocheck` above.
+ * That directive is held in place by the `Select` call sites below, not by
+ * anything here: their `onChange` handlers declare a `{ target: { value } }`
+ * shape rather than MUI's `SelectChangeEvent`, and the organization `Select`
+ * holds an object value against string-valued `MenuItem`s. Untangling that is
+ * a MUI typing change with its own behavioural risk, so it is deliberately not
+ * bundled with this schema repoint. `TeamSearchField` - the other half of this
+ * widget, and where the phantom `ID` reads lived - is checked.
+ */
+type Organization = Pick<CanonicalOrganization, 'id' | 'name'>;
 
 interface ErrorMessages {
   inviteeEmail: string;

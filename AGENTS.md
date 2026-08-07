@@ -218,9 +218,9 @@ const d=f.readFileSync("dist/index.d.ts","utf8");
 console.log([...rt].filter(n=>/^[A-Za-z_$][\w$]*$/.test(n)&&!new RegExp("\\b"+n+"\\b").test(d)).sort().join("\n"))'
 ```
 
-At `e41ece8f` that reports 131 of 729 runtime exports absent from the declaration bundle -
+As of this change that reports 129 of 729 runtime exports absent from the declaration bundle -
 `WorkspaceCard`, `TeamTable`, `UsersTable`, `CustomImage`, `ErrorBoundary` and most of
-`src/custom/` among them. Adding 131 lines is not the answer; the durable fix is in how the
+`src/custom/` among them. Adding 129 lines is not the answer; the durable fix is in how the
 declaration bundle is produced. Until then, prefer extending this list over leaving a symbol
 uncovered, and do not read its absence as "that component is intentionally private".
 

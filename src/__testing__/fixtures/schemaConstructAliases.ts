@@ -20,11 +20,13 @@
 import type { components as DesignComponents } from '@meshery/schemas/constructs/v1beta3/design/Design';
 import type { components as EnvironmentComponents } from '@meshery/schemas/constructs/v1beta3/environment/Environment';
 import type { components as EventComponents } from '@meshery/schemas/constructs/v1beta3/event/Event';
+import type { components as OrganizationComponents } from '@meshery/schemas/constructs/v1beta2/organization/Organization';
 import type { components as TeamComponents } from '@meshery/schemas/constructs/v1beta2/team/Team';
 import type { components as UserComponents } from '@meshery/schemas/constructs/v1beta3/user/User';
 import type { components as WorkspaceComponents } from '@meshery/schemas/constructs/v1beta3/workspace/Workspace';
 import type { UserProfile } from '../../custom/CatalogDetail/types';
 import type { Pattern } from '../../custom/CustomCatalog/CustomCard';
+import type { Team as PickedTeam } from '../../custom/DashboardWidgets/GettingStartedWidget/TeamSearchField';
 import type { Environment, Team, Workspace } from '../../custom/Workspaces/types';
 import type { User } from '../../utils/user';
 
@@ -50,6 +52,7 @@ type Expect<T extends true> = T;
 type CanonicalWorkspace = WorkspaceComponents['schemas']['Workspace'];
 type CanonicalEnvironment = EnvironmentComponents['schemas']['Environment'];
 type CanonicalTeam = TeamComponents['schemas']['Team'];
+type CanonicalOrganization = OrganizationComponents['schemas']['Organization'];
 type CanonicalSearchableUser = UserComponents['schemas']['SearchableUser'];
 type CanonicalPattern = DesignComponents['schemas']['MesheryPattern'];
 type CanonicalCatalogData = NonNullable<CanonicalPattern['catalogData']>;
@@ -68,7 +71,16 @@ export type EnvironmentOverrides = RequiresKey<
   'createdAt' | 'updatedAt' | 'id' | 'name'
 >;
 
-export type TeamOverrides = RequiresKey<CanonicalTeam, 'deletedAt' | 'id' | 'name'>;
+export type TeamOverrides = RequiresKey<
+  CanonicalTeam,
+  'deletedAt' | 'id' | 'name' | 'createdAt' | 'updatedAt'
+>;
+
+// The picker projections. Each names only the fields its component reads, so
+// the `Pick` is the whole contract and a rename upstream has to fail here.
+export type TeamPickerOverrides = RequiresKey<CanonicalTeam, 'id' | 'name' | 'deletedAt'>;
+
+export type OrganizationPickerOverrides = RequiresKey<CanonicalOrganization, 'id' | 'name'>;
 
 export type UserOverrides = RequiresKey<
   CanonicalSearchableUser,
@@ -143,6 +155,13 @@ export type EnvironmentOrgIdIsCanonical = Expect<
 
 export type TeamNameIsCanonical = Expect<IsExact<Team['name'], CanonicalTeam['name']>>;
 
+// The team-picker projection in `TeamSearchField`: its two identity fields are
+// carried through from the canonical unchanged, so a retype upstream (a uuid
+// becoming a number, the way `WorkspaceCard`'s id had drifted) fails here.
+export type PickedTeamIdIsCanonical = Expect<IsExact<PickedTeam['id'], CanonicalTeam['id']>>;
+
+export type PickedTeamNameIsCanonical = Expect<IsExact<PickedTeam['name'], CanonicalTeam['name']>>;
+
 export type UserEmailIsCanonical = Expect<
   IsExact<User['email'], CanonicalSearchableUser['email']>
 >;
@@ -166,6 +185,12 @@ export type ExpectRejectsAMismatch = Expect<IsExact<CanonicalWorkspace['id'], nu
 // signal to consume the canonical field instead of the `id` / `name` fallback.
 // @ts-expect-error - the canonical team construct has no `teamId`
 export type TeamHasNoTeamId = RequiresKey<CanonicalTeam, 'teamId'>;
+
+// `ID` is the same defect one file over: `TeamSearchField` keyed its option
+// rows and its selected-team chips off `team.ID`, which the canonical has never
+// carried either - the identity field is the lowercase `id` above.
+// @ts-expect-error - the canonical team construct has no `ID`
+export type TeamHasNoUppercaseId = RequiresKey<CanonicalTeam, 'ID'>;
 
 // The same technique used as an expiry date on the two workarounds whose doc
 // comments promise their own removal. Both are suppressed errors today; the
