@@ -12,7 +12,7 @@ import type { DataTableToolbarProps } from './DataTableToolbar.types';
 const ToolbarRoot = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  marginBottom: theme.spacing(4),
+  marginBottom: theme.spacing(2),
   minHeight: theme.spacing(8),
   padding: theme.spacing(1.5),
   backgroundColor: theme.palette.background.card,
