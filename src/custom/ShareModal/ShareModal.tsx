@@ -188,10 +188,32 @@ export interface ShareModalProps {
   /** Optional URL of the host application. Defaults to `null` if not provided */
   hostURL?: string | null;
   handleUpdateVisibility: (value: string) => Promise<{ error: string }>;
-  handleShareWithNewUsers: (newUsers: User[]) => Promise<{ error: string }>;
-  canShareWithNewUsers: boolean;
-  handleRevokeAccess: (revokedUsser: User[]) => Promise<{ error: string }>;
-  canRevokeAccess: boolean;
+  /**
+   * @deprecated Unused - never read. The component defines its own
+   * `handleShareWithNewUsers`, which shadows this prop and shares through
+   * `resourceAccessMutator`, so a function passed here is never called. Kept
+   * optional so hosts that already pass it keep compiling.
+   */
+  handleShareWithNewUsers?: (newUsers: User[]) => Promise<{ error: string }>;
+  /**
+   * @deprecated Unused - never read, and it does not gate anything. The
+   * component computes `userCanShareWithNewUsers` itself from
+   * `selectedResource`, `currentUser` and `ownerData`; passing `false` here
+   * does not disable sharing.
+   */
+  canShareWithNewUsers?: boolean;
+  /**
+   * @deprecated Unused - never read. The component defines its own
+   * `handleRevokeAccess`, which shadows this prop and revokes through
+   * `resourceAccessMutator`, so a function passed here is never called.
+   */
+  handleRevokeAccess?: (revokedUsser: User[]) => Promise<{ error: string }>;
+  /**
+   * @deprecated Unused - never read, and it does not gate anything. Revoke is
+   * gated per actor by the owner check in `AccessList`; passing `false` here
+   * does not disable revoking.
+   */
+  canRevokeAccess?: boolean;
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   resourceAccessMutator: any;
@@ -200,7 +222,11 @@ export interface ShareModalProps {
   /* eslint-disable @typescript-eslint/no-explicit-any */
   useGetAllUsersQuery: any;
   shareableLink: string;
-  mesheryURL: string; // url to hosted meshery
+  /**
+   * @deprecated Unused - never read. The only link this modal renders is
+   * `shareableLink`, and the only host URL it dereferences is `hostURL`.
+   */
+  mesheryURL?: string;
   currentUser: User;
 }
 

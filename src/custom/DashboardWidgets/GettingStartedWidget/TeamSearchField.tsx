@@ -89,7 +89,7 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
         getTeams({ orgId: orgID, search: searchValue }, true)
           .unwrap()
           .then((response: any) => {
-            setOptions(typeof response === 'string' ? [] : response?.teams);
+            setOptions(Array.isArray(response?.teams) ? response.teams : []);
             setIsLoading(false);
           })
           .catch((err: any) => {
