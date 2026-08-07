@@ -91,4 +91,4 @@ export {
 
 export { BottomSheet, type BottomSheetProps } from './custom/BottomSheet';
 
-export { ActionButton } from './custom/ActionButton';
+export { ActionButton, type ActionButtonProps, type Option } from './custom/ActionButton';
