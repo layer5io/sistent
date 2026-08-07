@@ -31,7 +31,7 @@ export type Team = Pick<CanonicalTeam, 'id' | 'name'> & {
   deletedAt?: DeletedAt;
 };
 
-interface TeamSearchFieldProps {
+export interface TeamSearchFieldProps {
   teamsData: Team[];
   setTeamsData: Dispatch<SetStateAction<Team[]>>;
   label?: string;

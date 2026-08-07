@@ -116,10 +116,26 @@ export {
 } from './custom/ShareModal/resourceAccessPayload';
 // The component itself is dropped by the same quirk, which left hosts able to
 // type the share body but not the component consuming it. This is one instance
-// of a wider gap: 129 runtime exports reach `dist/index.js` without reaching
+// of a wider gap: 128 runtime exports reach `dist/index.js` without reaching
 // `dist/index.d.ts`, so a per-symbol line here is a stopgap, not the fix.
 export {
   ShareModal,
   type ResourceAccessArg,
   type ShareModalProps
 } from './custom/ShareModal';
+
+// Same nested-barrel dts-drop quirk as FeedbackButton above, and the whole
+// `DashboardWidgets` barrel is subject to it - `TeamSearchField` reaches
+// `dist/index.js` but not `dist/index.d.ts`, so a host cannot name the
+// component at all. Its two prop types travel with it: `teamsData` and
+// `setTeamsData` are both keyed on the team-picker record, so a consumer that
+// cannot name it cannot hold the state the component requires and falls back
+// to `any`. Taken from the leaf module because the barrel re-exports only the
+// default. The record is aliased because sistent has a second, wider `Team` -
+// the full v1beta2 construct in `custom/Workspaces/types` - and a bare `Team`
+// at the root would make which one this is ambiguous.
+export {
+  default as TeamSearchField,
+  type Team as TeamPickerRecord,
+  type TeamSearchFieldProps
+} from './custom/DashboardWidgets/GettingStartedWidget/TeamSearchField';
