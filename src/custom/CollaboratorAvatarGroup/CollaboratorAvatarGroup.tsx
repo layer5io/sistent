@@ -1,4 +1,5 @@
 import { ExpandMore } from '@mui/icons-material';
+import { alpha } from '@mui/material';
 import { MouseEvent, useState } from 'react';
 import { Avatar, AvatarGroup, Button, Divider, Popover, Typography } from '../../base';
 import { iconSmall } from '../../constants/iconsSizes';
@@ -160,7 +161,17 @@ const CollaboratorAvatarGroup = ({
                   >
                     {user.name}
                   </Typography>
-                  <Divider />
+                  {/*
+                    WORKAROUND for https://github.com/layer5io/sistent/issues/1783 - delete
+                    both `borderColor` overrides once that component-level fix lands, and do
+                    not copy this into other tooltips. `CustomTooltip`'s surface is the
+                    literal `#141414` in both palette modes, but `palette.divider` and the
+                    theme's outlined-button border resolve to mode-dependent tokens, so in
+                    light mode the separator is invisible and the button outline is near
+                    black-on-black. These two are fixed to white alphas, which are stable
+                    across modes because the surface they sit on is.
+                  */}
+                  <Divider style={{ borderColor: alpha(theme.palette.common.white, 0.2) }} />
                   <Button
                     size="small"
                     variant="outlined"
@@ -169,7 +180,8 @@ const CollaboratorAvatarGroup = ({
                       fontSize: '1rem',
                       padding: '2px 8px',
                       minWidth: 'auto',
-                      marginTop: '8px'
+                      marginTop: '8px',
+                      borderColor: alpha(theme.palette.common.white, 0.4)
                     }}
                   >
                     Open Recents
