@@ -29,6 +29,11 @@ import { CustomTooltip } from '../CustomTooltip';
 import { Modal, ModalBody, ModalButtonSecondary, ModalFooter } from '../Modal';
 import UserShareSearch from '../UserSearchField/UserSearchField';
 import {
+  ResourceAccessMappingPayload,
+  buildGrantAccessPayload,
+  buildRevokeAccessPayload
+} from './resourceAccessPayload';
+import {
   CustomDialogContentText,
   CustomListItemText,
   CustomSelect,
@@ -86,7 +91,8 @@ const AccessListActor: React.FC<AccessListActorProps> = ({
         <Avatar
           alt={getUserDisplayName(actorData)}
           src={actorData.avatarUrl}
-          imgProps={{ referrerPolicy: 'no-referrer' }}
+          // MUI v7 replaced `imgProps` with the `img` slot.
+          slotProps={{ img: { referrerPolicy: 'no-referrer' } }}
           onClick={() => {
             if (hostURL) openInNewTab(`${hostURL}/user/${getUserIdentifier(actorData)}`);
           }}
@@ -95,9 +101,12 @@ const AccessListActor: React.FC<AccessListActorProps> = ({
       <ListItemText
         primary={getUserDisplayName(actorData)}
         secondary={getUserContactLabel(actorData)}
-        secondaryTypographyProps={{
-          sx: {
-            color: theme.palette.background.neutral?.pressed
+        // MUI v7 replaced `secondaryTypographyProps` with the `secondary` slot.
+        slotProps={{
+          secondary: {
+            sx: {
+              color: theme.palette.background.neutral?.pressed
+            }
           }
         }}
       />
@@ -162,11 +171,7 @@ type SelectedResources = SelectedResource | SelectedResource[];
 export type ResourceAccessArg = {
   resourceType: string;
   resourceId: string | string[];
-  resourceAccessMappingPayload: {
-    grant_access: string[];
-    revoke_access: string[];
-    notify_users: boolean;
-  };
+  resourceAccessMappingPayload: ResourceAccessMappingPayload;
 };
 
 interface ShareModalProps {
@@ -267,8 +272,8 @@ const ShareModal: React.FC<ShareModalProps> = ({
       return { error: 'no resource selected' };
     }
 
-    // Fail fast on records without a usable identifier: an empty actor_id
-    // would produce an invalid grant_access payload and a confusing
+    // Fail fast on records without a usable identifier: an empty actorId
+    // would produce an invalid grantAccess payload and a confusing
     // partial-share result.
     if (newUsers.some((user) => !getUserIdentifier(user))) {
       notify({
@@ -278,10 +283,6 @@ const ShareModal: React.FC<ShareModalProps> = ({
       return { error: 'missing user identifier' };
     }
 
-    const grantAccessList = newUsers.map((user) => ({
-      actor_id: getUserIdentifier(user),
-      actor_type: 'user'
-    }));
     const recipients = newUsers.map(getUserLabel);
 
     if (Array.isArray(selectedResource)) {
@@ -290,11 +291,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
           resourceAccessMutator({
             resourceType,
             resourceId: resource.id,
-            resourceAccessMappingPayload: {
-              grant_access: [...grantAccessList],
-              revoke_access: [],
-              notify_users: true
-            }
+            resourceAccessMappingPayload: buildGrantAccessPayload(newUsers)
           })
         )
       );
@@ -321,11 +318,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
     const response = await resourceAccessMutator({
       resourceType,
       resourceId: !Array.isArray(selectedResource) ? selectedResource.id : selectedResource[0].id,
-      resourceAccessMappingPayload: {
-        grant_access: [...grantAccessList],
-        revoke_access: [],
-        notify_users: true
-      }
+      resourceAccessMappingPayload: buildGrantAccessPayload(newUsers)
     });
 
     if (!response?.error) {
@@ -356,8 +349,8 @@ const ShareModal: React.FC<ShareModalProps> = ({
       return { error: 'no resource selected' };
     }
 
-    // Same guard as sharing: never issue a revoke_access entry with an
-    // empty actor_id.
+    // Same guard as sharing: never issue a revokeAccess entry with an
+    // empty actorId.
     if (revokedUsers.some((user) => !getUserIdentifier(user))) {
       notify({
         message: `Unable to revoke access to ${dataName}: the user record is missing its identifier`,
@@ -366,20 +359,12 @@ const ShareModal: React.FC<ShareModalProps> = ({
       return { error: 'missing user identifier' };
     }
 
-    const revokeAccessList = revokedUsers.map((user) => ({
-      actor_id: getUserIdentifier(user),
-      actor_type: 'user'
-    }));
     const revokees = revokedUsers.map(getUserLabel);
 
     const response = await resourceAccessMutator({
       resourceType,
       resourceId: !Array.isArray(selectedResource) ? selectedResource.id : selectedResource[0].id,
-      resourceAccessMappingPayload: {
-        grant_access: [],
-        revoke_access: [...revokeAccessList],
-        notify_users: true
-      }
+      resourceAccessMappingPayload: buildRevokeAccessPayload(revokedUsers)
     });
 
     if (!response?.error) {

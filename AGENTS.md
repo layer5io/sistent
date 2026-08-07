@@ -146,6 +146,34 @@ sheet's human-readable category + function text, while the UUID is stable. Editi
 typo fix, a plural made singular - renames the exported constant and orphans the old one. That is how
 `1.3.35 -> 1.3.36` renamed 10 keys with every UUID unchanged, in a patch release.
 
+## Wire shapes are derived from `@meshery/schemas`, never re-declared
+
+Any type that is decoded from or encoded to a Meshery/Layer5 API is owned by `meshery/schemas`.
+Sistent is upstream of every Meshery UI, so a shape hand-copied here propagates to all of them and a
+rename upstream reaches consumers as a silent `undefined` rather than an error. Derive from the
+canonical construct instead - `import type { components } from '@meshery/schemas/constructs/<ver>/<c>/<C>'`
+- and express any divergence as an explicit `Pick`/`Omit`/`&` carrying the reason.
+
+**`Omit<T, 'gone'>` where `T` has no `gone` is a silent no-op**, so derivation alone does not survive
+the rename it was adopted to catch: the omit stops removing anything and the override quietly becomes
+an addition. [`src/__testing__/fixtures/schemaConstructAliases.ts`](src/__testing__/fixtures/schemaConstructAliases.ts)
+closes that by asserting every omitted/narrowed key still exists upstream, and is the source of truth
+for which local types are bound to which construct and why each divergence is kept. Read it before
+adding or widening one. It is compiled by a `tsc` guard, not by `jest` - see the `tsc`-over-a-fixture
+note under "Repo state that looks broken but is pre-existing".
+
+When the canonical is the wrong one, keep the narrower local shape, link a filed `meshery/schemas`
+issue from the type's doc comment, and verify the claim against the actual server struct before
+filing - open examples: [#1142](https://github.com/meshery/schemas/issues/1142) (catalog data),
+[#1143](https://github.com/meshery/schemas/issues/1143), [#1144](https://github.com/meshery/schemas/issues/1144)
+(share/revoke), [#1145](https://github.com/meshery/schemas/issues/1145).
+
+A wire mismatch here is not loud. meshery-cloud decodes request bodies with a strict `json.Unmarshal`
+into `omitempty` structs and still answers 200, so a stale outbound key name is a successful no-op -
+which is how sistent's share modal granted nothing for three months after the Phase 4 camelCase flip.
+Outbound payload shapes therefore get their own module and a test pinning the literal key names, as
+[`src/custom/ShareModal/resourceAccessPayload.ts`](src/custom/ShareModal/resourceAccessPayload.ts) does.
+
 ## `disabled` on a MUI `MenuItem` does not stop a click
 
 MUI enforces `disabled` on non-`<button>` elements (a `MenuItem` renders `<li>`) purely with

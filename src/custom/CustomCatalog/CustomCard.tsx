@@ -1,3 +1,4 @@
+import type { components as DesignComponents } from '@meshery/schemas/constructs/v1beta3/design/Design';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import React, { useEffect, useState } from 'react';
 import { Avatar, Grid2 } from '../../base';
@@ -37,7 +38,67 @@ export const DesignCardUrl = styled('a')(() => ({
   textDecoration: 'none'
 }));
 
-export interface Pattern {
+/** The canonical v1beta3 design (pattern) construct. */
+export type CanonicalPattern = DesignComponents['schemas']['MesheryPattern'];
+
+/**
+ * `catalogData` as it actually arrives on the wire.
+ *
+ * This is the one place sistent deliberately does *not* take the canonical
+ * shape, because the canonical is wrong here. Both servers marshal this object
+ * from meshkit's `models/catalog/v1alpha1.CatalogData`, whose JSON tags are
+ * `contentClass` and `imageURL` (the latter carries an explicit comment that it
+ * was kept at the legacy key name so stored catalog rows would not need
+ * rewriting). `@meshery/schemas` instead declares `class` and `snapshotURL`,
+ * neither of which is ever emitted - and its own Go models under
+ * `models/v1beta1/catalog` disagree again, tagging `pattern_caveats` /
+ * `pattern_info` in snake_case.
+ *
+ * Filed upstream as https://github.com/meshery/schemas/issues/1142. Repoint
+ * this at `CanonicalPattern['catalogData']` once that lands; until then the
+ * fields below are the verified contract and the canonical is not.
+ */
+export interface PatternCatalogData {
+  contentClass?: string;
+  imageURL?: string[];
+  compatibility?: string[];
+  publishedVersion?: string;
+  type?: string;
+  patternInfo?: string;
+  patternCaveats?: string;
+}
+
+/**
+ * A catalog design as the cards and the catalog detail page consume it.
+ *
+ * Derived from {@link CanonicalPattern} rather than re-declared: sistent is
+ * upstream of every Meshery UI, so a field renamed in the canonical construct
+ * has to fail here rather than reach consumers as `undefined`. The properties
+ * restated below are the deliberate divergences, each of them either a
+ * narrowing sistent relies on or a field the canonical does not model:
+ *
+ *  - `id`, `userId`, `patternFile`, `name`, `visibility` are required. The
+ *    canonical marks them optional because one schema doubles as both the read
+ *    projection and the create payload - `MesheryPatternPage.patterns[]`, which
+ *    is read-only, still types `id` and `name` optional. Every catalog read
+ *    carries them, and the cards index and link on `id`.
+ *  - `user`, `firstName`, `lastName`, `avatarUrl` are the joined author fields
+ *    the card renders. The canonical `user` is the full user construct; only
+ *    the two name fields are used here.
+ *  - `userData` is a host-assembled view model (the catalog page's author
+ *    sidebar), not a wire field of the design construct.
+ *  - `catalogData` - see {@link PatternCatalogData}.
+ *
+ * `createdAt` / `updatedAt` are inherited from the canonical as `string`. They
+ * were previously declared `Date`, which is not what the wire carries: the Go
+ * `time.Time` marshals to an RFC 3339 string, and the two call sites that read
+ * them had grown `.toString()` calls to paper over the mismatch.
+ */
+export interface Pattern
+  extends Omit<
+    CanonicalPattern,
+    'id' | 'userId' | 'patternFile' | 'name' | 'visibility' | 'catalogData' | 'user'
+  > {
   id: string;
   userId: string;
   patternFile: string;
@@ -49,11 +110,6 @@ export interface Pattern {
   lastName?: string;
   avatarUrl: string;
   name: string;
-  downloadCount: number;
-  cloneCount: number;
-  viewCount: number;
-  deploymentCount: number;
-  shareCount: number;
   userData?: {
     version?: string;
     avatarUrl?: string;
@@ -61,18 +117,8 @@ export interface Pattern {
     technologies?: string[];
     updatedAt?: string;
   };
-  catalogData?: {
-    contentClass?: string;
-    imageURL?: string[];
-    compatibility?: string[];
-    publishedVersion?: string;
-    type?: string;
-    patternInfo?: string;
-    patternCaveats?: string;
-  };
+  catalogData?: PatternCatalogData;
   visibility: string;
-  updatedAt: Date;
-  createdAt: Date;
 }
 
 type CatalogCardProps = {
@@ -303,14 +349,13 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
                     </div>
                     <DateText>
                       {' '}
-                      {new Date(pattern.updatedAt.toString().slice(0, 10)).toLocaleDateString(
-                        'en-US',
-                        {
-                          day: 'numeric',
-                          month: 'long',
-                          year: 'numeric'
-                        }
-                      )}
+                      {pattern.updatedAt
+                        ? new Date(pattern.updatedAt.slice(0, 10)).toLocaleDateString('en-US', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric'
+                          })
+                        : '-'}
                     </DateText>
                   </Grid2>
                 </Grid2>

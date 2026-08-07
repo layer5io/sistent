@@ -92,3 +92,18 @@ export {
 export { BottomSheet, type BottomSheetProps } from './custom/BottomSheet';
 
 export { ActionButton, type ActionButtonProps, type Option } from './custom/ActionButton';
+
+// Same nested-barrel dts-drop quirk as FeedbackButton above. The share/revoke
+// payload builders exist so that hosts stop hand-rolling the
+// `resourceAccessMappingPayload` body they hand to `ShareModal`'s
+// `resourceAccessMutator`: the server drops unrecognised keys silently and
+// still answers 200, so a hand-rolled body fails as a successful no-op.
+// Without the declarations a host cannot type that body at all and falls back
+// to the object literal that caused the bug.
+export {
+  buildGrantAccessPayload,
+  buildRevokeAccessPayload,
+  toResourceAccessActors,
+  type ResourceAccessActor,
+  type ResourceAccessMappingPayload
+} from './custom/ShareModal';

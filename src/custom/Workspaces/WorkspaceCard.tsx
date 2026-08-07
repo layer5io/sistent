@@ -1,8 +1,10 @@
+import type { components as EventComponents } from '@meshery/schemas/constructs/v1beta3/event/Event';
 import { useTheme } from '@mui/material';
 import { Backdrop, CircularProgress, Grid2 } from '../../base';
 
-import { DeletedAt, getRelativeTime, isSoftDeleted } from '../../utils';
+import { getRelativeTime, isSoftDeleted } from '../../utils';
 import { FlipCard } from '../FlipCard';
+import { Workspace } from './types';
 import { RecordRow, RedirectButton, TransferButton } from './WorkspaceTransferButton';
 import {
   AllocationColumnGrid,
@@ -26,25 +28,29 @@ import {
   WorkspaceCardGrid
 } from './styles';
 
-interface WorkspaceDetails {
-  id: number;
-  name: string;
-  description: string;
-  deletedAt: DeletedAt;
-  updatedAt: string;
-  createdAt: string;
-}
+// The subset of the v1beta3 workspace construct this card renders. Derived
+// from {@link Workspace} rather than re-declared: the card previously typed
+// `id` as `number` while the canonical identifier is a uuid `string`, which
+// forced every consumer through a cast and made the bulk-select comparison
+// below type-check against the wrong primitive.
+type WorkspaceDetails = Pick<
+  Workspace,
+  'id' | 'name' | 'description' | 'deletedAt' | 'createdAt' | 'updatedAt'
+>;
 
-type Activity = {
-  description: string;
-  firstName: string;
-  createdAt: string;
-};
+// A row of the workspace activity feed, derived from the canonical v1beta3
+// `EventResult`. Required rather than optional because the card renders each
+// value directly with no fallback.
+type Activity = Required<
+  Pick<EventComponents['schemas']['EventResult'], 'description' | 'firstName' | 'createdAt'>
+>;
 
 interface CardFrontProps {
   onFlip: () => void;
   name: string;
-  description: string;
+  // Optional to match the canonical construct: `description` is not required
+  // on a workspace, and the card already renders a "No description" fallback.
+  description?: string;
   environmentsCount: number;
   onAssignEnvironment: () => void;
   teamsCount: number;
@@ -67,8 +73,8 @@ interface CardBackProps {
   name: string;
   onEdit: () => void;
   onDelete: () => void;
-  selectedWorkspaces: number[];
-  workspaceId: number;
+  selectedWorkspaces: string[];
+  workspaceId: string;
   loadingEvents: boolean;
   recentActivities: Activity[];
   updatedDate: string;
@@ -83,7 +89,7 @@ interface WorkspaceCardProps {
   onDelete: () => void;
   onEdit: () => void;
   onSelect: () => void;
-  selectedWorkspaces: number[];
+  selectedWorkspaces: string[];
   onAssignTeam: () => void;
   onAssignEnvironment: () => void;
   onAssignDesign: () => void;
