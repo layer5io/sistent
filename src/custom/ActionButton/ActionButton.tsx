@@ -10,7 +10,7 @@ import {
   Popper
 } from '../../base';
 import { DropDownIcon } from '../../icons';
-interface Option {
+export interface Option {
   icon: React.ReactNode;
   label: string;
   onClick: (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => void;
@@ -18,7 +18,7 @@ interface Option {
   show?: boolean;
 }
 
-interface ActionButtonProps {
+export interface ActionButtonProps {
   defaultActionClick: () => void;
   defaultActionDisabled?: boolean;
   options: Option[];
