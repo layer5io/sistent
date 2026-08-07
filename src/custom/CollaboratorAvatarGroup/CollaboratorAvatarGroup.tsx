@@ -144,22 +144,9 @@ const CollaboratorAvatarGroup = ({
           return (
             <CustomTooltip
               key={clientID}
-              // MUI replaced `componentsProps` with `slotProps`, which is also
-              // the only one `CustomTooltip` merges over its own defaults.
-              slotProps={{
-                tooltip: {
-                  sx: {
-                    background: theme.palette.background.paper,
-                    color: theme.palette.text.primary,
-                    boxShadow: theme.shadows[4]
-                  }
-                },
-                arrow: {
-                  sx: {
-                    color: theme.palette.background.paper
-                  }
-                }
-              }}
+              // The surface is deliberately inherited from `CustomTooltip`'s own
+              // default: no other call site overrides it, and `background.paper`
+              // is not a sistent token.
               title={
                 <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                   <Typography
