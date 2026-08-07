@@ -91,7 +91,7 @@ const AccessListActor: React.FC<AccessListActorProps> = ({
         <Avatar
           alt={getUserDisplayName(actorData)}
           src={actorData.avatarUrl}
-          // MUI v7 replaced `imgProps` with the `img` slot.
+          // MUI replaced `imgProps` with the `img` slot.
           slotProps={{ img: { referrerPolicy: 'no-referrer' } }}
           onClick={() => {
             if (hostURL) openInNewTab(`${hostURL}/user/${getUserIdentifier(actorData)}`);
@@ -101,7 +101,7 @@ const AccessListActor: React.FC<AccessListActorProps> = ({
       <ListItemText
         primary={getUserDisplayName(actorData)}
         secondary={getUserContactLabel(actorData)}
-        // MUI v7 replaced `secondaryTypographyProps` with the `secondary` slot.
+        // MUI replaced `secondaryTypographyProps` with the `secondary` slot.
         slotProps={{
           secondary: {
             sx: {
@@ -174,7 +174,7 @@ export type ResourceAccessArg = {
   resourceAccessMappingPayload: ResourceAccessMappingPayload;
 };
 
-interface ShareModalProps {
+export interface ShareModalProps {
   /** Function to close the share modal */
   handleShareModalClose: () => void;
   /** The resource(s) that is selected for sharing.*/

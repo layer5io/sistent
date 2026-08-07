@@ -75,12 +75,15 @@ const CustomImage: React.FC<ImageComponentProps> = ({
         style={{
           backgroundColor: 'rgba(0, 0, 0, 0.8)'
         }}
-        PaperProps={{
-          style: {
-            background: 'transparent',
-            boxShadow: 'none',
-            overflow: 'auto',
-            maxWidth: '100%'
+        // MUI replaced `PaperProps` with the `paper` slot.
+        slotProps={{
+          paper: {
+            style: {
+              background: 'transparent',
+              boxShadow: 'none',
+              overflow: 'auto',
+              maxWidth: '100%'
+            }
           }
         }}
       >

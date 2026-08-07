@@ -163,8 +163,9 @@ export const KeyValueInRow: React.FC<KeyValueProps> = ({ Key, Value, showFold = 
     setIsFolded(!isFolded);
   };
 
+  // MUI dropped system props from Grid; they go through `sx`.
   return (
-    <KeyValueGrid container rowGap={0.5}>
+    <KeyValueGrid container sx={{ rowGap: 0.5 }}>
       <React.Fragment key={Key}>
         <KeyValueGridCell container size={{ xs: 12, sm: 3 }}>
           <KeyValueGridTitle>{Key}</KeyValueGridTitle>

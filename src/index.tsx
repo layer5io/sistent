@@ -114,3 +114,12 @@ export {
   type ResourceAccessActor,
   type ResourceAccessMappingPayload
 } from './custom/ShareModal/resourceAccessPayload';
+// The component itself is dropped by the same quirk, which left hosts able to
+// type the share body but not the component consuming it. This is one instance
+// of a wider gap: 131 runtime exports reach `dist/index.js` without reaching
+// `dist/index.d.ts`, so a per-symbol line here is a stopgap, not the fix.
+export {
+  ShareModal,
+  type ResourceAccessArg,
+  type ShareModalProps
+} from './custom/ShareModal';

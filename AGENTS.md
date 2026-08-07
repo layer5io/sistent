@@ -206,6 +206,24 @@ a new public component or type in a `src/<domain>/` subtree, also add an explici
 of examples there, e.g. `FeedbackButton`, `NavigationItem`). Verify by building and grepping
 `dist/index.d.ts` for the symbol - a green `jest`/lint run will not catch this.
 
+The explicit block is a stopgap, not the fix. Measure the real gap before assuming a symbol is
+covered - it is large, and every uncovered symbol is one a consumer must shim locally:
+
+```bash
+npm run build
+node -e 'const f=require("fs"),rt=new Set();
+for(const b of f.readFileSync("dist/index.mjs","utf8").matchAll(/export\s*\{([^{}]*)\}\s*;?/g))
+  b[1].split(",").map(s=>s.trim()).filter(Boolean).forEach(s=>rt.add(s.split(/\s+as\s+/).pop().trim()));
+const d=f.readFileSync("dist/index.d.ts","utf8");
+console.log([...rt].filter(n=>/^[A-Za-z_$][\w$]*$/.test(n)&&!new RegExp("\\b"+n+"\\b").test(d)).sort().join("\n"))'
+```
+
+At `e41ece8f` that reports 131 of 729 runtime exports absent from the declaration bundle -
+`WorkspaceCard`, `TeamTable`, `UsersTable`, `CustomImage`, `ErrorBoundary` and most of
+`src/custom/` among them. Adding 131 lines is not the answer; the durable fix is in how the
+declaration bundle is produced. Until then, prefer extending this list over leaving a symbol
+uncovered, and do not read its absence as "that component is intentionally private".
+
 ## Repo state that looks broken but is pre-existing
 
 `prettier --check` fails on dozens of files and `tsc --noEmit` reports errors across `src/`
