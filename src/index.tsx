@@ -103,16 +103,18 @@ export { ActionButton, type ActionButtonProps, type Option } from './custom/Acti
 //
 // The component is dropped by the same quirk, which left hosts able to type the
 // share body but not the component consuming it. This is one instance of a
-// wider gap: 128 runtime exports reach `dist/index.js` without reaching
-// `dist/index.d.ts`, so a per-symbol line here is a stopgap, not the fix.
+// wider gap - most of `src/custom/` reaches `dist/index.js` without reaching
+// `dist/index.d.ts` - so a per-symbol line here is a stopgap, not the fix.
+// AGENTS.md, "New public exports need an explicit root re-export", owns the
+// measurement and the command that reproduces it.
 //
 // Taken from the `./custom/ShareModal` barrel rather than the leaf
 // `resourceAccessPayload` module: that barrel re-exports the builders as well
 // as the component, so one statement is the single source of truth for where
 // all of these come from.
 export {
-  ShareModal,
   ResourceAccessActorError,
+  ShareModal,
   buildGrantAccessPayload,
   buildRevokeAccessPayload,
   toResourceAccessActors,

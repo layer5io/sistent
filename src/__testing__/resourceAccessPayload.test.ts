@@ -53,9 +53,7 @@ const unidentifiableUser = {
 describe('resource access mapping payload', () => {
   describe('toResourceAccessActors', () => {
     it('emits the canonical camelCase actor keys', () => {
-      expect(toResourceAccessActors([jane])).toEqual([
-        { actorId: jane.id, actorType: 'user' }
-      ]);
+      expect(toResourceAccessActors([jane])).toEqual([{ actorId: jane.id, actorType: 'user' }]);
     });
 
     it('never emits the retired snake_case actor keys', () => {
@@ -114,9 +112,7 @@ describe('resource access mapping payload', () => {
     });
 
     it('never emits an empty actorId', () => {
-      expect(() => buildGrantAccessPayload([unidentifiableUser])).toThrow(
-        ResourceAccessActorError
-      );
+      expect(() => buildGrantAccessPayload([unidentifiableUser])).toThrow(ResourceAccessActorError);
     });
   });
 

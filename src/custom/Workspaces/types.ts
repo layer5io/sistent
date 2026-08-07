@@ -1,5 +1,5 @@
-import type { components as EnvironmentComponents } from '@meshery/schemas/constructs/v1beta3/environment/Environment';
 import type { components as TeamComponents } from '@meshery/schemas/constructs/v1beta2/team/Team';
+import type { components as EnvironmentComponents } from '@meshery/schemas/constructs/v1beta3/environment/Environment';
 import type { components as WorkspaceComponents } from '@meshery/schemas/constructs/v1beta3/workspace/Workspace';
 import { DeletedAt } from '../../utils/nullTime';
 

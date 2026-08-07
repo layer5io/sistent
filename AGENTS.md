@@ -151,8 +151,9 @@ typo fix, a plural made singular - renames the exported constant and orphans the
 Any type that is decoded from or encoded to a Meshery/Layer5 API is owned by `meshery/schemas`.
 Sistent is upstream of every Meshery UI, so a shape hand-copied here propagates to all of them and a
 rename upstream reaches consumers as a silent `undefined` rather than an error. Derive from the
-canonical construct instead - `import type { components } from '@meshery/schemas/constructs/<ver>/<c>/<C>'`
-- and express any divergence as an explicit `Pick`/`Omit`/`&` carrying the reason.
+canonical construct instead
+(`import type { components } from '@meshery/schemas/constructs/<ver>/<c>/<C>'`), and express any
+divergence as an explicit `Pick`/`Omit`/`&` carrying the reason.
 
 **`Omit<T, 'gone'>` where `T` has no `gone` is a silent no-op**, so derivation alone does not survive
 the rename it was adopted to catch: the omit stops removing anything and the override quietly becomes

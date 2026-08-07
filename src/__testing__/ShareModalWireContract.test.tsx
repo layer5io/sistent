@@ -184,9 +184,7 @@ describe('ShareModal resource-access wire contract', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Share' }));
 
     await waitFor(() =>
-      expect(props.notify).toHaveBeenCalledWith(
-        expect.objectContaining({ event_type: 'error' })
-      )
+      expect(props.notify).toHaveBeenCalledWith(expect.objectContaining({ event_type: 'error' }))
     );
     expect(resourceAccessMutator).not.toHaveBeenCalled();
   });

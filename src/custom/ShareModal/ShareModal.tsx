@@ -29,9 +29,9 @@ import { CustomTooltip } from '../CustomTooltip';
 import { Modal, ModalBody, ModalButtonSecondary, ModalFooter } from '../Modal';
 import UserShareSearch from '../UserSearchField/UserSearchField';
 import {
-  ResourceAccessMappingPayload,
   buildGrantAccessPayload,
-  buildRevokeAccessPayload
+  buildRevokeAccessPayload,
+  ResourceAccessMappingPayload
 } from './resourceAccessPayload';
 import {
   CustomDialogContentText,

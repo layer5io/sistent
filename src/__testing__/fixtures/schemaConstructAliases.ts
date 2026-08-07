@@ -17,11 +17,11 @@
 //
 // `RequiresKey` closes it: every key sistent omits or narrows is asserted to
 // still exist on the canonical type it was taken from.
+import type { components as OrganizationComponents } from '@meshery/schemas/constructs/v1beta2/organization/Organization';
+import type { components as TeamComponents } from '@meshery/schemas/constructs/v1beta2/team/Team';
 import type { components as DesignComponents } from '@meshery/schemas/constructs/v1beta3/design/Design';
 import type { components as EnvironmentComponents } from '@meshery/schemas/constructs/v1beta3/environment/Environment';
 import type { components as EventComponents } from '@meshery/schemas/constructs/v1beta3/event/Event';
-import type { components as OrganizationComponents } from '@meshery/schemas/constructs/v1beta2/organization/Organization';
-import type { components as TeamComponents } from '@meshery/schemas/constructs/v1beta2/team/Team';
 import type { components as UserComponents } from '@meshery/schemas/constructs/v1beta3/user/User';
 import type { components as WorkspaceComponents } from '@meshery/schemas/constructs/v1beta3/workspace/Workspace';
 import type { UserProfile } from '../../custom/CatalogDetail/types';
@@ -162,9 +162,7 @@ export type PickedTeamIdIsCanonical = Expect<IsExact<PickedTeam['id'], Canonical
 
 export type PickedTeamNameIsCanonical = Expect<IsExact<PickedTeam['name'], CanonicalTeam['name']>>;
 
-export type UserEmailIsCanonical = Expect<
-  IsExact<User['email'], CanonicalSearchableUser['email']>
->;
+export type UserEmailIsCanonical = Expect<IsExact<User['email'], CanonicalSearchableUser['email']>>;
 
 export type UserProfileAvatarIsCanonical = Expect<
   IsExact<UserProfile['avatarUrl'], NonNullable<CanonicalSearchableUser['avatarUrl']>>
@@ -226,15 +224,12 @@ export type CatalogDataHasNoImageUrl = RequiresKey<CanonicalCatalogData, 'imageU
 // `./constructs/*` with types, and this repo resolves with
 // `moduleResolution: "bundler"`, so the shim was both redundant and wrong; it
 // was deleted. These imports keep the resolution it was covering asserted.
-export type ModelSchemaResolves = typeof import(
-  '@meshery/schemas/constructs/v1beta2/model/ModelSchema'
-).default;
-export type EnvironmentSchemaResolves = typeof import(
-  '@meshery/schemas/constructs/v1beta3/environment/EnvironmentSchema'
-).default;
-export type WorkspaceSchemaResolves = typeof import(
-  '@meshery/schemas/constructs/v1beta3/workspace/WorkspaceSchema'
-).default;
+export type ModelSchemaResolves =
+  typeof import('@meshery/schemas/constructs/v1beta2/model/ModelSchema').default;
+export type EnvironmentSchemaResolves =
+  typeof import('@meshery/schemas/constructs/v1beta3/environment/EnvironmentSchema').default;
+export type WorkspaceSchemaResolves =
+  typeof import('@meshery/schemas/constructs/v1beta3/workspace/WorkspaceSchema').default;
 
 // Self-check: if the compiler ever stops type-checking this fixture, the
 // suppression below goes unused and tsc reports TS2578 here, failing the test

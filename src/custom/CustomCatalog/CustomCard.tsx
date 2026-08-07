@@ -94,11 +94,10 @@ export interface PatternCatalogData {
  * `time.Time` marshals to an RFC 3339 string, and the two call sites that read
  * them had grown `.toString()` calls to paper over the mismatch.
  */
-export interface Pattern
-  extends Omit<
-    CanonicalPattern,
-    'id' | 'userId' | 'patternFile' | 'name' | 'visibility' | 'catalogData' | 'user'
-  > {
+export interface Pattern extends Omit<
+  CanonicalPattern,
+  'id' | 'userId' | 'patternFile' | 'name' | 'visibility' | 'catalogData' | 'user'
+> {
   id: string;
   userId: string;
   patternFile: string;

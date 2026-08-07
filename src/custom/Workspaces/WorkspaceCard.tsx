@@ -4,8 +4,6 @@ import { Backdrop, CircularProgress, Grid2 } from '../../base';
 
 import { getRelativeTime, isSoftDeleted } from '../../utils';
 import { FlipCard } from '../FlipCard';
-import { Workspace } from './types';
-import { RecordRow, RedirectButton, TransferButton } from './WorkspaceTransferButton';
 import {
   AllocationColumnGrid,
   AllocationWorkspace,
@@ -27,6 +25,8 @@ import {
   RecentActivityTitle,
   WorkspaceCardGrid
 } from './styles';
+import { Workspace } from './types';
+import { RecordRow, RedirectButton, TransferButton } from './WorkspaceTransferButton';
 
 // The subset of the v1beta3 workspace construct this card renders. Derived
 // from {@link Workspace} rather than re-declared: the card previously typed
