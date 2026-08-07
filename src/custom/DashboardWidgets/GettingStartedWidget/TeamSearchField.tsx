@@ -140,16 +140,11 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
         sx={{ width: 'auto' }}
         disableClearable
         loading={isLoading}
-        // Not "hide what is selected": MUI applies this against the
-        // Autocomplete's own uncontrolled value - the last option picked - not
-        // against `teamsData`, which holds the real selection, and through the
-        // reference-equality comparator below. So at most that one option is
-        // hidden, and only while `options` still holds that exact object -
-        // typing a search before picking makes the post-select input reset
-        // (`getOptionLabel` is `''`) fire `onInputChange` -> `fetchSuggestions`,
-        // and the replacement objects un-hide it. The duplicate guard in
-        // `handleAdd` is what actually prevents a re-pick. Hiding every
-        // selected team deterministically is
+        // MUI applies this through `isOptionEqualToValue` below, which is
+        // reference equality here and so load-bearing: whether this filter hides
+        // anything depends on whether a refetch has replaced `options` with new
+        // objects. Do not rely on it - the duplicate guard in `handleAdd` is
+        // what actually prevents a re-pick. Analysis and the fix:
         // https://github.com/layer5io/sistent/issues/1784.
         filterSelectedOptions
         noOptionsText={isLoading ? 'Loading...' : 'No team found'}

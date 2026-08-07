@@ -43,11 +43,10 @@ Resolve "what is currently released" from the npm `latest` dist-tag and publish 
 
 A consumer-visible breaking change - a published type that gains a required field, narrows, or
 changes shape - is a **minor** here, not a major: sistent is pre-1.0, so `major` would assert 1.0
-stability rather than describe the break. Label the PR `minor`;
-[`.github/release-drafter.yml`](.github/release-drafter.yml) owns the label-to-bump mapping and
-defaults to `patch`, so an unlabelled PR publishes a breaking change as a patch. That label is
-necessary but not sufficient - as configured the drafter cannot draft anything but a patch tag, so
-a minor needs a manual step too; the runbook's "Cutting a minor or major" section has it.
+stability rather than describe the break. Label the PR `minor`, and note that the label is the only
+signal that moves the version: [`.github/release-drafter.yml`](.github/release-drafter.yml) owns the
+label-to-bump mapping and defaults to `patch`, so an unlabelled PR publishes a breaking change as a
+patch.
 
 Verify a published release **by content**, not by the version number moving. Two properties carry
 the three-repo chain, and losing either fails downstream with errors that point nowhere near sistent:
