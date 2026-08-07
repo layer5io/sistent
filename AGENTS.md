@@ -219,16 +219,19 @@ covered - it is large, and every uncovered symbol is one a consumer must shim lo
 
 ```bash
 npm run build
-node -e 'const f=require("fs"),rt=new Set();
-for(const b of f.readFileSync("dist/index.mjs","utf8").matchAll(/export\s*\{([^{}]*)\}\s*;?/g))
-  b[1].split(",").map(s=>s.trim()).filter(Boolean).forEach(s=>rt.add(s.split(/\s+as\s+/).pop().trim()));
-const d=f.readFileSync("dist/index.d.ts","utf8");
-console.log([...rt].filter(n=>/^[A-Za-z_$][\w$]*$/.test(n)&&!new RegExp("\\b"+n+"\\b").test(d)).sort().join("\n"))'
+node -e 'const f=require("fs"),names=t=>{const s=new Set();
+for(const b of t.matchAll(/export\s*\{([^{}]*)\}\s*;?/g))
+  b[1].split(",").map(x=>x.trim()).filter(Boolean)
+    .forEach(x=>s.add(x.replace(/^type\s+/,"").split(/\s+as\s+/).pop().trim()));
+return s;};
+const rt=names(f.readFileSync("dist/index.mjs","utf8"));
+const dt=names(f.readFileSync("dist/index.d.ts","utf8"));
+console.log([...rt].filter(n=>/^[A-Za-z_$][\w$]*$/.test(n)&&!dt.has(n)).sort().join("\n"))'
 ```
 
-As of this change that reports 128 of 729 runtime exports absent from the declaration bundle -
+As of this change that reports 130 of 729 runtime exports absent from the declaration bundle -
 `WorkspaceCard`, `TeamTable`, `UsersTable`, `CustomImage`, `ErrorBoundary` and most of
-`src/custom/` among them. Adding 128 lines is not the answer; the durable fix is in how the
+`src/custom/` among them. Adding 130 lines is not the answer; the durable fix is in how the
 declaration bundle is produced. Until then, prefer extending this list over leaving a symbol
 uncovered, and do not read its absence as "that component is intentionally private".
 

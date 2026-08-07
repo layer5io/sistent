@@ -5,6 +5,11 @@ on:
     # our release branch
     branches:
       - master
+  # Manual re-draft. Release Drafter recomputes the draft from the merged PRs and
+  # their labels, so this is how a mislabelled release is corrected: relabel the
+  # merged PR, then re-run this workflow. Without it the drafter only ever runs on
+  # a push to master, so relabelling after the fact has no effect.
+  workflow_dispatch:
 
 jobs:
   update_release_draft:

@@ -30,6 +30,12 @@ The only human step is publishing the drafted release - Release Drafter has alre
    ```
    If the version bump is wrong, it's driven by the merged PR's labels - relabel and let Release Drafter re-draft; do not hand-edit the tag. Which label a breaking change gets is the pre-1.0 rule in [`AGENTS.md`](../../../AGENTS.md)'s Releasing section.
 
+   Relabelling alone does **not** re-draft: `release-drafter.yml` runs on push to `master`, so nothing re-runs it after the merge. Re-run it by hand once the label is right:
+   ```bash
+   gh workflow run release-drafter.yml --repo layer5io/sistent --ref master
+   ```
+   Then re-check the draft with `gh release view` before publishing.
+
 2. **Publish the draft Release. That's it.** No version editing, no notes, no tagging:
    ```bash
    gh release edit <vX.Y.Z> --repo layer5io/sistent --draft=false --latest
