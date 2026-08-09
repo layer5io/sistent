@@ -2,11 +2,12 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { FunctionComponent } from 'react';
 import { Autocomplete, Chip, TextField } from '../../base';
+import { CanonicalEnvironment } from './types';
 
-interface Environment {
-  id: string;
-  name: string;
-}
+// The environment-picker projection: only the two fields this selector reads,
+// derived from the canonical v1beta3 construct so a rename upstream fails here
+// rather than silently rendering `undefined`.
+type Environment = Pick<CanonicalEnvironment, 'id' | 'name'>;
 
 interface EnvironmentOption {
   label: string;

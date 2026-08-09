@@ -56,11 +56,15 @@ const UserInfo: React.FC<UserInfoProps> = ({
       </ContentRow>
       <ContentRow>
         <ContentDetailsPoints>CREATED AT</ContentDetailsPoints>
-        <ContentDetailsText>{getFormatDate(details?.createdAt.toString())}</ContentDetailsText>
+        <ContentDetailsText>
+          {details?.createdAt ? getFormatDate(details.createdAt) : '-'}
+        </ContentDetailsText>
       </ContentRow>
       <ContentRow>
         <ContentDetailsPoints>UPDATED AT</ContentDetailsPoints>
-        <ContentDetailsText>{getFormatDate(details?.updatedAt.toString())}</ContentDetailsText>
+        <ContentDetailsText>
+          {details?.updatedAt ? getFormatDate(details.updatedAt) : '-'}
+        </ContentDetailsText>
       </ContentRow>
       {showVersion && (
         <ContentRow>

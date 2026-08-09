@@ -22,7 +22,7 @@ const MuiTableCell: Components<Theme>['MuiTableCell'] = {
     root: ({ theme }) => {
       return {
         borderBottom: `1px solid ${theme.palette.icon.disabled}`,
-        backgroundColor: 'transparent !important'
+        backgroundColor: 'transparent'
       };
     },
     head: {
@@ -91,9 +91,18 @@ const MuiTableSortLabel: Components<Theme>['MuiTableSortLabel'] = {
 
 const MUIDataTableSelectCell: Components<Theme>['MUIDataTableSelectCell'] = {
   styleOverrides: {
-    root: {
-      backgroundColor: 'transparent'
-    }
+    root: ({ theme }) => ({
+      backgroundColor: theme.palette.background.constant?.table || theme.palette.background.paper,
+      '.MuiTableRow-root:hover &': {
+        backgroundImage: `linear-gradient(${theme.palette.action.hover}, ${theme.palette.action.hover})`
+      },
+      '&.MuiTableCell-head': {
+        backgroundColor:
+          theme.palette.mode === 'dark'
+            ? theme.palette.background.card
+            : theme.palette.background.surfaces || theme.palette.background.paper
+      }
+    })
   }
 };
 
