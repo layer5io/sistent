@@ -47,7 +47,8 @@ export function TypingFilterValueSuggestions({
               {suggestion}
             </Typography>
           </ListItem>
-          <Divider light />
+          {/* MUI removed Divider's `light` prop; the opacity is its replacement. */}
+          <Divider sx={{ opacity: 0.6 }} />
         </React.Fragment>
       ))}
     </List>
