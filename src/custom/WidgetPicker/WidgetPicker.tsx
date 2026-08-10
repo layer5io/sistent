@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, IconButton, Stack, Typography } from '../../base';
 import { AddIcon, CloseIcon } from '../../icons';
 import { useTheme } from '../../theme';
-import { SxProps, Theme } from '@mui/material';
+import type { SxProps, Theme } from '@mui/material';
 
 export interface WidgetItem {
   key: string;

@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Box } from '../../base';
+import React, { useState, useEffect, useRef } from 'react';
+import { Box, Fab } from '../../base';
+import { AddIcon } from '../../icons/Add';
 import { useTheme, useMediaQuery } from '../../theme';
-import { SwipeableDrawer } from '@mui/material';
+import { BottomSheet } from '../BottomSheet';
 
 export interface DashboardLayoutProps {
   /** The main dashboard content (typically the React-Grid-Layout) */
   children: React.ReactNode;
 
-  /** Whether the right-hand sidebar should be visible */
+  /** Whether Edit Mode is active (controls sidebar visibility). When this
+   *  transitions from false → true the mobile sheet auto-opens. */
   isSidebarOpen: boolean;
 
   /** The content to render inside the sidebar (e.g., Widget Gallery) */
@@ -21,7 +23,6 @@ export interface DashboardLayoutProps {
 
   /** Optional fixed height for the sticky sidebar. Defaults to 100vh */
   sidebarHeight?: string | number;
-
 }
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
@@ -36,15 +37,25 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   // We use the 'md' breakpoint (900px default) to switch between mobile and desktop layout
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
-  const drawerBleeding = 56;
+  // isSheetVisible is independently owned by DashboardLayout:
+  // - resets to true whenever Edit Mode (isSidebarOpen) transitions OFF → ON
+  // - can be set to false by the user dismissing the sheet (FAB appears instead)
+  // - set to false when Edit Mode turns OFF
+  // This two-dimension model prevents the sheet from re-opening on every
+  // isSidebarOpen change after the user has intentionally minimized it.
+  const [isSheetVisible, setIsSheetVisible] = useState(isSidebarOpen);
+  const prevIsSidebarOpen = useRef(isSidebarOpen);
 
   useEffect(() => {
-    if (isSidebarOpen) {
-      setIsMobileDrawerOpen(true);
-    } else {
-      setIsMobileDrawerOpen(false);
+    if (isSidebarOpen && !prevIsSidebarOpen.current) {
+      // Edit Mode just turned ON → pop the sheet open
+      setIsSheetVisible(true);
     }
+    if (!isSidebarOpen) {
+      // Edit Mode turned OFF → close the sheet and hide the FAB
+      setIsSheetVisible(false);
+    }
+    prevIsSidebarOpen.current = isSidebarOpen;
   }, [isSidebarOpen]);
 
   return (
@@ -55,69 +66,31 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
       {isSidebarOpen && isMobile && (
         <>
-          <SwipeableDrawer
-            anchor="bottom"
-            open={isMobileDrawerOpen}
-            onClose={() => setIsMobileDrawerOpen(false)}
-            onOpen={() => setIsMobileDrawerOpen(true)}
-            swipeAreaWidth={isMobileDrawerOpen ? drawerBleeding : 0}
-            disableSwipeToOpen={false}
-            ModalProps={{
-              keepMounted: true,
-            }}
-            sx={{
-              '& .MuiPaper-root': {
-                height: `calc(50% - ${drawerBleeding}px)`,
-                overflow: 'visible',
-              },
-              '& .MuiDrawer-paper': {
-                borderTopLeftRadius: '16px',
-                borderTopRightRadius: '16px',
-              },
-            }}
+          <BottomSheet
+            open={isSheetVisible}
+            onClose={() => setIsSheetVisible(false)}
+            maxHeight="50vh"
           >
-            <Box
-              role="button"
-              tabIndex={0}
-              aria-label="Toggle Sidebar"
-              aria-expanded={isMobileDrawerOpen}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  setIsMobileDrawerOpen(!isMobileDrawerOpen);
-                }
-              }}
-              sx={{
-                position: 'absolute',
-                top: -drawerBleeding,
-                borderTopLeftRadius: 16,
-                borderTopRightRadius: 16,
-                visibility: 'visible',
-                right: 0,
-                left: 0,
-                backgroundColor: theme.palette.background.paper,
-                height: drawerBleeding,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderBottom: `1px solid ${theme.palette.divider}`,
-                cursor: 'pointer',
-              }}
-              onClick={() => setIsMobileDrawerOpen(!isMobileDrawerOpen)}
+            {sidebarContent}
+          </BottomSheet>
+
+          {/* FAB appears when Edit Mode is active but the sheet has been minimized,
+              letting users rearrange the dashboard and pull the picker back up. */}
+          {!isSheetVisible && (
+            <Fab
+              color="primary"
+              aria-label="Open Widget Picker"
+              onClick={() => setIsSheetVisible(true)}
+              sx={(fabTheme) => ({
+                position: 'fixed',
+                bottom: 24,
+                right: 24,
+                zIndex: fabTheme.zIndex.drawer,
+              })}
             >
-              <Box
-                sx={{
-                  width: 30,
-                  height: 6,
-                  backgroundColor: theme.palette.divider,
-                  borderRadius: 3,
-                }}
-              />
-            </Box>
-            <Box sx={{ px: 2, pb: 2, height: '100%', overflow: 'auto' }}>
-              {sidebarContent}
-            </Box>
-          </SwipeableDrawer>
+              <AddIcon fill={theme.palette.primary.contrastText} />
+            </Fab>
+          )}
         </>
       )}
 
