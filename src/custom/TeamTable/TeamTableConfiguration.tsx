@@ -22,10 +22,17 @@ import {
 import { Team } from '../Workspaces/types';
 
 // currently team does not support bulk team delete
-// TODO(meshery-cloud#?): flip `team_ids` / `team_names` to camelCase once the
-// server's bulk-delete handler lands dual-accept (camel + legacy snake).
-// Deferred from Phase 2.K cascade to avoid a client-only flip that would break
-// the outbound POST body.
+//
+// The outbound `team_ids` / `team_names` keys are left snake_case on purpose:
+// `deleteTeamsModalHandler` is a host-supplied callback, there is no
+// bulk-delete handler in meshery-cloud to check the body against, and no
+// canonical construct in `@meshery/schemas` describes it. Flipping the keys
+// blind would trade a verified shape for an unverified one.
+//
+// The *inbound* reads below are a different matter and were wrong: they read
+// `teamId` and `team_name` off a team record. Neither field exists - the
+// canonical v1beta2 team construct, which meshery-cloud now aliases directly,
+// identifies a team by `id` and `name` - so both pushed `undefined`.
 interface DeleteTeamsBtnProps {
   selected: any;
   teams: Team[];
@@ -39,8 +46,8 @@ function DeleteTeamsBtn({ selected, teams, deleteTeamsModalHandler }: DeleteTeam
   };
   selected?.data.forEach((val: any) => {
     const idx = val.index;
-    deleteTeams['team_ids'].push(teams[idx]?.teamId);
-    deleteTeams['team_names'].push(teams[idx]?.team_name);
+    deleteTeams['team_ids'].push(teams[idx]?.id);
+    deleteTeams['team_names'].push(teams[idx]?.name);
   });
 
   return (

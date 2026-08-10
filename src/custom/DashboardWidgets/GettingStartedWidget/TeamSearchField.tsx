@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { Autocomplete, Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { debounce } from 'lodash';
@@ -9,15 +7,31 @@ import { Chip, CircularProgress, TextField, Tooltip } from '../../../base';
 import { iconSmall } from '../../../constants/iconsSizes';
 import { CloseIcon } from '../../../icons';
 import { DeletedAt, isSoftDeleted } from '../../../utils/nullTime';
+import { CanonicalTeam } from '../../Workspaces/types';
 
-interface Team {
-  id: string;
-  ID: string;
-  name: string;
+/**
+ * The team-picker projection: the three fields this field reads off a team
+ * record served by `getTeams`, derived from the canonical v1beta2 construct so
+ * that a rename upstream fails here rather than silently rendering `undefined`.
+ *
+ * One deliberate widening: `deletedAt` is {@link DeletedAt} rather than the
+ * canonical `string | undefined`, because some provider endpoints still emit
+ * the legacy Go `sql.NullTime` `{ Valid, Time }` object. See
+ * `src/utils/nullTime.ts` - this field's team search is the crash that
+ * documents.
+ *
+ * This type previously also declared `ID`, read by the option and chip `key`
+ * props. It has never existed on the wire: meshery-cloud aliases its `Team`
+ * straight to the canonical `team.Team`, whose identity field is `id`. The
+ * same phantom-identity defect the bulk-delete button carried through
+ * `teamId` / `team_name`; see {@link CanonicalTeam}'s consumer in
+ * `src/custom/Workspaces/types.ts`.
+ */
+export type Team = Pick<CanonicalTeam, 'id' | 'name'> & {
   deletedAt?: DeletedAt;
-}
+};
 
-interface TeamSearchFieldProps {
+export interface TeamSearchFieldProps {
   teamsData: Team[];
   setTeamsData: Dispatch<SetStateAction<Team[]>>;
   label?: string;
@@ -60,7 +74,6 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
   useNotificationHandlers
 }) => {
   const [error, setError] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>('');
   const [options, setOptions] = useState<Team[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showAllTeams, setShowAllTeams] = useState<boolean>(false);
@@ -76,7 +89,7 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
         getTeams({ orgId: orgID, search: searchValue }, true)
           .unwrap()
           .then((response: any) => {
-            setOptions(typeof response === 'string' ? [] : response?.teams);
+            setOptions(Array.isArray(response?.teams) ? response.teams : []);
             setIsLoading(false);
           })
           .catch((err: any) => {
@@ -91,7 +104,7 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
     setTeamsData(teamsData.filter((team) => team.id !== teamId));
   };
 
-  const handleAdd = (_: string, value: Team): void => {
+  const handleAdd = (_: React.SyntheticEvent, value: Team): void => {
     setTeamsData((prevData: Team[]) => {
       const isDuplicate = prevData.some((team) => team.id === value.id);
       if (isDuplicate) {
@@ -101,10 +114,9 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
       setError(false);
       return [...prevData, value];
     });
-    setInputValue('');
   };
 
-  const handleInputChange = (_: string, value: string): void => {
+  const handleInputChange = (_: React.SyntheticEvent, value: string): void => {
     if (typeof value === 'string') {
       setError(false);
       fetchSuggestions(value);
@@ -128,7 +140,12 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
         sx={{ width: 'auto' }}
         disableClearable
         loading={isLoading}
-        value={inputValue}
+        // MUI applies this through `isOptionEqualToValue` below, which is
+        // reference equality here and so load-bearing: whether this filter hides
+        // anything depends on whether a refetch has replaced `options` with new
+        // objects. Do not rely on it - the duplicate guard in `handleAdd` is
+        // what actually prevents a re-pick. Analysis and the fix:
+        // https://github.com/layer5io/sistent/issues/1784.
         filterSelectedOptions
         noOptionsText={isLoading ? 'Loading...' : 'No team found'}
         onChange={handleAdd}
@@ -136,6 +153,7 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
         options={options}
         filterOptions={(x) => x}
         getOptionLabel={() => ''}
+        getOptionKey={(option: Team) => option.id}
         clearOnBlur
         isOptionEqualToValue={(option, value) => option === value}
         renderInput={(params) => (
@@ -156,12 +174,13 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
         )}
         renderOption={(props, option) => {
           if (!isSoftDeleted(option.deletedAt)) {
+            const { key, ...optionProps } = props;
             return (
               <Box
                 component="li"
                 sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-                key={option.ID}
-                {...props}
+                key={key}
+                {...optionProps}
               >
                 <Typography>{option.name}</Typography>
               </Box>
@@ -177,7 +196,7 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
               <>
                 {teamsData.map((team) => (
                   <Chip
-                    key={team.ID}
+                    key={team.id}
                     label={team.name}
                     size="small"
                     onDelete={() => handleDelete(team.id)}
