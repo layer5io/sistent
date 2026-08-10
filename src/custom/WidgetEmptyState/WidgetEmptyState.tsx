@@ -24,9 +24,10 @@ export const WidgetEmptyState: React.FC<WidgetEmptyStateProps> = ({
   const theme = useTheme();
 
   return (
+    // Outer container is a plain presentational box — role="status" is scoped
+    // only to the message Typography below so interactive descendants (icon, Button)
+    // are not degraded by the live-region semantics.
     <Box
-      role="status"
-      aria-live="polite"
       sx={{
         display: 'flex',
         alignItems: 'center',
@@ -55,7 +56,12 @@ export const WidgetEmptyState: React.FC<WidgetEmptyStateProps> = ({
             {icon}
           </Box>
         )}
+        {/* role="status" + aria-live scoped only to the message text, not the
+            interactive siblings — per ARIA spec, live regions must not contain
+            interactive elements or AT may hide/degrade their semantics. */}
         <Typography
+          role="status"
+          aria-live="polite"
           variant="body2"
           sx={{
             color: theme.palette.text.secondary,

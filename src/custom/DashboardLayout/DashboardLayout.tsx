@@ -15,6 +15,10 @@ export interface DashboardLayoutProps {
   /** The content to render inside the sidebar (e.g., Widget Gallery) */
   sidebarContent: React.ReactNode;
 
+  /** Accessible title for the mobile bottom sheet (used as aria-labelledby on the Dialog).
+   *  Defaults to 'Widget Picker'. */
+  sidebarTitle?: string;
+
   /** Optional custom width for the sidebar. Defaults to responsive width. */
   sidebarWidth?: string | number | Partial<Record<'xs' | 'sm' | 'md' | 'lg' | 'xl', string | number>>;
 
@@ -29,6 +33,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
   isSidebarOpen,
   sidebarContent,
+  sidebarTitle = 'Widget Picker',
   sidebarWidth = { xs: '100%', md: '350px' },
   sidebarTopOffset = '0',
   sidebarHeight = '100vh'
@@ -69,6 +74,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
           <BottomSheet
             open={isSheetVisible}
             onClose={() => setIsSheetVisible(false)}
+            title={sidebarTitle}
             maxHeight="50vh"
           >
             {sidebarContent}
