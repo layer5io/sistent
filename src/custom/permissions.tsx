@@ -112,8 +112,8 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const defaultPadding = isMobile
-    ? { top: 8, left: 8, right: 8, bottom: 8 }
-    : { top: 85, left: 270, right: 8, bottom: 8 };
+    ? { top: 64, left: 8, right: 8, bottom: 8 }
+    : { top: 85, left: 16, right: 8, bottom: 8 };
   const padding = boundaryPadding ? { ...defaultPadding, ...boundaryPadding } : defaultPadding;
 
   const handleClose = () => {
@@ -172,7 +172,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
       {/* Title: AUTHORIZATION REQUIRED — medium gray */}
       <Typography
         sx={{
-          fontSize: '0.65rem',
+          fontSize: { xs: '0.6rem', sm: '0.65rem' },
           fontWeight: 800,
           color: '#9E9E9E',
           letterSpacing: '0.08em',
@@ -186,9 +186,9 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
       {/* Subtitle */}
       <Typography
         sx={{
-          fontSize: '0.75rem',
+          fontSize: { xs: '0.7rem', sm: '0.75rem' },
           color: 'rgba(255, 255, 255, 0.75)',
-          mb: 1.25,
+          mb: 1,
           lineHeight: 1.3
         }}
       >
@@ -230,7 +230,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
               <Typography
                 sx={{
                   fontWeight: 700,
-                  fontSize: '0.95rem',
+                  fontSize: { xs: '0.85rem', sm: '0.95rem' },
                   lineHeight: 1.3,
                   color: '#FFFFFF'
                 }}
@@ -240,12 +240,12 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
             </Box>
 
             {/* Description — italicized, equal padding both sides, no divider from key name */}
-            <Box sx={{ px: 1, mb: 1.25 }}>
+            <Box sx={{ px: { xs: 0.5, sm: 1 }, mb: 1 }}>
               <Typography
                 sx={{
                   fontStyle: 'italic',
                   color: 'rgba(255, 255, 255, 0.7)',
-                  fontSize: '0.8rem',
+                  fontSize: { xs: '0.75rem', sm: '0.8rem' },
                   lineHeight: 1.4
                 }}
               >
@@ -426,7 +426,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
 
         <Tooltip
           title={tooltipTitle}
-          placement="top"
+          placement="right-start"
           open={open}
           onClose={handleClose}
           disableHoverListener
@@ -434,6 +434,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           disableTouchListener
           slotProps={{
             popper: {
+              style: { zIndex: 1100 },
               popperOptions: {
                 modifiers: [
                   {
@@ -441,7 +442,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                     enabled: true,
                     options: {
                       boundary: 'viewport',
-                      fallbackPlacements: ['right', 'bottom', 'left'],
+                      fallbackPlacements: ['bottom-start', 'top-start'],
                       padding
                     }
                   },
@@ -462,11 +463,11 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
               sx: {
                 background: '#1A1A1A',
                 color: '#FFFFFF',
-                maxWidth: { xs: 'calc(100vw - 32px)', sm: 360 },
-                minWidth: { xs: 'auto', sm: 300 },
-                maxHeight: '320px',
+                maxWidth: { xs: 260, sm: 360 },
+                minWidth: { xs: 240, sm: 300 },
+                maxHeight: { xs: '200px', sm: '320px' },
                 overflowY: 'auto',
-                padding: '12px',
+                padding: { xs: '8px', sm: '12px' },
                 borderLeft: '4px solid #EBC024',
                 borderRadius: '8px',
                 boxShadow: '0 8px 32px rgba(0,0,0,0.4)'
