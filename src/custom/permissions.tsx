@@ -2,6 +2,7 @@ import { Key } from '@meshery/schemas/permissions';
 import KeyIcon from '@mui/icons-material/Key';
 import LaunchIcon from '@mui/icons-material/Launch';
 import SecurityIcon from '@mui/icons-material/Security';
+import { useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
 import type {
   MissingCapabilityReason,
@@ -108,7 +109,11 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
   const userContext = usePermissionUserContext();
   const unmetKeys = useUnmetPermissionKeys(permissionKey);
 
-  const defaultPadding = { top: 85, left: 270, right: 8, bottom: 8 };
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const defaultPadding = isMobile
+    ? { top: 8, left: 8, right: 8, bottom: 8 }
+    : { top: 85, left: 270, right: 8, bottom: 8 };
   const padding = boundaryPadding ? { ...defaultPadding, ...boundaryPadding } : defaultPadding;
 
   const handleClose = () => {
@@ -457,8 +462,8 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
               sx: {
                 background: '#1A1A1A',
                 color: '#FFFFFF',
-                maxWidth: 360,
-                minWidth: 300,
+                maxWidth: { xs: 'calc(100vw - 32px)', sm: 360 },
+                minWidth: { xs: 'auto', sm: 300 },
                 maxHeight: '320px',
                 overflowY: 'auto',
                 padding: '12px',
