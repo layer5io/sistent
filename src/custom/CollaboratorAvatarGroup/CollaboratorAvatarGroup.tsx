@@ -1,4 +1,5 @@
 import { ExpandMore } from '@mui/icons-material';
+import { alpha } from '@mui/material';
 import { MouseEvent, useState } from 'react';
 import { Avatar, AvatarGroup, Button, Divider, Popover, Typography } from '../../base';
 import { iconSmall } from '../../constants/iconsSizes';
@@ -144,20 +145,9 @@ const CollaboratorAvatarGroup = ({
           return (
             <CustomTooltip
               key={clientID}
-              componentsProps={{
-                tooltip: {
-                  sx: {
-                    background: theme.palette.background.paper,
-                    color: theme.palette.text.primary,
-                    boxShadow: theme.shadows[4]
-                  }
-                },
-                arrow: {
-                  sx: {
-                    color: theme.palette.background.paper
-                  }
-                }
-              }}
+              // The surface is deliberately inherited from `CustomTooltip`'s own
+              // default: no other call site overrides it, and `background.paper`
+              // is not a sistent token.
               title={
                 <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                   <Typography
@@ -171,7 +161,24 @@ const CollaboratorAvatarGroup = ({
                   >
                     {user.name}
                   </Typography>
-                  <Divider />
+                  {/*
+                    WORKAROUND for https://github.com/layer5io/sistent/issues/1783 - delete
+                    the two `borderColor` overrides and the button `color` override once that
+                    component-level fix lands, and do not copy this into other tooltips.
+                    `CustomTooltip`'s surface is the literal `#141414` in both palette modes,
+                    but `palette.divider`, the theme's outlined-button border and the button
+                    label colour all resolve to mode-dependent tokens, so in light mode the
+                    separator is invisible, the button outline is near black-on-black and the
+                    label is black-on-black outright: `MuiButton`'s root override spreads
+                    `typography.textB2SemiBold`, whose `color` is `common.black` in light mode
+                    (src/theme/typography.ts), and that wins over MUI's own
+                    `--variant-outlinedColor`. Measured on the hovered component, the label was
+                    `rgb(0, 0, 0)` on `rgb(20, 20, 20)` - 1.06:1. These three are fixed to
+                    white / white alphas, which are stable across modes because the surface
+                    they sit on is; the label now matches the tooltip's own body text at
+                    18.4:1, clearing WCAG AA.
+                  */}
+                  <Divider style={{ borderColor: alpha(theme.palette.common.white, 0.2) }} />
                   <Button
                     size="small"
                     variant="outlined"
@@ -180,7 +187,9 @@ const CollaboratorAvatarGroup = ({
                       fontSize: '1rem',
                       padding: '2px 8px',
                       minWidth: 'auto',
-                      marginTop: '8px'
+                      marginTop: '8px',
+                      borderColor: alpha(theme.palette.common.white, 0.4),
+                      color: theme.palette.common.white
                     }}
                   >
                     Open Recents
@@ -194,7 +203,8 @@ const CollaboratorAvatarGroup = ({
                 alt={user.name}
                 src={user.avatarUrl}
                 borderColor={user.borderColor}
-                imgProps={{ referrerPolicy: 'no-referrer' }}
+                // MUI replaced `imgProps` with the `img` slot.
+                slotProps={{ img: { referrerPolicy: 'no-referrer' } }}
                 onClick={() => openInNewTab(`${providerUrl}/user/${user.userId}`)}
               />
             </CustomTooltip>
@@ -243,7 +253,8 @@ const CollaboratorAvatarGroup = ({
                     alt={user.name}
                     src={user.avatarUrl}
                     borderColor={user.borderColor}
-                    imgProps={{ referrerPolicy: 'no-referrer' }}
+                    // MUI replaced `imgProps` with the `img` slot.
+                    slotProps={{ img: { referrerPolicy: 'no-referrer' } }}
                   />
                   <UserName variant="body1">{user.name}</UserName>
                 </PopupAvatarWrapper>

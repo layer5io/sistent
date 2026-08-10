@@ -15,14 +15,14 @@ jobs:
       contents: read
     steps:
       - name: Checkout Sistent PR
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: sistent
 
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
           cache-dependency-path: sistent/package-lock.json
 
@@ -48,17 +48,19 @@ jobs:
           echo "Created package: $SISTENT_PACKAGE"
 
       - name: Checkout Meshery UI
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: meshery/meshery
-          # Pin to the commit that added date-fns as a Meshery UI dependency
-          # (meshery/meshery#20416), needed because Sistent's UniversalFilter
-          # date-range picker now transitively requires @mui/x-date-pickers'
-          # AdapterDateFns, which Sistent externalizes rather than bundles.
-          # The prior pin (before the @mui/x-tree-view v8 upgrade that broke
-          # the TreeView import, meshery/meshery#18163) is no longer needed
-          # since meshery/meshery#18167 merged.
-          ref: 2d988df92ad5d336230ed9255d08a85d6bebe8fd
+          # Pin to the commit that moved Meshery UI to @meshery/schemas
+          # ^1.3.35 (meshery/meshery#20832). Sistent declares @meshery/schemas
+          # as a real dependency, so npm dedupes it with Meshery UI's own copy
+          # and installs one version satisfying both ranges. An older pin is
+          # therefore silently upgraded past the schemas release that dropped
+          # useGetTeamsQuery, and Meshery UI fails to build. This pin also
+          # keeps date-fns (meshery/meshery#20416), which Sistent's
+          # UniversalFilter date-range picker needs via @mui/x-date-pickers'
+          # AdapterDateFns, and @mui/x-tree-view v9 (meshery/meshery#18167).
+          ref: 54ed7384c8fe59fdd0e1ff38288c3237cf465310
           path: meshery
           fetch-depth: 1
 
@@ -106,5 +108,5 @@ jobs:
             else
               echo "- **Meshery UI Build**: ❌ Failed"
             fi
-            echo "- **Node Version**: 20"
+            echo "- **Node Version**: 22"
           } >> $GITHUB_STEP_SUMMARY

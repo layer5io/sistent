@@ -1,12 +1,18 @@
 import { ActionButton } from './ActionButton';
 import { BBChart } from './BBChart';
 import { BookmarkNotification } from './BookmarkNotification';
+import { BottomSheet, type BottomSheetProps } from './BottomSheet';
 import { Carousel } from './Carousel';
 import CatalogFilter, { CatalogFilterProps } from './CatalogFilter/CatalogFilter';
 import { ChapterCard } from './ChapterCard';
 import { CollaboratorAvatarGroup } from './CollaboratorAvatarGroup';
 import { ConnectionChip } from './ConnectionChip';
-import { CatalogCardDesignLogo, CustomCatalogCard, EmptyStateCard } from './CustomCatalog';
+import {
+  CatalogCardDesignLogo,
+  CustomCatalogCard,
+  EmptyStateCard,
+  sanitizeCatalogImageUrl
+} from './CustomCatalog';
 import {
   CustomColumn,
   CustomColumnVisibilityControl,
@@ -14,6 +20,7 @@ import {
 } from './CustomColumnVisibilityControl/CustomColumnVisibilityControl';
 import { CustomImage } from './CustomImage';
 import { CustomTooltip, InfoTooltip } from './CustomTooltip';
+import { DataTableToolbar, type DataTableToolbarProps } from './DataTableToolbar';
 import {
   CustomDialog,
   StyledDialogActions,
@@ -64,6 +71,7 @@ export {
 export { InputSearchField } from './InputSearchField';
 export { LearningContent } from './LearningContent';
 export { NavigationNavbar } from './NavigationNavbar';
+export type { NavigationItem } from './NavigationNavbar';
 export { Note } from './Note';
 export { Panel } from './Panel';
 export {
@@ -87,6 +95,7 @@ export {
   ActionButton,
   BBChart,
   BookmarkNotification,
+  BottomSheet,
   Carousel,
   CatalogCardDesignLogo,
   CatalogFilter,
@@ -99,6 +108,7 @@ export {
   CustomImage,
   CustomTooltip,
   DataTableEllipsisMenu,
+  DataTableToolbar,
   EmptyState,
   EmptyStateCard,
   ErrorBoundary,
@@ -112,6 +122,7 @@ export {
   ModalCard,
   PopperListener,
   ResponsiveDataTable,
+  sanitizeCatalogImageUrl,
   SearchBar,
   StyledDialogActions,
   StyledDialogContent,
@@ -154,11 +165,13 @@ export { BasicMarkdown, RenderMarkdown };
 export { CustomizedStepper, useStepper } from './Stepper';
 
 export type {
+  BottomSheetProps,
   CatalogFilterProps,
   ColView,
   CustomColumn,
   CustomColumnVisibilityControlProps,
   CustomDialogProps,
+  DataTableToolbarProps,
   FlipCardProps,
   IPopperListener,
   ResponsiveDataTableProps,

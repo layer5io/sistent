@@ -1,5 +1,9 @@
-name-template: 'Sistent v$NEXT_PATCH_VERSION'
-tag-template: 'v$NEXT_PATCH_VERSION'
+# $RESOLVED_VERSION, not $NEXT_PATCH_VERSION: it is what routes the
+# version-resolver below into the drafted tag. With `default: patch` an
+# unlabelled PR resolves to the next patch either way, so only a
+# major/minor-labelled PR drafts differently than it used to.
+name-template: 'Sistent v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '🚀 Features'
     labels:

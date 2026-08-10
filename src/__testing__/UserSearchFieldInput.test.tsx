@@ -66,3 +66,109 @@ describe('UserSearchField type-ahead wiring', () => {
     expect(screen.queryByText('Jane Doe')).not.toBeNull();
   });
 });
+
+describe('UserSearchField v1beta3 user records', () => {
+  // The v1beta3 user construct identifies users by `id` (the wire `userId` is
+  // a deprecated alias) and reduced projections may carry only a username.
+  const v1beta3Alex = {
+    id: 'u-alex',
+    username: 'alex',
+    firstName: 'Alex',
+    lastName: 'Rivera',
+    email: 'alex@example.com'
+  };
+  const usernameOnly = { id: 'u-min', username: 'minimal-user' };
+
+  it('renders and matches records that carry only the canonical id', async () => {
+    const { input } = renderField({
+      usersSearch: 'a',
+      searchedUsers: [v1beta3Alex, usernameOnly],
+      // same person as v1beta3Alex, but shaped like a legacy record
+      currentUserData: { userId: 'u-alex' }
+    });
+
+    fireEvent.change(input, { target: { value: 'a' } });
+
+    // current user is filtered out via id<->userId identity matching
+    await waitFor(() => {
+      expect(screen.queryByText('minimal-user')).not.toBeNull();
+    });
+    expect(screen.queryByText('Alex Rivera')).toBeNull();
+  });
+
+  it('renders soft-deleted v1beta3 records (deletedAt) as deleted options', async () => {
+    // v1beta3 signals soft deletion via `deletedAt`, not the component-local
+    // `deleted` boolean; both must render the "(deleted)" treatment.
+    const deletedByTimestamp = {
+      id: 'u-gone',
+      email: 'gone@example.com',
+      deletedAt: '2026-01-01T00:00:00Z'
+    };
+    const { input } = renderField({
+      usersSearch: 'gone',
+      searchedUsers: [deletedByTimestamp]
+    });
+
+    fireEvent.change(input, { target: { value: 'gone' } });
+
+    await waitFor(() => {
+      expect(screen.queryByText('gone@example.com (deleted)')).not.toBeNull();
+    });
+  });
+
+  it('removes only the targeted record when selected users carry no identifier', () => {
+    // Email-only invitees all collapse onto the '' identifier, so filtering
+    // by identifier string deleted every one of them at once. Deletion must
+    // match the record itself (isSameUser, then reference equality).
+    const inviteeOne = { email: 'one@example.com' };
+    const inviteeTwo = { email: 'two@example.com' };
+    const { props, container } = renderField({ usersData: [inviteeOne, inviteeTwo] });
+
+    fireEvent.click(screen.getByText('(+1)'));
+
+    const deleteIcons = container.querySelectorAll('.MuiChip-deleteIcon');
+    expect(deleteIcons).toHaveLength(2);
+    fireEvent.click(deleteIcons[0]);
+
+    expect(props.setUsersData).toHaveBeenCalledWith([inviteeTwo]);
+  });
+
+  it('removes records carrying neither identifier nor email by reference', () => {
+    // isSameUser never matches two records with nothing to compare; reference
+    // equality is the last resort that keeps such rows deletable.
+    const ghost = { username: 'ghost' };
+    const other = { username: 'other' };
+    const { props, container } = renderField({ usersData: [ghost, other] });
+
+    fireEvent.click(screen.getByText('(+1)'));
+
+    const deleteIcons = container.querySelectorAll('.MuiChip-deleteIcon');
+    expect(deleteIcons).toHaveLength(2);
+    fireEvent.click(deleteIcons[0]);
+
+    expect(props.setUsersData).toHaveBeenCalledWith([other]);
+  });
+
+  it('keeps MUI-generated option ids so aria-activedescendant resolves', async () => {
+    // renderOption must spread the Autocomplete-provided props untouched:
+    // overriding the option `id` with the user identifier orphans the
+    // input's aria-activedescendant reference and breaks keyboard focus.
+    const { input } = renderField({
+      usersSearch: 'a',
+      searchedUsers: [v1beta3Alex, usernameOnly]
+    });
+
+    fireEvent.change(input, { target: { value: 'a' } });
+    await waitFor(() => {
+      expect(screen.getAllByRole('option').length).toBeGreaterThan(0);
+    });
+
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+
+    const activeDescendant = input.getAttribute('aria-activedescendant');
+    expect(activeDescendant).toBeTruthy();
+    const highlighted = document.getElementById(activeDescendant as string);
+    expect(highlighted).not.toBeNull();
+    expect(highlighted?.getAttribute('role')).toBe('option');
+  });
+});

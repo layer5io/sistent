@@ -1,7 +1,7 @@
-import { Drawer, styled, useMediaQuery } from '@mui/material';
+import { styled, useMediaQuery } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { subDays, subMonths, subYears } from 'date-fns';
 import React from 'react';
+import { Badge } from '../base/Badge';
 import { Button } from '../base/Button';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { DateTimePicker } from '../base/DateTimePicker';
@@ -11,6 +11,8 @@ import { Paper } from '../base/Paper';
 import { Select } from '../base/Select';
 import { FilterIcon } from '../icons';
 import { useTheme } from '../theme';
+import { subtractDays, subtractMonths, subtractYears } from '../utils/date.utils';
+import { BottomSheet } from './BottomSheet';
 import PopperListener from './PopperListener';
 import { TooltipIcon } from './TooltipIconButton';
 
@@ -35,12 +37,32 @@ export interface QuickDateRangeOption {
   getRange: () => DateRange;
 }
 
+// Deliberately not `date-fns`: it is an OPTIONAL peer dependency, and this
+// module is reached from the package barrel, so a module-scope import of it made
+// `import { anything } from '@sistent/sistent'` throw
+// `Cannot find module 'date-fns'` for every consumer that took the optional peer
+// at its word and did not install it. See the same note on DateTimePicker.
 const DEFAULT_QUICK_DATE_RANGES: QuickDateRangeOption[] = [
-  { label: 'Last 7 days', getRange: () => ({ startDate: subDays(new Date(), 7), endDate: new Date() }) },
-  { label: 'Last 30 days', getRange: () => ({ startDate: subDays(new Date(), 30), endDate: new Date() }) },
-  { label: 'Last 3 months', getRange: () => ({ startDate: subMonths(new Date(), 3), endDate: new Date() }) },
-  { label: 'Last 6 months', getRange: () => ({ startDate: subMonths(new Date(), 6), endDate: new Date() }) },
-  { label: 'Last 1 year', getRange: () => ({ startDate: subYears(new Date(), 1), endDate: new Date() }) }
+  {
+    label: 'Last 7 days',
+    getRange: () => ({ startDate: subtractDays(new Date(), 7), endDate: new Date() })
+  },
+  {
+    label: 'Last 30 days',
+    getRange: () => ({ startDate: subtractDays(new Date(), 30), endDate: new Date() })
+  },
+  {
+    label: 'Last 3 months',
+    getRange: () => ({ startDate: subtractMonths(new Date(), 3), endDate: new Date() })
+  },
+  {
+    label: 'Last 6 months',
+    getRange: () => ({ startDate: subtractMonths(new Date(), 6), endDate: new Date() })
+  },
+  {
+    label: 'Last 1 year',
+    getRange: () => ({ startDate: subtractYears(new Date(), 1), endDate: new Date() })
+  }
 ];
 
 export interface UniversalFilterProps {
@@ -90,6 +112,9 @@ function UniversalFilter({
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const activeFilterCount = Object.values(selectedFilters).filter(
+    (value) => value && value !== 'All'
+  ).length;
 
   // Track the serialized value rather than the object reference so a parent that
   // passes a new `selectedFilters` reference with unchanged values (e.g. an inline
@@ -129,7 +154,8 @@ function UniversalFilter({
   const handleEndDateChange = (newEndDate: Date | null) => {
     if (!newEndDate || !selectedDateRange) return;
     setSelectedDateRange?.({
-      startDate: newEndDate < selectedDateRange.startDate ? newEndDate : selectedDateRange.startDate,
+      startDate:
+        newEndDate < selectedDateRange.startDate ? newEndDate : selectedDateRange.startDate,
       endDate: newEndDate
     });
   };
@@ -149,11 +175,14 @@ function UniversalFilter({
     handleApplyFilter(appliedFilters);
   };
 
-  const renderFilterContent = () => (
+  const renderFilterContent = (hideHeader = false) => (
     <div>
-      <FilterHeader data-testid={`${testId}-header`}>
-        <h3>Filters: </h3>
-      </FilterHeader>
+      {!hideHeader && (
+        <FilterHeader data-testid={`${testId}-header`}>
+          <h3>Filters: </h3>
+        </FilterHeader>
+      )}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       {Object.keys(filters).map((filterColumn) => {
         const options = filters[filterColumn].options;
         const draftValue = draftFilters[filterColumn] ?? 'All';
@@ -188,7 +217,6 @@ function UniversalFilter({
                 width: '20rem',
                 marginBottom: '1rem'
               }}
-              MenuProps={{ disablePortal: true }}
               slotProps={{
                 input: {
                   'aria-label': 'Without label'
@@ -257,18 +285,26 @@ function UniversalFilter({
           Apply
         </Button>
       </div>
+      </div>
     </div>
   );
 
   return (
     <>
       <div id={id} data-testid={testId}>
-        <TooltipIcon
-          title="Filter"
-          onClick={handleClick}
-          icon={<FilterIcon fill={theme.palette.icon.default} />}
-          arrow
-        />
+        <Badge
+          badgeContent={activeFilterCount}
+          color="primary"
+          overlap="circular"
+          invisible={activeFilterCount === 0}
+        >
+          <TooltipIcon
+            title="Filter"
+            onClick={handleClick}
+            icon={<FilterIcon fill={theme.palette.icon.default} />}
+            arrow
+          />
+        </Badge>
         {!isMobile ? (
           <PopperListener
             id={open && anchorEl ? 'transition-popper' : undefined}
@@ -294,21 +330,9 @@ function UniversalFilter({
             </ClickAwayListener>
           </PopperListener>
         ) : (
-          <Drawer
-            anchor="bottom"
-            open={open}
-            onClose={handleClose}
-            slotProps={{
-              paper: {
-                style: {
-                  padding: '0 1rem 1rem 1rem',
-                  backgroundColor: theme.palette.background.surfaces
-                }
-              }
-            }}
-          >
-            {renderFilterContent()}
-          </Drawer>
+          <BottomSheet open={open} onClose={handleClose} title="Filters">
+            {renderFilterContent(true)}
+          </BottomSheet>
         )}
       </div>
     </>
