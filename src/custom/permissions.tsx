@@ -316,7 +316,7 @@ export const PermissionSessionContext: React.FC<PermissionSessionContextProps> =
       {hasKeys && <Box sx={dividerSx} />}
 
       {/* Bottom row: Category/Subcategory chips + Key Reference link */}
-      {hasKeys && Boolean(categories?.length || subcategories?.length) && (
+      {hasKeys && (
         <Box
           sx={{
             display: 'flex',
@@ -326,21 +326,23 @@ export const PermissionSessionContext: React.FC<PermissionSessionContextProps> =
             mt: 0.5
           }}
         >
-          <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap' }}>
-            {[...(categories || []), ...(subcategories || [])].map((label, index) => (
-              <Chip
-                key={`${index}-${label}`}
-                size="small"
-                label={label}
-                sx={{
-                  background: palette.chipBg,
-                  color: palette.chipColor,
-                  fontSize: `${0.7 * baseFontScale}rem`,
-                  height: isCard ? '24px' : '20px'
-                }}
-              />
-            ))}
-          </Box>
+          {Boolean(categories?.length || subcategories?.length) && (
+            <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap' }}>
+              {[...(categories || []), ...(subcategories || [])].map((label, index) => (
+                <Chip
+                  key={`${index}-${label}`}
+                  size="small"
+                  label={label}
+                  sx={{
+                    background: palette.chipBg,
+                    color: palette.chipColor,
+                    fontSize: `${0.7 * baseFontScale}rem`,
+                    height: isCard ? '24px' : '20px'
+                  }}
+                />
+              ))}
+            </Box>
+          )}
           <Link
             href="https://docs.meshery.io/reference/references/permissions/"
             target="_blank"
@@ -353,6 +355,7 @@ export const PermissionSessionContext: React.FC<PermissionSessionContextProps> =
               color: palette.accent,
               textDecoration: 'none',
               fontWeight: 600,
+              marginLeft: 'auto',
               '&:hover': {
                 textDecoration: 'underline'
               }
