@@ -158,7 +158,7 @@ export function TypingFilter({ filterSchema, handleFilter, autoFilter = false }:
         {({ TransitionProps }) => {
           return (
             <Fade {...TransitionProps} timeout={100}>
-              <ClickAwayListener onKeydown onClickAway={handleClickAway}>
+              <ClickAwayListener onClickAway={handleClickAway}>
                 <div
                   style={{
                     width: inputFieldRef.current ? inputFieldRef.current.clientWidth : 0

@@ -1,3 +1,4 @@
+import type { components as EventComponents } from '@meshery/schemas/constructs/v1beta3/event/Event';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
@@ -18,19 +19,29 @@ import { getFormatDate, getFullFormattedTime } from '../../utils';
 import { CustomTooltip } from '../CustomTooltip';
 import { Modal, ModalBody, ModalFooter } from '../Modal';
 
-interface EventData {
-  createdAt: string;
-  description: string;
-  firstName: string;
-  lastName: string;
-  avatarUrl: string;
-}
+type CanonicalEventResult = EventComponents['schemas']['EventResult'];
+type CanonicalEventsPage = EventComponents['schemas']['EventsPage'];
 
-interface EventsResponse {
+/**
+ * A workspace activity row, derived from the canonical v1beta3 `EventResult`.
+ *
+ * The four canonical fields are required here rather than optional: the row
+ * renders each one directly and has no fallback. `avatarUrl` is added because
+ * the server emits it (meshery-cloud `models.EventResult`, `json:"avatarUrl"`)
+ * but the canonical construct does not model it - see
+ * https://github.com/meshery/schemas/issues/1145. Drop the addition once that
+ * lands.
+ */
+type EventData = Required<
+  Pick<CanonicalEventResult, 'createdAt' | 'description' | 'firstName' | 'lastName'>
+> & {
+  avatarUrl: string;
+};
+
+/** The canonical `EventsPage`, narrowed to the fields this modal paginates on. */
+type EventsResponse = Required<Pick<CanonicalEventsPage, 'page' | 'totalCount'>> & {
   data: EventData[];
-  page: number;
-  totalCount: number;
-}
+};
 
 interface RecentActivityModalProps {
   workspaceId: string;

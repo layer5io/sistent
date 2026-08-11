@@ -22,12 +22,6 @@ import {
 } from './PermissionProvider';
 export type { Key };
 
-const DIVIDER_SX = {
-  height: '1px',
-  background: 'rgba(255, 255, 255, 0.1)',
-  my: 1.25
-};
-
 /** Monochrome fill used for tooltip-context icons */
 const CONTEXT_ICON_COLOR = '#9E9E9E';
 const CONTEXT_ICON_SIZE = '14';
@@ -86,16 +80,49 @@ const uniqueDefined = (values: (string | undefined)[]): string[] =>
   Array.from(new Set(values.filter((v): v is string => !!v)));
 
 /**
- * PermissionShield Wrapper Component
+ * Props for `PermissionSessionContext`.
  *
- * Renders children with a shield icon overlay showing permission metadata.
- * It never decides *whether* to block — the consumer owns the disabled state
- * (e.g. via CAN()), and a key the user does in fact hold is still displayed.
- * It does read the provider to work out *which* of the declared keys are unmet,
- * so a key set can name every missing key instead of only one.
+ * When `displayedKeys` is provided the component renders the full permission
+ * detail (key names, descriptions, categories, reference link) followed by the
+ * user context section. When omitted, only the user/org/role context section is
+ * rendered — useful for generic 403 error pages that have no specific key.
+ */
+export interface PermissionSessionContextProps {
+  /**
+   * `'tooltip'` — compact, dark-background styling for inside a tooltip.
+   * `'card'` — theme-aware, scaled-up styling for full-page display.
+   * @default 'tooltip'
+   */
+  variant?: 'tooltip' | 'card';
+  /**
+   * Permission key spec to resolve. When provided, the component resolves
+   * `displayedKeys`, `subtitle`, `categories`, and `subcategories` automatically
+   * — exactly the same resolution that `PermissionShield` does.
+   *
+   * Takes priority over manually supplied `displayedKeys`.
+   */
+  permissionKey?: PermissionKeySpec;
+  /** The permission keys to display detail for. Omit to show only user context. */
+  displayedKeys?: Key[];
+  /** Subtitle line (e.g. "Needs any of: …"). Shown only when `displayedKeys` is provided. */
+  subtitle?: string;
+  /** Category labels derived from the keys. Shown as chips. */
+  categories?: string[];
+  /** Subcategory labels derived from the keys. Shown as chips after categories. */
+  subcategories?: string[];
+}
+
+/**
+ * Standalone component that renders the permission session context — the same
+ * content shown inside `PermissionShield`'s tooltip. Extracted so that consumers
+ * (e.g. error pages) can embed it inline without duplicating the JSX.
  *
- * Usage in base components: when `disabled` is true AND `permissionKey` is provided,
- * the component automatically wraps itself in PermissionShield.
+ * Reads user/org/role context from the nearest `PermissionProvider`.
+ *
+ * Two usage modes:
+ * 1. **Self-resolving** (`permissionKey`): pass the key spec and the component
+ *    resolves everything internally — same logic as `PermissionShield`.
+ * 2. **Pre-resolved** (`displayedKeys` etc.): pass already-resolved data.
  */
 export const PermissionShield: React.FC<PermissionShieldProps> = ({
   permissionKey,
@@ -103,9 +130,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
   variant = 'inline',
   boundaryPadding
 }) => {
-  const [open, setOpen] = React.useState(false);
   const [copiedKeyId, setCopiedKeyId] = React.useState<string | null>(null);
-  const uniqueId = React.useId();
   const userContext = usePermissionUserContext();
   const unmetKeys = useUnmetPermissionKeys(permissionKey);
 
@@ -150,31 +175,62 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
     return <>{children}</>;
   }
 
-  // Every key the user is missing, so the tooltip can explain all of them. The
-  // fallback keeps the single-key rendering identical for a caller that shields
-  // a key the user does in fact hold — `PermissionShield` is a pure visual
-  // component and never second-guesses the caller's disabled decision.
-  const declaredKeys = getPermissionKeys(permissionKey);
-  const displayedKeys = unmetKeys.length > 0 ? unmetKeys : declaredKeys;
-  const combinator = getPermissionKeyCombinator(permissionKey);
-  const keyNames = displayedKeys.map((key) => key.function || 'Access Restricted').join(', ');
-  const subtitle =
-    combinator === 'anyOf' && keyNames
-      ? `Needs any of: ${keyNames}`
-      : combinator === 'allOf' && keyNames
-        ? `Needs all of: ${keyNames}`
-        : 'Missing requisite key';
-  const categories = uniqueDefined(displayedKeys.map((key) => key.category));
-  const subcategories = uniqueDefined(displayedKeys.map((key) => key.subcategory));
+  const isCard = variant === 'card';
+  const hasKeys = displayedKeys && displayedKeys.length > 0;
 
-  const tooltipTitle = (
-    <Box sx={{ width: '100%', color: '#FFFFFF', p: 0.5 }}>
-      {/* Title: AUTHORIZATION REQUIRED — medium gray */}
+  // Variant-aware palette: tooltip uses hard-coded dark-bg colors;
+  // card adapts to the current MUI theme.
+  const palette = isCard
+    ? {
+        bg: theme.palette.background.paper,
+        color: theme.palette.text.primary,
+        muted: theme.palette.text.secondary,
+        subtle: theme.palette.text.disabled,
+        divider: theme.palette.divider,
+        contextBg: theme.palette.action.hover,
+        contextBorder: theme.palette.divider,
+        chipBg: theme.palette.action.selected,
+        chipColor: theme.palette.text.secondary,
+        accent: theme.palette.primary.main,
+        keyColor: theme.palette.text.primary
+      }
+    : {
+        bg: 'transparent',
+        color: '#FFFFFF',
+        muted: '#9E9E9E',
+        subtle: 'rgba(255, 255, 255, 0.45)',
+        divider: 'rgba(255, 255, 255, 0.1)',
+        contextBg: 'rgba(255, 255, 255, 0.02)',
+        contextBorder: 'rgba(255, 255, 255, 0.05)',
+        chipBg: 'rgba(255, 255, 255, 0.08)',
+        chipColor: 'rgba(255, 255, 255, 0.8)',
+        accent: '#EBC024',
+        keyColor: '#FFFFFF'
+      };
+
+  const dividerSx = { height: '1px', background: palette.divider, my: isCard ? 1.5 : 1.25 };
+  const baseFontScale = isCard ? 1.25 : 1;
+
+  const iconSize = isCard ? '18' : CONTEXT_ICON_SIZE;
+  const iconColor = isCard ? theme.palette.text.secondary : CONTEXT_ICON_COLOR;
+
+  return (
+    <Box
+      sx={{
+        width: '100%',
+        color: palette.color,
+        p: isCard ? 2 : 0.5,
+        background: isCard ? palette.bg : 'transparent',
+        borderRadius: isCard ? '8px' : 0,
+        border: isCard ? `1px solid ${palette.contextBorder}` : 'none'
+      }}
+    >
+      {/* Title: AUTHORIZATION REQUIRED */}
       <Typography
         sx={{
           fontSize: { xs: '0.6rem', sm: '0.65rem' },
           fontWeight: 800,
-          color: '#9E9E9E',
+          color: palette.muted,
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           mb: 0.5
@@ -196,32 +252,59 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
       </Typography>
 
       {/* Divider */}
-      <Box sx={DIVIDER_SX} />
+      {(hasKeys || subtitle) && <Box sx={dividerSx} />}
 
-      {/* One block per unmet key: KeyIcon (doubles as copy button) + key name,
-          then the key's description */}
-      {displayedKeys.map((key, index) => {
-        const copied = copiedKeyId === (key.id || `#${index}`);
-        return (
-          <React.Fragment key={key.id || index}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mt: 1, mb: 0.25 }}>
-              <Tooltip title={copied ? 'Copied!' : 'Copy key ID to clipboard'} placement="top">
-                <Box
-                  component="span"
-                  onClick={(e: React.MouseEvent) => {
-                    e.stopPropagation();
-                    navigator.clipboard.writeText(key.id || '');
-                    setCopiedKeyId(key.id || `#${index}`);
-                    setTimeout(() => setCopiedKeyId(null), 1500);
-                  }}
+      {/* One block per key: KeyIcon (copy button) + key name, then description */}
+      {hasKeys &&
+        displayedKeys!.map((key, index) => {
+          const copied = copiedKeyId === (key.id || `#${index}`);
+          const copyKeyId = (e: React.SyntheticEvent) => {
+            e.stopPropagation();
+            const id = key.id || '';
+            void navigator.clipboard
+              ?.writeText(id)
+              .then(() => {
+                setCopiedKeyId(key.id || `#${index}`);
+                setTimeout(() => setCopiedKeyId(null), 1500);
+              })
+              .catch(() => undefined);
+          };
+
+          return (
+            <React.Fragment key={key.id || index}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75, mt: 1, mb: 0.25 }}>
+                <Tooltip title={copied ? 'Copied!' : 'Copy key ID to clipboard'} placement="top">
+                  <Box
+                    component="span"
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Copy key ID for ${key.function || 'this permission'}`}
+                    onClick={copyKeyId}
+                    onKeyDown={(e: React.KeyboardEvent) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        copyKeyId(e);
+                      }
+                    }}
+                    sx={{
+                      display: 'inline-flex',
+                      cursor: 'pointer',
+                      color: copied ? palette.accent : isCard ? palette.muted : 'rgba(255, 255, 255, 0.7)',
+                      transition: 'color 0.2s ease',
+                      '&:hover': {
+                        color: palette.accent
+                      }
+                    }}
+                  >
+                    <KeyIcon sx={{ fontSize: `${1 * baseFontScale}rem` }} />
+                  </Box>
+                </Tooltip>
+                <Typography
                   sx={{
-                    display: 'inline-flex',
-                    cursor: 'pointer',
-                    color: copied ? '#EBC024' : 'rgba(255, 255, 255, 0.7)',
-                    transition: 'color 0.2s ease',
-                    '&:hover': {
-                      color: '#EBC024'
-                    }
+                    fontWeight: 700,
+                    fontSize: `${0.95 * baseFontScale}rem`,
+                    lineHeight: 1.3,
+                    color: palette.keyColor
                   }}
                 >
                   <KeyIcon sx={{ fontSize: '1rem' }} />
@@ -258,95 +341,119 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
       })}
 
       {/* Divider */}
-      <Box sx={DIVIDER_SX} />
+      {hasKeys && <Box sx={dividerSx} />}
 
-      {/* Bottom row: Category/Subcategory chips (left) + Key Reference link (right) */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 0.75,
-          mt: 0.5
-        }}
-      >
-        <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap' }}>
-          {[...categories, ...subcategories].map((label, index) => (
-            <Chip
-              key={`${index}-${label}`}
-              size="small"
-              label={label}
-              sx={{
-                background: 'rgba(255, 255, 255, 0.08)',
-                color: 'rgba(255, 255, 255, 0.8)',
-                fontSize: '0.7rem',
-                height: '20px'
-              }}
-            />
-          ))}
-        </Box>
-        <Link
-          href="https://docs.meshery.io/reference/references/permissions/"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e: React.MouseEvent) => e.stopPropagation()}
+      {/* Bottom row: Category/Subcategory chips + Key Reference link */}
+      {hasKeys && (
+        <Box
           sx={{
-            display: 'inline-flex',
-            alignItems: 'baseline',
-            fontSize: '0.75rem',
-            color: '#EBC024',
-            textDecoration: 'none',
-            fontWeight: 600,
-            '&:hover': {
-              textDecoration: 'underline'
-            }
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 0.75,
+            mt: 0.5
           }}
         >
-          Key Reference
-          <Box
-            component="span"
+          {Boolean(categories?.length || subcategories?.length) && (
+            <Box sx={{ display: 'flex', gap: 0.75, flexWrap: 'wrap' }}>
+              {[...(categories || []), ...(subcategories || [])].map((label, index) => (
+                <Chip
+                  key={`${index}-${label}`}
+                  size="small"
+                  label={label}
+                  sx={{
+                    background: palette.chipBg,
+                    color: palette.chipColor,
+                    fontSize: `${0.7 * baseFontScale}rem`,
+                    height: isCard ? '24px' : '20px'
+                  }}
+                />
+              ))}
+            </Box>
+          )}
+          <Link
+            href="https://docs.meshery.io/reference/references/permissions/"
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e: React.MouseEvent) => e.stopPropagation()}
             sx={{
-              fontSize: '10px',
-              ml: '2px',
-              verticalAlign: 'super',
-              lineHeight: 0,
-              position: 'relative',
-              top: '-0.3em'
+              display: 'inline-flex',
+              alignItems: 'baseline',
+              fontSize: `${0.75 * baseFontScale}rem`,
+              color: palette.accent,
+              textDecoration: 'none',
+              fontWeight: 600,
+              marginLeft: 'auto',
+              '&:hover': {
+                textDecoration: 'underline'
+              }
             }}
           >
-            <LaunchIcon style={{ fontSize: '10px', width: '10px', height: '10px' }} />
-          </Box>
-        </Link>
-      </Box>
+            Key Reference
+            <Box
+              component="span"
+              sx={{
+                fontSize: '10px',
+                ml: '2px',
+                verticalAlign: 'super',
+                lineHeight: 0,
+                position: 'relative',
+                top: '-0.3em'
+              }}
+            >
+              <LaunchIcon style={{ fontSize: '10px', width: '10px', height: '10px' }} />
+            </Box>
+          </Link>
+        </Box>
+      )}
 
-      {/* User / Org / Role context — provided via PermissionProvider */}
+      {/* User / Org / Role context — from PermissionProvider */}
       {userContext && (userContext.userName || userContext.orgName) && (
         <>
-          <Box sx={DIVIDER_SX} />
+          <Box sx={dividerSx} />
           <Box
             sx={{
-              background: 'rgba(255, 255, 255, 0.02)',
-              border: '1px solid rgba(255, 255, 255, 0.05)',
+              background: palette.contextBg,
+              border: `1px solid ${palette.contextBorder}`,
               borderRadius: '6px',
-              p: 1,
+              p: isCard ? 1.5 : 1,
               display: 'flex',
               flexDirection: 'column',
-              gap: 0.75,
+              gap: isCard ? 1 : 0.75,
               mb: 0.75
             }}
           >
             {userContext.userName && (
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: 1
+                }}
+              >
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                  <UsersIcon width={CONTEXT_ICON_SIZE} height={CONTEXT_ICON_SIZE} primaryFill={CONTEXT_ICON_COLOR} secondaryFill={CONTEXT_ICON_COLOR} style={{ flexShrink: 0 }} />
-                  <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                  <UsersIcon
+                    width={iconSize}
+                    height={iconSize}
+                    primaryFill={iconColor}
+                    secondaryFill={iconColor}
+                    style={{ flexShrink: 0 }}
+                  />
+                  <Typography
+                    sx={{
+                      fontSize: `${0.68 * baseFontScale}rem`,
+                      color: palette.muted,
+                      fontWeight: 500
+                    }}
+                  >
                     User
                   </Typography>
                 </Box>
                 <Typography
                   sx={{
-                    fontSize: '0.72rem',
-                    color: '#FFFFFF',
+                    fontSize: `${0.72 * baseFontScale}rem`,
+                    color: palette.keyColor,
                     fontWeight: 600,
                     textAlign: 'right'
                   }}
@@ -355,17 +462,37 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                 </Typography>
               </Box>
             )}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: 1
+              }}
+            >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <OrgHierarchyIcon width={CONTEXT_ICON_SIZE} height={CONTEXT_ICON_SIZE} fill={CONTEXT_ICON_COLOR} primaryFill={CONTEXT_ICON_COLOR} secondaryFill={CONTEXT_ICON_COLOR} style={{ flexShrink: 0 }} />
-                <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                <OrgHierarchyIcon
+                  width={iconSize}
+                  height={iconSize}
+                  fill={iconColor}
+                  primaryFill={iconColor}
+                  secondaryFill={iconColor}
+                  style={{ flexShrink: 0 }}
+                />
+                <Typography
+                  sx={{
+                    fontSize: `${0.68 * baseFontScale}rem`,
+                    color: palette.muted,
+                    fontWeight: 500
+                  }}
+                >
                   Org
                 </Typography>
               </Box>
               <Typography
                 sx={{
-                  fontSize: '0.72rem',
-                  color: '#FFFFFF',
+                  fontSize: `${0.72 * baseFontScale}rem`,
+                  color: palette.keyColor,
                   fontWeight: 600,
                   textAlign: 'right'
                 }}
@@ -373,17 +500,36 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                 {userContext.orgName || 'Private Org'}
               </Typography>
             </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 1 }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: 1
+              }}
+            >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                <RoleKeyIcon width={CONTEXT_ICON_SIZE} height={CONTEXT_ICON_SIZE} fill={CONTEXT_ICON_COLOR} secondaryFill={CONTEXT_ICON_COLOR} style={{ flexShrink: 0 }} />
-                <Typography sx={{ fontSize: '0.68rem', color: '#9E9E9E', fontWeight: 500 }}>
+                <RoleKeyIcon
+                  width={iconSize}
+                  height={iconSize}
+                  fill={iconColor}
+                  secondaryFill={iconColor}
+                  style={{ flexShrink: 0 }}
+                />
+                <Typography
+                  sx={{
+                    fontSize: `${0.68 * baseFontScale}rem`,
+                    color: palette.muted,
+                    fontWeight: 500
+                  }}
+                >
                   Role(s)
                 </Typography>
               </Box>
               <Typography
                 sx={{
-                  fontSize: '0.72rem',
-                  color: '#FFFFFF',
+                  fontSize: `${0.72 * baseFontScale}rem`,
+                  color: palette.keyColor,
                   fontWeight: 600,
                   textAlign: 'right'
                 }}
@@ -396,9 +542,9 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           </Box>
           <Typography
             sx={{
-              fontSize: '0.68rem',
+              fontSize: `${0.68 * baseFontScale}rem`,
               fontStyle: 'italic',
-              color: 'rgba(255, 255, 255, 0.45)',
+              color: palette.subtle,
               lineHeight: 1.35
             }}
           >
@@ -407,6 +553,71 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
         </>
       )}
     </Box>
+  );
+};
+
+/**
+ * PermissionShield Wrapper Component
+ *
+ * Renders children with a shield icon overlay showing permission metadata.
+ * It never decides *whether* to block — the consumer owns the disabled state
+ * (e.g. via CAN()), and a key the user does in fact hold is still displayed.
+ * It does read the provider to work out *which* of the declared keys are unmet,
+ * so a key set can name every missing key instead of only one.
+ *
+ * Usage in base components: when `disabled` is true AND `permissionKey` is provided,
+ * the component automatically wraps itself in PermissionShield.
+ */
+export const PermissionShield: React.FC<PermissionShieldProps> = ({
+  permissionKey,
+  children,
+  variant = 'inline'
+}) => {
+  const [open, setOpen] = React.useState(false);
+  const uniqueId = React.useId();
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleToggle = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setOpen((prev) => {
+      const next = !prev;
+      if (next) {
+        window.dispatchEvent(
+          new CustomEvent('permission-shield-opened', { detail: { id: uniqueId } })
+        );
+      }
+      return next;
+    });
+  };
+
+  React.useEffect(() => {
+    const handleOtherOpen = (e: Event) => {
+      const customEvent = e as CustomEvent;
+      if (customEvent.detail?.id !== uniqueId) {
+        setOpen(false);
+      }
+    };
+    window.addEventListener('permission-shield-opened', handleOtherOpen);
+    return () => {
+      window.removeEventListener('permission-shield-opened', handleOtherOpen);
+    };
+  }, [uniqueId]);
+
+  if (!permissionKey) {
+    return <>{children}</>;
+  }
+
+  // Delegate all key resolution (unmet keys, subtitle, categories, subcategories)
+  // to PermissionSessionContext's self-resolving path. This keeps the tooltip
+  // and card rendering paths in sync — both use the same internal resolution logic.
+  const tooltipTitle = (
+    <PermissionSessionContext
+      variant="tooltip"
+      permissionKey={permissionKey}
+    />
   );
 
   const isBadge = variant === 'badge';
