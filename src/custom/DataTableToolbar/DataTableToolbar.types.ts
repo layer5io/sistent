@@ -46,9 +46,10 @@ export interface DataTableToolbarProps {
   viewSwitch?: React.ReactNode;
 
   /**
-   * When true, hides filter, column visibility, and view switch so an expanded
-   * search bar keeps the toolbar on one row on narrow viewports. Consumers
-   * typically tie this to `width < breakpoint && isSearchExpanded`.
+   * Controls visibility of filter, column visibility, and view switch on narrow
+   * viewports. When omitted, trailing controls auto-hide below the MUI `sm`
+   * breakpoint. Pass `true` to force-hide, or `false` to keep them visible even
+   * on narrow viewports (may overflow with single-row layout).
    */
   compactTrailing?: boolean;
 

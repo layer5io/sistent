@@ -12,7 +12,6 @@ import type { DataTableToolbarProps } from './DataTableToolbar.types';
 const ToolbarRoot = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between',
   marginBottom: theme.spacing(2),
   minHeight: theme.spacing(8),
   padding: theme.spacing(1.5),
@@ -75,7 +74,7 @@ export function DataTableToolbar({
   filter,
   columnVisibility,
   viewSwitch,
-  compactTrailing = false,
+  compactTrailing,
   searchHelperText,
   tabs,
   columns,
@@ -85,6 +84,9 @@ export function DataTableToolbar({
 }: DataTableToolbarProps): JSX.Element {
   const theme = useTheme();
   const { width: viewportWidth } = useWindowDimensions();
+  const isNarrowViewport =
+    viewportWidth > 0 && viewportWidth < theme.breakpoints.values.sm;
+  const effectiveCompactTrailing = compactTrailing ?? isNarrowViewport;
 
   // Compute auto-hide visibility from columns config + viewport width
   const autoHideVisibility = React.useMemo(() => {
@@ -186,7 +188,7 @@ export function DataTableToolbar({
     columnVisibility
   );
 
-  const trailingControls = compactTrailing ? null : (
+  const trailingControls = (
     <>
       {filter}
       {columnControl}
@@ -195,7 +197,8 @@ export function DataTableToolbar({
   );
 
   const hasTrailingControls =
-    !compactTrailing && (Boolean(filter) || Boolean(columnControl) || Boolean(viewSwitch));
+    !effectiveCompactTrailing &&
+    (Boolean(filter) || Boolean(columnControl) || Boolean(viewSwitch));
 
   const hasLeftContent = Boolean(primaryActions);
   const hasRightContent =
@@ -207,15 +210,19 @@ export function DataTableToolbar({
   return (
     <>
       <ToolbarRoot data-testid="data-table-toolbar" sx={sx}>
-        {hasLeftContent && <Section>{primaryActions}</Section>}
+        {hasLeftContent && <Section data-testid="data-table-toolbar-left-section">{primaryActions}</Section>}
         {hasRightContent && (
-          <RightSection>
+          <RightSection data-testid="data-table-toolbar-right-section">
             {bulkOperations}
             {secondaryActions}
             {(search || hasTrailingControls) && (
-              <RightControlsGroup>
+              <RightControlsGroup data-testid="data-table-toolbar-right-controls">
                 {search && <SearchSlot>{search}</SearchSlot>}
-                {hasTrailingControls && <TrailingControls>{trailingControls}</TrailingControls>}
+                {hasTrailingControls && (
+                  <TrailingControls data-testid="data-table-toolbar-trailing-controls">
+                    {trailingControls}
+                  </TrailingControls>
+                )}
               </RightControlsGroup>
             )}
           </RightSection>
