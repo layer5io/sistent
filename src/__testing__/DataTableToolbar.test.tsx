@@ -136,7 +136,7 @@ describe('DataTableToolbar', () => {
     it('pushes right section to the right when only right content is present', () => {
       renderWithTheme(<DataTableToolbar search={<span data-testid="right-content">Search</span>} />);
       const rightContent = screen.getByTestId('right-content');
-      const rightSection = rightContent.parentElement as HTMLElement;
+      const rightSection = rightContent.parentElement?.parentElement?.parentElement as HTMLElement;
       // RightSection has marginLeft: auto — check via computed style
       expect(rightSection).toBeTruthy();
       expect(window.getComputedStyle(rightSection).marginLeft).toBe('auto');
@@ -161,7 +161,7 @@ describe('DataTableToolbar', () => {
       const leftContent = screen.getByTestId('left-btn');
       const rightContent = screen.getByTestId('right-content');
       const leftSection = leftContent.parentElement as HTMLElement;
-      const rightSection = rightContent.parentElement as HTMLElement;
+      const rightSection = rightContent.parentElement?.parentElement?.parentElement as HTMLElement;
 
       expect(leftSection).toBeTruthy();
       expect(rightSection).toBeTruthy();
@@ -169,6 +169,52 @@ describe('DataTableToolbar', () => {
       expect(window.getComputedStyle(leftSection).marginLeft).not.toBe('auto');
       // Right section has auto margin to push it right
       expect(window.getComputedStyle(rightSection).marginLeft).toBe('auto');
+    });
+
+    it('hides trailing controls when compactTrailing is true', () => {
+      renderWithTheme(
+        <DataTableToolbar
+          search={<span data-testid="search-slot">Search</span>}
+          filter={<span data-testid="filter-slot">Filter</span>}
+          viewSwitch={<span data-testid="view-switch">Grid/Table</span>}
+          compactTrailing
+        />
+      );
+      expect(screen.getByTestId('search-slot')).toBeTruthy();
+      expect(screen.queryByTestId('filter-slot')).toBeNull();
+      expect(screen.queryByTestId('view-switch')).toBeNull();
+    });
+
+    it('keeps search and trailing controls grouped in the right section when compactTrailing is false', () => {
+      renderWithTheme(
+        <DataTableToolbar
+          search={<span data-testid="search-slot">Search</span>}
+          viewSwitch={<span data-testid="view-switch">Grid/Table</span>}
+        />
+      );
+      const searchSlot = screen.getByTestId('search-slot');
+      const viewSwitch = screen.getByTestId('view-switch');
+      expect(searchSlot.parentElement?.parentElement).toBe(viewSwitch.parentElement?.parentElement);
+    });
+
+    it('groups search and trailing controls together on the right', () => {
+      renderWithTheme(
+        <DataTableToolbar
+          primaryActions={<button data-testid="left-btn">Add</button>}
+          search={<span data-testid="search-slot">Search</span>}
+          viewSwitch={<span data-testid="view-switch">Grid/Table</span>}
+        />
+      );
+      const searchSlot = screen.getByTestId('search-slot');
+      const viewSwitch = screen.getByTestId('view-switch');
+      const controlsGroup = searchSlot.parentElement?.parentElement;
+
+      expect(controlsGroup).toBeTruthy();
+      expect(controlsGroup).toBe(viewSwitch.parentElement?.parentElement);
+      expect(controlsGroup?.parentElement).toBeTruthy();
+      expect(window.getComputedStyle(controlsGroup?.parentElement as HTMLElement).marginLeft).toBe(
+        'auto'
+      );
     });
   });
 });

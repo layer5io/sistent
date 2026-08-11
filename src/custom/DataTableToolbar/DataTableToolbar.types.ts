@@ -45,6 +45,13 @@ export interface DataTableToolbarProps {
   /** Right side: Grid/table view toggle */
   viewSwitch?: React.ReactNode;
 
+  /**
+   * When true, hides filter, column visibility, and view switch so an expanded
+   * search bar keeps the toolbar on one row on narrow viewports. Consumers
+   * typically tie this to `width < breakpoint && isSearchExpanded`.
+   */
+  compactTrailing?: boolean;
+
   /** Helper text displayed below the search bar (e.g., "Search by name, kind, category") */
   searchHelperText?: string;
 

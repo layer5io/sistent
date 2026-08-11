@@ -12,6 +12,7 @@ import type { DataTableToolbarProps } from './DataTableToolbar.types';
 const ToolbarRoot = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-between',
   marginBottom: theme.spacing(2),
   minHeight: theme.spacing(8),
   padding: theme.spacing(1.5),
@@ -20,8 +21,7 @@ const ToolbarRoot = styled(Box)(({ theme }) => ({
   boxShadow: theme.shadows[2],
 
   [theme.breakpoints.down('sm')]: {
-    height: 'auto',
-    flexWrap: 'wrap',
+    flexWrap: 'nowrap',
     padding: theme.spacing(1),
     gap: theme.spacing(1)
   }
@@ -30,12 +30,42 @@ const ToolbarRoot = styled(Box)(({ theme }) => ({
 const Section = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
+  gap: theme.spacing(1),
+  minWidth: 0
+}));
+
+const RightSection = styled(Section)(({ theme }) => ({
+  marginLeft: 'auto',
+  flexWrap: 'nowrap',
+  flexShrink: 1,
+  minWidth: 0,
+  justifyContent: 'flex-end',
+
+  [theme.breakpoints.down('sm')]: {
+    paddingLeft: theme.spacing(1)
+  }
+}));
+
+const RightControlsGroup = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  flexShrink: 1,
+  minWidth: 0,
   gap: theme.spacing(1)
 }));
 
-const RightSection = styled(Section)({
-  marginLeft: 'auto'
+const SearchSlot = styled(Box)({
+  flex: '0 1 auto',
+  minWidth: 0,
+  maxWidth: '15rem'
 });
+
+const TrailingControls = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  flexShrink: 0,
+  gap: theme.spacing(1)
+}));
 
 export function DataTableToolbar({
   primaryActions,
@@ -45,6 +75,7 @@ export function DataTableToolbar({
   filter,
   columnVisibility,
   viewSwitch,
+  compactTrailing = false,
   searchHelperText,
   tabs,
   columns,
@@ -155,27 +186,38 @@ export function DataTableToolbar({
     columnVisibility
   );
 
+  const trailingControls = compactTrailing ? null : (
+    <>
+      {filter}
+      {columnControl}
+      {viewSwitch}
+    </>
+  );
+
+  const hasTrailingControls =
+    !compactTrailing && (Boolean(filter) || Boolean(columnControl) || Boolean(viewSwitch));
+
   const hasLeftContent = Boolean(primaryActions);
   const hasRightContent =
     Boolean(bulkOperations) ||
     Boolean(secondaryActions) ||
-    Boolean(filter) ||
     Boolean(search) ||
-    Boolean(columnControl) ||
-    Boolean(viewSwitch);
+    hasTrailingControls;
 
   return (
     <>
-      <ToolbarRoot sx={sx}>
+      <ToolbarRoot data-testid="data-table-toolbar" sx={sx}>
         {hasLeftContent && <Section>{primaryActions}</Section>}
         {hasRightContent && (
           <RightSection>
             {bulkOperations}
             {secondaryActions}
-            {search}
-            {filter}
-            {columnControl}
-            {viewSwitch}
+            {(search || hasTrailingControls) && (
+              <RightControlsGroup>
+                {search && <SearchSlot>{search}</SearchSlot>}
+                {hasTrailingControls && <TrailingControls>{trailingControls}</TrailingControls>}
+              </RightControlsGroup>
+            )}
           </RightSection>
         )}
       </ToolbarRoot>
