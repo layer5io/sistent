@@ -124,55 +124,40 @@ export interface PermissionSessionContextProps {
  *    resolves everything internally — same logic as `PermissionShield`.
  * 2. **Pre-resolved** (`displayedKeys` etc.): pass already-resolved data.
  */
-export const PermissionShield: React.FC<PermissionShieldProps> = ({
-  permissionKey,
-  children,
-  variant = 'inline',
-  boundaryPadding
+export const PermissionSessionContext: React.FC<PermissionSessionContextProps> = ({
+  variant = 'tooltip',
+  permissionKey: permissionKeyProp,
+  displayedKeys: displayedKeysProp,
+  subtitle: subtitleProp,
+  categories: categoriesProp,
+  subcategories: subcategoriesProp
 }) => {
   const [copiedKeyId, setCopiedKeyId] = React.useState<string | null>(null);
   const userContext = usePermissionUserContext();
-  const unmetKeys = useUnmetPermissionKeys(permissionKey);
-
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const defaultPadding = isMobile
-    ? { top: 64, left: 8, right: 8, bottom: 8 }
-    : { top: 85, left: 16, right: 8, bottom: 8 };
-  const padding = boundaryPadding ? { ...defaultPadding, ...boundaryPadding } : defaultPadding;
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // Self-resolve when permissionKey is provided (same logic as PermissionShield)
+  const unmetKeys = useUnmetPermissionKeys(permissionKeyProp);
+  const selfResolved = !!permissionKeyProp;
 
-  const handleToggle = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setOpen((prev) => {
-      const next = !prev;
-      if (next) {
-        window.dispatchEvent(
-          new CustomEvent('permission-shield-opened', { detail: { id: uniqueId } })
-        );
-      }
-      return next;
-    });
-  };
+  let displayedKeys = displayedKeysProp;
+  let subtitle = subtitleProp;
+  let categories = categoriesProp;
+  let subcategories = subcategoriesProp;
 
-  React.useEffect(() => {
-    const handleOtherOpen = (e: Event) => {
-      const customEvent = e as CustomEvent;
-      if (customEvent.detail?.id !== uniqueId) {
-        setOpen(false);
-      }
-    };
-    window.addEventListener('permission-shield-opened', handleOtherOpen);
-    return () => {
-      window.removeEventListener('permission-shield-opened', handleOtherOpen);
-    };
-  }, [uniqueId]);
-
-  if (!permissionKey) {
-    return <>{children}</>;
+  if (selfResolved) {
+    const declaredKeys = getPermissionKeys(permissionKeyProp);
+    displayedKeys = unmetKeys.length > 0 ? unmetKeys : declaredKeys;
+    const combinator = getPermissionKeyCombinator(permissionKeyProp);
+    const keyNames = displayedKeys.map((key) => key.function || 'Access Restricted').join(', ');
+    subtitle =
+      combinator === 'anyOf' && keyNames
+        ? `Needs any of: ${keyNames}`
+        : combinator === 'allOf' && keyNames
+          ? `Needs all of: ${keyNames}`
+          : 'Missing requisite key';
+    categories = uniqueDefined(displayedKeys.map((key) => key.category));
+    subcategories = uniqueDefined(displayedKeys.map((key) => key.subcategory));
   }
 
   const isCard = variant === 'card';
@@ -228,7 +213,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
       {/* Title: AUTHORIZATION REQUIRED */}
       <Typography
         sx={{
-          fontSize: { xs: '0.6rem', sm: '0.65rem' },
+          fontSize: `${0.65 * baseFontScale}rem`,
           fontWeight: 800,
           color: palette.muted,
           letterSpacing: '0.08em',
@@ -240,16 +225,18 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
       </Typography>
 
       {/* Subtitle */}
-      <Typography
-        sx={{
-          fontSize: { xs: '0.7rem', sm: '0.75rem' },
-          color: 'rgba(255, 255, 255, 0.75)',
-          mb: 1,
-          lineHeight: 1.3
-        }}
-      >
-        {subtitle}
-      </Typography>
+      {subtitle && (
+        <Typography
+          sx={{
+            fontSize: `${0.75 * baseFontScale}rem`,
+            color: isCard ? palette.muted : 'rgba(255, 255, 255, 0.75)',
+            mb: 1.25,
+            lineHeight: 1.3
+          }}
+        >
+          {subtitle}
+        </Typography>
+      )}
 
       {/* Divider */}
       {(hasKeys || subtitle) && <Box sx={dividerSx} />}
@@ -289,7 +276,11 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                     sx={{
                       display: 'inline-flex',
                       cursor: 'pointer',
-                      color: copied ? palette.accent : isCard ? palette.muted : 'rgba(255, 255, 255, 0.7)',
+                      color: copied
+                        ? palette.accent
+                        : isCard
+                          ? palette.muted
+                          : 'rgba(255, 255, 255, 0.7)',
                       transition: 'color 0.2s ease',
                       '&:hover': {
                         color: palette.accent
@@ -307,38 +298,27 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
                     color: palette.keyColor
                   }}
                 >
-                  <KeyIcon sx={{ fontSize: '1rem' }} />
-                </Box>
-              </Tooltip>
-              <Typography
-                sx={{
-                  fontWeight: 700,
-                  fontSize: { xs: '0.85rem', sm: '0.95rem' },
-                  lineHeight: 1.3,
-                  color: '#FFFFFF'
-                }}
-              >
-                {key.function || 'Access Restricted'}
-              </Typography>
-            </Box>
+                  {key.function || 'Access Restricted'}
+                </Typography>
+              </Box>
 
-            {/* Description — italicized, equal padding both sides, no divider from key name */}
-            <Box sx={{ px: { xs: 0.5, sm: 1 }, mb: 1 }}>
-              <Typography
-                sx={{
-                  fontStyle: 'italic',
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  fontSize: { xs: '0.75rem', sm: '0.8rem' },
-                  lineHeight: 1.4
-                }}
-              >
-                {key.description ||
-                  `Allows you to perform the ${key.function || 'selected'} operation.`}
-              </Typography>
-            </Box>
-          </React.Fragment>
-        );
-      })}
+              {/* Description */}
+              <Box sx={{ px: 1, mb: 1.25 }}>
+                <Typography
+                  sx={{
+                    fontStyle: 'italic',
+                    color: isCard ? palette.muted : 'rgba(255, 255, 255, 0.7)',
+                    fontSize: `${0.8 * baseFontScale}rem`,
+                    lineHeight: 1.4
+                  }}
+                >
+                  {key.description ||
+                    `Allows you to perform the ${key.function || 'selected'} operation.`}
+                </Typography>
+              </Box>
+            </React.Fragment>
+          );
+        })}
 
       {/* Divider */}
       {hasKeys && <Box sx={dividerSx} />}
@@ -571,10 +551,18 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
 export const PermissionShield: React.FC<PermissionShieldProps> = ({
   permissionKey,
   children,
-  variant = 'inline'
+  variant = 'inline',
+  boundaryPadding
 }) => {
   const [open, setOpen] = React.useState(false);
   const uniqueId = React.useId();
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const defaultPadding = isMobile
+    ? { top: 64, left: 8, right: 8, bottom: 8 }
+    : { top: 85, left: 16, right: 8, bottom: 8 };
+  const padding = boundaryPadding ? { ...defaultPadding, ...boundaryPadding } : defaultPadding;
 
   const handleClose = () => {
     setOpen(false);
@@ -613,12 +601,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
   // Delegate all key resolution (unmet keys, subtitle, categories, subcategories)
   // to PermissionSessionContext's self-resolving path. This keeps the tooltip
   // and card rendering paths in sync — both use the same internal resolution logic.
-  const tooltipTitle = (
-    <PermissionSessionContext
-      variant="tooltip"
-      permissionKey={permissionKey}
-    />
-  );
+  const tooltipTitle = <PermissionSessionContext variant="tooltip" permissionKey={permissionKey} />;
 
   const isBadge = variant === 'badge';
 
@@ -832,8 +815,8 @@ export const createCanShow = (
 
 // Re-export PermissionProvider types and hooks
 export {
-  PermissionProvider,
   isPermissionKeySet,
+  PermissionProvider,
   useHasPermission,
   usePermission,
   usePermissionUserContext,
