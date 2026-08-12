@@ -74,6 +74,7 @@ export {
 export {
   PermissionProvider,
   PermissionShield,
+  getPermissionKeys,
   isPermissionKeySet,
   useHasPermission,
   usePermission,
@@ -88,3 +89,8 @@ export {
   type PermissionShieldProps,
   type PermissionUserContext
 } from './custom/permissions';
+
+export {
+  useAccessibleOrgs,
+  type UseAccessibleOrgsOptions
+} from './custom/useAccessibleOrgs';
