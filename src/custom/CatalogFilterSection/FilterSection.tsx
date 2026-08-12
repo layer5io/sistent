@@ -135,7 +135,8 @@ const FilterSection: React.FC<FilterSectionProps> = ({
 
                   {option.Icon && <option.Icon width="20px" height="20px" />}
 
-                  <Typography fontFamily={styleProps.fontFamily}>{option.label}</Typography>
+                  {/* MUI dropped system props from Typography; they go through `sx`. */}
+                  <Typography sx={{ fontFamily: styleProps.fontFamily }}>{option.label}</Typography>
                 </Stack>
                 <Stack direction="row" sx={optionGroupSx}>
                   {option.totalCount !== undefined && `(${option.totalCount || 0})`}

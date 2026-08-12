@@ -138,7 +138,8 @@ const CustomizedStepper: React.FC<CustomizedStepperPropsI> = ({
       <Stack
         data-testid="stepper-header"
         direction="row"
-        justifyContent="center"
+        // MUI dropped system props from Stack; they go through `sx`.
+        sx={{ justifyContent: 'center' }}
         style={{ paddingBlock: '1rem', backgroundColor: theme.palette.background.blur?.heavy }}
       >
         <Stepper

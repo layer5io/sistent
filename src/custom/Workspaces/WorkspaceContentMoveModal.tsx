@@ -16,6 +16,7 @@ import { OpenFileIcon } from '../../icons';
 import { styled } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { Modal, ModalBody, ModalFooter, PrimaryActionButtons } from '../Modal';
+import { CanonicalWorkspace } from './types';
 
 interface WorkspaceContentMoveModalProps {
   workspaceContentMoveModal: boolean;
@@ -36,10 +37,10 @@ interface WorkspaceContentMoveModalProps {
   currentOrgId: string;
 }
 
-interface Workspace {
-  id: string;
-  name: string;
-}
+// The workspace-picker projection: only the two fields this modal renders,
+// derived from the canonical v1beta3 construct so a rename upstream fails here
+// rather than silently rendering `undefined`.
+type Workspace = Pick<CanonicalWorkspace, 'id' | 'name'>;
 
 const WorkspaceItem = styled(ListItemButton)({
   borderRadius: '8px'

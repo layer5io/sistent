@@ -28,10 +28,16 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
     <SideContainer>
       <SideTitleButton onClick={onToggle}>
         <ListItemText
-          primaryTypographyProps={{
-            variant: 'h6',
-            fontWeight: 'bold',
-            fontFamily: 'inherit'
+          // MUI replaced `primaryTypographyProps` with the `primary` slot, and
+          // Typography no longer takes system props outside `sx`.
+          slotProps={{
+            primary: {
+              variant: 'h6',
+              sx: {
+                fontWeight: 'bold',
+                fontFamily: 'inherit'
+              }
+            }
           }}
           primary={title}
         />
@@ -55,8 +61,14 @@ const CollapsibleSection: React.FC<CollapsibleSectionProps> = ({
               opacity: 0.8,
               padding: '7px'
             }}
-            primaryTypographyProps={{
-              fontFamily: 'inherit'
+            // MUI replaced `primaryTypographyProps` with the `primary` slot, and
+            // Typography no longer takes system props outside `sx`.
+            slotProps={{
+              primary: {
+                sx: {
+                  fontFamily: 'inherit'
+                }
+              }
             }}
             primary={emptyState}
           />

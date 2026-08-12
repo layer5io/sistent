@@ -1,27 +1,41 @@
+import type { components as UserComponents } from '@meshery/schemas/constructs/v1beta3/user/User';
 import { DeletedAt } from './nullTime';
 
 /**
- * Collaboration-facing user record, aligned with the v1beta3 `user` construct
- * of @meshery/schemas. The canonical identifier is `id`; `userId` survives
- * only as a deprecated wire alias emitted by providers that predate the
- * users.user_id column retirement. Reduced projections (the public users
- * directory, the searchable collaboration projection) omit some or all of the
- * name/email fields, so everything except the identifiers is optional and
- * display code must go through the fallback helpers below.
+ * The canonical collaboration projection of the v1beta3 `user` construct: what
+ * the authenticated people-picker endpoints serve. Exported so consumers can
+ * name the unmodified contract.
  */
-export interface User {
-  /** Canonical unique identifier of the user (v1beta3 `id`). */
-  id?: string;
-  /** @deprecated Legacy duplicate of `id`; read via {@link getUserIdentifier}. */
-  userId?: string;
-  username?: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  avatarUrl?: string;
+export type CanonicalSearchableUser = UserComponents['schemas']['SearchableUser'];
+
+/**
+ * Collaboration-facing user record, derived from the canonical
+ * {@link CanonicalSearchableUser} projection rather than re-declared, so that a
+ * rename in `@meshery/schemas` is a compile error here instead of an
+ * `undefined` in every Meshery UI downstream of sistent.
+ *
+ * The canonical identifier is `id`; `userId` survives only as a deprecated wire
+ * alias emitted by providers that predate the `users.user_id` column
+ * retirement - read both through {@link getUserIdentifier}.
+ *
+ * Three deliberate divergences from the canonical projection:
+ *
+ *  - `id` is optional. The canonical requires it, but sistent also renders
+ *    records assembled by hosts from older provider payloads that carry only
+ *    the `userId` alias; the fallback helpers below exist for exactly that.
+ *  - `deletedAt` is {@link DeletedAt} rather than `string | null`, because some
+ *    provider endpoints still emit the legacy Go `sql.NullTime`
+ *    `{ Valid, Time }` object. See `src/utils/nullTime.ts`.
+ *  - `roleNames` is added. It is not part of the `SearchableUser` projection
+ *    (which deliberately excludes roles) but is present on the org-scoped user
+ *    listings the users table renders, where it carries the same meaning as
+ *    `User.roleNames` in the canonical construct.
+ */
+export type User = Omit<CanonicalSearchableUser, 'id' | 'deletedAt'> & {
+  id?: CanonicalSearchableUser['id'];
   deletedAt?: DeletedAt;
   roleNames?: string[];
-}
+};
 
 /**
  * Resolves the canonical identifier of a user record: v1beta3 `id` first,
