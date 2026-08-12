@@ -98,6 +98,13 @@ export const useAccessibleOrgs = <T extends { id?: string }>({
   // Stable ref to avoid re-triggering the effect on every state update
   const checkedRef = useRef<Set<string>>(new Set());
 
+  // Reset caches when the permission requirement changes so stale results
+  // from a previous key are never served.
+  useEffect(() => {
+    checkedRef.current.clear();
+    setCheckedOrgs(new Map());
+  }, [permissionKey]);
+
   const checkOrgs = useCallback(async () => {
     if (!allOrgs || !orgsLoaded || !permissionKey) return;
 
@@ -124,11 +131,14 @@ export const useAccessibleOrgs = <T extends { id?: string }>({
 
     setCheckedOrgs((prev) => {
       const next = new Map(prev);
-      for (const r of results) {
+      for (const [index, r] of results.entries()) {
+        const orgId = orgsToCheck[index].id;
         if (r.status === 'fulfilled') {
-          next.set(r.value.orgId, r.value.hasPermission);
+          next.set(orgId, r.value.hasPermission);
+        } else {
+          // On failure, record as inaccessible so isReady can still resolve
+          next.set(orgId, false);
         }
-        // On failure, treat the org as inaccessible (don't show it)
       }
       return next;
     });
