@@ -815,6 +815,7 @@ export const createCanShow = (
 
 // Re-export PermissionProvider types and hooks
 export {
+  getPermissionKeys,
   isPermissionKeySet,
   PermissionProvider,
   useHasPermission,
