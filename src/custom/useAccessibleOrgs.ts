@@ -1,4 +1,3 @@
-import { useLazyGetUserKeysQuery } from '@meshery/schemas/cloudApi';
 import { Key } from '@meshery/schemas/permissions';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getPermissionKeys, isPermissionKeySet, PermissionKeySpec } from './PermissionProvider';
@@ -38,10 +37,20 @@ const hasDefiniteId = <T extends { id?: string }>(org: T): org is T & { id: stri
   Boolean(org.id);
 
 /**
+ * The shape of the trigger function returned by RTK Query's
+ * `useLazyGetUserKeysQuery`. Both `cloudApi` and `mesheryApi` export one
+ * with the same signature — callers pass whichever is appropriate.
+ */
+export type TriggerGetKeys = (
+  arg: { orgId: string }
+) => { unwrap: () => Promise<{ keys?: Array<{ id: string; function: string }> }> };
+
+/**
  * Configuration for `useAccessibleOrgs`.
  *
- * The hook does NOT read orgs or the current org from any global store — both
- * are supplied by the host application so the hook stays framework-agnostic.
+ * The hook does NOT read orgs, the current org, or the keys endpoint from any
+ * global store — all are supplied by the host application so the hook stays
+ * framework-agnostic.
  *
  * Generic over `T` so the element type of `allOrgs` flows through to
  * `accessibleOrgs` — callers keep `org.name`, `org.avatar`, etc. typed.
@@ -58,6 +67,16 @@ export interface UseAccessibleOrgsOptions<T extends { id?: string } = { id?: str
 
   /** The permission key (or key set) to check each org against. */
   permissionKey?: PermissionKeySpec;
+
+  /**
+   * The lazy trigger returned by RTK Query's `useLazyGetUserKeysQuery`.
+   *
+   * - meshery-cloud passes the one from `@meshery/schemas/cloudApi`
+   * - meshery passes the one from `@meshery/schemas/mesheryApi`
+   *
+   * This avoids hardcoding a transport layer so the same logic works in both.
+   */
+  triggerGetKeys: TriggerGetKeys;
 }
 
 /**
@@ -65,20 +84,30 @@ export interface UseAccessibleOrgsOptions<T extends { id?: string } = { id?: str
  * described by `permissionKey`. The current org is excluded from the result
  * since the user is already on the 403 page for it.
  *
- * Queries `/api/identity/orgs/:orgId/users/keys` for each org in parallel
- * via `useLazyGetUserKeysQuery`. This is a 403-page-only hook — the N
- * parallel requests are acceptable because this page is not a hot path.
+ * Queries `/api/identity/orgs/:orgId/users/keys` for each org in parallel.
+ * This is a 403-page-only hook — the N parallel requests are acceptable
+ * because this page is not a hot path.
  *
  * @example
  * ```tsx
  * // In meshery-cloud
- * const { data: allOrgs, isSuccess } = useGetActiveOrgs();
- * const currentOrg = useSelector(selectCurrentOrg);
+ * const [triggerGetKeys] = useLazyGetUserKeysQuery(); // from cloudApi
  * const { accessibleOrgs, isLoading } = useAccessibleOrgs({
  *   allOrgs,
  *   currentOrgId: currentOrg?.id,
  *   orgsLoaded: isSuccess,
  *   permissionKey,
+ *   triggerGetKeys,
+ * });
+ *
+ * // In meshery
+ * const [triggerGetKeys] = useLazyGetUserKeysQuery(); // from mesheryApi
+ * const { accessibleOrgs, isLoading } = useAccessibleOrgs({
+ *   allOrgs,
+ *   currentOrgId: selectedOrg?.id,
+ *   orgsLoaded: !isLoading,
+ *   permissionKey,
+ *   triggerGetKeys,
  * });
  * ```
  */
@@ -86,10 +115,9 @@ export const useAccessibleOrgs = <T extends { id?: string }>({
   allOrgs,
   currentOrgId,
   orgsLoaded,
-  permissionKey
+  permissionKey,
+  triggerGetKeys
 }: UseAccessibleOrgsOptions<T>) => {
-  const [triggerGetKeys] = useLazyGetUserKeysQuery();
-
   // Track which orgs have been checked and their results.
   // Map<orgId, hasPermission>
   const [checkedOrgs, setCheckedOrgs] = useState<Map<string, boolean>>(new Map());
