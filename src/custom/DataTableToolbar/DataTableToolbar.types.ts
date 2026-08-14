@@ -45,6 +45,14 @@ export interface DataTableToolbarProps {
   /** Right side: Grid/table view toggle */
   viewSwitch?: React.ReactNode;
 
+  /**
+   * Controls visibility of filter, column visibility, and view switch on narrow
+   * viewports. When omitted, trailing controls auto-hide below the MUI `sm`
+   * breakpoint. Pass `true` to force-hide, or `false` to keep them visible even
+   * on narrow viewports (may overflow with single-row layout).
+   */
+  compactTrailing?: boolean;
+
   /** Helper text displayed below the search bar (e.g., "Search by name, kind, category") */
   searchHelperText?: string;
 

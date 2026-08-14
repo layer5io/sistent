@@ -27,10 +27,19 @@ jest.mock('@sistent/mui-datatables', () => ({
   default: () => null
 }));
 
+let mockViewportWidth = 1200;
+
+jest.mock('../custom/Helpers/Dimension', () => ({
+  useWindowDimensions: () => ({ width: mockViewportWidth, height: 800 })
+}));
+
 const renderWithTheme = (ui: React.ReactElement) =>
   render(<SistentThemeProvider>{ui}</SistentThemeProvider>);
 
 describe('DataTableToolbar', () => {
+  beforeEach(() => {
+    mockViewportWidth = 1200;
+  });
   it('renders primaryActions content', () => {
     renderWithTheme(<DataTableToolbar primaryActions={<button>Add</button>} />);
     expect(screen.getByRole('button', { name: 'Add' })).toBeTruthy();
@@ -135,19 +144,13 @@ describe('DataTableToolbar', () => {
   describe('layout positioning', () => {
     it('pushes right section to the right when only right content is present', () => {
       renderWithTheme(<DataTableToolbar search={<span data-testid="right-content">Search</span>} />);
-      const rightContent = screen.getByTestId('right-content');
-      const rightSection = rightContent.parentElement as HTMLElement;
-      // RightSection has marginLeft: auto — check via computed style
-      expect(rightSection).toBeTruthy();
+      const rightSection = screen.getByTestId('data-table-toolbar-right-section');
       expect(window.getComputedStyle(rightSection).marginLeft).toBe('auto');
     });
 
     it('keeps left content on the left when only left content is present', () => {
       renderWithTheme(<DataTableToolbar primaryActions={<button data-testid="left-content">Add</button>} />);
-      const leftContent = screen.getByTestId('left-content');
-      const leftSection = leftContent.parentElement as HTMLElement;
-      // Default Section has no marginLeft override
-      expect(leftSection).toBeTruthy();
+      const leftSection = screen.getByTestId('data-table-toolbar-left-section');
       expect(window.getComputedStyle(leftSection).marginLeft).not.toBe('auto');
     });
 
@@ -158,17 +161,76 @@ describe('DataTableToolbar', () => {
           search={<span data-testid="right-content">Search</span>}
         />
       );
-      const leftContent = screen.getByTestId('left-btn');
-      const rightContent = screen.getByTestId('right-content');
-      const leftSection = leftContent.parentElement as HTMLElement;
-      const rightSection = rightContent.parentElement as HTMLElement;
+      const leftSection = screen.getByTestId('data-table-toolbar-left-section');
+      const rightSection = screen.getByTestId('data-table-toolbar-right-section');
 
-      expect(leftSection).toBeTruthy();
-      expect(rightSection).toBeTruthy();
-      // Left section has no auto margin
       expect(window.getComputedStyle(leftSection).marginLeft).not.toBe('auto');
-      // Right section has auto margin to push it right
       expect(window.getComputedStyle(rightSection).marginLeft).toBe('auto');
+    });
+
+    it('hides trailing controls when compactTrailing is true', () => {
+      renderWithTheme(
+        <DataTableToolbar
+          search={<span data-testid="search-slot">Search</span>}
+          filter={<span data-testid="filter-slot">Filter</span>}
+          viewSwitch={<span data-testid="view-switch">Grid/Table</span>}
+          compactTrailing
+        />
+      );
+      expect(screen.getByTestId('search-slot')).toBeTruthy();
+      expect(screen.queryByTestId('filter-slot')).toBeNull();
+      expect(screen.queryByTestId('view-switch')).toBeNull();
+      expect(screen.queryByTestId('data-table-toolbar-trailing-controls')).toBeNull();
+    });
+
+    it('groups search and trailing controls in the right controls group', () => {
+      renderWithTheme(
+        <DataTableToolbar
+          primaryActions={<button data-testid="left-btn">Add</button>}
+          search={<span data-testid="search-slot">Search</span>}
+          viewSwitch={<span data-testid="view-switch">Grid/Table</span>}
+          compactTrailing={false}
+        />
+      );
+
+      const controlsGroup = screen.getByTestId('data-table-toolbar-right-controls');
+      const rightSection = screen.getByTestId('data-table-toolbar-right-section');
+
+      expect(controlsGroup.contains(screen.getByTestId('search-slot'))).toBe(true);
+      expect(controlsGroup.contains(screen.getByTestId('view-switch'))).toBe(true);
+      expect(rightSection.contains(controlsGroup)).toBe(true);
+      expect(window.getComputedStyle(rightSection).marginLeft).toBe('auto');
+    });
+
+    it('auto-hides trailing controls on narrow viewports when compactTrailing is omitted', () => {
+      mockViewportWidth = 400;
+
+      renderWithTheme(
+        <DataTableToolbar
+          search={<span data-testid="search-slot">Search</span>}
+          viewSwitch={<span data-testid="view-switch">Grid/Table</span>}
+        />
+      );
+
+      expect(screen.getByTestId('search-slot')).toBeTruthy();
+      expect(screen.queryByTestId('view-switch')).toBeNull();
+      expect(screen.queryByTestId('data-table-toolbar-trailing-controls')).toBeNull();
+    });
+
+    it('keeps trailing controls visible on narrow viewports when compactTrailing is false', () => {
+      mockViewportWidth = 400;
+
+      renderWithTheme(
+        <DataTableToolbar
+          search={<span data-testid="search-slot">Search</span>}
+          viewSwitch={<span data-testid="view-switch">Grid/Table</span>}
+          compactTrailing={false}
+        />
+      );
+
+      expect(screen.getByTestId('search-slot')).toBeTruthy();
+      expect(screen.getByTestId('view-switch')).toBeTruthy();
+      expect(screen.getByTestId('data-table-toolbar-trailing-controls')).toBeTruthy();
     });
   });
 });
