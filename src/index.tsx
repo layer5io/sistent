@@ -73,7 +73,9 @@ export {
 
 export {
   PermissionProvider,
+  PermissionSessionContext,
   PermissionShield,
+  getPermissionKeys,
   isPermissionKeySet,
   useHasPermission,
   usePermission,
@@ -85,10 +87,16 @@ export {
   type PermissionKeySpec,
   type PermissionProviderProps,
   type PermissionProviderValue,
+  type PermissionSessionContextProps,
   type PermissionShieldProps,
   type PermissionUserContext
 } from './custom/permissions';
 
+export {
+  useAccessibleOrgs,
+  type UseAccessibleOrgsOptions,
+  type TriggerGetKeys
+} from './custom/useAccessibleOrgs';
 export { BottomSheet, type BottomSheetProps } from './custom/BottomSheet';
 
 export { ActionButton, type ActionButtonProps, type Option } from './custom/ActionButton';
