@@ -78,7 +78,9 @@ export {
 
 export {
   PermissionProvider,
+  PermissionSessionContext,
   PermissionShield,
+  getPermissionKeys,
   isPermissionKeySet,
   useHasPermission,
   usePermission,
@@ -90,6 +92,7 @@ export {
   type PermissionKeySpec,
   type PermissionProviderProps,
   type PermissionProviderValue,
+  type PermissionSessionContextProps,
   type PermissionShieldProps,
   type PermissionUserContext
 } from './custom/permissions';
