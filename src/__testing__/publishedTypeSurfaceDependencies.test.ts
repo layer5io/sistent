@@ -61,20 +61,18 @@ const UNDECLARED_BY_DESIGN = ['@reduxjs/toolkit', 'redux'];
  *
  * Kept separate from `UNDECLARED_BY_DESIGN` because the remedy differs: those
  * are missing from `package.json` entirely, these are present and merely
- * optional, and the fix is to stop naming them in the public type surface.
+ * optional. Where an optional peer is named only incidentally the remedy is to
+ * stop naming it in the public type surface - that is what closed the
+ * `@mui/x-date-pickers` entry that used to sit here (#1749): `DateTimePicker`
+ * now publishes sistent's own props interface instead of aliasing the peer's.
  *
- * - `@mui/x-date-pickers`: a live defect, not a design choice. The barrel does
- *   `export { DateTimePickerProps } from '@mui/x-date-pickers/DateTimePicker'`,
- *   so a consumer who skips the optional peer silently gets `any` for it. The
- *   real fix is to stop re-exporting that props type from the barrel, tracked in
- *   https://github.com/layer5io/sistent/issues/1749 - exempted here on the
- *   record so this guard can ship without also making a public-API change.
  * - `react`: optional in `package.json`, but every component's props type names
  *   it and always will, and a consumer of a React component library has React.
- *   Same rationale as the `react` / `react-dom` exemption in the sibling
- *   `optionalPeerDependencies.test.ts`.
+ *   So unlike the entry above this one has no remedy to reach for - it is a
+ *   permanent exemption, not a deferred fix. Same rationale as the `react` /
+ *   `react-dom` exemption in the sibling `optionalPeerDependencies.test.ts`.
  */
-const OPTIONAL_PEERS_ON_THE_RECORD = ['@mui/x-date-pickers', 'react'];
+const OPTIONAL_PEERS_ON_THE_RECORD = ['react'];
 
 /**
  * JSDoc in the bundle carries fenced `@example` blocks with real-looking import
