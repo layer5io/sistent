@@ -140,7 +140,9 @@ export {
   type ResourceAccessActor,
   type ResourceAccessArg,
   type ResourceAccessMappingPayload,
-  type ShareModalProps
+  type ShareModalProps,
+  type VisibilityUpdateError,
+  type VisibilityUpdateResponse
 } from './custom/ShareModal';
 
 // Same nested-barrel dts-drop quirk as FeedbackButton above, and the whole

@@ -174,6 +174,30 @@ export type ResourceAccessArg = {
   resourceAccessMappingPayload: ResourceAccessMappingPayload;
 };
 
+export type VisibilityUpdateError =
+  | string
+  | {
+      error?: string;
+      message?: string;
+      data?:
+        | {
+            message?: string;
+            [key: string]: unknown;
+          }
+        | string;
+      [key: string]: unknown;
+    };
+
+export type VisibilityUpdateResponse =
+  | {
+      error?: VisibilityUpdateError;
+      data?: unknown;
+      [key: string]: unknown;
+    }
+  | void
+  | null
+  | undefined;
+
 export interface ShareModalProps {
   /** Function to close the share modal */
   handleShareModalClose: () => void;
@@ -187,7 +211,7 @@ export interface ShareModalProps {
   fetchAccessActors: () => Promise<User[]>;
   /** Optional URL of the host application. Defaults to `null` if not provided */
   hostURL?: string | null;
-  handleUpdateVisibility: (value: string) => Promise<{ error: string }>;
+  handleUpdateVisibility: (value: string) => Promise<VisibilityUpdateResponse>;
   /**
    * @deprecated Unused - never read. The component defines its own
    * `handleShareWithNewUsers`, which shadows this prop and shares through
@@ -420,26 +444,28 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
   const handleDelete = async (actor: User) => handleRevokeAccess([actor]);
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  const notifyVisibilityChange = (res: any, value: any) => {
+  const notifyVisibilityChange = (res: VisibilityUpdateResponse, value: string) => {
     const UPDATE_VISIBILITY_MSG = Array.isArray(selectedResource)
       ? `${startCase(dataName)}s (${selectedResource.length}) are now ${value}`
       : `${startCase(dataName)} '${selectedResource.name}' is now ${value}`;
+    const err = res && typeof res === 'object' && 'error' in res ? res.error : undefined;
     const detail =
-      typeof res?.error === 'string'
-        ? res.error
-        : typeof res?.error?.error === 'string'
-          ? res.error.error
-          : typeof res?.error?.data?.message === 'string'
-            ? res.error.data.message
-            : typeof res?.error?.message === 'string'
-              ? res.error.message
-              : '';
+      typeof err === 'string'
+        ? err
+        : typeof err === 'object' && err !== null
+          ? typeof err.error === 'string'
+            ? err.error
+            : typeof err.data === 'object' && err.data !== null && typeof err.data.message === 'string'
+              ? err.data.message
+              : typeof err.message === 'string'
+                ? err.message
+                : ''
+          : '';
     const FAILED_TO_UPDATE_VISIBILITY_MSG = detail
       ? `Failed to update visibility. ${detail}`
       : 'Failed to update visibility.';
 
-    if (!res?.error) {
+    if (!err) {
       notify({
         message: UPDATE_VISIBILITY_MSG,
         event_type: 'success'
@@ -464,7 +490,8 @@ const ShareModal: React.FC<ShareModalProps> = ({
       setUpdatingVisibility(true);
       const res = await handleUpdateVisibility(value);
       notifyVisibilityChange(res, value);
-      if (!res?.error) {
+      const err = res && typeof res === 'object' && 'error' in res ? res.error : undefined;
+      if (!err) {
         setVisibility(value);
       }
     } finally {
