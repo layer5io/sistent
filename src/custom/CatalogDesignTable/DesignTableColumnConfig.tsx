@@ -9,7 +9,7 @@ import { downloadPattern, slugify } from '../CatalogDetail/helper';
 import { RESOURCE_TYPES } from '../CatalogDetail/types';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
-import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
+import { ColView } from '../Helpers/ResponsiveColumns/responsive-columns';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
 import { VisibilityChipMenu } from '../VisibilityChipMenu';
 import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';

@@ -9,7 +9,7 @@ import { CustomTooltip } from '../CustomTooltip';
 import { FormatId } from '../FormatId';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
 import { useWindowDimensions } from '../Helpers/Dimension';
-import { ColView, updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx';
+import { ColView, updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-columns';
 import { IconWrapper } from '../ResponsiveDataTable';
 import { TooltipIcon } from '../TooltipIconButton';
 import {

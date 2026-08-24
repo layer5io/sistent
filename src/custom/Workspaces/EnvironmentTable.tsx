@@ -12,7 +12,7 @@ import { useWindowDimensions } from '../Helpers/Dimension';
 import {
   ColView,
   updateVisibleColumns
-} from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
+} from '../Helpers/ResponsiveColumns/responsive-columns/responsive-column';
 import ResponsiveDataTable, { IconWrapper } from '../ResponsiveDataTable';
 import SearchBar from '../SearchBar';
 import { TooltipIcon } from '../TooltipIconButton';

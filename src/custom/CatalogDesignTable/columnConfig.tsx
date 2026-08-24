@@ -16,7 +16,7 @@ import {
 import { downloadPattern } from '../CatalogDetail/helper';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ConditionalTooltip } from '../Helpers/CondtionalTooltip';
-import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
+import { ColView } from '../Helpers/ResponsiveColumns/responsive-columns/responsive-column';
 import { DataTableEllipsisMenu } from '../ResponsiveDataTable';
 import AuthorCell from './AuthorCell';
 import { getColumnValue } from './helper';

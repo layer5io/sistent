@@ -1,5 +1,5 @@
 import { CssBaselineProps } from '@mui/material';
-import { CssBaseline } from './CssBaseLine';
+import { CssBaseline } from './CssBaseline';
 
 export { CssBaseline };
 export type { CssBaselineProps };

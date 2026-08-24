@@ -5,7 +5,7 @@
  * ## Why this exists
  *
  * Sistent's RJSF form schemas are imported verbatim from `@meshery/schemas`
- * (the schema-driven-development mandate — see `src/schemas/readme.md`).
+ * (the schema-driven-development mandate — see `src/schemas/README.md`).
  * Those canonical schemas put a human-readable `title` on the root object
  * (e.g. the import-design schema's root `title: "Import Design"`). When the
  * form is rendered inside a titled surface — most commonly a modal whose

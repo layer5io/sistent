@@ -5,7 +5,7 @@ import { ShareIcon } from '../icons';
 import { EllipsisIcon } from '../icons/Ellipsis';
 import { FormattedTime } from '../utils';
 import { styled, useTheme } from './../theme';
-import { ColView } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
+import { ColView } from './Helpers/ResponsiveColumns/responsive-columns';
 import { TableAction } from './TableActions';
 import { TooltipIcon } from './TooltipIconButton';
 import { WidgetEmptyState } from './WidgetEmptyState';

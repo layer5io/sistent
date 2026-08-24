@@ -13,7 +13,7 @@ import { useWindowDimensions } from '../Helpers/Dimension';
 import {
   ColView,
   updateVisibleColumns
-} from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
+} from '../Helpers/ResponsiveColumns/responsive-columns/responsive-column';
 import PromptComponent, { PROMPT_VARIANTS } from '../Prompt';
 import ResponsiveDataTable from '../ResponsiveDataTable';
 import { TooltipIcon } from '../TooltipIconButton';

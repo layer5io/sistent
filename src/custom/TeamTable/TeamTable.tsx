@@ -4,7 +4,7 @@ import { MUIDataTableColumn } from '@sistent/mui-datatables';
 import { Grid2 } from '../../base';
 import { styled, useTheme } from '../../theme';
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary.js';
-import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/index.js';
+import { ColView } from '../Helpers/ResponsiveColumns/responsive-columns/index.js';
 import ResponsiveDataTable from '../ResponsiveDataTable.js';
 import UsersTable from '../UsersTable/UsersTable.js';
 
