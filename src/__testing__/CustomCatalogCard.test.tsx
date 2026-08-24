@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import CustomCatalogCard, { Pattern } from '../custom/CustomCatalog/CustomCard';
-import { SistentThemeProvider } from '../theme';
+import { darkModePalette, SistentThemeProvider } from '../theme';
 
 jest.mock('react-markdown', () => ({
   __esModule: true,
@@ -23,12 +23,28 @@ jest.mock('../custom/CustomCatalog/Helper', () => ({
   handleImage: jest.fn()
 }));
 
+const hexToRgb = (hex?: string) => {
+  if (!hex) return '';
+  const cleanHex = hex.replace('#', '');
+  const r = parseInt(cleanHex.substring(0, 2), 16);
+  const g = parseInt(cleanHex.substring(2, 4), 16);
+  const b = parseInt(cleanHex.substring(4, 6), 16);
+  return `rgb(${r}, ${g}, ${b})`;
+};
+
 const renderWithTheme = (ui: React.ReactElement, mode: 'light' | 'dark' = 'light') => {
   return render(<SistentThemeProvider initialMode={mode}>{ui}</SistentThemeProvider>);
 };
 
 const mockPattern: Pattern = {
   id: 'test-pattern-1',
+  userId: 'user-1',
+  patternFile: 'test-pattern-file',
+  user: {
+    firstName: 'Test',
+    lastName: 'User'
+  },
+  avatarUrl: 'https://example.com/avatar.png',
   name: 'Istio Service Mesh',
   type: 'design',
   downloadCount: 1200,
@@ -71,12 +87,9 @@ describe('CustomCatalogCard', () => {
     );
 
     const countElement = screen.getByText('1200');
-    const metricsDiv = countElement.parentElement;
-    expect(metricsDiv).not.toBeNull();
+    expect(countElement).not.toBeNull();
 
-    // Verify MetricsDiv does not use the hardcoded dark rgba color
-    const computedStyle = window.getComputedStyle(metricsDiv as Element);
-    expect(computedStyle.color).not.toBe('rgba(26, 26, 26, 0.8)');
-    expect(computedStyle.color).not.toBe('rgba(26, 26, 26, .8)');
+    const computedStyle = window.getComputedStyle(countElement);
+    expect(computedStyle.color).toBe(hexToRgb(darkModePalette.text.default));
   });
 });

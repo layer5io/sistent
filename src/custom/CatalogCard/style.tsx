@@ -1,4 +1,5 @@
-import { styled, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import { styled } from '../../theme';
 
 type DesignCardProps = {
   outerStyles: React.CSSProperties;
@@ -88,7 +89,7 @@ export const MetricsCount = styled('p')(({ theme }) => ({
   margin: '0rem',
   lineHeight: '1.5',
   textAlign: 'center',
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.default,
   fontWeight: '600'
 }));
 export const DesignName = styled(Typography)(({ theme }) => ({
