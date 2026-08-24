@@ -28,8 +28,8 @@ export const updateVisibleColumns = (
     // Hide the columns for any screen size
     if (col[1] === 'na') {
       showCols[col[0]] = false;
-    } else if (width > 1140) {
-      // Display all columns above width 1140
+    } else if (width >= 1140) {
+      // Display all columns for width 1140 and above
       showCols[col[0]] = true;
     } else if (width >= 915 && width < 1140) {
       if (['xs', 's', 'm', 'l', 'xl'].includes(col[1])) {

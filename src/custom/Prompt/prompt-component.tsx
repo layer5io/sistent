@@ -59,15 +59,29 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
   });
 
   /* This ref is used to store the resolve and reject functions of the promise returned by the show method */
-  const promiseInfoRef = useRef<{ resolve: (value: string) => void; reject: () => void }>({
-    resolve: () => {},
-    reject: () => {}
-  });
+  const promiseInfoRef = useRef<{ resolve: (value: string) => void; reject: () => void } | null>(
+    null
+  );
 
   const theme = useTheme();
 
+  /* Settle active promise and hide modal */
+  const settle = (value: string) => {
+    setState((prevState) => ({ ...prevState, isOpen: false }));
+    if (promiseInfoRef.current) {
+      const activeResolve = promiseInfoRef.current.resolve;
+      promiseInfoRef.current = null;
+      activeResolve(value);
+    }
+  };
+
   /* This function is used to show the prompt */
   const show = (params: ShowParams) => {
+    if (promiseInfoRef.current) {
+      const activeResolve = promiseInfoRef.current.resolve;
+      promiseInfoRef.current = null;
+      activeResolve('CANCEL');
+    }
     return new Promise<string>((resolve, reject) => {
       promiseInfoRef.current = { resolve, reject };
       setState({
@@ -81,7 +95,7 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
 
   /* This function is used to hide the prompt */
   const hide = () => {
-    setState((prevState) => ({ ...prevState, isOpen: false }));
+    settle('CANCEL');
   };
 
   const handleCheckboxChange = () => {
@@ -98,7 +112,6 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
   }));
 
   const { isOpen, primaryOption, title, subtitle, showInfoIcon, headerIcon, showCheckbox } = state;
-  const { resolve } = promiseInfoRef.current;
 
   return (
     <Modal
@@ -148,19 +161,13 @@ const PromptComponent = forwardRef<PromptRef, PromptProps>(({ variant }, ref) =>
         <ActionComponent data-testid="prompt-actions">
           <ModalButtonSecondary
             data-testid="prompt-secondary-button"
-            onClick={() => {
-              hide();
-              resolve('CANCEL');
-            }}
+            onClick={() => settle('CANCEL')}
           >
             Cancel
           </ModalButtonSecondary>
           <ModalButtonPrimary
             data-testid="prompt-primary-button"
-            onClick={() => {
-              hide();
-              resolve(primaryOption);
-            }}
+            onClick={() => settle(primaryOption)}
             style={
               state.variant && {
                 backgroundColor: theme.palette.background[state.variant]?.default,

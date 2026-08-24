@@ -61,34 +61,32 @@ The component includes a formatDate function to format date values consistently.
 
 The `SearchBar` component is a reusable search bar. This component provides a user-friendly interface for searching within your application. It features a text input field with the ability to expand and collapse, a search icon, and a clear icon for removing the entered search text.
 
-## Props
+### SearchBar Props
 
-| Property      | Type     | Description                                                                           |
-| ------------- | -------- | ------------------------------------------------------------------------------------- |
-| `onSearch`    | `func`   | Callback function to handle the search logic.                                         |
-| `onClear`     | `func`   | Callback function to handle the clear logic.                                          |
-| `placeholder` | `string` | (Optional) Placeholder text to be displayed in the search bar.                        |
-| `expanded`    | `bool`   | (Optional) Set to `true` if the search bar should be expanded initially.              |
-| `setExpanded` | `func`   | (Optional) Callback function to update the expanded state of the search bar.          |
-| `iconFill`    | `string` | (Optional) Color of the search icon. If not provided, the default color will be used. |
+| Property      | Type     | Description                                                                  |
+| ------------- | -------- | ---------------------------------------------------------------------------- |
+| `onSearch`    | `func`   | Callback function to handle the search logic.                                |
+| `expanded`    | `bool`   | Current expanded state of the search bar.                                    |
+| `setExpanded` | `func`   | Callback function to update the expanded state of the search bar.             |
+| `placeholder` | `string` | (Optional) Placeholder text to be displayed in the search bar.               |
+| `onClear`     | `func`   | (Optional) Callback function to handle the clear logic.                      |
+| `style`       | `object` | (Optional) Custom CSS styles for the search bar wrapper.                    |
 
 ## Usage
 
 ```javascript
 import React, { useState } from 'react';
-import SearchBar from '@sistent/sistent/components';
+import { SearchBar } from '@sistent/sistent';
 
 function App() {
   const [searchText, setSearchText] = useState('');
+  const [expanded, setExpanded] = useState(false);
 
-  // this handles the search logic only will be needed if the api doesn't have search param
   const handleSearch = (text) => {
-    // Handle the search logic here
     setSearchText(text);
   };
 
   const handleClear = () => {
-    // Handle the clear logic here
     setSearchText('');
   };
 
@@ -98,9 +96,8 @@ function App() {
         onSearch={handleSearch}
         onClear={handleClear}
         placeholder="Search..."
-        expanded={searchText !== ''}
-        setExpanded={(isExpanded) => setSearchText(isExpanded)}
-        iconFill="#000" // Optional: customize the icon color
+        expanded={expanded}
+        setExpanded={setExpanded}
       />
       {/* Your application content here */}
     </div>

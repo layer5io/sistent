@@ -1,4 +1,4 @@
-import { ColView, updateVisibleColumns } from './responsive-column';
+import { updateVisibleColumns, type ColView } from './responsive-column';
 
 export { updateVisibleColumns };
 export type { ColView };

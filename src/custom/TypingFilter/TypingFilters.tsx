@@ -31,7 +31,9 @@ export function TypingFilters({
   const { filter: currentFilter } = getCurrentFilterAndValue(filterStateMachine);
 
   const matchingFilters = currentFilter
-    ? Object.values(filterSchema).filter((filter) => filter.value.startsWith(currentFilter))
+    ? Object.values(filterSchema).filter(
+        (filter) => typeof filter.value === 'string' && filter.value.startsWith(currentFilter)
+      )
     : Object.values(filterSchema);
   return (
     <List>
@@ -41,9 +43,9 @@ export function TypingFilters({
         </ListItem>
       )}
       {matchingFilters.map((filter) => (
-        <React.Fragment key={filter}>
-          <ListItem disableGutters onClick={() => selectFilter(filter.values)}>
-            <Typography variant="body1">{filter.values}:</Typography>
+        <React.Fragment key={filter.value}>
+          <ListItem disableGutters onClick={() => selectFilter(filter.value)}>
+            <Typography variant="body1">{filter.value}:</Typography>
             <Typography variant="body1">{filter.description}</Typography>
           </ListItem>
           {/* MUI removed Divider's `light` prop; the opacity is its replacement. */}
