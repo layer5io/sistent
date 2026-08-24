@@ -425,9 +425,21 @@ const ShareModal: React.FC<ShareModalProps> = ({
     const UPDATE_VISIBILITY_MSG = Array.isArray(selectedResource)
       ? `${startCase(dataName)}s (${selectedResource.length}) are now ${value}`
       : `${startCase(dataName)} '${selectedResource.name}' is now ${value}`;
-    const FAILED_TO_UPDATE_VISIBILITY_MSG = `Failed to update visibility. ${res?.error?.error || ''}`;
+    const detail =
+      typeof res?.error === 'string'
+        ? res.error
+        : typeof res?.error?.error === 'string'
+          ? res.error.error
+          : typeof res?.error?.data?.message === 'string'
+            ? res.error.data.message
+            : typeof res?.error?.message === 'string'
+              ? res.error.message
+              : '';
+    const FAILED_TO_UPDATE_VISIBILITY_MSG = detail
+      ? `Failed to update visibility. ${detail}`
+      : 'Failed to update visibility.';
 
-    if (!res.error) {
+    if (!res?.error) {
       notify({
         message: UPDATE_VISIBILITY_MSG,
         event_type: 'success'

@@ -188,4 +188,63 @@ describe('ShareModal resource-access wire contract', () => {
     );
     expect(resourceAccessMutator).not.toHaveBeenCalled();
   });
+
+  it('surfaces host error text when visibility update fails with a string error', async () => {
+    const handleUpdateVisibility = jest
+      .fn()
+      .mockResolvedValue({ error: 'visibility rejected' });
+    const { props } = renderShareModal({
+      handleUpdateVisibility
+    } as Partial<ShareModalProps>);
+
+    fireEvent.mouseDown(document.getElementById('share-menu')!);
+    fireEvent.click(screen.getByRole('option', { name: 'Public' }));
+
+    await waitFor(() => expect(handleUpdateVisibility).toHaveBeenCalledWith('public'));
+    await waitFor(() =>
+      expect(props.notify).toHaveBeenCalledWith({
+        message: 'Failed to update visibility. visibility rejected',
+        event_type: 'error'
+      })
+    );
+  });
+
+  it('surfaces nested RTK error text when visibility update returns an error object', async () => {
+    const handleUpdateVisibility = jest
+      .fn()
+      .mockResolvedValue({ error: { error: 'permission denied' } });
+    const { props } = renderShareModal({
+      handleUpdateVisibility
+    } as Partial<ShareModalProps>);
+
+    fireEvent.mouseDown(document.getElementById('share-menu')!);
+    fireEvent.click(screen.getByRole('option', { name: 'Public' }));
+
+    await waitFor(() => expect(handleUpdateVisibility).toHaveBeenCalledWith('public'));
+    await waitFor(() =>
+      expect(props.notify).toHaveBeenCalledWith({
+        message: 'Failed to update visibility. permission denied',
+        event_type: 'error'
+      })
+    );
+  });
+
+  it('notifies success when visibility update succeeds', async () => {
+    const handleUpdateVisibility = jest.fn().mockResolvedValue({ error: '' });
+    const { props } = renderShareModal({
+      handleUpdateVisibility
+    } as Partial<ShareModalProps>);
+
+    fireEvent.mouseDown(document.getElementById('share-menu')!);
+    fireEvent.click(screen.getByRole('option', { name: 'Public' }));
+
+    await waitFor(() => expect(handleUpdateVisibility).toHaveBeenCalledWith('public'));
+    await waitFor(() =>
+      expect(props.notify).toHaveBeenCalledWith({
+        message: "Design 'My Design' is now public",
+        event_type: 'success'
+      })
+    );
+  });
 });
+
