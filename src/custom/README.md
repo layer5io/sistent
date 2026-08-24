@@ -63,14 +63,13 @@ The `SearchBar` component is a reusable search bar. This component provides a us
 
 ### SearchBar Props
 
-| Property      | Type     | Description                                                                  |
-| ------------- | -------- | ---------------------------------------------------------------------------- |
-| `onSearch`    | `func`   | Callback function to handle the search logic.                                |
-| `expanded`    | `bool`   | Current expanded state of the search bar.                                    |
-| `setExpanded` | `func`   | Callback function to update the expanded state of the search bar.             |
-| `placeholder` | `string` | (Optional) Placeholder text to be displayed in the search bar.               |
-| `onClear`     | `func`   | (Optional) Callback function to handle the clear logic.                      |
-| `style`       | `object` | (Optional) Custom CSS styles for the search bar wrapper.                    |
+| Property      | Type     | Description                                                        |
+| ------------- | -------- | ------------------------------------------------------------------ |
+| `onSearch`    | `func`   | Callback function to handle the search logic.                      |
+| `expanded`    | `bool`   | Current expanded state of the search bar.                          |
+| `setExpanded` | `func`   | Callback function to update the expanded state of the search bar.   |
+| `placeholder` | `string` | (Optional) Placeholder text to be displayed in the search bar.     |
+| `onClear`     | `func`   | (Optional) Callback function to handle the clear logic.            |
 
 ## Usage
 

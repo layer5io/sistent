@@ -56,7 +56,7 @@ To use these helper components in your project, follow these steps:
     const notify = useNotificationHandler();
 
     return (
-      <button onClick={() => notify({ message: 'Hello world!', variant: 'success' })}>
+      <button onClick={() => notify('Hello world!', { variant: 'success' })}>
         Click me
       </button>
     );
