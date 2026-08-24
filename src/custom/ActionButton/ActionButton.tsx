@@ -10,42 +10,56 @@ import {
   Popper
 } from '../../base';
 import { DropDownIcon } from '../../icons';
+
 export interface Option {
   icon: React.ReactNode;
   label: string;
   onClick: (event: React.MouseEvent<HTMLLIElement, MouseEvent>, index: number) => void;
   isDivider?: boolean;
   show?: boolean;
+  disabled?: boolean;
 }
 
 export interface ActionButtonProps {
-  defaultActionClick: () => void;
+  defaultActionClick?: () => void;
   defaultActionDisabled?: boolean;
   options: Option[];
-  label: string;
+  label?: string;
+  placement?: 'bottom-start' | 'bottom' | 'bottom-end' | 'top-start' | 'top' | 'top-end';
 }
 
 export default function ActionButton({
   defaultActionClick,
   defaultActionDisabled = false,
   options,
-  label
+  label = 'Action',
+  placement = 'bottom-start'
 }: ActionButtonProps): JSX.Element {
   const [open, setOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const anchorRef = React.useRef<HTMLDivElement>(null);
+
   const handleMenuItemClick = () => {
     setOpen(false);
   };
 
   const handleToggle = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation();
-    setAnchorEl(event.currentTarget);
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleClose = (event: MouseEvent | TouchEvent) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target as Node)) {
+      return;
+    }
     setOpen(false);
+  };
+
+  const handleMainClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if (defaultActionClick) {
+      defaultActionClick();
+    } else {
+      handleToggle(event);
+    }
   };
 
   return (
@@ -53,12 +67,20 @@ export default function ActionButton({
       <ButtonGroup
         variant="contained"
         style={{ boxShadow: 'none' }}
+        ref={anchorRef}
         aria-label="Button group with a nested menu"
       >
-        <Button onClick={defaultActionClick} variant="contained" disabled={defaultActionDisabled}>
+        <Button onClick={handleMainClick} variant="contained" disabled={defaultActionDisabled}>
           {label}
         </Button>
-        <Button size="small" onClick={handleToggle} variant="contained">
+        <Button
+          size="small"
+          onClick={handleToggle}
+          variant="contained"
+          aria-controls={open ? 'split-button-menu' : undefined}
+          aria-expanded={open ? 'true' : undefined}
+          aria-haspopup="menu"
+        >
           <DropDownIcon />
         </Button>
       </ButtonGroup>
@@ -67,8 +89,9 @@ export default function ActionButton({
           zIndex: 1
         }}
         open={open}
-        anchorEl={anchorEl}
+        anchorEl={anchorRef.current}
         role={undefined}
+        placement={placement}
       >
         <Paper>
           <ClickAwayListener onClickAway={handleClose}>
@@ -77,11 +100,15 @@ export default function ActionButton({
                 .filter((option) => option?.show !== false)
                 .map((option, index) =>
                   option.isDivider ? (
-                    <Divider />
+                    <Divider key={index} />
                   ) : (
                     <MenuItem
                       key={index}
+                      disabled={option.disabled}
                       onClick={(event) => {
+                        if (option.disabled) {
+                          return;
+                        }
                         handleMenuItemClick();
                         option.onClick(event, index);
                       }}
