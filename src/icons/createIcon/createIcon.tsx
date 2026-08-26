@@ -48,7 +48,6 @@ export function createIcon(options: CreateIconOptions): React.ForwardRefExoticCo
       height = DEFAULT_HEIGHT,
       fill = DEFAULT_FILL_NONE,
       title,
-      children,
       ...rest
     } = mergedProps;
 
