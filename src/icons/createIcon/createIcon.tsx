@@ -62,13 +62,13 @@ export function createIcon(options: CreateIconOptions): React.ForwardRefExoticCo
 
     return (
       <svg
+        {...rest}
         ref={ref}
         width={width}
         height={height}
         fill={fill}
         xmlns="http://www.w3.org/2000/svg"
         viewBox={viewBox}
-        {...rest}
       >
         {title && <title>{title}</title>}
         {content}
