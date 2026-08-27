@@ -116,6 +116,15 @@ export {
 
 export { BottomSheet, type BottomSheetProps } from './custom/BottomSheet';
 
+export {
+  ProgressBar,
+  useProgressBar,
+  type ProgressBarProps,
+  type ProgressBarVariant,
+  type ShowProgressBarOptions,
+  type UseProgressBarReturn
+} from './custom/ProgressBar';
+
 export { ActionButton, type ActionButtonProps, type Option } from './custom/ActionButton';
 
 // Same nested-barrel dts-drop quirk as FeedbackButton above. The share/revoke
