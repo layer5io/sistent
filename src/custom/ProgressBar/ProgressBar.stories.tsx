@@ -14,7 +14,6 @@ export default meta;
 
 type Story = { name?: string; render: () => React.ReactElement };
 
-// Linear determinate with live updates
 const LinearDeterminateDemo = (): React.ReactElement => {
   const { show, update, close } = useProgressBar();
   const [activeKey, setActiveKey] = useState<string | number | null>(null);
@@ -101,7 +100,6 @@ const CircularDemo = (): React.ReactElement => {
   );
 };
 
-// Direct render of ProgressBar without enqueueSnackbar (visual QA only) — still requires SnackbarProvider because ProgressBar uses useSnackbar()
 const StandaloneDemo = (): React.ReactElement => {
   const [progress, setProgress] = useState(35);
   useEffect(() => {
@@ -111,7 +109,6 @@ const StandaloneDemo = (): React.ReactElement => {
   return (
     <SnackbarProvider maxSnack={3}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16, maxWidth: 520 }}>
-        {/* Standalone preview - ProgressBar normally renders via enqueueSnackbar; this shows the visual only */}
         <div style={{ border: '1px dashed #ccc', padding: 12, borderRadius: 8 }}>
           <p style={{ margin: '0 0 8px', fontSize: 12, color: '#666' }}>
             Standalone preview (without snackbar positioning):

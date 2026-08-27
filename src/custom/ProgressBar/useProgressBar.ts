@@ -41,19 +41,6 @@ export interface UseProgressBarReturn {
   close: (key?: SnackbarKey) => void;
 }
 
-/**
- * Imperative helper for the ProgressBar snackbar pattern.
- * Wraps notistack's enqueueSnackbar/closeSnackbar so progress can be
- * updated while the toast is visible without the caller managing keys manually.
- * `update` merges with the original `show` options so variant/sx/persist etc.
- * are not lost.
- *
- * @example
- * const { show, update, close } = useProgressBar();
- * const key = show({ message: 'Uploading...', progress: 0, variant: 'circular', persist: true });
- * update(key, { progress: 42 });
- * close(key);
- */
 export const useProgressBar = (): UseProgressBarReturn => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const storeRef = React.useRef<Map<SnackbarKey, ShowProgressBarOptions>>(new Map());
