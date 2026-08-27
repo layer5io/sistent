@@ -2,7 +2,10 @@ import { useSnackbar, type OptionsObject, type SnackbarKey, type SnackbarMessage
 import React from 'react';
 import { ProgressBar, type ProgressBarProps } from './ProgressBar';
 
-export interface ShowProgressBarOptions extends Omit<OptionsObject, 'content' | 'key' | 'variant'> {
+export interface ShowProgressBarOptions extends Omit<
+  OptionsObject,
+  'content' | 'key' | 'variant' | 'action'
+> {
   /**
    * Initial progress 0-100. Omit or pass a non-finite value (NaN/Infinity) for indeterminate.
    */

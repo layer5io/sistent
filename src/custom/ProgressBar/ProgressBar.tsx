@@ -69,7 +69,7 @@ export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
 
     const isDeterminate = typeof progress === 'number' && Number.isFinite(progress);
     const normalizedProgress = isDeterminate ? clampProgress(progress as number) : undefined;
-    const shouldShowLabel = showProgressLabel ?? isDeterminate;
+    const shouldShowLabel = (showProgressLabel ?? isDeterminate) && variant === 'linear';
 
     const handleClose = React.useCallback(() => {
       closeSnackbar(id);
