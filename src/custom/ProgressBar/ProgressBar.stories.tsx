@@ -101,7 +101,7 @@ const CircularDemo = (): React.ReactElement => {
   );
 };
 
-// Direct render without notistack provider (visual QA only)
+// Direct render of ProgressBar without enqueueSnackbar (visual QA only) — still requires SnackbarProvider because ProgressBar uses useSnackbar()
 const StandaloneDemo = (): React.ReactElement => {
   const [progress, setProgress] = useState(35);
   useEffect(() => {

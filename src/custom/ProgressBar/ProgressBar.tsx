@@ -18,7 +18,8 @@ export type ProgressBarVariant = 'linear' | 'circular';
 export interface ProgressBarProps extends Omit<Partial<CustomContentProps>, 'variant'> {
   id: CustomContentProps['id'];
   /**
-   * Progress value 0-100. When undefined the bar renders indeterminate.
+   * Progress value 0-100. When undefined or non-finite (NaN/Infinity) the bar renders indeterminate.
+   * Values outside 0-100 are clamped.
    * @default undefined (indeterminate)
    */
   progress?: number;
