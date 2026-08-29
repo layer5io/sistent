@@ -44,6 +44,19 @@ export interface UseProgressBarReturn {
   close: (key?: SnackbarKey) => void;
 }
 
+/**
+ * Imperative helper for the ProgressBar snackbar pattern.
+ * Wraps notistack's enqueueSnackbar/closeSnackbar so progress can be
+ * updated while the toast is visible without the caller managing keys manually.
+ * `update` merges with the original `show` options so variant/sx/persist etc.
+ * are not lost.
+ *
+ * @example
+ * const { show, update, close } = useProgressBar();
+ * const key = show({ message: 'Uploading...', progress: 0, variant: 'circular', persist: true });
+ * update(key, { progress: 42 });
+ * close(key);
+ */
 export const useProgressBar = (): UseProgressBarReturn => {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const storeRef = React.useRef<Map<SnackbarKey, ShowProgressBarOptions>>(new Map());
@@ -83,15 +96,40 @@ export const useProgressBar = (): UseProgressBarReturn => {
           sx
         });
 
+      const {
+        onClose: userOnClose,
+        onExited: userOnExited,
+        ...restWithoutCallbacks
+      } = rest as Omit<ShowProgressBarOptions, 'variant' | 'progress' | 'message' | 'key'> & {
+        onClose?: OptionsObject['onClose'];
+        onExited?: OptionsObject['onExited'];
+      };
+
+      const handleOnClose: OptionsObject['onClose'] = (event, reason, closeKey) => {
+        if (closeKey !== undefined) storeRef.current.delete(closeKey);
+        (userOnClose as OptionsObject['onClose'])?.(event, reason, closeKey);
+      };
+
+      const handleOnExited: OptionsObject['onExited'] = (node, closeKey) => {
+        if (closeKey !== undefined) storeRef.current.delete(closeKey);
+        (userOnExited as OptionsObject['onExited'])?.(node, closeKey);
+      };
+
       const returnedKey = enqueueSnackbar((message as SnackbarMessage) ?? '', {
         key,
         persist,
         content: content as unknown as OptionsObject['content'],
-        ...rest
+        ...restWithoutCallbacks,
+        onClose: handleOnClose,
+        onExited: handleOnExited
       });
 
       const storeKey = key ?? returnedKey;
-      storeRef.current.set(storeKey, storedOptions);
+      storeRef.current.set(storeKey, {
+        ...storedOptions,
+        onClose: handleOnClose,
+        onExited: handleOnExited
+      } as ShowProgressBarOptions);
 
       return returnedKey;
     },
@@ -114,6 +152,15 @@ export const useProgressBar = (): UseProgressBarReturn => {
       const { progress, message, variant, showProgressLabel, dismissible, sx, persist, ...rest } =
         merged;
 
+      const {
+        onClose: storedOnClose,
+        onExited: storedOnExited,
+        ...restWithoutCallbacks
+      } = rest as Omit<ShowProgressBarOptions, 'variant' | 'progress' | 'message' | 'key'> & {
+        onClose?: OptionsObject['onClose'];
+        onExited?: OptionsObject['onExited'];
+      };
+
       const content = (id: SnackbarKey) =>
         React.createElement(ProgressBar, {
           id,
@@ -129,7 +176,9 @@ export const useProgressBar = (): UseProgressBarReturn => {
         key,
         persist,
         content: content as unknown as OptionsObject['content'],
-        ...rest
+        ...restWithoutCallbacks,
+        onClose: storedOnClose as OptionsObject['onClose'],
+        onExited: storedOnExited as OptionsObject['onExited']
       });
 
       storeRef.current.set(key, merged);
