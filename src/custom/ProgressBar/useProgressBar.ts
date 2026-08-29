@@ -153,12 +153,22 @@ export const useProgressBar = (): UseProgressBarReturn => {
         merged;
 
       const {
-        onClose: storedOnClose,
-        onExited: storedOnExited,
+        onClose: mergedOnClose,
+        onExited: mergedOnExited,
         ...restWithoutCallbacks
       } = rest as Omit<ShowProgressBarOptions, 'variant' | 'progress' | 'message' | 'key'> & {
         onClose?: OptionsObject['onClose'];
         onExited?: OptionsObject['onExited'];
+      };
+
+      const handleOnClose: OptionsObject['onClose'] = (event, reason, closeKey) => {
+        if (closeKey !== undefined) storeRef.current.delete(closeKey);
+        (mergedOnClose as OptionsObject['onClose'])?.(event, reason, closeKey);
+      };
+
+      const handleOnExited: OptionsObject['onExited'] = (node, closeKey) => {
+        if (closeKey !== undefined) storeRef.current.delete(closeKey);
+        (mergedOnExited as OptionsObject['onExited'])?.(node, closeKey);
       };
 
       const content = (id: SnackbarKey) =>
@@ -177,11 +187,15 @@ export const useProgressBar = (): UseProgressBarReturn => {
         persist,
         content: content as unknown as OptionsObject['content'],
         ...restWithoutCallbacks,
-        onClose: storedOnClose as OptionsObject['onClose'],
-        onExited: storedOnExited as OptionsObject['onExited']
+        onClose: handleOnClose,
+        onExited: handleOnExited
       });
 
-      storeRef.current.set(key, merged);
+      storeRef.current.set(key, {
+        ...merged,
+        onClose: handleOnClose,
+        onExited: handleOnExited
+      } as ShowProgressBarOptions);
     },
     [enqueueSnackbar]
   );
