@@ -2,6 +2,9 @@ import React from 'react';
 import { DEFAULT_FILL_NONE, DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../../constants/constants';
 import { IconProps } from '../types';
 
+/**
+ * Configuration options for creating an SVG icon component with `createIcon`.
+ */
 export interface CreateIconOptions {
   /**
    * The icon SVG viewBox.
@@ -30,6 +33,14 @@ export interface CreateIconOptions {
   defaultProps?: Partial<IconProps> & Record<string, unknown>;
 }
 
+/**
+ * Factory function to create reusable, consistent SVG icon components.
+ * Standardizes prop handling (width, height, fill, viewBox, title), default values,
+ * and ref forwarding across icons.
+ *
+ * @param options - Configuration options for the icon (viewBox, path, d, displayName, defaultProps).
+ * @returns A React forwardRef component rendering the SVG icon.
+ */
 export function createIcon(options: CreateIconOptions): React.ForwardRefExoticComponent<
   IconProps & React.RefAttributes<SVGSVGElement>
 > {
