@@ -45,7 +45,7 @@ describe('ActionButton Component', () => {
 
   it('renders with default label "Action" when no label is passed', () => {
     render(<ActionButton options={mockOptions} />);
-    expect(screen.getByRole('button', { name: /Action/i })).not.toBeNull();
+    expect(screen.getByRole('button', { name: /^Action$/i })).not.toBeNull();
   });
 
   it('renders with custom label when provided', () => {
@@ -76,7 +76,7 @@ describe('ActionButton Component', () => {
     fireEvent.click(mainButton);
 
     expect(screen.getByRole('menu')).not.toBeNull();
-    expect(screen.getByText('Validate')).not.toBeNull();
+    expect(screen.getByText(mockOptions[0].label)).not.toBeNull();
   });
 
   it('toggles dropdown menu when the dropdown arrow button is clicked', () => {
@@ -90,8 +90,12 @@ describe('ActionButton Component', () => {
     // Open menu
     fireEvent.click(dropdownArrowButton);
     expect(screen.getByRole('menu')).not.toBeNull();
-    expect(screen.getByText('Validate')).not.toBeNull();
-    expect(screen.getByText('Dry Run')).not.toBeNull();
+
+    mockOptions.forEach((option) => {
+      if (option.show !== false && !option.isDivider) {
+        expect(screen.getByText(option.label)).not.toBeNull();
+      }
+    });
 
     // Toggle menu closed
     fireEvent.click(dropdownArrowButton);
@@ -105,7 +109,7 @@ describe('ActionButton Component', () => {
     const dropdownArrowButton = buttons[1];
     fireEvent.click(dropdownArrowButton);
 
-    const validateItem = screen.getByText('Validate');
+    const validateItem = screen.getByText(mockOptions[0].label);
     fireEvent.click(validateItem);
 
     expect(mockOptions[0].onClick).toHaveBeenCalledTimes(1);
@@ -118,7 +122,7 @@ describe('ActionButton Component', () => {
     const buttons = screen.getAllByRole('button');
     fireEvent.click(buttons[1]);
 
-    const deployItem = screen.getByText('Deploy');
+    const deployItem = screen.getByText(mockOptions[2].label);
     fireEvent.click(deployItem);
 
     expect(mockOptions[2].onClick).not.toHaveBeenCalled();
@@ -130,7 +134,7 @@ describe('ActionButton Component', () => {
     const buttons = screen.getAllByRole('button');
     fireEvent.click(buttons[1]);
 
-    expect(screen.queryByText('Hidden Option')).toBeNull();
+    expect(screen.queryByText(mockOptions[3].label)).toBeNull();
   });
 
   it('disables primary button when defaultActionDisabled is true', () => {
