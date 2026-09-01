@@ -30,7 +30,7 @@ export interface Option {
   disabled?: boolean;
   /** Permission key specification for RBAC CASL gating. */
   permissionKey?: PermissionKeySpec;
-  /** Permission action (e.g. 'showShield' | 'hide') for CASL gating. */
+  /** Permission action ('showShield' | 'hide') for CASL gating. To disable a menu option, use the `disabled` property. */
   permissionAction?: PermissionAction;
 }
 
