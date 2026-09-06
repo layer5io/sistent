@@ -1,6 +1,23 @@
+import { type PopperProps } from '@mui/material';
 import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-import { ActionButton, Option } from '../custom/ActionButton';
+import { ActionButton, type Option } from '../custom/ActionButton';
+
+const mockPopper = jest.fn();
+
+jest.mock('../base/Popper', () => {
+  const actual = jest.requireActual('../base/Popper');
+  const MockPopper = React.forwardRef<HTMLDivElement, PopperProps>((props, ref) => {
+    mockPopper(props);
+    return <actual.Popper {...props} ref={ref} />;
+  });
+  return {
+    __esModule: true,
+    ...actual,
+    Popper: MockPopper,
+    default: MockPopper
+  };
+});
 
 describe('ActionButton Component', () => {
   const mockOptions: Option[] = [
@@ -144,11 +161,13 @@ describe('ActionButton Component', () => {
     expect(mainButton.hasAttribute('disabled')).toBe(true);
   });
 
-  it('anchors popper with default placement bottom-end', () => {
+  it('anchors popper to ButtonGroup with default placement bottom-end when clicking dropdown arrow', () => {
     render(<ActionButton label="Actions" options={mockOptions} />);
 
+    const buttonGroup = screen.getByRole('group', { name: /button group with a nested menu/i });
     const buttons = screen.getAllByRole('button');
     const dropdownArrowButton = buttons[1];
+
     fireEvent.click(dropdownArrowButton);
 
     const menu = screen.getByRole('menu');
@@ -157,6 +176,34 @@ describe('ActionButton Component', () => {
     const popper = menu.closest('[data-popper-placement]');
     expect(popper).not.toBeNull();
     expect(popper?.getAttribute('data-popper-placement')).toBe('bottom-end');
+
+    expect(mockPopper).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        open: true,
+        anchorEl: buttonGroup,
+        placement: 'bottom-end'
+      })
+    );
+  });
+
+  it('anchors popper to ButtonGroup when opened via primary button without defaultActionClick', () => {
+    render(<ActionButton label="Actions" options={mockOptions} />);
+
+    const buttonGroup = screen.getByRole('group', { name: /button group with a nested menu/i });
+    const mainButton = screen.getByRole('button', { name: /^Actions$/i });
+
+    fireEvent.click(mainButton);
+
+    const menu = screen.getByRole('menu');
+    expect(menu).not.toBeNull();
+
+    expect(mockPopper).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        open: true,
+        anchorEl: buttonGroup,
+        placement: 'bottom-end'
+      })
+    );
   });
 
   it('anchors popper with custom placement when provided', () => {
@@ -164,8 +211,10 @@ describe('ActionButton Component', () => {
       <ActionButton label="Actions" options={mockOptions} placement="bottom-start" />
     );
 
+    const buttonGroup = screen.getByRole('group', { name: /button group with a nested menu/i });
     const buttons = screen.getAllByRole('button');
     const dropdownArrowButton = buttons[1];
+
     fireEvent.click(dropdownArrowButton);
 
     const menu = screen.getByRole('menu');
@@ -174,5 +223,13 @@ describe('ActionButton Component', () => {
     const popper = menu.closest('[data-popper-placement]');
     expect(popper).not.toBeNull();
     expect(popper?.getAttribute('data-popper-placement')).toBe('bottom-start');
+
+    expect(mockPopper).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        open: true,
+        anchorEl: buttonGroup,
+        placement: 'bottom-start'
+      })
+    );
   });
 });
