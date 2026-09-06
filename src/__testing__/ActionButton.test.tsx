@@ -143,4 +143,36 @@ describe('ActionButton Component', () => {
     const mainButton = screen.getByRole('button', { name: /^Actions$/i });
     expect(mainButton.hasAttribute('disabled')).toBe(true);
   });
+
+  it('anchors popper with default placement bottom-end', () => {
+    render(<ActionButton label="Actions" options={mockOptions} />);
+
+    const buttons = screen.getAllByRole('button');
+    const dropdownArrowButton = buttons[1];
+    fireEvent.click(dropdownArrowButton);
+
+    const menu = screen.getByRole('menu');
+    expect(menu).not.toBeNull();
+
+    const popper = menu.closest('[data-popper-placement]');
+    expect(popper).not.toBeNull();
+    expect(popper?.getAttribute('data-popper-placement')).toBe('bottom-end');
+  });
+
+  it('anchors popper with custom placement when provided', () => {
+    render(
+      <ActionButton label="Actions" options={mockOptions} placement="bottom-start" />
+    );
+
+    const buttons = screen.getAllByRole('button');
+    const dropdownArrowButton = buttons[1];
+    fireEvent.click(dropdownArrowButton);
+
+    const menu = screen.getByRole('menu');
+    expect(menu).not.toBeNull();
+
+    const popper = menu.closest('[data-popper-placement]');
+    expect(popper).not.toBeNull();
+    expect(popper?.getAttribute('data-popper-placement')).toBe('bottom-start');
+  });
 });
