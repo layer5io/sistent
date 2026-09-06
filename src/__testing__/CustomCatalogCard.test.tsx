@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
+import { CatalogCard } from '../custom/CatalogCard';
 import CustomCatalogCard, { Pattern } from '../custom/CustomCatalog/CustomCard';
 import { darkModePalette, SistentThemeProvider } from '../theme';
 
@@ -91,5 +92,52 @@ describe('CustomCatalogCard', () => {
 
     const computedStyle = window.getComputedStyle(countElement);
     expect(computedStyle.color).toBe(hexToRgb(darkModePalette.text.default));
+    expect(window.getComputedStyle(countElement.parentElement!).color).toBe(
+      hexToRgb(darkModePalette.text.default)
+    );
+  });
+});
+
+describe('CatalogCard', () => {
+  it('renders all metrics counts correctly', () => {
+    renderWithTheme(
+      <CatalogCard
+        pattern={mockPattern}
+        patternType="design"
+        cardHeight="300px"
+        cardWidth="250px"
+        cardStyles={{}}
+        type="design"
+      />
+    );
+
+    expect(screen.getByText('1200')).not.toBeNull();
+    expect(screen.getByText('450')).not.toBeNull();
+    expect(screen.getByText('300')).not.toBeNull();
+    expect(screen.getByText('100')).not.toBeNull();
+    expect(screen.getByText('50')).not.toBeNull();
+  });
+
+  it('renders metrics with theme-aware text color in dark mode', () => {
+    renderWithTheme(
+      <CatalogCard
+        pattern={mockPattern}
+        patternType="design"
+        cardHeight="300px"
+        cardWidth="250px"
+        cardStyles={{}}
+        type="design"
+      />,
+      'dark'
+    );
+
+    const countElement = screen.getByText('1200');
+    expect(countElement).not.toBeNull();
+
+    const computedStyle = window.getComputedStyle(countElement);
+    expect(computedStyle.color).toBe(hexToRgb(darkModePalette.text.default));
+    expect(window.getComputedStyle(countElement.parentElement!).color).toBe(
+      hexToRgb(darkModePalette.text.default)
+    );
   });
 });
