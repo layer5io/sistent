@@ -1,6 +1,7 @@
 import { Box, Card, CardContent, Link, Typography } from '../../base';
 import { OpenInNewIcon } from '../../icons';
 import { styled } from '../../theme';
+import { WidgetEmptyState } from '../WidgetEmptyState';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   height: '100%',
@@ -72,27 +73,31 @@ export const PlainCard = ({ title, icon, resources }: PlainCardProps): JSX.Eleme
         </StyledTitleBox>
 
         <StyledContentBox>
-          <StyledResourceList>
-            {resources.map((item) => (
-              <ResourceListItem key={item.link}>
-                <Box sx={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>{item.icon}</Box>
+          {resources.length === 0 ? (
+            <WidgetEmptyState message="No resources available" />
+          ) : (
+            <StyledResourceList>
+              {resources.map((item) => (
+                <ResourceListItem key={item.link}>
+                  <Box sx={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>{item.icon}</Box>
 
-                <StyledResourceLink
-                  href={item.link}
-                  target={item.external ? '_blank' : '_self'}
-                  rel={item.external ? 'noopener noreferrer' : ''}
-                >
-                  {item.name}
-                </StyledResourceLink>
+                  <StyledResourceLink
+                    href={item.link}
+                    target={item.external ? '_blank' : '_self'}
+                    rel={item.external ? 'noopener noreferrer' : ''}
+                  >
+                    {item.name}
+                  </StyledResourceLink>
 
-                {item.external && (
-                  <sup>
-                    <OpenInNewIcon width="12px" height="12px" fill="currentColor" />
-                  </sup>
-                )}
-              </ResourceListItem>
-            ))}
-          </StyledResourceList>
+                  {item.external && (
+                    <sup>
+                      <OpenInNewIcon width="12px" height="12px" fill="currentColor" />
+                    </sup>
+                  )}
+                </ResourceListItem>
+              ))}
+            </StyledResourceList>
+          )}
         </StyledContentBox>
       </CardContent>
     </StyledCard>
