@@ -312,4 +312,62 @@ describe('DashboardLayoutContext – standalone usage', () => {
     ctxValue?.openSidebar();
     expect(mockOpen).toHaveBeenCalledTimes(1);
   });
+
+  describe('sidebar height derivation from sidebarTopOffset (#1843)', () => {
+    it('derives height as calc(100dvh - offset) when sidebarTopOffset is provided without sidebarHeight', () => {
+      renderLayout({
+        isSidebarOpen: true,
+        sidebarTopOffset: '64px',
+        sidebarContent: <div data-testid="sidebar-child">content</div>
+      });
+
+      const container = screen.getByTestId('sidebar-child').parentElement;
+      const styles = window.getComputedStyle(container as Element);
+      expect(styles.height).toBe('calc(100dvh - 64px)');
+      expect(styles.maxHeight).toBe('calc(100dvh - 64px)');
+      expect(styles.top).toBe('64px');
+    });
+
+    it('formats numeric sidebarTopOffset in pixels for height calc', () => {
+      renderLayout({
+        isSidebarOpen: true,
+        sidebarTopOffset: 80,
+        sidebarContent: <div data-testid="sidebar-child">content</div>
+      });
+
+      const container = screen.getByTestId('sidebar-child').parentElement;
+      const styles = window.getComputedStyle(container as Element);
+      expect(styles.height).toBe('calc(100dvh - 80px)');
+      expect(styles.maxHeight).toBe('calc(100dvh - 80px)');
+      expect(styles.top).toBe('80px');
+    });
+
+    it('respects explicit sidebarHeight when both are provided', () => {
+      renderLayout({
+        isSidebarOpen: true,
+        sidebarTopOffset: '64px',
+        sidebarHeight: '500px',
+        sidebarContent: <div data-testid="sidebar-child">content</div>
+      });
+
+      const container = screen.getByTestId('sidebar-child').parentElement;
+      const styles = window.getComputedStyle(container as Element);
+      expect(styles.height).toBe('500px');
+      expect(styles.maxHeight).toBe('500px');
+      expect(styles.top).toBe('64px');
+    });
+
+    it('defaults to 100dvh when sidebarTopOffset is 0 or not provided', () => {
+      renderLayout({
+        isSidebarOpen: true,
+        sidebarTopOffset: '0',
+        sidebarContent: <div data-testid="sidebar-child">content</div>
+      });
+
+      const container = screen.getByTestId('sidebar-child').parentElement;
+      const styles = window.getComputedStyle(container as Element);
+      expect(styles.height).toBe('100dvh');
+      expect(styles.maxHeight).toBe('100dvh');
+    });
+  });
 });
