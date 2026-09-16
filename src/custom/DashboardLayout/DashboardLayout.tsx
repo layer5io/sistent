@@ -111,7 +111,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       // Edit Mode just turned ON → expand the panel
       setSidebarVisible(true);
     }
-    if (!isSidebarOpen) {
+    if (!isSidebarOpen && prevIsSidebarOpen.current) {
       // Edit Mode turned OFF → collapse the panel
       setSidebarVisible(false);
     }

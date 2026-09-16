@@ -259,6 +259,23 @@ describe('DashboardLayout – desktop', () => {
     fireEvent.click(screen.getByLabelText('Open Widget Picker'));
     expect(onSidebarVisibilityChange).toHaveBeenCalledWith(true);
   });
+
+  it('does not emit onSidebarVisibilityChange on initial mount when isSidebarOpen is false', () => {
+    const onSidebarVisibilityChange = jest.fn();
+    render(
+      <SistentThemeProvider initialMode="light">
+        <DashboardLayout
+          isSidebarOpen={false}
+          sidebarContent={WIDGETS}
+          onSidebarVisibilityChange={onSidebarVisibilityChange}
+        >
+          <div>Dashboard</div>
+        </DashboardLayout>
+      </SistentThemeProvider>
+    );
+
+    expect(onSidebarVisibilityChange).not.toHaveBeenCalled();
+  });
 });
 
 // ---------------------------------------------------------------------------

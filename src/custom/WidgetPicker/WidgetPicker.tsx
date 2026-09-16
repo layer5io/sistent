@@ -19,7 +19,10 @@ export interface WidgetPickerProps {
   /** Callback when a widget is clicked to be added */
   onAddWidget: (widget: Omit<WidgetItem, 'key'>, key: string) => void;
   
-  /** Optional callback to close the picker (renders a Close icon if provided) */
+  /**
+   * Optional callback to close the picker. When provided, takes precedence
+   * over the layout context's closeSidebar handler.
+   */
   onClose?: () => void;
   
   /**
