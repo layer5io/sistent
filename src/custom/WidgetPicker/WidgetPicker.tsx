@@ -3,6 +3,7 @@ import { Box, IconButton, Stack, Typography } from '../../base';
 import { AddIcon, CloseIcon } from '../../icons';
 import { useTheme } from '../../theme';
 import type { SxProps, Theme } from '@mui/material';
+import { useDashboardLayoutContext } from '../DashboardLayout/DashboardLayoutContext';
 
 export interface WidgetItem {
   key: string;
@@ -21,6 +22,16 @@ export interface WidgetPickerProps {
   /** Optional callback to close the picker (renders a Close icon if provided) */
   onClose?: () => void;
   
+  /**
+   * Explicit override for close-button visibility.
+   * - `true`  → always render the close button.
+   * - `false` → never render it.
+   * - `undefined` (default) → auto-detect: hidden when embedded in a
+   *   DashboardLayout BottomSheet (to avoid a duplicate 'X'), shown when
+   *   embedded in the desktop sticky sidebar or used standalone.
+   */
+  showCloseButton?: boolean;
+
   /** Custom background color for the header. Defaults to theme.palette.background.default */
   headerBackgroundColor?: string;
   
@@ -35,11 +46,30 @@ export const WidgetPicker: React.FC<WidgetPickerProps> = ({
   widgetsToAdd,
   onAddWidget,
   onClose,
+  showCloseButton,
   headerBackgroundColor,
   headerTextColor,
   containerSx = {},
 }) => {
   const theme = useTheme();
+  const layoutContext = useDashboardLayoutContext();
+
+  // Resolve whether to show the close button.
+  // Explicit `showCloseButton` prop always wins.
+  // Otherwise: hide when embedded in the mobile BottomSheet (the sheet already
+  // has its own close/drag affordance), show when on desktop sidebar or standalone.
+  const shouldShowClose =
+    showCloseButton !== undefined
+      ? showCloseButton
+      : !layoutContext?.isSheet && Boolean(onClose ?? layoutContext?.closeSidebar);
+
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    } else {
+      layoutContext?.closeSidebar?.();
+    }
+  };
 
   return (
     <Box
@@ -70,8 +100,8 @@ export const WidgetPicker: React.FC<WidgetPickerProps> = ({
         <Typography variant="h5" sx={{ color: headerTextColor || theme.palette.text.primary }}>
           Widgets
         </Typography>
-        {onClose && (
-          <IconButton aria-label="Close widget picker" onClick={onClose} size="small">
+        {shouldShowClose && (
+          <IconButton aria-label="Close widget picker" onClick={handleClose} size="small">
             <CloseIcon fill={headerTextColor || theme.palette.text.primary} width="20" />
           </IconButton>
         )}

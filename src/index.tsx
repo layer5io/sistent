@@ -35,7 +35,10 @@ export {
 
 export {
   DashboardLayout,
-  type DashboardLayoutProps
+  type DashboardLayoutProps,
+  DashboardLayoutContext,
+  useDashboardLayoutContext,
+  type DashboardLayoutContextValue
 } from './custom/DashboardLayout';
 // Same nested-barrel dts-drop quirk as FeedbackButton above: UniversalFilter
 // (and its FilterColumn / UniversalFilterProps types) reaches the entry only

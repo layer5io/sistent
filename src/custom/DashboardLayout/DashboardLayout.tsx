@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Box, Fab } from '../../base';
 import { AddIcon } from '../../icons/Add';
 import { useTheme, useMediaQuery } from '../../theme';
 import { BottomSheet } from '../BottomSheet';
+import { DashboardLayoutContext } from './DashboardLayoutContext';
 
 export interface DashboardLayoutProps {
   /** The main dashboard content (typically the React-Grid-Layout) */
@@ -25,7 +26,7 @@ export interface DashboardLayoutProps {
   /** Optional sticky top offset for the sidebar (useful if page has a top navbar) */
   sidebarTopOffset?: string | number;
 
-  /** Optional fixed height for the sticky sidebar. Defaults to 100dvh */
+  /** Optional fixed height for the sticky sidebar. Defaults to `calc(100dvh - <sidebarTopOffset>)`. */
   sidebarHeight?: string | number;
 
   /** Background color for the mobile bottom sheet header */
@@ -33,6 +34,36 @@ export interface DashboardLayoutProps {
 
   /** Text color for the mobile bottom sheet header */
   headerTextColor?: string;
+
+  /**
+   * Controlled sidebar-panel visibility.
+   * When provided, DashboardLayout becomes a controlled component for the
+   * panel's open/minimized state and will not manage `sidebarVisible`
+   * internally. Pair with `onSidebarVisibilityChange`.
+   */
+  sidebarVisible?: boolean;
+
+  /**
+   * Initial panel visibility when running uncontrolled.
+   * Ignored when `sidebarVisible` is provided.
+   * Defaults to `true` (panel starts open).
+   */
+  defaultSidebarVisible?: boolean;
+
+  /**
+   * Called when the panel's open/minimized state changes.
+   * Receives the next value (`true` = expanded, `false` = minimized).
+   */
+  onSidebarVisibilityChange?: (visible: boolean) => void;
+
+  /**
+   * Whether to render the floating reopen FAB when the sidebar panel is
+   * minimized while edit mode is still active.
+   * Defaults to `true`.
+   * Set to `false` when the host application provides its own toolbar button
+   * that can reopen the panel.
+   */
+  showReopenFab?: boolean;
 }
 
 export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
@@ -42,34 +73,62 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   sidebarTitle = 'Widget Picker',
   sidebarWidth = { xs: '100%', md: '350px' },
   sidebarTopOffset = '0',
-  sidebarHeight = '100dvh',
+  sidebarHeight,
   headerBackgroundColor,
-  headerTextColor
+  headerTextColor,
+  sidebarVisible: controlledVisible,
+  defaultSidebarVisible = true,
+  onSidebarVisibilityChange,
+  showReopenFab = true,
 }) => {
   const theme = useTheme();
   // We use the 'md' breakpoint (900px default) to switch between mobile and desktop layout
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
-  // isSheetVisible is independently owned by DashboardLayout:
-  // - resets to true whenever Edit Mode (isSidebarOpen) transitions OFF → ON
-  // - can be set to false by the user dismissing the sheet (FAB appears instead)
-  // - set to false when Edit Mode turns OFF
-  // This two-dimension model prevents the sheet from re-opening on every
-  // isSidebarOpen change after the user has intentionally minimized it.
-  const [isSheetVisible, setIsSheetVisible] = useState(isSidebarOpen);
+  // isSidebarVisible represents "panel expanded" (true) vs "panel minimized" (false).
+  // This is independent of isSidebarOpen (the edit-session flag).
+  // In uncontrolled mode, we manage visibility internally.
+  // In controlled mode (sidebarVisible prop provided), the caller drives it.
+  const isControlled = controlledVisible !== undefined;
+  const [internalVisible, setInternalVisible] = useState(defaultSidebarVisible);
+
+  const isSidebarVisible = isControlled ? (controlledVisible as boolean) : internalVisible;
+
+  const setSidebarVisible = useCallback(
+    (next: boolean) => {
+      if (!isControlled) {
+        setInternalVisible(next);
+      }
+      onSidebarVisibilityChange?.(next);
+    },
+    [isControlled, onSidebarVisibilityChange]
+  );
+
   const prevIsSidebarOpen = useRef(isSidebarOpen);
 
   useEffect(() => {
     if (isSidebarOpen && !prevIsSidebarOpen.current) {
-      // Edit Mode just turned ON → pop the sheet open
-      setIsSheetVisible(true);
+      // Edit Mode just turned ON → expand the panel
+      setSidebarVisible(true);
     }
     if (!isSidebarOpen) {
-      // Edit Mode turned OFF → close the sheet and hide the FAB
-      setIsSheetVisible(false);
+      // Edit Mode turned OFF → collapse the panel
+      setSidebarVisible(false);
     }
     prevIsSidebarOpen.current = isSidebarOpen;
-  }, [isSidebarOpen]);
+  }, [isSidebarOpen, setSidebarVisible]);
+
+  const closeSidebar = useCallback(() => setSidebarVisible(false), [setSidebarVisible]);
+  const openSidebar = useCallback(() => setSidebarVisible(true), [setSidebarVisible]);
+
+  // Derive sidebar height: if sidebarTopOffset is a non-zero string or number,
+  // use calc(100dvh - <offset>) so the sidebar never pushes content off viewport.
+  const resolvedSidebarHeight =
+    sidebarHeight !== undefined
+      ? sidebarHeight
+      : sidebarTopOffset && sidebarTopOffset !== '0' && sidebarTopOffset !== 0
+        ? `calc(100dvh - ${typeof sidebarTopOffset === 'number' ? `${sidebarTopOffset}px` : sidebarTopOffset})`
+        : '100dvh';
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'row', gap: '1rem', width: '100%' }}>
@@ -79,24 +138,28 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 
       {isSidebarOpen && isMobile && (
         <>
-          <BottomSheet
-            open={isSheetVisible}
-            onClose={() => setIsSheetVisible(false)}
-            title={sidebarTitle}
-            maxHeight="50vh"
-            headerBackgroundColor={headerBackgroundColor}
-            headerTextColor={headerTextColor}
+          <DashboardLayoutContext.Provider
+            value={{ isMobile, isSheet: true, isSidebarVisible, closeSidebar, openSidebar }}
           >
-            {sidebarContent}
-          </BottomSheet>
+            <BottomSheet
+              open={isSidebarVisible}
+              onClose={closeSidebar}
+              title={sidebarTitle}
+              maxHeight="50vh"
+              headerBackgroundColor={headerBackgroundColor}
+              headerTextColor={headerTextColor}
+            >
+              {sidebarContent}
+            </BottomSheet>
+          </DashboardLayoutContext.Provider>
 
-          {/* FAB appears when Edit Mode is active but the sheet has been minimized,
+          {/* FAB appears when Edit Mode is active but the panel has been minimized,
               letting users rearrange the dashboard and pull the picker back up. */}
-          {!isSheetVisible && (
+          {!isSidebarVisible && showReopenFab && (
             <Fab
               color="primary"
               aria-label="Open Widget Picker"
-              onClick={() => setIsSheetVisible(true)}
+              onClick={openSidebar}
               sx={(fabTheme) => ({
                 position: 'fixed',
                 bottom: 24,
@@ -111,19 +174,43 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       )}
 
       {isSidebarOpen && !isMobile && (
-        <Box
-          sx={{
-            width: sidebarWidth,
-            flexShrink: 0,
-            position: 'sticky',
-            top: sidebarTopOffset,
-            alignSelf: 'flex-start',
-            height: sidebarHeight,
-            maxHeight: sidebarHeight,
-          }}
-        >
-          {sidebarContent}
-        </Box>
+        <>
+          {isSidebarVisible ? (
+            <DashboardLayoutContext.Provider
+              value={{ isMobile, isSheet: false, isSidebarVisible, closeSidebar, openSidebar }}
+            >
+              <Box
+                sx={{
+                  width: sidebarWidth,
+                  flexShrink: 0,
+                  position: 'sticky',
+                  top: sidebarTopOffset,
+                  alignSelf: 'flex-start',
+                  height: resolvedSidebarHeight,
+                  maxHeight: resolvedSidebarHeight,
+                }}
+              >
+                {sidebarContent}
+              </Box>
+            </DashboardLayoutContext.Provider>
+          ) : (
+            showReopenFab && (
+              <Fab
+                color="primary"
+                aria-label="Open Widget Picker"
+                onClick={openSidebar}
+                sx={(fabTheme) => ({
+                  position: 'fixed',
+                  bottom: 24,
+                  right: 24,
+                  zIndex: fabTheme.zIndex.drawer,
+                })}
+              >
+                <AddIcon fill={theme.palette.primary.contrastText} />
+              </Fab>
+            )
+          )}
+        </>
       )}
     </Box>
   );
