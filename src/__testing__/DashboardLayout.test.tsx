@@ -68,8 +68,7 @@ describe('DashboardLayout – mobile', () => {
     // BottomSheet has its own close button labelled 'Close'
     const closeBtn = screen.getByLabelText('Close');
     fireEvent.click(closeBtn);
-    // FAB appears so the user can reopen (sheet is minimized, but MUI Dialog
-    // keeps DOM content mounted — so we check the FAB, not the close button)
+    // FAB appears immediately so the user can reopen, while the sheet transitions closed
     expect(screen.queryByLabelText('Open Widget Picker')).not.toBeNull();
   });
 
