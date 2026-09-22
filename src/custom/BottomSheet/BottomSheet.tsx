@@ -1,4 +1,5 @@
 import Slide, { SlideProps } from '@mui/material/Slide';
+import { readableTextColor, useTheme } from '../../theme';
 import React, { useId } from 'react';
 import { Box } from '../../base/Box';
 import { Dialog } from '../../base/Dialog';
@@ -38,6 +39,25 @@ const BottomSheet = ({
   headerTextColor
 }: BottomSheetProps) => {
   const titleId = useId();
+  const theme = useTheme();
+
+  const tint = theme.palette.surface?.tint;
+  const finalHeaderBackgroundColor =
+    headerBackgroundColor || tint || theme.palette.background.default;
+
+  const defaultForeground = headerBackgroundColor
+    ? readableTextColor(
+        headerBackgroundColor,
+        theme.palette.text.inverse,
+        theme.palette.text.default
+      )
+    : tint
+      ? // surface.tint is a dark gradient in both palettes, so always light ink
+        // (matches Modal / UniversalFilter tinted headers).
+        theme.palette.common.white
+      : theme.palette.text.default;
+
+  const finalHeaderTextColor = headerTextColor ?? defaultForeground;
 
   return (
     <Dialog
@@ -61,15 +81,15 @@ const BottomSheet = ({
       {title && (
         <>
           <Box
-            sx={(theme) => ({
+            sx={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
               padding: '1rem',
               textAlign: 'center',
-              background: headerBackgroundColor || theme.palette.surface.tint,
-              color: headerTextColor || theme.palette.text.primary
-            })}
+              background: finalHeaderBackgroundColor,
+              color: finalHeaderTextColor
+            }}
           >
             <Typography
               id={titleId}
@@ -91,9 +111,9 @@ const BottomSheet = ({
               onClick={onClose}
               size="small"
               edge="end"
-              sx={(theme) => ({
+              sx={{
                 '& svg': {
-                  fill: headerTextColor || theme.palette.text.primary
+                  fill: finalHeaderTextColor
                 },
                 transform: 'rotate(-90deg)',
                 '&:hover': {
@@ -101,7 +121,7 @@ const BottomSheet = ({
                   transition: 'all 0.3s ease-in',
                   cursor: 'pointer'
                 }
-              })}
+              }}
             >
               <CloseIcon />
             </IconButton>
