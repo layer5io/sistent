@@ -1,7 +1,8 @@
+import { alpha, type CheckboxProps } from '@mui/material';
 import MUIDataTable, { MUIDataTableColumn, MUIDataTableOptions } from '@sistent/mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
-import { ShareIcon } from '../icons';
+import { FilterAllIcon, ShareIcon } from '../icons';
 import { EllipsisIcon } from '../icons/Ellipsis';
 import { FormattedTime } from '../utils';
 import { styled, useTheme } from './../theme';
@@ -149,6 +150,40 @@ export interface ResponsiveDataTableProps {
   colViews?: ColView[];
   rowsPerPageOptions?: number[] | undefined;
 }
+
+type DataTableCheckboxProps = CheckboxProps & { 'data-description'?: string };
+
+const DataTableCheckbox = React.forwardRef<HTMLButtonElement, DataTableCheckboxProps>(
+  (props, ref) => {
+    const theme = useTheme();
+
+    if (props['data-description'] !== 'row-select-header') {
+      return <Checkbox {...props} ref={ref} />;
+    }
+
+    const brand = theme.palette.background.brand?.default;
+
+    return (
+      <Checkbox
+        {...props}
+        ref={ref}
+        disableRipple
+        icon={<FilterAllIcon fill={brand ? alpha(brand, 0.4) : undefined} />}
+        slotProps={{
+          ...props.slotProps,
+          input: { 'aria-label': 'select all rows', ...props.slotProps?.input }
+        }}
+      />
+    );
+  }
+);
+DataTableCheckbox.displayName = 'DataTableCheckbox';
+
+const components = {
+  ExpandButton: () => '',
+  Checkbox: DataTableCheckbox
+};
+
 const ResponsiveDataTable = ({
   data,
   columns,
@@ -161,11 +196,9 @@ const ResponsiveDataTable = ({
 }: ResponsiveDataTableProps): JSX.Element => {
   const textLabels = options?.textLabels || {};
   const bodyTextLabels = textLabels.body || {};
-  
+
   const noMatchMessage =
-    typeof bodyTextLabels.noMatch === 'string'
-      ? bodyTextLabels.noMatch
-      : 'No data available';
+    typeof bodyTextLabels.noMatch === 'string' ? bodyTextLabels.noMatch : 'No data available';
 
   const updatedOptions = {
     ...options,
@@ -252,11 +285,6 @@ const ResponsiveDataTable = ({
   React.useEffect(() => {
     updateColumnsEffect();
   }, [updateColumnsEffect]);
-
-  const components = {
-    ExpandButton: () => '',
-    Checkbox: Checkbox
-  };
 
   return (
     <MUIDataTable
