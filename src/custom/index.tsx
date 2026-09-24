@@ -40,7 +40,7 @@ import { FlipCard, FlipCardProps } from './FlipCard';
 import { FormatId } from './FormatId';
 import { useWindowDimensions } from './Helpers/Dimension';
 import { useNotificationHandler } from './Helpers/Notification';
-import { ColView, updateVisibleColumns } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
+import { updateVisibleColumns, type ColView } from './Helpers/ResponsiveColumns/responsive-columns';
 import { LearningCard } from './LearningCard';
 import { BasicMarkdown, RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';

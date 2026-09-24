@@ -11,8 +11,8 @@ import {
   filterReducer
 } from '../../utils/typing.state';
 import { getFilters } from '../../utils/typing.utils';
-import TypingFilterInput from './TypingFIlterInput';
-import { TypingFilters } from './TypingFIlters';
+import TypingFilterInput from './TypingFilterInput';
+import { TypingFilters } from './TypingFilters';
 import { TypingFilterValueSuggestions } from './TypingFilterSuggestions';
 
 interface TypingFilterType {

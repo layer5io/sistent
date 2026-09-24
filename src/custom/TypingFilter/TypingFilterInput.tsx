@@ -6,11 +6,10 @@ export type TypingFilterInputProps = {
   variant?: string;
 } & TextFieldProps;
 
-export const TypingFilterInput = React.forwardRef(function TypingFilterInput(
-  props: TypingFilterInputProps,
-  ref: React.ForwardedRef<HTMLDivElement>
-): JSX.Element {
-  return <TextField ref={ref} {...props} />;
-});
+export const TypingFilterInput = React.forwardRef<HTMLInputElement, TypingFilterInputProps>(
+  function TypingFilterInput(props, ref): JSX.Element {
+    return <TextField inputRef={ref} {...props} />;
+  }
+);
 
 export default TypingFilterInput;

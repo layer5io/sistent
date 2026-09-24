@@ -177,7 +177,7 @@ export * from './Shapes';
 export * from './Share';
 export * from './SimCard';
 export * from './SMP';
-export * from './SocialMedial';
+export * from './SocialMedia';
 export * from './Star';
 export * from './Success';
 export * from './SupervisedUserCircle';

@@ -6,9 +6,9 @@ import { PublishIcon } from '../../icons';
 import { CHARCOAL } from '../../theme';
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { ErrorBoundary } from '../ErrorBoundary';
-import { ColView } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
+import { ColView } from '../Helpers/ResponsiveColumns/responsive-columns/responsive-column';
 import PromptComponent from '../Prompt';
-import { PromptRef } from '../Prompt/promt-component';
+import { PromptRef } from '../Prompt/prompt-component';
 import ResponsiveDataTable from '../ResponsiveDataTable';
 import UnpublishTooltipIcon from './UnpublishTooltipIcon';
 

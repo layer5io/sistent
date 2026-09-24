@@ -13,7 +13,7 @@ import {
 import { Pattern } from '../CustomCatalog/CustomCard';
 import { CustomColumnVisibilityControl } from '../CustomColumnVisibilityControl';
 import { useWindowDimensions } from '../Helpers/Dimension';
-import { updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-coulmns.tsx/responsive-column';
+import { updateVisibleColumns } from '../Helpers/ResponsiveColumns/responsive-columns/responsive-column';
 import PromptComponent from '../Prompt';
 import SearchBar from '../SearchBar';
 import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';

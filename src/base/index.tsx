@@ -25,7 +25,7 @@ export * from './CircularProgress';
 export * from './ClickAwayListener';
 export * from './Collapse';
 export * from './Container';
-export * from './CssBaseLine';
+export * from './CssBaseline';
 export * from './DateTimePicker';
 export * from './Dialog';
 export * from './DialogActions';

@@ -2,11 +2,11 @@
 
 RJSF, or React JSON Schema Form, schemas play a crucial role in defining the structure and behavior of forms. These schemas, written in JSON format, provide a blueprint for rendering forms dynamically and handling user input effectively.
 
-### What are RJSF Schemas?
+## What are RJSF Schemas?
 
 RJSF Schemas, based on the React JSON Schema Form library, define the structure, validation rules, and UI elements of dynamic forms in a standardized way. They enable the creation of consistent and flexible forms across our applications.
 
-### How to Use RJSF Schemas
+## How to Use RJSF Schemas
 
 1. **Importing Schemas:**
    Include the required schema in your React component by importing it. For example:
@@ -16,17 +16,18 @@ RJSF Schemas, based on the React JSON Schema Form library, define the structure,
    ```
 
 1. **Rendering Forms:**
-   Integrate the schema into your component to render the form dynamically. Use already created generic RJSF components or use RJSF Form component directly.
+   Integrate the schema into your component to render the form dynamically using `RJSFFormWrapper`:
 
    ```javascript
-   import { sampleSchema, sampleUiSchema } from '@sistent/sistent';
-   <Form schema={sampleSchema} uiSchema={sampleUiSchema} onSubmit={handleFormSubmission} />;
+   import { RJSFFormWrapper, sampleSchema, sampleUiSchema } from '@sistent/sistent';
+
+   <RJSFFormWrapper schema={sampleSchema} uiSchema={sampleUiSchema} onSubmit={handleFormSubmission} />;
    ```
 
 1. **Customization:**
    Adjust the schema properties to tailor the form's appearance and behavior. Refer to the specific schema's documentation for customization options.
 
-### Rendering a form without its top-level object title (the standard pattern)
+## Rendering a form without its top-level object title (the standard pattern)
 
 The canonical schemas from `@meshery/schemas` carry a human-readable `title`
 (and `description`) on their **root object** — for example the import-design
@@ -90,7 +91,7 @@ You rarely write that option by hand. Use whichever is convenient:
    <SomeRjsfForm schema={schema} uiSchema={hideRootObjectTitle(uiSchema)} />;
    ```
 
-### File Conventions for Schemas
+## File Conventions for Schemas
 
 Follow a consistent file structure convention to enhance clarity and organization when adding new schema:
 
@@ -98,7 +99,7 @@ Follow a consistent file structure convention to enhance clarity and organizatio
 1. Use CamelCase for multi-word schema names, e.g., UserRegistrationFormSchema.
 1. Create two separate files, schema.tsx and uiSchema.tsx, to store both schemas separately.
 
-### Naming Conventions for Schemas
+## Naming Conventions for Schemas
 
 Follow a consistent naming convention to enhance clarity and organization when adding new schema:
 
@@ -107,7 +108,7 @@ Follow a consistent naming convention to enhance clarity and organization when a
 1. Include "Schema" in the name to explicitly indicate that it's a schema, e.g., ProfileSettingsSchema.
 1. Include "UiSchema" in the name to explicitly indicate that it's a UI schema, e.g., ProfileSettingsUiSchema.
 
-### Custom Properties
+## Custom Properties
 
 In addition to the properties offered by the JSON schema, we have introduced the following custom properties that you can include in new schema:
 

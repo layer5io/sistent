@@ -1,8 +1,10 @@
+import type { CSSProperties } from 'react';
+
 export interface IconProps {
   width?: number;
   height?: number;
   fill?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }
 
 export interface SlackIconProps extends IconProps {
