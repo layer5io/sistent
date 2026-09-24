@@ -44,6 +44,7 @@ import { ColView, updateVisibleColumns } from './Helpers/ResponsiveColumns/respo
 import { LearningCard } from './LearningCard';
 import { BasicMarkdown, RenderMarkdown } from './Markdown';
 import { ModalCard } from './ModalCard';
+import { NotificationCenter } from './NotificationCenter';
 import PopperListener, { IPopperListener } from './PopperListener';
 import ResponsiveDataTable, {
   DataTableEllipsisMenu,
@@ -120,6 +121,7 @@ export {
   InfoTooltip,
   LearningCard,
   ModalCard,
+  NotificationCenter,
   PopperListener,
   ResponsiveDataTable,
   sanitizeCatalogImageUrl,

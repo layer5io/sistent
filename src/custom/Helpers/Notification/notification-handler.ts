@@ -1,5 +1,6 @@
 import { OptionsObject, useSnackbar } from 'notistack';
 import React from 'react';
+import { notificationStore } from './notification-store';
 
 type NotificationHandler = (message: string, options?: OptionsObject) => void;
 
@@ -19,6 +20,7 @@ const useNotificationHandler = (): NotificationHandler => {
     if (options) {
       enqueueSnackbar(message, options);
     }
+    notificationStore.add(message, options?.variant);
   };
 
   return notify;
