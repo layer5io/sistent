@@ -1,11 +1,12 @@
+import type Form from '@rjsf/core';
 import { withTheme, type FormProps } from '@rjsf/core';
-import { Theme as MaterialUITheme } from '@rjsf/mui';
+import type { FormContextType, RJSFSchema, StrictRJSFSchema } from '@rjsf/utils';
 import validator from '@rjsf/validator-ajv8';
 import React, { type Ref } from 'react';
-import { SistentThemeProvider } from '../../theme';
 import { hideRootObjectTitle } from './hideRootObjectTitle';
+import { sistentTheme } from './theme';
 
-const MuiRJSFForm = withTheme(MaterialUITheme);
+const SistentRJSFForm = withTheme(sistentTheme);
 
 /**
  * Props accepted by `RJSFFormWrapper`. Inherits the full
@@ -19,11 +20,14 @@ const MuiRJSFForm = withTheme(MaterialUITheme);
  * ref — consumers use it to call `validateForm()` and read the
  * post-validation `state.errors` / `state.formData`.
  */
-export interface RJSFFormWrapperProps
+export interface RJSFFormWrapperProps<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  extends Omit<FormProps<any, any, any>, 'validator' | 'children'> {
+  T = any,
+  S extends StrictRJSFSchema = RJSFSchema,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  formRef?: Ref<any>;
+  F extends FormContextType = any
+> extends Omit<FormProps<T, S, F>, 'validator' | 'children'> {
+  formRef?: Ref<Form<T, S, F>>;
   children?: React.ReactNode;
   /**
    * Suppress the form's ROOT object title and description so its child
@@ -56,26 +60,32 @@ export interface RJSFFormWrapperProps
  * `RJSFFormModal`) that own the submit affordance should explicitly
  * pass an empty fragment to suppress it.
  */
-export function RJSFFormWrapper({
+export function RJSFFormWrapper<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  T = any,
+  S extends StrictRJSFSchema = RJSFSchema,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  F extends FormContextType = any
+>({
   formRef,
   children,
   hideRootTitle = false,
   uiSchema,
   ...rest
-}: RJSFFormWrapperProps): JSX.Element {
+}: RJSFFormWrapperProps<T, S, F>): React.JSX.Element {
   const resolvedUiSchema = hideRootTitle ? hideRootObjectTitle(uiSchema) : uiSchema;
   return (
-    <SistentThemeProvider>
-      <MuiRJSFForm
-        validator={validator}
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        ref={formRef as any}
-        uiSchema={resolvedUiSchema}
-        {...rest}
-      >
-        {children}
-      </MuiRJSFForm>
-    </SistentThemeProvider>
+    <SistentRJSFForm
+      validator={validator}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(rest as any)}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ref={formRef as any}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      uiSchema={resolvedUiSchema as any}
+    >
+      {children}
+    </SistentRJSFForm>
   );
 }
 

@@ -164,3 +164,21 @@ export {
   type Team as TeamPickerRecord,
   type TeamSearchFieldProps
 } from './custom/DashboardWidgets/GettingStartedWidget/TeamSearchField';
+
+// Explicit root re-exports for RJSFFormWrapper, RJSFFormModal, and Sistent RJSF theme
+// to ensure rollup-plugin-dts includes their types in dist/index.d.ts.
+export {
+  RJSFFormModal,
+  RJSFFormWrapper,
+  hideRootObjectTitle,
+  sistentTheme,
+  sistentTemplates,
+  sistentWidgets,
+  generateTheme,
+  generateTemplates,
+  generateWidgets,
+  type RJSFFormModalProps,
+  type RJSFFormWrapperProps,
+  type RJSFValidationError
+} from './custom/RJSFFormWrapper';
+

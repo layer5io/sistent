@@ -97,29 +97,42 @@ export function RJSFFormModal({
   onValidationError,
   hideRootTitle = true,
   ...rest
-}: RJSFFormModalProps): JSX.Element {
+}: RJSFFormModalProps): React.JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formRef = useRef<any>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [formData, setFormData] = useState<any>(initialData ?? {});
+  const prevOpenRef = useRef(open);
 
   useEffect(() => {
-    if (!open) {
+    // Synchronize formData only when modal transitions between open and closed.
+    // Re-rendering the parent with a new initialData object reference while the modal
+    // remains open must not overwrite user-entered form data.
+    if (!prevOpenRef.current && open) {
+      setFormData(initialData ?? {});
+    } else if (prevOpenRef.current && !open) {
       setFormData({});
-      return;
     }
-    setFormData(initialData ?? {});
+    prevOpenRef.current = open;
   }, [open, initialData]);
 
   const handlePrimaryClick = (): void => {
     if (!formRef.current) {
       return;
     }
-    // Delegate to RJSF's submit lifecycle — this triggers internal
-    // validation and fan-out to `onSubmit` / `onError` props on the
-    // form, which we pass through below.
+    // Dispatch a bubbling submit event on formElement.current (with fallback to formRef.current.submit()).
+    // This directly invokes RJSF's onSubmit handler to execute schema validation, omitExtraData, and
+    // onError / onSubmit routing, rather than relying solely on browser-native requestSubmit() which
+    // can halt submission before RJSF runs if HTML5 constraint validation fails on empty required fields.
     try {
-      formRef.current.submit();
+      if (formRef.current.formElement?.current) {
+        const submitEvent = new Event('submit', { bubbles: true, cancelable: true });
+        formRef.current.formElement.current.dispatchEvent(submitEvent);
+        return;
+      }
+      if (typeof formRef.current.submit === 'function') {
+        formRef.current.submit();
+      }
     } catch (err) {
       const message = (err as Error)?.message ?? String(err);
       const errors: RJSFValidationError[] = [{ stack: `Form could not be validated: ${message}` }];
@@ -150,7 +163,14 @@ export function RJSFFormModal({
     <Modal open={open} closeModal={onClose} title={title} headerIcon={leftHeaderIcon}>
       <ModalBody>
         <div style={{ width: '100%' }}>
+          {/*
+            Adjacent modal UX fix: Remount RJSFFormWrapper when `open` toggles
+            so that internal RJSF validation errors (Form.state.errors) and uncommitted
+            transient input state from a canceled session do not persist when the modal
+            is reopened with fresh initialData.
+          */}
           <RJSFFormWrapper
+            key={open ? 'open' : 'closed'}
             {...rest}
             hideRootTitle={hideRootTitle}
             formData={formData}
