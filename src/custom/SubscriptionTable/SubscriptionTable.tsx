@@ -45,7 +45,7 @@ export const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
       );
     }
     return (
-      <Typography variant="body2" sx={{ fontWeight: 500 }}>
+      <Typography variant="body2" fontWeight="fontWeightMedium">
         {value}
       </Typography>
     );
@@ -59,7 +59,7 @@ export const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
           component="h2"
           sx={{
             mb: 3,
-            fontWeight: 700
+            fontWeight: 'fontWeightBold'
           }}
         >
           {title}
@@ -69,19 +69,25 @@ export const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
         <Table sx={{ minWidth: 650 }} aria-label="subscription comparison table">
           <TableHead>
             <StyledHeaderRow>
-              <StyledTableCell sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-                {featuresLabel}
+              <StyledTableCell>
+                <Typography variant="subtitle1" fontWeight="fontWeightBold" component="span">
+                  {featuresLabel}
+                </Typography>
               </StyledTableCell>
-              <StyledTableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-                {freePlanLabel}
+              <StyledTableCell align="center">
+                <Typography variant="subtitle1" fontWeight="fontWeightBold" component="span">
+                  {freePlanLabel}
+                </Typography>
                 <Box sx={{ mt: 1 }}>
                   <Button size="small" variant="outlined" onClick={() => onPlanSelect?.('free')}>
                     {freePlanButtonLabel}
                   </Button>
                 </Box>
               </StyledTableCell>
-              <StyledTableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-                {teamPlanLabel}
+              <StyledTableCell align="center">
+                <Typography variant="subtitle1" fontWeight="fontWeightBold" component="span">
+                  {teamPlanLabel}
+                </Typography>
                 <Box sx={{ mt: 1 }}>
                   <Button
                     size="small"
@@ -93,8 +99,10 @@ export const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
                   </Button>
                 </Box>
               </StyledTableCell>
-              <StyledTableCell align="center" sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}>
-                {enterprisePlanLabel}
+              <StyledTableCell align="center">
+                <Typography variant="subtitle1" fontWeight="fontWeightBold" component="span">
+                  {enterprisePlanLabel}
+                </Typography>
                 <Box sx={{ mt: 1 }}>
                   <Button
                     size="small"
@@ -109,9 +117,9 @@ export const SubscriptionTable: React.FC<SubscriptionTableProps> = ({
             </StyledHeaderRow>
           </TableHead>
           <TableBody>
-            {features.map((row, index) => (
+            {features.map((row) => (
               <TableRow
-                key={index}
+                key={row.featureName}
                 sx={{
                   '&:last-child td, &:last-child th': { border: 0 },
                   '&:hover': { backgroundColor: 'action.hover' }
