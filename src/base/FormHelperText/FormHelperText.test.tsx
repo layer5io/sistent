@@ -1,6 +1,6 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { render, screen } from '@testing-library/react';
+import React from 'react';
 import FormHelperText from './FormHelperText';
 
 describe('FormHelperText Component', () => {
@@ -14,6 +14,13 @@ describe('FormHelperText Component', () => {
     render(<FormHelperText ref={ref}>Ref Attached Text</FormHelperText>);
     expect(ref.current).toBeInstanceOf(HTMLParagraphElement);
     expect(ref.current?.textContent).toBe('Ref Attached Text');
+  });
+
+  it('renders with custom component prop', () => {
+    render(<FormHelperText component="span">Span Helper Text</FormHelperText>);
+    const element = screen.getByText('Span Helper Text');
+    expect(element.tagName).toBe('SPAN');
+    expect(element).toBeInTheDocument();
   });
 
   it('applies custom className and props', () => {

@@ -101,7 +101,7 @@ export {
   useAccessibleOrgs,
   type UseAccessibleOrgsOptions,
   type TriggerGetKeys
-} from './custom/useAccessibleOrgs';
+} from './hooks/useAccessibleOrgs';
 
 export {
   WidgetPicker,

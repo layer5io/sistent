@@ -164,7 +164,6 @@ const WorkspaceEnvironmentSelection: FunctionComponent<WorkspaceEnvironmentSelec
           ))
         }
         renderInput={(params) => <TextField {...params} placeholder="Assigned Environment" />}
-        popupIcon={null}
         disabled={!isAssignedEnvironmentAllowed}
       />
     </div>
