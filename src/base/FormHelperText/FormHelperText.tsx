@@ -7,18 +7,23 @@ import React from 'react';
 
 export type SistentFormHelperTextProps<
   D extends React.ElementType = FormHelperTextTypeMap['defaultComponent'],
-  P = {}
+  P extends object = object
 > = MuiFormHelperTextProps<D, P>;
 
-export const FormHelperText: OverridableComponent<FormHelperTextTypeMap> = React.forwardRef(
-  ({ children, ...props }: SistentFormHelperTextProps, ref: React.Ref<Element>) => {
-    return (
-      <MuiFormHelperText ref={ref as any} {...props}>
-        {children}
-      </MuiFormHelperText>
-    );
-  }
-) as OverridableComponent<FormHelperTextTypeMap>;
+type FormHelperTextComponent = OverridableComponent<FormHelperTextTypeMap> & {
+  displayName?: string;
+};
+
+export const FormHelperText: FormHelperTextComponent = React.forwardRef<
+  HTMLParagraphElement,
+  SistentFormHelperTextProps
+>(({ children, ...props }, ref) => {
+  return (
+    <MuiFormHelperText ref={ref} {...props}>
+      {children}
+    </MuiFormHelperText>
+  );
+}) as FormHelperTextComponent;
 
 FormHelperText.displayName = 'FormHelperText';
 
