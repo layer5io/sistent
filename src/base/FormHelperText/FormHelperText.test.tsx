@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import FormHelperText from './FormHelperText';
@@ -6,7 +5,7 @@ import FormHelperText from './FormHelperText';
 describe('FormHelperText Component', () => {
   it('renders children correctly', () => {
     render(<FormHelperText>Sample Helper Text</FormHelperText>);
-    expect(screen.getByText('Sample Helper Text')).toBeInTheDocument();
+    expect(screen.getByText('Sample Helper Text')).toBeTruthy();
   });
 
   it('forwards ref correctly to the underlying HTML element', () => {
@@ -20,7 +19,7 @@ describe('FormHelperText Component', () => {
     render(<FormHelperText component="span">Span Helper Text</FormHelperText>);
     const element = screen.getByText('Span Helper Text');
     expect(element.tagName).toBe('SPAN');
-    expect(element).toBeInTheDocument();
+    expect(element).toBeTruthy();
   });
 
   it('forwards ref correctly when rendered with a custom component', () => {
@@ -41,7 +40,7 @@ describe('FormHelperText Component', () => {
       </FormHelperText>
     );
     const element = screen.getByTestId('custom-helper');
-    expect(element).toHaveClass('custom-class');
-    expect(element).toHaveClass('Mui-error');
+    expect(element.className).toContain('custom-class');
+    expect(element.className).toContain('Mui-error');
   });
 });
