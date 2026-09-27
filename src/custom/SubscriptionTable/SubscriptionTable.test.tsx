@@ -29,8 +29,9 @@ describe('SubscriptionTable Component', () => {
 
   it('renders boolean indicators with accessibility labels', () => {
     render(<SubscriptionTable features={mockFeatures} />);
-    expect(screen.getAllByTestId('check-icon').length).toBeGreaterThan(0);
-    expect(screen.getAllByTestId('close-icon').length).toBeGreaterThan(0);
+    // Assert actual accessible text labels instead of test IDs
+    expect(screen.getAllByLabelText('Included').length).toBeGreaterThan(0);
+    expect(screen.getAllByLabelText('Not included').length).toBeGreaterThan(0);
   });
 
   it('calls onPlanSelect when action buttons are clicked', () => {
