@@ -14,16 +14,15 @@ type FormHelperTextComponent = OverridableComponent<FormHelperTextTypeMap> & {
   displayName?: string;
 };
 
-export const FormHelperText: FormHelperTextComponent = React.forwardRef<
-  HTMLParagraphElement,
-  SistentFormHelperTextProps
->(({ children, ...props }, ref) => {
-  return (
-    <MuiFormHelperText ref={ref} {...props}>
-      {children}
-    </MuiFormHelperText>
-  );
-}) as FormHelperTextComponent;
+export const FormHelperText: FormHelperTextComponent = React.forwardRef(
+  ({ children, ...props }: SistentFormHelperTextProps, ref: React.Ref<any>) => {
+    return (
+      <MuiFormHelperText ref={ref} {...props}>
+        {children}
+      </MuiFormHelperText>
+    );
+  }
+) as FormHelperTextComponent;
 
 FormHelperText.displayName = 'FormHelperText';
 

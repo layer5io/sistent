@@ -23,6 +23,17 @@ describe('FormHelperText Component', () => {
     expect(element).toBeInTheDocument();
   });
 
+  it('forwards ref correctly when rendered with a custom component', () => {
+    const ref = React.createRef<HTMLSpanElement>();
+    render(
+      <FormHelperText component="span" ref={ref}>
+        Span Helper Text
+      </FormHelperText>
+    );
+    expect(ref.current).toBeInstanceOf(HTMLSpanElement);
+    expect(ref.current?.tagName).toBe('SPAN');
+  });
+
   it('applies custom className and props', () => {
     render(
       <FormHelperText data-testid="custom-helper" className="custom-class" error>
