@@ -164,3 +164,11 @@ export {
   type Team as TeamPickerRecord,
   type TeamSearchFieldProps
 } from './custom/DashboardWidgets/GettingStartedWidget/TeamSearchField';
+
+// Explicit re-export for SubscriptionTable to prevent rollup-plugin-dts from
+// dropping the component and its types from the generated dist/index.d.ts bundle.
+export {
+  SubscriptionTable,
+  type SubscriptionTableProps,
+  type PlanFeature
+} from './custom/SubscriptionTable';

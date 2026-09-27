@@ -191,5 +191,6 @@ export * from './permissions';
 export * from './ResourceDetailFormatters';
 export * from './RJSFFormWrapper';
 export * from './ShareModal';
+export * from './SubscriptionTable';
 export * from './UserSearchField';
 export * from './Workspaces';
