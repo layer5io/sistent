@@ -164,3 +164,11 @@ export {
   type Team as TeamPickerRecord,
   type TeamSearchFieldProps
 } from './custom/DashboardWidgets/GettingStartedWidget/TeamSearchField';
+
+// Same nested-barrel dts-drop quirk as FeedbackButton above: sanitizeCatalogImageUrl
+// reaches the entry only through `export * from './custom'`, so rollup-plugin-dts
+// drops it from the bundled d.ts and `import { sanitizeCatalogImageUrl } from
+// "@sistent/sistent"` fails type-checking despite the runtime export. It lives in its
+// own dependency-free leaf module (not `Helper.ts`, which imports the untyped
+// `js-yaml` and would crash the dts build if the entry re-exported from it).
+export { sanitizeCatalogImageUrl } from './custom/CustomCatalog/sanitizeCatalogImageUrl';
