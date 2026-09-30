@@ -13,6 +13,10 @@ export type NotificationHandlerOptions = {
   autoHideDuration?: number | null;
   persist?: boolean;
   preventDuplicate?: boolean;
+  anchorOrigin?: {
+    vertical: 'top' | 'bottom';
+    horizontal: 'left' | 'center' | 'right';
+  };
 };
 
 type NotificationHandler = (message: string, options?: NotificationHandlerOptions) => void;

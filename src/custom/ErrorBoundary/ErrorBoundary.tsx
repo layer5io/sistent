@@ -62,7 +62,7 @@ export function Fallback({
       <CodeMessage>
         <code>
           <strong>Error: </strong>
-          {(error as Error).message}
+          {error instanceof Error ? error.message : String(error)}
         </code>
         <br />
         {showPackageInfo && (

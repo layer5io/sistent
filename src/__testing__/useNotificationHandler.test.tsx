@@ -27,6 +27,16 @@ describe('useNotificationHandler', () => {
     expect(screen.getAllByText('Loaded')).toHaveLength(1);
   });
 
+  it('accepts a snackbar position', () => {
+    const notify = renderNotify();
+
+    act(() =>
+      notify.current('Positioned', { anchorOrigin: { vertical: 'top', horizontal: 'right' } })
+    );
+
+    expect(screen.getAllByText('Positioned')).toHaveLength(1);
+  });
+
   it('shows every message when called more than once in one update', () => {
     const notify = renderNotify();
 
