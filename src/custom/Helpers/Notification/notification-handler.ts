@@ -1,27 +1,27 @@
 import { OptionsObject, useSnackbar } from 'notistack';
 import React from 'react';
 
-type NotificationHandler = (message: string, options?: OptionsObject) => void;
+export type NotificationHandler = (message: string, options?: OptionsObject) => void;
 
+/**
+ * Returns a `notify(message, options?)` function that enqueues a snackbar in the
+ * nearest notistack `SnackbarProvider`.
+ *
+ * notistack is a peer dependency, not a bundled one: `useSnackbar` reads a
+ * React context, and a bundled copy of notistack would own a private context
+ * that the host's `SnackbarProvider` never populates, so every `notify` would
+ * silently do nothing. The host must render its own `SnackbarProvider` above
+ * any component that calls this hook.
+ */
 const useNotificationHandler = (): NotificationHandler => {
-  const [message, setMessage] = React.useState<string>('');
   const { enqueueSnackbar } = useSnackbar();
 
-  React.useEffect(() => {
-    if (message) {
-      enqueueSnackbar(message);
-      setMessage('');
-    }
-  }, [message, enqueueSnackbar]);
-
-  const notify: NotificationHandler = (message, options) => {
-    setMessage(message);
-    if (options) {
+  return React.useCallback<NotificationHandler>(
+    (message, options) => {
       enqueueSnackbar(message, options);
-    }
-  };
-
-  return notify;
+    },
+    [enqueueSnackbar]
+  );
 };
 
 export default useNotificationHandler;

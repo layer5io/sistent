@@ -18,7 +18,8 @@ This directory contains a collection of utility and helper components that you c
 2. **Notification Hook**: A custom React hook for displaying notifications using notistack.
    - **File**: `Notification`
    - **Usage**: Provides the `useNotificationHandler` hook, which allows you to display notifications.
-   - **Returns**: An object containing the notification state and a function for updating the notification state.
+   - **Returns**: A stable `notify(message, options?)` function; `options` is notistack's `OptionsObject` (for example `{ variant: 'success' }`).
+   - **Requires**: `notistack` is a peer dependency. Install it in the host app and render its `SnackbarProvider` above any component that calls the hook - the hook enqueues into the host's provider and shows nothing without one.
 
 ## How to Use
 
@@ -31,7 +32,7 @@ To use these helper components in your project, follow these steps:
 - **Example**: Importing the `useWindowDimensions` hook from the `Dimension` helper component:
 
   ```javascript
-  import { useWindowDimensions } from '@layer5/sistent-components';
+  import { useWindowDimensions } from '@sistent/sistent';
   const DimensionExample = () => {
   const { width, height } = useWindowDimensions();
 
@@ -46,7 +47,12 @@ To use these helper components in your project, follow these steps:
   - **Example**: Importing the `useNotificationHandler` hook from the `Notification` helper component:
 
   ```javascript
-  import useNotificationHandler from '@layer5/sistent-components';
+  import { SnackbarProvider } from 'notistack';
+  import { useNotificationHandler } from '@sistent/sistent';
+
+  // Once, near the root of the host app:
+  // <SnackbarProvider><App /></SnackbarProvider>
+
   const NotificationHandlerExample = () => {
   const notify = useNotificationHandler();
 
