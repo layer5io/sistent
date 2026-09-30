@@ -9,40 +9,23 @@ export * from './schemas';
 export * from './theme';
 export * from './utils';
 
-// FeedbackButton's type is dropped from the bundled d.ts when it reaches the
-// entry only through `export * from './custom'`: rollup-plugin-dts (used by
-// tsup for the declaration bundle) fails to propagate certain re-exports
-// through nested barrels, so `import { FeedbackButton } from "@sistent/sistent"`
-// fails type-checking even though the runtime export exists. An explicit
-// re-export forces the declaration into the published bundle. The same quirk
-// affects other custom components (see consumers' local d.ts augmentations);
-// add them here as they are needed.
-export { FeedbackButton, type FeedbackComponentProps } from './custom/Feedback';
-// `TableAction` and `getCopyDeepLinkAction` live in the leaf `TableActions`
-// module (not `ResponsiveDataTable`, which imports the untyped
-// `@sistent/mui-datatables` and would crash the dts build) precisely so this
-// explicit re-export can force them into the published declaration bundle.
-export { getCopyDeepLinkAction, type TableAction } from './custom/TableActions';
-// Same nested-barrel dts-drop quirk as FeedbackButton above: without this
-// explicit re-export the DangerConfirmationModal declarations (and its exported
-// props types) are dropped from the bundled d.ts, breaking
-// `import { DangerConfirmationModal } from "@sistent/sistent"` type-checking.
+// The explicit re-exports below were added to work around what looked like
+// rollup-plugin-dts dropping declarations reached through `export * from
+// './custom'`. The real cause was `src/custom/` having both an `index.ts` and an
+// `index.tsx` barrel, which the runtime and declaration builds resolve in
+// opposite orders; with one barrel the `export *` above carries everything, and
+// `declarationRuntimeExportParity.test.ts` keeps the two builds in step. They
+// stay because some also export names the domain barrels do not (e.g.
+// `FeedbackComponentProps`, `TeamPickerRecord`).
 export {
   DangerConfirmationModal,
   type DangerConfirmationCheckbox,
   type DangerConfirmationModalProps
 } from './custom/DangerConfirmationModal';
+export { FeedbackButton, type FeedbackComponentProps } from './custom/Feedback';
+export { getCopyDeepLinkAction, type TableAction } from './custom/TableActions';
 
-export {
-  DashboardLayout,
-  type DashboardLayoutProps
-} from './custom/DashboardLayout';
-// Same nested-barrel dts-drop quirk as FeedbackButton above: UniversalFilter
-// (and its FilterColumn / UniversalFilterProps types) reaches the entry only
-// through `export * from './custom'`, so rollup-plugin-dts drops it from the
-// bundled d.ts and `import { UniversalFilter } from "@sistent/sistent"` fails
-// type-checking despite the runtime export. The explicit re-export forces the
-// declaration into the published bundle.
+export { DashboardLayout, type DashboardLayoutProps } from './custom/DashboardLayout';
 export {
   default as UniversalFilter,
   type DateRange,
@@ -53,21 +36,12 @@ export {
 
 export { DataTableToolbar, type DataTableToolbarProps } from './custom/DataTableToolbar';
 
-// Same nested-barrel dts-drop quirk as FeedbackButton above: reaching the entry
-// only through `export * from './custom'`, rollup-plugin-dts drops both the
-// `NavigationNavbar` component declaration and the `NavigationItem` type from the
-// bundled d.ts, so `import { NavigationNavbar, type NavigationItem } from
-// "@sistent/sistent"` fails type-checking despite the runtime exports existing.
-// The explicit re-export forces both declarations into the published bundle.
 export { NavigationNavbar, type NavigationItem } from './custom/NavigationNavbar';
 
-// Same nested-barrel dts-drop quirk as FeedbackButton above. `createCanShow` is
-// worse than a missing type: consumers still resolve it at runtime, so the import
-// silently degrades to `any` and its `eventBus` argument stops being
-// variance-checked - the one place a host hands its event bus to sistent.
-// Its parameter types travel with it: a consumer that cannot name `HasKeyProps`
-// or `ReasonEventPublisher` cannot type the wrapper it builds around the
-// returned component, and falls straight back to `any`.
+// `createCanShow` takes the host's event bus, so its parameter types travel with
+// it: a consumer that cannot name `HasKeyProps` or `ReasonEventPublisher` cannot
+// type the wrapper it builds around the returned component, and falls straight
+// back to `any`.
 export {
   createCanShow,
   type HasKeyProps,
@@ -99,39 +73,24 @@ export {
 
 export {
   useAccessibleOrgs,
-  type UseAccessibleOrgsOptions,
-  type TriggerGetKeys
+  type TriggerGetKeys,
+  type UseAccessibleOrgsOptions
 } from './hooks/useAccessibleOrgs';
 
-export {
-  WidgetPicker,
-  type WidgetPickerProps,
-  type WidgetItem
-} from './custom/WidgetPicker';
+export { WidgetPicker, type WidgetItem, type WidgetPickerProps } from './custom/WidgetPicker';
 
-export {
-  WidgetEmptyState,
-  type WidgetEmptyStateProps
-} from './custom/WidgetEmptyState';
+export { WidgetEmptyState, type WidgetEmptyStateProps } from './custom/WidgetEmptyState';
 
 export { BottomSheet, type BottomSheetProps } from './custom/BottomSheet';
 
 export { ActionButton, type ActionButtonProps, type Option } from './custom/ActionButton';
 
-// Same nested-barrel dts-drop quirk as FeedbackButton above. The share/revoke
-// payload builders exist so that hosts stop hand-rolling the
+// The share/revoke payload builders exist so that hosts stop hand-rolling the
 // `resourceAccessMappingPayload` body they hand to `ShareModal`'s
 // `resourceAccessMutator`: the server drops unrecognised keys silently and
 // still answers 200, so a hand-rolled body fails as a successful no-op.
 // Without the declarations a host cannot type that body at all and falls back
 // to the object literal that caused the bug.
-//
-// The component is dropped by the same quirk, which left hosts able to type the
-// share body but not the component consuming it. This is one instance of a
-// wider gap - most of `src/custom/` reaches `dist/index.js` without reaching
-// `dist/index.d.ts` - so a per-symbol line here is a stopgap, not the fix.
-// AGENTS.md, "New public exports need an explicit root re-export", owns the
-// measurement and the command that reproduces it.
 //
 // Taken from the `./custom/ShareModal` barrel rather than the leaf
 // `resourceAccessPayload` module: that barrel re-exports the builders as well
@@ -149,10 +108,7 @@ export {
   type ShareModalProps
 } from './custom/ShareModal';
 
-// Same nested-barrel dts-drop quirk as FeedbackButton above, and the whole
-// `DashboardWidgets` barrel is subject to it - `TeamSearchField` reaches
-// `dist/index.js` but not `dist/index.d.ts`, so a host cannot name the
-// component at all. Its two prop types travel with it: `teamsData` and
+// `TeamSearchField`'s two prop types travel with it: `teamsData` and
 // `setTeamsData` are both keyed on the team-picker record, so a consumer that
 // cannot name it cannot hold the state the component requires and falls back
 // to `any`. Taken from the leaf module because the barrel re-exports only the

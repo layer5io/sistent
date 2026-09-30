@@ -1,6 +1,6 @@
 import { styled } from '@mui/material';
 import React from 'react';
-import { FallbackProps, ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
+import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 import { Box } from '../../base/Box';
 import { Link } from '../../base/Link';
 import { Typography } from '../../base/Typography';
@@ -29,7 +29,19 @@ const CodeMessage = styled('div')(({ theme }) => ({
   marginBlock: '.5rem'
 }));
 
-interface FallbackComponentProps extends FallbackProps {
+/**
+ * What a fallback component receives. Declared here rather than taken from
+ * `react-error-boundary`, which is bundled into the runtime and is not installed
+ * by consumers, so naming its `FallbackProps` in the published declarations
+ * would reach them as `any`. Passing a fallback to `ReactErrorBoundary` below
+ * still checks this against the library's own type at build time.
+ */
+export type ErrorFallbackProps = {
+  error: unknown;
+  resetErrorBoundary: (...args: unknown[]) => void;
+};
+
+interface FallbackComponentProps extends ErrorFallbackProps {
   resetErrorBoundary: () => void;
   children?: React.ReactNode;
   pageUrl?: string;
@@ -75,7 +87,7 @@ export function Fallback({
   );
 }
 
-const reportError = (error: Error, info: React.ErrorInfo): void => {
+const reportError = (error: unknown, info: React.ErrorInfo): void => {
   const pageUrl = window.location.href;
   const timestamp = new Date().toLocaleString();
   // This is where you'd send the error to Sentry, etc
@@ -92,7 +104,7 @@ const reportError = (error: Error, info: React.ErrorInfo): void => {
 };
 
 interface ErrorBoundaryProps {
-  customFallback?: React.ComponentType<FallbackProps>;
+  customFallback?: React.ComponentType<ErrorFallbackProps>;
   children: React.ReactNode;
   onErrorCaught?: (error: string) => void;
 }
@@ -105,9 +117,11 @@ export const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({
   const pageUrl = window.location.href;
   const timestamp = new Date().toLocaleString();
 
-  const handleError = (error: Error, info: React.ErrorInfo) => {
+  // react-error-boundary types the caught value as `unknown`: anything can be
+  // thrown, not only an `Error`.
+  const handleError = (error: unknown, info: React.ErrorInfo) => {
     // Pass error message to onErrorCaught
-    onErrorCaught?.(error.message);
+    onErrorCaught?.(error instanceof Error ? error.message : String(error));
     reportError(error, info);
   };
 

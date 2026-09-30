@@ -1,4 +1,5 @@
-import MUIDataTable, { MUIDataTableColumn, MUIDataTableOptions } from '@sistent/mui-datatables';
+import MUIDataTable from '@sistent/mui-datatables';
+import type { MUIDataTableColumn, MUIDataTableOptions } from 'mui-datatables';
 import React, { useCallback } from 'react';
 import { Checkbox, Collapse, ListItemIcon, ListItemText, Menu, MenuItem } from '../base';
 import { ShareIcon } from '../icons';
@@ -161,11 +162,9 @@ const ResponsiveDataTable = ({
 }: ResponsiveDataTableProps): JSX.Element => {
   const textLabels = options?.textLabels || {};
   const bodyTextLabels = textLabels.body || {};
-  
+
   const noMatchMessage =
-    typeof bodyTextLabels.noMatch === 'string'
-      ? bodyTextLabels.noMatch
-      : 'No data available';
+    typeof bodyTextLabels.noMatch === 'string' ? bodyTextLabels.noMatch : 'No data available';
 
   const updatedOptions = {
     ...options,

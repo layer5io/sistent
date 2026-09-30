@@ -2,6 +2,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { ChartOptions } from 'billboard.js';
 import _ from 'lodash';
+import type { MUIDataTableOptions } from 'mui-datatables';
 import React, { useCallback, useContext, useMemo } from 'react';
 import { Box, Chip, Collapse, Grid2, IconButton, Typography } from '../../base';
 
@@ -487,7 +488,7 @@ export const TableDataFormatter: React.FC<TableDataFormatterProps> = ({
       tableData = [Object.values(data)];
     }
   }
-  const options = {
+  const options: MUIDataTableOptions = {
     filter: false,
     download: false,
     print: false,

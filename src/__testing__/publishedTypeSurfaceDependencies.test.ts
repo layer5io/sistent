@@ -121,20 +121,41 @@ const optionalPeersOf = (pkg: PackageJson): string[] =>
     .map(([name]) => name);
 
 /**
+ * `@types/foo` -> `foo`, `@types/scope__name` -> `@scope/name`: the module a
+ * DefinitelyTyped package supplies declarations for, following TypeScript's own
+ * mangling of scoped names. `undefined` for any package that is not one.
+ */
+const typedModuleOf = (name: string): string | undefined => {
+  if (!name.startsWith('@types/')) return undefined;
+  const typed = name.slice('@types/'.length);
+  return typed.includes('__') ? `@${typed.replace('__', '/')}` : typed;
+};
+
+/**
  * What a consumer is *guaranteed* to have: dependencies, plus the peers npm
  * installs for them - which excludes every peer marked optional.
  *
  * Read from `peerDependenciesMeta` rather than a hardcoded list, so marking a
  * new peer optional immediately tightens this guard instead of leaving a hole
  * that only shows up in a downstream install.
+ *
+ * A declared `@types/foo` also counts as having `foo` for this purpose: the
+ * declaration bundle's `from 'foo'` is a type reference, and TypeScript resolves
+ * it through `@types/foo`. That is how `mui-datatables` is typed - the runtime is
+ * sistent's untyped `@sistent/mui-datatables` fork, the types are upstream's.
  */
 const installedByConsumersOf = (pkg: PackageJson): string[] => {
   const optional = optionalPeersOf(pkg);
 
-  return [
+  const installed = [
     ...Object.keys(pkg.dependencies ?? {}),
     ...Object.keys(pkg.peerDependencies ?? {})
   ].filter((name) => !optional.includes(name));
+
+  return [
+    ...installed,
+    ...installed.map(typedModuleOf).filter((name): name is string => name !== undefined)
+  ];
 };
 
 describe('the published type surface only names packages a consumer installs', () => {
@@ -257,6 +278,25 @@ describe('the published type surface only names packages a consumer installs', (
 
       it('does not count a devDependency', () => {
         expect(installedByConsumersOf(pkg)).not.toContain('typescript');
+      });
+
+      it('counts the module a declared @types package supplies declarations for', () => {
+        const typed: PackageJson = {
+          dependencies: { '@types/mui-datatables': '*', '@types/scope__name': '*' }
+        };
+
+        expect(installedByConsumersOf(typed)).toEqual([
+          '@types/mui-datatables',
+          '@types/scope__name',
+          'mui-datatables',
+          '@scope/name'
+        ]);
+      });
+
+      it('does not count the module behind a @types devDependency', () => {
+        expect(
+          installedByConsumersOf({ devDependencies: { '@types/js-yaml': '*' } })
+        ).not.toContain('js-yaml');
       });
 
       it('treats a peer with no meta entry as required', () => {

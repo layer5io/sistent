@@ -32,16 +32,9 @@ describe('RJSFFormWrapper (sistent#1533)', () => {
     ).toBe('RJSFFormWrapper');
   });
 
-  it.each([
-    ['index.ts', 'src/custom/index.ts'],
-    ['index.tsx', 'src/custom/index.tsx']
-  ])(
-    'src/custom/%s re-exports the RJSFFormWrapper module',
-    (_label, relPath) => {
-      const full = path.resolve(__dirname, '..', '..', relPath);
-      expect(fs.existsSync(full)).toBe(true);
-      const source = fs.readFileSync(full, 'utf8');
-      expect(source).toMatch(/export\s+\*\s+from\s+['"]\.\/RJSFFormWrapper['"]/);
-    }
-  );
+  it('src/custom/index.tsx re-exports the RJSFFormWrapper module', () => {
+    const full = path.resolve(__dirname, '..', '..', 'src/custom/index.tsx');
+    const source = fs.readFileSync(full, 'utf8');
+    expect(source).toMatch(/export\s+\*\s+from\s+['"]\.\/RJSFFormWrapper['"]/);
+  });
 });
