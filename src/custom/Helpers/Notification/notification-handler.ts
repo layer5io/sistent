@@ -1,5 +1,4 @@
 import { useSnackbar } from 'notistack';
-import React from 'react';
 
 /**
  * The snackbar options this handler forwards. A subset declared here rather
@@ -18,25 +17,20 @@ export type NotificationHandlerOptions = {
 
 type NotificationHandler = (message: string, options?: NotificationHandlerOptions) => void;
 
+/**
+ * Returns a `notify` function that enqueues one snackbar per call.
+ *
+ * It reads the snackbar context of the notistack copy bundled into sistent, not
+ * the host's: a host's own `SnackbarProvider` comes from a different copy of
+ * notistack, so it does not reach this hook, and under it alone `notify` enqueues
+ * into notistack's default context, where nothing is shown.
+ */
 const useNotificationHandler = (): NotificationHandler => {
-  const [message, setMessage] = React.useState<string>('');
   const { enqueueSnackbar } = useSnackbar();
 
-  React.useEffect(() => {
-    if (message) {
-      enqueueSnackbar(message);
-      setMessage('');
-    }
-  }, [message, enqueueSnackbar]);
-
-  const notify: NotificationHandler = (message, options) => {
-    setMessage(message);
-    if (options) {
-      enqueueSnackbar(message, options);
-    }
+  return (message, options) => {
+    enqueueSnackbar(message, options);
   };
-
-  return notify;
 };
 
 export default useNotificationHandler;

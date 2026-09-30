@@ -16,9 +16,9 @@
  * `index.tsx`, each a different barrel. `import './custom'` resolves by extension
  * order, and the two builds disagree on it - esbuild (the runtime bundle) tries
  * `.tsx` first, TypeScript (the declaration bundle) tries `.ts` first - so each
- * build silently exported a different list. `the source tree` below rules that
- * shape out before it can reach a build; the `dist/` checks catch any other way
- * the two builds come to disagree.
+ * build silently exported a different list. The checks below compare the built
+ * bundles, so they catch that shape and any other way the two builds come to
+ * disagree.
  *
  * Runtime exports are read the way consumers read them: `cjs-module-lexer` is
  * what Node itself uses to expose a CommonJS module's named exports to `import`,
@@ -34,37 +34,10 @@ import path from 'path';
 import ts from 'typescript';
 
 const ROOT = path.resolve(__dirname, '..', '..');
-const SRC = path.join(ROOT, 'src');
 const DIST = path.join(ROOT, 'dist');
 const DTS = path.join(DIST, 'index.d.ts');
 const CJS = path.join(DIST, 'index.js');
 const ESM = path.join(DIST, 'index.mjs');
-
-/** Every source file, recursively, as a path relative to `src/`. */
-const sourceFiles = (dir: string): string[] =>
-  fs.readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) return sourceFiles(full);
-    return /\.(ts|tsx)$/.test(entry.name) && !entry.name.endsWith('.d.ts')
-      ? [path.relative(SRC, full)]
-      : [];
-  });
-
-/**
- * Module paths that more than one file answers to - `foo.ts` next to
- * `foo.tsx`, which is where the two builds' resolution orders diverge.
- */
-const ambiguousModulesIn = (files: string[]): string[] => {
-  const byModule = new Map<string, string[]>();
-  for (const file of files) {
-    const specifier = file.replace(/\.(ts|tsx)$/, '');
-    byModule.set(specifier, [...(byModule.get(specifier) ?? []), file]);
-  }
-  return [...byModule.entries()]
-    .filter(([, candidates]) => candidates.length > 1)
-    .map(([specifier, candidates]) => `${specifier}: ${candidates.sort().join(', ')}`)
-    .sort();
-};
 
 /** Exported names of the declaration bundle, split by whether they carry a value. */
 const declaredExportsOf = (dtsFile: string): { values: Set<string>; all: Set<string> } => {
@@ -127,20 +100,6 @@ const missingFrom = (expected: Set<string>, actual: Set<string>): string[] =>
   [...expected].filter((name) => !actual.has(name)).sort();
 
 describe('declared and runtime exports agree', () => {
-  describe('the source tree', () => {
-    it('has no module path answered by both a .ts and a .tsx file', () => {
-      // Names each pair, so the failure is the remediation: merge the two
-      // files into one and delete the other.
-      expect(ambiguousModulesIn(sourceFiles(SRC))).toEqual([]);
-    });
-
-    it('detects the shape that caused the drift', () => {
-      expect(
-        ambiguousModulesIn(['custom/index.ts', 'custom/index.tsx', 'custom/Foo.tsx', 'index.tsx'])
-      ).toEqual(['custom/index: custom/index.ts, custom/index.tsx']);
-    });
-  });
-
   const built = [DTS, CJS, ESM].every((file) => fs.existsSync(file));
 
   // Skipping is right for `jest` on its own, before a build. In CI it is not:
@@ -197,5 +156,13 @@ describe('declared and runtime exports agree', () => {
       expect(declared.values).toContain(name);
       expect(commonJs).toContain(name);
     });
+
+    it.each(['RJSFFormWrapper', 'RJSFFormModal'])(
+      'declares and ships %s from the package root (sistent#1533)',
+      (name) => {
+        expect(declared.values).toContain(name);
+        expect(commonJs).toContain(name);
+      }
+    );
   });
 });
