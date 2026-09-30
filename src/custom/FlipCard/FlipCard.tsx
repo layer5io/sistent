@@ -80,7 +80,7 @@ export function FlipCard({
   const [flipped, setFlipped] = React.useState(false);
   const [activeBack, setActiveBack] = React.useState(false);
 
-  const timeout = React.useRef<null | NodeJS.Timeout>(null);
+  const timeout = React.useRef<null | ReturnType<typeof setTimeout>>(null);
 
   const Front = GetChild(children, 0);
   const Back = GetChild(children, 1);

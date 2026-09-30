@@ -13,12 +13,13 @@ This directory contains a collection of utility and helper components that you c
 1. **Window Dimensions Hook**: A custom React hook for tracking changes in window dimensions.
    - **File**: `Dimension`
    - **Usage**: Provides the `useWindowDimensions` hook, which allows you to get the current window dimensions and react to changes in window size.
-   - **Returns**: An object containing the current window dimensions and a boolean value indicating whether the window is currently in landscape mode.
+   - **Returns**: An object containing the current window dimensions, `{ width, height }`.
 
 2. **Notification Hook**: A custom React hook for displaying notifications using notistack.
    - **File**: `Notification`
-   - **Usage**: Provides the `useNotificationHandler` hook, which allows you to display notifications.
-   - **Returns**: An object containing the notification state and a function for updating the notification state.
+   - **Usage**: Provides the `useNotificationHandler` hook, which enqueues notistack snackbars.
+   - **Returns**: A `notify(message, options?)` function that enqueues one snackbar per call.
+   - **Limitation**: The hook reads the snackbar context of the notistack copy bundled into sistent, not the host's. A host's own `SnackbarProvider` comes from a different copy of notistack, so it does not reach this hook, and under it alone `notify` enqueues into notistack's default context, where nothing is shown.
 
 ## How to Use
 
@@ -31,28 +32,28 @@ To use these helper components in your project, follow these steps:
 - **Example**: Importing the `useWindowDimensions` hook from the `Dimension` helper component:
 
   ```javascript
-  import { useWindowDimensions } from '@layer5/sistent-components';
+  import { useWindowDimensions } from '@sistent/sistent';
   const DimensionExample = () => {
-  const { width, height } = useWindowDimensions();
+    const { width, height } = useWindowDimensions();
 
-  return (
-   <div>
-    <p>Window width: {width}</p>
-    <p>Window height: {height}</p>
-   </div>
-  );
+    return (
+      <div>
+        <p>Window width: {width}</p>
+        <p>Window height: {height}</p>
+      </div>
+    );
+  };
   ```
 
   - **Example**: Importing the `useNotificationHandler` hook from the `Notification` helper component:
 
   ```javascript
-  import useNotificationHandler from '@layer5/sistent-components';
+  import { useNotificationHandler } from '@sistent/sistent';
   const NotificationHandlerExample = () => {
-  const notify = useNotificationHandler();
+    const notify = useNotificationHandler();
 
-  return (
-   <button onClick={() => notify('Hello world!', { variant: 'success' })}>
-    Click me
-   </button>
-  );
+    return <button onClick={() => notify('Hello world!', { variant: 'success' })}>Click me</button>;
+  };
   ```
+
+  Under a host's own `SnackbarProvider` this example shows nothing: see the limitation above.
