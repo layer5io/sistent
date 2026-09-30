@@ -16,9 +16,11 @@
  * `index.tsx`, each a different barrel. `import './custom'` resolves by extension
  * order, and the two builds disagree on it - esbuild (the runtime bundle) tries
  * `.tsx` first, TypeScript (the declaration bundle) tries `.ts` first - so each
- * build silently exported a different list. The checks below compare the built
- * bundles, so they catch that shape and any other way the two builds come to
- * disagree.
+ * build silently exported a different list. The checks below compare the
+ * *names* of the value exports in the built bundles, so they catch that shape
+ * whenever it changes which names are exported. They do not catch a `.ts`/`.tsx`
+ * pair whose two files export the same names from different implementations:
+ * the names still agree while the declared type and the shipped code do not.
  *
  * Runtime exports are read the way consumers read them: `cjs-module-lexer` is
  * what Node itself uses to expose a CommonJS module's named exports to `import`,

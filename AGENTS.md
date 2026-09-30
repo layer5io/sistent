@@ -216,8 +216,9 @@ carries explicit re-exports that are no longer load-bearing.
 [`src/__testing__/declarationRuntimeExportParity.test.ts`](src/__testing__/declarationRuntimeExportParity.test.ts)
 is the guard: it compares the built `dist/index.d.ts` value exports with `dist/index.js` and
 `dist/index.mjs` in both directions (skips without a build, fails in CI without one - same contract
-as the type-surface guard above). It reads only built output, so a `.ts`/`.tsx` pair surfaces there
-as a mismatch after `make build`, not as a source-level error.
+as the type-surface guard above). It compares export *names* only, in built output: a `.ts`/`.tsx`
+pair shows up there after `make build` when the two files export different names, but a pair that
+exports the same names from different implementations passes. Do not add such a pair.
 
 The dts step type-checks everything reachable from `src/index.tsx`, so code newly exported must
 type-check under `strict`, and a package it imports must have types. `@sistent/mui-datatables`
