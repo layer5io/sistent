@@ -26,10 +26,16 @@
  * `devDependency` nor a peer marked optional in `peerDependenciesMeta` is part
  * of what a consumer necessarily installs, so neither can carry a public type -
  * an optional peer that is skipped fails in exactly the two ways above.
+ *
+ * The same holds for the package a named module's declarations actually come
+ * from. `lodash` is a `dependency` but ships no declarations; they come from
+ * `@types/lodash`, a `devDependency`, so naming a lodash type fails the same two
+ * ways even though `lodash` itself is installed.
  */
 import fs from 'fs';
 import { builtinModules } from 'module';
 import path from 'path';
+import ts from 'typescript';
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const DTS = path.join(ROOT, 'dist', 'index.d.ts');
@@ -103,10 +109,27 @@ const packageNameOf = (specifier: string): string =>
 const isBare = (specifier: string): boolean =>
   !specifier.startsWith('.') && !specifier.startsWith('/');
 
-const externalPackagesIn = (source: string): string[] =>
-  [...new Set(specifiersIn(stripComments(source)).filter(isBare).map(packageNameOf))]
-    .filter((name) => !builtinModules.includes(name))
+const externalSpecifiersIn = (source: string): string[] =>
+  specifiersIn(stripComments(source))
+    .filter(isBare)
+    .filter((specifier) => !builtinModules.includes(packageNameOf(specifier)))
     .sort();
+
+const externalPackagesIn = (source: string): string[] =>
+  [...new Set(externalSpecifiersIn(source).map(packageNameOf))].sort();
+
+/**
+ * The package TypeScript takes `specifier`'s declarations from, resolved from
+ * the bundle's own location: the package itself when it ships declarations,
+ * its `@types/*` package when it does not, `undefined` when nothing resolves.
+ */
+const typesSupplierOf = (specifier: string): string | undefined =>
+  ts.resolveModuleName(
+    specifier,
+    DTS,
+    { module: ts.ModuleKind.ESNext, moduleResolution: ts.ModuleResolutionKind.Bundler },
+    ts.sys
+  ).resolvedModule?.packageId?.name;
 
 type PackageJson = {
   dependencies?: Record<string, string>;
@@ -180,7 +203,9 @@ describe('the published type surface only names packages a consumer installs', (
     // its body, so an unguarded `readFileSync` here throws at collection time
     // and takes the whole suite down with it - turning "no build yet, nothing to
     // check" into a hard failure for anyone running `jest` on its own.
-    const referenced = built ? externalPackagesIn(fs.readFileSync(DTS, 'utf8')) : [];
+    const source = built ? fs.readFileSync(DTS, 'utf8') : '';
+    const referenced = externalPackagesIn(source);
+    const specifiers = externalSpecifiersIn(source);
 
     it('references external packages at all', () => {
       // Guards the scan itself: a pattern that quietly stops matching reports
@@ -199,6 +224,20 @@ describe('the published type surface only names packages a consumer installs', (
       // the remediation - move each one out of devDependencies (or out of
       // optional), or stop re-exporting its types from the barrel.
       expect(undeclared).toEqual([]);
+    });
+
+    it('takes every declaration from a package a consumer installs', () => {
+      const exempt = [...UNDECLARED_BY_DESIGN, ...OPTIONAL_PEERS_ON_THE_RECORD];
+
+      const unsupplied = specifiers
+        .filter((specifier) => !exempt.includes(packageNameOf(specifier)))
+        .map((specifier) => [specifier, typesSupplierOf(specifier)] as const)
+        .filter(
+          ([, supplier]) => supplier === undefined || !installedByConsumers.includes(supplier)
+        )
+        .map(([specifier, supplier]) => `${specifier} (declared by ${supplier ?? 'nothing'})`);
+
+      expect(unsupplied).toEqual([]);
     });
 
     it('carries the permission-key contract from @meshery/schemas as a real dependency', () => {
@@ -255,6 +294,14 @@ describe('the published type surface only names packages a consumer installs', (
       ].join('\n');
 
       expect(externalPackagesIn(source)).toEqual(['@meshery/schemas']);
+    });
+
+    it.each([
+      ['lodash', '@types/lodash'],
+      ['rxjs', 'rxjs'],
+      ['@meshery/schemas/permissions', '@meshery/schemas']
+    ])('takes the declarations for %j from %j', (specifier, supplier) => {
+      expect(typesSupplierOf(specifier)).toBe(supplier);
     });
 
     // The other half of the comparison, and the one that was wrong first: the
