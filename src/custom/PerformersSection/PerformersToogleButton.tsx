@@ -19,14 +19,15 @@ const PerformersSectionButton: React.FC<PerformersSectionButtonProps> = ({ open,
 
   return (
     <CustomTooltip title={open ? 'Hide Performers' : 'Show Performers'} placement="bottom">
-      <span>
+      <span style={{ display: 'flex', height: '100%' }}>
         <Button
           variant="contained"
           onClick={handleClick}
           size="large"
           style={{
             backgroundColor: open ? undefined : theme.palette.background.constant?.disabled,
-            whiteSpace: 'nowrap'
+            whiteSpace: 'nowrap',
+            height: '100%'
           }}
         >
           <TropyIcon style={{ height: '2rem', width: '2rem', marginRight: '10px' }} />
