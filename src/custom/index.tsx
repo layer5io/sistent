@@ -31,6 +31,7 @@ import { CustomDialogProps } from './Dialog/CustomDialog';
 import { EmptyState } from './EmptyState';
 import {
   ErrorBoundary,
+  type ErrorFallbackProps,
   Fallback,
   withErrorBoundary,
   withSuppressedErrorBoundary
@@ -39,7 +40,7 @@ import { FeedbackButton } from './Feedback';
 import { FlipCard, FlipCardProps } from './FlipCard';
 import { FormatId } from './FormatId';
 import { useWindowDimensions } from './Helpers/Dimension';
-import { useNotificationHandler } from './Helpers/Notification';
+import { type NotificationHandlerOptions, useNotificationHandler } from './Helpers/Notification';
 import { ColView, updateVisibleColumns } from './Helpers/ResponsiveColumns/responsive-coulmns.tsx';
 import { LearningCard } from './LearningCard';
 import { BasicMarkdown, RenderMarkdown } from './Markdown';
@@ -172,8 +173,10 @@ export type {
   CustomColumnVisibilityControlProps,
   CustomDialogProps,
   DataTableToolbarProps,
+  ErrorFallbackProps,
   FlipCardProps,
   IPopperListener,
+  NotificationHandlerOptions,
   ResponsiveDataTableProps,
   SearchBarProps,
   StyledCardProps,
@@ -184,12 +187,20 @@ export type {
 
 export * from './CatalogDesignTable';
 export * from './CatalogDetail';
+export * from './CustomTooltip';
+export * from './DashboardLayout';
 export * from './DashboardWidgets';
 export * from './Dialog';
+export * from './HelperTextPopover';
 export * from './LiquidGlass';
+export * from './Markdown';
+export * from './Modal';
 export * from './permissions';
 export * from './ResourceDetailFormatters';
 export * from './RJSFFormWrapper';
 export * from './ShareModal';
+export * from './StyledAccordion';
 export * from './UserSearchField';
+export * from './WidgetEmptyState';
+export * from './WidgetPicker';
 export * from './Workspaces';
