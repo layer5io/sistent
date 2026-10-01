@@ -1,4 +1,4 @@
-import jsyaml from 'js-yaml';
+import * as jsyaml from 'js-yaml';
 import { Pattern } from './CustomCard';
 
 const checkImageUrlValidity = async (

@@ -1,4 +1,4 @@
-import jsyaml from 'js-yaml';
+import * as jsyaml from 'js-yaml';
 
 export const downloadYaml = (filteredData: string, itemName: string): void => {
   const yamlData = Array.isArray(filteredData)

@@ -1,5 +1,5 @@
 import { SxProps, Theme } from '@mui/material';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce.js';
 import React, { useEffect, useMemo, useState } from 'react';
 import { InputAdornment } from '../../base';
 import { SearchIcon } from '../../icons';

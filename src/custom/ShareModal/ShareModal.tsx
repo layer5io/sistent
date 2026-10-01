@@ -1,5 +1,5 @@
 import { CircularProgress, SelectChangeEvent } from '@mui/material';
-import { startCase } from 'lodash';
+import startCase from 'lodash/startCase.js';
 import React, { useEffect, useState } from 'react';
 import {
   Avatar,

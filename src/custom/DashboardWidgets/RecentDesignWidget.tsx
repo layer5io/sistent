@@ -1,4 +1,4 @@
-import { KeyboardArrowRight } from '@mui/icons-material';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import { styled } from '@mui/material/styles';
 import { useState } from 'react';
