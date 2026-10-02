@@ -10,17 +10,23 @@ type InfoTooltipProps = {
 const InfoTooltip = ({ helpText, style = {}, ...props }: InfoTooltipProps) => {
   return (
     <CustomTooltip title={helpText} {...props}>
-      <div
+      <button
+        type="button"
+        aria-label="More information"
         style={{
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
+          padding: 0,
+          border: 'none',
+          background: 'transparent',
+          cursor: 'help',
           ...style
         }}
       >
         <InfoOutlinedIcon {...iconSmall} />
-      </div>
+      </button>
     </CustomTooltip>
   );
 };
