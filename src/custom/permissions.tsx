@@ -2,7 +2,7 @@ import { Key } from '@meshery/schemas/permissions';
 import KeyIcon from '@mui/icons-material/Key';
 import LaunchIcon from '@mui/icons-material/Launch';
 import SecurityIcon from '@mui/icons-material/Security';
-import { useTheme } from '@mui/material/styles';
+import { useMediaQuery, useTheme } from '@mui/material';
 import React from 'react';
 import type {
   MissingCapabilityReason,
@@ -67,6 +67,12 @@ export interface PermissionShieldProps {
   permissionKey: PermissionKeySpec;
   children: React.ReactNode;
   variant?: 'inline' | 'badge';
+  boundaryPadding?: {
+    top?: number;
+    left?: number;
+    right?: number;
+    bottom?: number;
+  };
 }
 
 /** Distinct, defined values in first-seen order — used for the metadata chips. */
@@ -143,9 +149,7 @@ export const PermissionSessionContext: React.FC<PermissionSessionContextProps> =
     const declaredKeys = getPermissionKeys(permissionKeyProp);
     displayedKeys = unmetKeys.length > 0 ? unmetKeys : declaredKeys;
     const combinator = getPermissionKeyCombinator(permissionKeyProp);
-    const keyNames = displayedKeys
-      .map((key) => key.function || 'Access Restricted')
-      .join(', ');
+    const keyNames = displayedKeys.map((key) => key.function || 'Access Restricted').join(', ');
     subtitle =
       combinator === 'anyOf' && keyNames
         ? `Needs any of: ${keyNames}`
@@ -272,7 +276,11 @@ export const PermissionSessionContext: React.FC<PermissionSessionContextProps> =
                     sx={{
                       display: 'inline-flex',
                       cursor: 'pointer',
-                      color: copied ? palette.accent : isCard ? palette.muted : 'rgba(255, 255, 255, 0.7)',
+                      color: copied
+                        ? palette.accent
+                        : isCard
+                          ? palette.muted
+                          : 'rgba(255, 255, 255, 0.7)',
                       transition: 'color 0.2s ease',
                       '&:hover': {
                         color: palette.accent
@@ -543,10 +551,18 @@ export const PermissionSessionContext: React.FC<PermissionSessionContextProps> =
 export const PermissionShield: React.FC<PermissionShieldProps> = ({
   permissionKey,
   children,
-  variant = 'inline'
+  variant = 'inline',
+  boundaryPadding
 }) => {
   const [open, setOpen] = React.useState(false);
   const uniqueId = React.useId();
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const defaultPadding = isMobile
+    ? { top: 64, left: 8, right: 8, bottom: 8 }
+    : { top: 85, left: 16, right: 8, bottom: 8 };
+  const padding = boundaryPadding ? { ...defaultPadding, ...boundaryPadding } : defaultPadding;
 
   const handleClose = () => {
     setOpen(false);
@@ -585,12 +601,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
   // Delegate all key resolution (unmet keys, subtitle, categories, subcategories)
   // to PermissionSessionContext's self-resolving path. This keeps the tooltip
   // and card rendering paths in sync — both use the same internal resolution logic.
-  const tooltipTitle = (
-    <PermissionSessionContext
-      variant="tooltip"
-      permissionKey={permissionKey}
-    />
-  );
+  const tooltipTitle = <PermissionSessionContext variant="tooltip" permissionKey={permissionKey} />;
 
   const isBadge = variant === 'badge';
 
@@ -609,7 +620,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
 
         <Tooltip
           title={tooltipTitle}
-          placement="top"
+          placement="right-start"
           open={open}
           onClose={handleClose}
           disableHoverListener
@@ -617,32 +628,40 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           disableTouchListener
           slotProps={{
             popper: {
-              modifiers: [
-                {
-                  name: 'flip',
-                  enabled: true,
-                  options: {
-                    fallbackPlacements: ['bottom', 'right', 'left']
+              style: { zIndex: 1100 },
+              popperOptions: {
+                modifiers: [
+                  {
+                    name: 'flip',
+                    enabled: true,
+                    options: {
+                      boundary: 'viewport',
+                      fallbackPlacements: ['bottom-start', 'top-start'],
+                      padding
+                    }
+                  },
+                  {
+                    name: 'preventOverflow',
+                    enabled: true,
+                    options: {
+                      boundary: 'viewport',
+                      tether: false,
+                      altAxis: true,
+                      padding
+                    }
                   }
-                },
-                {
-                  name: 'preventOverflow',
-                  enabled: true,
-                  options: {
-                    boundary: 'viewport',
-                    altAxis: true,
-                    padding: 8
-                  }
-                }
-              ]
+                ]
+              }
             },
             tooltip: {
               sx: {
                 background: '#1A1A1A',
                 color: '#FFFFFF',
-                maxWidth: 360,
-                minWidth: 300,
-                padding: '12px',
+                maxWidth: { xs: 260, sm: 360 },
+                minWidth: { xs: 240, sm: 300 },
+                maxHeight: { xs: '200px', sm: '320px' },
+                overflowY: 'auto',
+                padding: { xs: '8px', sm: '12px' },
                 borderLeft: '4px solid #EBC024',
                 borderRadius: '8px',
                 boxShadow: '0 8px 32px rgba(0,0,0,0.4)'
@@ -796,9 +815,9 @@ export const createCanShow = (
 
 // Re-export PermissionProvider types and hooks
 export {
-  PermissionProvider,
   getPermissionKeys,
   isPermissionKeySet,
+  PermissionProvider,
   useHasPermission,
   usePermission,
   usePermissionUserContext,
