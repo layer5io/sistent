@@ -203,37 +203,28 @@ JS - see `useIsNavigationItemPermitted` and its callers in
 which withhold both `onClick` and the expand toggle so an unpermitted section cannot navigate or
 open its children.
 
-## New public exports need an explicit root re-export
+## Declarations and runtime must export the same names
 
-`rollup-plugin-dts` (used by tsup for the declaration bundle) silently drops symbols that reach
-the root barrel only through a nested `export * from './custom'` (or `./base`, etc.) - the runtime
-export in `dist/index.*js` survives, but the declaration is missing from `dist/index.d.ts`, so
-`import { Foo, type FooProps } from '@sistent/sistent'` fails type-checking downstream. When you add
-a new public component or type in a `src/<domain>/` subtree, also add an explicit
-`export { Foo, type FooProps } from './<domain>/Foo';` to `src/index.tsx` (see the documented block
-of examples there, e.g. `FeedbackButton`, `NavigationItem`). Verify by building and grepping
-`dist/index.d.ts` for the symbol - a green `jest`/lint run will not catch this.
+The runtime bundle (esbuild) and the declaration bundle (TypeScript, via tsup's dts step) resolve
+`import './foo'` by extension in opposite orders: esbuild tries `.tsx` first, TypeScript `.ts`. So a
+`foo.ts` beside a `foo.tsx` makes each build export a different list, silently. That is how
+`src/custom/` once had two barrels and 0.22.x shipped 130 undeclared exports (`WorkspaceCard`,
+`TeamTable`, ...) and declared two it never shipped (`HelperTextPopover`, `RenderMarkdownTooltip`) -
+long misread as a `rollup-plugin-dts` "nested-barrel drop", which is why `src/index.tsx` still
+carries explicit re-exports that are no longer load-bearing.
 
-The explicit block is a stopgap, not the fix. Measure the real gap before assuming a symbol is
-covered - it is large, and every uncovered symbol is one a consumer must shim locally:
+[`src/__testing__/declarationRuntimeExportParity.test.ts`](src/__testing__/declarationRuntimeExportParity.test.ts)
+is the guard: it compares the built `dist/index.d.ts` value exports with `dist/index.js` and
+`dist/index.mjs` in both directions (skips without a build, fails in CI without one - same contract
+as the type-surface guard above). It compares export *names* only, in built output: a `.ts`/`.tsx`
+pair shows up there after `make build` when the two files export different names, but a pair that
+exports the same names from different implementations passes. Do not add such a pair.
 
-```bash
-npm run build
-node -e 'const f=require("fs"),names=t=>{const s=new Set();
-for(const b of t.matchAll(/export\s*\{([^{}]*)\}\s*;?/g))
-  b[1].split(",").map(x=>x.trim()).filter(Boolean)
-    .forEach(x=>s.add(x.replace(/^type\s+/,"").split(/\s+as\s+/).pop().trim()));
-return s;};
-const rt=names(f.readFileSync("dist/index.mjs","utf8"));
-const dt=names(f.readFileSync("dist/index.d.ts","utf8"));
-console.log([...rt].filter(n=>/^[A-Za-z_$][\w$]*$/.test(n)&&!dt.has(n)).sort().join("\n"))'
-```
-
-As of this change that reports 130 of 729 runtime exports absent from the declaration bundle -
-`WorkspaceCard`, `TeamTable`, `UsersTable`, `CustomImage`, `ErrorBoundary` and most of
-`src/custom/` among them. Adding 130 lines is not the answer; the durable fix is in how the
-declaration bundle is produced. Until then, prefer extending this list over leaving a symbol
-uncovered, and do not read its absence as "that component is intentionally private".
+The dts step type-checks everything reachable from `src/index.tsx`, so code newly exported must
+type-check under `strict`, and a package it imports must have types. `@sistent/mui-datatables`
+ships none: import its types with `import type { ... } from 'mui-datatables'` (typed by the
+`@types/mui-datatables` dependency) - the ambient shim in `src/types/sistent-mui-datatables.d.ts`
+covers only the runtime default import and is not published.
 
 ## Repo state that looks broken but is pre-existing
 
