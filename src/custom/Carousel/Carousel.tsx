@@ -25,16 +25,23 @@ const Carousel: React.FC<CarouselProps> = ({
   const updateScrollState = useCallback(() => {
     const el = carouselRef.current;
     if (!el) return;
-    const maxScrollLeft = el.scrollWidth - el.clientWidth;
+    const maxScrollLeft = Math.max(0, el.scrollWidth - el.clientWidth);
     setCanScrollLeft(el.scrollLeft > SCROLL_TOLERANCE);
     setCanScrollRight(el.scrollLeft < maxScrollLeft - SCROLL_TOLERANCE);
   }, []);
 
   useEffect(() => {
+    const el = carouselRef.current;
+    if (!el) return;
+
     updateScrollState();
-    window.addEventListener('resize', updateScrollState);
-    return () => window.removeEventListener('resize', updateScrollState);
-  }, [updateScrollState, items]);
+
+    const observer = new ResizeObserver(updateScrollState);
+    observer.observe(el);
+    Array.from(el.children).forEach((child) => observer.observe(child));
+
+    return () => observer.disconnect();
+  }, [updateScrollState, items.length]);
 
   if (!items.length) return null;
 
