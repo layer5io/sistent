@@ -83,6 +83,15 @@ export { WidgetEmptyState, type WidgetEmptyStateProps } from './custom/WidgetEmp
 
 export { BottomSheet, type BottomSheetProps } from './custom/BottomSheet';
 
+export {
+  ProgressBar,
+  useProgressBar,
+  type ProgressBarProps,
+  type ProgressBarVariant,
+  type ShowProgressBarOptions,
+  type UseProgressBarReturn
+} from './custom/ProgressBar';
+
 export { ActionButton, type ActionButtonProps, type Option } from './custom/ActionButton';
 
 // The share/revoke payload builders exist so that hosts stop hand-rolling the
