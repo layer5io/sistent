@@ -605,7 +605,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
           cursor: 'not-allowed'
         }}
       >
-        <Box sx={{ width: '100%', pointerEvents: 'none' }}>{children}</Box>
+        <Box sx={{ width: '100%', opacity: 0.5, pointerEvents: 'none' }}>{children}</Box>
 
         <Tooltip
           title={tooltipTitle}

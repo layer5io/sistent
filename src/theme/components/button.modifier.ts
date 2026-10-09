@@ -73,13 +73,13 @@ export const MuiButton: Components<Theme>['MuiButton'] = {
           }
         },
         '&.MuiButton-contained.Mui-disabled': {
-          color: theme.palette.text.secondary,
+          color: disabled,
           backgroundColor: brand?.disabled
         },
         '&.MuiButton-outlined.Mui-disabled': {
           border: `1px solid ${disabled}`,
           backgroundColor: brand?.disabled,
-          color: theme.palette.text.secondary
+          color: disabled
         }
       };
     }
