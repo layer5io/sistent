@@ -51,6 +51,7 @@ export * from './ContentClassIcons';
 export * from './ContentFilter';
 export * from './Copy';
 export * from './CreateNew';
+export * from './createIcon';
 export * from './Credential';
 export * from './CrossCircle';
 export * from './Dashboard';
