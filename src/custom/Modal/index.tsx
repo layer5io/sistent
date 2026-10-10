@@ -1,5 +1,5 @@
 import { ButtonProps, DialogProps, styled } from '@mui/material';
-import React, { useRef, useState } from 'react';
+import React, { useId, useRef, useState } from 'react';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
 import { iconLarge } from '../../constants/iconsSizes';
@@ -10,7 +10,7 @@ import { HelperTextPopover } from '../HelperTextPopover';
 
 interface ModalProps extends DialogProps {
   closeModal: () => void;
-  title: string;
+  title?: string;
   headerIcon?: React.ReactNode;
   reactNode?: React.ReactNode;
   isFullScreenModeAllowed?: boolean;
@@ -165,7 +165,17 @@ export const Modal: React.FC<ModalProps> = ({
    * prop is applied after {...restProps}, so any caller-provided fullWidth is
    * intentionally overridden without needing to strip it here.
    */
-  const { fullScreen: initialFullScreenState = false, ...restProps } = props;
+  const {
+    fullScreen: initialFullScreenState = false,
+    'aria-labelledby': callerAriaLabelledby,
+    'aria-describedby': callerAriaDescribedby,
+    id: callerId,
+    ...restProps
+  } = props;
+
+  const autoTitleId = useId();
+  const titleId = callerAriaLabelledby ?? (callerId ? `${callerId}-title` : autoTitleId);
+  const resolvedAriaLabelledBy = callerAriaLabelledby ?? (title ? titleId : undefined);
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
 
@@ -176,18 +186,19 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <StyledDialog
       {...restProps}
+      id={callerId}
       maxWidth={maxWidth}
       open={open}
       onClose={closeModal}
-      aria-labelledby="alert-dialog-slide-title"
-      aria-describedby="alert-dialog-slide-description"
+      aria-labelledby={resolvedAriaLabelledBy}
+      aria-describedby={callerAriaDescribedby}
       fullScreen={fullScreen}
       fullWidth={!fullScreen}
     >
       {title && (
         <ModalStyledHeader className="modal-header" data-testid="modal-header">
           {headerIcon && <Box data-testid="modal-header-icon">{headerIcon}</Box>}
-          <Typography component={'div'} variant="h6" data-testid="modal-title">
+          <Typography component={'div'} variant="h6" data-testid="modal-title" id={titleId}>
             {title}
           </Typography>
           <div
