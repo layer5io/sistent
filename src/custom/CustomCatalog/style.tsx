@@ -1,5 +1,5 @@
-import { styled, Typography } from '@mui/material';
-import { accentGrey, DARK_PRIMARY_COLOR, GRAY97, WHITESMOKE } from '../../theme';
+import { Typography } from '@mui/material';
+import { accentGrey, DARK_PRIMARY_COLOR, GRAY97, WHITESMOKE, styled } from '../../theme';
 import { charcoal, DARK_TEAL, SNOW_WHITE } from '../../theme/colors/colors';
 
 type DesignCardProps = {
@@ -136,7 +136,7 @@ export const MetricsCount = styled('p')(({ theme }) => ({
   margin: '0rem',
   lineHeight: '1.5',
   textAlign: 'center',
-  color: theme.palette.mode === 'light' ? DARK_TEAL : SNOW_WHITE,
+  color: theme.palette.text.default,
   fontWeight: '600'
 }));
 type DesignNameProps = {
@@ -180,12 +180,12 @@ export const MetricsContainerFront = styled('div')<MetricsProps>(({ isDetailed, 
   width: '100%'
 }));
 
-export const MetricsDiv = styled('div')(() => ({
+export const MetricsDiv = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: '4px',
   fontSize: '0.2rem',
-  color: 'rgba(26, 26, 26, .8)',
+  color: theme.palette.text.default,
   margin: '0rem',
   padding: '0.1rem'
 }));
