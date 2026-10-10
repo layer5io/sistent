@@ -3,7 +3,9 @@ import React from 'react';
 import { Modal } from '../custom/Modal';
 import { SistentThemeProvider } from '../theme';
 
-// Mock react-markdown and related ESM-only packages transitively reached by CustomTooltip
+// The Modal primitives transitively import CustomTooltip -> Markdown -> react-markdown (ESM-only).
+// Jest's transformIgnorePatterns allowlist excludes the markdown ESM tree, so those leaf modules
+// are stubbed here (mirrors DangerConfirmationModal.test.tsx and CatalogFilterSection.test.tsx).
 jest.mock('react-markdown', () => ({
   __esModule: true,
   default: ({ children }: { children: React.ReactNode }) => <div>{children}</div>
@@ -37,8 +39,10 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(title.getAttribute('id')).toBe(labelledBy);
     expect(title.textContent).toBe('Confirmation Dialog');
 
-    // Does not attach nonexistent aria-describedby
+    // Does not attach nonexistent aria-describedby or hardcoded slide IDs
     expect(dialog.getAttribute('aria-describedby')).toBeNull();
+    expect(labelledBy).not.toBe('alert-dialog-slide-title');
+    expect(document.getElementById('alert-dialog-slide-description')).toBeNull();
   });
 
   it('generates distinct IDs for concurrently mounted modal instances to prevent DOM collision', () => {
@@ -60,14 +64,13 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(dialogs).toHaveLength(2);
     expect(titles).toHaveLength(2);
 
-    const labelId1 = dialogs[0].getAttribute('aria-labelledby');
-    const labelId2 = dialogs[1].getAttribute('aria-labelledby');
+    // Assert order-independently that both dialogs pair 1:1 with distinct title IDs
+    const labelIds = dialogs.map((d) => d.getAttribute('aria-labelledby'));
+    const titleIds = titles.map((t) => t.getAttribute('id'));
 
-    expect(labelId1).toBeTruthy();
-    expect(labelId2).toBeTruthy();
-    expect(labelId1).not.toBe(labelId2);
-    expect(titles[0].getAttribute('id')).toBe(labelId1);
-    expect(titles[1].getAttribute('id')).toBe(labelId2);
+    expect(new Set(labelIds).size).toBe(2);
+    expect(new Set(titleIds).size).toBe(2);
+    expect([...labelIds].sort()).toEqual([...titleIds].sort());
   });
 
   it('derives title id from caller-provided id prop', () => {
@@ -88,13 +91,14 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(title.textContent).toBe('Delete Resource');
   });
 
-  it('forwards custom aria-labelledby and aria-describedby when explicitly supplied', () => {
+  it('forwards custom aria-labelledby and aria-describedby without reusing aria-labelledby as title id', () => {
     render(
       <SistentThemeProvider>
+        <h2 id="external-heading">External Section Heading</h2>
         <Modal
           open
-          title="Custom ARIA Dialog"
-          aria-labelledby="custom-label"
+          title="Internal Modal Title"
+          aria-labelledby="external-heading"
           aria-describedby="custom-description"
           closeModal={jest.fn()}
         >
@@ -106,23 +110,32 @@ describe('Modal accessibility contract (#1864)', () => {
     const dialog = screen.getByRole('dialog');
     const title = screen.getByTestId('modal-title');
 
-    expect(dialog.getAttribute('aria-labelledby')).toBe('custom-label');
+    // Dialog targets caller-supplied accessible name & description
+    expect(dialog.getAttribute('aria-labelledby')).toBe('external-heading');
     expect(dialog.getAttribute('aria-describedby')).toBe('custom-description');
-    expect(title.getAttribute('id')).toBe('custom-label');
+
+    // Title element gets its own distinct ID and does NOT collide with external-heading
+    const titleId = title.getAttribute('id');
+    expect(titleId).toBeTruthy();
+    expect(titleId).not.toBe('external-heading');
+
+    // Ensure external-heading remains uniquely owned by the external element in the DOM
+    const elementsWithExternalHeading = document.querySelectorAll('#external-heading');
+    expect(elementsWithExternalHeading).toHaveLength(1);
+    expect(elementsWithExternalHeading[0].tagName.toLowerCase()).toBe('h2');
   });
 
-  it('does not attach hardcoded alert-dialog-slide-description or alert-dialog-slide-title', () => {
+  it('does not render dangling aria-labelledby when title is absent and not supplied by caller', () => {
     render(
       <SistentThemeProvider>
-        <Modal open title="Clean Modal" closeModal={jest.fn()}>
-          <div>Body</div>
+        <Modal open closeModal={jest.fn()}>
+          <div>No Title Content</div>
         </Modal>
       </SistentThemeProvider>
     );
 
     const dialog = screen.getByRole('dialog');
-    expect(dialog.getAttribute('aria-labelledby')).not.toBe('alert-dialog-slide-title');
+    expect(dialog.getAttribute('aria-labelledby')).toBeNull();
     expect(dialog.getAttribute('aria-describedby')).toBeNull();
-    expect(document.getElementById('alert-dialog-slide-description')).toBeNull();
   });
 });

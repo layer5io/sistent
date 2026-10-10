@@ -146,6 +146,16 @@ const StyledFooter = styled('div', {
   }
 }));
 
+// React.useId() is available in React 18+. Provide fallback counter for React 17 peer dependency compatibility.
+let modalIdCounter = 0;
+const useSafeId = (): string => {
+  if (typeof React.useId === 'function') {
+    return React.useId();
+  }
+  const [fallbackId] = useState(() => `:sistent-modal-${++modalIdCounter}:`);
+  return fallbackId;
+};
+
 export const Modal: React.FC<ModalProps> = ({
   open,
   closeModal,
@@ -169,12 +179,12 @@ export const Modal: React.FC<ModalProps> = ({
     fullScreen: initialFullScreenState = false,
     'aria-labelledby': callerAriaLabelledby,
     'aria-describedby': callerAriaDescribedby,
-    id: callerId,
+    slotProps: callerSlotProps,
     ...restProps
   } = props;
 
-  const autoTitleId = useId();
-  const titleId = callerAriaLabelledby ?? (callerId ? `${callerId}-title` : autoTitleId);
+  const autoTitleId = useSafeId();
+  const titleId = restProps.id ? `${restProps.id}-title` : autoTitleId;
   const resolvedAriaLabelledBy = callerAriaLabelledby ?? (title ? titleId : undefined);
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
@@ -183,15 +193,25 @@ export const Modal: React.FC<ModalProps> = ({
     setFullScreen((prev) => !prev);
   };
 
+  // When no title or caller aria-labelledby is provided, ensure MUI Dialog does not
+  // emit a dangling auto-generated aria-labelledby on the dialog paper.
+  const mergedSlotProps = {
+    ...callerSlotProps,
+    paper: {
+      ...(typeof callerSlotProps?.paper === 'function' ? {} : callerSlotProps?.paper),
+      ...(!resolvedAriaLabelledBy && { 'aria-labelledby': undefined })
+    }
+  };
+
   return (
     <StyledDialog
       {...restProps}
-      id={callerId}
       maxWidth={maxWidth}
       open={open}
       onClose={closeModal}
       aria-labelledby={resolvedAriaLabelledBy}
       aria-describedby={callerAriaDescribedby}
+      slotProps={mergedSlotProps}
       fullScreen={fullScreen}
       fullWidth={!fullScreen}
     >
