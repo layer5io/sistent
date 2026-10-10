@@ -185,7 +185,6 @@ export const MetricsDiv = styled('div')(() => ({
   alignItems: 'center',
   gap: '4px',
   fontSize: '0.2rem',
-  color: 'rgba(26, 26, 26, .8)',
   margin: '0rem',
   padding: '0.1rem'
 }));
