@@ -1,5 +1,6 @@
-import { ButtonProps, DialogProps, styled } from '@mui/material';
-import React, { useId, useRef, useState } from 'react';
+import { ButtonProps, DialogOwnerState, DialogProps, styled } from '@mui/material';
+import { unstable_useId as useId } from '@mui/material/utils';
+import React, { useRef, useState } from 'react';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
 import { iconLarge } from '../../constants/iconsSizes';
@@ -8,13 +9,33 @@ import FullScreenExitIcon from '../../icons/Fullscreen/FullScreenExitIcon';
 import { CustomTooltip } from '../CustomTooltip';
 import { HelperTextPopover } from '../HelperTextPopover';
 
-interface ModalProps extends DialogProps {
+interface BaseModalProps extends Omit<DialogProps, 'title'> {
   closeModal: () => void;
-  title?: string;
   headerIcon?: React.ReactNode;
   reactNode?: React.ReactNode;
   isFullScreenModeAllowed?: boolean;
 }
+
+export type ModalProps = BaseModalProps & (
+  | {
+      /** Visible title for the modal. Automatically wired to aria-labelledby on the dialog paper. */
+      title: string;
+      'aria-label'?: string;
+      'aria-labelledby'?: string;
+    }
+  | {
+      /** Titleless modal with explicit aria-label for assistive technologies. */
+      title?: string;
+      'aria-label': string;
+      'aria-labelledby'?: string;
+    }
+  | {
+      /** Titleless modal with explicit aria-labelledby reference. */
+      title?: string;
+      'aria-label'?: string;
+      'aria-labelledby': string;
+    }
+);
 
 interface ModalFooterProps {
   children: React.ReactNode;
@@ -29,9 +50,11 @@ type openModalCallback = (props: {
   onClose?: () => void;
 }) => void;
 
-interface UseModalReturnI extends ModalProps {
+export interface UseModalReturnI extends BaseModalProps {
+  title: string;
   openModal: openModalCallback;
   isOpen: boolean;
+  open: boolean;
 }
 
 export const CloseBtn = styled(IconButton)`
@@ -146,27 +169,19 @@ const StyledFooter = styled('div', {
   }
 }));
 
-// React.useId() is available in React 18+. Provide fallback counter for React 17 peer dependency compatibility.
-let modalIdCounter = 0;
-const useSafeId = (): string => {
-  if (typeof React.useId === 'function') {
-    return React.useId();
-  }
-  const [fallbackId] = useState(() => `:sistent-modal-${++modalIdCounter}:`);
-  return fallbackId;
-};
+export const Modal: React.FC<ModalProps> = (allProps) => {
+  const {
+    open,
+    closeModal,
+    title,
+    headerIcon,
+    reactNode,
+    children,
+    maxWidth = 'xs',
+    isFullScreenModeAllowed,
+    ...props
+  } = allProps;
 
-export const Modal: React.FC<ModalProps> = ({
-  open,
-  closeModal,
-  title,
-  headerIcon,
-  reactNode,
-  children,
-  maxWidth = 'xs',
-  isFullScreenModeAllowed,
-  ...props
-}) => {
   /*
    * Use the incoming fullScreen prop only as the initial state.
    * After initialization, fullscreen is managed internally so, external
@@ -183,9 +198,9 @@ export const Modal: React.FC<ModalProps> = ({
     ...restProps
   } = props;
 
-  const autoTitleId = useSafeId();
+  const autoTitleId = useId(restProps.id ? `${restProps.id}-title` : undefined);
   const titleId = restProps.id ? `${restProps.id}-title` : autoTitleId;
-  const resolvedAriaLabelledBy = callerAriaLabelledby ?? (title ? titleId : undefined);
+  const resolvedAriaLabel = props['aria-label'];
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
 
@@ -193,14 +208,38 @@ export const Modal: React.FC<ModalProps> = ({
     setFullScreen((prev) => !prev);
   };
 
-  // When no title or caller aria-labelledby is provided, ensure MUI Dialog does not
-  // emit a dangling auto-generated aria-labelledby on the dialog paper.
+  const callerPaperProp = callerSlotProps?.paper;
+
+  // Merges Paper accessibility attributes while strictly preserving caller's
+  // object-valued or callback-valued slotProps.paper.
+  const mergePaperAttributes = (baseProps: Record<string, unknown> = {}) => {
+    const callerPaperLabelledby = baseProps['aria-labelledby'] as string | undefined;
+    const callerPaperLabel = baseProps['aria-label'] as string | undefined;
+    const callerPaperDescribedby = baseProps['aria-describedby'] as string | undefined;
+
+    const finalLabelledby = callerAriaLabelledby ?? callerPaperLabelledby ?? (title ? titleId : undefined);
+    const finalLabel = callerPaperLabel ?? (finalLabelledby ? undefined : resolvedAriaLabel);
+    const finalDescribedby = callerAriaDescribedby ?? callerPaperDescribedby;
+
+    return {
+      ...baseProps,
+      // Suppress dangling auto-generated aria-labelledby on the dialog paper when
+      // neither title nor an explicit aria-labelledby is provided.
+      'aria-labelledby': finalLabelledby,
+      ...(finalLabel && { 'aria-label': finalLabel }),
+      'aria-describedby': finalDescribedby
+    };
+  };
+
+  const resolvedPaperSlotProps =
+    typeof callerPaperProp === 'function'
+      ? (ownerState: DialogOwnerState) =>
+          mergePaperAttributes(callerPaperProp(ownerState) as Record<string, unknown>)
+      : mergePaperAttributes(callerPaperProp as Record<string, unknown> | undefined);
+
   const mergedSlotProps = {
     ...callerSlotProps,
-    paper: {
-      ...(typeof callerSlotProps?.paper === 'function' ? {} : callerSlotProps?.paper),
-      ...(!resolvedAriaLabelledBy && { 'aria-labelledby': undefined })
-    }
+    paper: resolvedPaperSlotProps
   };
 
   return (
@@ -209,8 +248,6 @@ export const Modal: React.FC<ModalProps> = ({
       maxWidth={maxWidth}
       open={open}
       onClose={closeModal}
-      aria-labelledby={resolvedAriaLabelledBy}
-      aria-describedby={callerAriaDescribedby}
       slotProps={mergedSlotProps}
       fullScreen={fullScreen}
       fullWidth={!fullScreen}

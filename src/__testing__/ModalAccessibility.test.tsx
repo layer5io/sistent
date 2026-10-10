@@ -125,17 +125,117 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(elementsWithExternalHeading[0].tagName.toLowerCase()).toBe('h2');
   });
 
-  it('does not render dangling aria-labelledby when title is absent and not supplied by caller', () => {
+  it('supports multi-id aria-labelledby without producing invalid HTML ids on the title element', () => {
     render(
       <SistentThemeProvider>
-        <Modal open closeModal={jest.fn()}>
-          <div>No Title Content</div>
+        <span id="label-prefix">Dialog:</span>
+        <span id="label-main">System Status</span>
+        <Modal
+          open
+          title="Internal Title"
+          aria-labelledby="label-prefix label-main"
+          closeModal={jest.fn()}
+        >
+          <div>Status content</div>
         </Modal>
       </SistentThemeProvider>
     );
 
     const dialog = screen.getByRole('dialog');
+    const title = screen.getByTestId('modal-title');
+
+    expect(dialog.getAttribute('aria-labelledby')).toBe('label-prefix label-main');
+    // Title element ID must be a single valid token, never the space-separated list
+    const titleId = title.getAttribute('id');
+    expect(titleId).toBeTruthy();
+    expect(titleId?.includes(' ')).toBe(false);
+  });
+
+  it('correctly provides accessible name to role="dialog" for titleless modal via aria-label', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal open aria-label="Settings configuration" closeModal={jest.fn()}>
+          <div>Settings content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    // Accessible name is attached directly to role="dialog"
+    expect(dialog.getAttribute('aria-label')).toBe('Settings configuration');
+    // Suppresses dangling generated aria-labelledby so aria-label is not obscured
     expect(dialog.getAttribute('aria-labelledby')).toBeNull();
     expect(dialog.getAttribute('aria-describedby')).toBeNull();
+    // No title header rendered
+    expect(screen.queryByTestId('modal-title')).toBeNull();
+  });
+
+  it('preserves object-valued slotProps.paper custom properties alongside accessibility attributes', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          title="Customized Paper Modal"
+          closeModal={jest.fn()}
+          slotProps={{
+            paper: {
+              className: 'custom-paper-classname',
+              'data-testid': 'customized-paper-slot',
+              elevation: 12
+            }
+          }}
+        >
+          <div>Custom paper content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    const title = screen.getByTestId('modal-title');
+
+    // Retains caller's slotProps.paper properties
+    expect(dialog.classList.contains('custom-paper-classname')).toBe(true);
+    expect(dialog.getAttribute('data-testid')).toBe('customized-paper-slot');
+
+    // Merges correct accessibility attributes
+    expect(dialog.getAttribute('aria-labelledby')).toBe(title.getAttribute('id'));
+  });
+
+  it('preserves callback-valued slotProps.paper with ownerState and merged accessibility attributes', () => {
+    const paperCallback = jest.fn((ownerState) => ({
+      className: `dynamic-paper-${ownerState.fullWidth ? 'full' : 'fixed'}`,
+      'data-testid': 'callback-paper-slot',
+      'data-fullscreen': String(ownerState.fullScreen)
+    }));
+
+    render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          title="Callback Paper Modal"
+          closeModal={jest.fn()}
+          slotProps={{
+            paper: paperCallback
+          }}
+        >
+          <div>Callback paper content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    const title = screen.getByTestId('modal-title');
+
+    // Callback was invoked with ownerState
+    expect(paperCallback).toHaveBeenCalled();
+    const passedOwnerState = paperCallback.mock.calls[0][0];
+    expect(passedOwnerState).toBeDefined();
+
+    // Returned attributes are preserved
+    expect(dialog.getAttribute('data-testid')).toBe('callback-paper-slot');
+    expect(dialog.classList.contains('dynamic-paper-full')).toBe(true);
+
+    // Accessibility attributes are merged
+    expect(dialog.getAttribute('aria-labelledby')).toBe(title.getAttribute('id'));
   });
 });
