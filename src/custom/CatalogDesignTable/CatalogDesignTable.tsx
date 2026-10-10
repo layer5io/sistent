@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { MUIDataTableColumn } from '@sistent/mui-datatables';
 import _ from 'lodash';
+import type { MUIDataTableColumn, MUIDataTableOptions, MUISortOptions } from 'mui-datatables';
 import { useCallback, useMemo, useRef, useState } from 'react';
 import { PublishIcon } from '../../icons';
 import { CHARCOAL } from '../../theme';
@@ -26,13 +26,13 @@ interface CatalogDesignsTableProps {
   columnVisibility: Record<string, boolean>;
   colViews: ColView[];
   rowsPerPageOptions?: number[];
-  handleBulkDeleteModal: (patterns: Pattern[], modalRef: React.RefObject<PromptRef>) => void;
+  handleBulkDeleteModal: (patterns: Pattern[], modalRef: React.RefObject<PromptRef | null>) => void;
   setSearch?: (search: string) => void;
   tableBackgroundColor?: string;
   handleBulkpatternsDataUnpublishModal: (
     selected: any,
     patterns: Pattern[],
-    modalRef: React.RefObject<PromptRef>
+    modalRef: React.RefObject<PromptRef | null>
   ) => void;
 }
 
@@ -97,7 +97,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
     [columns, setPage, setSearch, setPageSize, setSortOrder, sortOrder]
   );
 
-  const options = useMemo(
+  const options = useMemo<MUIDataTableOptions>(
     () => ({
       selectableRows: _.isNil(filter) ? 'none' : 'multiple',
       serverSide: true,
@@ -109,7 +109,7 @@ export const CatalogDesignsTable: React.FC<CatalogDesignsTableProps> = ({
       elevation: 0,
       sortOrder: {
         name: sortOrder.split(' ')[0],
-        direction: sortOrder.split(' ')[1]
+        direction: sortOrder.split(' ')[1] as MUISortOptions['direction']
       },
       onTableChange: handleTableChange,
       customToolbarSelect: _.isNil(filter)

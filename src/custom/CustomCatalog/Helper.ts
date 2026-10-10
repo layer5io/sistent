@@ -47,7 +47,11 @@ const getValidSvgPaths = async (
 const getWorkingVersionFromPatternFile = (patternFileContent: string) => {
   try {
     const patternFile = jsyaml.load(patternFileContent);
-    return patternFile?.version || DEFAULT_DESIGN_VERSION;
+    const version =
+      patternFile && typeof patternFile === 'object' && 'version' in patternFile
+        ? patternFile.version
+        : undefined;
+    return version ? String(version) : DEFAULT_DESIGN_VERSION;
   } catch (e) {
     console.error('Failed to parse pattern file to get version:', e);
     return DEFAULT_DESIGN_VERSION;
@@ -71,11 +75,9 @@ export const handleImage = async ({
   setAvailableTechnologies(validSvgPaths);
 };
 
-// `sanitizeCatalogImageUrl` is defined in a dependency-free leaf module so
-// `src/index.tsx` can re-export it explicitly for the bundled d.ts without
-// dragging this module's untyped `js-yaml` import into the declaration build
-// (which would crash rollup-plugin-dts). Re-exported here to keep the existing
-// `from './Helper'` import path working for internal consumers.
+// `sanitizeCatalogImageUrl` lives in a dependency-free leaf module; re-exported
+// here to keep the existing `from './Helper'` import path working for internal
+// consumers.
 export { sanitizeCatalogImageUrl } from './sanitizeCatalogImageUrl';
 
 export const DEFAULT_DESIGN_VERSION = '0.0.0';

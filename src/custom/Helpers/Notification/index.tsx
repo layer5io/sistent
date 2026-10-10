@@ -1,3 +1,3 @@
-import useNotificationHandler from './notification-handler';
+import useNotificationHandler, { type NotificationHandlerOptions } from './notification-handler';
 
-export { useNotificationHandler };
+export { useNotificationHandler, type NotificationHandlerOptions };
