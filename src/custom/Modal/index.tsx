@@ -1,4 +1,5 @@
 import { ButtonProps, DialogOwnerState, DialogProps, styled } from '@mui/material';
+// Stable per-instance id across React 17/18/19 (same hook MUI Dialog uses internally; on React 17 the generated id appears after the first effect)
 import { unstable_useId as useId } from '@mui/material/utils';
 import React, { useRef, useState } from 'react';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
@@ -19,7 +20,12 @@ interface BaseModalProps extends Omit<DialogProps, 'title'> {
 export type ModalProps = BaseModalProps &
   (
     | {
-        /** Visible title for the modal. Automatically wired to aria-labelledby on the dialog paper. */
+        /**
+         * Visible title for the modal. Automatically wired to aria-labelledby on the dialog paper.
+         * Note on precedence: when both `title` and `aria-label` are provided, `aria-labelledby`
+         * (pointing to the title) takes precedence per the W3C Accessible Name (accname) specification;
+         * `aria-label` is intentionally not rendered on the dialog paper.
+         */
         title: string;
         'aria-label'?: string;
         'aria-labelledby'?: string;
