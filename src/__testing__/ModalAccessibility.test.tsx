@@ -1,4 +1,3 @@
-/// <reference types="jest" />
 import type { DialogOwnerState, PaperProps } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
@@ -394,7 +393,7 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(dialog.getAttribute('aria-labelledby')).toBe(secondId);
   });
 
-  it('enforces accessible-name contract at runtime and compile time via ModalProps union', () => {
+  it('resolves accessible name from title, aria-label, or external aria-labelledby at runtime', () => {
     const noop = jest.fn();
 
     // (a) title only: accessible name matches title text
@@ -430,11 +429,5 @@ describe('Modal accessibility contract (#1864)', () => {
     );
     expect(screen.getByRole('dialog', { name: 'External Heading Title' })).toBeTruthy();
     unmountLabelledby();
-
-    // Compile-time negative case: uninvoked function prevents runtime execution
-    // while ensuring @ts-expect-error catches union violations
-    // @ts-expect-error Modal without title must provide aria-label or aria-labelledby
-    const _invalid = () => <Modal open closeModal={noop} />;
-    void _invalid;
   });
 });

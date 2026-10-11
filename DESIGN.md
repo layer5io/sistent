@@ -528,6 +528,7 @@ Component-specific behaviors are never promoted to Canonical Design Rules withou
   - **Design Guidance**: Aim for 4.5:1 contrast on standard text and 3:1 on large text/icons against their immediate surface.
   - **Enforcement Status**: Contrast is guided by theme tokens and helper utilities (`readableTextColor`), but is not enforced by a global automated linting/test suite across every component.
 - **Label Capitalization**: Action labels use `textTransform: 'capitalize'` built into `textB2SemiBold`.
+- **Semantic ARIA**: Icon-only buttons must supply descriptive `aria-label` and `Tooltip`.
 - **Modal Dialog Accessibility (`aria-labelledby` / `aria-describedby`)**: Sistent's `Modal` component (`src/custom/Modal/index.tsx`) generates a dynamic, stable per-instance title ID via MUI's `unstable_useId` (`${id}-title` when caller provides `id`, otherwise an auto-generated token) wired to `aria-labelledby` on the dialog paper, eliminating DOM ID collisions across concurrent modals (#1864). `ModalProps` enforces an accessible name at compile time via a union requiring `title`, `aria-label`, or `aria-labelledby`. Caller-provided `aria-labelledby` and `aria-describedby` are forwarded directly to the dialog paper (kept off the dialog root), and caller `slotProps.paper` attributes are preserved in both object and callback forms.
 
 ---

@@ -1,5 +1,6 @@
 import { ButtonProps, DialogOwnerState, DialogProps, styled } from '@mui/material';
-// Stable per-instance id across React 17/18/19 (same hook MUI Dialog uses internally; on React 17 the generated id appears after the first effect)
+// Stable per-instance id across React 17/18/19 (same hook MUI Dialog uses
+// internally; on React 17 the generated id appears after the first effect).
 import { unstable_useId as useId } from '@mui/material/utils';
 import React, { useRef, useState } from 'react';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
