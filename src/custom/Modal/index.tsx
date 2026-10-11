@@ -16,26 +16,27 @@ interface BaseModalProps extends Omit<DialogProps, 'title'> {
   isFullScreenModeAllowed?: boolean;
 }
 
-export type ModalProps = BaseModalProps & (
-  | {
-      /** Visible title for the modal. Automatically wired to aria-labelledby on the dialog paper. */
-      title: string;
-      'aria-label'?: string;
-      'aria-labelledby'?: string;
-    }
-  | {
-      /** Titleless modal with explicit aria-label for assistive technologies. */
-      title?: string;
-      'aria-label': string;
-      'aria-labelledby'?: string;
-    }
-  | {
-      /** Titleless modal with explicit aria-labelledby reference. */
-      title?: string;
-      'aria-label'?: string;
-      'aria-labelledby': string;
-    }
-);
+export type ModalProps = BaseModalProps &
+  (
+    | {
+        /** Visible title for the modal. Automatically wired to aria-labelledby on the dialog paper. */
+        title: string;
+        'aria-label'?: string;
+        'aria-labelledby'?: string;
+      }
+    | {
+        /** Titleless modal with explicit aria-label for assistive technologies. */
+        title?: string;
+        'aria-label': string;
+        'aria-labelledby'?: string;
+      }
+    | {
+        /** Titleless modal with explicit aria-labelledby reference. */
+        title?: string;
+        'aria-label'?: string;
+        'aria-labelledby': string;
+      }
+  );
 
 interface ModalFooterProps {
   children: React.ReactNode;
@@ -192,15 +193,14 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
    */
   const {
     fullScreen: initialFullScreenState = false,
+    'aria-label': resolvedAriaLabel,
     'aria-labelledby': callerAriaLabelledby,
     'aria-describedby': callerAriaDescribedby,
     slotProps: callerSlotProps,
     ...restProps
   } = props;
 
-  const autoTitleId = useId(restProps.id ? `${restProps.id}-title` : undefined);
-  const titleId = restProps.id ? `${restProps.id}-title` : autoTitleId;
-  const resolvedAriaLabel = props['aria-label'];
+  const titleId = useId(restProps.id ? `${restProps.id}-title` : undefined);
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
 
@@ -217,7 +217,8 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     const callerPaperLabel = baseProps['aria-label'] as string | undefined;
     const callerPaperDescribedby = baseProps['aria-describedby'] as string | undefined;
 
-    const finalLabelledby = callerAriaLabelledby ?? callerPaperLabelledby ?? (title ? titleId : undefined);
+    const finalLabelledby =
+      callerAriaLabelledby ?? callerPaperLabelledby ?? (title ? titleId : undefined);
     const finalLabel = callerPaperLabel ?? (finalLabelledby ? undefined : resolvedAriaLabel);
     const finalDescribedby = callerAriaDescribedby ?? callerPaperDescribedby;
 

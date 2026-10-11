@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+import type { DialogOwnerState, PaperProps } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 import { Modal } from '../custom/Modal';
@@ -161,6 +163,12 @@ describe('Modal accessibility contract (#1864)', () => {
     );
 
     const dialog = screen.getByRole('dialog');
+    const root = dialog.closest('.MuiDialog-root');
+
+    // Dialog root role="presentation" div must not receive aria-label
+    expect(root).not.toBeNull();
+    expect(root?.getAttribute('aria-label')).toBeNull();
+
     // Accessible name is attached directly to role="dialog"
     expect(dialog.getAttribute('aria-label')).toBe('Settings configuration');
     // Suppresses dangling generated aria-labelledby so aria-label is not obscured
@@ -170,7 +178,36 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(screen.queryByTestId('modal-title')).toBeNull();
   });
 
+  it('does not leak aria-label onto the dialog root when both title and aria-label are provided', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          title="Modal Header"
+          aria-label="Modal Header Description"
+          closeModal={jest.fn()}
+        >
+          <div>Modal Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    const title = screen.getByTestId('modal-title');
+    const root = dialog.closest('.MuiDialog-root');
+
+    expect(root).not.toBeNull();
+    expect(root?.getAttribute('aria-label')).toBeNull();
+    expect(dialog.getAttribute('aria-labelledby')).toBe(title.getAttribute('id'));
+  });
+
   it('preserves object-valued slotProps.paper custom properties alongside accessibility attributes', () => {
+    const paperProps: PaperProps & { 'data-testid'?: string } = {
+      className: 'custom-paper-classname',
+      'data-testid': 'customized-paper-slot',
+      elevation: 12
+    };
+
     render(
       <SistentThemeProvider>
         <Modal
@@ -178,11 +215,7 @@ describe('Modal accessibility contract (#1864)', () => {
           title="Customized Paper Modal"
           closeModal={jest.fn()}
           slotProps={{
-            paper: {
-              className: 'custom-paper-classname',
-              'data-testid': 'customized-paper-slot',
-              elevation: 12
-            }
+            paper: paperProps
           }}
         >
           <div>Custom paper content</div>
@@ -202,7 +235,7 @@ describe('Modal accessibility contract (#1864)', () => {
   });
 
   it('preserves callback-valued slotProps.paper with ownerState and merged accessibility attributes', () => {
-    const paperCallback = jest.fn((ownerState) => ({
+    const paperCallback = jest.fn((ownerState: DialogOwnerState) => ({
       className: `dynamic-paper-${ownerState.fullWidth ? 'full' : 'fixed'}`,
       'data-testid': 'callback-paper-slot',
       'data-fullscreen': String(ownerState.fullScreen)
@@ -237,5 +270,27 @@ describe('Modal accessibility contract (#1864)', () => {
 
     // Accessibility attributes are merged
     expect(dialog.getAttribute('aria-labelledby')).toBe(title.getAttribute('id'));
+  });
+
+  it('enforces accessible-name contract at compile time via ModalProps union', () => {
+    const noop = jest.fn();
+
+    // Valid combinations:
+    // 1. Visible title only
+    const withTitle = <Modal open title="Accessible Title" closeModal={noop} />;
+    expect(withTitle).toBeDefined();
+
+    // 2. aria-label only
+    const withAriaLabel = <Modal open aria-label="Accessible Label" closeModal={noop} />;
+    expect(withAriaLabel).toBeDefined();
+
+    // 3. aria-labelledby only
+    const withAriaLabelledby = <Modal open aria-labelledby="external-title" closeModal={noop} />;
+    expect(withAriaLabelledby).toBeDefined();
+
+    // Invalid combination: no title, no aria-label, no aria-labelledby
+    // @ts-expect-error Modal without title must provide aria-label or aria-labelledby
+    const invalid = <Modal open closeModal={noop} />;
+    expect(invalid).toBeDefined();
   });
 });
