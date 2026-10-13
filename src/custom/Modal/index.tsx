@@ -89,19 +89,19 @@ const StyledDialog = styled(Dialog)`
   }
 `;
 
-export const FullscreenBtn = styled(IconButton)`
-  && {
-    padding: 0;
-    color: ${({ theme }) => theme.palette.common.white};
-    cursor: pointer;
+const FullscreenButton = styled(FullScreenIcon)(({ theme }) => ({
+  height: '2.25rem',
+  width: '2.25rem',
+  fill: theme.palette.common.white,
+  cursor: 'pointer'
+}));
 
-    & svg {
-      height: 2.25rem;
-      width: 2.25rem;
-      fill: #fff;
-    }
-  }
-`;
+const FullscreenExitButton = styled(FullScreenExitIcon)(({ theme }) => ({
+  height: '2.25rem',
+  width: '2.25rem',
+  fill: theme.palette.common.white,
+  cursor: 'pointer'
+}));
 
 export const ModalStyledHeader = styled('div')(({ theme }) => ({
   background: theme.palette.surface.tint,
@@ -133,9 +133,9 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
       return;
     }
     setTitle(validTitle);
-    onCloseRef.current = onClose ?? null;
+    if (onClose) onCloseRef.current = onClose;
     setOpen(true);
-    setReactNode(reactNode ?? null);
+    if (reactNode) setReactNode(reactNode);
   };
 
   const closeModal = () => {
@@ -202,22 +202,6 @@ const getNonEmptyString = (val: unknown): string | undefined => {
   return undefined;
 };
 
-const deriveTitleIdBase = (rawId: unknown): string | undefined => {
-  if (typeof rawId !== 'string') return undefined;
-  const trimmed = rawId.trim();
-  if (trimmed.length === 0) return undefined;
-  // If the ID contains no whitespace, preserve the clean human-readable token
-  if (!/\s/.test(trimmed)) {
-    return `${trimmed}-title`;
-  }
-  // Injective encoding: escape '_' as '_x5f_', then encode whitespace chars to hex tokens.
-  // This prevents collision between e.g. "my custom modal" and "my-custom-modal".
-  const encoded = trimmed
-    .replace(/_/g, '_x5f_')
-    .replace(/\s/g, (ch) => `_x${ch.charCodeAt(0).toString(16).padStart(2, '0')}_`);
-  return `${encoded}-title`;
-};
-
 export const Modal: React.FC<ModalProps> = (allProps) => {
   const {
     open,
@@ -241,7 +225,7 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
    */
   const {
     fullScreen: initialFullScreenState = false,
-    'aria-label': resolvedAriaLabel,
+    'aria-label': callerAriaLabel,
     'aria-labelledby': callerAriaLabelledby,
     'aria-describedby': callerAriaDescribedby,
     slotProps: callerSlotProps,
@@ -256,8 +240,11 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
   const effectiveTitle = getNonEmptyString(title);
   const hasVisibleTitle = Boolean(effectiveTitle);
 
-  const titleIdOverride = deriveTitleIdBase(restProps.id);
-  const titleId = useId(titleIdOverride);
+  const autoTitleId = useId();
+  const titleId =
+    typeof restProps.id === 'string' && restProps.id.trim() && !/\s/.test(restProps.id.trim())
+      ? `${restProps.id.trim()}-title`
+      : autoTitleId;
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
   const hasWarnedRef = useRef(false);
@@ -267,7 +254,7 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
   };
 
   const modalAriaLabelledby = getNonEmptyString(callerAriaLabelledby);
-  const modalAriaLabel = getNonEmptyString(resolvedAriaLabel);
+  const modalAriaLabel = getNonEmptyString(callerAriaLabel);
   const modalAriaDescribedby = getNonEmptyString(callerAriaDescribedby);
 
   const callerPaperProp = callerSlotProps?.paper;
@@ -279,12 +266,7 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     const paperAriaLabel = getNonEmptyString(baseProps['aria-label']);
     const paperAriaDescribedby = getNonEmptyString(baseProps['aria-describedby']);
 
-    // Precedence Matrix:
-    // 1. Modal aria-labelledby (highest priority)
-    // 2. Visible title: paper aria-labelledby ?? titleId (aria-label suppressed per accname)
-    // 3. Modal aria-label (titleless: Modal prop overrides slotProps.paper)
-    // 4. Paper aria-labelledby (titleless fallback)
-    // 5. Paper aria-label (titleless fallback)
+    // Precedence: Modal aria-labelledby > visible title (paper aria-labelledby ?? titleId) > Modal aria-label > Paper aria-labelledby > Paper aria-label
     let finalLabelledby: string | undefined;
     let finalLabel: string | undefined;
 
@@ -300,27 +282,10 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
       finalLabel = paperAriaLabel;
     }
 
-    // Precedence: Modal aria-describedby > Paper aria-describedby
     const finalDescribedby = modalAriaDescribedby ?? paperAriaDescribedby;
-
-    const hasAccessibleName = Boolean(finalLabelledby || finalLabel);
-    if (!open || hasAccessibleName) {
-      hasWarnedRef.current = false;
-    } else if (
-      typeof process !== 'undefined' &&
-      process?.env?.NODE_ENV !== 'production' &&
-      !hasWarnedRef.current
-    ) {
-      hasWarnedRef.current = true;
-      console.warn(
-        'Modal: Dialog is rendered without an accessible name. Provide a non-empty `title`, `aria-label`, or `aria-labelledby`.'
-      );
-    }
 
     return {
       ...baseProps,
-      // Suppress dangling auto-generated aria-labelledby on the dialog paper when
-      // neither title nor an explicit aria-labelledby is provided.
       'aria-labelledby': finalLabelledby,
       'aria-label': finalLabel,
       'aria-describedby': finalDescribedby
@@ -338,11 +303,36 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     paper: resolvedPaperSlotProps
   };
 
+  const samplePaper = typeof callerPaperProp === 'object' && callerPaperProp ? callerPaperProp : {};
+  const hasAccessibleName = Boolean(
+    modalAriaLabelledby ||
+    hasVisibleTitle ||
+    modalAriaLabel ||
+    getNonEmptyString((samplePaper as Partial<PaperProps>)['aria-labelledby']) ||
+    getNonEmptyString((samplePaper as Partial<PaperProps>)['aria-label']) ||
+    typeof callerPaperProp === 'function'
+  );
+
+  if (!open || hasAccessibleName) {
+    hasWarnedRef.current = false;
+  } else if (
+    typeof process !== 'undefined' &&
+    process?.env?.NODE_ENV !== 'production' &&
+    !hasWarnedRef.current
+  ) {
+    hasWarnedRef.current = true;
+    console.warn(
+      'Modal: Dialog is rendered without an accessible name. Provide a non-empty `title`, `aria-label`, or `aria-labelledby`.'
+    );
+  }
+
+  const isDialogOpen = Boolean(open && hasAccessibleName);
+
   return (
     <StyledDialog
       {...restProps}
       maxWidth={maxWidth}
-      open={open}
+      open={isDialogOpen}
       onClose={closeModal}
       slotProps={mergedSlotProps}
       fullScreen={fullScreen}
@@ -360,27 +350,26 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
           >
             {isFullScreenModeAllowed && (
               <CustomTooltip title={fullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}>
-                <FullscreenBtn
-                  onClick={toggleFullScreen}
-                  data-testid={
-                    fullScreen ? 'modal-exit-fullscreen-btn' : 'modal-enter-fullscreen-btn'
-                  }
-                  aria-label={fullScreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-                >
-                  {fullScreen ? <FullScreenExitIcon /> : <FullScreenIcon />}
-                </FullscreenBtn>
+                {fullScreen ? (
+                  <FullscreenExitButton
+                    onClick={toggleFullScreen}
+                    data-testid="modal-exit-fullscreen-btn"
+                  />
+                ) : (
+                  <FullscreenButton
+                    onClick={toggleFullScreen}
+                    data-testid="modal-enter-fullscreen-btn"
+                  />
+                )}
               </CustomTooltip>
             )}
-            <CustomTooltip title="Close dialog">
-              <CloseBtn
-                onClick={closeModal}
-                className="modal-close-btn"
-                data-testid="modal-close-btn"
-                aria-label="Close dialog"
-              >
-                <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
-              </CloseBtn>
-            </CustomTooltip>
+            <CloseBtn
+              onClick={closeModal}
+              className="modal-close-btn"
+              data-testid="modal-close-btn"
+            >
+              <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
+            </CloseBtn>
           </div>
         </ModalStyledHeader>
       )}
