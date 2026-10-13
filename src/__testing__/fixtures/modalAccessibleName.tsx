@@ -17,6 +17,10 @@ export const withAriaLabelledby = (
   <Modal open aria-labelledby="external-title-id" closeModal={closeModal} />
 );
 
+// Valid combination 4: useModal return object spread onto Modal
+declare const modalState: import('../../custom/Modal').UseModalReturnI;
+export const withUseModal = <Modal {...modalState} />;
+
 // Self-check / negative case: modal without title, aria-label, or aria-labelledby
 // is rejected at compile time by the ModalProps union.
 // @ts-expect-error Modal without title must provide aria-label or aria-labelledby

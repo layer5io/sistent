@@ -1,4 +1,4 @@
-import { ButtonProps, DialogOwnerState, DialogProps, styled } from '@mui/material';
+import { ButtonProps, DialogOwnerState, DialogProps, PaperProps, styled } from '@mui/material';
 // Stable per-instance id across React 17/18/19 (same hook MUI Dialog uses
 // internally; on React 17 the generated id appears after the first effect).
 import { unstable_useId as useId } from '@mui/material/utils';
@@ -53,7 +53,7 @@ interface ModalFooterProps {
 }
 
 type openModalCallback = (props: {
-  title: string;
+  title?: string;
   reactNode?: React.ReactNode;
   onClose?: () => void;
 }) => void;
@@ -122,7 +122,15 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
   const [reactNode, setReactNode] = useState<React.ReactNode | null>(null);
 
   const openModal: openModalCallback = ({ title, reactNode = null, onClose }) => {
-    if (title) setTitle(title);
+    const validTitle = typeof title === 'string' && title.trim().length > 0 ? title.trim() : '';
+    if (process.env.NODE_ENV !== 'production') {
+      if (!validTitle) {
+        console.warn(
+          'useModal: openModal was called with a blank or missing title. Modals must have an accessible name.'
+        );
+      }
+    }
+    setTitle(validTitle);
     if (onClose) onCloseRef.current = onClose;
     setOpen(true);
     if (reactNode) setReactNode(reactNode);
@@ -177,6 +185,19 @@ const StyledFooter = styled('div', {
   }
 }));
 
+declare const process: {
+  env: {
+    NODE_ENV?: string;
+  };
+};
+
+const getNonEmptyString = (val: unknown): string | undefined => {
+  if (typeof val === 'string' && val.trim().length > 0) {
+    return val.trim();
+  }
+  return undefined;
+};
+
 export const Modal: React.FC<ModalProps> = (allProps) => {
   const {
     open,
@@ -204,10 +225,23 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     'aria-labelledby': callerAriaLabelledby,
     'aria-describedby': callerAriaDescribedby,
     slotProps: callerSlotProps,
-    ...restProps
+    ...rawRestProps
   } = props;
 
-  const titleId = useId(restProps.id ? `${restProps.id}-title` : undefined);
+  // Safely strip useModal helper properties so they do not leak onto the Dialog DOM element
+  const restProps = { ...rawRestProps };
+  delete (restProps as { isOpen?: unknown }).isOpen;
+  delete (restProps as { openModal?: unknown }).openModal;
+
+  const effectiveTitle = getNonEmptyString(title);
+  const hasVisibleTitle = Boolean(effectiveTitle);
+
+  const sanitizedBaseId =
+    typeof restProps.id === 'string' && restProps.id.trim().length > 0
+      ? restProps.id.trim().replace(/\s+/g, '-')
+      : undefined;
+
+  const titleId = useId(sanitizedBaseId ? `${sanitizedBaseId}-title` : undefined);
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
 
@@ -215,26 +249,46 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     setFullScreen((prev) => !prev);
   };
 
+  const modalAriaLabelledby = getNonEmptyString(callerAriaLabelledby);
+  const modalAriaLabel = getNonEmptyString(resolvedAriaLabel);
+  const modalAriaDescribedby = getNonEmptyString(callerAriaDescribedby);
+
   const callerPaperProp = callerSlotProps?.paper;
 
   // Merges Paper accessibility attributes while strictly preserving caller's
   // object-valued or callback-valued slotProps.paper.
-  const mergePaperAttributes = (baseProps: Record<string, unknown> = {}) => {
-    const callerPaperLabelledby = baseProps['aria-labelledby'] as string | undefined;
-    const callerPaperLabel = baseProps['aria-label'] as string | undefined;
-    const callerPaperDescribedby = baseProps['aria-describedby'] as string | undefined;
+  const mergePaperAttributes = (baseProps: Partial<PaperProps> = {}): Partial<PaperProps> => {
+    const paperAriaLabelledby = getNonEmptyString(baseProps['aria-labelledby']);
+    const paperAriaLabel = getNonEmptyString(baseProps['aria-label']);
+    const paperAriaDescribedby = getNonEmptyString(baseProps['aria-describedby']);
 
+    // Precedence: Modal aria-labelledby > Paper aria-labelledby > (hasVisibleTitle ? titleId : undefined)
     const finalLabelledby =
-      callerAriaLabelledby ?? callerPaperLabelledby ?? (title ? titleId : undefined);
-    const finalLabel = callerPaperLabel ?? (finalLabelledby ? undefined : resolvedAriaLabel);
-    const finalDescribedby = callerAriaDescribedby ?? callerPaperDescribedby;
+      modalAriaLabelledby ?? paperAriaLabelledby ?? (hasVisibleTitle ? titleId : undefined);
+
+    // accname specification: aria-labelledby takes precedence over aria-label.
+    // If an effective aria-labelledby exists, aria-label is suppressed on the dialog paper.
+    // Otherwise, precedence: Modal aria-label > Paper aria-label.
+    const finalLabel = finalLabelledby ? undefined : (modalAriaLabel ?? paperAriaLabel);
+
+    // Precedence: Modal aria-describedby > Paper aria-describedby
+    const finalDescribedby = modalAriaDescribedby ?? paperAriaDescribedby;
+
+    if (process.env.NODE_ENV !== 'production') {
+      const hasAccessibleName = Boolean(finalLabelledby || finalLabel);
+      if (open && !hasAccessibleName) {
+        console.warn(
+          'Modal: Dialog is rendered without an accessible name. Provide a non-empty `title`, `aria-label`, or `aria-labelledby`.'
+        );
+      }
+    }
 
     return {
       ...baseProps,
       // Suppress dangling auto-generated aria-labelledby on the dialog paper when
       // neither title nor an explicit aria-labelledby is provided.
       'aria-labelledby': finalLabelledby,
-      ...(finalLabel && { 'aria-label': finalLabel }),
+      'aria-label': finalLabel,
       'aria-describedby': finalDescribedby
     };
   };
@@ -242,8 +296,8 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
   const resolvedPaperSlotProps =
     typeof callerPaperProp === 'function'
       ? (ownerState: DialogOwnerState) =>
-          mergePaperAttributes(callerPaperProp(ownerState) as Record<string, unknown>)
-      : mergePaperAttributes(callerPaperProp as Record<string, unknown> | undefined);
+          mergePaperAttributes(callerPaperProp(ownerState) as Partial<PaperProps>)
+      : mergePaperAttributes(callerPaperProp as Partial<PaperProps> | undefined);
 
   const mergedSlotProps = {
     ...callerSlotProps,
@@ -260,11 +314,11 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
       fullScreen={fullScreen}
       fullWidth={!fullScreen}
     >
-      {title && (
+      {hasVisibleTitle && (
         <ModalStyledHeader className="modal-header" data-testid="modal-header">
           {headerIcon && <Box data-testid="modal-header-icon">{headerIcon}</Box>}
           <Typography component={'div'} variant="h6" data-testid="modal-title" id={titleId}>
-            {title}
+            {effectiveTitle}
           </Typography>
           <div
             style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
@@ -276,22 +330,43 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
                   <FullscreenExitButton
                     onClick={toggleFullScreen}
                     data-testid="modal-exit-fullscreen-btn"
+                    aria-label="Exit fullscreen"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleFullScreen();
+                      }
+                    }}
                   />
                 ) : (
                   <FullscreenButton
                     onClick={toggleFullScreen}
                     data-testid="modal-enter-fullscreen-btn"
+                    aria-label="Enter fullscreen"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleFullScreen();
+                      }
+                    }}
                   />
                 )}
               </CustomTooltip>
             )}
-            <CloseBtn
-              onClick={closeModal}
-              className="modal-close-btn"
-              data-testid="modal-close-btn"
-            >
-              <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
-            </CloseBtn>
+            <CustomTooltip title="Close dialog">
+              <CloseBtn
+                onClick={closeModal}
+                className="modal-close-btn"
+                data-testid="modal-close-btn"
+                aria-label="Close dialog"
+              >
+                <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
+              </CloseBtn>
+            </CustomTooltip>
           </div>
         </ModalStyledHeader>
       )}
