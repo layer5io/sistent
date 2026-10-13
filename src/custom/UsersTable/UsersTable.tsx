@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Theme } from '@mui/material';
-import { MUIDataTableColumn, MUIDataTableMeta } from '@sistent/mui-datatables';
+import type {
+  MUIDataTableColumn,
+  MUIDataTableMeta,
+  MUIDataTableOptions,
+  MUISortOptions
+} from 'mui-datatables';
 import { useRef, useState } from 'react';
 import { Box, Tooltip } from '../../base';
 import { EditIcon } from '../../icons';
@@ -197,9 +202,9 @@ const UsersTable: React.FC<UsersTableProps> = ({
     </>
   );
 
-  let searchTimeout: NodeJS.Timeout;
+  let searchTimeout: ReturnType<typeof setTimeout>;
 
-  const options = {
+  const options: MUIDataTableOptions = {
     search: false,
     viewColumns: false,
     filter: false,
@@ -215,7 +220,7 @@ const UsersTable: React.FC<UsersTableProps> = ({
     serverSide: true,
     sortOrder: {
       name: sortOrder.split(' ')[0],
-      direction: sortOrder.split(' ')[1]
+      direction: sortOrder.split(' ')[1] as MUISortOptions['direction']
     },
     onTableChange: (action: string, tableState: any) => {
       const sortInfo = tableState.announceText ? tableState.announceText.split(' : ') : [];

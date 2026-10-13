@@ -95,6 +95,14 @@ const renderShareModal = (overrides: Partial<ShareModalProps> = {}) => {
 /** The single argument the host mutator was called with, as it would be sent. */
 const sentRequest = (mutator: jest.Mock) => mutator.mock.calls[0][0];
 
+// Each case renders the whole ShareModal tree and drives it through the
+// Autocomplete. The first case also pays the cold start (first emotion/MUI
+// render in this worker), which under a full parallel `jest` run exceeds the
+// 5s default and fails intermittently while passing in isolation. The budget
+// is for that cold start, not for a slow assertion: each `waitFor` below keeps
+// its own shorter bound.
+jest.setTimeout(20_000);
+
 describe('ShareModal resource-access wire contract', () => {
   it('posts the canonical grantAccess body when a person is shared with', async () => {
     const { resourceAccessMutator } = renderShareModal();
