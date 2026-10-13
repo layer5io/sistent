@@ -53,7 +53,7 @@ interface ModalFooterProps {
 }
 
 type openModalCallback = (props: {
-  title?: string;
+  title: string;
   reactNode?: React.ReactNode;
   onClose?: () => void;
 }) => void;
@@ -89,19 +89,19 @@ const StyledDialog = styled(Dialog)`
   }
 `;
 
-const FullscreenButton = styled(FullScreenIcon)(({ theme }) => ({
-  height: '2.25rem',
-  width: '2.25rem',
-  fill: theme.palette.common.white,
-  cursor: 'pointer'
-}));
+export const FullscreenBtn = styled(IconButton)`
+  && {
+    padding: 0;
+    color: ${({ theme }) => theme.palette.common.white};
+    cursor: pointer;
 
-const FullscreenExitButton = styled(FullScreenExitIcon)(({ theme }) => ({
-  height: '2.25rem',
-  width: '2.25rem',
-  fill: theme.palette.common.white,
-  cursor: 'pointer'
-}));
+    & svg {
+      height: 2.25rem;
+      width: 2.25rem;
+      fill: #fff;
+    }
+  }
+`;
 
 export const ModalStyledHeader = styled('div')(({ theme }) => ({
   background: theme.palette.surface.tint,
@@ -122,18 +122,20 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
   const [reactNode, setReactNode] = useState<React.ReactNode | null>(null);
 
   const openModal: openModalCallback = ({ title, reactNode = null, onClose }) => {
-    const validTitle = typeof title === 'string' && title.trim().length > 0 ? title.trim() : '';
-    if (process.env.NODE_ENV !== 'production') {
-      if (!validTitle) {
+    const validTitle =
+      typeof title === 'string' && title.trim().length > 0 ? title.trim() : undefined;
+    if (!validTitle) {
+      if (typeof process !== 'undefined' && process?.env?.NODE_ENV !== 'production') {
         console.warn(
-          'useModal: openModal was called with a blank or missing title. Modals must have an accessible name.'
+          'useModal: openModal rejected. A non-empty title is required to ensure an accessible dialog name.'
         );
       }
+      return;
     }
     setTitle(validTitle);
-    if (onClose) onCloseRef.current = onClose;
+    onCloseRef.current = onClose ?? null;
     setOpen(true);
-    if (reactNode) setReactNode(reactNode);
+    setReactNode(reactNode ?? null);
   };
 
   const closeModal = () => {
@@ -185,17 +187,35 @@ const StyledFooter = styled('div', {
   }
 }));
 
-declare const process: {
-  env: {
-    NODE_ENV?: string;
-  };
-};
+declare const process:
+  | {
+      env?: {
+        NODE_ENV?: string;
+      };
+    }
+  | undefined;
 
 const getNonEmptyString = (val: unknown): string | undefined => {
   if (typeof val === 'string' && val.trim().length > 0) {
     return val.trim();
   }
   return undefined;
+};
+
+const deriveTitleIdBase = (rawId: unknown): string | undefined => {
+  if (typeof rawId !== 'string') return undefined;
+  const trimmed = rawId.trim();
+  if (trimmed.length === 0) return undefined;
+  // If the ID contains no whitespace, preserve the clean human-readable token
+  if (!/\s/.test(trimmed)) {
+    return `${trimmed}-title`;
+  }
+  // Injective encoding: escape '_' as '_x5f_', then encode whitespace chars to hex tokens.
+  // This prevents collision between e.g. "my custom modal" and "my-custom-modal".
+  const encoded = trimmed
+    .replace(/_/g, '_x5f_')
+    .replace(/\s/g, (ch) => `_x${ch.charCodeAt(0).toString(16).padStart(2, '0')}_`);
+  return `${encoded}-title`;
 };
 
 export const Modal: React.FC<ModalProps> = (allProps) => {
@@ -236,14 +256,11 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
   const effectiveTitle = getNonEmptyString(title);
   const hasVisibleTitle = Boolean(effectiveTitle);
 
-  const sanitizedBaseId =
-    typeof restProps.id === 'string' && restProps.id.trim().length > 0
-      ? restProps.id.trim().replace(/\s+/g, '-')
-      : undefined;
-
-  const titleId = useId(sanitizedBaseId ? `${sanitizedBaseId}-title` : undefined);
+  const titleIdOverride = deriveTitleIdBase(restProps.id);
+  const titleId = useId(titleIdOverride);
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
+  const hasWarnedRef = useRef(false);
 
   const toggleFullScreen = () => {
     setFullScreen((prev) => !prev);
@@ -262,25 +279,42 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     const paperAriaLabel = getNonEmptyString(baseProps['aria-label']);
     const paperAriaDescribedby = getNonEmptyString(baseProps['aria-describedby']);
 
-    // Precedence: Modal aria-labelledby > Paper aria-labelledby > (hasVisibleTitle ? titleId : undefined)
-    const finalLabelledby =
-      modalAriaLabelledby ?? paperAriaLabelledby ?? (hasVisibleTitle ? titleId : undefined);
+    // Precedence Matrix:
+    // 1. Modal aria-labelledby (highest priority)
+    // 2. Visible title: paper aria-labelledby ?? titleId (aria-label suppressed per accname)
+    // 3. Modal aria-label (titleless: Modal prop overrides slotProps.paper)
+    // 4. Paper aria-labelledby (titleless fallback)
+    // 5. Paper aria-label (titleless fallback)
+    let finalLabelledby: string | undefined;
+    let finalLabel: string | undefined;
 
-    // accname specification: aria-labelledby takes precedence over aria-label.
-    // If an effective aria-labelledby exists, aria-label is suppressed on the dialog paper.
-    // Otherwise, precedence: Modal aria-label > Paper aria-label.
-    const finalLabel = finalLabelledby ? undefined : (modalAriaLabel ?? paperAriaLabel);
+    if (modalAriaLabelledby) {
+      finalLabelledby = modalAriaLabelledby;
+    } else if (hasVisibleTitle) {
+      finalLabelledby = paperAriaLabelledby ?? titleId;
+    } else if (modalAriaLabel) {
+      finalLabel = modalAriaLabel;
+    } else if (paperAriaLabelledby) {
+      finalLabelledby = paperAriaLabelledby;
+    } else if (paperAriaLabel) {
+      finalLabel = paperAriaLabel;
+    }
 
     // Precedence: Modal aria-describedby > Paper aria-describedby
     const finalDescribedby = modalAriaDescribedby ?? paperAriaDescribedby;
 
-    if (process.env.NODE_ENV !== 'production') {
-      const hasAccessibleName = Boolean(finalLabelledby || finalLabel);
-      if (open && !hasAccessibleName) {
-        console.warn(
-          'Modal: Dialog is rendered without an accessible name. Provide a non-empty `title`, `aria-label`, or `aria-labelledby`.'
-        );
-      }
+    const hasAccessibleName = Boolean(finalLabelledby || finalLabel);
+    if (!open || hasAccessibleName) {
+      hasWarnedRef.current = false;
+    } else if (
+      typeof process !== 'undefined' &&
+      process?.env?.NODE_ENV !== 'production' &&
+      !hasWarnedRef.current
+    ) {
+      hasWarnedRef.current = true;
+      console.warn(
+        'Modal: Dialog is rendered without an accessible name. Provide a non-empty `title`, `aria-label`, or `aria-labelledby`.'
+      );
     }
 
     return {
@@ -326,35 +360,15 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
           >
             {isFullScreenModeAllowed && (
               <CustomTooltip title={fullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}>
-                {fullScreen ? (
-                  <FullscreenExitButton
-                    onClick={toggleFullScreen}
-                    data-testid="modal-exit-fullscreen-btn"
-                    aria-label="Exit fullscreen"
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        toggleFullScreen();
-                      }
-                    }}
-                  />
-                ) : (
-                  <FullscreenButton
-                    onClick={toggleFullScreen}
-                    data-testid="modal-enter-fullscreen-btn"
-                    aria-label="Enter fullscreen"
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        toggleFullScreen();
-                      }
-                    }}
-                  />
-                )}
+                <FullscreenBtn
+                  onClick={toggleFullScreen}
+                  data-testid={
+                    fullScreen ? 'modal-exit-fullscreen-btn' : 'modal-enter-fullscreen-btn'
+                  }
+                  aria-label={fullScreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+                >
+                  {fullScreen ? <FullScreenExitIcon /> : <FullScreenIcon />}
+                </FullscreenBtn>
               </CustomTooltip>
             )}
             <CustomTooltip title="Close dialog">

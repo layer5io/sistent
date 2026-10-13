@@ -589,12 +589,129 @@ describe('Modal accessibility contract (#1864)', () => {
 
       fireEvent.click(screen.getByTestId('open-btn'));
 
-      const dialog = screen.getByRole('dialog');
+      // The dialog fails closed and does not open an unnamed modal
+      expect(screen.queryByRole('dialog')).toBeNull();
       expect(screen.queryByTestId('modal-title')).toBeNull();
-      expect(dialog.getAttribute('aria-labelledby')).toBeNull();
 
       expect(warnSpy).toHaveBeenCalledWith(
-        expect.stringContaining('useModal: openModal was called with a blank or missing title')
+        expect.stringContaining(
+          'useModal: openModal rejected. A non-empty title is required to ensure an accessible dialog name.'
+        )
+      );
+      warnSpy.mockRestore();
+    });
+
+    it('rejects empty string, whitespace-only string, and missing title without opening dialog or altering state', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const RejectHarness = () => {
+        const modal = useModal({ headerIcon: null });
+        return (
+          <div>
+            <button data-testid="open-empty" onClick={() => modal.openModal({ title: '' })}>
+              Open Empty
+            </button>
+            <button data-testid="open-spaces" onClick={() => modal.openModal({ title: '    ' })}>
+              Open Spaces
+            </button>
+            <button
+              data-testid="open-undefined"
+              onClick={() => modal.openModal({ title: undefined as unknown as string })}
+            >
+              Open Undefined
+            </button>
+            <span data-testid="is-open">{String(modal.open)}</span>
+            <span data-testid="modal-title">{modal.title}</span>
+            <Modal {...modal} transitionDuration={0}>
+              <div>Modal Content</div>
+            </Modal>
+          </div>
+        );
+      };
+
+      render(
+        <SistentThemeProvider>
+          <RejectHarness />
+        </SistentThemeProvider>
+      );
+
+      // Attempt open with empty string
+      fireEvent.click(screen.getByTestId('open-empty'));
+      expect(screen.getByTestId('is-open').textContent).toBe('false');
+      expect(screen.getByTestId('modal-title').textContent).toBe('');
+      expect(screen.queryByRole('dialog')).toBeNull();
+
+      // Attempt open with spaces
+      fireEvent.click(screen.getByTestId('open-spaces'));
+      expect(screen.getByTestId('is-open').textContent).toBe('false');
+      expect(screen.queryByRole('dialog')).toBeNull();
+
+      // Attempt open with missing title
+      fireEvent.click(screen.getByTestId('open-undefined'));
+      expect(screen.getByTestId('is-open').textContent).toBe('false');
+      expect(screen.queryByRole('dialog')).toBeNull();
+
+      expect(warnSpy).toHaveBeenCalledTimes(3);
+      warnSpy.mockRestore();
+    });
+
+    it('preserves previous valid modal state if invalid request is made while already open', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const OverwriteProtectionHarness = () => {
+        const modal = useModal({ headerIcon: null });
+        return (
+          <div>
+            <button
+              data-testid="open-valid"
+              onClick={() =>
+                modal.openModal({
+                  title: 'Valid Active Title',
+                  reactNode: <div data-testid="valid-body">Valid Body Content</div>
+                })
+              }
+            >
+              Open Valid
+            </button>
+            <button
+              data-testid="attempt-invalid"
+              onClick={() =>
+                modal.openModal({
+                  title: '   ',
+                  reactNode: <div data-testid="invalid-body">Should Not Overwrite</div>
+                })
+              }
+            >
+              Attempt Invalid
+            </button>
+            <Modal {...modal} transitionDuration={0} />
+          </div>
+        );
+      };
+
+      render(
+        <SistentThemeProvider>
+          <OverwriteProtectionHarness />
+        </SistentThemeProvider>
+      );
+
+      // Open valid modal
+      fireEvent.click(screen.getByTestId('open-valid'));
+      expect(screen.getByRole('dialog', { name: 'Valid Active Title' })).toBeTruthy();
+      expect(screen.getByTestId('valid-body')).toBeTruthy();
+
+      // Attempt to overwrite with invalid request
+      fireEvent.click(screen.getByTestId('attempt-invalid'));
+
+      // Valid state is fully preserved, invalid state is ignored
+      expect(screen.getByRole('dialog', { name: 'Valid Active Title' })).toBeTruthy();
+      expect(screen.getByTestId('valid-body')).toBeTruthy();
+      expect(screen.queryByTestId('invalid-body')).toBeNull();
+
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining(
+          'useModal: openModal rejected. A non-empty title is required to ensure an accessible dialog name.'
+        )
       );
       warnSpy.mockRestore();
     });
@@ -622,6 +739,7 @@ describe('Modal accessibility contract (#1864)', () => {
               Close
             </button>
             <span data-testid="modal-open-state">{String(modal.open)}</span>
+            <span data-testid="modal-isopen-state">{String(modal.isOpen)}</span>
             <span data-testid="modal-title-state">{modal.title}</span>
             {modal.open && (
               <Modal {...modal}>
@@ -641,18 +759,21 @@ describe('Modal accessibility contract (#1864)', () => {
       // Open first
       fireEvent.click(screen.getByTestId('open-first'));
       expect(screen.getByTestId('modal-open-state').textContent).toBe('true');
+      expect(screen.getByTestId('modal-isopen-state').textContent).toBe('true');
       expect(screen.getByRole('dialog', { name: 'First Session' })).toBeTruthy();
 
       // Close
       fireEvent.click(screen.getByTestId('close-modal'));
       expect(onClose).toHaveBeenCalledTimes(1);
       expect(screen.getByTestId('modal-open-state').textContent).toBe('false');
+      expect(screen.getByTestId('modal-isopen-state').textContent).toBe('false');
       expect(screen.getByTestId('modal-title-state').textContent).toBe('');
       expect(screen.queryByRole('dialog')).toBeNull();
 
       // Open second
       fireEvent.click(screen.getByTestId('open-second'));
       expect(screen.getByTestId('modal-open-state').textContent).toBe('true');
+      expect(screen.getByTestId('modal-isopen-state').textContent).toBe('true');
       expect(screen.getByRole('dialog', { name: 'Second Session' })).toBeTruthy();
     });
   });
@@ -705,6 +826,193 @@ describe('Modal accessibility contract (#1864)', () => {
       expect(dialog.getAttribute('aria-label')).toBe('Modal Prop Label');
       expect(dialog.getAttribute('aria-labelledby')).toBeNull();
     });
+
+    it('Modal-level aria-label takes precedence over Paper-level aria-labelledby in titleless modal', () => {
+      render(
+        <SistentThemeProvider>
+          <Modal
+            open
+            aria-label="Modal Level Label"
+            closeModal={jest.fn()}
+            slotProps={{
+              paper: {
+                'aria-labelledby': 'paper-labelledby-reference'
+              }
+            }}
+          >
+            <div>Content</div>
+          </Modal>
+        </SistentThemeProvider>
+      );
+
+      const dialog = screen.getByRole('dialog');
+      // Modal-level naming props take precedence over slotProps.paper attributes
+      expect(dialog.getAttribute('aria-label')).toBe('Modal Level Label');
+      expect(dialog.getAttribute('aria-labelledby')).toBeNull();
+    });
+
+    it('Modal-level aria-labelledby takes precedence over Paper-level aria-label', () => {
+      render(
+        <SistentThemeProvider>
+          <Modal
+            open
+            aria-labelledby="modal-labelledby-target"
+            closeModal={jest.fn()}
+            slotProps={{
+              paper: {
+                'aria-label': 'Paper Prop Label'
+              }
+            }}
+          >
+            <div>Content</div>
+          </Modal>
+        </SistentThemeProvider>
+      );
+
+      const dialog = screen.getByRole('dialog');
+      expect(dialog.getAttribute('aria-labelledby')).toBe('modal-labelledby-target');
+      expect(dialog.getAttribute('aria-label')).toBeNull();
+    });
+
+    it('Modal-level aria-labelledby takes precedence over Paper-level aria-labelledby', () => {
+      render(
+        <SistentThemeProvider>
+          <Modal
+            open
+            aria-labelledby="modal-labelledby-primary"
+            closeModal={jest.fn()}
+            slotProps={{
+              paper: {
+                'aria-labelledby': 'paper-labelledby-secondary'
+              }
+            }}
+          >
+            <div>Content</div>
+          </Modal>
+        </SistentThemeProvider>
+      );
+
+      const dialog = screen.getByRole('dialog');
+      expect(dialog.getAttribute('aria-labelledby')).toBe('modal-labelledby-primary');
+    });
+
+    it('Paper-level aria-labelledby takes precedence over Paper-level aria-label when titleless and without Modal props', () => {
+      render(
+        <SistentThemeProvider>
+          <Modal
+            open
+            closeModal={jest.fn()}
+            slotProps={{
+              paper: {
+                'aria-labelledby': 'paper-level-labelledby-target',
+                'aria-label': 'paper-level-label-target'
+              }
+            }}
+          >
+            <div>Content</div>
+          </Modal>
+        </SistentThemeProvider>
+      );
+
+      const dialog = screen.getByRole('dialog');
+      expect(dialog.getAttribute('aria-labelledby')).toBe('paper-level-labelledby-target');
+      expect(dialog.getAttribute('aria-label')).toBeNull();
+    });
+
+    it('falls back to lower-precedence attributes when higher-precedence values are whitespace-only', () => {
+      render(
+        <SistentThemeProvider>
+          <Modal
+            open
+            aria-labelledby="   "
+            aria-label="Valid Modal Label"
+            closeModal={jest.fn()}
+            slotProps={{
+              paper: {
+                'aria-label': 'Paper Fallback Label'
+              }
+            }}
+          >
+            <div>Content</div>
+          </Modal>
+        </SistentThemeProvider>
+      );
+
+      const dialog = screen.getByRole('dialog');
+      expect(dialog.getAttribute('aria-labelledby')).toBeNull();
+      expect(dialog.getAttribute('aria-label')).toBe('Valid Modal Label');
+    });
+
+    it('Modal-level aria-describedby takes precedence over Paper-level aria-describedby, falling back when blank', () => {
+      const { unmount } = render(
+        <SistentThemeProvider>
+          <Modal
+            open
+            title="Described Modal 1"
+            aria-describedby="modal-desc-target"
+            closeModal={jest.fn()}
+            slotProps={{
+              paper: {
+                'aria-describedby': 'paper-desc-target'
+              }
+            }}
+          >
+            <div>Content</div>
+          </Modal>
+        </SistentThemeProvider>
+      );
+
+      let dialog = screen.getByRole('dialog');
+      expect(dialog.getAttribute('aria-describedby')).toBe('modal-desc-target');
+      unmount();
+
+      // Blank modal-level describedby falls back to paper-level describedby
+      render(
+        <SistentThemeProvider>
+          <Modal
+            open
+            title="Described Modal 2"
+            aria-describedby="   "
+            closeModal={jest.fn()}
+            slotProps={{
+              paper: {
+                'aria-describedby': 'paper-desc-fallback'
+              }
+            }}
+          >
+            <div>Content</div>
+          </Modal>
+        </SistentThemeProvider>
+      );
+
+      dialog = screen.getByRole('dialog');
+      expect(dialog.getAttribute('aria-describedby')).toBe('paper-desc-fallback');
+    });
+
+    it('ensures ARIA naming and description attributes remain on the dialog paper and not on the presentation root', () => {
+      render(
+        <SistentThemeProvider>
+          <Modal
+            open
+            aria-label="Explicit Dialog Label"
+            aria-describedby="explicit-dialog-desc"
+            closeModal={jest.fn()}
+          >
+            <div id="explicit-dialog-desc">Description text</div>
+          </Modal>
+        </SistentThemeProvider>
+      );
+
+      const dialog = screen.getByRole('dialog');
+      const root = dialog.closest('.MuiDialog-root');
+
+      expect(root?.getAttribute('aria-label')).toBeNull();
+      expect(root?.getAttribute('aria-labelledby')).toBeNull();
+      expect(root?.getAttribute('aria-describedby')).toBeNull();
+
+      expect(dialog.getAttribute('aria-label')).toBe('Explicit Dialog Label');
+      expect(dialog.getAttribute('aria-describedby')).toBe('explicit-dialog-desc');
+    });
   });
 
   describe('title ID validity, stability, and uniqueness', () => {
@@ -724,11 +1032,39 @@ describe('Modal accessibility contract (#1864)', () => {
       const root = dialog.closest('.MuiDialog-root');
       expect(root?.getAttribute('id')).toBe('my custom modal id');
 
-      // Title element ID must not contain whitespace
+      // Title element ID must not contain whitespace and uses injective encoding
       const titleId = title.getAttribute('id');
-      expect(titleId).toBe('my-custom-modal-id-title');
+      expect(titleId).toBe('my_x20_custom_x20_modal_x20_id-title');
       expect(titleId?.includes(' ')).toBe(false);
-      expect(dialog.getAttribute('aria-labelledby')).toBe('my-custom-modal-id-title');
+      expect(dialog.getAttribute('aria-labelledby')).toBe('my_x20_custom_x20_modal_x20_id-title');
+    });
+
+    it('simultaneously mounted dialogs whose IDs would collide under lossy sanitization receive distinct title IDs', () => {
+      render(
+        <SistentThemeProvider>
+          <Modal open id="my custom modal id" title="Dialog With Spaces" closeModal={jest.fn()}>
+            <div>Content 1</div>
+          </Modal>
+          <Modal open id="my-custom-modal-id" title="Dialog With Hyphens" closeModal={jest.fn()}>
+            <div>Content 2</div>
+          </Modal>
+        </SistentThemeProvider>
+      );
+
+      const dialogs = screen.getAllByRole('dialog', { hidden: true });
+      const titles = screen.getAllByTestId('modal-title');
+
+      expect(dialogs).toHaveLength(2);
+      expect(titles).toHaveLength(2);
+
+      const labelIds = dialogs.map((d) => d.getAttribute('aria-labelledby'));
+      const titleIds = titles.map((t) => t.getAttribute('id'));
+
+      // Both dialogs have unique IDs and unique title IDs
+      expect(new Set(labelIds).size).toBe(2);
+      expect(new Set(titleIds).size).toBe(2);
+      expect(titleIds).toContain('my_x20_custom_x20_modal_x20_id-title');
+      expect(titleIds).toContain('my-custom-modal-id-title');
     });
 
     it('generates an auto token when caller id is whitespace-only', () => {
@@ -818,6 +1154,32 @@ describe('Modal accessibility contract (#1864)', () => {
 
       fireEvent.click(exitBtn);
 
+      expect(screen.getByRole('button', { name: 'Enter fullscreen' })).toBeTruthy();
+    });
+
+    it('supports native button keyboard activation on FullscreenBtn via Enter and Space without duplicate toggles', () => {
+      render(
+        <SistentThemeProvider>
+          <Modal
+            open
+            title="Fullscreen Keyboard Modal"
+            isFullScreenModeAllowed
+            closeModal={jest.fn()}
+          >
+            <div>Content</div>
+          </Modal>
+        </SistentThemeProvider>
+      );
+
+      const enterBtn = screen.getByRole('button', { name: 'Enter fullscreen' });
+      expect(enterBtn.tagName.toLowerCase()).toBe('button');
+
+      // Native buttons activate on click when Enter or Space is pressed
+      fireEvent.click(enterBtn);
+      const exitBtn = screen.getByRole('button', { name: 'Exit fullscreen' });
+      expect(exitBtn.tagName.toLowerCase()).toBe('button');
+
+      fireEvent.click(exitBtn);
       expect(screen.getByRole('button', { name: 'Enter fullscreen' })).toBeTruthy();
     });
   });
