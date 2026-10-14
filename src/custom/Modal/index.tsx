@@ -123,7 +123,7 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
 
   const openModal: openModalCallback = ({ title, reactNode = null, onClose }) => {
     if (title) setTitle(title);
-    if (onClose) onCloseRef.current = onClose;
+    onCloseRef.current = onClose ?? null;
     setOpen(true);
     if (reactNode) setReactNode(reactNode);
   };
@@ -215,6 +215,8 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     setFullScreen((prev) => !prev);
   };
 
+  const hasTitle = Boolean(title && title.trim().length > 0);
+
   const callerPaperProp = callerSlotProps?.paper;
 
   // Merges Paper accessibility attributes while strictly preserving caller's
@@ -225,18 +227,25 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     const callerPaperDescribedby = baseProps['aria-describedby'] as string | undefined;
 
     const finalLabelledby =
-      callerAriaLabelledby ?? callerPaperLabelledby ?? (title ? titleId : undefined);
-    const finalLabel = callerPaperLabel ?? (finalLabelledby ? undefined : resolvedAriaLabel);
+      callerAriaLabelledby ?? callerPaperLabelledby ?? (hasTitle ? titleId : undefined);
+    const finalLabel = finalLabelledby ? undefined : (resolvedAriaLabel ?? callerPaperLabel);
     const finalDescribedby = callerAriaDescribedby ?? callerPaperDescribedby;
 
-    return {
+    const result: Record<string, unknown> = {
       ...baseProps,
       // Suppress dangling auto-generated aria-labelledby on the dialog paper when
       // neither title nor an explicit aria-labelledby is provided.
       'aria-labelledby': finalLabelledby,
-      ...(finalLabel && { 'aria-label': finalLabel }),
       'aria-describedby': finalDescribedby
     };
+
+    if (finalLabel) {
+      result['aria-label'] = finalLabel;
+    } else {
+      delete result['aria-label'];
+    }
+
+    return result;
   };
 
   const resolvedPaperSlotProps =
@@ -260,7 +269,7 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
       fullScreen={fullScreen}
       fullWidth={!fullScreen}
     >
-      {title && (
+      {hasTitle && (
         <ModalStyledHeader className="modal-header" data-testid="modal-header">
           {headerIcon && <Box data-testid="modal-header-icon">{headerIcon}</Box>}
           <Typography component={'div'} variant="h6" data-testid="modal-title" id={titleId}>

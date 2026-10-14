@@ -430,4 +430,88 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(screen.getByRole('dialog', { name: 'External Heading Title' })).toBeTruthy();
     unmountLabelledby();
   });
+
+  it('treats whitespace-only title as absent, omitting generated aria-labelledby and preserving aria-label fallback', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal open title="   " aria-label="Whitespace Fallback" closeModal={jest.fn()}>
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    expect(dialog.getAttribute('aria-label')).toBe('Whitespace Fallback');
+    expect(dialog.getAttribute('aria-labelledby')).toBeNull();
+    expect(screen.queryByTestId('modal-title')).toBeNull();
+  });
+
+  it('prioritizes top-level aria-label over paper-level aria-label on titleless modals', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          aria-label="Top Level Name"
+          closeModal={jest.fn()}
+          slotProps={{
+            paper: {
+              'aria-label': 'Paper Level Name'
+            } as PaperProps & { 'aria-label'?: string }
+          }}
+        >
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    expect(dialog.getAttribute('aria-label')).toBe('Top Level Name');
+    expect(dialog.getAttribute('aria-labelledby')).toBeNull();
+  });
+
+  it('suppresses paper-level aria-label when aria-labelledby is present from title or prop', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          title="Titled Dialog"
+          closeModal={jest.fn()}
+          slotProps={{
+            paper: {
+              'aria-label': 'Conflicting Paper Label'
+            } as PaperProps & { 'aria-label'?: string }
+          }}
+        >
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    const title = screen.getByTestId('modal-title');
+    expect(dialog.getAttribute('aria-labelledby')).toBe(title.getAttribute('id'));
+    expect(dialog.getAttribute('aria-label')).toBeNull();
+  });
+
+  it('derives distinct title IDs for concurrently mounted modals with distinct caller-provided IDs', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal open id="modal-first" title="First Modal" closeModal={jest.fn()}>
+          <div>First</div>
+        </Modal>
+        <Modal open id="modal-second" title="Second Modal" closeModal={jest.fn()}>
+          <div>Second</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialogs = screen.getAllByRole('dialog', { hidden: true });
+    const titles = screen.getAllByTestId('modal-title');
+
+    expect(dialogs[0].getAttribute('aria-labelledby')).toBe('modal-first-title');
+    expect(titles[0].getAttribute('id')).toBe('modal-first-title');
+    expect(dialogs[1].getAttribute('aria-labelledby')).toBe('modal-second-title');
+    expect(titles[1].getAttribute('id')).toBe('modal-second-title');
+  });
 });
+
