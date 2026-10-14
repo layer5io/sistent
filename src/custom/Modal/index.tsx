@@ -1,4 +1,4 @@
-import { ButtonProps, DialogOwnerState, DialogProps, PaperProps, styled } from '@mui/material';
+import { ButtonProps, DialogOwnerState, DialogProps, styled } from '@mui/material';
 // Stable per-instance id across React 17/18/19 (same hook MUI Dialog uses
 // internally; on React 17 the generated id appears after the first effect).
 import { unstable_useId as useId } from '@mui/material/utils';
@@ -122,17 +122,7 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
   const [reactNode, setReactNode] = useState<React.ReactNode | null>(null);
 
   const openModal: openModalCallback = ({ title, reactNode = null, onClose }) => {
-    const validTitle =
-      typeof title === 'string' && title.trim().length > 0 ? title.trim() : undefined;
-    if (!validTitle) {
-      if (typeof process !== 'undefined' && process?.env?.NODE_ENV !== 'production') {
-        console.warn(
-          'useModal: openModal rejected. A non-empty title is required to ensure an accessible dialog name.'
-        );
-      }
-      return;
-    }
-    setTitle(validTitle);
+    if (title) setTitle(title);
     if (onClose) onCloseRef.current = onClose;
     setOpen(true);
     if (reactNode) setReactNode(reactNode);
@@ -187,21 +177,6 @@ const StyledFooter = styled('div', {
   }
 }));
 
-declare const process:
-  | {
-      env?: {
-        NODE_ENV?: string;
-      };
-    }
-  | undefined;
-
-const getNonEmptyString = (val: unknown): string | undefined => {
-  if (typeof val === 'string' && val.trim().length > 0) {
-    return val.trim();
-  }
-  return undefined;
-};
-
 export const Modal: React.FC<ModalProps> = (allProps) => {
   const {
     open,
@@ -225,69 +200,41 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
    */
   const {
     fullScreen: initialFullScreenState = false,
-    'aria-label': callerAriaLabel,
+    'aria-label': resolvedAriaLabel,
     'aria-labelledby': callerAriaLabelledby,
     'aria-describedby': callerAriaDescribedby,
     slotProps: callerSlotProps,
-    ...rawRestProps
+    ...restProps
   } = props;
 
-  // Safely strip useModal helper properties so they do not leak onto the Dialog DOM element
-  const restProps = { ...rawRestProps };
-  delete (restProps as { isOpen?: unknown }).isOpen;
-  delete (restProps as { openModal?: unknown }).openModal;
-
-  const effectiveTitle = getNonEmptyString(title);
-  const hasVisibleTitle = Boolean(effectiveTitle);
-
-  const autoTitleId = useId();
-  const titleId =
-    typeof restProps.id === 'string' && restProps.id.trim() && !/\s/.test(restProps.id.trim())
-      ? `${restProps.id.trim()}-title`
-      : autoTitleId;
+  const titleId = useId(restProps.id ? `${restProps.id}-title` : undefined);
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
-  const hasWarnedRef = useRef(false);
 
   const toggleFullScreen = () => {
     setFullScreen((prev) => !prev);
   };
 
-  const modalAriaLabelledby = getNonEmptyString(callerAriaLabelledby);
-  const modalAriaLabel = getNonEmptyString(callerAriaLabel);
-  const modalAriaDescribedby = getNonEmptyString(callerAriaDescribedby);
-
   const callerPaperProp = callerSlotProps?.paper;
 
   // Merges Paper accessibility attributes while strictly preserving caller's
   // object-valued or callback-valued slotProps.paper.
-  const mergePaperAttributes = (baseProps: Partial<PaperProps> = {}): Partial<PaperProps> => {
-    const paperAriaLabelledby = getNonEmptyString(baseProps['aria-labelledby']);
-    const paperAriaLabel = getNonEmptyString(baseProps['aria-label']);
-    const paperAriaDescribedby = getNonEmptyString(baseProps['aria-describedby']);
+  const mergePaperAttributes = (baseProps: Record<string, unknown> = {}) => {
+    const callerPaperLabelledby = baseProps['aria-labelledby'] as string | undefined;
+    const callerPaperLabel = baseProps['aria-label'] as string | undefined;
+    const callerPaperDescribedby = baseProps['aria-describedby'] as string | undefined;
 
-    // Precedence: Modal aria-labelledby > visible title (paper aria-labelledby ?? titleId) > Modal aria-label > Paper aria-labelledby > Paper aria-label
-    let finalLabelledby: string | undefined;
-    let finalLabel: string | undefined;
-
-    if (modalAriaLabelledby) {
-      finalLabelledby = modalAriaLabelledby;
-    } else if (hasVisibleTitle) {
-      finalLabelledby = paperAriaLabelledby ?? titleId;
-    } else if (modalAriaLabel) {
-      finalLabel = modalAriaLabel;
-    } else if (paperAriaLabelledby) {
-      finalLabelledby = paperAriaLabelledby;
-    } else if (paperAriaLabel) {
-      finalLabel = paperAriaLabel;
-    }
-
-    const finalDescribedby = modalAriaDescribedby ?? paperAriaDescribedby;
+    const finalLabelledby =
+      callerAriaLabelledby ?? callerPaperLabelledby ?? (title ? titleId : undefined);
+    const finalLabel = callerPaperLabel ?? (finalLabelledby ? undefined : resolvedAriaLabel);
+    const finalDescribedby = callerAriaDescribedby ?? callerPaperDescribedby;
 
     return {
       ...baseProps,
+      // Suppress dangling auto-generated aria-labelledby on the dialog paper when
+      // neither title nor an explicit aria-labelledby is provided.
       'aria-labelledby': finalLabelledby,
-      'aria-label': finalLabel,
+      ...(finalLabel && { 'aria-label': finalLabel }),
       'aria-describedby': finalDescribedby
     };
   };
@@ -295,54 +242,29 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
   const resolvedPaperSlotProps =
     typeof callerPaperProp === 'function'
       ? (ownerState: DialogOwnerState) =>
-          mergePaperAttributes(callerPaperProp(ownerState) as Partial<PaperProps>)
-      : mergePaperAttributes(callerPaperProp as Partial<PaperProps> | undefined);
+          mergePaperAttributes(callerPaperProp(ownerState) as Record<string, unknown>)
+      : mergePaperAttributes(callerPaperProp as Record<string, unknown> | undefined);
 
   const mergedSlotProps = {
     ...callerSlotProps,
     paper: resolvedPaperSlotProps
   };
 
-  const samplePaper = typeof callerPaperProp === 'object' && callerPaperProp ? callerPaperProp : {};
-  const hasAccessibleName = Boolean(
-    modalAriaLabelledby ||
-    hasVisibleTitle ||
-    modalAriaLabel ||
-    getNonEmptyString((samplePaper as Partial<PaperProps>)['aria-labelledby']) ||
-    getNonEmptyString((samplePaper as Partial<PaperProps>)['aria-label']) ||
-    typeof callerPaperProp === 'function'
-  );
-
-  if (!open || hasAccessibleName) {
-    hasWarnedRef.current = false;
-  } else if (
-    typeof process !== 'undefined' &&
-    process?.env?.NODE_ENV !== 'production' &&
-    !hasWarnedRef.current
-  ) {
-    hasWarnedRef.current = true;
-    console.warn(
-      'Modal: Dialog is rendered without an accessible name. Provide a non-empty `title`, `aria-label`, or `aria-labelledby`.'
-    );
-  }
-
-  const isDialogOpen = Boolean(open && hasAccessibleName);
-
   return (
     <StyledDialog
       {...restProps}
       maxWidth={maxWidth}
-      open={isDialogOpen}
+      open={open}
       onClose={closeModal}
       slotProps={mergedSlotProps}
       fullScreen={fullScreen}
       fullWidth={!fullScreen}
     >
-      {hasVisibleTitle && (
+      {title && (
         <ModalStyledHeader className="modal-header" data-testid="modal-header">
           {headerIcon && <Box data-testid="modal-header-icon">{headerIcon}</Box>}
           <Typography component={'div'} variant="h6" data-testid="modal-title" id={titleId}>
-            {effectiveTitle}
+            {title}
           </Typography>
           <div
             style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}
