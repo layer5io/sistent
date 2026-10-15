@@ -384,7 +384,11 @@ export const FileTreeList = styled('ul', {
   })
 }));
 
-export const FileTreeRow = styled(Box)(({ theme }) => ({
+export const FileTreeRow = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'selected'
+})<{ selected?: boolean }>(({ theme, selected }) => ({
+  // Anchors a visually hidden radio, so focusing it scrolls its own row into view.
+  position: 'relative',
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(0.5),
@@ -396,9 +400,30 @@ export const FileTreeRow = styled(Box)(({ theme }) => ({
   '&:hover': {
     backgroundColor: theme.palette.action.hover
   },
+  // The single-select file row: the selected tint of a MUI menu item, as on
+  // `GitHubRepositoryPicker singleSelect`, with the focus ring of its radio.
+  ...(selected && {
+    backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
+    '&:hover': {
+      backgroundColor: alpha(
+        theme.palette.primary.main,
+        theme.palette.action.selectedOpacity + theme.palette.action.hoverOpacity
+      )
+    }
+  }),
+  '&:has(input[type="radio"]:focus-visible)': {
+    outline: `2px solid ${theme.palette.primary.main}`,
+    outlineOffset: -2
+  },
   '& > svg': {
     flexShrink: 0,
     color: theme.palette.icon.secondary
+  },
+  // Holds the place of a folder's disclosure button so file and folder icons align.
+  '& .slot': {
+    flexShrink: 0,
+    width: 24,
+    height: 24
   },
   '& .label': {
     flex: 1,
@@ -523,8 +548,8 @@ export const FinishList = styled(Box)(({ theme }) => ({
   }
 }));
 
-/** Text for assistive technology only; mirrors MUI's `visuallyHidden` utility. */
-export const VisuallyHidden = styled('span')({
+/** Mirrors MUI's `visuallyHidden` utility. */
+const visuallyHidden = {
   border: 0,
   clip: 'rect(0 0 0 0)',
   height: 1,
@@ -534,4 +559,10 @@ export const VisuallyHidden = styled('span')({
   position: 'absolute',
   whiteSpace: 'nowrap',
   width: 1
-});
+} as const;
+
+/** Text for assistive technology only. */
+export const VisuallyHidden = styled('span')(visuallyHidden);
+
+/** A native control that keeps its semantics and keyboard behaviour but draws nothing. */
+export const VisuallyHiddenInput = styled('input')(visuallyHidden);

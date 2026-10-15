@@ -14,7 +14,8 @@ import {
   FileTreeRow,
   FileTreeScroller,
   FileTreeStatus,
-  VisuallyHidden
+  VisuallyHidden,
+  VisuallyHiddenInput
 } from './style';
 
 /** One file or directory of a scanned repository. */
@@ -46,8 +47,10 @@ export interface GitHubFileTreeProps {
    */
   supportedExtensions?: readonly string[] | null;
   /**
-   * Allow one file at a time and no directory selection (Cloud's
-   * snapshot design picker).
+   * Pick exactly one file and no directory (Cloud's snapshot design picker,
+   * and the file step of a remap). Files are a radio group drawn without
+   * controls: the chosen row is tinted, as on `GitHubRepositoryPicker
+   * singleSelect`, and the choice is replaced rather than cleared.
    */
   singleSelect?: boolean;
   /** Directories expanded on first render. */
@@ -102,7 +105,8 @@ const STATUS_TEXT: Record<NonNullable<GitHubFileTreeNode['status']>, string> = {
  * from Meshery Cloud's `components/general/file-explorer.tsx` (`FileExplorer`):
  * a folder tree with a checkbox per file, a directory checkbox that selects
  * every file under it, an imported / failed mark per file, an extension
- * filter, and paging as the tree is scrolled.
+ * filter, and paging as the tree is scrolled. `singleSelect` picks one file
+ * from the same tree, without checkboxes.
  *
  * Purely presentational: the host scans the repository, pages the results in,
  * and owns the selection. The selection holds file ids only; a directory's
@@ -144,10 +148,6 @@ export function GitHubFileTree({
     });
 
   const toggleFile = (id: string) => {
-    if (singleSelect) {
-      onSelectionChange(selectedSet.has(id) ? [] : [id]);
-      return;
-    }
     onSelectionChange(
       selectedSet.has(id) ? selected.filter((each) => each !== id) : [...selected, id]
     );
@@ -179,6 +179,33 @@ export function GitHubFileTree({
   };
 
   const renderNode = (node: GitHubFileTreeNode): React.ReactNode => {
+    if (node.type === 'file' && singleSelect) {
+      const checked = selectedSet.has(node.id);
+      return (
+        <li key={node.id}>
+          <FileTreeRow
+            component="label"
+            selected={checked}
+            data-testid={`github-file-tree-item-${node.id}`}
+          >
+            <VisuallyHiddenInput
+              type="radio"
+              name={`github-file-tree-${instanceId}`}
+              value={node.id}
+              checked={checked}
+              onChange={() => onSelectionChange([node.id])}
+            />
+            <span className="slot" aria-hidden />
+            <ArticleIcon width={18} height={18} fill="currentColor" aria-hidden />
+            <Typography variant="textB1Regular" component="span" className="label">
+              {node.label}
+            </Typography>
+            {renderStatus(node)}
+          </FileTreeRow>
+        </li>
+      );
+    }
+
     if (node.type === 'file') {
       return (
         <li key={node.id}>
@@ -260,11 +287,16 @@ export function GitHubFileTree({
       sx={{ maxHeight }}
       data-testid="github-file-tree"
       aria-busy={loading || undefined}
+      // One choice among the files: the radios form a group named like the tree.
+      role={singleSelect && !isEmpty ? 'radiogroup' : undefined}
+      aria-label={singleSelect && !isEmpty ? ariaLabel : undefined}
     >
       {isEmpty ? (
         <FileTreeEmpty role="status">{emptyMessage ?? defaultEmpty}</FileTreeEmpty>
       ) : (
-        <FileTreeList aria-label={ariaLabel}>{visible.map(renderNode)}</FileTreeList>
+        <FileTreeList aria-label={singleSelect ? undefined : ariaLabel}>
+          {visible.map(renderNode)}
+        </FileTreeList>
       )}
       {loading && (
         <FileTreeEmpty role="status" aria-label="Loading more files" sx={{ border: 0 }}>
