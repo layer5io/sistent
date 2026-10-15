@@ -8,6 +8,10 @@ Sistent ships the presentational primitives for it, so every host renders the sa
 of forking Cloud's UI. Hosts keep everything that is theirs: the GitHub App URL, the handoff to
 GitHub, every request, and persistence.
 
+Re-pointing a design at another source (Cloud's remap, connection -> repository -> ref -> file,
+[meshery-cloud#6119](https://github.com/layer5io/meshery-cloud/issues/6119)) is built from the
+same primitives; see [Remap](#remap-one-repository-one-ref-one-file).
+
 The primitives live in `src/custom/GitHubConnection/` and are exported from `@sistent/sistent`.
 Their states are demonstrated in `GitHubConnection.stories.tsx` (CSF3) and tested in
 `src/__testing__/GitHubConnection.test.tsx`.
@@ -38,17 +42,18 @@ The flow these primitives exist to enforce
 | `GitHubConnectionStatus`             | `workspaces/integrations/common.tsx` (connection status chip), `components/connect/verify/` (verifying), plus the missing reconnect path         |
 | `GitHubConnectionNotice`             | New: the recovery states Cloud lacked when CONNECT failed silently ([meshery-cloud#6116](https://github.com/layer5io/meshery-cloud/issues/6116)) |
 | `GitHubRepositoryPicker`             | `stepper-content.tsx` (`SelectRepository`: the multi-select of `owner/name` with a checkbox per row, paged in on menu scroll)                    |
+| `GitHubRefPicker`                    | New: the ref step of the remap ([meshery-cloud#6119](https://github.com/layer5io/meshery-cloud/issues/6119)), which Cloud's wizard lacked        |
 | `GitHubFileTree`                     | `components/general/file-explorer.tsx` (`FileExplorer`: folder tree, folder-selects-files, extension filter, imported/error marks)               |
 | `GitHubRepositorySection`            | `stepper-content.tsx` (`AddApplicationPaths` and `Finish`: per-repository accordion with selected / imported / failed badges)                    |
 | `GitHubFinishSummary`                | `stepper-content.tsx` (`Finish`, `WorkflowStatus`, `ImportedDesigns`: workflow outcome with retry, created designs, failed files)                |
 
 What stays in the host: `api/github.ts`, `store/slices/connection.ts`, the route orchestration in
 `components/connect/index.tsx` and `pages/connect/[...connection].tsx`, the GitHub App URL and
-`startGithubAppInstall`, and every request behind the step bodies: paging repositories and
-scanned files, importing, token generation, and workflow install. The host feeds the results to
-the pick lists and the Finish summary, which render inside `GitHubWizardStep` as `children`, and
-it owns policy such as pre-selecting a lone repository or the repositories already on a
-connection being reconfigured.
+`startGithubAppInstall`, and every request behind the step bodies: paging repositories,
+branches, and scanned files, importing, token generation, and workflow install. The host feeds
+the results to the pick lists and the Finish summary, which render inside `GitHubWizardStep` as
+`children`, and it owns policy such as pre-selecting a lone repository or the repositories
+already on a connection being reconfigured.
 
 ## Primitives
 
@@ -112,6 +117,37 @@ short to scroll, once each time the repository count changes, so a failed page (
 nothing) is not re-requested on its own. It is never called while `loading` or once `hasMore` is
 false, so set `loading` for the duration of each fetch. When the installation sees nothing,
 render `GitHubConnectionNotice kind="empty"` instead.
+
+`singleSelect` picks one repository, for a flow that binds exactly one (the remap): a plain list
+without checkboxes, where `selected` holds at most one entry and `onChange` receives
+`[repository]`. A selected repository that is not on a fetched page yet is listed first, so the
+field can show the current binding before its page loads.
+
+### `GitHubRefPicker`
+
+The ref (branch or tag) step of a source binding. Controlled: `branches` are branch names in
+display order, `value` is the selected ref, and `onChange` receives the new one, trimmed.
+
+- **`''` is the default branch.** `defaultBranch` names it: it is listed first, marked "default",
+  and shown in the field while `value` is `''`. Picking it, typing its name, or clearing the field
+  all report `''`, so the default branch has one value. While `defaultBranch` is unknown, an empty
+  field reads "Default branch".
+- **`allowCustomRef`** accepts free text, committed on Enter or blur: a tag, a commit, or a branch
+  not paged in yet. The label becomes "Branch or tag". The host resolves the ref and reports a ref
+  that does not exist; the picker does not validate ref names.
+- **Paging** works as on the other pick lists: `hasMore`, `loading`, `onLoadMore`, with a loading
+  row under the list (never an option) while a further page is fetched. Typing filters the branches
+  already loaded. A ref the host bound that is not on a fetched page is still listed and shown.
+- `label`, `disabled`, and `id` (of the input; the list box derives its id from it) tune the rest.
+
+The picker is built on MUI's `Autocomplete`, which, while its list is open, re-highlights the
+selected option and scrolls a highlight the pointer did not set back into view whenever it
+re-renders after the options change (still the case in `@mui/material` 9.5). Unchecked, that
+throws the reader back to the selected branch each time a page is requested or lands. The picker
+therefore re-renders the `Autocomplete` only when what it shows changes, passes paging state to
+the popup through context, restores the reader's scroll position after a page lands, and stops
+arrow keys at the last loaded branch (instead of wrapping to the top) while `hasMore`. Keep those
+properties when changing it; the paging tests in `GitHubConnection.test.tsx` pin them.
 
 ### `GitHubFileTree`
 
@@ -182,6 +218,41 @@ import {
   </GitHubWizardStep>
 </GitHubImportConnectWizard>;
 ```
+
+### Remap: one repository, one ref, one file
+
+```tsx
+<GitHubWizardStep title="Choose the new source" onCancel={close} primaryAction={confirmAction}>
+  <Stack spacing={3}>
+    <GitHubRepositoryPicker
+      singleSelect
+      repositories={repositories}
+      selected={repository ? [repository] : []}
+      onChange={([next]) => setRepository(next)}
+      {...repositoryPaging}
+    />
+    <GitHubRefPicker
+      branches={branches}
+      defaultBranch={defaultBranch}
+      value={ref}
+      onChange={setRef}
+      allowCustomRef
+      {...branchPaging}
+    />
+    <GitHubFileTree
+      singleSelect
+      items={files}
+      selected={file ? [file] : []}
+      onSelectionChange={([next]) => setFile(next)}
+    />
+  </Stack>
+</GitHubWizardStep>
+```
+
+The step body does not space its children, so stack them. Fetch the branches when the repository
+changes and the files when the ref changes, clearing the later picks; `ref === ''` means "the
+repository's default branch", which is what the host persists unless the user pinned another ref.
+The `RemapSourceStep` story is the reference rendering.
 
 ## Deliberate departures from Cloud
 
