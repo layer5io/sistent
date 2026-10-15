@@ -796,7 +796,45 @@ describe('GitHubFileTree paging without overflow', () => {
     expect(screen.getByText('app.yaml')).toBeTruthy();
   });
 
-  it('requests one page per render, not one per trigger', () => {
+  it('does not re-request a failed page on later renders', () => {
+    const onLoadMore = jest.fn();
+    function FailingTree() {
+      const [loading, setLoading] = useState(false);
+      const [, setTick] = useState(0);
+      return (
+        <>
+          <GitHubFileTree
+            items={[{ id: 'README.md', label: 'README.md', type: 'file' }]}
+            selected={[]}
+            onSelectionChange={() => undefined}
+            supportedExtensions={['.yaml']}
+            hasMore
+            loading={loading}
+            onLoadMore={() => {
+              onLoadMore();
+              setLoading(true);
+            }}
+          />
+          <button type="button" onClick={() => setLoading(false)}>
+            fail page
+          </button>
+          <button type="button" onClick={() => setTick((tick) => tick + 1)}>
+            rerender
+          </button>
+        </>
+      );
+    }
+
+    withTheme(<FailingTree />);
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(button('fail page'));
+    fireEvent.click(button('rerender'));
+    fireEvent.click(button('rerender'));
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+  });
+
+  it('requests a page once on mount, not once per trigger', () => {
     const onLoadMore = jest.fn();
     withTheme(
       <GitHubFileTree

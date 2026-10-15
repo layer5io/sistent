@@ -161,7 +161,7 @@ export function GitHubFileTree({
     onSelectionChange([...selected, ...fileIds.filter((each) => !selectedSet.has(each))]);
   };
 
-  const paging = useLoadMore({ hasMore, loading, onLoadMore });
+  const paging = useLoadMore({ hasMore, loading, onLoadMore, contentKey: items.length });
 
   const renderStatus = (node: GitHubFileTreeNode) => {
     if (!node.status) return null;

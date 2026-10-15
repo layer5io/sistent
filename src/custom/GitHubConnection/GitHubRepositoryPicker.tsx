@@ -68,7 +68,7 @@ export function GitHubRepositoryPicker({
     onChange(typeof value === 'string' ? value.split(',') : (value as string[]));
   };
 
-  const paging = useLoadMore({ hasMore, loading, onLoadMore });
+  const paging = useLoadMore({ hasMore, loading, onLoadMore, contentKey: repositories.length });
 
   return (
     <FormControl fullWidth disabled={disabled} data-testid="github-repository-picker">
