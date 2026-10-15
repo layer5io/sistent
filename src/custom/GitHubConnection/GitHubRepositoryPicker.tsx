@@ -10,7 +10,7 @@ import {
   MenuItem,
   Select
 } from '../../base';
-import { isScrolledToEnd } from './loadMore';
+import { useLoadMore } from './loadMore';
 
 export interface GitHubRepositoryPickerProps {
   /** Repositories the installation can see, as `owner/name`, in display order. */
@@ -20,7 +20,10 @@ export interface GitHubRepositoryPickerProps {
   onChange: (selected: string[]) => void;
   /** A page of repositories is being fetched. */
   loading?: boolean;
-  /** More pages exist; scrolling to the end of the list calls `onLoadMore`. */
+  /**
+   * More pages exist. `onLoadMore` is called when the open menu is scrolled to
+   * its end, or when it opens without filling its height.
+   */
   hasMore?: boolean;
   /** Fetch the next page. Not called while `loading` or once `hasMore` is false. */
   onLoadMore?: () => void;
@@ -65,11 +68,7 @@ export function GitHubRepositoryPicker({
     onChange(typeof value === 'string' ? value.split(',') : (value as string[]));
   };
 
-  const handleScroll = (event: React.UIEvent<HTMLElement>) => {
-    if (onLoadMore && hasMore && !loading && isScrolledToEnd(event.currentTarget)) {
-      onLoadMore();
-    }
-  };
+  const paging = useLoadMore({ hasMore, loading, onLoadMore });
 
   return (
     <FormControl fullWidth disabled={disabled} data-testid="github-repository-picker">
@@ -85,7 +84,8 @@ export function GitHubRepositoryPicker({
         MenuProps={{
           slotProps: {
             paper: {
-              onScroll: handleScroll,
+              ref: paging.ref,
+              onScroll: paging.onScroll,
               style: { maxHeight: MENU_MAX_HEIGHT }
             }
           }

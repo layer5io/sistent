@@ -22,7 +22,9 @@ export interface GitHubImportConnectWizardProps {
   steps?: readonly GitHubWizardStepDefinition[];
   /**
    * Indices of steps the user skipped (Cloud's SKIP on "Enable Snapshots"
-   * jumps to Finish). They precede `activeStep` but render not completed.
+   * jumps to Finish). An index before `activeStep` renders skipped rather
+   * than completed; an index at or after it is ignored, so a host need not
+   * prune the list when the user steps back.
    */
   skippedSteps?: readonly number[];
   /**
@@ -80,6 +82,7 @@ export function GitHubImportConnectWizard({
 }: GitHubImportConnectWizardProps): JSX.Element {
   const hasInfo = info !== undefined && info !== null && info !== false;
   const railRef = React.useRef<HTMLDivElement>(null);
+  const stepIds = steps.map((step) => step.id).join('\n');
 
   // On a narrow host the rail scrolls; keep the active step in view as the
   // wizard advances. Only the rail scrolls, never the page.
@@ -88,14 +91,14 @@ export function GitHubImportConnectWizard({
     const current = rail?.querySelector<HTMLElement>('[aria-current="step"]');
     if (!rail || !current || rail.scrollWidth <= rail.clientWidth) return;
     rail.scrollLeft = current.offsetLeft - (rail.clientWidth - current.offsetWidth) / 2;
-  }, [activeStep, steps]);
+  }, [activeStep, stepIds]);
 
   return (
     <WizardRoot role="region" aria-label={ariaLabel} data-testid="github-import-connect-wizard">
       <StepRail ref={railRef}>
         <Stepper alternativeLabel activeStep={activeStep} connector={<WizardStepConnector />}>
           {steps.map((step, index) => {
-            const skipped = skippedSteps?.includes(index) ?? false;
+            const skipped = index < activeStep && (skippedSteps?.includes(index) ?? false);
             const state =
               index === activeStep
                 ? 'active'

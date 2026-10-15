@@ -7,7 +7,7 @@ import {
   ErrorOutlineIcon,
   FolderRoundedIcon
 } from '../../icons';
-import { isScrolledToEnd } from './loadMore';
+import { useLoadMore } from './loadMore';
 import {
   FileTreeEmpty,
   FileTreeList,
@@ -54,7 +54,10 @@ export interface GitHubFileTreeProps {
   defaultExpanded?: readonly string[];
   /** A page of the scan is being fetched. */
   loading?: boolean;
-  /** More pages exist; scrolling to the end of the tree calls `onLoadMore`. */
+  /**
+   * More pages exist. `onLoadMore` is called when the tree is scrolled to its
+   * end, or when it does not fill `maxHeight`, e.g. a page the filter emptied.
+   */
   hasMore?: boolean;
   /** Fetch the next page. Not called while `loading` or once `hasMore` is false. */
   onLoadMore?: () => void;
@@ -158,11 +161,7 @@ export function GitHubFileTree({
     onSelectionChange([...selected, ...fileIds.filter((each) => !selectedSet.has(each))]);
   };
 
-  const handleScroll = (event: React.UIEvent<HTMLElement>) => {
-    if (onLoadMore && hasMore && !loading && isScrolledToEnd(event.currentTarget)) {
-      onLoadMore();
-    }
-  };
+  const paging = useLoadMore({ hasMore, loading, onLoadMore });
 
   const renderStatus = (node: GitHubFileTreeNode) => {
     if (!node.status) return null;
@@ -255,7 +254,8 @@ export function GitHubFileTree({
 
   return (
     <FileTreeScroller
-      onScroll={handleScroll}
+      ref={paging.ref}
+      onScroll={paging.onScroll}
       sx={{ maxHeight }}
       data-testid="github-file-tree"
       aria-busy={loading || undefined}

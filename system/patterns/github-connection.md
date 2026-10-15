@@ -56,13 +56,13 @@ connection being reconfigured.
 
 The shell: a step rail over a two-pane body. Fully controlled.
 
-| Prop           | Type                                    | Notes                                                                                        |
-| :------------- | :-------------------------------------- | :------------------------------------------------------------------------------------------- |
-| `activeStep`   | `number`                                | Earlier steps render completed, later steps upcoming.                                        |
-| `steps`        | `readonly GitHubWizardStepDefinition[]` | Defaults to Cloud's seven steps. Pass a subset for a shorter flow.                           |
-| `skippedSteps` | `readonly number[]`                     | Steps before `activeStep` the user skipped; drawn not completed (Cloud's SKIP on snapshots). |
-| `info`         | `ReactNode`                             | Explanatory pane, normally `GitHubWizardInfo`. Hidden below `md`; omit for one pane.         |
-| `children`     | `ReactNode`                             | The active step, normally `GitHubWizardStep`.                                                |
+| Prop           | Type                                    | Notes                                                                                                                                 |
+| :------------- | :-------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------ |
+| `activeStep`   | `number`                                | Earlier steps render completed, later steps upcoming.                                                                                 |
+| `steps`        | `readonly GitHubWizardStepDefinition[]` | Defaults to Cloud's seven steps. Pass a subset for a shorter flow.                                                                    |
+| `skippedSteps` | `readonly number[]`                     | Steps the user skipped (Cloud's SKIP on snapshots). Those before `activeStep` are drawn skipped, not completed; the rest are ignored. |
+| `info`         | `ReactNode`                             | Explanatory pane, normally `GitHubWizardInfo`. Hidden below `md`; omit for one pane.                                                  |
+| `children`     | `ReactNode`                             | The active step, normally `GitHubWizardStep`.                                                                                         |
 
 A `GitHubWizardStepDefinition` is `{ id, label, secondaryLabel?, icon?, optional? }`. Optional
 steps get a dashed badge ring. Draw step icons with `currentColor`.
@@ -107,8 +107,9 @@ and, in the error state, `onReconnect` (plus `reconnectLabel`, `reconnecting`).
 
 The "Select Repositories" pick list. Controlled: `repositories` and `selected` are `owner/name`
 strings, and `onChange` receives the new selection. For paging, pass `hasMore`, `loading`, and
-`onLoadMore`; scrolling the menu to its end calls `onLoadMore`, never while `loading` or once
-`hasMore` is false. When the installation sees nothing, render `GitHubConnectionNotice kind="empty"`
+`onLoadMore`; scrolling the menu to its end calls `onLoadMore`, and so does opening a menu too
+short to scroll. It is never called while `loading` or once `hasMore` is false, so set `loading`
+for the duration of each fetch. When the installation sees nothing, render `GitHubConnectionNotice kind="empty"`
 instead.
 
 ### `GitHubFileTree`
@@ -119,7 +120,8 @@ The design file picker. `items` are `GitHubFileTreeNode`s:
 checkbox selects or clears every visible file under it and shows a mixed state when only some are
 selected. `supportedExtensions` hides other files and the folders left empty (`null` shows every
 file, Cloud's "Show all file types"); `singleSelect` allows one file and no folder selection (the
-snapshot design picker). Paging works as on the picker: `hasMore`, `loading`, `onLoadMore`.
+snapshot design picker). Paging works as on the picker: `hasMore`, `loading`, `onLoadMore`; a tree that does not fill
+`maxHeight`, such as a page the filter emptied, asks for the next page without a scroll.
 `emptyMessage`, `defaultExpanded`, `maxHeight`, and `aria-label` tune the rest.
 
 ### `GitHubRepositorySection`

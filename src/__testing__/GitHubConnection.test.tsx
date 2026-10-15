@@ -28,6 +28,24 @@ const withTheme = (ui: React.ReactElement) =>
 
 const button = (name: RegExp | string) => screen.getByRole('button', { name });
 
+/**
+ * jsdom lays nothing out, so every element reports zero size. Stub the scroll
+ * geometry of every element to model a container that overflows (or not).
+ */
+const stubScrollGeometry = (
+  geometry: Partial<
+    Record<'scrollHeight' | 'clientHeight' | 'scrollTop' | 'scrollWidth' | 'clientWidth', number>
+  >
+) => {
+  for (const [key, value] of Object.entries(geometry)) {
+    jest
+      .spyOn(Element.prototype, key as 'scrollHeight', 'get')
+      .mockImplementation(() => value as number);
+  }
+};
+
+afterEach(() => jest.restoreAllMocks());
+
 describe('GitHubConnectButton', () => {
   it('reads "Connect" by default and starts the handoff on click', () => {
     const onClick = jest.fn();
@@ -372,6 +390,43 @@ describe('GitHubImportConnectWizard', () => {
     ).toBe(false);
   });
 
+  it('ignores skipped indices at or after the active step, so stepping back shows them upcoming', () => {
+    withTheme(
+      <GitHubImportConnectWizard activeStep={3} skippedSteps={[3, 4, 5]}>
+        <p>snapshots</p>
+      </GitHubImportConnectWizard>
+    );
+
+    expect(stepState('snapshot-select-designs')).toBe('active');
+    expect(stepState('snapshot-configure-secrets')).toBe('upcoming');
+    expect(stepState('snapshot-add-workflows')).toBe('upcoming');
+    expect(screen.getByTestId('github-wizard-step-snapshot-add-workflows').textContent).not.toMatch(
+      /skipped/
+    );
+  });
+
+  it('keeps a hand-scrolled rail where it is when the host passes an equal new steps array', () => {
+    stubScrollGeometry({ scrollWidth: 1000, clientWidth: 300 });
+    const steps = () => GITHUB_IMPORT_CONNECT_WIZARD_STEPS.filter(() => true);
+    const wizard = (activeStep: number) => (
+      <SistentThemeProvider>
+        <GitHubImportConnectWizard activeStep={activeStep} steps={steps()}>
+          <p>body</p>
+        </GitHubImportConnectWizard>
+      </SistentThemeProvider>
+    );
+    const { rerender } = render(wizard(2));
+    const rail = screen.getByTestId('github-import-connect-wizard')
+      .firstElementChild as HTMLElement;
+
+    rail.scrollLeft = 42;
+    rerender(wizard(2));
+    expect(rail.scrollLeft).toBe(42);
+
+    rerender(wizard(3));
+    expect(rail.scrollLeft).not.toBe(42);
+  });
+
   it('renders the info pane only when the host supplies one', () => {
     const { rerender } = withTheme(
       <GitHubImportConnectWizard activeStep={1}>
@@ -524,12 +579,26 @@ describe('GitHubRepositoryPicker', () => {
     expect(picked()).toEqual(['octo-org/one']);
   });
 
-  it('asks for the next page when the menu is scrolled to its end', () => {
+  it('asks for the next page when an overflowing menu is scrolled to its end', () => {
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224, scrollTop: 0 });
     const onLoadMore = jest.fn();
     withTheme(<PickerHarness hasMore onLoadMore={onLoadMore} />);
     open();
     const paper = screen.getByRole('listbox').closest('.MuiPaper-root') as HTMLElement;
     fireEvent.scroll(paper);
+    expect(onLoadMore).not.toHaveBeenCalled();
+
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224, scrollTop: 276 });
+    fireEvent.scroll(paper);
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+  });
+
+  it('asks for the next page when the menu opens too short to scroll', () => {
+    stubScrollGeometry({ scrollHeight: 120, clientHeight: 120 });
+    const onLoadMore = jest.fn();
+    withTheme(<PickerHarness hasMore onLoadMore={onLoadMore} />);
+    expect(onLoadMore).not.toHaveBeenCalled();
+    open();
     expect(onLoadMore).toHaveBeenCalledTimes(1);
   });
 
@@ -672,8 +741,13 @@ describe('GitHubFileTree', () => {
   });
 
   it('pages in more files at the end of the tree, but not while a page is loading', () => {
+    stubScrollGeometry({ scrollHeight: 600, clientHeight: 300, scrollTop: 0 });
     const onLoadMore = jest.fn();
     const { rerender } = withTheme(<TreeHarness hasMore onLoadMore={onLoadMore} />);
+    fireEvent.scroll(screen.getByTestId('github-file-tree'));
+    expect(onLoadMore).not.toHaveBeenCalled();
+
+    stubScrollGeometry({ scrollHeight: 600, clientHeight: 300, scrollTop: 300 });
     fireEvent.scroll(screen.getByTestId('github-file-tree'));
     expect(onLoadMore).toHaveBeenCalledTimes(1);
 
@@ -685,6 +759,55 @@ describe('GitHubFileTree', () => {
     fireEvent.scroll(screen.getByTestId('github-file-tree'));
     expect(onLoadMore).toHaveBeenCalledTimes(1);
     expect(screen.getByRole('status', { name: /loading more files/i })).toBeTruthy();
+  });
+});
+
+describe('GitHubFileTree paging without overflow', () => {
+  function PagedTree({ pages }: { pages: GitHubFileTreeNode[][] }) {
+    const [loaded, setLoaded] = useState(1);
+    const [loading, setLoading] = useState(false);
+    return (
+      <GitHubFileTree
+        items={pages.slice(0, loaded).flat()}
+        selected={[]}
+        onSelectionChange={() => undefined}
+        supportedExtensions={['.yaml']}
+        hasMore={loaded < pages.length}
+        loading={loading}
+        onLoadMore={() => {
+          setLoading(true);
+          setLoaded((count) => count + 1);
+          setLoading(false);
+        }}
+      />
+    );
+  }
+
+  it('keeps paging past a first page the extension filter empties', () => {
+    withTheme(
+      <PagedTree
+        pages={[
+          [{ id: 'README.md', label: 'README.md', type: 'file' }],
+          [{ id: 'LICENSE', label: 'LICENSE', type: 'file' }],
+          [{ id: 'app.yaml', label: 'app.yaml', type: 'file' }]
+        ]}
+      />
+    );
+    expect(screen.getByText('app.yaml')).toBeTruthy();
+  });
+
+  it('requests one page per render, not one per trigger', () => {
+    const onLoadMore = jest.fn();
+    withTheme(
+      <GitHubFileTree
+        items={[]}
+        selected={[]}
+        onSelectionChange={() => undefined}
+        hasMore
+        onLoadMore={onLoadMore}
+      />
+    );
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
   });
 });
 
