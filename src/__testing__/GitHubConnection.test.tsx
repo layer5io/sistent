@@ -1010,6 +1010,78 @@ describe('GitHubRefPicker', () => {
     expect(optionNames()).toHaveLength(3);
   });
 
+  it('searches further pages when the filter matches no loaded branch', () => {
+    function PagedRefs() {
+      const [branches, setBranches] = useState(BRANCHES);
+      const [loading, setLoading] = useState(false);
+      const [requests, setRequests] = useState(0);
+      return (
+        <>
+          <GitHubRefPicker
+            branches={branches}
+            defaultBranch="main"
+            value=""
+            onChange={() => undefined}
+            loading={loading}
+            hasMore={branches.length < 7}
+            onLoadMore={() => {
+              setRequests((count) => count + 1);
+              setLoading(true);
+            }}
+          />
+          <p data-testid="requests">{requests}</p>
+          <button
+            type="button"
+            onClick={() => {
+              setBranches((current) => [
+                ...current,
+                `v${current.length}`,
+                `v${current.length + 1}`
+              ]);
+              setLoading(false);
+            }}
+          >
+            page lands
+          </button>
+          <button type="button" onClick={() => setLoading(false)}>
+            page fails
+          </button>
+        </>
+      );
+    }
+    const requests = () => Number(screen.getByTestId('requests').textContent);
+
+    withTheme(<PagedRefs />);
+    open();
+    fireEvent.change(input(), { target: { value: 'release-2' } });
+    expect(requests()).toBe(1);
+    expect(screen.getByText('Searching more branches...')).toBeTruthy();
+    expect(screen.queryByText('No matching branch')).toBeNull();
+
+    fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
+    expect(requests()).toBe(2);
+    expect(screen.getByText('Searching more branches...')).toBeTruthy();
+
+    // A failed page adds nothing and is not re-requested on its own.
+    fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
+    expect(requests()).toBe(2);
+    expect(screen.getByText('Searching more branches...')).toBeTruthy();
+
+    fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
+    expect(requests()).toBe(2);
+    expect(screen.getByText('No matching branch')).toBeTruthy();
+  });
+
+  it('says no branch matches once every page is loaded', () => {
+    const onLoadMore = jest.fn();
+    withTheme(<RefHarness hasMore={false} onLoadMore={onLoadMore} />);
+    open();
+    fireEvent.change(input(), { target: { value: 'release-2' } });
+    expect(screen.getByText('No matching branch')).toBeTruthy();
+    expect(screen.queryByText('Searching more branches...')).toBeNull();
+    expect(onLoadMore).not.toHaveBeenCalled();
+  });
+
   it('says it is loading while the first page is fetched', () => {
     withTheme(<RefHarness branches={[]} defaultBranch={undefined} loading />);
     open();
