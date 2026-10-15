@@ -15,12 +15,22 @@
  * every test here stayed green.
  *
  * So this bundles the built artifact with esbuild, the bundler tsup itself
- * runs on, resolved through tsup so the test does not depend on hoisting. Same
- * build contract as the other dist guards: it skips without a build and fails
- * in CI without one.
+ * runs on, resolved through tsup so the test does not depend on hoisting.
+ *
+ * Node's own ESM loader is stricter than a bundler, so it is checked too: it
+ * does not add extensions to deep imports (`lodash/debounce` must be
+ * `lodash/debounce.js`) and cannot see named exports of a CommonJS package
+ * such as lodash (`import { debounce } from 'lodash'`), and it has no
+ * `require` for inlined CommonJS that requires an external (see the
+ * `externals` plugin in tsup.config.ts). That import runs in a
+ * child process, because Jest's transform would rewrite `import()` into
+ * `require()` and hide all three. Same build contract as the other dist guards: it
+ * skips without a build and fails in CI without one.
  */
+import { execFile } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { pathToFileURL } from 'url';
 
 const ROOT = path.resolve(__dirname, '..', '..');
 const ESM = path.join(ROOT, 'dist', 'index.mjs');
@@ -56,6 +66,17 @@ const esmLinkErrors = async (entry: string): Promise<string[]> => {
   }
 };
 
+/** Error from Node natively importing `entry`; empty when it loads. */
+const nativeImportError = (entry: string): Promise<string> =>
+  new Promise((resolve) => {
+    execFile(
+      process.execPath,
+      ['--input-type=module', '-e', `await import(${JSON.stringify(pathToFileURL(entry).href)});`],
+      { cwd: ROOT, maxBuffer: 16 * 1024 * 1024 },
+      (error, _stdout, stderr) => resolve(error ? stderr.trim() || error.message : '')
+    );
+  });
+
 describe('ESM bundle', () => {
   const built = fs.existsSync(ESM);
 
@@ -70,6 +91,14 @@ describe('ESM bundle', () => {
     'links every import against its dependency ESM entry',
     async () => {
       expect(await esmLinkErrors(ESM)).toEqual([]);
+    },
+    120_000
+  );
+
+  (built ? it : it.skip)(
+    'loads under native Node ESM resolution',
+    async () => {
+      expect(await nativeImportError(ESM)).toBe('');
     },
     120_000
   );
