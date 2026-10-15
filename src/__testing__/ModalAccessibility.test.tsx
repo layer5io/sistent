@@ -748,4 +748,30 @@ describe('Modal accessibility contract (#1864)', () => {
     const dialog = screen.getByRole('dialog', { name: 'Paper Fallback Label' });
     expect(dialog.getAttribute('aria-label')).toBe('Paper Fallback Label');
   });
+
+  it('does not render an active backdrop or dialog when paper callback provides no accessible name', () => {
+    const paperCallback = jest.fn((ownerState: DialogOwnerState) => {
+      expect(ownerState).toBeDefined();
+      return { className: 'custom-unnamed-paper' };
+    });
+
+    render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          title=""
+          closeModal={jest.fn()}
+          slotProps={{
+            paper: paperCallback
+          }}
+        >
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(document.querySelector('.MuiBackdrop-root')).toBeNull();
+    expect(paperCallback).toHaveBeenCalledTimes(1);
+  });
 });
