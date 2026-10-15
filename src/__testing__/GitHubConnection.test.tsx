@@ -1051,8 +1051,10 @@ describe('GitHubRefPicker', () => {
     }
     const requests = () => Number(screen.getByTestId('requests').textContent);
 
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
     withTheme(<PagedRefs />);
     open();
+    expect(requests()).toBe(0);
     fireEvent.change(input(), { target: { value: 'release-2' } });
     expect(requests()).toBe(1);
     expect(screen.getByText('Searching more branches...')).toBeTruthy();
@@ -1062,14 +1064,81 @@ describe('GitHubRefPicker', () => {
     expect(requests()).toBe(2);
     expect(screen.getByText('Searching more branches...')).toBeTruthy();
 
-    // A failed page adds nothing and is not re-requested on its own.
+    // A failed page adds nothing and is not re-requested on its own; the reader can retry.
     fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
     expect(requests()).toBe(2);
+    expect(screen.queryByText('Searching more branches...')).toBeNull();
+    expect(screen.getByText('No loaded branch matches')).toBeTruthy();
+    fireEvent.click(screen.getByRole('button', { name: 'Load more branches' }));
+    expect(requests()).toBe(3);
     expect(screen.getByText('Searching more branches...')).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
 
     fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
-    expect(requests()).toBe(2);
+    expect(requests()).toBe(3);
     expect(screen.getByText('No matching branch')).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
+  });
+
+  it('searches again after the branches are replaced by a list of the same length', () => {
+    function SwitchedRepository() {
+      const [branches, setBranches] = useState(BRANCHES);
+      const [loading, setLoading] = useState(false);
+      const [requests, setRequests] = useState(0);
+      return (
+        <>
+          <GitHubRefPicker
+            branches={branches}
+            defaultBranch="main"
+            value=""
+            onChange={() => undefined}
+            loading={loading}
+            hasMore
+            onLoadMore={() => {
+              setRequests((count) => count + 1);
+              setLoading(true);
+            }}
+          />
+          <p data-testid="requests">{requests}</p>
+          <button type="button" onClick={() => setLoading(false)}>
+            page fails
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setBranches([]);
+              setLoading(true);
+            }}
+          >
+            switch repository
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setBranches(['main', 'staging', 'hotfix']);
+              setLoading(false);
+            }}
+          >
+            first page lands
+          </button>
+        </>
+      );
+    }
+    const requests = () => Number(screen.getByTestId('requests').textContent);
+
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+    withTheme(<SwitchedRepository />);
+    open();
+    expect(requests()).toBe(0);
+    fireEvent.change(input(), { target: { value: 'release-2' } });
+    expect(requests()).toBe(1);
+    fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
+    expect(requests()).toBe(1);
+
+    fireEvent.click(screen.getByText('switch repository', { selector: 'button' }));
+    fireEvent.click(screen.getByText('first page lands', { selector: 'button' }));
+    expect(requests()).toBe(2);
+    expect(screen.getByText('Searching more branches...')).toBeTruthy();
   });
 
   it('says no branch matches once every page is loaded', () => {
