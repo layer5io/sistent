@@ -593,6 +593,44 @@ describe('GitHubRepositoryPicker', () => {
     expect(onLoadMore).toHaveBeenCalledTimes(1);
   });
 
+  it('re-arms the short-menu auto-request when the host refetches the list in place', () => {
+    stubScrollGeometry({ scrollHeight: 120, clientHeight: 120 });
+    const onLoadMore = jest.fn();
+    function RefetchedPicker() {
+      const [list, setList] = useState({ repositories: REPOS, hasMore: true });
+      return (
+        <>
+          <GitHubRepositoryPicker
+            repositories={list.repositories}
+            selected={[]}
+            onChange={() => undefined}
+            hasMore={list.hasMore}
+            onLoadMore={onLoadMore}
+          />
+          <button
+            type="button"
+            onClick={() => setList({ repositories: [...REPOS, 'octo-org/three'], hasMore: false })}
+          >
+            last page
+          </button>
+          <button type="button" onClick={() => setList({ repositories: REPOS, hasMore: true })}>
+            refetch
+          </button>
+        </>
+      );
+    }
+
+    withTheme(<RefetchedPicker />);
+    open();
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByText('last page', { selector: 'button' }));
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(screen.getByText('refetch', { selector: 'button' }));
+    expect(onLoadMore).toHaveBeenCalledTimes(2);
+  });
+
   it('asks for the next page when the menu opens too short to scroll', () => {
     stubScrollGeometry({ scrollHeight: 120, clientHeight: 120 });
     const onLoadMore = jest.fn();
@@ -832,6 +870,46 @@ describe('GitHubFileTree paging without overflow', () => {
     fireEvent.click(button('rerender'));
     fireEvent.click(button('rerender'));
     expect(onLoadMore).toHaveBeenCalledTimes(1);
+  });
+
+  it('auto-requests again when the content resets to an earlier count after growing', () => {
+    const onLoadMore = jest.fn();
+    const page = (count: number): GitHubFileTreeNode[] =>
+      Array.from({ length: count }, (_, n) => ({
+        id: `notes-${n}.md`,
+        label: `notes-${n}.md`,
+        type: 'file' as const
+      }));
+    function RescannedTree() {
+      const [scan, setScan] = useState({ count: 2, hasMore: true });
+      return (
+        <>
+          <GitHubFileTree
+            items={page(scan.count)}
+            selected={[]}
+            onSelectionChange={() => undefined}
+            supportedExtensions={['.yaml']}
+            hasMore={scan.hasMore}
+            onLoadMore={onLoadMore}
+          />
+          <button type="button" onClick={() => setScan({ count: 3, hasMore: false })}>
+            last page
+          </button>
+          <button type="button" onClick={() => setScan({ count: 2, hasMore: true })}>
+            rescan
+          </button>
+        </>
+      );
+    }
+
+    withTheme(<RescannedTree />);
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(button('last page'));
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(button('rescan'));
+    expect(onLoadMore).toHaveBeenCalledTimes(2);
   });
 
   it('requests a page once on mount, not once per trigger', () => {

@@ -14,8 +14,8 @@ export interface LoadMoreOptions {
   onLoadMore?: () => void;
   /**
    * Identifies the content loaded so far, normally the raw item count. A
-   * container that does not overflow requests a page at most once per key, so
-   * a page that fails (and adds nothing) is not re-requested on every render.
+   * container that does not overflow auto-requests a page at most once per
+   * distinct key, so a page that fails (and adds nothing) is not re-requested.
    */
   contentKey: number;
 }
@@ -23,9 +23,13 @@ export interface LoadMoreOptions {
 /**
  * Paging for a scroll container, shared by the repository pick list and the
  * file tree. The next page is requested when the user scrolls to the end, and
- * also once per `contentKey` while the container does not overflow: a short
+ * also, without a scroll, while the container does not overflow: a short
  * page, or one the extension filter emptied, leaves nothing to scroll, so
  * waiting for a scroll would stall paging for good.
+ *
+ * Auto-fill state rule: any change of `contentKey` (growth or reset) arms the
+ * auto-fill; an auto-request disarms it until the key changes again. A failed
+ * page leaves the key unchanged, so it is never retried without a scroll.
  *
  * Attach `ref` and `onScroll` to the element that scrolls.
  */
@@ -37,6 +41,11 @@ export function useLoadMore({ hasMore, loading, onLoadMore, contentKey }: LoadMo
   const latest = React.useRef({ hasMore, loading, onLoadMore, contentKey });
   latest.current = { hasMore, loading, onLoadMore, contentKey };
   const autoFilledFor = React.useRef<number | null>(null);
+  const lastContentKey = React.useRef(contentKey);
+  if (lastContentKey.current !== contentKey) {
+    lastContentKey.current = contentKey;
+    autoFilledFor.current = null;
+  }
 
   const canRequest = (): boolean => {
     const props = latest.current;
