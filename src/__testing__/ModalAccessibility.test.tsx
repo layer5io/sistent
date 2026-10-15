@@ -1,7 +1,7 @@
 import type { DialogOwnerState, PaperProps } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
-import { Modal } from '../custom/Modal';
+import { Modal, useModal } from '../custom/Modal';
 import { SistentThemeProvider } from '../theme';
 
 // The Modal primitives transitively import CustomTooltip -> Markdown -> react-markdown (ESM-only).
@@ -577,5 +577,24 @@ describe('Modal accessibility contract (#1864)', () => {
     const dialog = screen.getByRole('dialog');
     expect(dialog.getAttribute('aria-labelledby')).toBe('paper-level-labelledby-id');
     expect(dialog.getAttribute('aria-label')).toBeNull();
+  });
+
+  it('supports spreading useModal return object onto Modal', () => {
+    const TestModalConsumer: React.FC = () => {
+      const modalState = useModal({ headerIcon: null });
+      return (
+        <Modal {...modalState}>
+          <div>Modal Body Content</div>
+        </Modal>
+      );
+    };
+
+    render(
+      <SistentThemeProvider>
+        <TestModalConsumer />
+      </SistentThemeProvider>
+    );
+
+    expect(screen.queryByRole('dialog')).toBeNull();
   });
 });
