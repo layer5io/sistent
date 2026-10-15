@@ -55,7 +55,7 @@ export default defineConfig({
   entry: ['src/index.tsx'],
   bundle: env === 'production',
   clean: true,
-  dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
+  dts: { compilerOptions: { ignoreDeprecations: '6.0' } },
   format: ['cjs', 'esm'],
   noExternal: [bundled, externalPattern],
   esbuildPlugins: [externals],
