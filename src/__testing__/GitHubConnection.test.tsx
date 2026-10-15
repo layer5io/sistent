@@ -1068,7 +1068,7 @@ describe('GitHubRefPicker', () => {
     fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
     expect(requests()).toBe(2);
     expect(screen.queryByText('Searching more branches...')).toBeNull();
-    expect(screen.getByText('No loaded branch matches')).toBeTruthy();
+    expect(screen.getByText('No loaded branch matches. Press Enter to load more.')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Load more branches' }));
     expect(requests()).toBe(3);
     expect(screen.getByText('Searching more branches...')).toBeTruthy();
@@ -1078,6 +1078,74 @@ describe('GitHubRefPicker', () => {
     expect(requests()).toBe(3);
     expect(screen.getByText('No matching branch')).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
+  });
+
+  describe('with no loaded branch matching and no page in flight', () => {
+    function FailedPage({ onLoadMore }: { onLoadMore: () => void }) {
+      const [loading, setLoading] = useState(false);
+      return (
+        <>
+          <GitHubRefPicker
+            branches={BRANCHES}
+            defaultBranch="main"
+            value=""
+            onChange={() => undefined}
+            loading={loading}
+            hasMore
+            onLoadMore={() => {
+              onLoadMore();
+              setLoading(true);
+            }}
+          />
+          <button type="button" onClick={() => setLoading(false)}>
+            page fails
+          </button>
+        </>
+      );
+    }
+    const renderFailed = () => {
+      stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+      const onLoadMore = jest.fn();
+      withTheme(<FailedPage onLoadMore={onLoadMore} />);
+      open();
+      fireEvent.change(input(), { target: { value: 'release-2' } });
+      fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
+      expect(onLoadMore).toHaveBeenCalledTimes(1);
+      return onLoadMore;
+    };
+
+    it.each(['Enter', 'ArrowDown'])('loads more on %s without leaving the field', (key) => {
+      const onLoadMore = renderFailed();
+      fireEvent.keyDown(input(), { key });
+      expect(onLoadMore).toHaveBeenCalledTimes(2);
+      expect(input().value).toBe('release-2');
+      expect(screen.getByText('Searching more branches...')).toBeTruthy();
+
+      fireEvent.keyDown(input(), { key });
+      expect(onLoadMore).toHaveBeenCalledTimes(2);
+    });
+
+    it('announces the no-match state in a polite live region', () => {
+      renderFailed();
+      const region = screen.getByText('No loaded branch matches. Press Enter to load more.');
+      expect(region.getAttribute('role')).toBe('status');
+      expect(region.getAttribute('aria-live')).toBe('polite');
+
+      fireEvent.keyDown(input(), { key: 'Enter' });
+      expect(region.textContent).toBe('Searching more branches...');
+    });
+  });
+
+  it('does not page on Enter or ArrowDown while branches match', () => {
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+    const onLoadMore = jest.fn();
+    withTheme(<RefHarness hasMore onLoadMore={onLoadMore} />);
+    open();
+    fireEvent.change(input(), { target: { value: 'dev' } });
+    fireEvent.keyDown(input(), { key: 'ArrowDown' });
+    fireEvent.keyDown(input(), { key: 'Enter' });
+    expect(onLoadMore).not.toHaveBeenCalled();
+    expect(currentRef()).toBe('develop');
   });
 
   it('searches again after the branches are replaced by a list of the same length', () => {

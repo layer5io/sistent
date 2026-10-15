@@ -139,9 +139,11 @@ display order, `value` is the selected ref, and `onChange` receives the new one,
   row under the list (never an option) while a further page is fetched. Typing filters the branches
   already loaded; when it matches none while `hasMore`, the next page is requested under the same
   auto-fill rule, reading "Searching more branches..." while `loading`. With no page in flight (a
-  page failed) it reads "No loaded branch matches" with a "Load more branches" action that calls
-  `onLoadMore`; once `hasMore` is false it reads "No matching branch". A ref the host bound that is
-  not on a fetched page is still listed and shown.
+  page failed) it reads "No loaded branch matches. Press Enter to load more." with a "Load more
+  branches" action; that action, Enter, and ArrowDown in the field all call `onLoadMore`, so focus
+  never leaves the field. Once `hasMore` is false it reads "No matching branch". These messages are
+  a polite live region, so screen readers announce each change. A ref the host bound that is not on
+  a fetched page is still listed and shown.
 - `label`, `disabled`, and `id` (of the input; the list box derives its id from it) tune the rest.
 
 The picker is built on MUI's `Autocomplete`, which, while its list is open, re-highlights the
