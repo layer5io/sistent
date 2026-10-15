@@ -1,5 +1,5 @@
 import type { DialogOwnerState, PaperProps } from '@mui/material';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { Modal, useModal } from '../custom/Modal';
 import { SistentThemeProvider } from '../theme';
@@ -579,22 +579,103 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(dialog.getAttribute('aria-label')).toBeNull();
   });
 
-  it('supports spreading useModal return object onto Modal', () => {
+  it('exercises useModal lifecycle: opens with valid title and rejects opening with blank title', async () => {
+    let hookControls!: ReturnType<typeof useModal>;
+
     const TestModalConsumer: React.FC = () => {
-      const modalState = useModal({ headerIcon: null });
+      hookControls = useModal({ headerIcon: null });
       return (
-        <Modal {...modalState}>
+        <Modal {...hookControls} transitionDuration={0}>
           <div>Modal Body Content</div>
         </Modal>
       );
     };
 
-    render(
+    const { rerender } = render(
       <SistentThemeProvider>
         <TestModalConsumer />
       </SistentThemeProvider>
     );
 
+    // Initial state: dialog is closed
     expect(screen.queryByRole('dialog')).toBeNull();
+
+    // Blank title attempt: openModal should reject opening
+    act(() => {
+      hookControls.openModal({ title: '   ' });
+    });
+    rerender(
+      <SistentThemeProvider>
+        <TestModalConsumer />
+      </SistentThemeProvider>
+    );
+    expect(screen.queryByRole('dialog')).toBeNull();
+
+    // Valid title: opens dialog with accessible name
+    act(() => {
+      hookControls.openModal({ title: 'Active Modal Title' });
+    });
+    rerender(
+      <SistentThemeProvider>
+        <TestModalConsumer />
+      </SistentThemeProvider>
+    );
+    expect(screen.getByRole('dialog', { name: 'Active Modal Title' })).toBeTruthy();
+
+    // Closing the modal
+    act(() => {
+      hookControls.closeModal();
+    });
+    expect(hookControls.open).toBe(false);
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog')).toBeNull();
+    });
+  });
+
+  it('prevents rendering an open dialog when title is blank and no fallback accessible name is provided', () => {
+    const { rerender } = render(
+      <SistentThemeProvider>
+        <Modal open title="   " closeModal={jest.fn()}>
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    // Dialog must not open in an unnamed state
+    expect(screen.queryByRole('dialog')).toBeNull();
+
+    // Rerender with empty string title
+    rerender(
+      <SistentThemeProvider>
+        <Modal open title="" closeModal={jest.fn()}>
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+    expect(screen.queryByRole('dialog')).toBeNull();
+  });
+
+  it('supports titleless modal with callback-valued slotProps.paper providing aria-label', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          title=""
+          closeModal={jest.fn()}
+          slotProps={{
+            paper: () => ({
+              'aria-label': 'Dynamic Callback Label'
+            })
+          }}
+        >
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Dynamic Callback Label' });
+    expect(dialog).toBeTruthy();
+    expect(dialog.getAttribute('aria-label')).toBe('Dynamic Callback Label');
+    expect(dialog.getAttribute('aria-labelledby')).toBeNull();
   });
 });

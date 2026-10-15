@@ -122,7 +122,10 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
   const [reactNode, setReactNode] = useState<React.ReactNode | null>(null);
 
   const openModal: openModalCallback = ({ title, reactNode = null, onClose }) => {
-    if (title) setTitle(title);
+    if (!title || title.trim().length === 0) {
+      return;
+    }
+    setTitle(title);
     if (onClose) onCloseRef.current = onClose;
     setOpen(true);
     if (reactNode) setReactNode(reactNode);
@@ -207,6 +210,10 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     ...restProps
   } = props;
 
+  // Prevent useModal hook return properties from leaking onto the DOM element
+  delete (restProps as { openModal?: unknown; isOpen?: unknown }).openModal;
+  delete (restProps as { openModal?: unknown; isOpen?: unknown }).isOpen;
+
   const titleId = useId(restProps.id ? `${restProps.id}-title` : undefined);
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
@@ -218,6 +225,29 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
   const hasTitle = Boolean(title && title.trim().length > 0);
 
   const callerPaperProp = callerSlotProps?.paper;
+
+  const basePaperProps =
+    typeof callerPaperProp === 'function'
+      ? (callerPaperProp({ fullScreen, fullWidth: !fullScreen } as DialogOwnerState) as Record<
+          string,
+          unknown
+        >)
+      : (callerPaperProp as Record<string, unknown> | undefined);
+
+  const hasAccessibleName = Boolean(
+    hasTitle ||
+    (callerAriaLabelledby && callerAriaLabelledby.trim().length > 0) ||
+    (resolvedAriaLabel && resolvedAriaLabel.trim().length > 0) ||
+    (typeof basePaperProps?.['aria-labelledby'] === 'string' &&
+      basePaperProps['aria-labelledby'].trim().length > 0) ||
+    (typeof basePaperProps?.['aria-label'] === 'string' &&
+      basePaperProps['aria-label'].trim().length > 0)
+  );
+
+  // A dialog must not open in an unnamed state when no accessible name is resolvable.
+  if (open && !hasAccessibleName) {
+    return null;
+  }
 
   // Merges Paper accessibility attributes while strictly preserving caller's
   // object-valued or callback-valued slotProps.paper.
