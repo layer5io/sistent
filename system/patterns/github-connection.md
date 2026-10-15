@@ -37,11 +37,18 @@ The flow these primitives exist to enforce
 | `GitHubConnectButton`                | `stepper-content.tsx` (`ConnectApp` CONNECT action) and `workspaces/integrations/connection-card.tsx` (CONNECT / RECONFIGURE)                    |
 | `GitHubConnectionStatus`             | `workspaces/integrations/common.tsx` (connection status chip), `components/connect/verify/` (verifying), plus the missing reconnect path         |
 | `GitHubConnectionNotice`             | New: the recovery states Cloud lacked when CONNECT failed silently ([meshery-cloud#6116](https://github.com/layer5io/meshery-cloud/issues/6116)) |
+| `GitHubRepositoryPicker`             | `stepper-content.tsx` (`SelectRepository`: the multi-select of `owner/name` with a checkbox per row, paged in on menu scroll)                    |
+| `GitHubFileTree`                     | `components/general/file-explorer.tsx` (`FileExplorer`: folder tree, folder-selects-files, extension filter, imported/error marks)               |
+| `GitHubRepositorySection`            | `stepper-content.tsx` (`AddApplicationPaths` and `Finish`: per-repository accordion with selected / imported / failed badges)                    |
+| `GitHubFinishSummary`                | `stepper-content.tsx` (`Finish`, `WorkflowStatus`, `ImportedDesigns`: workflow outcome with retry, created designs, failed files)                |
 
 What stays in the host: `api/github.ts`, `store/slices/connection.ts`, the route orchestration in
 `components/connect/index.tsx` and `pages/connect/[...connection].tsx`, the GitHub App URL and
-`startGithubAppInstall`, and the step bodies that fetch data (repository list, file tree, token
-generation, workflow install). Those bodies render inside `GitHubWizardStep` as `children`.
+`startGithubAppInstall`, and every request behind the step bodies: paging repositories and
+scanned files, importing, token generation, and workflow install. The host feeds the results to
+the pick lists and the Finish summary, which render inside `GitHubWizardStep` as `children`, and
+it owns policy such as pre-selecting a lone repository or the repositories already on a
+connection being reconfigured.
 
 ## Primitives
 
@@ -95,6 +102,39 @@ and, in the error state, `onReconnect` (plus `reconnectLabel`, `reconnecting`).
 
 `title` and `message` override the defaults; `retryLabel`, `retrying`, `fallbackLabel`, and
 `onFallbackClick` tune the actions.
+
+### `GitHubRepositoryPicker`
+
+The "Select Repositories" pick list. Controlled: `repositories` and `selected` are `owner/name`
+strings, and `onChange` receives the new selection. For paging, pass `hasMore`, `loading`, and
+`onLoadMore`; scrolling the menu to its end calls `onLoadMore`, never while `loading` or once
+`hasMore` is false. When the installation sees nothing, render `GitHubConnectionNotice kind="empty"`
+instead.
+
+### `GitHubFileTree`
+
+The design file picker. `items` are `GitHubFileTreeNode`s:
+`{ id, label, type: 'file' | 'dir', children?, status?: 'imported' | 'error', statusMessage? }`.
+`selected` holds **file ids only**, and `onSelectionChange` receives the new list; a folder's
+checkbox selects or clears every visible file under it and shows a mixed state when only some are
+selected. `supportedExtensions` hides other files and the folders left empty (`null` shows every
+file, Cloud's "Show all file types"); `singleSelect` allows one file and no folder selection (the
+snapshot design picker). Paging works as on the picker: `hasMore`, `loading`, `onLoadMore`.
+`emptyMessage`, `defaultExpanded`, `maxHeight`, and `aria-label` tune the rest.
+
+### `GitHubRepositorySection`
+
+One repository's collapsible section: `repository`, `counts` (`selected`, `imported`, `failed`),
+and `children`, normally a `GitHubFileTree`. While `selected` is non-zero it is the only badge,
+as in Cloud. Expansion is controlled through `expanded` and `onChange`, or left to the section.
+
+### `GitHubFinishSummary`
+
+The Finish body: one `GitHubRepositorySection` per entry of `repositories`, each a
+`GitHubFinishRepository` of `{ name, importedDesigns, failedImports?, workflow? }`. `workflow` is
+`{ status: 'configured' | 'failed' | 'not-configured', message?, onRetry?, retrying? }`; omit it in
+a flow without snapshots. `onViewDesign(design, repository)` adds a View action per created design.
+One section is open at a time. Put the total in the `GitHubWizardStep` subtitle, as Cloud does.
 
 ## Host responsibilities
 
@@ -159,11 +199,17 @@ These are fixes made while extracting, so adopting the primitives changes Cloud'
   badges now use 24px glyphs. The default glyphs come from Sistent's icon set.
 - **The rail scrolls on narrow hosts** and keeps the active step in view, instead of squeezing
   seven steps into a phone-width panel.
+- **The pick lists stay out of each other's state.** Cloud's `FileExplorer` kept its own
+  selection and reported it through a ref; `GitHubFileTree` is controlled and its selection is
+  file ids only. Cloud's loading row inside the repository menu could be clicked into the
+  selection as `undefined`; here it is an inert, disabled row.
+- **Folders expand from a button.** Each folder has a labelled disclosure button with
+  `aria-expanded`, and folder checkboxes say which folder they select.
+- **Repository sections and count badges use surface tokens** instead of `text.disabled` fills
+  and white-on-brand chips, so they read in dark mode.
 
 ## Not covered yet
 
-- A repository pick list and a design file tree are still host step bodies. Cloud's
-  `SelectRepository` and `FileExplorer` are the candidates to extract next.
 - The extraction leaves two steppers in Sistent: this wizard's rail and `CustomizedStepper`
   (used across Meshery UI). Unifying them is a design decision for a follow-up, not a side effect
   of this pattern.

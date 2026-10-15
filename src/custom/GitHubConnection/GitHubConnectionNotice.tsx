@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, CircularProgress, Link, Typography } from '../../base';
-import { ErrorIcon, FolderRoundedIcon, OpenInNewIcon, WarningIcon } from '../../icons';
+import { ErrorIcon, FolderRoundedIcon, WarningIcon } from '../../icons';
 import { NoticeActions, NoticeCallout, NoticeContent, NoticeEmpty, type NoticeTone } from './style';
 
 /**
@@ -63,7 +63,7 @@ const PRESENTATION: Record<GitHubConnectionNoticeKind, KindPresentation> = {
   error: {
     tone: 'error',
     title: 'Could not connect to GitHub',
-    message: 'Something went wrong while connecting to GitHub. Your progress is saved; try again.',
+    message: 'Something went wrong while connecting to GitHub. Try again.',
     fallbackLabel: 'Continue in this tab',
     icon: <ErrorIcon width={20} height={20} fill="currentColor" />
   },
@@ -127,16 +127,9 @@ export function GitHubConnectionNotice({
       underline="always"
       data-testid="github-connection-notice-fallback"
       variant="textB3Regular"
-      sx={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 0.5,
-        color: 'text.default',
-        fontWeight: 600
-      }}
+      sx={{ color: 'text.default', fontWeight: 600 }}
     >
       {fallbackLabel ?? presentation.fallbackLabel}
-      <OpenInNewIcon width={16} height={16} fill="currentColor" aria-hidden />
     </Link>
   );
 

@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  ListItemText,
-  MenuItem,
-  Paper,
-  Select,
-  Typography
-} from '../../base';
+import { Box, Button, FormControlLabel, Paper, Switch, Typography } from '../../base';
 import { SistentThemeProvider } from '../../theme';
 import { GitHubConnectButton } from './GitHubConnectButton';
 import { GitHubConnectionNotice } from './GitHubConnectionNotice';
 import { GitHubConnectionStatus } from './GitHubConnectionStatus';
+import { GitHubFileTree, type GitHubFileTreeNode } from './GitHubFileTree';
+import { GitHubFinishSummary, type GitHubFinishRepository } from './GitHubFinishSummary';
 import { GitHubImportConnectWizard } from './GitHubImportConnectWizard';
+import { GitHubRepositoryPicker } from './GitHubRepositoryPicker';
+import { GitHubRepositorySection } from './GitHubRepositorySection';
 import { GitHubWizardInfo } from './GitHubWizardInfo';
 import { GitHubWizardStep } from './GitHubWizardStep';
 import { GITHUB_IMPORT_CONNECT_WIZARD_STEPS } from './steps';
@@ -201,6 +193,109 @@ const STEP_INFO = [
 
 const REPOSITORIES = ['octo-org/sample-repo', 'octo-org/other-repo', 'octo-org/helm-charts'];
 
+const DESIGN_EXTENSIONS = ['.yaml', '.yml', '.tar.gz', '.tgz', '.tar'];
+
+const scannedFiles = (repository: string): GitHubFileTreeNode[] => [
+  {
+    id: `${repository}/deploy`,
+    label: 'deploy',
+    type: 'dir',
+    children: [
+      {
+        id: `${repository}/deploy/kubernetes`,
+        label: 'kubernetes',
+        type: 'dir',
+        children: [
+          { id: `${repository}/deploy/kubernetes/app.yaml`, label: 'app.yaml', type: 'file' },
+          {
+            id: `${repository}/deploy/kubernetes/service.yaml`,
+            label: 'service.yaml',
+            type: 'file'
+          }
+        ]
+      },
+      { id: `${repository}/deploy/compose.yml`, label: 'compose.yml', type: 'file' }
+    ]
+  },
+  { id: `${repository}/charts.tgz`, label: 'charts.tgz', type: 'file' },
+  { id: `${repository}/README.md`, label: 'README.md', type: 'file' }
+];
+
+/**
+ * Cloud's "Import Designs" body: a section per selected repository holding its
+ * file tree, with the "Show all file types" switch that lifts the extension
+ * filter.
+ */
+const ImportDesignsBody = ({
+  repositories,
+  imported
+}: {
+  repositories: readonly string[];
+  imported: boolean;
+}): React.ReactElement => {
+  const [picked, setPicked] = useState<Record<string, string[]>>({});
+  const [showAll, setShowAll] = useState(false);
+  const [open, setOpen] = useState(0);
+
+  return (
+    <Box sx={{ display: 'grid', gap: 1 }}>
+      <FormControlLabel
+        control={<Switch checked={showAll} onChange={() => setShowAll((value) => !value)} />}
+        label="Show all file types"
+      />
+      {repositories.map((repository, index) => {
+        const files = scannedFiles(repository).map((node) =>
+          imported && node.id.endsWith('charts.tgz')
+            ? { ...node, status: 'imported' as const, statusMessage: 'File is imported' }
+            : node
+        );
+        return (
+          <GitHubRepositorySection
+            key={repository}
+            repository={repository}
+            counts={{ selected: picked[repository]?.length ?? 0, imported: imported ? 1 : 0 }}
+            expanded={open === index}
+            onChange={(isExpanded) => setOpen(isExpanded ? index : -1)}
+          >
+            <GitHubFileTree
+              aria-label={`${repository} files`}
+              items={files}
+              selected={picked[repository] ?? []}
+              onSelectionChange={(ids) => setPicked((all) => ({ ...all, [repository]: ids }))}
+              supportedExtensions={showAll ? null : DESIGN_EXTENSIONS}
+              defaultExpanded={[`${repository}/deploy`]}
+            />
+          </GitHubRepositorySection>
+        );
+      })}
+    </Box>
+  );
+};
+
+const FINISH_OUTCOMES: GitHubFinishRepository[] = [
+  {
+    name: 'octo-org/sample-repo',
+    importedDesigns: [{ id: 'design-1', name: 'kubernetes.yaml' }],
+    failedImports: [
+      {
+        id: 'octo-org/sample-repo/deploy/broken.yaml',
+        name: 'deploy/broken.yaml',
+        message: 'The file is not a valid Kubernetes manifest.'
+      }
+    ],
+    workflow: { status: 'configured' }
+  },
+  {
+    name: 'octo-org/helm-charts',
+    importedDesigns: [],
+    workflow: {
+      status: 'failed',
+      message: 'GitHub refused to create the workflow file.',
+      onRetry: () => undefined
+    }
+  }
+];
+
 type Handoff = 'idle' | 'connecting' | 'popup-blocked';
 
 interface WizardDemoProps {
@@ -295,27 +390,11 @@ const WizardDemo = ({
                 }
               />
             ) : (
-              <FormControl fullWidth>
-                <InputLabel id="github-story-repositories">Select a repository</InputLabel>
-                <Select
-                  multiple
-                  labelId="github-story-repositories"
-                  label="Select a repository"
-                  value={selected}
-                  onChange={(event) => {
-                    const value = event.target.value;
-                    setSelected(typeof value === 'string' ? value.split(',') : (value as string[]));
-                  }}
-                  renderValue={(value) => (value as string[]).join(', ')}
-                >
-                  {repositories.map((repository) => (
-                    <MenuItem key={repository} value={repository}>
-                      <Checkbox checked={selected.includes(repository)} />
-                      <ListItemText primary={repository} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <GitHubRepositoryPicker
+                repositories={repositories}
+                selected={selected}
+                onChange={setSelected}
+              />
             )}
           </GitHubWizardStep>
         );
@@ -337,16 +416,7 @@ const WizardDemo = ({
             }}
             primaryAction={{ label: 'Next', onClick: next, disabled: !imported }}
           >
-            <Paper variant="outlined" sx={{ p: 2, overflowWrap: 'anywhere' }}>
-              {selected.map((repository) => (
-                <FormControlLabel
-                  key={repository}
-                  sx={{ display: 'flex' }}
-                  control={<Checkbox defaultChecked />}
-                  label={`${repository}/deploy/kubernetes.yaml`}
-                />
-              ))}
-            </Paper>
+            <ImportDesignsBody repositories={selected} imported={imported} />
           </GitHubWizardStep>
         );
       case 'snapshot-select-designs':
@@ -374,7 +444,7 @@ const WizardDemo = ({
             onBack={back}
             primaryAction={{ label: 'Finish', onClick: () => setActive(0) }}
           >
-            <GitHubConnectionStatus status="connected" account="octo-org" />
+            <GitHubFinishSummary repositories={FINISH_OUTCOMES} onViewDesign={() => undefined} />
           </GitHubWizardStep>
         );
       default:
@@ -422,4 +492,104 @@ export const ImportConnectWizardNoRepositories: Story = {
 export const ImportConnectWizardImport: Story = {
   name: 'Wizard: import designs',
   render: ({ mode }) => <WizardDemo mode={mode} initialStep={2} />
+};
+
+/** Repository pick list: idle, paging in more, and disabled. */
+export const RepositoryPickerStates: Story = {
+  name: 'Repository pick list',
+  render: ({ mode }) => {
+    const Demo = () => {
+      const [selected, setSelected] = useState<string[]>(['octo-org/sample-repo']);
+      const [repositories, setRepositories] = useState<string[]>(REPOSITORIES);
+      const [loading, setLoading] = useState(false);
+      const loadMore = () => {
+        setLoading(true);
+        window.setTimeout(() => {
+          setRepositories((current) => [
+            ...current,
+            ...Array.from({ length: 5 }, (_, n) => `octo-org/service-${current.length + n}`)
+          ]);
+          setLoading(false);
+        }, 900);
+      };
+      return (
+        <Box sx={{ display: 'grid', gap: 3, maxWidth: 480 }}>
+          <GitHubRepositoryPicker
+            repositories={repositories}
+            selected={selected}
+            onChange={setSelected}
+            loading={loading}
+            hasMore={repositories.length < 30}
+            onLoadMore={loadMore}
+          />
+          <GitHubRepositoryPicker
+            repositories={[]}
+            selected={[]}
+            onChange={() => undefined}
+            disabled
+          />
+        </Box>
+      );
+    };
+    return (
+      <Frame mode={mode}>
+        <Demo />
+      </Frame>
+    );
+  }
+};
+
+/** Design file tree: filtered, with import marks, and empty after filtering. */
+export const FileTreeStates: Story = {
+  name: 'Design file tree',
+  render: ({ mode }) => {
+    const Demo = () => {
+      const [selected, setSelected] = useState<string[]>([]);
+      const files = scannedFiles('octo-org/sample-repo').map((node) =>
+        node.id.endsWith('charts.tgz')
+          ? { ...node, status: 'error' as const, statusMessage: 'Not a Helm chart archive.' }
+          : node
+      );
+      return (
+        <Box sx={{ display: 'grid', gap: 3, maxWidth: 560 }}>
+          <GitHubRepositorySection
+            repository="octo-org/sample-repo"
+            counts={{ selected: selected.length }}
+            defaultExpanded
+          >
+            <GitHubFileTree
+              items={files}
+              selected={selected}
+              onSelectionChange={setSelected}
+              supportedExtensions={DESIGN_EXTENSIONS}
+              defaultExpanded={['octo-org/sample-repo/deploy']}
+            />
+          </GitHubRepositorySection>
+          <GitHubFileTree
+            items={[{ id: 'notes.md', label: 'notes.md', type: 'file' }]}
+            selected={[]}
+            onSelectionChange={() => undefined}
+            supportedExtensions={DESIGN_EXTENSIONS}
+          />
+        </Box>
+      );
+    };
+    return (
+      <Frame mode={mode}>
+        <Demo />
+      </Frame>
+    );
+  }
+};
+
+/** Finish: per-repository workflow outcome, created designs, and failed files. */
+export const FinishSummary: Story = {
+  name: 'Finish summary',
+  render: ({ mode }) => (
+    <Frame mode={mode}>
+      <Box sx={{ maxWidth: 640 }}>
+        <GitHubFinishSummary repositories={FINISH_OUTCOMES} onViewDesign={() => undefined} />
+      </Box>
+    </Frame>
+  )
 };

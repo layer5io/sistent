@@ -1,6 +1,6 @@
 import { alpha, styled, type Palette } from '@mui/material';
 import { stepConnectorClasses } from '@mui/material/StepConnector';
-import { Box, Button, StepConnector } from '../../base';
+import { Accordion, Box, Button, StepConnector } from '../../base';
 import { charcoal } from '../../theme/colors/colors';
 
 /**
@@ -240,10 +240,12 @@ export const NeutralButton = styled(Button)(({ theme }) => ({
   }
 }));
 
-export type NoticeTone = 'neutral' | 'error' | 'warning' | 'info';
+export type NoticeTone = 'neutral' | 'success' | 'error' | 'warning' | 'info';
 
 const toneColor = (palette: Palette, tone: NoticeTone): string | undefined => {
   switch (tone) {
+    case 'success':
+      return palette.status.success;
     case 'error':
       return palette.status.error;
     case 'warning':
@@ -355,6 +357,169 @@ export const StatusIdentity = styled('span')(({ theme }) => ({
   '& > svg': {
     flexShrink: 0,
     color: theme.palette.icon.default
+  }
+}));
+
+/**
+ * The file tree's scroll container. Cloud scrolls each repository's tree
+ * inside its accordion and pages in more files at the bottom.
+ */
+export const FileTreeScroller = styled(Box)(() => ({
+  overflowY: 'auto',
+  overflowX: 'hidden',
+  minWidth: 0
+}));
+
+export const FileTreeList = styled('ul', {
+  shouldForwardProp: (prop) => prop !== 'nested'
+})<{ nested?: boolean }>(({ theme, nested }) => ({
+  listStyle: 'none',
+  margin: 0,
+  padding: 0,
+  ...(nested && {
+    // Cloud's guide line down an expanded folder, aligned under its chevron.
+    marginLeft: theme.spacing(2),
+    paddingLeft: theme.spacing(1.5),
+    borderLeft: `1.5px solid ${theme.palette.border.normal}`
+  })
+}));
+
+export const FileTreeRow = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(0.5),
+  minWidth: 0,
+  padding: theme.spacing(0.25, 1, 0.25, 0.5),
+  borderRadius: theme.shape.borderRadius,
+  color: theme.palette.text.default,
+  cursor: 'pointer',
+  '&:hover': {
+    backgroundColor: theme.palette.action.hover
+  },
+  '& > svg': {
+    flexShrink: 0,
+    color: theme.palette.icon.secondary
+  },
+  '& .label': {
+    flex: 1,
+    minWidth: 0,
+    overflowWrap: 'anywhere'
+  },
+  '& .disclosure': {
+    color: theme.palette.icon.secondary,
+    transition: theme.transitions.create('transform', {
+      duration: theme.transitions.duration.shortest
+    })
+  },
+  '& .disclosure.expanded': {
+    transform: 'rotate(90deg)'
+  }
+}));
+
+export const FileTreeStatus = styled('span', {
+  shouldForwardProp: (prop) => prop !== 'status'
+})<{ status: 'imported' | 'error' }>(({ theme, status }) => ({
+  display: 'inline-flex',
+  flexShrink: 0,
+  color: status === 'imported' ? theme.palette.status.success : theme.palette.status.error
+}));
+
+export const FileTreeEmpty = styled(Box)(({ theme }) => ({
+  ...theme.typography.textB3Regular,
+  display: 'flex',
+  justifyContent: 'center',
+  padding: theme.spacing(1.5),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+  border: `1px solid ${theme.palette.border.normal}`,
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.background.secondary
+}));
+
+/**
+ * A repository's section on the import and Finish steps. Cloud draws it with a
+ * `text.disabled` border and header fill, which reads as a gray slab in dark
+ * mode; the border and header here use the surface tokens instead.
+ */
+export const RepositorySectionRoot = styled(Accordion)(({ theme }) => ({
+  border: `1px solid ${theme.palette.border.normal}`,
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.background.card,
+  boxShadow: 'none',
+  '&::before': {
+    display: 'none'
+  },
+  '& .MuiAccordionSummary-root': {
+    backgroundColor: theme.palette.background.secondary,
+    borderRadius: theme.shape.borderRadius,
+    color: theme.palette.text.default
+  },
+  '& .MuiAccordionSummary-expandIconWrapper': {
+    color: theme.palette.icon.secondary
+  },
+  '& .MuiAccordionSummary-content': {
+    minWidth: 0
+  }
+}));
+
+export const RepositorySectionTitle = styled('span')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: theme.spacing(1),
+  width: '100%',
+  minWidth: 0,
+  marginRight: theme.spacing(1),
+  '& .name': {
+    minWidth: 0,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    fontWeight: 500
+  },
+  '& .badges': {
+    display: 'inline-flex',
+    flexShrink: 0,
+    gap: theme.spacing(0.5)
+  }
+}));
+
+/**
+ * Count badge in a repository header. Cloud filled it with the brand or error
+ * colour under white text; the tint-and-ink form keeps the count legible in
+ * both modes, as `StatusPill` does.
+ */
+export const CountBadge = styled('span', {
+  shouldForwardProp: (prop) => prop !== 'tone'
+})<{ tone: NoticeTone }>(({ theme, tone }) => {
+  const accent = toneColor(theme.palette, tone) ?? theme.palette.border.strong;
+  return {
+    ...theme.typography.textB3Regular,
+    display: 'inline-flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    borderRadius: 9999,
+    border: `1px solid ${alpha(accent, 0.5)}`,
+    backgroundColor: alpha(accent, 0.12),
+    color: theme.palette.text.default,
+    whiteSpace: 'nowrap'
+  };
+});
+
+export const FinishList = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(1),
+  minWidth: 0,
+  '& ul.outcomes': {
+    listStyle: 'none',
+    margin: 0,
+    padding: 0,
+    display: 'grid',
+    gap: theme.spacing(1)
+  },
+  '& .MuiAccordionDetails-root': {
+    overflowWrap: 'anywhere'
   }
 }));
 

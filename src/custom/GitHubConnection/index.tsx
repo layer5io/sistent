@@ -14,9 +14,28 @@ export {
   type GitHubConnectionStatusValue
 } from './GitHubConnectionStatus';
 export {
+  GitHubFileTree,
+  type GitHubFileTreeNode,
+  type GitHubFileTreeProps
+} from './GitHubFileTree';
+export {
+  GitHubFinishSummary,
+  type GitHubFailedImport,
+  type GitHubFinishRepository,
+  type GitHubFinishSummaryProps,
+  type GitHubFinishWorkflow,
+  type GitHubImportedDesign
+} from './GitHubFinishSummary';
+export {
   GitHubImportConnectWizard,
   type GitHubImportConnectWizardProps
 } from './GitHubImportConnectWizard';
+export { GitHubRepositoryPicker, type GitHubRepositoryPickerProps } from './GitHubRepositoryPicker';
+export {
+  GitHubRepositorySection,
+  type GitHubRepositoryCounts,
+  type GitHubRepositorySectionProps
+} from './GitHubRepositorySection';
 export { GitHubWizardInfo, type GitHubWizardInfoProps } from './GitHubWizardInfo';
 export {
   GitHubWizardStep,

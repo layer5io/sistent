@@ -6,11 +6,18 @@ import {
   GitHubConnectButton,
   GitHubConnectionNotice,
   GitHubConnectionStatus,
+  GitHubFileTree,
+  GitHubFinishSummary,
   GitHubImportConnectWizard,
+  GitHubRepositoryPicker,
+  GitHubRepositorySection,
   GitHubWizardInfo,
   GitHubWizardStep,
   type GitHubConnectionNoticeProps,
   type GitHubConnectionStatusProps,
+  type GitHubFileTreeNode,
+  type GitHubFileTreeProps,
+  type GitHubFinishRepository,
   type GitHubWizardStepProps
 } from '../custom/GitHubConnection';
 import { PermissionProvider } from '../custom/PermissionProvider';
@@ -211,6 +218,23 @@ describe('GitHubConnectionNotice', () => {
     fireEvent.click(button('Add repository'));
     expect(onAdd).toHaveBeenCalledTimes(1);
   });
+
+  it('error: the default copy promises nothing the host may not have done', () => {
+    renderNotice({ kind: 'error', onRetry: jest.fn() });
+    const text = screen.getByRole('alert').textContent ?? '';
+    expect(text).toMatch(/Something went wrong while connecting to GitHub\. Try again\./);
+    expect(text).not.toMatch(/saved/i);
+  });
+
+  it.each(['popup-blocked', 'redirecting', 'error', 'empty'] as const)(
+    '%s: the same-tab fallback link carries no new-window glyph',
+    (kind) => {
+      renderNotice({ kind, fallbackHref: 'https://github.com/apps/x' });
+      const fallback = screen.getByTestId('github-connection-notice-fallback');
+      expect(fallback.getAttribute('target')).toBeNull();
+      expect(fallback.querySelector('svg')).toBeNull();
+    }
+  );
 
   it('renders no action row when the host supplies no recovery', () => {
     renderNotice({ kind: 'error', title: 'Verification failed' });
@@ -465,5 +489,284 @@ describe('GitHub wizard navigation', () => {
     expect(
       screen.getByTestId('github-wizard-step-snapshot-add-workflows').getAttribute('data-state')
     ).toBe('upcoming');
+  });
+});
+
+describe('GitHubRepositoryPicker', () => {
+  const REPOS = ['octo-org/one', 'octo-org/two'];
+
+  function PickerHarness(props: { onLoadMore?: () => void; loading?: boolean; hasMore?: boolean }) {
+    const [selected, setSelected] = useState<string[]>([]);
+    return (
+      <>
+        <GitHubRepositoryPicker
+          repositories={REPOS}
+          selected={selected}
+          onChange={setSelected}
+          {...props}
+        />
+        <p data-testid="picked">{JSON.stringify(selected)}</p>
+      </>
+    );
+  }
+
+  const open = () => fireEvent.mouseDown(screen.getByRole('combobox'));
+  const picked = () => JSON.parse(screen.getByTestId('picked').textContent ?? '[]');
+
+  it('selects and deselects repositories through the host', () => {
+    withTheme(<PickerHarness />);
+    open();
+    fireEvent.click(screen.getByRole('option', { name: 'octo-org/two' }));
+    expect(picked()).toEqual(['octo-org/two']);
+    fireEvent.click(screen.getByRole('option', { name: 'octo-org/one' }));
+    expect(picked()).toEqual(['octo-org/two', 'octo-org/one']);
+    fireEvent.click(screen.getByRole('option', { name: 'octo-org/two' }));
+    expect(picked()).toEqual(['octo-org/one']);
+  });
+
+  it('asks for the next page when the menu is scrolled to its end', () => {
+    const onLoadMore = jest.fn();
+    withTheme(<PickerHarness hasMore onLoadMore={onLoadMore} />);
+    open();
+    const paper = screen.getByRole('listbox').closest('.MuiPaper-root') as HTMLElement;
+    fireEvent.scroll(paper);
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not page while a page is loading or once the list is exhausted', () => {
+    const onLoadMore = jest.fn();
+    const { unmount } = withTheme(<PickerHarness hasMore loading onLoadMore={onLoadMore} />);
+    open();
+    fireEvent.scroll(screen.getByRole('listbox').closest('.MuiPaper-root') as HTMLElement);
+    unmount();
+
+    withTheme(<PickerHarness hasMore={false} onLoadMore={onLoadMore} />);
+    open();
+    fireEvent.scroll(screen.getByRole('listbox').closest('.MuiPaper-root') as HTMLElement);
+    expect(onLoadMore).not.toHaveBeenCalled();
+  });
+
+  it('keeps the loading row out of the selection', () => {
+    withTheme(<PickerHarness hasMore loading />);
+    open();
+    const loadingRow = screen.getByRole('option', { name: /loading more repositories/i });
+    expect(loadingRow.getAttribute('aria-disabled')).toBe('true');
+    fireEvent.click(loadingRow);
+    expect(picked()).toEqual([]);
+  });
+});
+
+describe('GitHubFileTree', () => {
+  const TREE: GitHubFileTreeNode[] = [
+    {
+      id: 'deploy',
+      label: 'deploy',
+      type: 'dir',
+      children: [
+        { id: 'deploy/app.yaml', label: 'app.yaml', type: 'file' },
+        { id: 'deploy/svc.YML', label: 'svc.YML', type: 'file' },
+        { id: 'deploy/notes.md', label: 'notes.md', type: 'file' }
+      ]
+    },
+    {
+      id: 'docs',
+      label: 'docs',
+      type: 'dir',
+      children: [{ id: 'docs/readme.md', label: 'readme.md', type: 'file' }]
+    },
+    {
+      id: 'chart.tgz',
+      label: 'chart.tgz',
+      type: 'file',
+      status: 'error',
+      statusMessage: 'Not a chart archive'
+    }
+  ];
+
+  function TreeHarness(props: Partial<GitHubFileTreeProps>) {
+    const [selected, setSelected] = useState<string[]>([]);
+    return (
+      <>
+        <GitHubFileTree
+          items={TREE}
+          selected={selected}
+          onSelectionChange={setSelected}
+          defaultExpanded={['deploy', 'docs']}
+          {...props}
+        />
+        <p data-testid="picked">{JSON.stringify(selected)}</p>
+      </>
+    );
+  }
+
+  const picked = () => JSON.parse(screen.getByTestId('picked').textContent ?? '[]');
+  const fileBox = (name: string) => screen.getByRole('checkbox', { name: new RegExp(`^${name}`) });
+
+  it('shows only supported files and the folders that hold one, matching case-insensitively', () => {
+    withTheme(<TreeHarness supportedExtensions={['.yaml', '.yml', '.tgz']} />);
+    expect(screen.getByText('app.yaml')).toBeTruthy();
+    expect(screen.getByText('svc.YML')).toBeTruthy();
+    expect(screen.queryByText('notes.md')).toBeNull();
+    expect(screen.queryByText('docs')).toBeNull();
+  });
+
+  it('shows every file without a filter', () => {
+    withTheme(<TreeHarness supportedExtensions={null} />);
+    expect(screen.getByText('notes.md')).toBeTruthy();
+    expect(screen.getByText('readme.md')).toBeTruthy();
+  });
+
+  it('selects every visible file under a folder, and reports a partial folder as mixed', () => {
+    withTheme(<TreeHarness supportedExtensions={['.yaml', '.yml']} />);
+    const folder = screen.getByRole('checkbox', { name: 'Select every file in deploy' });
+
+    fireEvent.click(folder);
+    expect(picked()).toEqual(['deploy/app.yaml', 'deploy/svc.YML']);
+    expect((folder as HTMLInputElement).checked).toBe(true);
+
+    fireEvent.click(fileBox('app.yaml'));
+    expect(picked()).toEqual(['deploy/svc.YML']);
+    expect(folder.getAttribute('data-indeterminate')).toBe('true');
+
+    fireEvent.click(folder);
+    expect(picked()).toEqual(['deploy/svc.YML', 'deploy/app.yaml']);
+    fireEvent.click(folder);
+    expect(picked()).toEqual([]);
+  });
+
+  it('keeps at most one file in single-select mode and offers no folder selection', () => {
+    withTheme(<TreeHarness singleSelect />);
+    expect(screen.queryByRole('checkbox', { name: /select every file/i })).toBeNull();
+    fireEvent.click(fileBox('app.yaml'));
+    fireEvent.click(fileBox('notes.md'));
+    expect(picked()).toEqual(['deploy/notes.md']);
+    fireEvent.click(fileBox('notes.md'));
+    expect(picked()).toEqual([]);
+  });
+
+  it('collapses and expands a folder from its disclosure button', () => {
+    withTheme(<TreeHarness />);
+    const toggle = screen.getByRole('button', { name: 'Collapse deploy' });
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+    fireEvent.click(toggle);
+    expect(screen.queryByText('app.yaml')).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: 'Expand deploy' }));
+    expect(screen.getByText('app.yaml')).toBeTruthy();
+  });
+
+  it('announces an earlier import outcome with the file', () => {
+    withTheme(<TreeHarness />);
+    expect(fileBox('chart.tgz')).toBeTruthy();
+    expect(screen.getByTestId('github-file-tree-item-chart.tgz').textContent).toMatch(
+      /Not a chart archive/
+    );
+  });
+
+  it('explains an empty result, naming the filter that emptied it', () => {
+    const { unmount } = withTheme(<TreeHarness supportedExtensions={['.json']} />);
+    expect(screen.getByRole('status').textContent).toBe('No files with .json found.');
+    unmount();
+
+    withTheme(<TreeHarness items={[]} />);
+    expect(screen.getByRole('status').textContent).toBe('No files found in this repository.');
+  });
+
+  it('pages in more files at the end of the tree, but not while a page is loading', () => {
+    const onLoadMore = jest.fn();
+    const { rerender } = withTheme(<TreeHarness hasMore onLoadMore={onLoadMore} />);
+    fireEvent.scroll(screen.getByTestId('github-file-tree'));
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+
+    rerender(
+      <SistentThemeProvider>
+        <TreeHarness hasMore loading onLoadMore={onLoadMore} />
+      </SistentThemeProvider>
+    );
+    fireEvent.scroll(screen.getByTestId('github-file-tree'));
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+    expect(screen.getByRole('status', { name: /loading more files/i })).toBeTruthy();
+  });
+});
+
+describe('GitHubRepositorySection', () => {
+  it('prefers the selection count while files are picked, else imported and failed', () => {
+    const { rerender } = withTheme(
+      <GitHubRepositorySection repository="octo-org/one" counts={{ selected: 2, imported: 3 }} />
+    );
+    const header = () => screen.getByRole('button', { name: /octo-org\/one/ }).textContent;
+    expect(header()).toMatch(/2 selected/);
+    expect(header()).not.toMatch(/imported/);
+
+    rerender(
+      <SistentThemeProvider>
+        <GitHubRepositorySection repository="octo-org/one" counts={{ imported: 3, failed: 1 }} />
+      </SistentThemeProvider>
+    );
+    expect(header()).toMatch(/3 imported/);
+    expect(header()).toMatch(/1 failed/);
+  });
+});
+
+describe('GitHubFinishSummary', () => {
+  const OUTCOMES: GitHubFinishRepository[] = [
+    {
+      name: 'octo-org/one',
+      importedDesigns: [{ id: 'd1', name: 'app.yaml' }],
+      failedImports: [{ id: 'f1', name: 'deploy/bad.yaml' }],
+      workflow: { status: 'failed', onRetry: jest.fn() }
+    },
+    { name: 'octo-org/two', importedDesigns: [] }
+  ];
+
+  it('summarises each repository and routes View and Retry to the host', () => {
+    const onViewDesign = jest.fn();
+    withTheme(<GitHubFinishSummary repositories={OUTCOMES} onViewDesign={onViewDesign} />);
+
+    expect(screen.getByText('Imported designs (1)')).toBeTruthy();
+    expect(screen.getByText("Not able to import 'deploy/bad.yaml'.")).toBeTruthy();
+
+    fireEvent.click(button('View app.yaml'));
+    expect(onViewDesign).toHaveBeenCalledWith({ id: 'd1', name: 'app.yaml' }, 'octo-org/one');
+
+    fireEvent.click(button(/^retry$/i));
+    expect(OUTCOMES[0].workflow?.onRetry).toHaveBeenCalledTimes(1);
+  });
+
+  it('omits the workflow for a flow without snapshots and opens one repository at a time', () => {
+    withTheme(<GitHubFinishSummary repositories={OUTCOMES} />);
+    const second = screen.getByRole('button', { name: /octo-org\/two/ });
+    expect(second.getAttribute('aria-expanded')).toBe('false');
+
+    fireEvent.click(second);
+    expect(second.getAttribute('aria-expanded')).toBe('true');
+    expect(
+      screen.getByRole('button', { name: /octo-org\/one/ }).getAttribute('aria-expanded')
+    ).toBe('false');
+    expect(screen.getAllByTestId('github-finish-workflow')).toHaveLength(1);
+    expect(screen.queryByRole('button', { name: /^view/i })).toBeNull();
+  });
+
+  it('offers a retry only for a failed workflow, and blocks it while in flight', () => {
+    const onRetry = jest.fn();
+    withTheme(
+      <GitHubFinishSummary
+        repositories={[
+          {
+            name: 'octo-org/one',
+            importedDesigns: [],
+            workflow: { status: 'failed', onRetry, retrying: true }
+          },
+          {
+            name: 'octo-org/two',
+            importedDesigns: [],
+            workflow: { status: 'configured', onRetry }
+          }
+        ]}
+      />
+    );
+    const retry = button(/^retry$/i) as HTMLButtonElement;
+    expect(retry.disabled).toBe(true);
+    fireEvent.click(screen.getByRole('button', { name: /octo-org\/two/ }));
+    expect(screen.getAllByRole('button', { name: /^retry$/i, hidden: true })).toHaveLength(1);
   });
 });
