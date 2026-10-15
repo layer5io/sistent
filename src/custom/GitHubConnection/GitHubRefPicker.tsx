@@ -54,7 +54,8 @@ const PagingContext = React.createContext({
   hasMore: false,
   branchCount: 0,
   request: (): void => undefined,
-  requestIfArmed: (): void => undefined
+  requestIfArmed: (): void => undefined,
+  noMatchShown: { current: false } as React.MutableRefObject<boolean>
 });
 
 /**
@@ -88,26 +89,40 @@ const sameRefs = (a: readonly string[], b: readonly string[]): boolean =>
  * Shown when typing matches no loaded branch. MUI renders no list box then, so
  * the list box's auto-fill cannot fire; while more pages exist this requests
  * them instead, as a short list of matches would. A page that adds nothing is
- * not re-requested on its own, so the reader gets a way to ask for one.
+ * not re-requested on its own, so the reader gets a way to ask for one: the
+ * button, or Enter or ArrowDown in the field (see `GitHubRefPicker`).
  */
 function NoMatchingBranch(): JSX.Element {
-  const { loading, hasMore, branchCount, request, requestIfArmed } =
+  const { loading, hasMore, branchCount, request, requestIfArmed, noMatchShown } =
     React.useContext(PagingContext);
+  React.useLayoutEffect(() => {
+    noMatchShown.current = true;
+    return () => {
+      noMatchShown.current = false;
+    };
+  }, [noMatchShown]);
   // Before paint, so the load-more action does not flash ahead of the request.
   React.useLayoutEffect(requestIfArmed, [requestIfArmed, loading, hasMore, branchCount]);
-  if (loading) return <>Searching more branches...</>;
-  if (!hasMore) return <>No matching branch</>;
+  const canLoadMore = hasMore && !loading;
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
-      <span>No loaded branch matches</span>
-      <Button
-        size="small"
-        // Keep focus in the field, so the popup stays open for the page.
-        onMouseDown={(event) => event.preventDefault()}
-        onClick={request}
-      >
-        Load more branches
-      </Button>
+      <span role="status" aria-live="polite">
+        {loading
+          ? 'Searching more branches...'
+          : hasMore
+            ? 'No loaded branch matches. Press Enter to load more.'
+            : 'No matching branch'}
+      </span>
+      {canLoadMore && (
+        <Button
+          size="small"
+          // Keep focus in the field, so the popup stays open for the page.
+          onMouseDown={(event) => event.preventDefault()}
+          onClick={request}
+        >
+          Load more branches
+        </Button>
+      )}
     </Box>
   );
 }
@@ -216,6 +231,19 @@ export function GitHubRefPicker({
     if (element && top !== null && element.scrollTop !== top) element.scrollTop = top;
   }, [options]);
 
+  // Enter and ArrowDown have nothing to act on while no branch matches, so
+  // they ask for the next page, keeping focus in the field.
+  const noMatchShown = React.useRef(false);
+  const pagingRequest = paging.request;
+  const handleKeyDown = React.useCallback(
+    (event: React.KeyboardEvent) => {
+      if (noMatchShown.current && (event.key === 'Enter' || event.key === 'ArrowDown')) {
+        pagingRequest();
+      }
+    },
+    [pagingRequest]
+  );
+
   const firstPageLoading = loading && branches.length === 0;
   const pagingState = React.useMemo(
     () => ({
@@ -223,10 +251,11 @@ export function GitHubRefPicker({
       loadingMore: loading && branches.length > 0,
       hasMore,
       branchCount: branches.length,
-      request: paging.request,
-      requestIfArmed: paging.requestIfArmed
+      request: pagingRequest,
+      requestIfArmed: paging.requestIfArmed,
+      noMatchShown
     }),
-    [loading, hasMore, branches.length, paging.request, paging.requestIfArmed]
+    [loading, hasMore, branches.length, pagingRequest, paging.requestIfArmed]
   );
 
   const field = React.useMemo(
@@ -241,6 +270,7 @@ export function GitHubRefPicker({
         inputValue={inputValue}
         onInputChange={(_event, next) => setInputValue(next)}
         onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
         freeSolo={allowCustomRef}
         autoSelect={allowCustomRef}
         // MUI drops the arrow for free text; keep it so the branch list stays discoverable.
@@ -297,6 +327,7 @@ export function GitHubRefPicker({
       commit,
       inputValue,
       handleBlur,
+      handleKeyDown,
       allowCustomRef,
       value,
       disabled,
