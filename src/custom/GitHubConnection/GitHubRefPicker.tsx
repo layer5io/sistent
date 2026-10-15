@@ -1,6 +1,6 @@
 import { Autocomplete } from '@mui/material';
 import React from 'react';
-import { Box, CircularProgress, Paper, TextField } from '../../base';
+import { Box, Button, CircularProgress, Paper, TextField } from '../../base';
 import { useLoadMore } from './loadMore';
 import { CountBadge, VisuallyHidden } from './style';
 
@@ -53,7 +53,8 @@ const PagingContext = React.createContext({
   loadingMore: false,
   hasMore: false,
   branchCount: 0,
-  searchMore: () => undefined as void
+  request: (): void => undefined,
+  requestIfArmed: (): void => undefined
 });
 
 /**
@@ -86,12 +87,29 @@ const sameRefs = (a: readonly string[], b: readonly string[]): boolean =>
 /**
  * Shown when typing matches no loaded branch. MUI renders no list box then, so
  * the list box's auto-fill cannot fire; while more pages exist this requests
- * them instead, as a short list of matches would.
+ * them instead, as a short list of matches would. A page that adds nothing is
+ * not re-requested on its own, so the reader gets a way to ask for one.
  */
 function NoMatchingBranch(): JSX.Element {
-  const { loading, hasMore, branchCount, searchMore } = React.useContext(PagingContext);
-  React.useEffect(searchMore, [searchMore, loading, hasMore, branchCount]);
-  return <>{hasMore || loading ? 'Searching more branches...' : 'No matching branch'}</>;
+  const { loading, hasMore, branchCount, request, requestIfArmed } =
+    React.useContext(PagingContext);
+  // Before paint, so the load-more action does not flash ahead of the request.
+  React.useLayoutEffect(requestIfArmed, [requestIfArmed, loading, hasMore, branchCount]);
+  if (loading) return <>Searching more branches...</>;
+  if (!hasMore) return <>No matching branch</>;
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
+      <span>No loaded branch matches</span>
+      <Button
+        size="small"
+        // Keep focus in the field, so the popup stays open for the page.
+        onMouseDown={(event) => event.preventDefault()}
+        onClick={request}
+      >
+        Load more branches
+      </Button>
+    </Box>
+  );
 }
 
 /**
@@ -198,24 +216,6 @@ export function GitHubRefPicker({
     if (element && top !== null && element.scrollTop !== top) element.scrollTop = top;
   }, [options]);
 
-  // Like `useLoadMore`'s auto-fill: at most one request per page count, so a
-  // failed page is not re-requested on its own.
-  const pagingProps = React.useRef({ hasMore, loading, onLoadMore, branchCount: branches.length });
-  pagingProps.current = { hasMore, loading, onLoadMore, branchCount: branches.length };
-  const searchedFor = React.useRef<number | null>(null);
-  const searchMore = React.useCallback(() => {
-    const props = pagingProps.current;
-    if (
-      props.onLoadMore &&
-      props.hasMore &&
-      !props.loading &&
-      searchedFor.current !== props.branchCount
-    ) {
-      searchedFor.current = props.branchCount;
-      props.onLoadMore();
-    }
-  }, []);
-
   const firstPageLoading = loading && branches.length === 0;
   const pagingState = React.useMemo(
     () => ({
@@ -223,9 +223,10 @@ export function GitHubRefPicker({
       loadingMore: loading && branches.length > 0,
       hasMore,
       branchCount: branches.length,
-      searchMore
+      request: paging.request,
+      requestIfArmed: paging.requestIfArmed
     }),
-    [loading, hasMore, branches.length, searchMore]
+    [loading, hasMore, branches.length, paging.request, paging.requestIfArmed]
   );
 
   const field = React.useMemo(
