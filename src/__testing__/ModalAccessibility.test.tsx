@@ -655,7 +655,14 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(screen.queryByRole('dialog')).toBeNull();
   });
 
-  it('supports titleless modal with callback-valued slotProps.paper providing aria-label', () => {
+  it('invokes slotProps.paper callback exactly once with real ownerState and applies callback-derived label', () => {
+    const paperCallback = jest.fn((ownerState: DialogOwnerState) => {
+      expect(ownerState).toBeDefined();
+      return {
+        'aria-label': 'Dynamic Callback Label'
+      };
+    });
+
     render(
       <SistentThemeProvider>
         <Modal
@@ -663,9 +670,7 @@ describe('Modal accessibility contract (#1864)', () => {
           title=""
           closeModal={jest.fn()}
           slotProps={{
-            paper: () => ({
-              'aria-label': 'Dynamic Callback Label'
-            })
+            paper: paperCallback
           }}
         >
           <div>Content</div>
@@ -677,5 +682,70 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(dialog).toBeTruthy();
     expect(dialog.getAttribute('aria-label')).toBe('Dynamic Callback Label');
     expect(dialog.getAttribute('aria-labelledby')).toBeNull();
+    expect(paperCallback).toHaveBeenCalledTimes(1);
+  });
+
+  it('falls through whitespace-only aria-labelledby to the generated title id', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal open title="Visible Title" aria-labelledby="   " closeModal={jest.fn()}>
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Visible Title' });
+    const title = screen.getByTestId('modal-title');
+    expect(dialog.getAttribute('aria-labelledby')).toBe(title.getAttribute('id'));
+  });
+
+  it('falls through whitespace-only aria-labelledby and aria-label to slotProps.paper', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          title=""
+          aria-label="   "
+          aria-labelledby="   "
+          closeModal={jest.fn()}
+          slotProps={{
+            paper: {
+              'aria-labelledby': 'fallback-paper-id',
+              'aria-describedby': 'fallback-paper-desc'
+            } as PaperProps & { 'aria-labelledby'?: string }
+          }}
+        >
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    expect(dialog.getAttribute('aria-labelledby')).toBe('fallback-paper-id');
+    expect(dialog.getAttribute('aria-describedby')).toBe('fallback-paper-desc');
+    expect(dialog.getAttribute('aria-label')).toBeNull();
+  });
+
+  it('falls through whitespace-only top-level aria-label to slotProps.paper aria-label', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          title=""
+          aria-label="   "
+          closeModal={jest.fn()}
+          slotProps={{
+            paper: {
+              'aria-label': 'Paper Fallback Label'
+            } as PaperProps
+          }}
+        >
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Paper Fallback Label' });
+    expect(dialog.getAttribute('aria-label')).toBe('Paper Fallback Label');
   });
 });

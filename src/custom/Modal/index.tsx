@@ -113,6 +113,9 @@ export const ModalStyledHeader = styled('div')(({ theme }) => ({
   textAlign: 'center'
 }));
 
+const nonEmpty = (val: unknown): string | undefined =>
+  typeof val === 'string' && val.trim().length > 0 ? val : undefined;
+
 export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseModalReturnI => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState<string>('');
@@ -122,7 +125,7 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
   const [reactNode, setReactNode] = useState<React.ReactNode | null>(null);
 
   const openModal: openModalCallback = ({ title, reactNode = null, onClose }) => {
-    if (!title || title.trim().length === 0) {
+    if (!nonEmpty(title)) {
       return;
     }
     setTitle(title);
@@ -222,49 +225,45 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     setFullScreen((prev) => !prev);
   };
 
-  const hasTitle = Boolean(title && title.trim().length > 0);
+  const hasTitle = Boolean(nonEmpty(title));
 
   const callerPaperProp = callerSlotProps?.paper;
+  const paperObj =
+    typeof callerPaperProp === 'object' && callerPaperProp !== null
+      ? (callerPaperProp as Record<string, unknown>)
+      : undefined;
 
-  const basePaperProps =
-    typeof callerPaperProp === 'function'
-      ? (callerPaperProp({ fullScreen, fullWidth: !fullScreen } as DialogOwnerState) as Record<
-          string,
-          unknown
-        >)
-      : (callerPaperProp as Record<string, unknown> | undefined);
-
-  const hasAccessibleName = Boolean(
+  const hasStaticAccessibleName = Boolean(
     hasTitle ||
-    (callerAriaLabelledby && callerAriaLabelledby.trim().length > 0) ||
-    (resolvedAriaLabel && resolvedAriaLabel.trim().length > 0) ||
-    (typeof basePaperProps?.['aria-labelledby'] === 'string' &&
-      basePaperProps['aria-labelledby'].trim().length > 0) ||
-    (typeof basePaperProps?.['aria-label'] === 'string' &&
-      basePaperProps['aria-label'].trim().length > 0)
+    nonEmpty(callerAriaLabelledby) ||
+    nonEmpty(resolvedAriaLabel) ||
+    nonEmpty(paperObj?.['aria-labelledby']) ||
+    nonEmpty(paperObj?.['aria-label'])
   );
 
   // A dialog must not open in an unnamed state when no accessible name is resolvable.
-  if (open && !hasAccessibleName) {
+  if (open && typeof callerPaperProp !== 'function' && !hasStaticAccessibleName) {
     return null;
   }
 
   // Merges Paper accessibility attributes while strictly preserving caller's
   // object-valued or callback-valued slotProps.paper.
   const mergePaperAttributes = (baseProps: Record<string, unknown> = {}) => {
-    const callerPaperLabelledby = baseProps['aria-labelledby'] as string | undefined;
-    const callerPaperLabel = baseProps['aria-label'] as string | undefined;
-    const callerPaperDescribedby = baseProps['aria-describedby'] as string | undefined;
-
+    const validCallerLabelledby = nonEmpty(callerAriaLabelledby);
+    const validPaperLabelledby = nonEmpty(baseProps['aria-labelledby']);
     const finalLabelledby =
-      callerAriaLabelledby || callerPaperLabelledby || (hasTitle ? titleId : undefined);
-    const finalLabel = finalLabelledby ? undefined : resolvedAriaLabel || callerPaperLabel;
-    const finalDescribedby = callerAriaDescribedby || callerPaperDescribedby;
+      validCallerLabelledby || validPaperLabelledby || (hasTitle ? titleId : undefined);
+
+    const validCallerLabel = nonEmpty(resolvedAriaLabel);
+    const validPaperLabel = nonEmpty(baseProps['aria-label']);
+    const finalLabel = finalLabelledby ? undefined : validCallerLabel || validPaperLabel;
+
+    const validCallerDescribedby = nonEmpty(callerAriaDescribedby);
+    const validPaperDescribedby = nonEmpty(baseProps['aria-describedby']);
+    const finalDescribedby = validCallerDescribedby || validPaperDescribedby;
 
     const result: Record<string, unknown> = {
       ...baseProps,
-      // Suppress dangling auto-generated aria-labelledby on the dialog paper when
-      // neither title nor an explicit aria-labelledby is provided.
       'aria-labelledby': finalLabelledby,
       'aria-describedby': finalDescribedby
     };
@@ -275,14 +274,26 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
       delete result['aria-label'];
     }
 
+    if (!finalLabelledby && !finalLabel) {
+      result.hidden = true;
+      result.style = {
+        ...(typeof result.style === 'object' && result.style !== null ? result.style : {}),
+        display: 'none'
+      };
+    }
+
     return result;
   };
 
   const resolvedPaperSlotProps =
     typeof callerPaperProp === 'function'
       ? (ownerState: DialogOwnerState) =>
-          mergePaperAttributes(callerPaperProp(ownerState) as Record<string, unknown>)
-      : mergePaperAttributes(callerPaperProp as Record<string, unknown> | undefined);
+          mergePaperAttributes(
+            (callerPaperProp as (ownerState: DialogOwnerState) => Record<string, unknown>)(
+              ownerState
+            ) || {}
+          )
+      : mergePaperAttributes(paperObj);
 
   const mergedSlotProps = {
     ...callerSlotProps,
