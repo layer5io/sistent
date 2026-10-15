@@ -48,7 +48,13 @@ const LISTBOX_MAX_HEIGHT = 224;
  * than as Autocomplete props so that a page request does not re-render the
  * Autocomplete; see `GitHubRefPicker`.
  */
-const PagingContext = React.createContext({ loading: false, loadingMore: false });
+const PagingContext = React.createContext({
+  loading: false,
+  loadingMore: false,
+  hasMore: false,
+  branchCount: 0,
+  searchMore: () => undefined as void
+});
 
 /**
  * The popup's paper with a loading row under the list while a further page is
@@ -77,10 +83,15 @@ const RefPickerPaper = React.forwardRef<HTMLDivElement, React.ComponentProps<typ
 const sameRefs = (a: readonly string[], b: readonly string[]): boolean =>
   a.length === b.length && a.every((ref, index) => ref === b[index]);
 
-/** Shown when typing matches no loaded branch. */
+/**
+ * Shown when typing matches no loaded branch. MUI renders no list box then, so
+ * the list box's auto-fill cannot fire; while more pages exist this requests
+ * them instead, as a short list of matches would.
+ */
 function NoMatchingBranch(): JSX.Element {
-  const { loading } = React.useContext(PagingContext);
-  return <>{loading ? 'Loading more branches...' : 'No matching branch'}</>;
+  const { loading, hasMore, branchCount, searchMore } = React.useContext(PagingContext);
+  React.useEffect(searchMore, [searchMore, loading, hasMore, branchCount]);
+  return <>{hasMore || loading ? 'Searching more branches...' : 'No matching branch'}</>;
 }
 
 /**
@@ -187,10 +198,34 @@ export function GitHubRefPicker({
     if (element && top !== null && element.scrollTop !== top) element.scrollTop = top;
   }, [options]);
 
+  // Like `useLoadMore`'s auto-fill: at most one request per page count, so a
+  // failed page is not re-requested on its own.
+  const pagingProps = React.useRef({ hasMore, loading, onLoadMore, branchCount: branches.length });
+  pagingProps.current = { hasMore, loading, onLoadMore, branchCount: branches.length };
+  const searchedFor = React.useRef<number | null>(null);
+  const searchMore = React.useCallback(() => {
+    const props = pagingProps.current;
+    if (
+      props.onLoadMore &&
+      props.hasMore &&
+      !props.loading &&
+      searchedFor.current !== props.branchCount
+    ) {
+      searchedFor.current = props.branchCount;
+      props.onLoadMore();
+    }
+  }, []);
+
   const firstPageLoading = loading && branches.length === 0;
   const pagingState = React.useMemo(
-    () => ({ loading, loadingMore: loading && branches.length > 0 }),
-    [loading, branches.length]
+    () => ({
+      loading,
+      loadingMore: loading && branches.length > 0,
+      hasMore,
+      branchCount: branches.length,
+      searchMore
+    }),
+    [loading, hasMore, branches.length, searchMore]
   );
 
   const field = React.useMemo(

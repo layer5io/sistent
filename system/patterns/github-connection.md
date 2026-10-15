@@ -137,7 +137,8 @@ display order, `value` is the selected ref, and `onChange` receives the new one,
   that does not exist; the picker does not validate ref names.
 - **Paging** works as on the other pick lists: `hasMore`, `loading`, `onLoadMore`, with a loading
   row under the list (never an option) while a further page is fetched. Typing filters the branches
-  already loaded. A ref the host bound that is not on a fetched page is still listed and shown.
+  already loaded; when it matches none while `hasMore`, the next page is requested and the list reads
+  "Searching more branches..." until a match lands or `hasMore` is false ("No matching branch"). A ref the host bound that is not on a fetched page is still listed and shown.
 - `label`, `disabled`, and `id` (of the input; the list box derives its id from it) tune the rest.
 
 The picker is built on MUI's `Autocomplete`, which, while its list is open, re-highlights the
