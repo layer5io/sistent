@@ -58,6 +58,8 @@ export function Button({
         {...props}
         disabled
         sx={[
+          // Scope the contrast fix to the light-mode issue reported in #1805;
+          // dark mode retains its existing disabled colors.
           (theme) =>
             theme.palette.mode === 'light'
               ? {
