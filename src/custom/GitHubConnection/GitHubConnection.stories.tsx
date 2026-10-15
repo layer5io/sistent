@@ -659,12 +659,15 @@ export const RefPickerStates: Story = {
   )
 };
 
-/** Design file tree: filtered, with import marks, and empty after filtering. */
+/** Design file tree: filtered, with import marks, single-select, and empty after filtering. */
 export const FileTreeStates: Story = {
   name: 'Design file tree',
   render: ({ mode }) => {
     const Demo = () => {
       const [selected, setSelected] = useState<string[]>([]);
+      const [snapshot, setSnapshot] = useState<string[]>([
+        'octo-org/helm-charts/deploy/kubernetes/app.yaml'
+      ]);
       const files = scannedFiles('octo-org/sample-repo').map((node) =>
         node.id.endsWith('charts.tgz')
           ? { ...node, status: 'error' as const, statusMessage: 'Not a Helm chart archive.' }
@@ -683,6 +686,24 @@ export const FileTreeStates: Story = {
               onSelectionChange={setSelected}
               supportedExtensions={DESIGN_EXTENSIONS}
               defaultExpanded={['octo-org/sample-repo/deploy']}
+            />
+          </GitHubRepositorySection>
+          <GitHubRepositorySection
+            repository="octo-org/helm-charts"
+            counts={{ selected: snapshot.length }}
+            defaultExpanded
+          >
+            <GitHubFileTree
+              singleSelect
+              items={scannedFiles('octo-org/helm-charts')}
+              selected={snapshot}
+              onSelectionChange={setSnapshot}
+              supportedExtensions={DESIGN_EXTENSIONS}
+              defaultExpanded={[
+                'octo-org/helm-charts/deploy',
+                'octo-org/helm-charts/deploy/kubernetes'
+              ]}
+              aria-label="Design to snapshot in octo-org/helm-charts"
             />
           </GitHubRepositorySection>
           <GitHubFileTree

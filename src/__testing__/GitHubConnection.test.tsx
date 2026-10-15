@@ -1113,14 +1113,47 @@ describe('GitHubFileTree', () => {
     expect(picked()).toEqual([]);
   });
 
-  it('keeps at most one file in single-select mode and offers no folder selection', () => {
+  it('picks one file in single-select mode, with no checkboxes and no folder selection', () => {
     withTheme(<TreeHarness singleSelect />);
-    expect(screen.queryByRole('checkbox', { name: /select every file/i })).toBeNull();
-    fireEvent.click(fileBox('app.yaml'));
-    fireEvent.click(fileBox('notes.md'));
+    expect(screen.queryAllByRole('checkbox')).toHaveLength(0);
+    const fileRadio = (name: string) => screen.getByRole('radio', { name: new RegExp(`^${name}`) });
+    expect(screen.getAllByRole('radio')).toHaveLength(5);
+
+    fireEvent.click(fileRadio('app.yaml'));
+    expect(picked()).toEqual(['deploy/app.yaml']);
+    fireEvent.click(fileRadio('notes.md'));
     expect(picked()).toEqual(['deploy/notes.md']);
-    fireEvent.click(fileBox('notes.md'));
-    expect(picked()).toEqual([]);
+    expect((fileRadio('notes.md') as HTMLInputElement).checked).toBe(true);
+    expect((fileRadio('app.yaml') as HTMLInputElement).checked).toBe(false);
+
+    // A single choice is replaced, never cleared, as on the repository picker.
+    fireEvent.click(fileRadio('notes.md'));
+    expect(picked()).toEqual(['deploy/notes.md']);
+  });
+
+  it('groups the single-select files under the tree name, one group per tree', () => {
+    withTheme(
+      <>
+        <TreeHarness singleSelect aria-label="Files in octo-org/one" />
+        <TreeHarness singleSelect aria-label="Files in octo-org/two" />
+      </>
+    );
+    const [one, two] = screen.getAllByRole('radiogroup');
+    expect(one.getAttribute('aria-label')).toBe('Files in octo-org/one');
+    expect(two.getAttribute('aria-label')).toBe('Files in octo-org/two');
+    const groupName = (group: HTMLElement) =>
+      new Set(
+        within(group)
+          .getAllByRole('radio')
+          .map((radio) => radio.getAttribute('name'))
+      );
+    expect(groupName(one).size).toBe(1);
+    expect(groupName(two).size).toBe(1);
+    expect([...groupName(one)][0]).not.toBe([...groupName(two)][0]);
+
+    fireEvent.click(within(one).getByRole('radio', { name: /^app\.yaml/ }));
+    fireEvent.click(within(two).getByRole('radio', { name: /^readme\.md/ }));
+    expect(within(one).getByRole('radio', { name: /^app\.yaml/ })).toHaveProperty('checked', true);
   });
 
   it('wires every expanded folder to exactly one group, across trees and ids with spaces', () => {
