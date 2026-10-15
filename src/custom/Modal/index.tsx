@@ -123,7 +123,7 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
 
   const openModal: openModalCallback = ({ title, reactNode = null, onClose }) => {
     if (title) setTitle(title);
-    onCloseRef.current = onClose ?? null;
+    if (onClose) onCloseRef.current = onClose;
     setOpen(true);
     if (reactNode) setReactNode(reactNode);
   };
@@ -227,9 +227,9 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     const callerPaperDescribedby = baseProps['aria-describedby'] as string | undefined;
 
     const finalLabelledby =
-      callerAriaLabelledby ?? callerPaperLabelledby ?? (hasTitle ? titleId : undefined);
-    const finalLabel = finalLabelledby ? undefined : (resolvedAriaLabel ?? callerPaperLabel);
-    const finalDescribedby = callerAriaDescribedby ?? callerPaperDescribedby;
+      callerAriaLabelledby || callerPaperLabelledby || (hasTitle ? titleId : undefined);
+    const finalLabel = finalLabelledby ? undefined : resolvedAriaLabel || callerPaperLabel;
+    const finalDescribedby = callerAriaDescribedby || callerPaperDescribedby;
 
     const result: Record<string, unknown> = {
       ...baseProps,

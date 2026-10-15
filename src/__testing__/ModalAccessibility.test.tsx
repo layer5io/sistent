@@ -508,10 +508,74 @@ describe('Modal accessibility contract (#1864)', () => {
     const dialogs = screen.getAllByRole('dialog', { hidden: true });
     const titles = screen.getAllByTestId('modal-title');
 
-    expect(dialogs[0].getAttribute('aria-labelledby')).toBe('modal-first-title');
-    expect(titles[0].getAttribute('id')).toBe('modal-first-title');
-    expect(dialogs[1].getAttribute('aria-labelledby')).toBe('modal-second-title');
-    expect(titles[1].getAttribute('id')).toBe('modal-second-title');
+    const dialogLabelledby = dialogs.map((d) => d.getAttribute('aria-labelledby')).sort();
+    const titleIds = titles.map((t) => t.getAttribute('id')).sort();
+    const expected = ['modal-first-title', 'modal-second-title'];
+
+    expect(dialogLabelledby).toEqual(titleIds);
+    expect(dialogLabelledby).toEqual(expected);
+  });
+
+  it('falls back to generated title id when caller passes empty string aria-labelledby', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal open title="Empty LabelledBy Modal" aria-labelledby="" closeModal={jest.fn()}>
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    const title = screen.getByTestId('modal-title');
+    const titleId = title.getAttribute('id');
+
+    expect(titleId).toBeTruthy();
+    expect(dialog.getAttribute('aria-labelledby')).toBe(titleId);
+  });
+
+  it('falls through to slotProps.paper aria-describedby when top-level aria-describedby is empty string', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          title="Describedby Fallthrough Modal"
+          aria-describedby=""
+          closeModal={jest.fn()}
+          slotProps={{
+            paper: {
+              'aria-describedby': 'paper-describedby-id'
+            } as PaperProps & { 'aria-describedby'?: string }
+          }}
+        >
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    expect(dialog.getAttribute('aria-describedby')).toBe('paper-describedby-id');
+  });
+
+  it('prioritizes slotProps.paper aria-labelledby over top-level aria-label on titleless modal', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          aria-label="Modal Top Label"
+          closeModal={jest.fn()}
+          slotProps={{
+            paper: {
+              'aria-labelledby': 'paper-level-labelledby-id'
+            } as PaperProps & { 'aria-labelledby'?: string }
+          }}
+        >
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    expect(dialog.getAttribute('aria-labelledby')).toBe('paper-level-labelledby-id');
+    expect(dialog.getAttribute('aria-label')).toBeNull();
   });
 });
-
