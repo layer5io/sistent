@@ -751,6 +751,46 @@ describe('GitHubFileTree', () => {
     expect(picked()).toEqual([]);
   });
 
+  it('wires every expanded folder to exactly one group, across trees and ids with spaces', () => {
+    const tree: GitHubFileTreeNode[] = [
+      {
+        id: 'deploy',
+        label: 'deploy',
+        type: 'dir',
+        children: [{ id: 'deploy/app.yaml', label: 'app.yaml', type: 'file' }]
+      },
+      {
+        id: 'my designs',
+        label: 'my designs',
+        type: 'dir',
+        children: [{ id: 'my designs/x.yaml', label: 'x.yaml', type: 'file' }]
+      }
+    ];
+    const props = {
+      items: tree,
+      selected: [],
+      onSelectionChange: () => undefined,
+      defaultExpanded: ['deploy', 'my designs']
+    };
+    withTheme(
+      <>
+        <GitHubFileTree {...props} aria-label="one" />
+        <GitHubFileTree {...props} aria-label="two" />
+      </>
+    );
+
+    const disclosures = screen.getAllByRole('button', { name: /^Collapse / });
+    expect(disclosures).toHaveLength(4);
+    for (const disclosure of disclosures) {
+      const controls = disclosure.getAttribute('aria-controls') ?? '';
+      expect(controls.split(/\s+/)).toHaveLength(1);
+      expect(
+        Array.from(document.querySelectorAll('[id]')).filter((element) => element.id === controls)
+      ).toHaveLength(1);
+      expect(document.getElementById(controls)?.closest('li')).toBe(disclosure.closest('li'));
+    }
+  });
+
   it('collapses and expands a folder from its disclosure button', () => {
     withTheme(<TreeHarness />);
     const toggle = screen.getByRole('button', { name: 'Collapse deploy' });

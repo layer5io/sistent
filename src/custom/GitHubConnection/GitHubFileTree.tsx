@@ -122,6 +122,7 @@ export function GitHubFileTree({
   maxHeight = '18.75rem',
   'aria-label': ariaLabel = 'Repository files'
 }: GitHubFileTreeProps): JSX.Element {
+  const instanceId = React.useId();
   const [expanded, setExpanded] = React.useState<ReadonlySet<string>>(
     () => new Set(defaultExpanded)
   );
@@ -201,7 +202,7 @@ export function GitHubFileTree({
     const fileIds = descendantFileIds(node);
     const selectedCount = fileIds.filter((id) => selectedSet.has(id)).length;
     const allSelected = fileIds.length > 0 && selectedCount === fileIds.length;
-    const groupId = `github-file-tree-group-${node.id}`;
+    const groupId = `github-file-tree-${instanceId}-group-${encodeURIComponent(node.id)}`;
 
     return (
       <li key={node.id}>
