@@ -108,9 +108,10 @@ and, in the error state, `onReconnect` (plus `reconnectLabel`, `reconnecting`).
 The "Select Repositories" pick list. Controlled: `repositories` and `selected` are `owner/name`
 strings, and `onChange` receives the new selection. For paging, pass `hasMore`, `loading`, and
 `onLoadMore`; scrolling the menu to its end calls `onLoadMore`, and so does opening a menu too
-short to scroll, once per repository count, so a failed page is not re-requested on its own. It is never called while `loading` or once `hasMore` is false, so set `loading`
-for the duration of each fetch. When the installation sees nothing, render `GitHubConnectionNotice kind="empty"`
-instead.
+short to scroll, once each time the repository count changes, so a failed page (which adds
+nothing) is not re-requested on its own. It is never called while `loading` or once `hasMore` is
+false, so set `loading` for the duration of each fetch. When the installation sees nothing,
+render `GitHubConnectionNotice kind="empty"` instead.
 
 ### `GitHubFileTree`
 
@@ -120,8 +121,9 @@ The design file picker. `items` are `GitHubFileTreeNode`s:
 checkbox selects or clears every visible file under it and shows a mixed state when only some are
 selected. `supportedExtensions` hides other files and the folders left empty (`null` shows every
 file, Cloud's "Show all file types"); `singleSelect` allows one file and no folder selection (the
-snapshot design picker). Paging works as on the picker: `hasMore`, `loading`, `onLoadMore`; a tree that does not fill
-`maxHeight`, such as a page the filter emptied, asks for the next page without a scroll, once per item count.
+snapshot design picker). Paging works as on the picker: `hasMore`, `loading`, `onLoadMore`; a
+tree that does not fill `maxHeight`, such as a page the filter emptied, asks for the next page
+without a scroll, once each time the item count changes.
 `emptyMessage`, `defaultExpanded`, `maxHeight`, and `aria-label` tune the rest.
 
 ### `GitHubRepositorySection`
