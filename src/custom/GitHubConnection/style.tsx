@@ -387,8 +387,6 @@ export const FileTreeList = styled('ul', {
 export const FileTreeRow = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'selected'
 })<{ selected?: boolean }>(({ theme, selected }) => ({
-  // Anchors a visually hidden control, so focusing it scrolls its own row into view.
-  position: 'relative',
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(0.5),
@@ -401,7 +399,7 @@ export const FileTreeRow = styled(Box, {
     backgroundColor: theme.palette.action.hover
   },
   // The single-select file row: the selected tint of a MUI menu item, as on
-  // `GitHubRepositoryPicker singleSelect`, with the focus ring of its hidden control.
+  // `GitHubRepositoryPicker singleSelect`, with a focus ring as the listbox option.
   ...(selected && {
     backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
     '&:hover': {
@@ -411,7 +409,7 @@ export const FileTreeRow = styled(Box, {
       )
     }
   }),
-  '&:has(input.choice:focus-visible)': {
+  '&[role="option"]:focus-visible': {
     outline: `2px solid ${theme.palette.primary.main}`,
     outlineOffset: -2
   },
@@ -548,8 +546,8 @@ export const FinishList = styled(Box)(({ theme }) => ({
   }
 }));
 
-/** Mirrors MUI's `visuallyHidden` utility. */
-const visuallyHidden = {
+/** Text for assistive technology only; mirrors MUI's `visuallyHidden` utility. */
+export const VisuallyHidden = styled('span')({
   border: 0,
   clip: 'rect(0 0 0 0)',
   height: 1,
@@ -559,10 +557,4 @@ const visuallyHidden = {
   position: 'absolute',
   whiteSpace: 'nowrap',
   width: 1
-} as const;
-
-/** Text for assistive technology only. */
-export const VisuallyHidden = styled('span')(visuallyHidden);
-
-/** A native control that keeps its semantics and keyboard behaviour but draws nothing. */
-export const VisuallyHiddenInput = styled('input')(visuallyHidden);
+});

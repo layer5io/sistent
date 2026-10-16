@@ -1370,48 +1370,81 @@ describe('GitHubFileTree', () => {
   });
 
   describe('single-select mode', () => {
-    const fileChoice = (name: string, root: HTMLElement = document.body) =>
-      within(root).getByRole('checkbox', { name: new RegExp(`^${name}`) }) as HTMLInputElement;
+    const fileOption = (name: string, root: HTMLElement = document.body) =>
+      within(root).getByRole('option', { name: new RegExp(`^${name}`) });
+    const isSelected = (name: string, root?: HTMLElement) =>
+      fileOption(name, root).getAttribute('aria-selected') === 'true';
 
-    it('draws no visible checkbox and offers no folder selection', () => {
-      withTheme(<TreeHarness singleSelect />);
-      expect(screen.queryByRole('checkbox', { name: /^Select every file in/ })).toBeNull();
-      expect(document.querySelectorAll('.MuiCheckbox-root')).toHaveLength(0);
-      expect(screen.getAllByRole('checkbox')).toHaveLength(5);
+    it('is a single-select listbox of file options, with no checkboxes', () => {
+      withTheme(<TreeHarness singleSelect aria-label="Files in octo-org/one" />);
+      const listbox = screen.getByRole('listbox', { name: 'Files in octo-org/one' });
+      expect(listbox.getAttribute('aria-multiselectable')).toBeNull();
+      expect(within(listbox).getAllByRole('option')).toHaveLength(5);
+      expect(within(listbox).getByRole('group', { name: 'deploy' })).toBeTruthy();
+      expect(screen.queryAllByRole('checkbox')).toHaveLength(0);
+      expect(
+        within(listbox)
+          .getAllByRole('option')
+          .every((option) => option.getAttribute('aria-selected') === 'false')
+      ).toBe(true);
     });
 
     it('selects a file, replaces it with another, and clears it when picked again', () => {
       withTheme(<TreeHarness singleSelect />);
-      fireEvent.click(fileChoice('app.yaml'));
+      fireEvent.click(fileOption('app.yaml'));
       expect(picked()).toEqual(['deploy/app.yaml']);
-      expect(fileChoice('app.yaml').checked).toBe(true);
+      expect(isSelected('app.yaml')).toBe(true);
 
-      fireEvent.click(fileChoice('notes.md'));
+      fireEvent.click(fileOption('notes.md'));
       expect(picked()).toEqual(['deploy/notes.md']);
-      expect(fileChoice('notes.md').checked).toBe(true);
-      expect(fileChoice('app.yaml').checked).toBe(false);
+      expect(isSelected('notes.md')).toBe(true);
+      expect(isSelected('app.yaml')).toBe(false);
 
-      fireEvent.click(fileChoice('notes.md'));
+      fireEvent.click(fileOption('notes.md'));
       expect(picked()).toEqual([]);
-      expect(fileChoice('notes.md').checked).toBe(false);
+      expect(isSelected('notes.md')).toBe(false);
     });
 
-    it('clears the choice by re-activating it from the row label', () => {
+    it('toggles the focused file with Space and Enter', () => {
       withTheme(<TreeHarness singleSelect />);
-      fireEvent.click(screen.getByText('readme.md'));
+      fireEvent.keyDown(fileOption('svc.YML'), { key: ' ' });
+      expect(picked()).toEqual(['deploy/svc.YML']);
+      fireEvent.keyDown(fileOption('readme.md'), { key: 'Enter' });
       expect(picked()).toEqual(['docs/readme.md']);
-      fireEvent.click(screen.getByText('readme.md'));
+      fireEvent.keyDown(fileOption('readme.md'), { key: 'Enter' });
+      expect(picked()).toEqual([]);
+      fireEvent.keyDown(fileOption('app.yaml'), { key: 'Enter' });
+      fireEvent.keyDown(fileOption('app.yaml'), { key: ' ' });
       expect(picked()).toEqual([]);
     });
 
-    it('moves between files with Up and Down, skipping folders', () => {
+    it('has one tab stop that Up and Down move between files, skipping folders', () => {
       withTheme(<TreeHarness singleSelect />);
-      fileChoice('notes.md').focus();
-      fireEvent.keyDown(fileChoice('notes.md'), { key: 'ArrowDown' });
-      expect(document.activeElement).toBe(fileChoice('readme.md'));
-      fireEvent.keyDown(fileChoice('readme.md'), { key: 'ArrowUp' });
-      expect(document.activeElement).toBe(fileChoice('notes.md'));
-      expect(picked()).toEqual([]);
+      const tabStops = () =>
+        screen
+          .getAllByRole('option')
+          .filter((option) => option.getAttribute('tabindex') === '0')
+          .map((option) => option.textContent);
+      expect(tabStops()).toEqual(['app.yaml']);
+
+      fireEvent.click(fileOption('readme.md'));
+      expect(tabStops()).toEqual(['readme.md']);
+
+      fileOption('notes.md').focus();
+      fireEvent.keyDown(fileOption('notes.md'), { key: 'ArrowDown' });
+      expect(document.activeElement).toBe(fileOption('readme.md'));
+      fireEvent.keyDown(fileOption('readme.md'), { key: 'ArrowUp' });
+      expect(document.activeElement).toBe(fileOption('notes.md'));
+      expect(tabStops()).toEqual(['notes.md']);
+      expect(picked()).toEqual(['docs/readme.md']);
+    });
+
+    it('keeps folders expandable', () => {
+      withTheme(<TreeHarness singleSelect />);
+      fireEvent.click(screen.getByRole('button', { name: 'Collapse deploy' }));
+      expect(screen.queryByRole('option', { name: /^app\.yaml/ })).toBeNull();
+      fireEvent.click(screen.getByRole('button', { name: 'Expand deploy' }));
+      expect(fileOption('app.yaml')).toBeTruthy();
     });
 
     it('keeps each tree its own choice and name', () => {
@@ -1421,14 +1454,14 @@ describe('GitHubFileTree', () => {
           <TreeHarness singleSelect aria-label="Files in octo-org/two" />
         </>
       );
-      const one = screen.getByRole('list', { name: 'Files in octo-org/one' });
-      const two = screen.getByRole('list', { name: 'Files in octo-org/two' });
+      const one = screen.getByRole('listbox', { name: 'Files in octo-org/one' });
+      const two = screen.getByRole('listbox', { name: 'Files in octo-org/two' });
 
-      fireEvent.click(fileChoice('app.yaml', one));
-      fireEvent.click(fileChoice('readme.md', two));
-      expect(fileChoice('app.yaml', one).checked).toBe(true);
-      expect(fileChoice('app.yaml', two).checked).toBe(false);
-      expect(fileChoice('readme.md', two).checked).toBe(true);
+      fireEvent.click(fileOption('app.yaml', one));
+      fireEvent.click(fileOption('readme.md', two));
+      expect(isSelected('app.yaml', one)).toBe(true);
+      expect(isSelected('app.yaml', two)).toBe(false);
+      expect(isSelected('readme.md', two)).toBe(true);
     });
   });
 

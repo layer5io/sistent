@@ -14,8 +14,7 @@ import {
   FileTreeRow,
   FileTreeScroller,
   FileTreeStatus,
-  VisuallyHidden,
-  VisuallyHiddenInput
+  VisuallyHidden
 } from './style';
 
 /** One file or directory of a scanned repository. */
@@ -50,8 +49,9 @@ export interface GitHubFileTreeProps {
    * Pick exactly one file and no directory (Cloud's snapshot design picker,
    * and the file step of a remap). Files are drawn without controls: the
    * chosen row is tinted, as on `GitHubRepositoryPicker singleSelect`.
-   * Picking another file replaces the choice; picking the chosen file again
-   * clears it. Up and Down arrows move between files.
+   * The files form a single-select listbox: Up and Down move between them,
+   * and a click, Space, or Enter picks the file, replacing the choice, or
+   * clears it when the file is already chosen.
    */
   singleSelect?: boolean;
   /** Directories expanded on first render. */
@@ -169,6 +169,44 @@ export function GitHubFileTree({
 
   const paging = useLoadMore({ hasMore, loading, onLoadMore, contentKey: items.length });
 
+  // Single-select roving tabindex: the file last moved to, else the chosen
+  // file, else the first file shown, is the listbox's one tab stop.
+  const [activeFile, setActiveFile] = React.useState<string | null>(null);
+  const shownFileIds = React.useMemo(() => {
+    const ids: string[] = [];
+    const walk = (nodes: readonly GitHubFileTreeNode[]) => {
+      for (const node of nodes) {
+        if (node.type === 'file') ids.push(node.id);
+        else if (expanded.has(node.id)) walk(node.children ?? []);
+      }
+    };
+    walk(visible);
+    return ids;
+  }, [visible, expanded]);
+  const tabStop =
+    [activeFile, ...selected].find((id) => id !== null && shownFileIds.includes(id)) ??
+    shownFileIds[0];
+
+  const handleOptionKeyDown = (event: React.KeyboardEvent<HTMLElement>, id: string) => {
+    if (event.key === ' ' || event.key === 'Enter') {
+      event.preventDefault();
+      toggleFile(id);
+      return;
+    }
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+    event.preventDefault();
+    const options = Array.from(
+      event.currentTarget
+        .closest('[role="listbox"]')
+        ?.querySelectorAll<HTMLElement>('[role="option"]') ?? []
+    );
+    const next =
+      options[options.indexOf(event.currentTarget) + (event.key === 'ArrowDown' ? 1 : -1)];
+    if (!next) return;
+    setActiveFile(next.dataset.fileId ?? null);
+    next.focus();
+  };
+
   const renderStatus = (node: GitHubFileTreeNode) => {
     if (!node.status) return null;
     const text = node.statusMessage ?? STATUS_TEXT[node.status];
@@ -187,18 +225,22 @@ export function GitHubFileTree({
     if (node.type === 'file' && singleSelect) {
       const checked = selectedSet.has(node.id);
       return (
-        <li key={node.id}>
+        <li key={node.id} role="none">
           <FileTreeRow
-            component="label"
+            role="option"
+            aria-selected={checked}
+            tabIndex={node.id === tabStop ? 0 : -1}
             selected={checked}
+            data-file-id={node.id}
             data-testid={`github-file-tree-item-${node.id}`}
+            onClick={() => {
+              setActiveFile(node.id);
+              toggleFile(node.id);
+            }}
+            onKeyDown={(event: React.KeyboardEvent<HTMLElement>) =>
+              handleOptionKeyDown(event, node.id)
+            }
           >
-            <VisuallyHiddenInput
-              type="checkbox"
-              className="choice"
-              checked={checked}
-              onChange={() => toggleFile(node.id)}
-            />
             <span className="slot" aria-hidden />
             <ArticleIcon width={18} height={18} fill="currentColor" aria-hidden />
             <Typography variant="textB1Regular" component="span" className="label">
@@ -236,7 +278,7 @@ export function GitHubFileTree({
     const groupId = `github-file-tree-${instanceId}-group-${encodeURIComponent(node.id)}`;
 
     return (
-      <li key={node.id}>
+      <li key={node.id} role={singleSelect ? 'none' : undefined}>
         <FileTreeRow data-testid={`github-file-tree-item-${node.id}`}>
           <IconButton
             size="small"
@@ -270,7 +312,12 @@ export function GitHubFileTree({
           </Typography>
         </FileTreeRow>
         {isExpanded && (
-          <FileTreeList id={groupId} nested>
+          <FileTreeList
+            id={groupId}
+            nested
+            role={singleSelect ? 'group' : undefined}
+            aria-label={singleSelect ? node.label : undefined}
+          >
             {(node.children ?? []).map(renderNode)}
           </FileTreeList>
         )}
@@ -284,20 +331,6 @@ export function GitHubFileTree({
     : 'No files found in this repository.';
   const isEmpty = visible.length === 0 && !loading && !hasMore;
 
-  // Up and Down move between the files of a single choice, skipping folders.
-  const moveBetweenChoices = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
-    const target = event.target as HTMLElement;
-    if (!target.classList.contains('choice')) return;
-    const choices = Array.from(
-      event.currentTarget.querySelectorAll<HTMLInputElement>('input.choice')
-    );
-    const next =
-      choices[choices.indexOf(target as HTMLInputElement) + (event.key === 'ArrowDown' ? 1 : -1)];
-    event.preventDefault();
-    next?.focus();
-  };
-
   return (
     <FileTreeScroller
       ref={paging.ref}
@@ -305,12 +338,13 @@ export function GitHubFileTree({
       sx={{ maxHeight }}
       data-testid="github-file-tree"
       aria-busy={loading || undefined}
-      onKeyDown={singleSelect ? moveBetweenChoices : undefined}
     >
       {isEmpty ? (
         <FileTreeEmpty role="status">{emptyMessage ?? defaultEmpty}</FileTreeEmpty>
       ) : (
-        <FileTreeList aria-label={ariaLabel}>{visible.map(renderNode)}</FileTreeList>
+        <FileTreeList role={singleSelect ? 'listbox' : undefined} aria-label={ariaLabel}>
+          {visible.map(renderNode)}
+        </FileTreeList>
       )}
       {loading && (
         <FileTreeEmpty role="status" aria-label="Loading more files" sx={{ border: 0 }}>
