@@ -164,11 +164,12 @@ The design file picker. `items` are `GitHubFileTreeNode`s:
 `selected` holds **file ids only**, and `onSelectionChange` receives the new list; a folder's
 checkbox selects or clears every visible file under it and shows a mixed state when only some are
 selected. `supportedExtensions` hides other files and the folders left empty (`null` shows every
-file, Cloud's "Show all file types"); `singleSelect` picks exactly one file and no folder (the
-snapshot design picker and the remap's file step). In that mode the files are a radio group named
-by `aria-label`, drawn without controls like `GitHubRepositoryPicker singleSelect`: the chosen row
-carries the selected tint, arrow keys move the choice, and picking replaces the file rather than
-clearing it. Paging works as on the picker: `hasMore`, `loading`, `onLoadMore`; a
+file, Cloud's "Show all file types"); `singleSelect` picks at most one file and no folder (the
+snapshot design picker and the remap's file step). In that mode the files are drawn without
+controls, like `GitHubRepositoryPicker singleSelect`: the chosen row carries the selected tint and
+each file row keeps a focus ring. Picking another file replaces the choice, and picking the chosen
+file again clears it (`onSelectionChange([])`), as before; each file is a visually hidden native
+checkbox, so it can be unchecked, and Up and Down move between files. Paging works as on the picker: `hasMore`, `loading`, `onLoadMore`; a
 tree that does not fill `maxHeight`, such as a page the filter emptied, asks for the next page
 without a scroll, once each time the item count changes.
 `emptyMessage`, `defaultExpanded`, `maxHeight`, and `aria-label` tune the rest.
@@ -291,8 +292,9 @@ These are fixes made while extracting, so adopting the primitives changes Cloud'
   selection as `undefined`; here it is an inert, disabled row.
 - **Folders expand from a button.** Each folder has a labelled disclosure button with
   `aria-expanded`, and folder checkboxes say which folder they select.
-- **A single choice has no checkboxes.** Cloud's snapshot picker drew a checkbox per file for a
-  one-file choice; single-select rows are a radio group drawn as a tinted selection instead.
+- **A single choice has no visible checkboxes.** Cloud's snapshot picker drew a checkbox per file
+  for a one-file choice; single-select rows are drawn as a tinted selection instead, and still
+  clear when the chosen file is picked again.
 - **Repository sections and count badges use surface tokens** instead of `text.disabled` fills
   and white-on-brand chips, so they read in dark mode.
 

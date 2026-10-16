@@ -1369,47 +1369,67 @@ describe('GitHubFileTree', () => {
     expect(picked()).toEqual([]);
   });
 
-  it('picks one file in single-select mode, with no checkboxes and no folder selection', () => {
-    withTheme(<TreeHarness singleSelect />);
-    expect(screen.queryAllByRole('checkbox')).toHaveLength(0);
-    const fileRadio = (name: string) => screen.getByRole('radio', { name: new RegExp(`^${name}`) });
-    expect(screen.getAllByRole('radio')).toHaveLength(5);
+  describe('single-select mode', () => {
+    const fileChoice = (name: string, root: HTMLElement = document.body) =>
+      within(root).getByRole('checkbox', { name: new RegExp(`^${name}`) }) as HTMLInputElement;
 
-    fireEvent.click(fileRadio('app.yaml'));
-    expect(picked()).toEqual(['deploy/app.yaml']);
-    fireEvent.click(fileRadio('notes.md'));
-    expect(picked()).toEqual(['deploy/notes.md']);
-    expect((fileRadio('notes.md') as HTMLInputElement).checked).toBe(true);
-    expect((fileRadio('app.yaml') as HTMLInputElement).checked).toBe(false);
+    it('draws no visible checkbox and offers no folder selection', () => {
+      withTheme(<TreeHarness singleSelect />);
+      expect(screen.queryByRole('checkbox', { name: /^Select every file in/ })).toBeNull();
+      expect(document.querySelectorAll('.MuiCheckbox-root')).toHaveLength(0);
+      expect(screen.getAllByRole('checkbox')).toHaveLength(5);
+    });
 
-    // A single choice is replaced, never cleared, as on the repository picker.
-    fireEvent.click(fileRadio('notes.md'));
-    expect(picked()).toEqual(['deploy/notes.md']);
-  });
+    it('selects a file, replaces it with another, and clears it when picked again', () => {
+      withTheme(<TreeHarness singleSelect />);
+      fireEvent.click(fileChoice('app.yaml'));
+      expect(picked()).toEqual(['deploy/app.yaml']);
+      expect(fileChoice('app.yaml').checked).toBe(true);
 
-  it('groups the single-select files under the tree name, one group per tree', () => {
-    withTheme(
-      <>
-        <TreeHarness singleSelect aria-label="Files in octo-org/one" />
-        <TreeHarness singleSelect aria-label="Files in octo-org/two" />
-      </>
-    );
-    const [one, two] = screen.getAllByRole('radiogroup');
-    expect(one.getAttribute('aria-label')).toBe('Files in octo-org/one');
-    expect(two.getAttribute('aria-label')).toBe('Files in octo-org/two');
-    const groupName = (group: HTMLElement) =>
-      new Set(
-        within(group)
-          .getAllByRole('radio')
-          .map((radio) => radio.getAttribute('name'))
+      fireEvent.click(fileChoice('notes.md'));
+      expect(picked()).toEqual(['deploy/notes.md']);
+      expect(fileChoice('notes.md').checked).toBe(true);
+      expect(fileChoice('app.yaml').checked).toBe(false);
+
+      fireEvent.click(fileChoice('notes.md'));
+      expect(picked()).toEqual([]);
+      expect(fileChoice('notes.md').checked).toBe(false);
+    });
+
+    it('clears the choice by re-activating it from the row label', () => {
+      withTheme(<TreeHarness singleSelect />);
+      fireEvent.click(screen.getByText('readme.md'));
+      expect(picked()).toEqual(['docs/readme.md']);
+      fireEvent.click(screen.getByText('readme.md'));
+      expect(picked()).toEqual([]);
+    });
+
+    it('moves between files with Up and Down, skipping folders', () => {
+      withTheme(<TreeHarness singleSelect />);
+      fileChoice('notes.md').focus();
+      fireEvent.keyDown(fileChoice('notes.md'), { key: 'ArrowDown' });
+      expect(document.activeElement).toBe(fileChoice('readme.md'));
+      fireEvent.keyDown(fileChoice('readme.md'), { key: 'ArrowUp' });
+      expect(document.activeElement).toBe(fileChoice('notes.md'));
+      expect(picked()).toEqual([]);
+    });
+
+    it('keeps each tree its own choice and name', () => {
+      withTheme(
+        <>
+          <TreeHarness singleSelect aria-label="Files in octo-org/one" />
+          <TreeHarness singleSelect aria-label="Files in octo-org/two" />
+        </>
       );
-    expect(groupName(one).size).toBe(1);
-    expect(groupName(two).size).toBe(1);
-    expect([...groupName(one)][0]).not.toBe([...groupName(two)][0]);
+      const one = screen.getByRole('list', { name: 'Files in octo-org/one' });
+      const two = screen.getByRole('list', { name: 'Files in octo-org/two' });
 
-    fireEvent.click(within(one).getByRole('radio', { name: /^app\.yaml/ }));
-    fireEvent.click(within(two).getByRole('radio', { name: /^readme\.md/ }));
-    expect(within(one).getByRole('radio', { name: /^app\.yaml/ })).toHaveProperty('checked', true);
+      fireEvent.click(fileChoice('app.yaml', one));
+      fireEvent.click(fileChoice('readme.md', two));
+      expect(fileChoice('app.yaml', one).checked).toBe(true);
+      expect(fileChoice('app.yaml', two).checked).toBe(false);
+      expect(fileChoice('readme.md', two).checked).toBe(true);
+    });
   });
 
   it('wires every expanded folder to exactly one group, across trees and ids with spaces', () => {

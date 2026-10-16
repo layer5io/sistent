@@ -387,7 +387,7 @@ export const FileTreeList = styled('ul', {
 export const FileTreeRow = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'selected'
 })<{ selected?: boolean }>(({ theme, selected }) => ({
-  // Anchors a visually hidden radio, so focusing it scrolls its own row into view.
+  // Anchors a visually hidden control, so focusing it scrolls its own row into view.
   position: 'relative',
   display: 'flex',
   alignItems: 'center',
@@ -401,7 +401,7 @@ export const FileTreeRow = styled(Box, {
     backgroundColor: theme.palette.action.hover
   },
   // The single-select file row: the selected tint of a MUI menu item, as on
-  // `GitHubRepositoryPicker singleSelect`, with the focus ring of its radio.
+  // `GitHubRepositoryPicker singleSelect`, with the focus ring of its hidden control.
   ...(selected && {
     backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
     '&:hover': {
@@ -411,7 +411,7 @@ export const FileTreeRow = styled(Box, {
       )
     }
   }),
-  '&:has(input[type="radio"]:focus-visible)': {
+  '&:has(input.choice:focus-visible)': {
     outline: `2px solid ${theme.palette.primary.main}`,
     outlineOffset: -2
   },

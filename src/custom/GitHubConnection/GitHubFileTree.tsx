@@ -48,9 +48,10 @@ export interface GitHubFileTreeProps {
   supportedExtensions?: readonly string[] | null;
   /**
    * Pick exactly one file and no directory (Cloud's snapshot design picker,
-   * and the file step of a remap). Files are a radio group drawn without
-   * controls: the chosen row is tinted, as on `GitHubRepositoryPicker
-   * singleSelect`, and the choice is replaced rather than cleared.
+   * and the file step of a remap). Files are drawn without controls: the
+   * chosen row is tinted, as on `GitHubRepositoryPicker singleSelect`.
+   * Picking another file replaces the choice; picking the chosen file again
+   * clears it. Up and Down arrows move between files.
    */
   singleSelect?: boolean;
   /** Directories expanded on first render. */
@@ -148,6 +149,10 @@ export function GitHubFileTree({
     });
 
   const toggleFile = (id: string) => {
+    if (singleSelect) {
+      onSelectionChange(selectedSet.has(id) ? [] : [id]);
+      return;
+    }
     onSelectionChange(
       selectedSet.has(id) ? selected.filter((each) => each !== id) : [...selected, id]
     );
@@ -189,11 +194,10 @@ export function GitHubFileTree({
             data-testid={`github-file-tree-item-${node.id}`}
           >
             <VisuallyHiddenInput
-              type="radio"
-              name={`github-file-tree-${instanceId}`}
-              value={node.id}
+              type="checkbox"
+              className="choice"
               checked={checked}
-              onChange={() => onSelectionChange([node.id])}
+              onChange={() => toggleFile(node.id)}
             />
             <span className="slot" aria-hidden />
             <ArticleIcon width={18} height={18} fill="currentColor" aria-hidden />
@@ -280,6 +284,20 @@ export function GitHubFileTree({
     : 'No files found in this repository.';
   const isEmpty = visible.length === 0 && !loading && !hasMore;
 
+  // Up and Down move between the files of a single choice, skipping folders.
+  const moveBetweenChoices = (event: React.KeyboardEvent<HTMLElement>) => {
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+    const target = event.target as HTMLElement;
+    if (!target.classList.contains('choice')) return;
+    const choices = Array.from(
+      event.currentTarget.querySelectorAll<HTMLInputElement>('input.choice')
+    );
+    const next =
+      choices[choices.indexOf(target as HTMLInputElement) + (event.key === 'ArrowDown' ? 1 : -1)];
+    event.preventDefault();
+    next?.focus();
+  };
+
   return (
     <FileTreeScroller
       ref={paging.ref}
@@ -287,16 +305,12 @@ export function GitHubFileTree({
       sx={{ maxHeight }}
       data-testid="github-file-tree"
       aria-busy={loading || undefined}
-      // One choice among the files: the radios form a group named like the tree.
-      role={singleSelect && !isEmpty ? 'radiogroup' : undefined}
-      aria-label={singleSelect && !isEmpty ? ariaLabel : undefined}
+      onKeyDown={singleSelect ? moveBetweenChoices : undefined}
     >
       {isEmpty ? (
         <FileTreeEmpty role="status">{emptyMessage ?? defaultEmpty}</FileTreeEmpty>
       ) : (
-        <FileTreeList aria-label={singleSelect ? undefined : ariaLabel}>
-          {visible.map(renderNode)}
-        </FileTreeList>
+        <FileTreeList aria-label={ariaLabel}>{visible.map(renderNode)}</FileTreeList>
       )}
       {loading && (
         <FileTreeEmpty role="status" aria-label="Loading more files" sx={{ border: 0 }}>
