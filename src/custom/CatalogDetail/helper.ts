@@ -1,8 +1,8 @@
-import * as jsyaml from 'js-yaml';
+import { dump } from 'js-yaml';
 
 export const downloadYaml = (filteredData: string, itemName: string): void => {
   const yamlData = Array.isArray(filteredData)
-    ? jsyaml.dump(filteredData.find((item) => item.name === itemName))
+    ? dump(filteredData.find((item) => item.name === itemName))
     : filteredData;
   const blob = new Blob([yamlData], { type: 'application/yaml' });
   const url = URL.createObjectURL(blob);

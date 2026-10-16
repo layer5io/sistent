@@ -54,7 +54,23 @@ export function Button({
 
   return (
     <PermissionShield permissionKey={permissionKey!} variant="badge">
-      <MuiButton {...props} disabled={true}>
+      <MuiButton
+        {...props}
+        disabled
+        sx={[
+          // Scope the contrast fix to permission-denied buttons in light mode;
+          // dark mode retains its existing disabled colors.
+          (theme) =>
+            theme.palette.mode === 'light'
+              ? {
+                  '&&.Mui-disabled': {
+                    color: theme.palette.text.default
+                  }
+                }
+              : {},
+          ...(Array.isArray(props.sx) ? props.sx : props.sx ? [props.sx] : [])
+        ]}
+      >
         {label}
         {children}
       </MuiButton>
