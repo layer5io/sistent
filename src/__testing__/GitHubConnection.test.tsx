@@ -1369,100 +1369,14 @@ describe('GitHubFileTree', () => {
     expect(picked()).toEqual([]);
   });
 
-  describe('single-select mode', () => {
-    const fileOption = (name: string, root: HTMLElement = document.body) =>
-      within(root).getByRole('option', { name: new RegExp(`^${name}`) });
-    const isSelected = (name: string, root?: HTMLElement) =>
-      fileOption(name, root).getAttribute('aria-selected') === 'true';
-
-    it('is a single-select listbox of file options, with no checkboxes', () => {
-      withTheme(<TreeHarness singleSelect aria-label="Files in octo-org/one" />);
-      const listbox = screen.getByRole('listbox', { name: 'Files in octo-org/one' });
-      expect(listbox.getAttribute('aria-multiselectable')).toBeNull();
-      expect(within(listbox).getAllByRole('option')).toHaveLength(5);
-      expect(within(listbox).getByRole('group', { name: 'deploy' })).toBeTruthy();
-      expect(screen.queryAllByRole('checkbox')).toHaveLength(0);
-      expect(
-        within(listbox)
-          .getAllByRole('option')
-          .every((option) => option.getAttribute('aria-selected') === 'false')
-      ).toBe(true);
-    });
-
-    it('selects a file, replaces it with another, and clears it when picked again', () => {
-      withTheme(<TreeHarness singleSelect />);
-      fireEvent.click(fileOption('app.yaml'));
-      expect(picked()).toEqual(['deploy/app.yaml']);
-      expect(isSelected('app.yaml')).toBe(true);
-
-      fireEvent.click(fileOption('notes.md'));
-      expect(picked()).toEqual(['deploy/notes.md']);
-      expect(isSelected('notes.md')).toBe(true);
-      expect(isSelected('app.yaml')).toBe(false);
-
-      fireEvent.click(fileOption('notes.md'));
-      expect(picked()).toEqual([]);
-      expect(isSelected('notes.md')).toBe(false);
-    });
-
-    it('toggles the focused file with Space and Enter', () => {
-      withTheme(<TreeHarness singleSelect />);
-      fireEvent.keyDown(fileOption('svc.YML'), { key: ' ' });
-      expect(picked()).toEqual(['deploy/svc.YML']);
-      fireEvent.keyDown(fileOption('readme.md'), { key: 'Enter' });
-      expect(picked()).toEqual(['docs/readme.md']);
-      fireEvent.keyDown(fileOption('readme.md'), { key: 'Enter' });
-      expect(picked()).toEqual([]);
-      fireEvent.keyDown(fileOption('app.yaml'), { key: 'Enter' });
-      fireEvent.keyDown(fileOption('app.yaml'), { key: ' ' });
-      expect(picked()).toEqual([]);
-    });
-
-    it('has one tab stop that Up and Down move between files, skipping folders', () => {
-      withTheme(<TreeHarness singleSelect />);
-      const tabStops = () =>
-        screen
-          .getAllByRole('option')
-          .filter((option) => option.getAttribute('tabindex') === '0')
-          .map((option) => option.textContent);
-      expect(tabStops()).toEqual(['app.yaml']);
-
-      fireEvent.click(fileOption('readme.md'));
-      expect(tabStops()).toEqual(['readme.md']);
-
-      fileOption('notes.md').focus();
-      fireEvent.keyDown(fileOption('notes.md'), { key: 'ArrowDown' });
-      expect(document.activeElement).toBe(fileOption('readme.md'));
-      fireEvent.keyDown(fileOption('readme.md'), { key: 'ArrowUp' });
-      expect(document.activeElement).toBe(fileOption('notes.md'));
-      expect(tabStops()).toEqual(['notes.md']);
-      expect(picked()).toEqual(['docs/readme.md']);
-    });
-
-    it('keeps folders expandable', () => {
-      withTheme(<TreeHarness singleSelect />);
-      fireEvent.click(screen.getByRole('button', { name: 'Collapse deploy' }));
-      expect(screen.queryByRole('option', { name: /^app\.yaml/ })).toBeNull();
-      fireEvent.click(screen.getByRole('button', { name: 'Expand deploy' }));
-      expect(fileOption('app.yaml')).toBeTruthy();
-    });
-
-    it('keeps each tree its own choice and name', () => {
-      withTheme(
-        <>
-          <TreeHarness singleSelect aria-label="Files in octo-org/one" />
-          <TreeHarness singleSelect aria-label="Files in octo-org/two" />
-        </>
-      );
-      const one = screen.getByRole('listbox', { name: 'Files in octo-org/one' });
-      const two = screen.getByRole('listbox', { name: 'Files in octo-org/two' });
-
-      fireEvent.click(fileOption('app.yaml', one));
-      fireEvent.click(fileOption('readme.md', two));
-      expect(isSelected('app.yaml', one)).toBe(true);
-      expect(isSelected('app.yaml', two)).toBe(false);
-      expect(isSelected('readme.md', two)).toBe(true);
-    });
+  it('keeps at most one file in single-select mode and offers no folder selection', () => {
+    withTheme(<TreeHarness singleSelect />);
+    expect(screen.queryByRole('checkbox', { name: /select every file/i })).toBeNull();
+    fireEvent.click(fileBox('app.yaml'));
+    fireEvent.click(fileBox('notes.md'));
+    expect(picked()).toEqual(['deploy/notes.md']);
+    fireEvent.click(fileBox('notes.md'));
+    expect(picked()).toEqual([]);
   });
 
   it('wires every expanded folder to exactly one group, across trees and ids with spaces', () => {

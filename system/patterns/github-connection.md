@@ -164,14 +164,8 @@ The design file picker. `items` are `GitHubFileTreeNode`s:
 `selected` holds **file ids only**, and `onSelectionChange` receives the new list; a folder's
 checkbox selects or clears every visible file under it and shows a mixed state when only some are
 selected. `supportedExtensions` hides other files and the folders left empty (`null` shows every
-file, Cloud's "Show all file types"); `singleSelect` picks at most one file and no folder (the
-snapshot design picker and the remap's file step). In that mode the tree is a single-select
-`listbox` named by `aria-label`, drawn without controls like `GitHubRepositoryPicker singleSelect`:
-each file is an `option` with `aria-selected`, the chosen row carries the selected tint, and the
-focused row shows a focus ring. Folders stay expandable, and an expanded folder's files are a
-`group` named by the folder. The listbox has one tab stop (roving tabindex), Up and Down move
-between files, and a click, Space, or Enter picks the file, replacing the choice, or clears it
-(`onSelectionChange([])`) when the file is already chosen. Paging works as on the picker: `hasMore`, `loading`, `onLoadMore`; a
+file, Cloud's "Show all file types"); `singleSelect` allows one file and no folder selection (the
+snapshot design picker). Paging works as on the picker: `hasMore`, `loading`, `onLoadMore`; a
 tree that does not fill `maxHeight`, such as a page the filter emptied, asks for the next page
 without a scroll, once each time the item count changes.
 `emptyMessage`, `defaultExpanded`, `maxHeight`, and `aria-label` tune the rest.
@@ -294,9 +288,6 @@ These are fixes made while extracting, so adopting the primitives changes Cloud'
   selection as `undefined`; here it is an inert, disabled row.
 - **Folders expand from a button.** Each folder has a labelled disclosure button with
   `aria-expanded`, and folder checkboxes say which folder they select.
-- **A single choice has no visible checkboxes.** Cloud's snapshot picker drew a checkbox per file
-  for a one-file choice; single-select rows are a listbox drawn as a tinted selection instead,
-  and still clear when the chosen file is picked again.
 - **Repository sections and count badges use surface tokens** instead of `text.disabled` fills
   and white-on-brand chips, so they read in dark mode.
 

@@ -384,9 +384,7 @@ export const FileTreeList = styled('ul', {
   })
 }));
 
-export const FileTreeRow = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'selected'
-})<{ selected?: boolean }>(({ theme, selected }) => ({
+export const FileTreeRow = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(0.5),
@@ -398,30 +396,9 @@ export const FileTreeRow = styled(Box, {
   '&:hover': {
     backgroundColor: theme.palette.action.hover
   },
-  // The single-select file row: the selected tint of a MUI menu item, as on
-  // `GitHubRepositoryPicker singleSelect`, with a focus ring as the listbox option.
-  ...(selected && {
-    backgroundColor: alpha(theme.palette.primary.main, theme.palette.action.selectedOpacity),
-    '&:hover': {
-      backgroundColor: alpha(
-        theme.palette.primary.main,
-        theme.palette.action.selectedOpacity + theme.palette.action.hoverOpacity
-      )
-    }
-  }),
-  '&[role="option"]:focus-visible': {
-    outline: `2px solid ${theme.palette.primary.main}`,
-    outlineOffset: -2
-  },
   '& > svg': {
     flexShrink: 0,
     color: theme.palette.icon.secondary
-  },
-  // Holds the place of a folder's disclosure button so file and folder icons align.
-  '& .slot': {
-    flexShrink: 0,
-    width: 24,
-    height: 24
   },
   '& .label': {
     flex: 1,
