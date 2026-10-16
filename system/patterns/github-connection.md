@@ -141,9 +141,11 @@ display order, `value` is the selected ref, and `onChange` receives the new one,
   auto-fill rule, reading "Searching more branches..." while `loading`. With no page in flight (a
   page failed) it reads "No loaded branch matches. Press Enter to load more." with a "Load more
   branches" action; that action, Enter, and ArrowDown in the field all call `onLoadMore`, so focus
-  never leaves the field. Once `hasMore` is false it reads "No matching branch". These messages are
-  a polite live region, so screen readers announce each change. A ref the host bound that is not on
-  a fetched page is still listed and shown.
+  never leaves the field, and Enter in the no-match state never submits a surrounding form. Once
+  `hasMore` is false it reads "No matching branch". The popup text is plain; a visually hidden
+  polite live region outside the popup, present for the picker's lifetime, carries the same
+  message, so screen readers announce it as it appears and changes. A ref the host bound that is
+  not on a fetched page is still listed and shown.
 - `label`, `disabled`, and `id` (of the input; the list box derives its id from it) tune the rest.
 
 The picker is built on MUI's `Autocomplete`, which, while its list is open, re-highlights the

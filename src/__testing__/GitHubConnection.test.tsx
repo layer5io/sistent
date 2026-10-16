@@ -748,6 +748,11 @@ describe('GitHubRefPicker', () => {
     fireEvent.keyDown(input(), { key: 'ArrowDown' });
   };
   const currentRef = () => JSON.parse(screen.getByTestId('ref').textContent ?? '""');
+  const liveRegion = () =>
+    document.querySelector('[role="status"][aria-live="polite"]') as HTMLElement;
+  // The popup's visible no-match text, not its copy in the live region.
+  const noMatchShown = (message: string) =>
+    screen.queryAllByText(message).some((element) => !liveRegion().contains(element));
   // An option's first node is the ref; the default branch carries a mark after it.
   const optionNames = () =>
     screen.getAllByRole('option').map((option) => option.firstChild?.textContent);
@@ -1057,26 +1062,26 @@ describe('GitHubRefPicker', () => {
     expect(requests()).toBe(0);
     fireEvent.change(input(), { target: { value: 'release-2' } });
     expect(requests()).toBe(1);
-    expect(screen.getByText('Searching more branches...')).toBeTruthy();
-    expect(screen.queryByText('No matching branch')).toBeNull();
+    expect(noMatchShown('Searching more branches...')).toBe(true);
+    expect(noMatchShown('No matching branch')).toBe(false);
 
     fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
     expect(requests()).toBe(2);
-    expect(screen.getByText('Searching more branches...')).toBeTruthy();
+    expect(noMatchShown('Searching more branches...')).toBe(true);
 
     // A failed page adds nothing and is not re-requested on its own; the reader can retry.
     fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
     expect(requests()).toBe(2);
-    expect(screen.queryByText('Searching more branches...')).toBeNull();
-    expect(screen.getByText('No loaded branch matches. Press Enter to load more.')).toBeTruthy();
+    expect(noMatchShown('Searching more branches...')).toBe(false);
+    expect(noMatchShown('No loaded branch matches. Press Enter to load more.')).toBe(true);
     fireEvent.click(screen.getByRole('button', { name: 'Load more branches' }));
     expect(requests()).toBe(3);
-    expect(screen.getByText('Searching more branches...')).toBeTruthy();
+    expect(noMatchShown('Searching more branches...')).toBe(true);
     expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
 
     fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
     expect(requests()).toBe(3);
-    expect(screen.getByText('No matching branch')).toBeTruthy();
+    expect(noMatchShown('No matching branch')).toBe(true);
     expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
   });
 
@@ -1119,21 +1124,63 @@ describe('GitHubRefPicker', () => {
       fireEvent.keyDown(input(), { key });
       expect(onLoadMore).toHaveBeenCalledTimes(2);
       expect(input().value).toBe('release-2');
-      expect(screen.getByText('Searching more branches...')).toBeTruthy();
+      expect(noMatchShown('Searching more branches...')).toBe(true);
 
       fireEvent.keyDown(input(), { key });
       expect(onLoadMore).toHaveBeenCalledTimes(2);
     });
 
-    it('announces the no-match state in a polite live region', () => {
-      renderFailed();
-      const region = screen.getByText('No loaded branch matches. Press Enter to load more.');
-      expect(region.getAttribute('role')).toBe('status');
-      expect(region.getAttribute('aria-live')).toBe('polite');
+    it('announces the no-match state from one live region outside the popup', () => {
+      stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+      withTheme(<FailedPage onLoadMore={() => undefined} />);
+      const region = liveRegion();
+      expect(region.textContent).toBe('');
 
-      fireEvent.keyDown(input(), { key: 'Enter' });
+      open();
+      fireEvent.change(input(), { target: { value: 'release-2' } });
       expect(region.textContent).toBe('Searching more branches...');
+      const shown = screen
+        .getAllByText('Searching more branches...')
+        .find((element) => !region.contains(element));
+      expect(shown?.closest('[aria-live]')).toBeNull();
+      fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
+      expect(region.textContent).toBe('No loaded branch matches. Press Enter to load more.');
+      expect(liveRegion()).toBe(region);
+
+      fireEvent.change(input(), { target: { value: 'dev' } });
+      expect(region.textContent).toBe('');
+      fireEvent.change(input(), { target: { value: 'release-2' } });
+      expect(liveRegion()).toBe(region);
+      expect(region.textContent).toBe('No loaded branch matches. Press Enter to load more.');
     });
+
+    it('does not submit a surrounding form when Enter loads more', () => {
+      stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+      const onLoadMore = jest.fn();
+      withTheme(
+        <form>
+          <FailedPage onLoadMore={onLoadMore} />
+        </form>
+      );
+      open();
+      fireEvent.change(input(), { target: { value: 'release-2' } });
+      fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
+      // jsdom has no implicit submission; a prevented Enter is what stops it in a browser.
+      const notPrevented = fireEvent.keyDown(input(), { key: 'Enter' });
+      expect(onLoadMore).toHaveBeenCalledTimes(2);
+      expect(notPrevented).toBe(false);
+    });
+  });
+
+  it('still commits a typed tag on Enter inside a form', () => {
+    withTheme(
+      <form>
+        <RefHarness allowCustomRef hasMore onLoadMore={() => undefined} />
+      </form>
+    );
+    fireEvent.change(input(), { target: { value: 'v1.2.0' } });
+    fireEvent.keyDown(input(), { key: 'Enter' });
+    expect(currentRef()).toBe('v1.2.0');
   });
 
   it('does not page on Enter or ArrowDown while branches match', () => {
@@ -1206,7 +1253,7 @@ describe('GitHubRefPicker', () => {
     fireEvent.click(screen.getByText('switch repository', { selector: 'button' }));
     fireEvent.click(screen.getByText('first page lands', { selector: 'button' }));
     expect(requests()).toBe(2);
-    expect(screen.getByText('Searching more branches...')).toBeTruthy();
+    expect(noMatchShown('Searching more branches...')).toBe(true);
   });
 
   it('says no branch matches once every page is loaded', () => {
@@ -1214,8 +1261,8 @@ describe('GitHubRefPicker', () => {
     withTheme(<RefHarness hasMore={false} onLoadMore={onLoadMore} />);
     open();
     fireEvent.change(input(), { target: { value: 'release-2' } });
-    expect(screen.getByText('No matching branch')).toBeTruthy();
-    expect(screen.queryByText('Searching more branches...')).toBeNull();
+    expect(noMatchShown('No matching branch')).toBe(true);
+    expect(noMatchShown('Searching more branches...')).toBe(false);
     expect(onLoadMore).not.toHaveBeenCalled();
   });
 

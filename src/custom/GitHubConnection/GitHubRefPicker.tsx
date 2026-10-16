@@ -55,8 +55,15 @@ const PagingContext = React.createContext({
   branchCount: 0,
   request: (): void => undefined,
   requestIfArmed: (): void => undefined,
-  noMatchShown: { current: false } as React.MutableRefObject<boolean>
+  setNoMatchShown: ((): void => undefined) as (shown: boolean) => void
 });
+
+const noMatchMessage = (loading: boolean, hasMore: boolean): string =>
+  loading
+    ? 'Searching more branches...'
+    : hasMore
+      ? 'No loaded branch matches. Press Enter to load more.'
+      : 'No matching branch';
 
 /**
  * The popup's paper with a loading row under the list while a further page is
@@ -93,26 +100,18 @@ const sameRefs = (a: readonly string[], b: readonly string[]): boolean =>
  * button, or Enter or ArrowDown in the field (see `GitHubRefPicker`).
  */
 function NoMatchingBranch(): JSX.Element {
-  const { loading, hasMore, branchCount, request, requestIfArmed, noMatchShown } =
+  const { loading, hasMore, branchCount, request, requestIfArmed, setNoMatchShown } =
     React.useContext(PagingContext);
   React.useLayoutEffect(() => {
-    noMatchShown.current = true;
-    return () => {
-      noMatchShown.current = false;
-    };
-  }, [noMatchShown]);
+    setNoMatchShown(true);
+    return () => setNoMatchShown(false);
+  }, [setNoMatchShown]);
   // Before paint, so the load-more action does not flash ahead of the request.
   React.useLayoutEffect(requestIfArmed, [requestIfArmed, loading, hasMore, branchCount]);
   const canLoadMore = hasMore && !loading;
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
-      <span role="status" aria-live="polite">
-        {loading
-          ? 'Searching more branches...'
-          : hasMore
-            ? 'No loaded branch matches. Press Enter to load more.'
-            : 'No matching branch'}
-      </span>
+      <span>{noMatchMessage(loading, hasMore)}</span>
       {canLoadMore && (
         <Button
           size="small"
@@ -232,14 +231,17 @@ export function GitHubRefPicker({
   }, [options]);
 
   // Enter and ArrowDown have nothing to act on while no branch matches, so
-  // they ask for the next page, keeping focus in the field.
-  const noMatchShown = React.useRef(false);
+  // they ask for the next page, keeping focus in the field. Enter must not
+  // also submit a surrounding form.
+  const [noMatchShown, setNoMatchShown] = React.useState(false);
+  const noMatchShownRef = React.useRef(noMatchShown);
+  noMatchShownRef.current = noMatchShown;
   const pagingRequest = paging.request;
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent) => {
-      if (noMatchShown.current && (event.key === 'Enter' || event.key === 'ArrowDown')) {
-        pagingRequest();
-      }
+      if (!noMatchShownRef.current) return;
+      if (event.key === 'Enter') event.preventDefault();
+      if (event.key === 'Enter' || event.key === 'ArrowDown') pagingRequest();
     },
     [pagingRequest]
   );
@@ -253,7 +255,7 @@ export function GitHubRefPicker({
       branchCount: branches.length,
       request: pagingRequest,
       requestIfArmed: paging.requestIfArmed,
-      noMatchShown
+      setNoMatchShown
     }),
     [loading, hasMore, branches.length, pagingRequest, paging.requestIfArmed]
   );
@@ -341,7 +343,15 @@ export function GitHubRefPicker({
     ]
   );
 
-  return <PagingContext.Provider value={pagingState}>{field}</PagingContext.Provider>;
+  return (
+    <PagingContext.Provider value={pagingState}>
+      {field}
+      {/* Outside the popup, which mounts afresh: a live region inserted with its text is not announced. */}
+      <VisuallyHidden role="status" aria-live="polite">
+        {noMatchShown ? noMatchMessage(loading, hasMore) : ''}
+      </VisuallyHidden>
+    </PagingContext.Provider>
+  );
 }
 
 export default GitHubRefPicker;
