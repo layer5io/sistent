@@ -1,4 +1,4 @@
-import jsyaml from 'js-yaml';
+import { load } from 'js-yaml';
 import { Pattern } from './CustomCard';
 
 const checkImageUrlValidity = async (
@@ -46,7 +46,7 @@ const getValidSvgPaths = async (
 // If parsing fails or version is missing, returns the default version.
 const getWorkingVersionFromPatternFile = (patternFileContent: string) => {
   try {
-    const patternFile = jsyaml.load(patternFileContent);
+    const patternFile = load(patternFileContent);
     const version =
       patternFile && typeof patternFile === 'object' && 'version' in patternFile
         ? patternFile.version
