@@ -1,4 +1,5 @@
-import { Lock, Public } from '@mui/icons-material';
+import Lock from '@mui/icons-material/Lock';
+import Public from '@mui/icons-material/Public';
 import { Theme } from '@mui/material';
 import type { MUIDataTableColumn, MUIDataTableMeta } from 'mui-datatables';
 import { Typography } from '../../base';

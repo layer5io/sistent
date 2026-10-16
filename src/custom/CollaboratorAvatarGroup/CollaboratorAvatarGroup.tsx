@@ -1,4 +1,4 @@
-import { ExpandMore } from '@mui/icons-material';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import { alpha } from '@mui/material';
 import { MouseEvent, useState } from 'react';
 import { Avatar, AvatarGroup, Button, Divider, Popover, Typography } from '../../base';

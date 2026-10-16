@@ -94,6 +94,14 @@ module.exports = [
         },
 
         rules: {
+            // The @mui/icons-material barrel re-exports ~10,800 modules that every
+            // consumer's bundler must parse. Import icons by path instead.
+            "no-restricted-imports": ["error", {
+                paths: [{
+                    name: "@mui/icons-material",
+                    message: "Import icons by path, e.g. '@mui/icons-material/ChevronLeft'.",
+                }],
+            }],
             ...js.configs.recommended.rules,
             ...typescript.configs.recommended.rules,
         },
