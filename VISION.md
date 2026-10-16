@@ -2,7 +2,7 @@
 
 Sistent exists so that engineers and designers can build coherent, accessible, and high-performance user interfaces across the Layer5 cloud native management ecosystem.
 It serves contributors and teams delivering Meshery UI, Layer5 Cloud, Kanvas, and ecosystem extensions, turning design tokens and schema constructs into reusable, accessible React primitives.
-It owns exactly one thing: the shared design system component and token contract across all Layer5 web applications.
+It owns the shared design system: components, tokens, and the contracts between them, across Layer5 web applications.
 
 ## Token parity governs presentation
 
