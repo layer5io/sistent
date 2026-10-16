@@ -20,8 +20,13 @@ export interface WidgetPickerProps {
   onAddWidget: (widget: Omit<WidgetItem, 'key'>, key: string) => void;
   
   /**
-   * Optional callback to close the picker. When provided, takes precedence
-   * over the layout context's closeSidebar handler.
+   * Preferred close handler. When provided, it takes precedence over the
+   * layout context's `closeSidebar` handler.
+   *
+   * Note: passing `onClose` does not by itself render the close button. When
+   * embedded in a DashboardLayout BottomSheet (below the `md` breakpoint) the
+   * button is hidden, because the sheet already carries its own close
+   * affordance, unless `showCloseButton` is explicitly set to `true`.
    */
   onClose?: () => void;
   

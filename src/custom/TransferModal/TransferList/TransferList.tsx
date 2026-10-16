@@ -298,7 +298,7 @@ function TransferList({
         {customList(left, emptyStateIconLeft, emtyStateMessageLeft, 'leftList')}
       </ListGrid>
       <ButtonGrid>
-        <Grid2 container direction="column" sx={{ alignItems: 'center' }}>
+        <Grid2 container sx={{ flexDirection: 'column', alignItems: 'center' }}>
           <TransferButton
             variant="outlined"
             size="small"

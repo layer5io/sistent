@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { MUIDataTableColumn, MUIDataTableMeta } from '@sistent/mui-datatables';
+import type {
+  MUIDataTableColumn,
+  MUIDataTableMeta,
+  MUIDataTableOptions,
+  MUISortOptions
+} from 'mui-datatables';
 import React, { useState } from 'react';
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from '../../base';
 import { DeleteIcon, EnvironmentIcon } from '../../icons';
@@ -197,7 +202,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
     return initialVisibility;
   });
 
-  const options = {
+  const options: MUIDataTableOptions = {
     filter: false,
     responsive: 'standard',
     selectableRows: 'none',
@@ -207,7 +212,7 @@ const EnvironmentTable: React.FC<EnvironmentTableProps> = ({
     elevation: 0,
     sortOrder: {
       name: sortOrder.split(' ')[0],
-      direction: sortOrder.split(' ')[1]
+      direction: sortOrder.split(' ')[1] as MUISortOptions['direction']
     },
     serverSide: true,
     onTableChange: (action: string, tableState: any) => {

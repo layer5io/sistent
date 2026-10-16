@@ -89,7 +89,11 @@ const MuiTableSortLabel: Components<Theme>['MuiTableSortLabel'] = {
   }
 };
 
-const MUIDataTableSelectCell: Components<Theme>['MUIDataTableSelectCell'] = {
+// `@types/mui-datatables` declares `MUIDataTableSelectCell` by augmenting the
+// `@mui/material` it depends on (v5, installed nested under it), so the key never
+// reaches the `Components` of the MUI this package builds against. The slot
+// renders a table cell and takes the same overrides, so it is typed as one.
+const MUIDataTableSelectCell: Components<Theme>['MuiTableCell'] = {
   styleOverrides: {
     root: ({ theme }) => ({
       backgroundColor: theme.palette.background.constant?.table || theme.palette.background.paper,

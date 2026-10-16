@@ -28,19 +28,19 @@ function ConnectionChip({
   return (
     <CustomTooltip title={tooltip} placement={tooltipPlacement}>
       <Chip
-        sx={{
+        sx={(theme) => ({
           paddingY: '10px',
           padding: '5px 6px !important',
-          color: 'black',
+          color: theme.palette.text.default,
           fontSize: '14px',
           textTransform: 'uppercase',
           fontWeight: 400,
           height: 'unset',
           borderRadius: '100px',
-          border: '0.5px solid #51636B',
-          background: 'white',
+          border: `0.5px solid ${theme.palette.border.strong}`,
+          background: theme.palette.background.card,
           maxWidth: '230px'
-        }}
+        })}
         variant={variant}
         label={label}
         onClick={onClick}
