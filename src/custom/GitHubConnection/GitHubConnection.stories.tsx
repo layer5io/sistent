@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, FormControlLabel, Paper, Switch, Typography } from '../../base';
+import { Box, Button, FormControlLabel, Paper, Stack, Switch, Typography } from '../../base';
 import { SistentThemeProvider } from '../../theme';
 import { GitHubConnectButton } from './GitHubConnectButton';
 import { GitHubConnectionNotice } from './GitHubConnectionNotice';
@@ -7,6 +7,7 @@ import { GitHubConnectionStatus } from './GitHubConnectionStatus';
 import { GitHubFileTree, type GitHubFileTreeNode } from './GitHubFileTree';
 import { GitHubFinishSummary, type GitHubFinishRepository } from './GitHubFinishSummary';
 import { GitHubImportConnectWizard } from './GitHubImportConnectWizard';
+import { GitHubRefPicker } from './GitHubRefPicker';
 import { GitHubRepositoryPicker } from './GitHubRepositoryPicker';
 import { GitHubRepositorySection } from './GitHubRepositorySection';
 import { GitHubWizardInfo } from './GitHubWizardInfo';
@@ -539,12 +540,134 @@ export const RepositoryPickerStates: Story = {
   }
 };
 
-/** Design file tree: filtered, with import marks, and empty after filtering. */
+/**
+ * Cloud's remap of a design's source (connection -> repository -> ref -> file)
+ * as one step: a single repository, a branch or typed tag, and one design file.
+ * Branches page in as the list is scrolled.
+ */
+export const RemapSourceStep: Story = {
+  name: 'Remap: repository, ref, and file',
+  render: ({ mode }) => {
+    const Demo = () => {
+      const [repository, setRepository] = useState<string[]>(['octo-org/sample-repo']);
+      const [ref, setRef] = useState('');
+      const [file, setFile] = useState<string[]>([]);
+      const [branches, setBranches] = useState<string[]>(['develop', 'main', 'release-1.0']);
+      const [loading, setLoading] = useState(false);
+      const loadMore = () => {
+        setLoading(true);
+        window.setTimeout(() => {
+          setBranches((current) => [
+            ...current,
+            ...Array.from({ length: 5 }, (_, n) => `feature/change-${current.length + n}`)
+          ]);
+          setLoading(false);
+        }, 900);
+      };
+      const source = repository[0];
+      return (
+        <Paper elevation={3} sx={{ p: { xs: 2, md: 4 }, borderRadius: 2, maxWidth: 640 }}>
+          <GitHubWizardStep
+            title="Choose the new source"
+            subtitle="The design is re-imported from this file, pinned to the ref's current commit."
+            onCancel={() => undefined}
+            primaryAction={{ label: 'Remap', onClick: () => undefined, disabled: !file.length }}
+          >
+            <Stack spacing={3}>
+              <GitHubRepositoryPicker
+                singleSelect
+                repositories={REPOSITORIES}
+                selected={repository}
+                onChange={(next) => {
+                  setRepository(next);
+                  setRef('');
+                  setFile([]);
+                }}
+              />
+              <GitHubRefPicker
+                branches={branches}
+                defaultBranch="main"
+                value={ref}
+                onChange={(next) => {
+                  setRef(next);
+                  setFile([]);
+                }}
+                allowCustomRef
+                loading={loading}
+                hasMore={branches.length < 30}
+                onLoadMore={loadMore}
+              />
+              {source && (
+                <GitHubFileTree
+                  singleSelect
+                  items={scannedFiles(source)}
+                  selected={file}
+                  onSelectionChange={setFile}
+                  supportedExtensions={DESIGN_EXTENSIONS}
+                  defaultExpanded={[`${source}/deploy`]}
+                  aria-label={`Design files in ${source}`}
+                />
+              )}
+            </Stack>
+          </GitHubWizardStep>
+        </Paper>
+      );
+    };
+    return (
+      <Frame mode={mode}>
+        <Demo />
+      </Frame>
+    );
+  }
+};
+
+/** Ref pick list: first page loading, default branch not known yet, and disabled. */
+export const RefPickerStates: Story = {
+  name: 'Ref pick list',
+  render: ({ mode }) => (
+    <Frame mode={mode}>
+      <Box sx={{ display: 'grid', gap: 3, maxWidth: 480 }}>
+        <Row label="First page">
+          <Box sx={{ flex: 1, minWidth: 240 }}>
+            <GitHubRefPicker branches={[]} value="" onChange={() => undefined} loading />
+          </Box>
+        </Row>
+        <Row label="Tag pinned">
+          <Box sx={{ flex: 1, minWidth: 240 }}>
+            <GitHubRefPicker
+              branches={['develop', 'main']}
+              defaultBranch="main"
+              value="v1.4.0"
+              onChange={() => undefined}
+              allowCustomRef
+            />
+          </Box>
+        </Row>
+        <Row label="Disabled">
+          <Box sx={{ flex: 1, minWidth: 240 }}>
+            <GitHubRefPicker
+              branches={['main']}
+              defaultBranch="main"
+              value=""
+              onChange={() => undefined}
+              disabled
+            />
+          </Box>
+        </Row>
+      </Box>
+    </Frame>
+  )
+};
+
+/** Design file tree: filtered, with import marks, single-select, and empty after filtering. */
 export const FileTreeStates: Story = {
   name: 'Design file tree',
   render: ({ mode }) => {
     const Demo = () => {
       const [selected, setSelected] = useState<string[]>([]);
+      const [snapshot, setSnapshot] = useState<string[]>([
+        'octo-org/helm-charts/deploy/kubernetes/app.yaml'
+      ]);
       const files = scannedFiles('octo-org/sample-repo').map((node) =>
         node.id.endsWith('charts.tgz')
           ? { ...node, status: 'error' as const, statusMessage: 'Not a Helm chart archive.' }
@@ -563,6 +686,24 @@ export const FileTreeStates: Story = {
               onSelectionChange={setSelected}
               supportedExtensions={DESIGN_EXTENSIONS}
               defaultExpanded={['octo-org/sample-repo/deploy']}
+            />
+          </GitHubRepositorySection>
+          <GitHubRepositorySection
+            repository="octo-org/helm-charts"
+            counts={{ selected: snapshot.length }}
+            defaultExpanded
+          >
+            <GitHubFileTree
+              singleSelect
+              items={scannedFiles('octo-org/helm-charts')}
+              selected={snapshot}
+              onSelectionChange={setSnapshot}
+              supportedExtensions={DESIGN_EXTENSIONS}
+              defaultExpanded={[
+                'octo-org/helm-charts/deploy',
+                'octo-org/helm-charts/deploy/kubernetes'
+              ]}
+              aria-label="Design to snapshot in octo-org/helm-charts"
             />
           </GitHubRepositorySection>
           <GitHubFileTree

@@ -21,8 +21,8 @@ export interface LoadMoreOptions {
 }
 
 /**
- * Paging for a scroll container, shared by the repository pick list and the
- * file tree. The next page is requested when the user scrolls to the end, and
+ * Paging for a scroll container, shared by the repository and ref pick lists
+ * and the file tree. The next page is requested when the user scrolls to the end, and
  * also, without a scroll, while the container does not overflow: a short
  * page, or one the extension filter emptied, leaves nothing to scroll, so
  * waiting for a scroll would stall paging for good.
@@ -31,11 +31,17 @@ export interface LoadMoreOptions {
  * auto-fill; an auto-request disarms it until the key changes again. A failed
  * page leaves the key unchanged, so it is never retried without a scroll.
  *
- * Attach `ref` and `onScroll` to the element that scrolls.
+ * Attach `ref` and `onScroll` to the element that scrolls. `requestIfArmed`
+ * follows the same rule for a caller with nothing to measure, such as a pick
+ * list whose filter left no list box.
  */
 export function useLoadMore({ hasMore, loading, onLoadMore, contentKey }: LoadMoreOptions): {
   ref: (element: HTMLElement | null) => void;
   onScroll: (event: React.UIEvent<HTMLElement>) => void;
+  /** Requests a page unless one is in flight, none is left, or none was asked. */
+  request: () => void;
+  /** Like `request`, under the auto-fill rule: once per distinct `contentKey`. */
+  requestIfArmed: () => void;
 } {
   const elementRef = React.useRef<HTMLElement | null>(null);
   const latest = React.useRef({ hasMore, loading, onLoadMore, contentKey });
@@ -49,22 +55,25 @@ export function useLoadMore({ hasMore, loading, onLoadMore, contentKey }: LoadMo
 
   const canRequest = (): boolean => {
     const props = latest.current;
-    return Boolean(elementRef.current && props.onLoadMore && props.hasMore && !props.loading);
+    return Boolean(props.onLoadMore && props.hasMore && !props.loading);
   };
 
-  const fillIfShort = React.useCallback(() => {
-    const element = elementRef.current;
+  const request = React.useCallback(() => {
+    if (canRequest()) latest.current.onLoadMore?.();
+  }, []);
+
+  const requestIfArmed = React.useCallback(() => {
     const props = latest.current;
-    if (
-      canRequest() &&
-      element &&
-      autoFilledFor.current !== props.contentKey &&
-      element.scrollHeight <= element.clientHeight
-    ) {
+    if (canRequest() && autoFilledFor.current !== props.contentKey) {
       autoFilledFor.current = props.contentKey;
       props.onLoadMore?.();
     }
   }, []);
+
+  const fillIfShort = React.useCallback(() => {
+    const element = elementRef.current;
+    if (element && element.scrollHeight <= element.clientHeight) requestIfArmed();
+  }, [requestIfArmed]);
 
   const ref = React.useCallback(
     (element: HTMLElement | null) => {
@@ -76,11 +85,12 @@ export function useLoadMore({ hasMore, loading, onLoadMore, contentKey }: LoadMo
 
   React.useEffect(fillIfShort);
 
-  const onScroll = React.useCallback((event: React.UIEvent<HTMLElement>) => {
-    if (canRequest() && isScrolledToEnd(event.currentTarget)) {
-      latest.current.onLoadMore?.();
-    }
-  }, []);
+  const onScroll = React.useCallback(
+    (event: React.UIEvent<HTMLElement>) => {
+      if (isScrolledToEnd(event.currentTarget)) request();
+    },
+    [request]
+  );
 
-  return { ref, onScroll };
+  return { ref, onScroll, request, requestIfArmed };
 }
