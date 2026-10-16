@@ -137,12 +137,16 @@ display order, `value` is the selected ref, and `onChange` receives the new one,
   that does not exist; the picker does not validate ref names.
 - **Paging** works as on the other pick lists: `hasMore`, `loading`, `onLoadMore`, with a loading
   row under the list (never an option) while a further page is fetched. Typing filters the branches
-  already loaded; when it matches none while `hasMore`, the next page is requested under the same
-  auto-fill rule, reading "Searching more branches..." while `loading`. With no page in flight (a
-  page failed) it reads "No loaded branch matches. Press Enter to load more." with a "Load more
-  branches" action; that action, Enter, and ArrowDown in the field all call `onLoadMore`, so focus
-  never leaves the field, and Enter in the no-match state never submits a surrounding form. Once
-  `hasMore` is false it reads "No matching branch". The popup text is plain; a visually hidden
+  already loaded; when it matches none while `hasMore`, one more page is requested automatically
+  for each distinct filter value (a filter no branch will match, such as a tag or a typo, does not
+  fetch every page), reading "Searching more branches..." while `loading`. Further pages load only
+  on request. With no page in flight it reads "No loaded branch matches. Press Enter to load
+  more." with a "Load more branches" action; that action, Enter, and ArrowDown in the field all
+  call `onLoadMore`, so focus never leaves the field. With `allowCustomRef` it reads "No loaded
+  branch matches. Press Enter to use this ref." instead: Enter commits the typed ref, while the
+  action and ArrowDown still call `onLoadMore`. Enter in the no-match state never submits a
+  surrounding form. Once `hasMore` is false it reads "No matching branch" ("No matching branch.
+  Press Enter to use this ref." with `allowCustomRef`). The popup text is plain; a visually hidden
   polite live region outside the popup, present for the picker's lifetime, carries the same
   message, so screen readers announce it as it appears and changes. A ref the host bound that is
   not on a fetched page is still listed and shown.

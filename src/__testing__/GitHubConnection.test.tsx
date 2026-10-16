@@ -1065,24 +1065,87 @@ describe('GitHubRefPicker', () => {
     expect(noMatchShown('Searching more branches...')).toBe(true);
     expect(noMatchShown('No matching branch')).toBe(false);
 
-    fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
-    expect(requests()).toBe(2);
-    expect(noMatchShown('Searching more branches...')).toBe(true);
-
     // A failed page adds nothing and is not re-requested on its own; the reader can retry.
     fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
-    expect(requests()).toBe(2);
+    expect(requests()).toBe(1);
     expect(noMatchShown('Searching more branches...')).toBe(false);
     expect(noMatchShown('No loaded branch matches. Press Enter to load more.')).toBe(true);
     fireEvent.click(screen.getByRole('button', { name: 'Load more branches' }));
-    expect(requests()).toBe(3);
+    expect(requests()).toBe(2);
     expect(noMatchShown('Searching more branches...')).toBe(true);
     expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
 
+    // A page that lands without a match is not followed by another on its own.
+    fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
+    expect(requests()).toBe(2);
+    expect(noMatchShown('No loaded branch matches. Press Enter to load more.')).toBe(true);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Load more branches' }));
+    expect(requests()).toBe(3);
     fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
     expect(requests()).toBe(3);
     expect(noMatchShown('No matching branch')).toBe(true);
     expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
+  });
+
+  it('requests at most one page automatically for each typed filter', () => {
+    function EndlessRefs() {
+      const [branches, setBranches] = useState(BRANCHES);
+      const [loading, setLoading] = useState(false);
+      const [requests, setRequests] = useState(0);
+      return (
+        <>
+          <GitHubRefPicker
+            branches={branches}
+            defaultBranch="main"
+            value=""
+            onChange={() => undefined}
+            loading={loading}
+            hasMore
+            onLoadMore={() => {
+              setRequests((count) => count + 1);
+              setLoading(true);
+            }}
+          />
+          <p data-testid="requests">{requests}</p>
+          <button
+            type="button"
+            onClick={() => {
+              setBranches((current) => [...current, `b${current.length}`]);
+              setLoading(false);
+            }}
+          >
+            page lands
+          </button>
+        </>
+      );
+    }
+    const requests = () => Number(screen.getByTestId('requests').textContent);
+    const land = () => fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
+
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+    withTheme(<EndlessRefs />);
+    open();
+    fireEvent.change(input(), { target: { value: 'v2.3.1' } });
+    expect(requests()).toBe(1);
+    land();
+    land();
+    expect(requests()).toBe(1);
+
+    fireEvent.change(input(), { target: { value: 'v2.3.2' } });
+    expect(requests()).toBe(2);
+    land();
+    expect(requests()).toBe(2);
+
+    // Coming back to a filter already searched does not search it again on its own.
+    fireEvent.change(input(), { target: { value: 'v2.3.1' } });
+    expect(requests()).toBe(2);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Load more branches' }));
+    expect(requests()).toBe(3);
+    land();
+    fireEvent.keyDown(input(), { key: 'Enter' });
+    expect(requests()).toBe(4);
   });
 
   describe('with no loaded branch matching and no page in flight', () => {
@@ -1169,6 +1232,48 @@ describe('GitHubRefPicker', () => {
       const notPrevented = fireEvent.keyDown(input(), { key: 'Enter' });
       expect(onLoadMore).toHaveBeenCalledTimes(2);
       expect(notPrevented).toBe(false);
+    });
+  });
+
+  describe('with allowCustomRef and no loaded branch matching', () => {
+    const typeTag = (onLoadMore: () => void) => {
+      withTheme(<RefHarness allowCustomRef hasMore onLoadMore={onLoadMore} />);
+      fireEvent.focus(input());
+      fireEvent.change(input(), { target: { value: 'v1.2.0' } });
+    };
+
+    it('says Enter uses the typed ref, in the popup and the live region', () => {
+      const onLoadMore = jest.fn();
+      typeTag(onLoadMore);
+      expect(onLoadMore).toHaveBeenCalledTimes(1);
+      expect(noMatchShown('No loaded branch matches. Press Enter to use this ref.')).toBe(true);
+      expect(liveRegion().textContent).toBe(
+        'No loaded branch matches. Press Enter to use this ref.'
+      );
+      expect(noMatchShown('No loaded branch matches. Press Enter to load more.')).toBe(false);
+    });
+
+    it('keeps Load more for paging, and Enter commits the ref without paging', () => {
+      const onLoadMore = jest.fn();
+      typeTag(onLoadMore);
+      fireEvent.click(screen.getByRole('button', { name: 'Load more branches' }));
+      expect(onLoadMore).toHaveBeenCalledTimes(2);
+
+      fireEvent.keyDown(input(), { key: 'Enter' });
+      expect(onLoadMore).toHaveBeenCalledTimes(2);
+      expect(currentRef()).toBe('v1.2.0');
+      expect(noMatchShown('No loaded branch matches. Press Enter to use this ref.')).toBe(false);
+      expect(liveRegion().textContent).toBe('');
+    });
+
+    it('drops the no-match state once the popup closes', () => {
+      const onLoadMore = jest.fn();
+      typeTag(onLoadMore);
+      fireEvent.blur(input());
+      expect(currentRef()).toBe('v1.2.0');
+      expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
+      expect(liveRegion().textContent).toBe('');
+      expect(onLoadMore).toHaveBeenCalledTimes(1);
     });
   });
 

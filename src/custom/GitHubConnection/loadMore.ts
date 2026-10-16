@@ -31,17 +31,17 @@ export interface LoadMoreOptions {
  * auto-fill; an auto-request disarms it until the key changes again. A failed
  * page leaves the key unchanged, so it is never retried without a scroll.
  *
- * Attach `ref` and `onScroll` to the element that scrolls. `requestIfArmed`
- * follows the same rule for a caller with nothing to measure, such as a pick
- * list whose filter left no list box.
+ * Attach `ref` and `onScroll` to the element that scrolls. `request` is the
+ * explicit ask, from a control or a key.
  */
 export function useLoadMore({ hasMore, loading, onLoadMore, contentKey }: LoadMoreOptions): {
   ref: (element: HTMLElement | null) => void;
   onScroll: (event: React.UIEvent<HTMLElement>) => void;
-  /** Requests a page unless one is in flight, none is left, or none was asked. */
-  request: () => void;
-  /** Like `request`, under the auto-fill rule: once per distinct `contentKey`. */
-  requestIfArmed: () => void;
+  /**
+   * Requests a page unless one is in flight, none is left, or none was asked;
+   * reports whether it did.
+   */
+  request: () => boolean;
 } {
   const elementRef = React.useRef<HTMLElement | null>(null);
   const latest = React.useRef({ hasMore, loading, onLoadMore, contentKey });
@@ -58,8 +58,10 @@ export function useLoadMore({ hasMore, loading, onLoadMore, contentKey }: LoadMo
     return Boolean(props.onLoadMore && props.hasMore && !props.loading);
   };
 
-  const request = React.useCallback(() => {
-    if (canRequest()) latest.current.onLoadMore?.();
+  const request = React.useCallback((): boolean => {
+    if (!canRequest()) return false;
+    latest.current.onLoadMore?.();
+    return true;
   }, []);
 
   const requestIfArmed = React.useCallback(() => {
@@ -92,5 +94,5 @@ export function useLoadMore({ hasMore, loading, onLoadMore, contentKey }: LoadMo
     [request]
   );
 
-  return { ref, onScroll, request, requestIfArmed };
+  return { ref, onScroll, request };
 }

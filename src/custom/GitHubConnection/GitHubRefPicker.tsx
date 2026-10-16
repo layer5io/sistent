@@ -53,28 +53,48 @@ const PagingContext = React.createContext({
   loadingMore: false,
   hasMore: false,
   branchCount: 0,
-  request: (): void => undefined,
-  requestIfArmed: (): void => undefined,
+  filter: '',
+  allowCustomRef: false,
+  request: (): boolean => false,
+  requestOncePerFilter: (): void => undefined,
   setNoMatchShown: ((): void => undefined) as (shown: boolean) => void
 });
 
-const noMatchMessage = (loading: boolean, hasMore: boolean): string =>
+const noMatchMessage = (loading: boolean, hasMore: boolean, allowCustomRef: boolean): string =>
   loading
     ? 'Searching more branches...'
-    : hasMore
-      ? 'No loaded branch matches. Press Enter to load more.'
-      : 'No matching branch';
+    : allowCustomRef
+      ? hasMore
+        ? 'No loaded branch matches. Press Enter to use this ref.'
+        : 'No matching branch. Press Enter to use this ref.'
+      : hasMore
+        ? 'No loaded branch matches. Press Enter to load more.'
+        : 'No matching branch';
 
 /**
  * The popup's paper with a loading row under the list while a further page is
  * fetched. Outside the list box, so the row is never an option.
+ *
+ * MUI shows no "no options" text for free text (`allowCustomRef`), so the
+ * paper, kept mounted for it while the popup is open, shows the no-match state
+ * itself when nothing else is in it.
  */
 const RefPickerPaper = React.forwardRef<HTMLDivElement, React.ComponentProps<typeof Paper>>(
   function RefPickerPaper({ children, ...props }, ref) {
     const { loadingMore } = React.useContext(PagingContext);
+    const empty = React.Children.toArray(children).length === 0;
     return (
       <Paper {...props} ref={ref}>
         {children}
+        {empty && (
+          <Box
+            role="presentation"
+            onMouseDown={(event) => event.preventDefault()}
+            sx={{ color: 'text.secondary', padding: '14px 16px' }}
+          >
+            <NoMatchingBranch />
+          </Box>
+        )}
         {loadingMore && (
           <Box
             role="status"
@@ -95,23 +115,38 @@ const sameRefs = (a: readonly string[], b: readonly string[]): boolean =>
 /**
  * Shown when typing matches no loaded branch. MUI renders no list box then, so
  * the list box's auto-fill cannot fire; while more pages exist this requests
- * them instead, as a short list of matches would. A page that adds nothing is
- * not re-requested on its own, so the reader gets a way to ask for one: the
- * button, or Enter or ArrowDown in the field (see `GitHubRefPicker`).
+ * one instead, once per typed filter, so a filter no branch will ever match (a
+ * tag, a typo) does not fetch every page. Further pages come on request: the
+ * button, or ArrowDown in the field, and Enter unless `allowCustomRef` makes
+ * Enter use the typed ref (see `GitHubRefPicker`).
  */
 function NoMatchingBranch(): JSX.Element {
-  const { loading, hasMore, branchCount, request, requestIfArmed, setNoMatchShown } =
-    React.useContext(PagingContext);
+  const {
+    loading,
+    hasMore,
+    branchCount,
+    filter,
+    allowCustomRef,
+    request,
+    requestOncePerFilter,
+    setNoMatchShown
+  } = React.useContext(PagingContext);
   React.useLayoutEffect(() => {
     setNoMatchShown(true);
     return () => setNoMatchShown(false);
   }, [setNoMatchShown]);
   // Before paint, so the load-more action does not flash ahead of the request.
-  React.useLayoutEffect(requestIfArmed, [requestIfArmed, loading, hasMore, branchCount]);
+  React.useLayoutEffect(requestOncePerFilter, [
+    requestOncePerFilter,
+    loading,
+    hasMore,
+    branchCount,
+    filter
+  ]);
   const canLoadMore = hasMore && !loading;
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
-      <span>{noMatchMessage(loading, hasMore)}</span>
+      <span>{noMatchMessage(loading, hasMore, allowCustomRef)}</span>
       {canLoadMore && (
         <Button
           size="small"
@@ -231,8 +266,9 @@ export function GitHubRefPicker({
   }, [options]);
 
   // Enter and ArrowDown have nothing to act on while no branch matches, so
-  // they ask for the next page, keeping focus in the field. Enter must not
-  // also submit a surrounding form.
+  // they ask for the next page, keeping focus in the field; with
+  // `allowCustomRef`, Enter uses the typed ref instead. Enter must not also
+  // submit a surrounding form.
   const [noMatchShown, setNoMatchShown] = React.useState(false);
   const noMatchShownRef = React.useRef(noMatchShown);
   noMatchShownRef.current = noMatchShown;
@@ -241,10 +277,27 @@ export function GitHubRefPicker({
     (event: React.KeyboardEvent) => {
       if (!noMatchShownRef.current) return;
       if (event.key === 'Enter') event.preventDefault();
-      if (event.key === 'Enter' || event.key === 'ArrowDown') pagingRequest();
+      if (event.key === 'ArrowDown' || (event.key === 'Enter' && !latest.current.allowCustomRef)) {
+        pagingRequest();
+      }
     },
     [pagingRequest]
   );
+
+  // The automatic no-match request: one per filter value, re-armed for every
+  // filter once the branches are replaced (a shorter list is a new one).
+  const autoRequestedFilters = React.useRef(new Set<string>());
+  const lastBranchCount = React.useRef(branches.length);
+  if (branches.length < lastBranchCount.current) autoRequestedFilters.current.clear();
+  lastBranchCount.current = branches.length;
+  const requestOncePerFilter = React.useCallback(() => {
+    const filter = latest.current.inputValue;
+    if (!autoRequestedFilters.current.has(filter) && pagingRequest()) {
+      autoRequestedFilters.current.add(filter);
+    }
+  }, [pagingRequest]);
+
+  const [popupOpen, setPopupOpen] = React.useState(false);
 
   const firstPageLoading = loading && branches.length === 0;
   const pagingState = React.useMemo(
@@ -253,11 +306,21 @@ export function GitHubRefPicker({
       loadingMore: loading && branches.length > 0,
       hasMore,
       branchCount: branches.length,
+      filter: inputValue,
+      allowCustomRef,
       request: pagingRequest,
-      requestIfArmed: paging.requestIfArmed,
+      requestOncePerFilter,
       setNoMatchShown
     }),
-    [loading, hasMore, branches.length, pagingRequest, paging.requestIfArmed]
+    [
+      loading,
+      hasMore,
+      branches.length,
+      inputValue,
+      allowCustomRef,
+      pagingRequest,
+      requestOncePerFilter
+    ]
   );
 
   const field = React.useMemo(
@@ -273,6 +336,8 @@ export function GitHubRefPicker({
         onInputChange={(_event, next) => setInputValue(next)}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
+        onOpen={() => setPopupOpen(true)}
+        onClose={() => setPopupOpen(false)}
         freeSolo={allowCustomRef}
         autoSelect={allowCustomRef}
         // MUI drops the arrow for free text; keep it so the branch list stays discoverable.
@@ -289,6 +354,8 @@ export function GitHubRefPicker({
         fullWidth
         slots={{ paper: RefPickerPaper }}
         slotProps={{
+          // Only while open: a hidden list box left mounted would keep auto-filling.
+          popper: { keepMounted: allowCustomRef && popupOpen },
           listbox: {
             ref: attachListbox,
             onScroll: handleListboxScroll,
@@ -339,7 +406,8 @@ export function GitHubRefPicker({
       defaultBranch,
       fieldLabel,
       unnamedDefault,
-      hasMore
+      hasMore,
+      popupOpen
     ]
   );
 
@@ -348,7 +416,7 @@ export function GitHubRefPicker({
       {field}
       {/* Outside the popup, which mounts afresh: a live region inserted with its text is not announced. */}
       <VisuallyHidden role="status" aria-live="polite">
-        {noMatchShown ? noMatchMessage(loading, hasMore) : ''}
+        {noMatchShown ? noMatchMessage(loading, hasMore, allowCustomRef) : ''}
       </VisuallyHidden>
     </PagingContext.Provider>
   );
