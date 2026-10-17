@@ -222,8 +222,9 @@ export function GitHubRefPicker({
     }
   }, [commit]);
 
-  // MUI lists every branch, unfiltered, while the field still shows the selection.
-  const filter = inputValue === (shown ?? '') ? '' : inputValue;
+  // MUI lists every branch, unfiltered, until the reader types after opening.
+  const [typed, setTyped] = React.useState(false);
+  const filter = typed ? inputValue : '';
   const paging = useLoadMore({
     hasMore,
     loading,
@@ -322,10 +323,18 @@ export function GitHubRefPicker({
         value={shown}
         onChange={(_event, next) => commit(next)}
         inputValue={inputValue}
-        onInputChange={(_event, next) => setInputValue(next)}
+        onInputChange={(_event, next, reason) => {
+          setInputValue(next);
+          if (reason === 'input') setTyped(true);
+          else if (reason === 'reset' || reason === 'selectOption') setTyped(false);
+        }}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
-        onOpen={() => setPopupOpen(true)}
+        onOpen={(event) => {
+          setPopupOpen(true);
+          // Typing into a closed field opens it, after reporting the input.
+          if (event.type !== 'change') setTyped(false);
+        }}
         onClose={() => setPopupOpen(false)}
         freeSolo={allowCustomRef}
         autoSelect={allowCustomRef}

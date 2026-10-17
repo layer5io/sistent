@@ -1088,41 +1088,59 @@ describe('GitHubRefPicker', () => {
     expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
   });
 
-  it('requests at most one page automatically for a filter that matches few branches', () => {
-    function EndlessRefs() {
-      const [branches, setBranches] = useState(BRANCHES);
-      const [loading, setLoading] = useState(false);
-      const [requests, setRequests] = useState(0);
-      return (
-        <>
-          <GitHubRefPicker
-            branches={branches}
-            defaultBranch="main"
-            value=""
-            onChange={() => undefined}
-            loading={loading}
-            hasMore
-            onLoadMore={() => {
-              setRequests((count) => count + 1);
-              setLoading(true);
-            }}
-          />
-          <p data-testid="requests">{requests}</p>
-          <button
-            type="button"
-            onClick={() => {
-              setBranches((current) => [...current, `b${current.length}`]);
-              setLoading(false);
-            }}
-          >
-            page lands
-          </button>
-        </>
-      );
-    }
-    const requests = () => Number(screen.getByTestId('requests').textContent);
-    const land = () => fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
+  // A repository with more branch pages than a test will ever land.
+  function EndlessRefs({ value = '' }: { value?: string }) {
+    const [branches, setBranches] = useState(BRANCHES);
+    const [loading, setLoading] = useState(false);
+    const [requests, setRequests] = useState(0);
+    return (
+      <>
+        <GitHubRefPicker
+          branches={branches}
+          defaultBranch="main"
+          value={value}
+          onChange={() => undefined}
+          loading={loading}
+          hasMore
+          onLoadMore={() => {
+            setRequests((count) => count + 1);
+            setLoading(true);
+          }}
+        />
+        <p data-testid="requests">{requests}</p>
+        <button
+          type="button"
+          onClick={() => {
+            setBranches((current) => [...current, `b${current.length}`]);
+            setLoading(false);
+          }}
+        >
+          page lands
+        </button>
+      </>
+    );
+  }
+  const requests = () => Number(screen.getByTestId('requests').textContent);
+  const land = () => fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
 
+  it.each([
+    ['retyping the selected ref', 'develop', ['develo', 'develop']],
+    ['typing the default branch while the value is the default', '', ['mai', 'main']]
+  ])('requests at most one page automatically per filter when %s', (_case, value, typing) => {
+    withTheme(<EndlessRefs value={value} />);
+    fireEvent.focus(input());
+    for (const text of typing) fireEvent.change(input(), { target: { value: text } });
+    expect(optionNames()).toEqual([typing[1]]);
+    // One page for each filter: the second waits for the first to land.
+    land();
+    expect(requests()).toBe(2);
+    land();
+    land();
+    land();
+    expect(requests()).toBe(2);
+  });
+
+  it('requests at most one page automatically for a filter that matches few branches', () => {
     // jsdom lays nothing out, so the one-row list box never overflows.
     withTheme(<EndlessRefs />);
     fireEvent.focus(input());
@@ -1139,40 +1157,6 @@ describe('GitHubRefPicker', () => {
   });
 
   it('requests at most one page automatically for each typed filter', () => {
-    function EndlessRefs() {
-      const [branches, setBranches] = useState(BRANCHES);
-      const [loading, setLoading] = useState(false);
-      const [requests, setRequests] = useState(0);
-      return (
-        <>
-          <GitHubRefPicker
-            branches={branches}
-            defaultBranch="main"
-            value=""
-            onChange={() => undefined}
-            loading={loading}
-            hasMore
-            onLoadMore={() => {
-              setRequests((count) => count + 1);
-              setLoading(true);
-            }}
-          />
-          <p data-testid="requests">{requests}</p>
-          <button
-            type="button"
-            onClick={() => {
-              setBranches((current) => [...current, `b${current.length}`]);
-              setLoading(false);
-            }}
-          >
-            page lands
-          </button>
-        </>
-      );
-    }
-    const requests = () => Number(screen.getByTestId('requests').textContent);
-    const land = () => fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
-
     stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
     withTheme(<EndlessRefs />);
     open();
