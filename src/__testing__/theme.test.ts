@@ -145,7 +145,6 @@ describe('MuiButton contained honors the semantic color prop', () => {
   });
 });
 
-
 describe('MuiOutlinedInput line-height', () => {
   // A Select's display div takes its height from the inherited line-height, while a
   // TextField's <input> has a fixed 1.4375em height. If the body line-height leaks into
