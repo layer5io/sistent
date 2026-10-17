@@ -11,19 +11,11 @@ import FullScreenExitIcon from '../../icons/Fullscreen/FullScreenExitIcon';
 import { CustomTooltip } from '../CustomTooltip';
 import { HelperTextPopover } from '../HelperTextPopover';
 
-type openModalCallback = (props: {
-  title: string;
-  reactNode?: React.ReactNode;
-  onClose?: () => void;
-}) => void;
-
 interface BaseModalProps extends Omit<DialogProps, 'title'> {
   closeModal: () => void;
   headerIcon?: React.ReactNode;
   reactNode?: React.ReactNode;
   isFullScreenModeAllowed?: boolean;
-  openModal?: openModalCallback;
-  isOpen?: boolean;
 }
 
 export type ModalProps = BaseModalProps &
@@ -59,6 +51,12 @@ interface ModalFooterProps {
   helpText?: string;
   hasHelpText?: boolean;
 }
+
+type openModalCallback = (props: {
+  title: string;
+  reactNode?: React.ReactNode;
+  onClose?: () => void;
+}) => void;
 
 export interface UseModalReturnI extends BaseModalProps {
   title: string;
@@ -115,9 +113,6 @@ export const ModalStyledHeader = styled('div')(({ theme }) => ({
   textAlign: 'center'
 }));
 
-const nonEmpty = (val: unknown): string | undefined =>
-  typeof val === 'string' && val.trim().length > 0 ? val : undefined;
-
 export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseModalReturnI => {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState<string>('');
@@ -127,10 +122,7 @@ export const useModal = ({ headerIcon }: { headerIcon: React.ReactNode }): UseMo
   const [reactNode, setReactNode] = useState<React.ReactNode | null>(null);
 
   const openModal: openModalCallback = ({ title, reactNode = null, onClose }) => {
-    if (!nonEmpty(title)) {
-      return;
-    }
-    setTitle(title);
+    if (title) setTitle(title);
     if (onClose) onCloseRef.current = onClose;
     setOpen(true);
     if (reactNode) setReactNode(reactNode);
@@ -195,17 +187,25 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     children,
     maxWidth = 'xs',
     isFullScreenModeAllowed,
-    openModal: _openModal,
-    isOpen: _isOpen,
+    ...props
+  } = allProps;
+
+  /*
+   * Use the incoming fullScreen prop only as the initial state.
+   * After initialization, fullscreen is managed internally so, external
+   * fullScreen prop values do not override user-triggered fullscreen toggles.
+   * fullWidth is derived from fullScreen on StyledDialog below; that explicit
+   * prop is applied after {...restProps}, so any caller-provided fullWidth is
+   * intentionally overridden without needing to strip it here.
+   */
+  const {
     fullScreen: initialFullScreenState = false,
     'aria-label': resolvedAriaLabel,
     'aria-labelledby': callerAriaLabelledby,
     'aria-describedby': callerAriaDescribedby,
     slotProps: callerSlotProps,
     ...restProps
-  } = allProps;
-  void _openModal;
-  void _isOpen;
+  } = props;
 
   const titleId = useId(restProps.id ? `${restProps.id}-title` : undefined);
 
@@ -215,45 +215,26 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
     setFullScreen((prev) => !prev);
   };
 
-  const hasTitle = Boolean(nonEmpty(title));
+  const hasTitle = Boolean(title && title.trim().length > 0);
 
   const callerPaperProp = callerSlotProps?.paper;
-  const paperObj =
-    typeof callerPaperProp === 'object' && callerPaperProp !== null
-      ? (callerPaperProp as Record<string, unknown>)
-      : undefined;
-
-  const hasStaticAccessibleName = Boolean(
-    hasTitle ||
-    nonEmpty(callerAriaLabelledby) ||
-    nonEmpty(resolvedAriaLabel) ||
-    nonEmpty(paperObj?.['aria-labelledby']) ||
-    nonEmpty(paperObj?.['aria-label'])
-  );
-
-  // A dialog must not open in an unnamed state when no accessible name is resolvable.
-  if (open && typeof callerPaperProp !== 'function' && !hasStaticAccessibleName) {
-    return null;
-  }
 
   // Merges Paper accessibility attributes while strictly preserving caller's
   // object-valued or callback-valued slotProps.paper.
   const mergePaperAttributes = (baseProps: Record<string, unknown> = {}) => {
-    const validCallerLabelledby = nonEmpty(callerAriaLabelledby);
-    const validPaperLabelledby = nonEmpty(baseProps['aria-labelledby']);
+    const callerPaperLabelledby = baseProps['aria-labelledby'] as string | undefined;
+    const callerPaperLabel = baseProps['aria-label'] as string | undefined;
+    const callerPaperDescribedby = baseProps['aria-describedby'] as string | undefined;
+
     const finalLabelledby =
-      validCallerLabelledby || validPaperLabelledby || (hasTitle ? titleId : undefined);
-
-    const validCallerLabel = nonEmpty(resolvedAriaLabel);
-    const validPaperLabel = nonEmpty(baseProps['aria-label']);
-    const finalLabel = finalLabelledby ? undefined : validCallerLabel || validPaperLabel;
-
-    const validCallerDescribedby = nonEmpty(callerAriaDescribedby);
-    const validPaperDescribedby = nonEmpty(baseProps['aria-describedby']);
-    const finalDescribedby = validCallerDescribedby || validPaperDescribedby;
+      callerAriaLabelledby || callerPaperLabelledby || (hasTitle ? titleId : undefined);
+    const finalLabel = finalLabelledby ? undefined : resolvedAriaLabel || callerPaperLabel;
+    const finalDescribedby = callerAriaDescribedby || callerPaperDescribedby;
 
     const result: Record<string, unknown> = {
       ...baseProps,
+      // Suppress dangling auto-generated aria-labelledby on the dialog paper when
+      // neither title nor an explicit aria-labelledby is provided.
       'aria-labelledby': finalLabelledby,
       'aria-describedby': finalDescribedby
     };
@@ -264,68 +245,17 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
       delete result['aria-label'];
     }
 
-    if (!finalLabelledby && !finalLabel) {
-      result.hidden = true;
-      result.style = {
-        ...(typeof result.style === 'object' && result.style !== null ? result.style : {}),
-        display: 'none'
-      };
-    }
-
     return result;
   };
 
-  let cachedPaperProps: Record<string, unknown> | null = null;
-  let paperCallbackExecuted = false;
-
-  const getEvaluatedPaperProps = (ownerState: DialogOwnerState) => {
-    if (!paperCallbackExecuted) {
-      paperCallbackExecuted = true;
-      cachedPaperProps =
-        (callerPaperProp as (ownerState: DialogOwnerState) => Record<string, unknown>)(
-          ownerState
-        ) || {};
-    }
-    return cachedPaperProps || {};
-  };
-
-  const resolvedRootSlotProps =
-    typeof callerPaperProp === 'function'
-      ? (ownerState: DialogOwnerState) => {
-          const userRootProps =
-            typeof callerSlotProps?.root === 'function'
-              ? (callerSlotProps.root as (ownerState: DialogOwnerState) => Record<string, unknown>)(
-                  ownerState
-                )
-              : (callerSlotProps?.root as Record<string, unknown> | undefined);
-
-          const paperProps = getEvaluatedPaperProps(ownerState);
-          const validCallerLabelledby = nonEmpty(callerAriaLabelledby);
-          const validPaperLabelledby = nonEmpty(paperProps['aria-labelledby']);
-          const finalLabelledby =
-            validCallerLabelledby || validPaperLabelledby || (hasTitle ? titleId : undefined);
-
-          const validCallerLabel = nonEmpty(resolvedAriaLabel);
-          const validPaperLabel = nonEmpty(paperProps['aria-label']);
-          const finalLabel = finalLabelledby ? undefined : validCallerLabel || validPaperLabel;
-
-          const hasAccessibleName = Boolean(finalLabelledby || finalLabel);
-
-          return {
-            ...userRootProps,
-            ...(hasAccessibleName ? {} : { open: false })
-          };
-        }
-      : callerSlotProps?.root;
-
   const resolvedPaperSlotProps =
     typeof callerPaperProp === 'function'
-      ? (ownerState: DialogOwnerState) => mergePaperAttributes(getEvaluatedPaperProps(ownerState))
-      : mergePaperAttributes(paperObj);
+      ? (ownerState: DialogOwnerState) =>
+          mergePaperAttributes(callerPaperProp(ownerState) as Record<string, unknown>)
+      : mergePaperAttributes(callerPaperProp as Record<string, unknown> | undefined);
 
   const mergedSlotProps = {
     ...callerSlotProps,
-    root: resolvedRootSlotProps,
     paper: resolvedPaperSlotProps
   };
 
