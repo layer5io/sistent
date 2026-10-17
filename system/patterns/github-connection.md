@@ -141,7 +141,9 @@ display order, `value` is the selected ref, and `onChange` receives the new one,
   matches none requests at most one more page automatically for each distinct filter value (a
   filter that matches few branches or none, such as a tag or a typo, does not fetch every page);
   further pages load only on scroll to the end, Enter, or the "Load more branches" action. With no
-  filter, a short list fills once per page as on the other pick lists. No match while `hasMore`
+  filter, a short list fills once per page as on the other pick lists. The list is unfiltered
+  until the reader types after opening, including after a selection cleared in the open list
+  resets the field to the default branch. No match while `hasMore`
   reads "Searching more branches..." while `loading`. With no page in flight it reads "No loaded branch matches. Press Enter to load
   more." with a "Load more branches" action; that action, Enter, and ArrowDown in the field all
   call `onLoadMore`, so focus never leaves the field. With `allowCustomRef` it reads "No loaded

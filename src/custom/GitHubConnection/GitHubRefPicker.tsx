@@ -1,4 +1,4 @@
-import { Autocomplete } from '@mui/material';
+import { Autocomplete, createFilterOptions } from '@mui/material';
 import React from 'react';
 import { Box, Button, CircularProgress, Paper, TextField } from '../../base';
 import { useLoadMore } from './loadMore';
@@ -39,6 +39,8 @@ export interface GitHubRefPickerProps {
   /** Id of the input; the list box derives its id from it. Defaults to a generated id. */
   id?: string;
 }
+
+const filterBranches = createFilterOptions<string>();
 
 /** Matches `GitHubRepositoryPicker`: about five rows before the list scrolls. */
 const LISTBOX_MAX_HEIGHT = 224;
@@ -222,7 +224,11 @@ export function GitHubRefPicker({
     }
   }, [commit]);
 
-  // MUI lists every branch, unfiltered, until the reader types after opening.
+  // Every branch is listed, unfiltered, until the reader types after opening.
+  // The list is filtered by this same `filter` (`filterOptions` below) rather
+  // than by MUI's own rule, which also filters by the reset text once a
+  // selection is cleared while the list is open: one row, auto-filled page
+  // after page by the empty-filter rule.
   const [typed, setTyped] = React.useState(false);
   const filter = typed ? inputValue : '';
   const paging = useLoadMore({
@@ -323,6 +329,7 @@ export function GitHubRefPicker({
         value={shown}
         onChange={(_event, next) => commit(next)}
         inputValue={inputValue}
+        filterOptions={(refs, state) => filterBranches(refs, { ...state, inputValue: filter })}
         onInputChange={(_event, next, reason) => {
           setInputValue(next);
           if (reason === 'input') setTyped(true);
@@ -393,6 +400,7 @@ export function GitHubRefPicker({
       shown,
       commit,
       inputValue,
+      filter,
       handleBlur,
       handleKeyDown,
       allowCustomRef,

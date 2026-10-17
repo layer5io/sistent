@@ -1089,8 +1089,15 @@ describe('GitHubRefPicker', () => {
   });
 
   // A repository with more branch pages than a test will ever land.
-  function EndlessRefs({ value = '' }: { value?: string }) {
-    const [branches, setBranches] = useState(BRANCHES);
+  function EndlessRefs({
+    value: initialValue = '',
+    initialBranches = BRANCHES
+  }: {
+    value?: string;
+    initialBranches?: string[];
+  }) {
+    const [branches, setBranches] = useState(initialBranches);
+    const [value, setValue] = useState(initialValue);
     const [loading, setLoading] = useState(false);
     const [requests, setRequests] = useState(0);
     return (
@@ -1099,7 +1106,7 @@ describe('GitHubRefPicker', () => {
           branches={branches}
           defaultBranch="main"
           value={value}
-          onChange={() => undefined}
+          onChange={setValue}
           loading={loading}
           hasMore
           onLoadMore={() => {
@@ -1138,6 +1145,33 @@ describe('GitHubRefPicker', () => {
     land();
     land();
     expect(requests()).toBe(2);
+  });
+
+  it('lists every branch, and stops paging, once a selection cleared in the open list resets the field', () => {
+    // Model layout: 40px rows in a list box that scrolls past 224px.
+    const rows = (element: Element) => element.querySelectorAll('[role="option"]').length * 40;
+    jest
+      .spyOn(Element.prototype, 'scrollHeight', 'get')
+      .mockImplementation(function (this: Element) {
+        return rows(this);
+      });
+    jest
+      .spyOn(Element.prototype, 'clientHeight', 'get')
+      .mockImplementation(function (this: Element) {
+        return Math.min(rows(this), 224);
+      });
+    const loaded = ['main', ...Array.from({ length: 9 }, (_, index) => `branch-${index}`)];
+    withTheme(<EndlessRefs value="branch-2" initialBranches={loaded} />);
+    open();
+    expect(requests()).toBe(0);
+
+    // Backspace over the selected text: MUI clears the value, and the field resets to the default.
+    fireEvent.change(input(), { target: { value: '' } });
+    expect(input().value).toBe('main');
+    expect(optionNames()).toEqual(loaded);
+    land();
+    land();
+    expect(requests()).toBe(0);
   });
 
   it('requests at most one page automatically for a filter that matches few branches', () => {
