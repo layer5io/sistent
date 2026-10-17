@@ -1088,6 +1088,56 @@ describe('GitHubRefPicker', () => {
     expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
   });
 
+  it('requests at most one page automatically for a filter that matches few branches', () => {
+    function EndlessRefs() {
+      const [branches, setBranches] = useState(BRANCHES);
+      const [loading, setLoading] = useState(false);
+      const [requests, setRequests] = useState(0);
+      return (
+        <>
+          <GitHubRefPicker
+            branches={branches}
+            defaultBranch="main"
+            value=""
+            onChange={() => undefined}
+            loading={loading}
+            hasMore
+            onLoadMore={() => {
+              setRequests((count) => count + 1);
+              setLoading(true);
+            }}
+          />
+          <p data-testid="requests">{requests}</p>
+          <button
+            type="button"
+            onClick={() => {
+              setBranches((current) => [...current, `b${current.length}`]);
+              setLoading(false);
+            }}
+          >
+            page lands
+          </button>
+        </>
+      );
+    }
+    const requests = () => Number(screen.getByTestId('requests').textContent);
+    const land = () => fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
+
+    // jsdom lays nothing out, so the one-row list box never overflows.
+    withTheme(<EndlessRefs />);
+    fireEvent.focus(input());
+    fireEvent.change(input(), { target: { value: 'dev' } });
+    expect(optionNames()).toEqual(['develop']);
+    expect(requests()).toBe(1);
+    land();
+    land();
+    land();
+    expect(requests()).toBe(1);
+
+    fireEvent.scroll(screen.getByRole('listbox'));
+    expect(requests()).toBe(2);
+  });
+
   it('requests at most one page automatically for each typed filter', () => {
     function EndlessRefs() {
       const [branches, setBranches] = useState(BRANCHES);

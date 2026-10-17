@@ -137,10 +137,12 @@ display order, `value` is the selected ref, and `onChange` receives the new one,
   that does not exist; the picker does not validate ref names.
 - **Paging** works as on the other pick lists: `hasMore`, `loading`, `onLoadMore`, with a loading
   row under the list (never an option) while a further page is fetched. Typing filters the branches
-  already loaded; when it matches none while `hasMore`, one more page is requested automatically
-  for each distinct filter value (a filter no branch will match, such as a tag or a typo, does not
-  fetch every page), reading "Searching more branches..." while `loading`. Further pages load only
-  on request. With no page in flight it reads "No loaded branch matches. Press Enter to load
+  already loaded. While a typed filter is in effect, a list too short to scroll or a filter that
+  matches none requests at most one more page automatically for each distinct filter value (a
+  filter that matches few branches or none, such as a tag or a typo, does not fetch every page);
+  further pages load only on scroll to the end, Enter, or the "Load more branches" action. With no
+  filter, a short list fills once per page as on the other pick lists. No match while `hasMore`
+  reads "Searching more branches..." while `loading`. With no page in flight it reads "No loaded branch matches. Press Enter to load
   more." with a "Load more branches" action; that action, Enter, and ArrowDown in the field all
   call `onLoadMore`, so focus never leaves the field. With `allowCustomRef` it reads "No loaded
   branch matches. Press Enter to use this ref." instead: Enter commits the typed ref, while the

@@ -55,8 +55,8 @@ const PagingContext = React.createContext({
   branchCount: 0,
   filter: '',
   allowCustomRef: false,
-  request: (): boolean => false,
-  requestOncePerFilter: (): void => undefined,
+  request: (): void => undefined,
+  requestIfArmed: (): void => undefined,
   setNoMatchShown: ((): void => undefined) as (shown: boolean) => void
 });
 
@@ -128,7 +128,7 @@ function NoMatchingBranch(): JSX.Element {
     filter,
     allowCustomRef,
     request,
-    requestOncePerFilter,
+    requestIfArmed,
     setNoMatchShown
   } = React.useContext(PagingContext);
   React.useLayoutEffect(() => {
@@ -136,13 +136,7 @@ function NoMatchingBranch(): JSX.Element {
     return () => setNoMatchShown(false);
   }, [setNoMatchShown]);
   // Before paint, so the load-more action does not flash ahead of the request.
-  React.useLayoutEffect(requestOncePerFilter, [
-    requestOncePerFilter,
-    loading,
-    hasMore,
-    branchCount,
-    filter
-  ]);
+  React.useLayoutEffect(requestIfArmed, [requestIfArmed, loading, hasMore, branchCount, filter]);
   const canLoadMore = hasMore && !loading;
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 1 }}>
@@ -228,7 +222,15 @@ export function GitHubRefPicker({
     }
   }, [commit]);
 
-  const paging = useLoadMore({ hasMore, loading, onLoadMore, contentKey: branches.length });
+  // MUI lists every branch, unfiltered, while the field still shows the selection.
+  const filter = inputValue === (shown ?? '') ? '' : inputValue;
+  const paging = useLoadMore({
+    hasMore,
+    loading,
+    onLoadMore,
+    contentKey: branches.length,
+    filter
+  });
 
   // Two MUI behaviours (still present in @mui/material 9.5) undo paging while
   // the list is open. On every render that follows a change of options, MUI
@@ -284,19 +286,6 @@ export function GitHubRefPicker({
     [pagingRequest]
   );
 
-  // The automatic no-match request: one per filter value, re-armed for every
-  // filter once the branches are replaced (a shorter list is a new one).
-  const autoRequestedFilters = React.useRef(new Set<string>());
-  const lastBranchCount = React.useRef(branches.length);
-  if (branches.length < lastBranchCount.current) autoRequestedFilters.current.clear();
-  lastBranchCount.current = branches.length;
-  const requestOncePerFilter = React.useCallback(() => {
-    const filter = latest.current.inputValue;
-    if (!autoRequestedFilters.current.has(filter) && pagingRequest()) {
-      autoRequestedFilters.current.add(filter);
-    }
-  }, [pagingRequest]);
-
   const [popupOpen, setPopupOpen] = React.useState(false);
 
   const firstPageLoading = loading && branches.length === 0;
@@ -306,20 +295,20 @@ export function GitHubRefPicker({
       loadingMore: loading && branches.length > 0,
       hasMore,
       branchCount: branches.length,
-      filter: inputValue,
+      filter,
       allowCustomRef,
       request: pagingRequest,
-      requestOncePerFilter,
+      requestIfArmed: paging.requestIfArmed,
       setNoMatchShown
     }),
     [
       loading,
       hasMore,
       branches.length,
-      inputValue,
+      filter,
       allowCustomRef,
       pagingRequest,
-      requestOncePerFilter
+      paging.requestIfArmed
     ]
   );
 
