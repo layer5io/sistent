@@ -9,6 +9,7 @@ import {
   GitHubFileTree,
   GitHubFinishSummary,
   GitHubImportConnectWizard,
+  GitHubRefPicker,
   GitHubRepositoryPicker,
   GitHubRepositorySection,
   GitHubWizardInfo,
@@ -18,6 +19,7 @@ import {
   type GitHubFileTreeNode,
   type GitHubFileTreeProps,
   type GitHubFinishRepository,
+  type GitHubRefPickerProps,
   type GitHubWizardStepProps
 } from '../custom/GitHubConnection';
 import { PermissionProvider } from '../custom/PermissionProvider';
@@ -660,6 +662,805 @@ describe('GitHubRepositoryPicker', () => {
     expect(loadingRow.getAttribute('aria-disabled')).toBe('true');
     fireEvent.click(loadingRow);
     expect(picked()).toEqual([]);
+  });
+});
+
+describe('GitHubRepositoryPicker singleSelect', () => {
+  const REPOS = ['octo-org/one', 'octo-org/two'];
+
+  function SinglePicker({ initial = [] as string[] }) {
+    const [selected, setSelected] = useState<string[]>(initial);
+    return (
+      <>
+        <GitHubRepositoryPicker
+          singleSelect
+          repositories={REPOS}
+          selected={selected}
+          onChange={setSelected}
+        />
+        <p data-testid="picked">{JSON.stringify(selected)}</p>
+      </>
+    );
+  }
+
+  const open = () => fireEvent.mouseDown(screen.getByRole('combobox'));
+  const picked = () => JSON.parse(screen.getByTestId('picked').textContent ?? '[]');
+
+  it('replaces the selection with the one repository picked', () => {
+    withTheme(<SinglePicker />);
+    open();
+    fireEvent.click(screen.getByRole('option', { name: 'octo-org/two' }));
+    expect(picked()).toEqual(['octo-org/two']);
+    open();
+    fireEvent.click(screen.getByRole('option', { name: 'octo-org/one' }));
+    expect(picked()).toEqual(['octo-org/one']);
+  });
+
+  it('renders a single-value list without checkboxes', () => {
+    withTheme(<SinglePicker initial={['octo-org/one']} />);
+    expect(screen.getByRole('combobox').textContent).toBe('octo-org/one');
+    open();
+    expect(screen.getByRole('listbox').getAttribute('aria-multiselectable')).not.toBe('true');
+    expect(screen.queryAllByRole('checkbox')).toHaveLength(0);
+    expect(screen.getByRole('option', { name: 'octo-org/one' }).getAttribute('aria-selected')).toBe(
+      'true'
+    );
+  });
+
+  it('lists a bound repository that is not on a fetched page yet', () => {
+    withTheme(<SinglePicker initial={['octo-org/later']} />);
+    expect(screen.getByRole('combobox').textContent).toBe('octo-org/later');
+    open();
+    const options = screen.getAllByRole('option').map((option) => option.textContent);
+    expect(options).toEqual(['octo-org/later', 'octo-org/one', 'octo-org/two']);
+  });
+});
+
+describe('GitHubRefPicker', () => {
+  const BRANCHES = ['develop', 'main', 'release-1.0'];
+
+  function RefHarness({
+    initial = '',
+    onChangeSpy,
+    ...props
+  }: Partial<GitHubRefPickerProps> & { initial?: string; onChangeSpy?: (ref: string) => void }) {
+    const [value, setValue] = useState(initial);
+    return (
+      <>
+        <GitHubRefPicker
+          branches={BRANCHES}
+          defaultBranch="main"
+          {...props}
+          value={value}
+          onChange={(ref) => {
+            onChangeSpy?.(ref);
+            setValue(ref);
+          }}
+        />
+        <p data-testid="ref">{JSON.stringify(value)}</p>
+      </>
+    );
+  }
+
+  const input = () => screen.getByRole('combobox') as HTMLInputElement;
+  const open = () => {
+    fireEvent.focus(input());
+    fireEvent.keyDown(input(), { key: 'ArrowDown' });
+  };
+  const currentRef = () => JSON.parse(screen.getByTestId('ref').textContent ?? '""');
+  const liveRegion = () =>
+    document.querySelector('[role="status"][aria-live="polite"]') as HTMLElement;
+  // The popup's visible no-match text, not its copy in the live region.
+  const noMatchShown = (message: string) =>
+    screen.queryAllByText(message).some((element) => !liveRegion().contains(element));
+  // An option's first node is the ref; the default branch carries a mark after it.
+  const optionNames = () =>
+    screen.getAllByRole('option').map((option) => option.firstChild?.textContent);
+
+  it('shows the default branch by name when the value is the default', () => {
+    withTheme(<RefHarness />);
+    expect(input().value).toBe('main');
+    expect(screen.getByLabelText('Branch')).toBe(input());
+  });
+
+  it('lists the default branch first and marks it', () => {
+    withTheme(<RefHarness />);
+    open();
+    expect(optionNames()).toEqual(['main', 'develop', 'release-1.0']);
+    expect(screen.getByRole('option', { name: 'main , default branch' })).toBeTruthy();
+    expect(
+      screen.getAllByRole('option').filter((o) => o.textContent?.includes('default'))
+    ).toHaveLength(1);
+  });
+
+  it('reports a picked branch, and the default branch as an empty ref', () => {
+    const onChangeSpy = jest.fn();
+    withTheme(<RefHarness onChangeSpy={onChangeSpy} />);
+    open();
+    fireEvent.click(screen.getByRole('option', { name: 'release-1.0' }));
+    expect(currentRef()).toBe('release-1.0');
+    expect(input().value).toBe('release-1.0');
+
+    open();
+    fireEvent.click(screen.getByRole('option', { name: /main/ }));
+    expect(currentRef()).toBe('');
+    expect(onChangeSpy.mock.calls).toEqual([['release-1.0'], ['']]);
+  });
+
+  it('shows a placeholder while the default branch is unknown', () => {
+    withTheme(<RefHarness defaultBranch={undefined} />);
+    expect(input().value).toBe('');
+    expect(input().getAttribute('placeholder')).toBe('Default branch');
+  });
+
+  it('lists a bound ref that is not on a fetched page yet', () => {
+    withTheme(<RefHarness initial="feature/later" />);
+    expect(input().value).toBe('feature/later');
+    open();
+    expect(optionNames()).toEqual(['main', 'develop', 'release-1.0', 'feature/later']);
+  });
+
+  it('does not accept free text unless custom refs are allowed', () => {
+    const onChangeSpy = jest.fn();
+    withTheme(<RefHarness onChangeSpy={onChangeSpy} />);
+    fireEvent.change(input(), { target: { value: 'v1.2.0' } });
+    fireEvent.keyDown(input(), { key: 'Enter' });
+    fireEvent.blur(input());
+    expect(onChangeSpy).not.toHaveBeenCalled();
+    expect(input().value).toBe('main');
+  });
+
+  it('commits a typed tag on Enter and on blur, trimmed', () => {
+    withTheme(<RefHarness allowCustomRef />);
+    expect(screen.getByLabelText('Branch or tag')).toBe(input());
+    fireEvent.change(input(), { target: { value: ' v1.2.0 ' } });
+    fireEvent.keyDown(input(), { key: 'Enter' });
+    expect(currentRef()).toBe('v1.2.0');
+
+    fireEvent.change(input(), { target: { value: 'v2.0.0' } });
+    fireEvent.blur(input());
+    expect(currentRef()).toBe('v2.0.0');
+  });
+
+  it('treats a typed default branch, and an emptied field, as the default', () => {
+    withTheme(<RefHarness allowCustomRef initial="v1.2.0" />);
+    fireEvent.change(input(), { target: { value: 'main' } });
+    fireEvent.keyDown(input(), { key: 'Enter' });
+    expect(currentRef()).toBe('');
+
+    fireEvent.change(input(), { target: { value: 'v1.2.0' } });
+    fireEvent.blur(input());
+    expect(currentRef()).toBe('v1.2.0');
+
+    fireEvent.focus(input());
+    fireEvent.change(input(), { target: { value: '' } });
+    fireEvent.blur(input());
+    expect(currentRef()).toBe('');
+    expect(input().value).toBe('main');
+  });
+
+  it('clears a picked ref back to the default branch', () => {
+    withTheme(<RefHarness initial="develop" />);
+    // MUI hides the clear button (so it has no accessible name) until hover or focus.
+    fireEvent.click(screen.getByTitle('Clear'));
+    expect(currentRef()).toBe('');
+    expect(input().value).toBe('main');
+    expect(screen.queryByTitle('Clear')).toBeNull();
+  });
+
+  it('asks for the next page when an overflowing list is scrolled to its end', () => {
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224, scrollTop: 0 });
+    const onLoadMore = jest.fn();
+    withTheme(<RefHarness hasMore onLoadMore={onLoadMore} />);
+    open();
+    const listbox = screen.getByRole('listbox');
+    fireEvent.scroll(listbox);
+    expect(onLoadMore).not.toHaveBeenCalled();
+
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224, scrollTop: 276 });
+    fireEvent.scroll(listbox);
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+  });
+
+  it('asks for the next page when the list opens too short to scroll', () => {
+    stubScrollGeometry({ scrollHeight: 120, clientHeight: 120 });
+    const onLoadMore = jest.fn();
+    withTheme(<RefHarness hasMore onLoadMore={onLoadMore} />);
+    expect(onLoadMore).not.toHaveBeenCalled();
+    open();
+    expect(onLoadMore).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the scroll position while a page loads and when it lands', () => {
+    // scrollTop stays real so MUI's highlight sync can move it, as it does in a browser.
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+    function PagedRefs() {
+      const [branches, setBranches] = useState(BRANCHES);
+      const [loading, setLoading] = useState(false);
+      return (
+        <>
+          <GitHubRefPicker
+            branches={branches}
+            defaultBranch="main"
+            value=""
+            onChange={() => undefined}
+            loading={loading}
+            hasMore={branches.length < 5}
+            onLoadMore={() => setLoading(true)}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              setBranches((current) => [...current, 'v1', 'v2']);
+              setLoading(false);
+            }}
+          >
+            page lands
+          </button>
+        </>
+      );
+    }
+
+    withTheme(<PagedRefs />);
+    open();
+    const listbox = screen.getByRole('listbox');
+    listbox.scrollTop = 276;
+    fireEvent.scroll(listbox);
+    expect(screen.getByRole('status', { name: /loading more branches/i })).toBeTruthy();
+    expect(listbox.scrollTop).toBe(276);
+
+    fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
+    expect(optionNames()).toHaveLength(5);
+    expect(screen.getByRole('listbox').scrollTop).toBe(276);
+  });
+
+  it('keeps the keyboard highlight while pages are requested and land', () => {
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+    function PagedRefs() {
+      const [branches, setBranches] = useState(BRANCHES);
+      const [loading, setLoading] = useState(false);
+      return (
+        <>
+          <GitHubRefPicker
+            // A fresh array on every render, as a host mapping API results inline passes.
+            branches={[...branches]}
+            defaultBranch="main"
+            value=""
+            onChange={() => undefined}
+            loading={loading}
+            hasMore={branches.length < 7}
+            onLoadMore={() => setLoading(true)}
+          />
+          <button
+            type="button"
+            onClick={() => {
+              setBranches((current) => [
+                ...current,
+                `v${current.length}`,
+                `v${current.length + 1}`
+              ]);
+              setLoading(false);
+            }}
+          >
+            page lands
+          </button>
+        </>
+      );
+    }
+    const highlighted = () =>
+      screen.getByRole('listbox').querySelector('.Mui-focused')?.firstChild?.textContent;
+    const requestPage = () => {
+      const listbox = screen.getByRole('listbox');
+      listbox.scrollTop = 276;
+      fireEvent.scroll(listbox);
+    };
+
+    withTheme(<PagedRefs />);
+    open();
+    expect(highlighted()).toBe('main');
+    fireEvent.keyDown(input(), { key: 'ArrowDown' });
+    fireEvent.keyDown(input(), { key: 'ArrowDown' });
+    expect(highlighted()).toBe('release-1.0');
+
+    requestPage();
+    expect(highlighted()).toBe('release-1.0');
+    fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
+    expect(highlighted()).toBe('release-1.0');
+
+    // The request after a landed page is the render MUI used to re-highlight on.
+    requestPage();
+    expect(screen.getByRole('status', { name: /loading more branches/i })).toBeTruthy();
+    expect(highlighted()).toBe('release-1.0');
+    fireEvent.keyDown(input(), { key: 'ArrowDown' });
+    expect(highlighted()).toBe('v3');
+  });
+
+  it('does not wrap the keyboard highlight to the top while more pages exist', () => {
+    const { unmount } = withTheme(<RefHarness hasMore onLoadMore={() => undefined} />);
+    open();
+    for (let press = 0; press < 3; press++) fireEvent.keyDown(input(), { key: 'ArrowDown' });
+    expect(screen.getByRole('listbox').querySelector('.Mui-focused')?.textContent).toBe(
+      'release-1.0'
+    );
+    unmount();
+
+    withTheme(<RefHarness />);
+    open();
+    for (let press = 0; press < 3; press++) fireEvent.keyDown(input(), { key: 'ArrowDown' });
+    expect(screen.getByRole('listbox').querySelector('.Mui-focused')?.firstChild?.textContent).toBe(
+      'main'
+    );
+  });
+
+  it('does not page while a page is loading or once the list is exhausted', () => {
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224, scrollTop: 276 });
+    const onLoadMore = jest.fn();
+    const { unmount } = withTheme(<RefHarness hasMore loading onLoadMore={onLoadMore} />);
+    open();
+    fireEvent.scroll(screen.getByRole('listbox'));
+    unmount();
+
+    withTheme(<RefHarness hasMore={false} onLoadMore={onLoadMore} />);
+    open();
+    fireEvent.scroll(screen.getByRole('listbox'));
+    expect(onLoadMore).not.toHaveBeenCalled();
+  });
+
+  it('shows a loading row outside the options while a further page loads', () => {
+    withTheme(<RefHarness hasMore loading />);
+    open();
+    const status = screen.getByRole('status', { name: /loading more branches/i });
+    expect(within(screen.getByRole('listbox')).queryByRole('status')).toBeNull();
+    expect(status).toBeTruthy();
+    expect(optionNames()).toHaveLength(3);
+  });
+
+  it('searches further pages when the filter matches no loaded branch', () => {
+    function PagedRefs() {
+      const [branches, setBranches] = useState(BRANCHES);
+      const [loading, setLoading] = useState(false);
+      const [requests, setRequests] = useState(0);
+      return (
+        <>
+          <GitHubRefPicker
+            branches={branches}
+            defaultBranch="main"
+            value=""
+            onChange={() => undefined}
+            loading={loading}
+            hasMore={branches.length < 7}
+            onLoadMore={() => {
+              setRequests((count) => count + 1);
+              setLoading(true);
+            }}
+          />
+          <p data-testid="requests">{requests}</p>
+          <button
+            type="button"
+            onClick={() => {
+              setBranches((current) => [
+                ...current,
+                `v${current.length}`,
+                `v${current.length + 1}`
+              ]);
+              setLoading(false);
+            }}
+          >
+            page lands
+          </button>
+          <button type="button" onClick={() => setLoading(false)}>
+            page fails
+          </button>
+        </>
+      );
+    }
+    const requests = () => Number(screen.getByTestId('requests').textContent);
+
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+    withTheme(<PagedRefs />);
+    open();
+    expect(requests()).toBe(0);
+    fireEvent.change(input(), { target: { value: 'release-2' } });
+    expect(requests()).toBe(1);
+    expect(noMatchShown('Searching more branches...')).toBe(true);
+    expect(noMatchShown('No matching branch')).toBe(false);
+
+    // A failed page adds nothing and is not re-requested on its own; the reader can retry.
+    fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
+    expect(requests()).toBe(1);
+    expect(noMatchShown('Searching more branches...')).toBe(false);
+    expect(noMatchShown('No loaded branch matches. Press Enter to load more.')).toBe(true);
+    fireEvent.click(screen.getByRole('button', { name: 'Load more branches' }));
+    expect(requests()).toBe(2);
+    expect(noMatchShown('Searching more branches...')).toBe(true);
+    expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
+
+    // A page that lands without a match is not followed by another on its own.
+    fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
+    expect(requests()).toBe(2);
+    expect(noMatchShown('No loaded branch matches. Press Enter to load more.')).toBe(true);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Load more branches' }));
+    expect(requests()).toBe(3);
+    fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
+    expect(requests()).toBe(3);
+    expect(noMatchShown('No matching branch')).toBe(true);
+    expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
+  });
+
+  // A repository with more branch pages than a test will ever land.
+  function EndlessRefs({
+    value: initialValue = '',
+    initialBranches = BRANCHES
+  }: {
+    value?: string;
+    initialBranches?: string[];
+  }) {
+    const [branches, setBranches] = useState(initialBranches);
+    const [value, setValue] = useState(initialValue);
+    const [loading, setLoading] = useState(false);
+    const [requests, setRequests] = useState(0);
+    return (
+      <>
+        <GitHubRefPicker
+          branches={branches}
+          defaultBranch="main"
+          value={value}
+          onChange={setValue}
+          loading={loading}
+          hasMore
+          onLoadMore={() => {
+            setRequests((count) => count + 1);
+            setLoading(true);
+          }}
+        />
+        <p data-testid="requests">{requests}</p>
+        <button
+          type="button"
+          onClick={() => {
+            setBranches((current) => [...current, `b${current.length}`]);
+            setLoading(false);
+          }}
+        >
+          page lands
+        </button>
+      </>
+    );
+  }
+  const requests = () => Number(screen.getByTestId('requests').textContent);
+  const land = () => fireEvent.click(screen.getByText('page lands', { selector: 'button' }));
+
+  it.each([
+    ['retyping the selected ref', 'develop', ['develo', 'develop']],
+    ['typing the default branch while the value is the default', '', ['mai', 'main']]
+  ])('requests at most one page automatically per filter when %s', (_case, value, typing) => {
+    withTheme(<EndlessRefs value={value} />);
+    fireEvent.focus(input());
+    for (const text of typing) fireEvent.change(input(), { target: { value: text } });
+    expect(optionNames()).toEqual([typing[1]]);
+    // One page for each filter: the second waits for the first to land.
+    land();
+    expect(requests()).toBe(2);
+    land();
+    land();
+    land();
+    expect(requests()).toBe(2);
+  });
+
+  it('lists every branch, and stops paging, once a selection cleared in the open list resets the field', () => {
+    // Model layout: 40px rows in a list box that scrolls past 224px.
+    const rows = (element: Element) => element.querySelectorAll('[role="option"]').length * 40;
+    jest.spyOn(Element.prototype, 'scrollHeight', 'get').mockImplementation(function (
+      this: Element
+    ) {
+      return rows(this);
+    });
+    jest.spyOn(Element.prototype, 'clientHeight', 'get').mockImplementation(function (
+      this: Element
+    ) {
+      return Math.min(rows(this), 224);
+    });
+    const loaded = ['main', ...Array.from({ length: 9 }, (_, index) => `branch-${index}`)];
+    withTheme(<EndlessRefs value="branch-2" initialBranches={loaded} />);
+    open();
+    expect(requests()).toBe(0);
+
+    // Backspace over the selected text: MUI clears the value, and the field resets to the default.
+    fireEvent.change(input(), { target: { value: '' } });
+    expect(input().value).toBe('main');
+    expect(optionNames()).toEqual(loaded);
+    land();
+    land();
+    expect(requests()).toBe(0);
+  });
+
+  it('requests at most one page automatically for a filter that matches few branches', () => {
+    // jsdom lays nothing out, so the one-row list box never overflows.
+    withTheme(<EndlessRefs />);
+    fireEvent.focus(input());
+    fireEvent.change(input(), { target: { value: 'dev' } });
+    expect(optionNames()).toEqual(['develop']);
+    expect(requests()).toBe(1);
+    land();
+    land();
+    land();
+    expect(requests()).toBe(1);
+
+    fireEvent.scroll(screen.getByRole('listbox'));
+    expect(requests()).toBe(2);
+  });
+
+  it('requests at most one page automatically for each typed filter', () => {
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+    withTheme(<EndlessRefs />);
+    open();
+    fireEvent.change(input(), { target: { value: 'v2.3.1' } });
+    expect(requests()).toBe(1);
+    land();
+    land();
+    expect(requests()).toBe(1);
+
+    fireEvent.change(input(), { target: { value: 'v2.3.2' } });
+    expect(requests()).toBe(2);
+    land();
+    expect(requests()).toBe(2);
+
+    // Coming back to a filter already searched does not search it again on its own.
+    fireEvent.change(input(), { target: { value: 'v2.3.1' } });
+    expect(requests()).toBe(2);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Load more branches' }));
+    expect(requests()).toBe(3);
+    land();
+    fireEvent.keyDown(input(), { key: 'Enter' });
+    expect(requests()).toBe(4);
+  });
+
+  describe('with no loaded branch matching and no page in flight', () => {
+    function FailedPage({ onLoadMore }: { onLoadMore: () => void }) {
+      const [loading, setLoading] = useState(false);
+      return (
+        <>
+          <GitHubRefPicker
+            branches={BRANCHES}
+            defaultBranch="main"
+            value=""
+            onChange={() => undefined}
+            loading={loading}
+            hasMore
+            onLoadMore={() => {
+              onLoadMore();
+              setLoading(true);
+            }}
+          />
+          <button type="button" onClick={() => setLoading(false)}>
+            page fails
+          </button>
+        </>
+      );
+    }
+    const renderFailed = () => {
+      stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+      const onLoadMore = jest.fn();
+      withTheme(<FailedPage onLoadMore={onLoadMore} />);
+      open();
+      fireEvent.change(input(), { target: { value: 'release-2' } });
+      fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
+      expect(onLoadMore).toHaveBeenCalledTimes(1);
+      return onLoadMore;
+    };
+
+    it.each(['Enter', 'ArrowDown'])('loads more on %s without leaving the field', (key) => {
+      const onLoadMore = renderFailed();
+      fireEvent.keyDown(input(), { key });
+      expect(onLoadMore).toHaveBeenCalledTimes(2);
+      expect(input().value).toBe('release-2');
+      expect(noMatchShown('Searching more branches...')).toBe(true);
+
+      fireEvent.keyDown(input(), { key });
+      expect(onLoadMore).toHaveBeenCalledTimes(2);
+    });
+
+    it('announces the no-match state from one live region outside the popup', () => {
+      stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+      withTheme(<FailedPage onLoadMore={() => undefined} />);
+      const region = liveRegion();
+      expect(region.textContent).toBe('');
+
+      open();
+      fireEvent.change(input(), { target: { value: 'release-2' } });
+      expect(region.textContent).toBe('Searching more branches...');
+      const shown = screen
+        .getAllByText('Searching more branches...')
+        .find((element) => !region.contains(element));
+      expect(shown?.closest('[aria-live]')).toBeNull();
+      fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
+      expect(region.textContent).toBe('No loaded branch matches. Press Enter to load more.');
+      expect(liveRegion()).toBe(region);
+
+      fireEvent.change(input(), { target: { value: 'dev' } });
+      expect(region.textContent).toBe('');
+      fireEvent.change(input(), { target: { value: 'release-2' } });
+      expect(liveRegion()).toBe(region);
+      expect(region.textContent).toBe('No loaded branch matches. Press Enter to load more.');
+    });
+
+    it('does not submit a surrounding form when Enter loads more', () => {
+      stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+      const onLoadMore = jest.fn();
+      withTheme(
+        <form>
+          <FailedPage onLoadMore={onLoadMore} />
+        </form>
+      );
+      open();
+      fireEvent.change(input(), { target: { value: 'release-2' } });
+      fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
+      // jsdom has no implicit submission; a prevented Enter is what stops it in a browser.
+      const notPrevented = fireEvent.keyDown(input(), { key: 'Enter' });
+      expect(onLoadMore).toHaveBeenCalledTimes(2);
+      expect(notPrevented).toBe(false);
+    });
+  });
+
+  describe('with allowCustomRef and no loaded branch matching', () => {
+    const typeTag = (onLoadMore: () => void) => {
+      withTheme(<RefHarness allowCustomRef hasMore onLoadMore={onLoadMore} />);
+      fireEvent.focus(input());
+      fireEvent.change(input(), { target: { value: 'v1.2.0' } });
+    };
+
+    it('says Enter uses the typed ref, in the popup and the live region', () => {
+      const onLoadMore = jest.fn();
+      typeTag(onLoadMore);
+      expect(onLoadMore).toHaveBeenCalledTimes(1);
+      expect(noMatchShown('No loaded branch matches. Press Enter to use this ref.')).toBe(true);
+      expect(liveRegion().textContent).toBe(
+        'No loaded branch matches. Press Enter to use this ref.'
+      );
+      expect(noMatchShown('No loaded branch matches. Press Enter to load more.')).toBe(false);
+    });
+
+    it('keeps Load more for paging, and Enter commits the ref without paging', () => {
+      const onLoadMore = jest.fn();
+      typeTag(onLoadMore);
+      fireEvent.click(screen.getByRole('button', { name: 'Load more branches' }));
+      expect(onLoadMore).toHaveBeenCalledTimes(2);
+
+      fireEvent.keyDown(input(), { key: 'Enter' });
+      expect(onLoadMore).toHaveBeenCalledTimes(2);
+      expect(currentRef()).toBe('v1.2.0');
+      expect(noMatchShown('No loaded branch matches. Press Enter to use this ref.')).toBe(false);
+      expect(liveRegion().textContent).toBe('');
+    });
+
+    it('drops the no-match state once the popup closes', () => {
+      const onLoadMore = jest.fn();
+      typeTag(onLoadMore);
+      fireEvent.blur(input());
+      expect(currentRef()).toBe('v1.2.0');
+      expect(screen.queryByRole('button', { name: 'Load more branches' })).toBeNull();
+      expect(liveRegion().textContent).toBe('');
+      expect(onLoadMore).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('still commits a typed tag on Enter inside a form', () => {
+    withTheme(
+      <form>
+        <RefHarness allowCustomRef hasMore onLoadMore={() => undefined} />
+      </form>
+    );
+    fireEvent.change(input(), { target: { value: 'v1.2.0' } });
+    fireEvent.keyDown(input(), { key: 'Enter' });
+    expect(currentRef()).toBe('v1.2.0');
+  });
+
+  it('does not page on Enter or ArrowDown while branches match', () => {
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+    const onLoadMore = jest.fn();
+    withTheme(<RefHarness hasMore onLoadMore={onLoadMore} />);
+    open();
+    fireEvent.change(input(), { target: { value: 'dev' } });
+    fireEvent.keyDown(input(), { key: 'ArrowDown' });
+    fireEvent.keyDown(input(), { key: 'Enter' });
+    expect(onLoadMore).not.toHaveBeenCalled();
+    expect(currentRef()).toBe('develop');
+  });
+
+  it('searches again after the branches are replaced by a list of the same length', () => {
+    function SwitchedRepository() {
+      const [branches, setBranches] = useState(BRANCHES);
+      const [loading, setLoading] = useState(false);
+      const [requests, setRequests] = useState(0);
+      return (
+        <>
+          <GitHubRefPicker
+            branches={branches}
+            defaultBranch="main"
+            value=""
+            onChange={() => undefined}
+            loading={loading}
+            hasMore
+            onLoadMore={() => {
+              setRequests((count) => count + 1);
+              setLoading(true);
+            }}
+          />
+          <p data-testid="requests">{requests}</p>
+          <button type="button" onClick={() => setLoading(false)}>
+            page fails
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setBranches([]);
+              setLoading(true);
+            }}
+          >
+            switch repository
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setBranches(['main', 'staging', 'hotfix']);
+              setLoading(false);
+            }}
+          >
+            first page lands
+          </button>
+        </>
+      );
+    }
+    const requests = () => Number(screen.getByTestId('requests').textContent);
+
+    stubScrollGeometry({ scrollHeight: 500, clientHeight: 224 });
+    withTheme(<SwitchedRepository />);
+    open();
+    expect(requests()).toBe(0);
+    fireEvent.change(input(), { target: { value: 'release-2' } });
+    expect(requests()).toBe(1);
+    fireEvent.click(screen.getByText('page fails', { selector: 'button' }));
+    expect(requests()).toBe(1);
+
+    fireEvent.click(screen.getByText('switch repository', { selector: 'button' }));
+    fireEvent.click(screen.getByText('first page lands', { selector: 'button' }));
+    expect(requests()).toBe(2);
+    expect(noMatchShown('Searching more branches...')).toBe(true);
+  });
+
+  it('says no branch matches once every page is loaded', () => {
+    const onLoadMore = jest.fn();
+    withTheme(<RefHarness hasMore={false} onLoadMore={onLoadMore} />);
+    open();
+    fireEvent.change(input(), { target: { value: 'release-2' } });
+    expect(noMatchShown('No matching branch')).toBe(true);
+    expect(noMatchShown('Searching more branches...')).toBe(false);
+    expect(onLoadMore).not.toHaveBeenCalled();
+  });
+
+  it('says it is loading while the first page is fetched', () => {
+    withTheme(<RefHarness branches={[]} defaultBranch={undefined} loading />);
+    open();
+    expect(screen.getByText('Loading branches...')).toBeTruthy();
+  });
+
+  it('cannot be opened or changed while disabled', () => {
+    withTheme(<RefHarness disabled />);
+    expect(input().disabled).toBe(true);
+  });
+
+  it('gives each instance its own ids, and honours a host id', () => {
+    withTheme(
+      <>
+        <GitHubRefPicker branches={BRANCHES} value="" onChange={() => undefined} />
+        <GitHubRefPicker branches={BRANCHES} value="" onChange={() => undefined} id="remap-ref" />
+        <GitHubRefPicker branches={BRANCHES} value="" onChange={() => undefined} />
+      </>
+    );
+    const ids = screen.getAllByRole('combobox').map((field) => field.id);
+    expect(ids[1]).toBe('remap-ref');
+    expect(new Set(ids).size).toBe(3);
   });
 });
 

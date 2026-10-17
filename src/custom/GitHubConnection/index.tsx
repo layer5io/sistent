@@ -30,6 +30,7 @@ export {
   GitHubImportConnectWizard,
   type GitHubImportConnectWizardProps
 } from './GitHubImportConnectWizard';
+export { GitHubRefPicker, type GitHubRefPickerProps } from './GitHubRefPicker';
 export { GitHubRepositoryPicker, type GitHubRepositoryPickerProps } from './GitHubRepositoryPicker';
 export {
   GitHubRepositorySection,
