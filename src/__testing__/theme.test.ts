@@ -144,3 +144,21 @@ describe('MuiButton contained honors the semantic color prop', () => {
     );
   });
 });
+
+
+describe('MuiOutlinedInput line-height', () => {
+  // A Select's display div takes its height from the inherited line-height, while a
+  // TextField's <input> has a fixed 1.4375em height. If the body line-height leaks into
+  // the outlined root, outlined Selects render taller than TextFields (61px vs 56px).
+  it.each(['light', 'dark'] as const)('keeps the field line-height in %s mode', (mode) => {
+    const theme = createCustomTheme(mode);
+    const root = theme.components?.MuiOutlinedInput?.styleOverrides?.root as (props: {
+      theme: typeof theme;
+    }) => Record<string, unknown>;
+    const styles = root({ theme });
+    expect(styles.lineHeight).toBe('1.4375em');
+    expect((styles[theme.breakpoints.down('sm')] as Record<string, unknown>).lineHeight).toBe(
+      '1.4375em'
+    );
+  });
+});
