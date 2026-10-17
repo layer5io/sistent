@@ -143,17 +143,17 @@ display order, `value` is the selected ref, and `onChange` receives the new one,
   further pages load only on scroll to the end, Enter, or the "Load more branches" action. With no
   filter, a short list fills once per page as on the other pick lists. The list is unfiltered
   until the reader types after opening, including after a selection cleared in the open list
-  resets the field to the default branch. No match while `hasMore`
-  reads "Searching more branches..." while `loading`. With no page in flight it reads "No loaded branch matches. Press Enter to load
-  more." with a "Load more branches" action; that action, Enter, and ArrowDown in the field all
-  call `onLoadMore`, so focus never leaves the field. With `allowCustomRef` it reads "No loaded
-  branch matches. Press Enter to use this ref." instead: Enter commits the typed ref, while the
-  action and ArrowDown still call `onLoadMore`. Enter in the no-match state never submits a
-  surrounding form. Once `hasMore` is false it reads "No matching branch" ("No matching branch.
-  Press Enter to use this ref." with `allowCustomRef`). The popup text is plain; a visually hidden
-  polite live region outside the popup, present for the picker's lifetime, carries the same
-  message, so screen readers announce it as it appears and changes. A ref the host bound that is
-  not on a fetched page is still listed and shown.
+  resets the field to the default branch. No match while `hasMore` reads "Searching more
+  branches..." while `loading`. With no page in flight it reads "No loaded branch matches. Press
+  Enter to load more." with a "Load more branches" action; that action, Enter, and ArrowDown in
+  the field all call `onLoadMore`, so focus never leaves the field. With `allowCustomRef` it
+  reads "No loaded branch matches. Press Enter to use this ref." instead: Enter commits the
+  typed ref, while the action and ArrowDown still call `onLoadMore`. Enter in the no-match state
+  never submits a surrounding form. Once `hasMore` is false it reads "No matching branch" ("No
+  matching branch. Press Enter to use this ref." with `allowCustomRef`). The popup text is
+  plain; a visually hidden polite live region outside the popup, present for the picker's
+  lifetime, carries the same message, so screen readers announce it as it appears and changes. A
+  ref the host bound that is not on a fetched page is still listed and shown.
 - `label`, `disabled`, and `id` (of the input; the list box derives its id from it) tune the rest.
 
 The picker is built on MUI's `Autocomplete`, which, while its list is open, re-highlights the

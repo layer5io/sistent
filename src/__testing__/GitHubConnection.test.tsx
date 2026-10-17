@@ -1150,16 +1150,16 @@ describe('GitHubRefPicker', () => {
   it('lists every branch, and stops paging, once a selection cleared in the open list resets the field', () => {
     // Model layout: 40px rows in a list box that scrolls past 224px.
     const rows = (element: Element) => element.querySelectorAll('[role="option"]').length * 40;
-    jest
-      .spyOn(Element.prototype, 'scrollHeight', 'get')
-      .mockImplementation(function (this: Element) {
-        return rows(this);
-      });
-    jest
-      .spyOn(Element.prototype, 'clientHeight', 'get')
-      .mockImplementation(function (this: Element) {
-        return Math.min(rows(this), 224);
-      });
+    jest.spyOn(Element.prototype, 'scrollHeight', 'get').mockImplementation(function (
+      this: Element
+    ) {
+      return rows(this);
+    });
+    jest.spyOn(Element.prototype, 'clientHeight', 'get').mockImplementation(function (
+      this: Element
+    ) {
+      return Math.min(rows(this), 224);
+    });
     const loaded = ['main', ...Array.from({ length: 9 }, (_, index) => `branch-${index}`)];
     withTheme(<EndlessRefs value="branch-2" initialBranches={loaded} />);
     open();
