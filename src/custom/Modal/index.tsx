@@ -1,4 +1,7 @@
-import { ButtonProps, DialogProps, styled } from '@mui/material';
+import { ButtonProps, DialogOwnerState, DialogProps, styled } from '@mui/material';
+// Stable per-instance id across React 17/18/19 (same hook MUI Dialog uses
+// internally; on React 17 the generated id appears after the first effect).
+import { unstable_useId as useId } from '@mui/material/utils';
 import React, { useRef, useState } from 'react';
 import { Box, Dialog, IconButton, Paper, Typography } from '../../base';
 import { ContainedButton, OutlinedButton, TextButton } from '../../base/Button/Button';
@@ -8,13 +11,39 @@ import FullScreenExitIcon from '../../icons/Fullscreen/FullScreenExitIcon';
 import { CustomTooltip } from '../CustomTooltip';
 import { HelperTextPopover } from '../HelperTextPopover';
 
-interface ModalProps extends DialogProps {
+interface BaseModalProps extends Omit<DialogProps, 'title'> {
   closeModal: () => void;
-  title: string;
   headerIcon?: React.ReactNode;
   reactNode?: React.ReactNode;
   isFullScreenModeAllowed?: boolean;
 }
+
+export type ModalProps = BaseModalProps &
+  (
+    | {
+        /**
+         * Visible title for the modal. Automatically wired to aria-labelledby on the dialog paper.
+         * Note on precedence: when both `title` and `aria-label` are provided, `aria-labelledby`
+         * (pointing to the title) takes precedence per the W3C Accessible Name (accname) specification;
+         * `aria-label` is intentionally not rendered on the dialog paper.
+         */
+        title: string;
+        'aria-label'?: string;
+        'aria-labelledby'?: string;
+      }
+    | {
+        /** Titleless modal with explicit aria-label for assistive technologies. */
+        title?: string;
+        'aria-label': string;
+        'aria-labelledby'?: string;
+      }
+    | {
+        /** Titleless modal with explicit aria-labelledby reference. */
+        title?: string;
+        'aria-label'?: string;
+        'aria-labelledby': string;
+      }
+  );
 
 interface ModalFooterProps {
   children: React.ReactNode;
@@ -29,9 +58,11 @@ type openModalCallback = (props: {
   onClose?: () => void;
 }) => void;
 
-interface UseModalReturnI extends ModalProps {
+export interface UseModalReturnI extends BaseModalProps {
+  title: string;
   openModal: openModalCallback;
   isOpen: boolean;
+  open: boolean;
 }
 
 export const CloseBtn = styled(IconButton)`
@@ -146,17 +177,19 @@ const StyledFooter = styled('div', {
   }
 }));
 
-export const Modal: React.FC<ModalProps> = ({
-  open,
-  closeModal,
-  title,
-  headerIcon,
-  reactNode,
-  children,
-  maxWidth = 'xs',
-  isFullScreenModeAllowed,
-  ...props
-}) => {
+export const Modal: React.FC<ModalProps> = (allProps) => {
+  const {
+    open,
+    closeModal,
+    title,
+    headerIcon,
+    reactNode,
+    children,
+    maxWidth = 'xs',
+    isFullScreenModeAllowed,
+    ...props
+  } = allProps;
+
   /*
    * Use the incoming fullScreen prop only as the initial state.
    * After initialization, fullscreen is managed internally so, external
@@ -165,12 +198,65 @@ export const Modal: React.FC<ModalProps> = ({
    * prop is applied after {...restProps}, so any caller-provided fullWidth is
    * intentionally overridden without needing to strip it here.
    */
-  const { fullScreen: initialFullScreenState = false, ...restProps } = props;
+  const {
+    fullScreen: initialFullScreenState = false,
+    'aria-label': resolvedAriaLabel,
+    'aria-labelledby': callerAriaLabelledby,
+    'aria-describedby': callerAriaDescribedby,
+    slotProps: callerSlotProps,
+    ...restProps
+  } = props;
+
+  const titleId = useId(restProps.id ? `${restProps.id}-title` : undefined);
 
   const [fullScreen, setFullScreen] = useState(initialFullScreenState);
 
   const toggleFullScreen = () => {
     setFullScreen((prev) => !prev);
+  };
+
+  const hasTitle = Boolean(title && title.trim().length > 0);
+
+  const callerPaperProp = callerSlotProps?.paper;
+
+  // Merges Paper accessibility attributes while strictly preserving caller's
+  // object-valued or callback-valued slotProps.paper.
+  const mergePaperAttributes = (baseProps: Record<string, unknown> = {}) => {
+    const callerPaperLabelledby = baseProps['aria-labelledby'] as string | undefined;
+    const callerPaperLabel = baseProps['aria-label'] as string | undefined;
+    const callerPaperDescribedby = baseProps['aria-describedby'] as string | undefined;
+
+    const finalLabelledby =
+      callerAriaLabelledby || callerPaperLabelledby || (hasTitle ? titleId : undefined);
+    const finalLabel = finalLabelledby ? undefined : resolvedAriaLabel || callerPaperLabel;
+    const finalDescribedby = callerAriaDescribedby || callerPaperDescribedby;
+
+    const result: Record<string, unknown> = {
+      ...baseProps,
+      // Suppress dangling auto-generated aria-labelledby on the dialog paper when
+      // neither title nor an explicit aria-labelledby is provided.
+      'aria-labelledby': finalLabelledby,
+      'aria-describedby': finalDescribedby
+    };
+
+    if (finalLabel) {
+      result['aria-label'] = finalLabel;
+    } else {
+      delete result['aria-label'];
+    }
+
+    return result;
+  };
+
+  const resolvedPaperSlotProps =
+    typeof callerPaperProp === 'function'
+      ? (ownerState: DialogOwnerState) =>
+          mergePaperAttributes(callerPaperProp(ownerState) as Record<string, unknown>)
+      : mergePaperAttributes(callerPaperProp as Record<string, unknown> | undefined);
+
+  const mergedSlotProps = {
+    ...callerSlotProps,
+    paper: resolvedPaperSlotProps
   };
 
   return (
@@ -179,15 +265,14 @@ export const Modal: React.FC<ModalProps> = ({
       maxWidth={maxWidth}
       open={open}
       onClose={closeModal}
-      aria-labelledby="alert-dialog-slide-title"
-      aria-describedby="alert-dialog-slide-description"
+      slotProps={mergedSlotProps}
       fullScreen={fullScreen}
       fullWidth={!fullScreen}
     >
-      {title && (
+      {hasTitle && (
         <ModalStyledHeader className="modal-header" data-testid="modal-header">
           {headerIcon && <Box data-testid="modal-header-icon">{headerIcon}</Box>}
-          <Typography component={'div'} variant="h6" data-testid="modal-title">
+          <Typography component={'div'} variant="h6" data-testid="modal-title" id={titleId}>
             {title}
           </Typography>
           <div
