@@ -1,4 +1,4 @@
-import { SyncAlt as SyncAltIcon } from '@mui/icons-material';
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { Grid2, Typography } from '../../base';
 import { useTheme } from '../../theme';
 import { getFullFormattedTime, getRelativeTime } from '../../utils';

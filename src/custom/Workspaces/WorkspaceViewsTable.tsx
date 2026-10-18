@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Lock, Public } from '@mui/icons-material';
+import Lock from '@mui/icons-material/Lock';
+import Public from '@mui/icons-material/Public';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import type {
   MUIDataTableColumn,
