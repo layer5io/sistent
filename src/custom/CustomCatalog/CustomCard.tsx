@@ -120,8 +120,26 @@ export interface Pattern extends Omit<
   visibility: string;
 }
 
+/**
+ * Minimal shape required by CustomCatalogCard and related suggested-pattern paths.
+ * Structurally satisfied by both the full catalog Pattern and canonical schema designs.
+ */
+export interface SuggestedPattern {
+  id?: string;
+  name?: string;
+  catalogData?: PatternCatalogData | NonNullable<CanonicalPattern['catalogData']>;
+  visibility?: string;
+  patternFile?: string;
+  updatedAt?: string;
+  viewCount?: number;
+  downloadCount?: number;
+  cloneCount?: number;
+  deploymentCount?: number;
+  shareCount?: number;
+}
+
 type CatalogCardProps = {
-  pattern: Pattern;
+  pattern: SuggestedPattern;
   patternType: string;
   cardHeight?: string;
   cardWidth?: string;
@@ -215,20 +233,28 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
     >
       <DesignInnerCard shouldFlip={shouldFlip} className="innerCard">
         <CardFront shouldFlip={shouldFlip} isDetailed={isDetailed}>
-          {isDetailed && (
-            <>
-              <ClassWrap catalogClassName={pattern?.catalogData?.contentClass ?? ''} />
-              <DesignType>{patternType}</DesignType>
-              <CustomTooltip title={pattern.name}>
-                <DesignName
-                  hasRibbon={!!pattern?.catalogData?.contentClass}
-                  tabIndex={0}
-                >
-                  {pattern.name}
-                </DesignName>
-              </CustomTooltip>
-            </>
-          )}
+          {isDetailed &&
+            (() => {
+              const catalogClassName =
+                (pattern?.catalogData &&
+                  'contentClass' in pattern.catalogData &&
+                  pattern.catalogData.contentClass) ||
+                (pattern?.catalogData &&
+                  'class' in pattern.catalogData &&
+                  pattern.catalogData.class) ||
+                '';
+              return (
+                <>
+                  <ClassWrap catalogClassName={catalogClassName} />
+                  <DesignType>{patternType}</DesignType>
+                  <CustomTooltip title={pattern.name ?? ''}>
+                    <DesignName hasRibbon={Boolean(catalogClassName)} tabIndex={0}>
+                      {pattern.name}
+                    </DesignName>
+                  </CustomTooltip>
+                </>
+              );
+            })()}
           <DesignDetailsDiv>
             <div
               style={{

@@ -1,5 +1,4 @@
 import { load } from 'js-yaml';
-import { Pattern } from './CustomCard';
 
 const checkImageUrlValidity = async (
   url: string,
@@ -44,7 +43,10 @@ const getValidSvgPaths = async (
 
 // Parses the pattern file content (YAML) and returns the version field.
 // If parsing fails or version is missing, returns the default version.
-const getWorkingVersionFromPatternFile = (patternFileContent: string) => {
+const getWorkingVersionFromPatternFile = (patternFileContent?: string) => {
+  if (!patternFileContent) {
+    return DEFAULT_DESIGN_VERSION;
+  }
   try {
     const patternFile = load(patternFileContent);
     const version =
@@ -86,14 +88,20 @@ export const DEFAULT_DESIGN_VERSION = '0.0.0';
 // - For 'published' designs, returns the stable published version.
 // - For 'public' or 'private', returns the working version from the pattern file.
 // - Defaults to the working version if visibility is unrecognized.
-export const getVersion = (design: Pattern) => {
-  switch (design.visibility) {
+export const getVersion = (design?: {
+  visibility?: string;
+  patternFile?: string;
+  catalogData?: {
+    publishedVersion?: string;
+  };
+}) => {
+  switch (design?.visibility) {
     case 'published':
       return design?.catalogData?.publishedVersion || DEFAULT_DESIGN_VERSION;
     case 'public':
     case 'private':
-      return getWorkingVersionFromPatternFile(design.patternFile);
+      return getWorkingVersionFromPatternFile(design?.patternFile);
     default:
-      return getWorkingVersionFromPatternFile(design.patternFile);
+      return getWorkingVersionFromPatternFile(design?.patternFile);
   }
 };

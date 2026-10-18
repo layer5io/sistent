@@ -1,21 +1,25 @@
+import type { GetPatternsApiResponse } from '@meshery/schemas/cloudApi';
 import { Carousel } from '../Carousel';
 import { CatalogCardDesignLogo } from '../CustomCatalog';
-import CustomCatalogCard, { Pattern } from '../CustomCatalog/CustomCard';
+import CustomCatalogCard, { Pattern, SuggestedPattern } from '../CustomCatalog/CustomCard';
 import { getHeadingText } from './helper';
 import { AdditionalContainer, ContentHeading } from './style';
 import { UserProfile } from './types';
-export interface PatternsPerUser {
-  patterns: Pattern[];
-}
+
+export type PatternsPerUser =
+  | Pick<GetPatternsApiResponse, 'patterns'>
+  | { patterns?: SuggestedPattern[] };
+
 export interface DetailsByType {
   patterns: Pattern[];
 }
+
 interface RelatedDesignsProps {
   details: Pattern;
   type: string;
-  patternsPerUser: PatternsPerUser;
+  patternsPerUser?: PatternsPerUser;
   detailsByType?: DetailsByType;
-  onSuggestedPatternClick: (pattern: Pattern) => void;
+  onSuggestedPatternClick: (pattern: SuggestedPattern) => void;
   userProfile?: UserProfile;
   technologySVGPath: string;
   technologySVGSubpath: string;
@@ -37,7 +41,7 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
   fetchingOrgError,
   filterByType
 }) => {
-  const filteredPatterns = filterByType
+  const filteredPatterns: SuggestedPattern[] = filterByType
     ? detailsByType?.patterns?.filter((pattern) => pattern.id !== details.id) || []
     : patternsPerUser?.patterns?.filter((pattern) => pattern.id !== details.id) || [];
 
@@ -60,7 +64,15 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
       cardTechnologies={true}
     >
       <CatalogCardDesignLogo
-        imgURL={pattern?.catalogData?.imageURL}
+        imgURL={
+          (pattern?.catalogData &&
+            'imageURL' in pattern.catalogData &&
+            pattern.catalogData.imageURL) ||
+          (pattern?.catalogData &&
+            'snapshotURL' in pattern.catalogData &&
+            pattern.catalogData.snapshotURL) ||
+          undefined
+        }
         height={'5.5rem'}
         width={'100%'}
         zoomEffect={false}
@@ -82,4 +94,5 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
   );
 };
 
+export type { SuggestedPattern };
 export default RelatedDesigns;
