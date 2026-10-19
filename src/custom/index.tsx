@@ -191,6 +191,7 @@ export * from './CustomTooltip';
 export * from './DashboardLayout';
 export * from './DashboardWidgets';
 export * from './Dialog';
+export * from './GitHubConnection';
 export * from './HelperTextPopover';
 export * from './LiquidGlass';
 export * from './Markdown';
