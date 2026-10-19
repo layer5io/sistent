@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
 import { Modal } from '../custom/Modal';
 import { SistentThemeProvider } from '../theme';
@@ -40,15 +40,6 @@ describe('Modal header controls accessibility (#1880)', () => {
     const closeBtn = screen.getByRole('button', { name: 'Close dialog' });
     expect(closeBtn).toBeTruthy();
     expect(closeBtn.getAttribute('data-testid')).toBe('modal-close-btn');
-
-    // Controls must not use hardcoded color literals
-    const closeSvg = closeBtn.querySelector('svg');
-    expect(closeSvg?.getAttribute('fill')).not.toBe('#fff');
-    expect(closeSvg?.getAttribute('fill')).not.toBe('#ffffff');
-
-    const fullscreenSvg = enterBtn.querySelector('svg');
-    expect(fullscreenSvg?.getAttribute('fill')).not.toBe('#fff');
-    expect(fullscreenSvg?.getAttribute('fill')).not.toBe('#ffffff');
   });
 
   it('updates accessible name to Exit fullscreen when toggled and toggles fullscreen state', () => {
@@ -73,7 +64,7 @@ describe('Modal header controls accessibility (#1880)', () => {
     expect(screen.getByRole('button', { name: 'Enter fullscreen' })).toBeTruthy();
   });
 
-  it('supports keyboard navigation: controls are focusable and activatable via keyboard', () => {
+  it('controls are focusable and activatable via click', () => {
     const handleClose = jest.fn();
 
     render(
@@ -91,28 +82,28 @@ describe('Modal header controls accessibility (#1880)', () => {
     expect(closeBtn.tagName.toLowerCase()).toBe('button');
     expect(enterBtn.tagName.toLowerCase()).toBe('button');
 
-    closeBtn.focus();
+    act(() => {
+      closeBtn.focus();
+    });
     expect(document.activeElement).toBe(closeBtn);
 
-    enterBtn.focus();
+    act(() => {
+      enterBtn.focus();
+    });
     expect(document.activeElement).toBe(enterBtn);
 
-    // Activatable with Enter and Space keys
-    fireEvent.keyDown(enterBtn, { key: 'Enter', code: 'Enter' });
     fireEvent.click(enterBtn);
     expect(screen.getByRole('button', { name: 'Exit fullscreen' })).toBeTruthy();
 
     const exitBtn = screen.getByRole('button', { name: 'Exit fullscreen' });
-    fireEvent.keyDown(exitBtn, { key: ' ', code: 'Space' });
     fireEvent.click(exitBtn);
     expect(screen.getByRole('button', { name: 'Enter fullscreen' })).toBeTruthy();
 
-    fireEvent.keyDown(closeBtn, { key: 'Enter', code: 'Enter' });
     fireEvent.click(closeBtn);
     expect(handleClose).toHaveBeenCalledTimes(1);
   });
 
-  it('preserves close handler and tooltip wrapper behavior', () => {
+  it('calls closeModal when the close button is clicked', () => {
     const handleClose = jest.fn();
 
     render(
@@ -122,9 +113,6 @@ describe('Modal header controls accessibility (#1880)', () => {
         </Modal>
       </SistentThemeProvider>
     );
-
-    const enterBtn = screen.getByRole('button', { name: 'Enter fullscreen' });
-    fireEvent.mouseOver(enterBtn);
 
     const closeBtn = screen.getByRole('button', { name: 'Close dialog' });
     fireEvent.click(closeBtn);

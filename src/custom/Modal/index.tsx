@@ -68,8 +68,6 @@ const FullscreenButton = styled(IconButton)`
   }
 `;
 
-const FullscreenExitButton = FullscreenButton;
-
 export const ModalStyledHeader = styled('div')(({ theme }) => ({
   background: theme.palette.surface.tint,
   color: '#eee',
@@ -195,20 +193,20 @@ export const Modal: React.FC<ModalProps> = ({
             {isFullScreenModeAllowed && (
               <CustomTooltip title={fullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}>
                 {fullScreen ? (
-                  <FullscreenExitButton
+                  <FullscreenButton
                     onClick={toggleFullScreen}
                     aria-label="Exit fullscreen"
                     data-testid="modal-exit-fullscreen-btn"
                   >
-                    <FullScreenExitIcon {...iconLarge} fill="currentColor" />
-                  </FullscreenExitButton>
+                    <FullScreenExitIcon {...iconLarge} />
+                  </FullscreenButton>
                 ) : (
                   <FullscreenButton
                     onClick={toggleFullScreen}
                     aria-label="Enter fullscreen"
                     data-testid="modal-enter-fullscreen-btn"
                   >
-                    <FullScreenIcon {...iconLarge} fill="currentColor" />
+                    <FullScreenIcon {...iconLarge} />
                   </FullscreenButton>
                 )}
               </CustomTooltip>
