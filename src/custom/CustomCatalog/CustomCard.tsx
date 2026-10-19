@@ -9,7 +9,7 @@ import { DownloadIcon } from '../../icons/Download';
 import { DARK_TEAL, styled, useTheme } from '../../theme';
 import { SNOW_WHITE } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
-import { getVersion, handleImage } from './Helper';
+import { getCatalogClassName, getVersion, handleImage } from './Helper';
 import {
   CardBack,
   CardFront,
@@ -202,12 +202,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   const techlimit = 5;
   const [availableTechnologies, setAvailableTechnologies] = useState<string[]>([]);
   const version = getVersion(pattern);
-  const catalogClassName =
-    (pattern?.catalogData &&
-      'contentClass' in pattern.catalogData &&
-      pattern.catalogData.contentClass) ||
-    (pattern?.catalogData && 'class' in pattern.catalogData && pattern.catalogData.class) ||
-    '';
+  const catalogClassName = getCatalogClassName(pattern);
 
   useEffect(() => {
     handleImage({

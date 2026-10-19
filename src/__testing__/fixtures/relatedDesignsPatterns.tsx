@@ -72,7 +72,7 @@ export const rightPanelWithMissingPatterns: React.ReactElement = (
   <RightPanel {...baseRightPanelProps} patternsPerUser={{}} />
 );
 
-// 6. RightPanel accepts existing consumer passing complete Pattern[].
+// 6. RightPanel accepts complete Pattern[] from consumers (consumers must type onSuggestedPatternClick as (pattern: SuggestedPattern) => void).
 export const rightPanelWithCompletePattern: React.ReactElement = (
   <RightPanel
     {...baseRightPanelProps}

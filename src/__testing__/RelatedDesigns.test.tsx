@@ -19,12 +19,18 @@ jest.mock('rehype-raw', () => ({
   default: () => {}
 }));
 
+const originalResizeObserver = global.ResizeObserver;
+
 beforeAll(() => {
   global.ResizeObserver = class {
     observe() {}
     unobserve() {}
     disconnect() {}
   };
+});
+
+afterAll(() => {
+  global.ResizeObserver = originalResizeObserver;
 });
 
 const sampleDetail: Pattern = {
@@ -49,90 +55,54 @@ const renderWithTheme = (ui: React.ReactElement) => {
   return render(<SistentThemeProvider>{ui}</SistentThemeProvider>);
 };
 
+const renderRelated = (overrides?: Partial<React.ComponentProps<typeof RelatedDesigns>>) => {
+  return renderWithTheme(
+    <RelatedDesigns
+      details={sampleDetail}
+      type="pattern"
+      onSuggestedPatternClick={() => {}}
+      technologySVGPath=""
+      technologySVGSubpath=""
+      orgName="Layer5"
+      fetchingOrgError={false}
+      {...overrides}
+    />
+  );
+};
+
 describe('RelatedDesigns runtime fallback and card handling', () => {
   it('renders null when patternsPerUser is undefined', () => {
-    const { container } = renderWithTheme(
-      <RelatedDesigns
-        details={sampleDetail}
-        type="pattern"
-        patternsPerUser={undefined}
-        onSuggestedPatternClick={() => {}}
-        technologySVGPath=""
-        technologySVGSubpath=""
-        orgName="Layer5"
-        fetchingOrgError={false}
-      />
-    );
+    const { container } = renderRelated({ patternsPerUser: undefined });
     expect(container.firstChild).toBeNull();
   });
 
   it('renders null when patternsPerUser has no patterns property', () => {
-    const { container } = renderWithTheme(
-      <RelatedDesigns
-        details={sampleDetail}
-        type="pattern"
-        patternsPerUser={{}}
-        onSuggestedPatternClick={() => {}}
-        technologySVGPath=""
-        technologySVGSubpath=""
-        orgName="Layer5"
-        fetchingOrgError={false}
-      />
-    );
+    const { container } = renderRelated({ patternsPerUser: {} });
     expect(container.firstChild).toBeNull();
   });
 
   it('renders null when patterns array is empty', () => {
-    const { container } = renderWithTheme(
-      <RelatedDesigns
-        details={sampleDetail}
-        type="pattern"
-        patternsPerUser={{ patterns: [] }}
-        onSuggestedPatternClick={() => {}}
-        technologySVGPath=""
-        technologySVGSubpath=""
-        orgName="Layer5"
-        fetchingOrgError={false}
-      />
-    );
+    const { container } = renderRelated({ patternsPerUser: { patterns: [] } });
     expect(container.firstChild).toBeNull();
   });
 
   it('renders null when patterns array contains only current design', () => {
-    const { container } = renderWithTheme(
-      <RelatedDesigns
-        details={sampleDetail}
-        type="pattern"
-        patternsPerUser={{ patterns: [{ id: 'current-id', name: 'Current Design' }] }}
-        onSuggestedPatternClick={() => {}}
-        technologySVGPath=""
-        technologySVGSubpath=""
-        orgName="Layer5"
-        fetchingOrgError={false}
-      />
-    );
+    const { container } = renderRelated({
+      patternsPerUser: { patterns: [{ id: 'current-id', name: 'Current Design' }] }
+    });
     expect(container.firstChild).toBeNull();
   });
 
   it('renders null when suggested patterns have no usable id or name', () => {
-    const { container } = renderWithTheme(
-      <RelatedDesigns
-        details={sampleDetail}
-        type="pattern"
-        patternsPerUser={{
-          patterns: [
-            { id: undefined, name: 'Missing ID' },
-            { id: 'missing-name', name: undefined },
-            { id: '', name: 'Empty ID' }
-          ]
-        }}
-        onSuggestedPatternClick={() => {}}
-        technologySVGPath=""
-        technologySVGSubpath=""
-        orgName="Layer5"
-        fetchingOrgError={false}
-      />
-    );
+    const { container } = renderRelated({
+      patternsPerUser: {
+        patterns: [
+          { id: undefined, name: 'Missing ID' },
+          { id: 'missing-name', name: undefined },
+          { id: '', name: 'Empty ID' }
+        ]
+      }
+    });
     expect(container.firstChild).toBeNull();
   });
 
@@ -146,22 +116,46 @@ describe('RelatedDesigns runtime fallback and card handling', () => {
       }
     };
 
-    renderWithTheme(
-      <RelatedDesigns
-        details={sampleDetail}
-        type="pattern"
-        patternsPerUser={{ patterns: [suggested] }}
-        onSuggestedPatternClick={() => {}}
-        technologySVGPath=""
-        technologySVGSubpath=""
-        orgName="Layer5"
-        fetchingOrgError={false}
-      />
-    );
+    renderRelated({ patternsPerUser: { patterns: [suggested] } });
 
     const img = screen.getByAltText('Design SnapShot') as HTMLImageElement;
     expect(img).toBeTruthy();
     expect(img.src).toBe('https://example.com/snapshot.png');
+  });
+
+  it('uses non-empty imageURL in preference to snapshotURL', () => {
+    const suggested: SuggestedPattern = {
+      id: 'related-both',
+      name: 'Related Design Both',
+      catalogData: {
+        imageURL: ['https://example.com/primary.png'],
+        snapshotURL: ['https://example.com/snapshot.png']
+      }
+    };
+
+    renderRelated({ patternsPerUser: { patterns: [suggested] } });
+
+    const img = screen.getByAltText('Design SnapShot') as HTMLImageElement;
+    expect(img).toBeTruthy();
+    expect(img.src).toBe('https://example.com/primary.png');
+  });
+
+  it('renders the other design and excludes the current one when filterByType is true', () => {
+    const otherPattern: Pattern = {
+      ...sampleDetail,
+      id: 'other-id',
+      name: 'Other Type Design'
+    };
+
+    renderRelated({
+      filterByType: true,
+      detailsByType: {
+        patterns: [sampleDetail, otherPattern]
+      }
+    });
+
+    expect(screen.queryByText('Current Design')).toBeNull();
+    expect(screen.getByText('Other Type Design')).toBeTruthy();
   });
 
   it('renders suggested patterns and invokes onSuggestedPatternClick on card click', () => {
@@ -173,18 +167,10 @@ describe('RelatedDesigns runtime fallback and card handling', () => {
       viewCount: 20
     };
 
-    renderWithTheme(
-      <RelatedDesigns
-        details={sampleDetail}
-        type="pattern"
-        patternsPerUser={{ patterns: [suggested] }}
-        onSuggestedPatternClick={onSuggestedPatternClick}
-        technologySVGPath=""
-        technologySVGSubpath=""
-        orgName="Layer5"
-        fetchingOrgError={false}
-      />
-    );
+    renderRelated({
+      patternsPerUser: { patterns: [suggested] },
+      onSuggestedPatternClick
+    });
 
     expect(screen.getByText('Related Design 1')).toBeTruthy();
     fireEvent.click(screen.getByText('Related Design 1'));

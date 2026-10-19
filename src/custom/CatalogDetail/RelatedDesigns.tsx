@@ -1,14 +1,14 @@
-import type { GetPatternsApiResponse } from '@meshery/schemas/cloudApi';
 import { Carousel } from '../Carousel';
 import { CatalogCardDesignLogo } from '../CustomCatalog';
 import CustomCatalogCard, { Pattern, SuggestedPattern } from '../CustomCatalog/CustomCard';
+import { getCatalogImageURLs } from '../CustomCatalog/Helper';
 import { getHeadingText } from './helper';
 import { AdditionalContainer, ContentHeading } from './style';
 import { UserProfile } from './types';
 
-export type PatternsPerUser =
-  | Pick<GetPatternsApiResponse, 'patterns'>
-  | { patterns?: SuggestedPattern[] };
+export interface PatternsPerUser {
+  patterns?: SuggestedPattern[];
+}
 
 export interface DetailsByType {
   patterns: Pattern[];
@@ -69,16 +69,7 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
       cardTechnologies={true}
     >
       <CatalogCardDesignLogo
-        imgURL={
-          (pattern?.catalogData &&
-            'imageURL' in pattern.catalogData &&
-            pattern.catalogData.imageURL?.[0] &&
-            pattern.catalogData.imageURL) ||
-          (pattern?.catalogData &&
-            'snapshotURL' in pattern.catalogData &&
-            pattern.catalogData.snapshotURL) ||
-          undefined
-        }
+        imgURL={getCatalogImageURLs(pattern)}
         height={'5.5rem'}
         width={'100%'}
         zoomEffect={false}

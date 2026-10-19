@@ -10,8 +10,7 @@ import { type Diagnostics, typeCheckFixture } from './helpers/tscFixture';
 // - passing canonical GetPatternsApiResponse directly
 // - passing undefined patternsPerUser
 // - passing empty or missing patterns response
-// - passing complete Pattern[] (backwards compatibility for existing consumers)
-// - onSuggestedPatternClick receiving SuggestedPattern
+// - passing complete Pattern[] (consumers must type onSuggestedPatternClick as (pattern: SuggestedPattern) => void)
 
 const FIXTURE = 'src/__testing__/fixtures/relatedDesignsPatterns.tsx';
 const PROJECT = 'src/__testing__/fixtures/tsconfig.relatedDesignsPatterns.json';

@@ -1,4 +1,5 @@
 import { load } from 'js-yaml';
+import type { SuggestedPattern } from './CustomCard';
 
 const checkImageUrlValidity = async (
   url: string,
@@ -88,20 +89,48 @@ export const DEFAULT_DESIGN_VERSION = '0.0.0';
 // - For 'published' designs, returns the stable published version.
 // - For 'public' or 'private', returns the working version from the pattern file.
 // - Defaults to the working version if visibility is unrecognized.
-export const getVersion = (design?: {
+export const getVersion = (design: {
   visibility?: string;
   patternFile?: string;
   catalogData?: {
     publishedVersion?: string;
   };
 }) => {
-  switch (design?.visibility) {
+  switch (design.visibility) {
     case 'published':
-      return design?.catalogData?.publishedVersion || DEFAULT_DESIGN_VERSION;
+      return design.catalogData?.publishedVersion || DEFAULT_DESIGN_VERSION;
     case 'public':
     case 'private':
-      return getWorkingVersionFromPatternFile(design?.patternFile);
+      return getWorkingVersionFromPatternFile(design.patternFile);
     default:
-      return getWorkingVersionFromPatternFile(design?.patternFile);
+      return getWorkingVersionFromPatternFile(design.patternFile);
   }
+};
+
+export const getCatalogImageURLs = (pattern?: SuggestedPattern): string[] | undefined => {
+  const catalogData = pattern?.catalogData;
+  if (!catalogData) {
+    return undefined;
+  }
+  if ('imageURL' in catalogData && catalogData.imageURL?.[0]) {
+    return catalogData.imageURL;
+  }
+  if ('snapshotURL' in catalogData && catalogData.snapshotURL) {
+    return catalogData.snapshotURL;
+  }
+  return undefined;
+};
+
+export const getCatalogClassName = (pattern?: SuggestedPattern): string => {
+  const catalogData = pattern?.catalogData;
+  if (!catalogData) {
+    return '';
+  }
+  if ('contentClass' in catalogData && catalogData.contentClass) {
+    return catalogData.contentClass;
+  }
+  if ('class' in catalogData && catalogData.class) {
+    return catalogData.class;
+  }
+  return '';
 };
