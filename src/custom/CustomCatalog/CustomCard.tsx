@@ -202,6 +202,12 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   const techlimit = 5;
   const [availableTechnologies, setAvailableTechnologies] = useState<string[]>([]);
   const version = getVersion(pattern);
+  const catalogClassName =
+    (pattern?.catalogData &&
+      'contentClass' in pattern.catalogData &&
+      pattern.catalogData.contentClass) ||
+    (pattern?.catalogData && 'class' in pattern.catalogData && pattern.catalogData.class) ||
+    '';
 
   useEffect(() => {
     handleImage({
@@ -233,28 +239,17 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
     >
       <DesignInnerCard shouldFlip={shouldFlip} className="innerCard">
         <CardFront shouldFlip={shouldFlip} isDetailed={isDetailed}>
-          {isDetailed &&
-            (() => {
-              const catalogClassName =
-                (pattern?.catalogData &&
-                  'contentClass' in pattern.catalogData &&
-                  pattern.catalogData.contentClass) ||
-                (pattern?.catalogData &&
-                  'class' in pattern.catalogData &&
-                  pattern.catalogData.class) ||
-                '';
-              return (
-                <>
-                  <ClassWrap catalogClassName={catalogClassName} />
-                  <DesignType>{patternType}</DesignType>
-                  <CustomTooltip title={pattern.name ?? ''}>
-                    <DesignName hasRibbon={Boolean(catalogClassName)} tabIndex={0}>
-                      {pattern.name}
-                    </DesignName>
-                  </CustomTooltip>
-                </>
-              );
-            })()}
+          {isDetailed && (
+            <>
+              <ClassWrap catalogClassName={catalogClassName} />
+              <DesignType>{patternType}</DesignType>
+              <CustomTooltip title={pattern.name ?? ''}>
+                <DesignName hasRibbon={Boolean(catalogClassName)} tabIndex={0}>
+                  {pattern.name}
+                </DesignName>
+              </CustomTooltip>
+            </>
+          )}
           <DesignDetailsDiv>
             <div
               style={{

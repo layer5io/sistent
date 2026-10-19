@@ -42,8 +42,12 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
   filterByType
 }) => {
   const filteredPatterns: SuggestedPattern[] = filterByType
-    ? detailsByType?.patterns?.filter((pattern) => pattern.id !== details.id) || []
-    : patternsPerUser?.patterns?.filter((pattern) => pattern.id !== details.id) || [];
+    ? detailsByType?.patterns?.filter((pattern) =>
+        Boolean(pattern?.id && pattern?.name && pattern.id !== details.id)
+      ) || []
+    : patternsPerUser?.patterns?.filter((pattern) =>
+        Boolean(pattern?.id && pattern?.name && pattern.id !== details.id)
+      ) || [];
 
   if (!filteredPatterns.length) return null;
   const organizationName = filterByType
@@ -54,6 +58,7 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
 
   const carouselItems = filteredPatterns.map((pattern) => (
     <CustomCatalogCard
+      key={pattern.id}
       pattern={pattern}
       patternType={type}
       onCardClick={() => onSuggestedPatternClick(pattern)}
@@ -67,6 +72,7 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
         imgURL={
           (pattern?.catalogData &&
             'imageURL' in pattern.catalogData &&
+            pattern.catalogData.imageURL?.[0] &&
             pattern.catalogData.imageURL) ||
           (pattern?.catalogData &&
             'snapshotURL' in pattern.catalogData &&

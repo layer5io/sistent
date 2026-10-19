@@ -82,7 +82,23 @@ describe('RelatedDesigns runtime fallback and card handling', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('renders null when patterns array is empty or contains only current design', () => {
+  it('renders null when patterns array is empty', () => {
+    const { container } = renderWithTheme(
+      <RelatedDesigns
+        details={sampleDetail}
+        type="pattern"
+        patternsPerUser={{ patterns: [] }}
+        onSuggestedPatternClick={() => {}}
+        technologySVGPath=""
+        technologySVGSubpath=""
+        orgName="Layer5"
+        fetchingOrgError={false}
+      />
+    );
+    expect(container.firstChild).toBeNull();
+  });
+
+  it('renders null when patterns array contains only current design', () => {
     const { container } = renderWithTheme(
       <RelatedDesigns
         details={sampleDetail}
@@ -96,6 +112,56 @@ describe('RelatedDesigns runtime fallback and card handling', () => {
       />
     );
     expect(container.firstChild).toBeNull();
+  });
+
+  it('renders null when suggested patterns have no usable id or name', () => {
+    const { container } = renderWithTheme(
+      <RelatedDesigns
+        details={sampleDetail}
+        type="pattern"
+        patternsPerUser={{
+          patterns: [
+            { id: undefined, name: 'Missing ID' },
+            { id: 'missing-name', name: undefined },
+            { id: '', name: 'Empty ID' }
+          ]
+        }}
+        onSuggestedPatternClick={() => {}}
+        technologySVGPath=""
+        technologySVGSubpath=""
+        orgName="Layer5"
+        fetchingOrgError={false}
+      />
+    );
+    expect(container.firstChild).toBeNull();
+  });
+
+  it('falls back to snapshotURL when imageURL is an empty array', () => {
+    const suggested: SuggestedPattern = {
+      id: 'related-snapshot',
+      name: 'Related Design Snapshot',
+      catalogData: {
+        imageURL: [],
+        snapshotURL: ['https://example.com/snapshot.png']
+      }
+    };
+
+    renderWithTheme(
+      <RelatedDesigns
+        details={sampleDetail}
+        type="pattern"
+        patternsPerUser={{ patterns: [suggested] }}
+        onSuggestedPatternClick={() => {}}
+        technologySVGPath=""
+        technologySVGSubpath=""
+        orgName="Layer5"
+        fetchingOrgError={false}
+      />
+    );
+
+    const img = screen.getByAltText('Design SnapShot') as HTMLImageElement;
+    expect(img).toBeTruthy();
+    expect(img.src).toBe('https://example.com/snapshot.png');
   });
 
   it('renders suggested patterns and invokes onSuggestedPatternClick on card click', () => {
