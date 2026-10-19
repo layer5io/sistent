@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Autocomplete, Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce.js';
 import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { Chip, CircularProgress, TextField, Tooltip } from '../../../base';
 import { iconSmall } from '../../../constants/iconsSizes';

@@ -235,12 +235,14 @@ components:
     typography: '{typography.textB1Regular}'
     rounded: '{rounded.sm}'
     padding: 16px 14px
+    height: 56px
   input-field-dark:
     backgroundColor: transparent
     textColor: '{colors.on-surface-dark}'
     typography: '{typography.textB1Regular}'
     rounded: '{rounded.sm}'
     padding: 16px 14px
+    height: 56px
   checkbox:
     backgroundColor: transparent
     textColor: '{colors.on-surface-light}'
