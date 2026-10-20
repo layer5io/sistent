@@ -191,7 +191,7 @@ export const Modal: React.FC<ModalProps> = ({
             data-testid="modal-header-actions"
           >
             {isFullScreenModeAllowed && (
-              <CustomTooltip title={fullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}>
+              <CustomTooltip title={fullScreen ? 'Exit fullscreen' : 'Enter fullscreen'}>
                 {fullScreen ? (
                   <FullscreenButton
                     onClick={toggleFullScreen}

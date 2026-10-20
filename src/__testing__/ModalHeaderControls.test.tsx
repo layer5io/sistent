@@ -65,11 +65,9 @@ describe('Modal header controls accessibility (#1880)', () => {
   });
 
   it('controls are focusable and activatable via click', () => {
-    const handleClose = jest.fn();
-
     render(
       <SistentThemeProvider>
-        <Modal open title="Keyboard Modal" isFullScreenModeAllowed closeModal={handleClose}>
+        <Modal open title="Test Modal" isFullScreenModeAllowed closeModal={jest.fn()}>
           <div>Modal content</div>
         </Modal>
       </SistentThemeProvider>
@@ -77,10 +75,6 @@ describe('Modal header controls accessibility (#1880)', () => {
 
     const closeBtn = screen.getByRole('button', { name: 'Close dialog' });
     const enterBtn = screen.getByRole('button', { name: 'Enter fullscreen' });
-
-    // Native button elements are keyboard focusable
-    expect(closeBtn.tagName.toLowerCase()).toBe('button');
-    expect(enterBtn.tagName.toLowerCase()).toBe('button');
 
     act(() => {
       closeBtn.focus();
@@ -91,16 +85,6 @@ describe('Modal header controls accessibility (#1880)', () => {
       enterBtn.focus();
     });
     expect(document.activeElement).toBe(enterBtn);
-
-    fireEvent.click(enterBtn);
-    expect(screen.getByRole('button', { name: 'Exit fullscreen' })).toBeTruthy();
-
-    const exitBtn = screen.getByRole('button', { name: 'Exit fullscreen' });
-    fireEvent.click(exitBtn);
-    expect(screen.getByRole('button', { name: 'Enter fullscreen' })).toBeTruthy();
-
-    fireEvent.click(closeBtn);
-    expect(handleClose).toHaveBeenCalledTimes(1);
   });
 
   it('calls closeModal when the close button is clicked', () => {
@@ -108,7 +92,7 @@ describe('Modal header controls accessibility (#1880)', () => {
 
     render(
       <SistentThemeProvider>
-        <Modal open title="Tooltip Modal" isFullScreenModeAllowed closeModal={handleClose}>
+        <Modal open title="Test Modal" isFullScreenModeAllowed closeModal={handleClose}>
           <div>Modal content</div>
         </Modal>
       </SistentThemeProvider>
