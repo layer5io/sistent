@@ -36,7 +36,7 @@ interface UseModalReturnI extends ModalProps {
 
 export const CloseBtn = styled(IconButton)`
   && {
-    color: inherit;
+    color: ${({ theme }) => theme.palette.common.white};
     & svg {
       fill: currentColor;
     }
@@ -61,7 +61,7 @@ const StyledDialog = styled(Dialog)`
 
 const FullscreenButton = styled(IconButton)`
   && {
-    color: inherit;
+    color: ${({ theme }) => theme.palette.common.white};
     & svg {
       fill: currentColor;
     }

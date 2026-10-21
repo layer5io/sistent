@@ -23,11 +23,9 @@ jest.mock('rehype-raw', () => ({
 
 describe('Modal header controls accessibility (#1880)', () => {
   it('exposes accessible names for enter-fullscreen and close controls with preserved testids', () => {
-    const handleClose = jest.fn();
-
     render(
       <SistentThemeProvider>
-        <Modal open title="Accessible Modal" isFullScreenModeAllowed closeModal={handleClose}>
+        <Modal open title="Accessible Modal" isFullScreenModeAllowed closeModal={jest.fn()}>
           <div>Modal content</div>
         </Modal>
       </SistentThemeProvider>
@@ -64,7 +62,7 @@ describe('Modal header controls accessibility (#1880)', () => {
     expect(screen.getByRole('button', { name: 'Enter fullscreen' })).toBeTruthy();
   });
 
-  it('controls are focusable and activatable via click', () => {
+  it('controls are native, focusable buttons', () => {
     render(
       <SistentThemeProvider>
         <Modal open title="Test Modal" isFullScreenModeAllowed closeModal={jest.fn()}>
@@ -75,6 +73,11 @@ describe('Modal header controls accessibility (#1880)', () => {
 
     const closeBtn = screen.getByRole('button', { name: 'Close dialog' });
     const enterBtn = screen.getByRole('button', { name: 'Enter fullscreen' });
+
+    expect(closeBtn.tagName).toBe('BUTTON');
+    expect(closeBtn.tabIndex).toBeGreaterThanOrEqual(0);
+    expect(enterBtn.tagName).toBe('BUTTON');
+    expect(enterBtn.tabIndex).toBeGreaterThanOrEqual(0);
 
     act(() => {
       closeBtn.focus();
@@ -101,5 +104,22 @@ describe('Modal header controls accessibility (#1880)', () => {
     const closeBtn = screen.getByRole('button', { name: 'Close dialog' });
     fireEvent.click(closeBtn);
     expect(handleClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('header control SVGs resolve to color via currentColor rather than a literal', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal open title="Accessible Modal" isFullScreenModeAllowed closeModal={jest.fn()}>
+          <div>Modal content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const closeBtn = screen.getByRole('button', { name: 'Close dialog' });
+    const enterBtn = screen.getByRole('button', { name: 'Enter fullscreen' });
+
+    expect(closeBtn.querySelector('svg')?.getAttribute('fill')).toBe('currentColor');
+    expect(closeBtn.querySelector('svg')?.getAttribute('fill')).not.toBe('#fff');
+    expect(enterBtn.querySelector('svg')?.getAttribute('fill')).not.toBe('#fff');
   });
 });
