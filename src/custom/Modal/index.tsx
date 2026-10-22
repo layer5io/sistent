@@ -219,7 +219,8 @@ export const Modal: React.FC<ModalProps> = (allProps) => {
 
   const hasTitle = Boolean(title && title.trim().length > 0);
 
-  const callerPaperProp = callerSlotProps?.paper;
+  const callerPaperProp =
+    callerSlotProps?.paper ?? (restProps as { PaperProps?: unknown }).PaperProps;
 
   // Merges Paper accessibility attributes while strictly preserving caller's
   // object-valued or callback-valued slotProps.paper.

@@ -175,7 +175,7 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(screen.queryByTestId('modal-title')).toBeNull();
   });
 
-  it('does not leak aria-label onto the dialog root when both title and aria-label are provided and prioritizes aria-labelledby', () => {
+  it('does not leak aria-label onto the dialog root and suppresses both top-level and paper-level aria-label when title is provided', () => {
     render(
       <SistentThemeProvider>
         <Modal
@@ -183,6 +183,11 @@ describe('Modal accessibility contract (#1864)', () => {
           title="Modal Header"
           aria-label="Modal Header Description"
           closeModal={jest.fn()}
+          slotProps={{
+            paper: {
+              'aria-label': 'Conflicting Paper Label'
+            } as PaperProps & { 'aria-label'?: string }
+          }}
         >
           <div>Modal Content</div>
         </Modal>
@@ -267,6 +272,33 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(dialog.getAttribute('data-testid')).toBe('customized-paper-slot');
 
     // Merges correct accessibility attributes
+    expect(dialog.getAttribute('aria-labelledby')).toBe(title.getAttribute('id'));
+  });
+
+  it('preserves caller-supplied PaperProps on role="dialog" while resolving aria-labelledby to the title id', () => {
+    render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          title="PaperProps Modal"
+          closeModal={jest.fn()}
+          {...({
+            PaperProps: {
+              className: 'custom-paper-classname',
+              'data-testid': 'custom-paper-slot'
+            }
+          } as Record<string, unknown>)}
+        >
+          <div>PaperProps content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    const dialog = screen.getByRole('dialog');
+    const title = screen.getByTestId('modal-title');
+
+    expect(dialog.classList.contains('custom-paper-classname')).toBe(true);
+    expect(dialog.getAttribute('data-testid')).toBe('custom-paper-slot');
     expect(dialog.getAttribute('aria-labelledby')).toBe(title.getAttribute('id'));
   });
 
@@ -469,30 +501,6 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(dialog.getAttribute('aria-labelledby')).toBeNull();
   });
 
-  it('suppresses paper-level aria-label when aria-labelledby is present from title or prop', () => {
-    render(
-      <SistentThemeProvider>
-        <Modal
-          open
-          title="Titled Dialog"
-          closeModal={jest.fn()}
-          slotProps={{
-            paper: {
-              'aria-label': 'Conflicting Paper Label'
-            } as PaperProps & { 'aria-label'?: string }
-          }}
-        >
-          <div>Content</div>
-        </Modal>
-      </SistentThemeProvider>
-    );
-
-    const dialog = screen.getByRole('dialog');
-    const title = screen.getByTestId('modal-title');
-    expect(dialog.getAttribute('aria-labelledby')).toBe(title.getAttribute('id'));
-    expect(dialog.getAttribute('aria-label')).toBeNull();
-  });
-
   it('derives distinct title IDs for concurrently mounted modals with distinct caller-provided IDs', () => {
     render(
       <SistentThemeProvider>
@@ -514,46 +522,6 @@ describe('Modal accessibility contract (#1864)', () => {
 
     expect(dialogLabelledby).toEqual(titleIds);
     expect(dialogLabelledby).toEqual(expected);
-  });
-
-  it('falls back to generated title id when caller passes empty string aria-labelledby', () => {
-    render(
-      <SistentThemeProvider>
-        <Modal open title="Empty LabelledBy Modal" aria-labelledby="" closeModal={jest.fn()}>
-          <div>Content</div>
-        </Modal>
-      </SistentThemeProvider>
-    );
-
-    const dialog = screen.getByRole('dialog');
-    const title = screen.getByTestId('modal-title');
-    const titleId = title.getAttribute('id');
-
-    expect(titleId).toBeTruthy();
-    expect(dialog.getAttribute('aria-labelledby')).toBe(titleId);
-  });
-
-  it('falls through to slotProps.paper aria-describedby when top-level aria-describedby is empty string', () => {
-    render(
-      <SistentThemeProvider>
-        <Modal
-          open
-          title="Describedby Fallthrough Modal"
-          aria-describedby=""
-          closeModal={jest.fn()}
-          slotProps={{
-            paper: {
-              'aria-describedby': 'paper-describedby-id'
-            } as PaperProps & { 'aria-describedby'?: string }
-          }}
-        >
-          <div>Content</div>
-        </Modal>
-      </SistentThemeProvider>
-    );
-
-    const dialog = screen.getByRole('dialog');
-    expect(dialog.getAttribute('aria-describedby')).toBe('paper-describedby-id');
   });
 
   it('prioritizes slotProps.paper aria-labelledby over top-level aria-label on titleless modal', () => {
@@ -579,7 +547,34 @@ describe('Modal accessibility contract (#1864)', () => {
     expect(dialog.getAttribute('aria-label')).toBeNull();
   });
 
-  it('falls through whitespace-only aria-labelledby, aria-label, and aria-describedby to title id and paper-desc', () => {
+  it('falls through empty or whitespace-only aria-labelledby, aria-label, and aria-describedby to title id and slotProps.paper', () => {
+    const { unmount } = render(
+      <SistentThemeProvider>
+        <Modal
+          open
+          title="Empty String Fallback Modal"
+          aria-labelledby=""
+          aria-label=""
+          aria-describedby=""
+          closeModal={jest.fn()}
+          slotProps={{
+            paper: {
+              'aria-describedby': 'paper-describedby-empty-fallback'
+            } as PaperProps & { 'aria-describedby'?: string }
+          }}
+        >
+          <div>Content</div>
+        </Modal>
+      </SistentThemeProvider>
+    );
+
+    let dialog = screen.getByRole('dialog');
+    let title = screen.getByTestId('modal-title');
+    expect(dialog.getAttribute('aria-labelledby')).toBe(title.getAttribute('id'));
+    expect(dialog.getAttribute('aria-label')).toBeNull();
+    expect(dialog.getAttribute('aria-describedby')).toBe('paper-describedby-empty-fallback');
+    unmount();
+
     render(
       <SistentThemeProvider>
         <Modal
@@ -591,7 +586,7 @@ describe('Modal accessibility contract (#1864)', () => {
           closeModal={jest.fn()}
           slotProps={{
             paper: {
-              'aria-describedby': 'paper-desc'
+              'aria-describedby': 'paper-desc-whitespace-fallback'
             } as PaperProps & { 'aria-describedby'?: string }
           }}
         >
@@ -600,11 +595,10 @@ describe('Modal accessibility contract (#1864)', () => {
       </SistentThemeProvider>
     );
 
-    const dialog = screen.getByRole('dialog');
-    const title = screen.getByTestId('modal-title');
-
+    dialog = screen.getByRole('dialog');
+    title = screen.getByTestId('modal-title');
     expect(dialog.getAttribute('aria-labelledby')).toBe(title.getAttribute('id'));
     expect(dialog.getAttribute('aria-label')).toBeNull();
-    expect(dialog.getAttribute('aria-describedby')).toBe('paper-desc');
+    expect(dialog.getAttribute('aria-describedby')).toBe('paper-desc-whitespace-fallback');
   });
 });
