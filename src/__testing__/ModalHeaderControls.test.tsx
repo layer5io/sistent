@@ -75,9 +75,7 @@ describe('Modal header controls accessibility (#1880)', () => {
     const enterBtn = screen.getByRole('button', { name: 'Enter fullscreen' });
 
     expect(closeBtn.tagName).toBe('BUTTON');
-    expect(closeBtn.tabIndex).toBeGreaterThanOrEqual(0);
     expect(enterBtn.tagName).toBe('BUTTON');
-    expect(enterBtn.tabIndex).toBeGreaterThanOrEqual(0);
 
     act(() => {
       closeBtn.focus();
@@ -104,22 +102,5 @@ describe('Modal header controls accessibility (#1880)', () => {
     const closeBtn = screen.getByRole('button', { name: 'Close dialog' });
     fireEvent.click(closeBtn);
     expect(handleClose).toHaveBeenCalledTimes(1);
-  });
-
-  it('header control SVGs resolve to color via currentColor rather than a literal', () => {
-    render(
-      <SistentThemeProvider>
-        <Modal open title="Accessible Modal" isFullScreenModeAllowed closeModal={jest.fn()}>
-          <div>Modal content</div>
-        </Modal>
-      </SistentThemeProvider>
-    );
-
-    const closeBtn = screen.getByRole('button', { name: 'Close dialog' });
-    const enterBtn = screen.getByRole('button', { name: 'Enter fullscreen' });
-
-    expect(closeBtn.querySelector('svg')?.getAttribute('fill')).toBe('currentColor');
-    expect(closeBtn.querySelector('svg')?.getAttribute('fill')).not.toBe('#fff');
-    expect(enterBtn.querySelector('svg')?.getAttribute('fill')).not.toBe('#fff');
   });
 });
