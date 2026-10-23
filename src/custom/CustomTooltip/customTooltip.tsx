@@ -1,9 +1,9 @@
-import { alpha, useTheme } from '@mui/material';
-import type { Theme } from '@mui/material/styles';
+import { alpha, getContrastRatio, ThemeProvider, useTheme } from '@mui/material';
+import type { PaletteMode, Theme } from '@mui/material/styles';
 import _ from 'lodash';
 import React from 'react';
 import { Tooltip, TooltipProps } from '../../base';
-import { WHITE } from '../../theme';
+import { createCustomTheme, WHITE } from '../../theme';
 import { RenderMarkdownTooltip } from '../Markdown';
 
 type CustomTooltipProps = {
@@ -16,6 +16,19 @@ type CustomTooltipProps = {
   bgColor?: string;
   slotProps?: TooltipProps['slotProps'];
 } & Omit<TooltipProps, 'title' | 'onClick'>;
+
+/**
+ * The palette mode a surface of colour `bg` calls for: `dark` when white text
+ * reads better on it than black. An unparseable value (a CSS variable, say)
+ * is treated as dark, the component's default surface.
+ */
+const surfaceMode = (bg: string): PaletteMode => {
+  try {
+    return getContrastRatio(bg, '#fff') >= getContrastRatio(bg, '#000') ? 'dark' : 'light';
+  } catch {
+    return 'dark';
+  }
+};
 
 function CustomTooltip({
   title,
@@ -30,6 +43,15 @@ function CustomTooltip({
   ...props
 }: CustomTooltipProps): JSX.Element {
   const theme = useTheme();
+  const mode = surfaceMode(bgColor);
+  // The surface is painted from `bgColor`, not from the ambient palette, so
+  // content must resolve `palette.*` against the surface it sits on. When the
+  // page already matches, keep its (possibly branded) theme untouched.
+  const surfaceTheme = React.useMemo(
+    () => (theme.palette.mode === mode ? null : createCustomTheme(mode)),
+    [theme.palette.mode, mode]
+  );
+  const content = typeof title === 'string' ? <RenderMarkdownTooltip content={title} /> : title;
 
   return (
     <Tooltip
@@ -38,7 +60,7 @@ function CustomTooltip({
           tooltip: {
             sx: {
               background: bgColor,
-              color: WHITE,
+              color: mode === 'dark' ? WHITE : (surfaceTheme ?? theme).palette.text.primary,
               maxWidth: '600px',
               fontSize: fontSize || (variant === 'standard' ? '1rem' : '0.75rem'),
               fontWeight,
@@ -73,7 +95,7 @@ function CustomTooltip({
         },
         slotProps
       )}
-      title={typeof title === 'string' ? <RenderMarkdownTooltip content={title} /> : title}
+      title={surfaceTheme ? <ThemeProvider theme={surfaceTheme}>{content}</ThemeProvider> : content}
       placement={placement}
       arrow
       onClick={onClick}
