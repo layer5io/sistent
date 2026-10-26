@@ -120,3 +120,9 @@ export {
   type Team as TeamPickerRecord,
   type TeamSearchFieldProps
 } from './custom/DashboardWidgets/GettingStartedWidget/TeamSearchField';
+
+export {
+  createIcon,
+  type CreateIconOptions
+} from './icons/createIcon';
+
