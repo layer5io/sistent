@@ -1,4 +1,5 @@
-import { styled, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import { styled } from '../../theme';
 
 type DesignCardProps = {
   outerStyles: React.CSSProperties;
@@ -88,7 +89,7 @@ export const MetricsCount = styled('p')(({ theme }) => ({
   margin: '0rem',
   lineHeight: '1.5',
   textAlign: 'center',
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.default,
   fontWeight: '600'
 }));
 export const DesignName = styled(Typography)(({ theme }) => ({
@@ -120,12 +121,12 @@ export const MetricsContainerFront = styled('div')(({ theme }) => ({
   borderRadius: '0 0 0.9375rem 0.9375rem',
   width: '100%'
 }));
-export const MetricsDiv = styled('div')(() => ({
+export const MetricsDiv = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: '4px',
   fontSize: '0.2rem',
-  color: 'rgba(26, 26, 26, .8)',
+  color: theme.palette.text.default,
   margin: '0rem',
   padding: '0.1rem'
 }));
