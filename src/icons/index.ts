@@ -149,6 +149,7 @@ export * from './Pattern';
 export * from './People';
 export * from './Performance';
 export * from './Person';
+export * from './Pin';
 export * from './PlayArrow';
 export * from './Pod';
 export * from './Poll';
