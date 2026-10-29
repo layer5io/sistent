@@ -1,5 +1,6 @@
-import { render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
+import { Tooltip } from '../base/Tooltip';
 import { OutlinedPinIcon, PinIcon } from '../icons';
 import { SistentThemeProviderWithoutBaseLine } from '../theme';
 
@@ -43,6 +44,28 @@ describe.each(icons)('$name', ({ Component }) => {
     const svg = container.querySelector('svg');
     expect(svg).not.toBeNull();
     expect(svg!.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('attaches a forwarded ref to the rendered <svg> element', () => {
+    const ref = React.createRef<SVGSVGElement>();
+    const { container } = renderWithTheme(<Component ref={ref} />);
+    const svg = container.querySelector('svg');
+    expect(ref.current).toBeInstanceOf(SVGSVGElement);
+    expect(ref.current).toBe(svg);
+  });
+
+  it('opens MUI Tooltip when the icon is its direct child', async () => {
+    const { container } = renderWithTheme(
+      <Tooltip title="Pin tooltip" enterDelay={0}>
+        <Component />
+      </Tooltip>
+    );
+    const svg = container.querySelector('svg');
+    expect(svg).not.toBeNull();
+
+    fireEvent.mouseOver(svg!);
+    const tooltipText = await screen.findByText('Pin tooltip');
+    expect(tooltipText).not.toBeNull();
   });
 });
 
