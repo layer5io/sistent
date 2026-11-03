@@ -90,9 +90,7 @@ describe('MuiButton contained honors the semantic color prop', () => {
   // assertions read the resolved backgroundColor per contained variant.
   const rootStyles = (mode: 'light' | 'dark') => {
     const theme = createCustomTheme(mode);
-    const root = MuiButton.styleOverrides!.root as (arg: {
-      theme: typeof theme;
-    }) => Record<
+    const root = MuiButton.styleOverrides!.root as (arg: { theme: typeof theme }) => Record<
       string,
       { color?: string; backgroundColor?: string; ['&:hover']?: { backgroundColor?: string } }
     >;
@@ -107,7 +105,9 @@ describe('MuiButton contained honors the semantic color prop', () => {
     expect(containedError).toBeDefined();
     // Uses the semantic error background...
     expect(containedError.backgroundColor).toBe(theme.palette.background.error.default);
-    expect(containedError['&:hover']?.backgroundColor).toBe(theme.palette.background.error.hover);
+    expect(containedError['&:hover']?.backgroundColor).toBe(
+      theme.palette.background.error.hover
+    );
     // ...and is NOT the brand background that `&.MuiButton-contained` sets - the
     // regression that made `<Button variant="contained" color="error">` green.
     expect(containedError.backgroundColor).not.toBe(contained.backgroundColor);
