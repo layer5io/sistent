@@ -20,7 +20,9 @@ export const MuiTooltip: Components<Theme>['MuiTooltip'] = {
             })();
 
       return {
-        boxShadow: shadow
+        boxShadow: shadow,
+        fontSize: theme.typography.textB3Regular.fontSize,
+        padding: `${theme.spacing(1)} ${theme.spacing(1.5)}`
       } as const;
     },
 

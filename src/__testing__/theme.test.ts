@@ -4,6 +4,7 @@ import {
   SistentDefaultPrimitivePaletteLight
 } from '../theme';
 import { MuiButton } from '../theme/components/button.modifier';
+import { MuiTooltip } from '../theme/components/tooltip.modifier';
 
 const LIGHT_INK = SistentDefaultPrimitivePaletteLight.primaryInverted; // charcoal[100] ≈ near-white
 const DARK_INK = SistentDefaultPrimitivePaletteLight.foreground; // charcoal[10] ≈ near-black
@@ -89,7 +90,9 @@ describe('MuiButton contained honors the semantic color prop', () => {
   // assertions read the resolved backgroundColor per contained variant.
   const rootStyles = (mode: 'light' | 'dark') => {
     const theme = createCustomTheme(mode);
-    const root = MuiButton.styleOverrides!.root as (arg: { theme: typeof theme }) => Record<
+    const root = MuiButton.styleOverrides!.root as (arg: {
+      theme: typeof theme;
+    }) => Record<
       string,
       { color?: string; backgroundColor?: string; ['&:hover']?: { backgroundColor?: string } }
     >;
@@ -104,9 +107,7 @@ describe('MuiButton contained honors the semantic color prop', () => {
     expect(containedError).toBeDefined();
     // Uses the semantic error background...
     expect(containedError.backgroundColor).toBe(theme.palette.background.error.default);
-    expect(containedError['&:hover']?.backgroundColor).toBe(
-      theme.palette.background.error.hover
-    );
+    expect(containedError['&:hover']?.backgroundColor).toBe(theme.palette.background.error.hover);
     // ...and is NOT the brand background that `&.MuiButton-contained` sets - the
     // regression that made `<Button variant="contained" color="error">` green.
     expect(containedError.backgroundColor).not.toBe(contained.backgroundColor);
@@ -159,5 +160,25 @@ describe('MuiOutlinedInput line-height', () => {
     expect((styles[theme.breakpoints.down('sm')] as Record<string, unknown>).lineHeight).toBe(
       '1.4375em'
     );
+  });
+});
+
+describe('MuiTooltip typography', () => {
+  it.each(['light', 'dark'] as const)('uses the typography scale in %s mode', (mode) => {
+    const theme = createCustomTheme(mode);
+
+    const tooltip = MuiTooltip.styleOverrides?.tooltip as (props: {
+      theme: typeof theme;
+    }) => Record<string, unknown>;
+
+    const styles = tooltip({ theme });
+
+    expect(styles.fontSize).toBe(theme.typography.textB3Regular.fontSize);
+
+    expect(styles.fontSize).toBe('0.875rem');
+
+    expect(styles.padding).toBe(`${theme.spacing(1)} ${theme.spacing(1.5)}`);
+
+    expect(styles.boxShadow).toBeDefined();
   });
 });
