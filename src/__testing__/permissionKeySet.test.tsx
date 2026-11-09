@@ -4,9 +4,10 @@ import { NavigationNavbar, type NavigationItem } from '../custom/NavigationNavba
 import {
   PermissionProvider,
   useHasPermission,
+  usePermissionDocsUrl,
   type PermissionKeySpec
 } from '../custom/PermissionProvider';
-import { PermissionShield } from '../custom/permissions';
+import { PermissionSessionContext, PermissionShield } from '../custom/permissions';
 import { SistentThemeProvider } from '../theme';
 
 // `permissionKey` accepts a bare `Key` (the original form) or a key set with an
@@ -114,11 +115,16 @@ describe('useHasPermission — empty and malformed sets deny', () => {
   });
 });
 
-const renderShield = (permissionKey: PermissionKeySpec, granted: string[] = []) =>
+const renderShield = (
+  permissionKey: PermissionKeySpec,
+  granted: string[] = [],
+  providerDocsUrl?: string | null,
+  shieldDocsUrl?: string | null
+) =>
   render(
     <SistentThemeProvider>
-      <PermissionProvider userHasPermission={granting(...granted)}>
-        <PermissionShield permissionKey={permissionKey}>
+      <PermissionProvider userHasPermission={granting(...granted)} docsUrl={providerDocsUrl}>
+        <PermissionShield permissionKey={permissionKey} docsUrl={shieldDocsUrl}>
           <button>Organizations</button>
         </PermissionShield>
       </PermissionProvider>
@@ -163,6 +169,97 @@ describe('PermissionShield tooltip', () => {
   it('falls back to the single-key wording when a malformed set names no keys', () => {
     const { container } = renderShield({ anyOf: [] });
     expect(openTooltip(container)).toContain('Missing requisite key');
+  });
+});
+
+describe('Permission documentation link configuration', () => {
+  it('omits Key Reference link by default when no docsUrl is provided', () => {
+    const { container } = renderShield(VIEW_ORG);
+    openTooltip(container);
+    const tooltip = screen.getByRole('tooltip');
+    expect(within(tooltip).queryByRole('link', { name: /key reference/i })).toBeNull();
+  });
+
+  it('renders Key Reference link when docsUrl is provided by PermissionProvider', () => {
+    const { container } = renderShield(VIEW_ORG, [], 'https://custom.docs.io/permissions');
+    openTooltip(container);
+    const tooltip = screen.getByRole('tooltip');
+    const link = within(tooltip).getByRole('link', { name: /key reference/i });
+    expect(link).toBeTruthy();
+    expect(link.getAttribute('href')).toBe('https://custom.docs.io/permissions');
+  });
+
+  it('renders Key Reference link when docsUrl prop is provided on PermissionShield', () => {
+    const { container } = renderShield(
+      VIEW_ORG,
+      [],
+      undefined,
+      'https://shield.docs.io/permissions'
+    );
+    openTooltip(container);
+    const tooltip = screen.getByRole('tooltip');
+    const link = within(tooltip).getByRole('link', { name: /key reference/i });
+    expect(link).toBeTruthy();
+    expect(link.getAttribute('href')).toBe('https://shield.docs.io/permissions');
+  });
+
+  it('prioritizes PermissionShield docsUrl prop over PermissionProvider docsUrl', () => {
+    const { container } = renderShield(
+      VIEW_ORG,
+      [],
+      'https://provider.docs.io/permissions',
+      'https://override.docs.io/permissions'
+    );
+    openTooltip(container);
+    const tooltip = screen.getByRole('tooltip');
+    const link = within(tooltip).getByRole('link', { name: /key reference/i });
+    expect(link).toBeTruthy();
+    expect(link.getAttribute('href')).toBe('https://override.docs.io/permissions');
+  });
+
+  it('omits Key Reference link when docsUrl={null} is explicitly passed to PermissionShield', () => {
+    const { container } = renderShield(VIEW_ORG, [], 'https://provider.docs.io/permissions', null);
+    openTooltip(container);
+    const tooltip = screen.getByRole('tooltip');
+    expect(within(tooltip).queryByRole('link', { name: /key reference/i })).toBeNull();
+  });
+
+  it('supports docsUrl in standalone PermissionSessionContext', () => {
+    const { rerender } = render(
+      <SistentThemeProvider>
+        <PermissionSessionContext
+          variant="card"
+          displayedKeys={[VIEW_ORG]}
+          docsUrl="https://custom.card.io/permissions"
+        />
+      </SistentThemeProvider>
+    );
+
+    const link = screen.getByRole('link', { name: /key reference/i });
+    expect(link).toBeTruthy();
+    expect(link.getAttribute('href')).toBe('https://custom.card.io/permissions');
+
+    rerender(
+      <SistentThemeProvider>
+        <PermissionSessionContext variant="card" displayedKeys={[VIEW_ORG]} docsUrl={null} />
+      </SistentThemeProvider>
+    );
+
+    expect(screen.queryByRole('link', { name: /key reference/i })).toBeNull();
+  });
+
+  it('usePermissionDocsUrl returns docsUrl from provider or undefined without provider', () => {
+    const { result: noProvider } = renderHook(() => usePermissionDocsUrl());
+    expect(noProvider.current).toBeUndefined();
+
+    const { result: withProvider } = renderHook(() => usePermissionDocsUrl(), {
+      wrapper: ({ children }) => (
+        <PermissionProvider userHasPermission={granting()} docsUrl="https://docs.test/ref">
+          {children}
+        </PermissionProvider>
+      )
+    });
+    expect(withProvider.current).toBe('https://docs.test/ref');
   });
 });
 

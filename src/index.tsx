@@ -58,6 +58,7 @@ export {
   isPermissionKeySet,
   useHasPermission,
   usePermission,
+  usePermissionDocsUrl,
   usePermissionUserContext,
   useUnmetPermissionKeys,
   type Key,

@@ -1,7 +1,6 @@
 import { Key } from '@meshery/schemas/permissions';
 import React, { createContext, useContext } from 'react';
 
-
 /**
  * Determines how a component responds when the user lacks the required permission.
  *
@@ -110,8 +109,13 @@ export interface PermissionProviderValue {
 
   /** Optional user context rendered inside the shield tooltip. */
   userContext?: PermissionUserContext;
-}
 
+  /**
+   * Optional documentation URL for permissions reference (rendered as a "Key Reference" link).
+   * When omitted or null, the link is omitted.
+   */
+  docsUrl?: string | null;
+}
 
 const PermissionContext = createContext<PermissionProviderValue | null>(null);
 
@@ -130,6 +134,12 @@ export interface PermissionProviderProps {
    * tooltip.  When omitted the tooltip's user-context section is hidden.
    */
   userContext?: PermissionUserContext;
+
+  /**
+   * Optional documentation URL for permissions reference (rendered as a "Key Reference" link).
+   * When omitted or null, the link is omitted.
+   */
+  docsUrl?: string | null;
 
   children: React.ReactNode;
 }
@@ -158,9 +168,10 @@ export interface PermissionProviderProps {
 export const PermissionProvider: React.FC<PermissionProviderProps> = ({
   userHasPermission,
   userContext,
+  docsUrl,
   children
 }) => (
-  <PermissionContext.Provider value={{ userHasPermission, userContext }}>
+  <PermissionContext.Provider value={{ userHasPermission, userContext, docsUrl }}>
     {children}
   </PermissionContext.Provider>
 );
@@ -221,4 +232,13 @@ export const useUnmetPermissionKeys = (spec?: PermissionKeySpec): Key[] => {
 export const usePermissionUserContext = (): PermissionUserContext | undefined => {
   const ctx = usePermission();
   return ctx?.userContext;
+};
+
+/**
+ * Retrieve the documentation URL supplied to `PermissionProvider`.
+ * Used internally by `PermissionSessionContext` to render the permissions reference link.
+ */
+export const usePermissionDocsUrl = (): string | null | undefined => {
+  const ctx = usePermission();
+  return ctx?.docsUrl;
 };
