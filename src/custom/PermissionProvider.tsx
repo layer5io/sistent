@@ -1,5 +1,5 @@
 import { Key } from '@meshery/schemas/permissions';
-import React, { createContext, useContext, useMemo } from 'react';
+import React, { createContext, useContext } from 'react';
 
 /**
  * Determines how a component responds when the user lacks the required permission.
@@ -170,17 +170,11 @@ export const PermissionProvider: React.FC<PermissionProviderProps> = ({
   userContext,
   docsUrl,
   children
-}) => {
-  // Keep the context value stable across renders so consumers do not
-  // re-render (and re-run permission checks) when permission data is
-  // unchanged. The value refreshes whenever a prop identity changes, so
-  // a host that swaps in a new evaluator or user context still propagates.
-  const value = useMemo<PermissionProviderValue>(
-    () => ({ userHasPermission, userContext, docsUrl }),
-    [userHasPermission, userContext, docsUrl]
-  );
-  return <PermissionContext.Provider value={value}>{children}</PermissionContext.Provider>;
-};
+}) => (
+  <PermissionContext.Provider value={{ userHasPermission, userContext, docsUrl }}>
+    {children}
+  </PermissionContext.Provider>
+);
 
 PermissionProvider.displayName = 'PermissionProvider';
 
