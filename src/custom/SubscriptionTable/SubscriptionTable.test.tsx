@@ -1,6 +1,5 @@
-﻿import React from 'react';
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { SubscriptionTable, PlanFeature } from './SubscriptionTable';
 
 const mockFeatures: PlanFeature[] = [
@@ -21,15 +20,14 @@ const mockFeatures: PlanFeature[] = [
 describe('SubscriptionTable Component', () => {
   it('renders table title and feature rows correctly', () => {
     render(<SubscriptionTable title="Custom Pricing Table" features={mockFeatures} />);
-    expect(screen.getByText('Custom Pricing Table')).toBeInTheDocument();
-    expect(screen.getByText('Cloud Storage')).toBeInTheDocument();
-    expect(screen.getByText('Priority Support')).toBeInTheDocument();
-    expect(screen.getByText('5GB')).toBeInTheDocument();
+    expect(screen.getByText('Custom Pricing Table')).not.toBeNull();
+    expect(screen.getByText('Cloud Storage')).not.toBeNull();
+    expect(screen.getByText('Priority Support')).not.toBeNull();
+    expect(screen.getByText('5GB')).not.toBeNull();
   });
 
   it('renders boolean indicators with accessibility labels', () => {
     render(<SubscriptionTable features={mockFeatures} />);
-    // Assert actual accessible text labels instead of test IDs
     expect(screen.getAllByLabelText('Included').length).toBeGreaterThan(0);
     expect(screen.getAllByLabelText('Not included').length).toBeGreaterThan(0);
   });
@@ -57,8 +55,8 @@ describe('SubscriptionTable Component', () => {
         freePlanButtonLabel="Join Now"
       />
     );
-    expect(screen.getByText('Key Capabilities')).toBeInTheDocument();
-    expect(screen.getByText('Starter')).toBeInTheDocument();
-    expect(screen.getByText('Join Now')).toBeInTheDocument();
+    expect(screen.getByText('Key Capabilities')).not.toBeNull();
+    expect(screen.getByText('Starter')).not.toBeNull();
+    expect(screen.getByText('Join Now')).not.toBeNull();
   });
 });
