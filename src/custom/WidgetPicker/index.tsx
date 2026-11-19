@@ -1,1 +1,6 @@
-export { WidgetPicker, type WidgetPickerProps, type WidgetItem } from './WidgetPicker';
+export {
+  WidgetPicker,
+  type WidgetItem,
+  type WidgetPickerHeaderPreset,
+  type WidgetPickerProps
+} from './WidgetPicker';
