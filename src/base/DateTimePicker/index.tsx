@@ -1,5 +1,4 @@
-import type { DateTimePickerProps } from '@mui/x-date-pickers/DateTimePicker';
-import DateTimePicker from './DateTimePicker';
+import DateTimePicker, { type DateTimePickerProps } from './DateTimePicker';
 
 export { DateTimePicker };
 export type { DateTimePickerProps };

@@ -129,9 +129,16 @@ is the guard. It reads the built `dist/index.d.ts` (CI's `node-checks.yml` runs 
 when `CI` is set). It is also the source of truth for the two exemption lists and the per-package
 rationale behind each: packages that leak _undeclared_ (today the redux-facing surface reached
 through `src/actors/*` and `src/redux-persist/*`, whose remedy is its own opt-in entry point, not a
-dependency), and packages that _are_ declared but only as optional peers, whose remedy is to stop
-naming them in the public type surface. Every entry is asserted to still be needed, so it cannot
+dependency), and packages that _are_ declared but only as optional peers, where the remedy is
+usually to stop naming them in the public type surface - though the one remaining entry, `react`,
+is permanent rather than deferred. Every entry is asserted to still be needed, so it cannot
 outlive its problem - read that file, not a copy here, before touching either list.
+
+Note what "stop naming them" has to cover. Dropping a `export type { X } from '<peer>'` re-export is
+not enough on its own if an _exported component_ is still typed with the peer's props: the
+declaration bundle keeps the import alive to serve that declaration. #1749 was exactly this - the
+props re-export and `DateTimePicker`'s own `ForwardRefExoticComponent<...>` type were two separate
+references, and only removing both got the count to zero.
 
 Declaring one has a downstream consequence a `devDependency` did not: a real `dependency` takes part
 in the consumer's own dedupe, so installing sistent can lift the consumer's copy of that package to

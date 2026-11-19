@@ -17,6 +17,60 @@ import React from 'react';
  */
 const OPTIONAL_PEERS = '@mui/x-date-pickers and date-fns';
 
+/**
+ * sistent's own props contract, deliberately not an alias of the peer's
+ * `DateTimePickerProps`.
+ *
+ * The runtime import above is deferred so the optional peer stays optional, but a
+ * type has no lazy form. Typing the exported component with MUI's props left the
+ * declaration bundle importing the peer's `DateTimePickerProps`, which a consumer
+ * who skipped the optional peer cannot resolve: `TS2307` under
+ * `skipLibCheck: false`, and a silent `any` under `skipLibCheck: true`. See
+ * `src/__testing__/publishedTypeSurfaceDependencies.test.ts`.
+ *
+ * Note that dropping the barrel's type re-export was not sufficient on its own -
+ * the exported component's own declaration was a second reference to the peer,
+ * and kept the import alive by itself.
+ *
+ * The named props are the ones sistent checks. The index signature keeps every
+ * other picker prop accepted and forwarded, so the pass-through is described
+ * without naming a package the consumer may not have.
+ */
+export interface DateTimePickerProps {
+  label?: React.ReactNode;
+  value?: Date | null;
+  defaultValue?: Date | null;
+  /**
+   * Trailing `...rest: never[]` rather than a named second parameter: MUI passes a
+   * validation context as the second argument, and spelling it here would make a
+   * handler that ignores it - which every call site in this repo does - the only
+   * assignable shape, rejecting the two-parameter handlers MUI's own type allows.
+   */
+  onChange?: (value: Date | null, ...rest: never[]) => void;
+  disabled?: boolean;
+  readOnly?: boolean;
+  minDate?: Date;
+  maxDate?: Date;
+  minDateTime?: Date;
+  maxDateTime?: Date;
+  format?: string;
+  className?: string;
+  [prop: string]: unknown;
+}
+
+/**
+ * Annotated explicitly rather than left to `React.forwardRef<T, P>` inference.
+ * That helper returns `ForwardRefExoticComponent<PropsWithoutRef<P> & ...>`, and
+ * for a `P` carrying a string index signature `PropsWithoutRef` resolves to
+ * `Omit<P, 'ref'>`, whose `keyof P` is `string | number` - collapsing the whole
+ * interface to `{ [x: string]: unknown }` and discarding every named prop's type.
+ * `<DateTimePicker value="not a date" />` would then compile silently, which is
+ * the same unchecked-prop failure this file exists to avoid.
+ */
+type DateTimePickerComponent = React.ForwardRefExoticComponent<
+  DateTimePickerProps & React.RefAttributes<HTMLDivElement>
+>;
+
 const LazyDateTimePicker = React.lazy(async () => {
   const [{ AdapterDateFns }, { LocalizationProvider }, { DateTimePicker: MuiDateTimePicker }] =
     await Promise.all([
@@ -36,19 +90,23 @@ const LazyDateTimePicker = React.lazy(async () => {
       );
     });
 
-  const ResolvedDateTimePicker = React.forwardRef<HTMLDivElement, MuiDateTimePickerProps>(
-    (props, ref) => (
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <MuiDateTimePicker {...props} ref={ref} />
-      </LocalizationProvider>
-    )
-  );
+  const ResolvedDateTimePicker: DateTimePickerComponent = React.forwardRef<
+    HTMLDivElement,
+    DateTimePickerProps
+  >((props, ref) => (
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <MuiDateTimePicker {...(props as MuiDateTimePickerProps)} ref={ref} />
+    </LocalizationProvider>
+  ));
   ResolvedDateTimePicker.displayName = 'ResolvedDateTimePicker';
 
   return { default: ResolvedDateTimePicker };
 });
 
-const DateTimePicker = React.forwardRef<HTMLDivElement, MuiDateTimePickerProps>((props, ref) => (
+const DateTimePicker: DateTimePickerComponent = React.forwardRef<
+  HTMLDivElement,
+  DateTimePickerProps
+>((props, ref) => (
   // `null` rather than a spinner: the chunk resolves in a frame or two and a
   // flashing placeholder inside a form field reads as a bug.
   <React.Suspense fallback={null}>
