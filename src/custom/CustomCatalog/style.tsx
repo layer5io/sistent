@@ -377,6 +377,9 @@ export const CardFront = styled('div')<DesignCardDivProps>(({ shouldFlip, isDeta
     zIndex: 1,
     ...(shouldFlip && {
       position: 'absolute',
+      // Firefox ignores backface-visibility on a z-indexed face without its own
+      // transform, painting the front mirrored over CardBack (meshery/meshery#22640).
+      transform: 'rotateY(0deg)',
       boxShadow,
       background
     }),
