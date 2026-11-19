@@ -201,6 +201,7 @@ export * from './ResourceDetailFormatters';
 export * from './RJSFFormWrapper';
 export * from './ShareModal';
 export * from './StyledAccordion';
+export * from './SubscriptionTable';
 export * from './UserSearchField';
 export * from './WidgetEmptyState';
 export * from './WidgetPicker';
