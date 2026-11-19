@@ -1,0 +1,46 @@
+import { render, screen } from '@testing-library/react';
+import React from 'react';
+import FormHelperText from './FormHelperText';
+
+describe('FormHelperText Component', () => {
+  it('renders children correctly', () => {
+    render(<FormHelperText>Sample Helper Text</FormHelperText>);
+    expect(screen.getByText('Sample Helper Text')).toBeTruthy();
+  });
+
+  it('forwards ref correctly to the underlying HTML element', () => {
+    const ref = React.createRef<HTMLParagraphElement>();
+    render(<FormHelperText ref={ref}>Ref Attached Text</FormHelperText>);
+    expect(ref.current).toBeInstanceOf(HTMLParagraphElement);
+    expect(ref.current?.textContent).toBe('Ref Attached Text');
+  });
+
+  it('renders with custom component prop', () => {
+    render(<FormHelperText component="span">Span Helper Text</FormHelperText>);
+    const element = screen.getByText('Span Helper Text');
+    expect(element.tagName).toBe('SPAN');
+    expect(element).toBeTruthy();
+  });
+
+  it('forwards ref correctly when rendered with a custom component', () => {
+    const ref = React.createRef<HTMLSpanElement>();
+    render(
+      <FormHelperText component="span" ref={ref}>
+        Span Helper Text
+      </FormHelperText>
+    );
+    expect(ref.current).toBeInstanceOf(HTMLSpanElement);
+    expect(ref.current?.tagName).toBe('SPAN');
+  });
+
+  it('applies custom className and props', () => {
+    render(
+      <FormHelperText data-testid="custom-helper" className="custom-class" error>
+        Error state text
+      </FormHelperText>
+    );
+    const element = screen.getByTestId('custom-helper');
+    expect(element.className).toContain('custom-class');
+    expect(element.className).toContain('Mui-error');
+  });
+});
