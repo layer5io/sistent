@@ -75,6 +75,8 @@ export { NavigationNavbar } from './NavigationNavbar';
 export type { NavigationItem } from './NavigationNavbar';
 export { Note } from './Note';
 export { Panel } from './Panel';
+export { ProgressBar, useProgressBar } from './ProgressBar';
+export type { ProgressBarProps, ProgressBarVariant, ShowProgressBarOptions, UseProgressBarReturn } from './ProgressBar';
 export {
   OpenLeaderBoardButton,
   PerformersSection,
