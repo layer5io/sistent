@@ -1,21 +1,25 @@
 import { Carousel } from '../Carousel';
 import { CatalogCardDesignLogo } from '../CustomCatalog';
-import CustomCatalogCard, { Pattern } from '../CustomCatalog/CustomCard';
+import CustomCatalogCard, { Pattern, SuggestedPattern } from '../CustomCatalog/CustomCard';
+import { getCatalogImageURLs } from '../CustomCatalog/Helper';
 import { getHeadingText } from './helper';
 import { AdditionalContainer, ContentHeading } from './style';
 import { UserProfile } from './types';
+
 export interface PatternsPerUser {
-  patterns: Pattern[];
+  patterns?: SuggestedPattern[];
 }
+
 export interface DetailsByType {
   patterns: Pattern[];
 }
+
 interface RelatedDesignsProps {
   details: Pattern;
   type: string;
-  patternsPerUser: PatternsPerUser;
+  patternsPerUser?: PatternsPerUser;
   detailsByType?: DetailsByType;
-  onSuggestedPatternClick: (pattern: Pattern) => void;
+  onSuggestedPatternClick: (pattern: SuggestedPattern) => void;
   userProfile?: UserProfile;
   technologySVGPath: string;
   technologySVGSubpath: string;
@@ -37,9 +41,13 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
   fetchingOrgError,
   filterByType
 }) => {
-  const filteredPatterns = filterByType
-    ? detailsByType?.patterns?.filter((pattern) => pattern.id !== details.id) || []
-    : patternsPerUser?.patterns?.filter((pattern) => pattern.id !== details.id) || [];
+  const filteredPatterns: SuggestedPattern[] = filterByType
+    ? detailsByType?.patterns?.filter((pattern) =>
+        Boolean(pattern?.id && pattern?.name && pattern.id !== details.id)
+      ) || []
+    : patternsPerUser?.patterns?.filter((pattern) =>
+        Boolean(pattern?.id && pattern?.name && pattern.id !== details.id)
+      ) || [];
 
   if (!filteredPatterns.length) return null;
   const organizationName = filterByType
@@ -50,6 +58,7 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
 
   const carouselItems = filteredPatterns.map((pattern) => (
     <CustomCatalogCard
+      key={pattern.id}
       pattern={pattern}
       patternType={type}
       onCardClick={() => onSuggestedPatternClick(pattern)}
@@ -60,7 +69,7 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
       cardTechnologies={true}
     >
       <CatalogCardDesignLogo
-        imgURL={pattern?.catalogData?.imageURL}
+        imgURL={getCatalogImageURLs(pattern)}
         height={'5.5rem'}
         width={'100%'}
         zoomEffect={false}
@@ -82,4 +91,5 @@ const RelatedDesigns: React.FC<RelatedDesignsProps> = ({
   );
 };
 
+export type { SuggestedPattern };
 export default RelatedDesigns;

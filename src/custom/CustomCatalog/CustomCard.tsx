@@ -9,7 +9,7 @@ import { DownloadIcon } from '../../icons/Download';
 import { DARK_TEAL, styled, useTheme } from '../../theme';
 import { SNOW_WHITE } from '../../theme/colors/colors';
 import { CustomTooltip } from '../CustomTooltip';
-import { getVersion, handleImage } from './Helper';
+import { getCatalogClassName, getVersion, handleImage } from './Helper';
 import {
   CardBack,
   CardFront,
@@ -120,8 +120,26 @@ export interface Pattern extends Omit<
   visibility: string;
 }
 
+/**
+ * Minimal shape required by CustomCatalogCard and related suggested-pattern paths.
+ * Structurally satisfied by both the full catalog Pattern and canonical schema designs.
+ */
+export interface SuggestedPattern {
+  id?: string;
+  name?: string;
+  catalogData?: PatternCatalogData | NonNullable<CanonicalPattern['catalogData']>;
+  visibility?: string;
+  patternFile?: string;
+  updatedAt?: string;
+  viewCount?: number;
+  downloadCount?: number;
+  cloneCount?: number;
+  deploymentCount?: number;
+  shareCount?: number;
+}
+
 type CatalogCardProps = {
-  pattern: Pattern;
+  pattern: SuggestedPattern;
   patternType: string;
   cardHeight?: string;
   cardWidth?: string;
@@ -184,6 +202,7 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
   const techlimit = 5;
   const [availableTechnologies, setAvailableTechnologies] = useState<string[]>([]);
   const version = getVersion(pattern);
+  const catalogClassName = getCatalogClassName(pattern);
 
   useEffect(() => {
     handleImage({
@@ -217,13 +236,10 @@ const CustomCatalogCard: React.FC<CatalogCardProps> = ({
         <CardFront shouldFlip={shouldFlip} isDetailed={isDetailed}>
           {isDetailed && (
             <>
-              <ClassWrap catalogClassName={pattern?.catalogData?.contentClass ?? ''} />
+              <ClassWrap catalogClassName={catalogClassName} />
               <DesignType>{patternType}</DesignType>
-              <CustomTooltip title={pattern.name}>
-                <DesignName
-                  hasRibbon={!!pattern?.catalogData?.contentClass}
-                  tabIndex={0}
-                >
+              <CustomTooltip title={pattern.name ?? ''}>
+                <DesignName hasRibbon={Boolean(catalogClassName)} tabIndex={0}>
                   {pattern.name}
                 </DesignName>
               </CustomTooltip>

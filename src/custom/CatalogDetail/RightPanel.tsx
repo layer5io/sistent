@@ -3,7 +3,7 @@ import { Pattern } from '../CustomCatalog/CustomCard';
 import { VIEW_VISIBILITY } from '../VisibilityChipMenu/VisibilityChipMenu';
 import CaveatsSection from './CaveatsSection';
 import OverviewSection from './OverviewSection';
-import RelatedDesigns, { DetailsByType, PatternsPerUser } from './RelatedDesigns';
+import RelatedDesigns, { DetailsByType, PatternsPerUser, SuggestedPattern } from './RelatedDesigns';
 import { Class } from './types';
 
 interface RightPanelProps {
@@ -18,9 +18,9 @@ interface RightPanelProps {
   showVersion: boolean;
   showCaveats: boolean;
   classes: Class[];
-  patternsPerUser: PatternsPerUser;
+  patternsPerUser?: PatternsPerUser;
   handleCopyUrl: (type: string, name: string, id: string) => void;
-  onSuggestedPatternClick: (pattern: Pattern) => void;
+  onSuggestedPatternClick: (pattern: SuggestedPattern) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useGetUserProfileByIdQuery: any;
   fontFamily?: string;

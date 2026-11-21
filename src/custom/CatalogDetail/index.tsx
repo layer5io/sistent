@@ -29,3 +29,5 @@ export {
   TechnologySection,
   UserInfo
 };
+
+export type { DetailsByType, PatternsPerUser, SuggestedPattern } from './RelatedDesigns';
