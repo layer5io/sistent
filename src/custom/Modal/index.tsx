@@ -36,8 +36,9 @@ interface UseModalReturnI extends ModalProps {
 
 export const CloseBtn = styled(IconButton)`
   && {
+    color: ${({ theme }) => theme.palette.common.white};
     & svg {
-      fill: #fff;
+      fill: currentColor;
     }
     transform: rotate(-90deg);
 
@@ -58,19 +59,14 @@ const StyledDialog = styled(Dialog)`
   }
 `;
 
-const FullscreenButton = styled(FullScreenIcon)(({ theme }) => ({
-  height: '2.25rem',
-  width: '2.25rem',
-  fill: theme.palette.common.white,
-  cursor: 'pointer'
-}));
-
-const FullscreenExitButton = styled(FullScreenExitIcon)(({ theme }) => ({
-  height: '2.25rem',
-  width: '2.25rem',
-  fill: theme.palette.common.white,
-  cursor: 'pointer'
-}));
+const FullscreenButton = styled(IconButton)`
+  && {
+    color: ${({ theme }) => theme.palette.common.white};
+    & svg {
+      fill: currentColor;
+    }
+  }
+`;
 
 export const ModalStyledHeader = styled('div')(({ theme }) => ({
   background: theme.palette.surface.tint,
@@ -195,17 +191,23 @@ export const Modal: React.FC<ModalProps> = ({
             data-testid="modal-header-actions"
           >
             {isFullScreenModeAllowed && (
-              <CustomTooltip title={fullScreen ? 'Exit Fullscreen' : 'Enter Fullscreen'}>
+              <CustomTooltip title={fullScreen ? 'Exit fullscreen' : 'Enter fullscreen'}>
                 {fullScreen ? (
-                  <FullscreenExitButton
+                  <FullscreenButton
                     onClick={toggleFullScreen}
+                    aria-label="Exit fullscreen"
                     data-testid="modal-exit-fullscreen-btn"
-                  />
+                  >
+                    <FullScreenExitIcon {...iconLarge} />
+                  </FullscreenButton>
                 ) : (
                   <FullscreenButton
                     onClick={toggleFullScreen}
+                    aria-label="Enter fullscreen"
                     data-testid="modal-enter-fullscreen-btn"
-                  />
+                  >
+                    <FullScreenIcon {...iconLarge} />
+                  </FullscreenButton>
                 )}
               </CustomTooltip>
             )}
@@ -213,8 +215,9 @@ export const Modal: React.FC<ModalProps> = ({
               onClick={closeModal}
               className="modal-close-btn"
               data-testid="modal-close-btn"
+              aria-label="Close dialog"
             >
-              <CloseIcon {...iconLarge} fill="#fff"></CloseIcon>
+              <CloseIcon {...iconLarge} />
             </CloseBtn>
           </div>
         </ModalStyledHeader>
