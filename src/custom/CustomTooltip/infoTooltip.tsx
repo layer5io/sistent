@@ -29,6 +29,7 @@ const InfoTooltip = ({
           justifyContent: 'center',
           padding: 0,
           border: 'none',
+          borderRadius: '50%',
           background: 'transparent',
           cursor: 'help',
           ...style
