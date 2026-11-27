@@ -3,14 +3,6 @@ import { CopyLinkIcon } from '../icons';
 /**
  * Descriptor for a single entry in a `ResponsiveDataTable` row-action menu
  * (`Column.options.actionsList`).
- *
- * Defined in this leaf module (rather than inline in `ResponsiveDataTable`) so
- * the type and the `getCopyDeepLinkAction` helper can be re-exported explicitly
- * from the package root. `ResponsiveDataTable` imports `@sistent/mui-datatables`,
- * which ships no type declarations; re-exporting directly from it makes
- * rollup-plugin-dts resolve that untyped import and drop the whole declaration
- * bundle. Keeping these here, free of untyped imports, lets them survive into
- * the published `.d.ts` without a consumer-side augmentation.
  */
 export type TableAction = {
   title: string;

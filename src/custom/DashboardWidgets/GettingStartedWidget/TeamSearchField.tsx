@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Autocomplete, Box, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce.js';
 import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
 import { Chip, CircularProgress, TextField, Tooltip } from '../../../base';
 import { iconSmall } from '../../../constants/iconsSizes';
@@ -116,12 +116,18 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
     });
   };
 
-  const handleInputChange = (_: React.SyntheticEvent, value: string): void => {
+  const handleInputChange = (_: React.SyntheticEvent, value: string, reason: string): void => {
+    if (reason === 'reset') return;
     if (typeof value === 'string') {
       setError(false);
       fetchSuggestions(value);
     }
   };
+
+  const availableOptions = useMemo(
+    () => options.filter((opt) => !teamsData.some((team) => team.id === opt.id)),
+    [options, teamsData]
+  );
 
   useEffect(() => {
     fetchSuggestions('');
@@ -140,22 +146,15 @@ const TeamSearchField: React.FC<TeamSearchFieldProps> = ({
         sx={{ width: 'auto' }}
         disableClearable
         loading={isLoading}
-        // MUI applies this through `isOptionEqualToValue` below, which is
-        // reference equality here and so load-bearing: whether this filter hides
-        // anything depends on whether a refetch has replaced `options` with new
-        // objects. Do not rely on it - the duplicate guard in `handleAdd` is
-        // what actually prevents a re-pick. Analysis and the fix:
-        // https://github.com/layer5io/sistent/issues/1784.
-        filterSelectedOptions
         noOptionsText={isLoading ? 'Loading...' : 'No team found'}
         onChange={handleAdd}
         onInputChange={handleInputChange}
-        options={options}
+        options={availableOptions}
         filterOptions={(x) => x}
         getOptionLabel={() => ''}
         getOptionKey={(option: Team) => option.id}
         clearOnBlur
-        isOptionEqualToValue={(option, value) => option === value}
+        isOptionEqualToValue={(option, value) => option?.id === value?.id}
         renderInput={(params) => (
           <TextField
             {...params}

@@ -16,6 +16,7 @@ import { UsersIcon } from '../icons/Users';
 import {
   getPermissionKeyCombinator,
   getPermissionKeys,
+  usePermissionDocsUrl,
   usePermissionUserContext,
   useUnmetPermissionKeys,
   type PermissionKeySpec
@@ -67,6 +68,11 @@ export interface PermissionShieldProps {
   permissionKey: PermissionKeySpec;
   children: React.ReactNode;
   variant?: 'inline' | 'badge';
+  /**
+   * Optional documentation URL for permissions reference (rendered as a "Key Reference" link).
+   * Overrides `docsUrl` from `PermissionProvider`. Pass `null` to explicitly hide the link.
+   */
+  docsUrl?: string | null;
 }
 
 /** Distinct, defined values in first-seen order — used for the metadata chips. */
@@ -104,6 +110,11 @@ export interface PermissionSessionContextProps {
   categories?: string[];
   /** Subcategory labels derived from the keys. Shown as chips after categories. */
   subcategories?: string[];
+  /**
+   * Optional documentation URL for permissions reference (rendered as a "Key Reference" link).
+   * Overrides `docsUrl` from `PermissionProvider`. Pass `null` to explicitly hide the link.
+   */
+  docsUrl?: string | null;
 }
 
 /**
@@ -124,11 +135,15 @@ export const PermissionSessionContext: React.FC<PermissionSessionContextProps> =
   displayedKeys: displayedKeysProp,
   subtitle: subtitleProp,
   categories: categoriesProp,
-  subcategories: subcategoriesProp
+  subcategories: subcategoriesProp,
+  docsUrl: docsUrlProp
 }) => {
   const [copiedKeyId, setCopiedKeyId] = React.useState<string | null>(null);
   const userContext = usePermissionUserContext();
+  const contextDocsUrl = usePermissionDocsUrl();
   const theme = useTheme();
+
+  const docsUrl = docsUrlProp !== undefined ? docsUrlProp : contextDocsUrl;
 
   // Self-resolve when permissionKey is provided (same logic as PermissionShield)
   const unmetKeys = useUnmetPermissionKeys(permissionKeyProp);
@@ -143,9 +158,7 @@ export const PermissionSessionContext: React.FC<PermissionSessionContextProps> =
     const declaredKeys = getPermissionKeys(permissionKeyProp);
     displayedKeys = unmetKeys.length > 0 ? unmetKeys : declaredKeys;
     const combinator = getPermissionKeyCombinator(permissionKeyProp);
-    const keyNames = displayedKeys
-      .map((key) => key.function || 'Access Restricted')
-      .join(', ');
+    const keyNames = displayedKeys.map((key) => key.function || 'Access Restricted').join(', ');
     subtitle =
       combinator === 'anyOf' && keyNames
         ? `Needs any of: ${keyNames}`
@@ -272,7 +285,11 @@ export const PermissionSessionContext: React.FC<PermissionSessionContextProps> =
                     sx={{
                       display: 'inline-flex',
                       cursor: 'pointer',
-                      color: copied ? palette.accent : isCard ? palette.muted : 'rgba(255, 255, 255, 0.7)',
+                      color: copied
+                        ? palette.accent
+                        : isCard
+                          ? palette.muted
+                          : 'rgba(255, 255, 255, 0.7)',
                       transition: 'color 0.2s ease',
                       '&:hover': {
                         color: palette.accent
@@ -343,39 +360,41 @@ export const PermissionSessionContext: React.FC<PermissionSessionContextProps> =
               ))}
             </Box>
           )}
-          <Link
-            href="https://docs.meshery.io/reference/references/permissions/"
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e: React.MouseEvent) => e.stopPropagation()}
-            sx={{
-              display: 'inline-flex',
-              alignItems: 'baseline',
-              fontSize: `${0.75 * baseFontScale}rem`,
-              color: palette.accent,
-              textDecoration: 'none',
-              fontWeight: 600,
-              marginLeft: 'auto',
-              '&:hover': {
-                textDecoration: 'underline'
-              }
-            }}
-          >
-            Key Reference
-            <Box
-              component="span"
+          {docsUrl && (
+            <Link
+              href={docsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e: React.MouseEvent) => e.stopPropagation()}
               sx={{
-                fontSize: '10px',
-                ml: '2px',
-                verticalAlign: 'super',
-                lineHeight: 0,
-                position: 'relative',
-                top: '-0.3em'
+                display: 'inline-flex',
+                alignItems: 'baseline',
+                fontSize: `${0.75 * baseFontScale}rem`,
+                color: palette.accent,
+                textDecoration: 'none',
+                fontWeight: 600,
+                marginLeft: 'auto',
+                '&:hover': {
+                  textDecoration: 'underline'
+                }
               }}
             >
-              <LaunchIcon style={{ fontSize: '10px', width: '10px', height: '10px' }} />
-            </Box>
-          </Link>
+              Key Reference
+              <Box
+                component="span"
+                sx={{
+                  fontSize: '10px',
+                  ml: '2px',
+                  verticalAlign: 'super',
+                  lineHeight: 0,
+                  position: 'relative',
+                  top: '-0.3em'
+                }}
+              >
+                <LaunchIcon style={{ fontSize: '10px', width: '10px', height: '10px' }} />
+              </Box>
+            </Link>
+          )}
         </Box>
       )}
 
@@ -543,7 +562,8 @@ export const PermissionSessionContext: React.FC<PermissionSessionContextProps> =
 export const PermissionShield: React.FC<PermissionShieldProps> = ({
   permissionKey,
   children,
-  variant = 'inline'
+  variant = 'inline',
+  docsUrl
 }) => {
   const [open, setOpen] = React.useState(false);
   const uniqueId = React.useId();
@@ -586,10 +606,7 @@ export const PermissionShield: React.FC<PermissionShieldProps> = ({
   // to PermissionSessionContext's self-resolving path. This keeps the tooltip
   // and card rendering paths in sync — both use the same internal resolution logic.
   const tooltipTitle = (
-    <PermissionSessionContext
-      variant="tooltip"
-      permissionKey={permissionKey}
-    />
+    <PermissionSessionContext variant="tooltip" permissionKey={permissionKey} docsUrl={docsUrl} />
   );
 
   const isBadge = variant === 'badge';
@@ -796,11 +813,12 @@ export const createCanShow = (
 
 // Re-export PermissionProvider types and hooks
 export {
-  PermissionProvider,
   getPermissionKeys,
   isPermissionKeySet,
+  PermissionProvider,
   useHasPermission,
   usePermission,
+  usePermissionDocsUrl,
   usePermissionUserContext,
   useUnmetPermissionKeys
 } from './PermissionProvider';

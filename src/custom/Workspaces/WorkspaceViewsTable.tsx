@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Lock, Public } from '@mui/icons-material';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
-import { MUIDataTableColumn, MUIDataTableMeta } from '@sistent/mui-datatables';
+import type {
+  MUIDataTableColumn,
+  MUIDataTableMeta,
+  MUIDataTableOptions,
+  MUISortOptions
+} from 'mui-datatables';
 import React, { useState } from 'react';
 import { Box } from '../../base';
 import { EnvironmentIcon } from '../../icons';
@@ -288,7 +293,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     return initialVisibility;
   });
 
-  const options = {
+  const options: MUIDataTableOptions = {
     filter: false,
     responsive: 'standard',
     selectableRows: 'none',
@@ -299,7 +304,7 @@ const WorkspaceViewsTable: React.FC<ViewsTableProps> = ({
     elevation: 0,
     sortOrder: {
       name: sortOrder.split(' ')[0],
-      direction: sortOrder.split(' ')[1]
+      direction: sortOrder.split(' ')[1] as MUISortOptions['direction']
     },
     onTableChange: (action: string, tableState: any) => {
       const sortInfo = tableState.announceText ? tableState.announceText.split(' : ') : [];

@@ -151,11 +151,15 @@ export const DesignName = styled(Typography)<DesignNameProps>(({ theme, hasRibbo
   padding: '0rem 1rem',
   position: 'relative',
   overflow: 'hidden',
-  whiteSpace: 'nowrap',
+  display: '-webkit-box',
+  WebkitLineClamp: 2,
+  WebkitBoxOrient: 'vertical' as const,
+  whiteSpace: 'normal',
   textOverflow: 'ellipsis',
+  lineHeight: '1.3',
   textAlign: 'center',
   width: '100%',
-  margin: hasRibbon ? '3.5rem 0 1.59rem 0' : '2rem 0 1.59rem 0',
+  margin: hasRibbon ? '3rem 0 1.2rem 0' : '1.7rem 0 1.2rem 0',
   fontFamily: 'inherit',
   ...(hasRibbon && {
     paddingLeft: '1.5rem'

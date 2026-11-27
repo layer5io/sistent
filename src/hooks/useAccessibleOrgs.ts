@@ -1,6 +1,6 @@
 import { Key } from '@meshery/schemas/permissions';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { getPermissionKeys, isPermissionKeySet, PermissionKeySpec } from './PermissionProvider';
+import { getPermissionKeys, isPermissionKeySet, PermissionKeySpec } from '../custom/PermissionProvider';
 
 /**
  * For a given set of user keys (as returned by `getUserKeys`), check whether

@@ -152,7 +152,8 @@ export const useResourceCleanData = () => {
       tolerations: parsedSpec?.tolerations,
       podVolumes: parsedSpec?.volumes,
       ingressRules: parsedSpec?.rules,
-      connections: kind === 'Service' && _.omit(parsedSpec, ['selector', 'type']),
+      connections:
+        kind === 'Service' && (_.omit(parsedSpec, ['selector', 'type']) as Record<string, any>),
       labels: {
         data: resource?.metadata?.labels?.map((label) => {
           const value = label?.value !== undefined ? label?.value : '';

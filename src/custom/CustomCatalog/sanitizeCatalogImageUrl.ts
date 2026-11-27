@@ -9,13 +9,6 @@
  * preserving genuine `%XX` percent-encoding) and returns the result only when
  * it is an absolute http(s) URL; otherwise it returns `undefined` so callers
  * can fall back to a placeholder instead of requesting a malformed URL.
- *
- * This lives in its own dependency-free leaf module (rather than inline in
- * `Helper.ts`) so `src/index.tsx` can re-export it explicitly for the bundled
- * d.ts. `Helper.ts` imports the untyped `js-yaml`, which would crash the
- * rollup-plugin-dts declaration build the moment the entry re-exports from it;
- * this leaf has no untyped imports. Same rationale as `TableActions` vs
- * `ResponsiveDataTable`.
  */
 export const sanitizeCatalogImageUrl = (rawUrl?: string): string | undefined => {
   if (typeof rawUrl !== 'string') {

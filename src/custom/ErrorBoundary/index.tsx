@@ -2,5 +2,6 @@ export {
   ErrorBoundary,
   Fallback,
   withErrorBoundary,
-  withSuppressedErrorBoundary
+  withSuppressedErrorBoundary,
+  type ErrorFallbackProps
 } from './ErrorBoundary';

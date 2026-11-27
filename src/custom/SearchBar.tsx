@@ -1,6 +1,6 @@
 import { outlinedInputClasses } from '@mui/material/OutlinedInput';
 import { Theme, ThemeProvider, createTheme } from '@mui/material/styles';
-import debounce from 'lodash/debounce';
+import debounce from 'lodash/debounce.js';
 import React, { useCallback } from 'react';
 import { ClickAwayListener } from '../base/ClickAwayListener';
 import { TextField } from '../base/TextField';

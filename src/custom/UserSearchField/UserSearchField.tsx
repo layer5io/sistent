@@ -115,7 +115,7 @@ const UserShareSearch: React.FC<UserSearchFieldProps> = ({
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 1 }}>
-        <Autocomplete
+        <Autocomplete<User, true, true, false>
           id="user-search-field"
           sx={{ width: '100%' }}
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment

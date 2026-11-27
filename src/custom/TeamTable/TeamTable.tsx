@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TableCell } from '@mui/material';
-import { MUIDataTableColumn } from '@sistent/mui-datatables';
+import type { MUIDataTableColumn } from 'mui-datatables';
 import { Grid2 } from '../../base';
 import { styled, useTheme } from '../../theme';
 import { ErrorBoundary } from '../ErrorBoundary/ErrorBoundary.js';
