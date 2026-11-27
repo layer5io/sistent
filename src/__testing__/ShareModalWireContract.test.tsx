@@ -197,62 +197,69 @@ describe('ShareModal resource-access wire contract', () => {
     expect(resourceAccessMutator).not.toHaveBeenCalled();
   });
 
-  it('surfaces host error text when visibility update fails with a string error', async () => {
-    const handleUpdateVisibility = jest
-      .fn()
-      .mockResolvedValue({ error: 'visibility rejected' });
-    const { props } = renderShareModal({
-      handleUpdateVisibility
-    } as Partial<ShareModalProps>);
+  // The host callback contract and issue #1789 define the oracle: preserve a
+  // human-readable reason, report failure once, and leave visibility unchanged.
+  it.each([
+    ['a string', { error: 'visibility rejected' }, 'visibility rejected'],
+    ['a nested RTK error', { error: { error: 'permission denied' } }, 'permission denied'],
+    [
+      'an RTK data message',
+      { error: { status: 403, data: { message: 'access denied' } } },
+      'access denied'
+    ],
+    ['a serialized error', { error: { message: 'request failed' } }, 'request failed'],
+    ['a string response body', { error: { data: 'service unavailable' } }, 'service unavailable'],
+    [
+      'an empty nested error with a useful data message',
+      { error: { error: '', data: { message: 'try later' } } },
+      'try later'
+    ],
+    [
+      'an empty data message with a useful message',
+      { error: { data: { message: '' }, message: 'not allowed' } },
+      'not allowed'
+    ],
+    ['an error without detail', { error: { status: 500 } }, ''],
+    ['a non-string response body', { error: { data: { message: 42 } } }, ''],
+    ['a whitespace-only detail', { error: { message: '   ' } }, '']
+  ])('reports %s without changing visibility', async (_label, response, detail) => {
+    const handleUpdateVisibility = jest.fn().mockResolvedValue(response);
+    const { props } = renderShareModal({ handleUpdateVisibility });
 
     fireEvent.mouseDown(document.getElementById('share-menu')!);
     fireEvent.click(screen.getByRole('option', { name: 'Public' }));
 
-    await waitFor(() => expect(handleUpdateVisibility).toHaveBeenCalledWith('public'));
     await waitFor(() =>
       expect(props.notify).toHaveBeenCalledWith({
-        message: 'Failed to update visibility. visibility rejected',
+        message: detail ? `Failed to update visibility. ${detail}` : 'Failed to update visibility.',
         event_type: 'error'
       })
     );
+    expect(props.notify).toHaveBeenCalledTimes(1);
+    expect(handleUpdateVisibility).toHaveBeenCalledWith('public');
+    expect(document.getElementById('share-menu')!.textContent).toBe('Private');
+    expect(document.getElementById('share-menu')!.getAttribute('aria-disabled')).not.toBe('true');
   });
 
-  it('surfaces nested RTK error text when visibility update returns an error object', async () => {
-    const handleUpdateVisibility = jest
-      .fn()
-      .mockResolvedValue({ error: { error: 'permission denied' } });
-    const { props } = renderShareModal({
-      handleUpdateVisibility
-    } as Partial<ShareModalProps>);
+  it.each([{ error: '' }, {}, { data: { visibility: 'public' } }, undefined, null])(
+    'updates visibility and notifies success for %p',
+    async (response) => {
+      const handleUpdateVisibility = jest.fn().mockResolvedValue(response);
+      const { props } = renderShareModal({ handleUpdateVisibility });
 
-    fireEvent.mouseDown(document.getElementById('share-menu')!);
-    fireEvent.click(screen.getByRole('option', { name: 'Public' }));
+      fireEvent.mouseDown(document.getElementById('share-menu')!);
+      fireEvent.click(screen.getByRole('option', { name: 'Public' }));
 
-    await waitFor(() => expect(handleUpdateVisibility).toHaveBeenCalledWith('public'));
-    await waitFor(() =>
-      expect(props.notify).toHaveBeenCalledWith({
-        message: 'Failed to update visibility. permission denied',
-        event_type: 'error'
-      })
-    );
-  });
-
-  it('notifies success when visibility update succeeds', async () => {
-    const handleUpdateVisibility = jest.fn().mockResolvedValue({ error: '' });
-    const { props } = renderShareModal({
-      handleUpdateVisibility
-    } as Partial<ShareModalProps>);
-
-    fireEvent.mouseDown(document.getElementById('share-menu')!);
-    fireEvent.click(screen.getByRole('option', { name: 'Public' }));
-
-    await waitFor(() => expect(handleUpdateVisibility).toHaveBeenCalledWith('public'));
-    await waitFor(() =>
-      expect(props.notify).toHaveBeenCalledWith({
-        message: "Design 'My Design' is now public",
-        event_type: 'success'
-      })
-    );
-  });
+      await waitFor(() =>
+        expect(props.notify).toHaveBeenCalledWith({
+          message: "Design 'My Design' is now public",
+          event_type: 'success'
+        })
+      );
+      expect(props.notify).toHaveBeenCalledTimes(1);
+      expect(handleUpdateVisibility).toHaveBeenCalledWith('public');
+      expect(document.getElementById('share-menu')!.textContent).toBe('Public');
+      expect(document.getElementById('share-menu')!.getAttribute('aria-disabled')).not.toBe('true');
+    }
+  );
 });
-

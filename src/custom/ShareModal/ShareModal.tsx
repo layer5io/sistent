@@ -179,24 +179,35 @@ export type VisibilityUpdateError =
   | {
       error?: string;
       message?: string;
-      data?:
-        | {
-            message?: string;
-            [key: string]: unknown;
-          }
-        | string;
+      // RTK error bodies are not guaranteed to contain a message.
+      data?: unknown;
       [key: string]: unknown;
     };
 
-export type VisibilityUpdateResponse =
-  | {
-      error?: VisibilityUpdateError;
-      data?: unknown;
-      [key: string]: unknown;
-    }
-  | void
-  | null
-  | undefined;
+/** A falsy error (or no response) indicates success, matching existing hosts. */
+export type VisibilityUpdateResponse = {
+  error?: VisibilityUpdateError;
+  data?: unknown;
+  [key: string]: unknown;
+} | void | null;
+
+/** Read supported host/RTK error shapes without displaying opaque objects. */
+const getVisibilityErrorDetail = (error: VisibilityUpdateError): string => {
+  if (typeof error === 'string') {
+    return error.trim();
+  }
+
+  const dataMessage =
+    error.data && typeof error.data === 'object' && 'message' in error.data
+      ? error.data.message
+      : undefined;
+  const candidates = [error.error, dataMessage, error.message, error.data];
+  return (
+    candidates
+      .find((value): value is string => typeof value === 'string' && !!value.trim())
+      ?.trim() || ''
+  );
+};
 
 export interface ShareModalProps {
   /** Function to close the share modal */
@@ -444,56 +455,36 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
   const handleDelete = async (actor: User) => handleRevokeAccess([actor]);
 
-  const notifyVisibilityChange = (res: VisibilityUpdateResponse, value: string) => {
-    const UPDATE_VISIBILITY_MSG = Array.isArray(selectedResource)
-      ? `${startCase(dataName)}s (${selectedResource.length}) are now ${value}`
-      : `${startCase(dataName)} '${selectedResource.name}' is now ${value}`;
-    const err = res && typeof res === 'object' && 'error' in res ? res.error : undefined;
-    const detail =
-      typeof err === 'string'
-        ? err
-        : typeof err === 'object' && err !== null
-          ? typeof err.error === 'string'
-            ? err.error
-            : typeof err.data === 'object' && err.data !== null && typeof err.data.message === 'string'
-              ? err.data.message
-              : typeof err.message === 'string'
-                ? err.message
-                : ''
-          : '';
-    const FAILED_TO_UPDATE_VISIBILITY_MSG = detail
-      ? `Failed to update visibility. ${detail}`
-      : 'Failed to update visibility.';
-
-    if (!err) {
-      notify({
-        message: UPDATE_VISIBILITY_MSG,
-        event_type: 'success'
-      });
-    } else {
-      notify({
-        message: FAILED_TO_UPDATE_VISIBILITY_MSG,
-        event_type: 'error'
-      });
-    }
-  };
-
-  const updateVisisbility = async (event: SelectChangeEvent<unknown>) => {
+  const updateVisibility = async (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as string;
 
-    if (value == resourceVisibility) {
-      console.error('visibility is already ', value);
+    if (value === resourceVisibility) {
       return;
     }
 
     try {
       setUpdatingVisibility(true);
-      const res = await handleUpdateVisibility(value);
-      notifyVisibilityChange(res, value);
-      const err = res && typeof res === 'object' && 'error' in res ? res.error : undefined;
-      if (!err) {
-        setVisibility(value);
+      const response = await handleUpdateVisibility(value);
+      const error = response && response.error;
+
+      if (error) {
+        const detail = getVisibilityErrorDetail(error);
+        notify({
+          message: detail
+            ? `Failed to update visibility. ${detail}`
+            : 'Failed to update visibility.',
+          event_type: 'error'
+        });
+        return;
       }
+
+      setVisibility(value);
+      notify({
+        message: Array.isArray(selectedResource)
+          ? `${startCase(dataName)}s (${selectedResource.length}) are now ${value}`
+          : `${startCase(dataName)} '${selectedResource.name}' is now ${value}`,
+        event_type: 'success'
+      });
     } finally {
       setUpdatingVisibility(false);
     }
@@ -573,7 +564,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                         open={openMenu}
                         onClose={handleMenuClose}
                         onOpen={() => setMenu(true)}
-                        onChange={updateVisisbility}
+                        onChange={updateVisibility}
                         disabled={!userCanUpdateVisibility || isUpdatingVisibility}
                       >
                         {Object.values(SHARE_MODE).map((option) => (
