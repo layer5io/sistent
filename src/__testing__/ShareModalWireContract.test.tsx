@@ -196,4 +196,70 @@ describe('ShareModal resource-access wire contract', () => {
     );
     expect(resourceAccessMutator).not.toHaveBeenCalled();
   });
+
+  // The host callback contract and issue #1789 define the oracle: preserve a
+  // human-readable reason, report failure once, and leave visibility unchanged.
+  it.each([
+    ['a string', { error: 'visibility rejected' }, 'visibility rejected'],
+    ['a nested RTK error', { error: { error: 'permission denied' } }, 'permission denied'],
+    [
+      'an RTK data message',
+      { error: { status: 403, data: { message: 'access denied' } } },
+      'access denied'
+    ],
+    ['a serialized error', { error: { message: 'request failed' } }, 'request failed'],
+    ['a string response body', { error: { data: 'service unavailable' } }, 'service unavailable'],
+    [
+      'an empty nested error with a useful data message',
+      { error: { error: '', data: { message: 'try later' } } },
+      'try later'
+    ],
+    [
+      'an empty data message with a useful message',
+      { error: { data: { message: '' }, message: 'not allowed' } },
+      'not allowed'
+    ],
+    ['an error without detail', { error: { status: 500 } }, ''],
+    ['a non-string response body', { error: { data: { message: 42 } } }, ''],
+    ['a whitespace-only detail', { error: { message: '   ' } }, '']
+  ])('reports %s without changing visibility', async (_label, response, detail) => {
+    const handleUpdateVisibility = jest.fn().mockResolvedValue(response);
+    const { props } = renderShareModal({ handleUpdateVisibility });
+
+    fireEvent.mouseDown(document.getElementById('share-menu')!);
+    fireEvent.click(screen.getByRole('option', { name: 'Public' }));
+
+    await waitFor(() =>
+      expect(props.notify).toHaveBeenCalledWith({
+        message: detail ? `Failed to update visibility. ${detail}` : 'Failed to update visibility.',
+        event_type: 'error'
+      })
+    );
+    expect(props.notify).toHaveBeenCalledTimes(1);
+    expect(handleUpdateVisibility).toHaveBeenCalledWith('public');
+    expect(document.getElementById('share-menu')!.textContent).toBe('Private');
+    expect(document.getElementById('share-menu')!.getAttribute('aria-disabled')).not.toBe('true');
+  });
+
+  it.each([{ error: '' }, {}, { data: { visibility: 'public' } }, undefined, null])(
+    'updates visibility and notifies success for %p',
+    async (response) => {
+      const handleUpdateVisibility = jest.fn().mockResolvedValue(response);
+      const { props } = renderShareModal({ handleUpdateVisibility });
+
+      fireEvent.mouseDown(document.getElementById('share-menu')!);
+      fireEvent.click(screen.getByRole('option', { name: 'Public' }));
+
+      await waitFor(() =>
+        expect(props.notify).toHaveBeenCalledWith({
+          message: "Design 'My Design' is now public",
+          event_type: 'success'
+        })
+      );
+      expect(props.notify).toHaveBeenCalledTimes(1);
+      expect(handleUpdateVisibility).toHaveBeenCalledWith('public');
+      expect(document.getElementById('share-menu')!.textContent).toBe('Public');
+      expect(document.getElementById('share-menu')!.getAttribute('aria-disabled')).not.toBe('true');
+    }
+  );
 });

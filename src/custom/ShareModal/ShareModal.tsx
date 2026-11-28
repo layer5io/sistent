@@ -174,6 +174,41 @@ export type ResourceAccessArg = {
   resourceAccessMappingPayload: ResourceAccessMappingPayload;
 };
 
+export type VisibilityUpdateError =
+  | string
+  | {
+      error?: string;
+      message?: string;
+      // RTK error bodies are not guaranteed to contain a message.
+      data?: unknown;
+      [key: string]: unknown;
+    };
+
+/** A falsy error (or no response) indicates success, matching existing hosts. */
+export type VisibilityUpdateResponse = {
+  error?: VisibilityUpdateError;
+  data?: unknown;
+  [key: string]: unknown;
+} | void | null;
+
+/** Read supported host/RTK error shapes without displaying opaque objects. */
+const getVisibilityErrorDetail = (error: VisibilityUpdateError): string => {
+  if (typeof error === 'string') {
+    return error.trim();
+  }
+
+  const dataMessage =
+    error.data && typeof error.data === 'object' && 'message' in error.data
+      ? error.data.message
+      : undefined;
+  const candidates = [error.error, dataMessage, error.message, error.data];
+  return (
+    candidates
+      .find((value): value is string => typeof value === 'string' && !!value.trim())
+      ?.trim() || ''
+  );
+};
+
 export interface ShareModalProps {
   /** Function to close the share modal */
   handleShareModalClose: () => void;
@@ -187,7 +222,7 @@ export interface ShareModalProps {
   fetchAccessActors: () => Promise<User[]>;
   /** Optional URL of the host application. Defaults to `null` if not provided */
   hostURL?: string | null;
-  handleUpdateVisibility: (value: string) => Promise<{ error: string }>;
+  handleUpdateVisibility: (value: string) => Promise<VisibilityUpdateResponse>;
   /**
    * @deprecated Unused - never read. The component defines its own
    * `handleShareWithNewUsers`, which shadows this prop and shares through
@@ -420,41 +455,36 @@ const ShareModal: React.FC<ShareModalProps> = ({
 
   const handleDelete = async (actor: User) => handleRevokeAccess([actor]);
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  const notifyVisibilityChange = (res: any, value: any) => {
-    const UPDATE_VISIBILITY_MSG = Array.isArray(selectedResource)
-      ? `${startCase(dataName)}s (${selectedResource.length}) are now ${value}`
-      : `${startCase(dataName)} '${selectedResource.name}' is now ${value}`;
-    const FAILED_TO_UPDATE_VISIBILITY_MSG = `Failed to update visibility. ${res?.error?.error || ''}`;
-
-    if (!res.error) {
-      notify({
-        message: UPDATE_VISIBILITY_MSG,
-        event_type: 'success'
-      });
-    } else {
-      notify({
-        message: FAILED_TO_UPDATE_VISIBILITY_MSG,
-        event_type: 'error'
-      });
-    }
-  };
-
-  const updateVisisbility = async (event: SelectChangeEvent<unknown>) => {
+  const updateVisibility = async (event: SelectChangeEvent<unknown>) => {
     const value = event.target.value as string;
 
-    if (value == resourceVisibility) {
-      console.error('visibility is already ', value);
+    if (value === resourceVisibility) {
       return;
     }
 
     try {
       setUpdatingVisibility(true);
-      const res = await handleUpdateVisibility(value);
-      notifyVisibilityChange(res, value);
-      if (!res?.error) {
-        setVisibility(value);
+      const response = await handleUpdateVisibility(value);
+      const error = response && response.error;
+
+      if (error) {
+        const detail = getVisibilityErrorDetail(error);
+        notify({
+          message: detail
+            ? `Failed to update visibility. ${detail}`
+            : 'Failed to update visibility.',
+          event_type: 'error'
+        });
+        return;
       }
+
+      setVisibility(value);
+      notify({
+        message: Array.isArray(selectedResource)
+          ? `${startCase(dataName)}s (${selectedResource.length}) are now ${value}`
+          : `${startCase(dataName)} '${selectedResource.name}' is now ${value}`,
+        event_type: 'success'
+      });
     } finally {
       setUpdatingVisibility(false);
     }
@@ -534,7 +564,7 @@ const ShareModal: React.FC<ShareModalProps> = ({
                         open={openMenu}
                         onClose={handleMenuClose}
                         onOpen={() => setMenu(true)}
-                        onChange={updateVisisbility}
+                        onChange={updateVisibility}
                         disabled={!userCanUpdateVisibility || isUpdatingVisibility}
                       >
                         {Object.values(SHARE_MODE).map((option) => (

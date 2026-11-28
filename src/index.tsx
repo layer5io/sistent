@@ -111,7 +111,9 @@ export {
   type ResourceAccessActor,
   type ResourceAccessArg,
   type ResourceAccessMappingPayload,
-  type ShareModalProps
+  type ShareModalProps,
+  type VisibilityUpdateError,
+  type VisibilityUpdateResponse
 } from './custom/ShareModal';
 
 // `TeamSearchField`'s two prop types travel with it: `teamsData` and
