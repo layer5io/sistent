@@ -78,7 +78,12 @@ export {
   type UseAccessibleOrgsOptions
 } from './hooks/useAccessibleOrgs';
 
-export { WidgetPicker, type WidgetItem, type WidgetPickerProps } from './custom/WidgetPicker';
+export {
+  WidgetPicker,
+  type WidgetItem,
+  type WidgetPickerHeaderPreset,
+  type WidgetPickerProps
+} from './custom/WidgetPicker';
 
 export { WidgetEmptyState, type WidgetEmptyStateProps } from './custom/WidgetEmptyState';
 
