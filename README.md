@@ -130,64 +130,94 @@ npm install @sistent/sistent
 
 #### Method 2: Using `npm link`
 
-1. Create a link of your local Sistent fork
+1. Build your local Sistent package
 
+Before linking, ensure the Sistent bundle is built so the `dist` artifacts are available:
+
+```bash
+cd <path-to-sistent-on-local-machine>
+
+# Build Sistent (runs `npm run build`)
+make build
 ```
+
+2. Register the global symlink for Sistent
+
+```bash
 cd <path-to-sistent-on-local-machine>
 
 npm link
 ```
 
-This creates a global symlink which points to the local Sistent fork.
+This creates a global symlink pointing to your local Sistent build.
 
-2. Link the local Sistent fork to your project
+3. Link the local Sistent package into your project
 
-```
+In the consuming project's directory (for example, `meshery/ui`):
+
+```bash
 npm link @sistent/sistent
 ```
 
-3.Build your local Sistent fork
+4. Run the build or development server in your project
 
-After making changes to your fork, run this command in your local Sistent package.
-
-```
-make build
-```
-
-4. Run the build command in the project where your local Sistent fork is installed.
-
-```
-# example, Meshery UI
+```bash
+# Example: inside Meshery UI
 make ui-build
+# or
+npm run dev
 ```
 
-Now, your project should reflect changes from your local Sistent fork.
+Now, your project will consume components directly from your local Sistent build.
 
-5. Verify that your local Sistent fork has been correctly linked.
+5. Verify that your local Sistent fork has been correctly linked
 
-To verify that the correct link has been created, run this command:
+To verify that the global link was registered:
 
-```
-npm ls -g
+```bash
+npm ls -g --depth=0
 
 # Expected output:
-# ├── @sistent/sistent@0.14.11 -> ./../../../../<path-to-local-sistent-fork>
+# ├── @sistent/sistent@<version> -> ./../../../../<path-to-local-sistent-fork>
 ```
 
-To verify that the created link is correctly used in your project, run this command in the directory where you linked the Sistent fork:
+To verify that your project is referencing the symlinked package:
 
-```
+```bash
 ls -l node_modules/@sistent/sistent
 
 # Expected output:
 # node_modules/@sistent/sistent -> ../../../../../sistent
 ```
 
-To revert back to the official package, first unlink the package, then install the official package using the following commands:
+6. Handling Duplicate React Errors ("Invalid hook call")
 
-```
+> [!TIP]
+> **Resolving "Invalid hook call" when linking with React projects:**
+> When using `npm link` with React applications such as Meshery UI, React may throw an `Invalid hook call` error because both projects provide their own copy of `react`.
+>
+> To resolve this, link the consumer project's React and ReactDOM back into Sistent:
+>
+> ```bash
+> cd <path-to-sistent-on-local-machine>
+> npm link <path-to-project>/node_modules/react
+> npm link <path-to-project>/node_modules/react-dom
+> ```
+>
+> This ensures that both Sistent and the host application use the identical React runtime instance.
+
+7. Reverting back to the published package
+
+To remove the link and restore the official package:
+
+```bash
+# In the consuming project:
 npm unlink @sistent/sistent
 npm install @sistent/sistent
+
+# In Sistent (if you linked the project's React):
+npm unlink --no-save react react-dom
+npm install
 ```
 
 > [!NOTE]
