@@ -57,8 +57,8 @@ export const WidgetPicker: React.FC<WidgetPickerProps> = ({
       : theme.palette.background.default;
   const presetTextColor =
     headerPreset === 'brand' ? theme.palette.text.inverse : theme.palette.text.primary;
-  const resolvedHeaderBackgroundColor = headerBackgroundColor ?? presetBackgroundColor;
-  const resolvedHeaderTextColor = headerTextColor ?? presetTextColor;
+  const resolvedHeaderBackgroundColor = headerBackgroundColor || presetBackgroundColor;
+  const resolvedHeaderTextColor = headerTextColor || presetTextColor;
 
   return (
     <Box

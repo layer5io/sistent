@@ -52,6 +52,9 @@ describe('WidgetPicker header colors', () => {
       expect(getComputedStyle(screen.getByText('Widgets')).color).toBe(
         rgb(theme.palette.text.primary)
       );
+      expect(
+        screen.getByLabelText('Close widget picker').querySelector('svg')?.getAttribute('fill')
+      ).toBe(theme.palette.text.primary);
     }
   );
 
@@ -71,6 +74,32 @@ describe('WidgetPicker header colors', () => {
       expect(getComputedStyle(screen.getByText('Widgets')).color).toBe(
         rgb(theme.palette.text.inverse)
       );
+      expect(
+        screen.getByLabelText('Close widget picker').querySelector('svg')?.getAttribute('fill')
+      ).toBe(theme.palette.text.inverse);
+    }
+  );
+
+  it.each(['default', 'brand'] as const)(
+    'falls back to the %s preset colors when header color props are empty strings',
+    (headerPreset) => {
+      const theme = renderPicker({
+        headerPreset,
+        headerBackgroundColor: '',
+        headerTextColor: ''
+      });
+      const expectedBackground =
+        headerPreset === 'brand'
+          ? theme.palette.background.brand?.default
+          : theme.palette.background.default;
+      const expectedText =
+        headerPreset === 'brand' ? theme.palette.text.inverse : theme.palette.text.primary;
+
+      expect(getComputedStyle(getHeader()).background).toBe(rgb(expectedBackground));
+      expect(getComputedStyle(screen.getByText('Widgets')).color).toBe(rgb(expectedText));
+      expect(
+        screen.getByLabelText('Close widget picker').querySelector('svg')?.getAttribute('fill')
+      ).toBe(expectedText);
     }
   );
 
